@@ -1,0 +1,218 @@
+QPalette{background:#1A1A1A;}
+
+/* 搜索栏的Widget */
+QWidget#SearhWidget {
+    margin-top: 10px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    width:380px;
+    height:40;
+    background:rgba(26,26,26,1);
+    opacity:0.95;
+}
+
+/* listWidget的中的widgetitem  */
+QWidget#WidgetEntry{
+    width:350px;
+    height:38px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    margin-right: 0px;
+    margin-left: 0px;
+    background:rgba(26,26,26,1);
+    opacity:0.08;
+    border-radius:3px;
+}
+
+/* 编辑的Widget  */
+QWidget#EditorWidget{
+    width:400px;
+    height:338px;
+    background:rgba(26,26,26,1);
+    border:0px;
+    box-shadow:0px 2px 6px 0px rgba(0, 0, 0, 0.2);
+    opacity:0.75;
+    border-radius:0px;
+}
+
+/* 清空所有的WidgetItem */
+QPushButton#CleanList{
+    width:80px;
+    height:34px;
+    margin-top:20;
+    margin-left:260px;
+    margin-bottom:18px;
+    margin-right:20px;
+    background:rgba(26,26,26,1);
+    border:1px solid rgba(255,0,0,1);
+}
+
+/* 编辑区域确认按钮 */
+QPushButton#ConfirmButton{
+    width:120px;
+    height:34px;
+    background:rgba(61,107,229,1);
+    border-radius:4px;
+    margin-top:20;
+    margin-left:260px;
+    margin-bottom:18px;
+    margin-right:20px;
+}
+
+/* 编辑区域取消按钮 */
+QPushButton#CancelButton{
+    width:120px;
+    height:34px;
+    margin-top:20px;
+    margin-left:156px;
+    margin-bottom:18px;
+    margin-right:124px;
+    background:rgba(26,26,26,1);
+    opacity:0.12;
+    border-radius:4px;
+}
+
+/* 查找栏的Lable */
+QLineEdit#SearchLabel{
+    width:290px;
+    height:30px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    padding-right: 2px;
+    background:rgba(0,0,0,0.2);
+    border:2px solid rgba(28, 47, 146, 1);
+    border-radius:4px;
+}
+
+/* 编辑WIdget的编辑区域 */
+QTextEdit#EditingArea
+{
+    width:340px;
+    height:200px;
+    margin-right: 12px;
+    margin-bottom: 0px;
+    margin-left: 10px;
+    margin-top: 0px;
+    padding-right: 0px;
+    border:1px solid rgba(255,0,0,1);
+}
+
+/* 查找栏的ListWidget大小 */
+QListWidget#SearchList{
+    width:380px;
+    height:60px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-top: 0px;
+    opacity:0.08;
+    border:0px;
+    background:rgba(26,26,26,1);
+}
+
+/* 显示所有剪贴内容的WidgetList大小 */
+QListWidget#ShortcutOperationList{
+    width:380px;
+    height:740px;
+
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-top: 0px;
+
+    background:rgba(26,26,26,1);
+    border:0px;
+    opacity:0.08;
+}
+
+/* 所有Item的大小 */
+/*
+QListWidgetItem{
+    width:380px;
+    height:42px;
+    margin-top:10px;
+    margin-left:0px;
+    margin-bottom:0px;
+    margin-right:0px;
+    background:rgba(26,26,26,1);
+    opacity:0.08;
+    border-radius:3px;
+}
+*/
+
+/* 显示内容的groupbox大小 */
+QGroupBox{
+    width:380px;
+    height:300px;
+    margin-top:40px;
+    margin-left:10px;
+    margin-bottom:0px;
+    margin-right:10px;
+    border: 1px solid rgba(28, 47, 146, 1);
+
+    width:59px;
+    height:19px;
+    font-size:24px;
+    font-family:Noto Sans CJK SC;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    line-height:34px;
+    opacity:0.97;
+}
+
+/*编辑区域*/
+QGroupBox#EditBox{
+    width:362px;
+    height:200px;
+    margin-right: 20px;
+    margin-bottom: 72px;
+    margin-left: 28px;
+    margin-top: 66px;
+    background:rgba(255,255,255,1);
+    opacity:0.06;
+    border-radius:3px;
+    border: 0px solid;
+}
+
+/* 操作区域，确认取消 */
+QGroupBox#OperationBox{
+    width:362px;
+    height:40px;
+    margin  0px;
+    padding 0px;
+    border-radius:0px;
+    margin-top:3ex;
+    border: 0px solid;
+}
+
+
+/*
+QGroupBox::indicator {
+    width: 59px;
+    height: 19px;
+}
+
+QGroupBox::title{
+        font-size:20px;
+        font-family:Noto Sans CJK SC;
+        font-weight:400;
+        color:rgba(255,255,255,1);
+        line-height:34px;
+        opacity:0.97;
+}*/
+
+
+/* widget条目的Lable */
+QLabel#EntryLable{
+    width:130px;
+    height:34px;
+    font-size:14px;
+    font-family:Noto Sans CJK SC;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    line-height:34px;
+    opacity:0.91;
+}

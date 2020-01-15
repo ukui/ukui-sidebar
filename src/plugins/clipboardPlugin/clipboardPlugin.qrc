@@ -1,0 +1,9 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="/">
+   <file>image/编辑.svg</file>
+   <file>image/复制.svg</file>
+   <file>image/删除.svg</file>
+   <file>qss/sidebarClipboard.css</file>
+</qresource>
+</RCC>
+

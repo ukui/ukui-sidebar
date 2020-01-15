@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/收纳盒.svg</file>
+    </qresource>
+</RCC>

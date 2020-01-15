@@ -1,0 +1,23 @@
+Source: ukui-sidebar
+Section: x11
+Priority: optional
+Maintainer: Kylin Team <team+kylin@tracker.debian.org>
+Uploaders: handsome_feng <jianfengli@ubuntukylin.com>,
+Build-Depends: debhelper (>= 11),
+               libglib2.0-dev,
+               qtbase5-dev,
+               qttools5-dev-tools
+Standards-Version: 4.2.1
+Homepage: https://github.com/ukui/ukui-sidebar.git
+Vcs-Git: https://github.com/ukui/ukui-sidebar.git
+vcs-Browser: https://github.com/ukui/ukui-sidebar
+
+Package: ukui-sidebar
+Architecture: any
+Depends: ${shlibs:Depends},
+         ${misc:Depends},
+Description: The ukui-sidebar is mainly used in the desktop operating system. It pops up from the right side of the desktop in the form of a tray, displaying some application notification messages and some cutting storage information.
+ feature search, feature delete, etc. Meanwhile, it also provides notification
+ of device status changes event and notification of USB device hotplug event.
+ .
+ This package contains a library for biometric authentication.
