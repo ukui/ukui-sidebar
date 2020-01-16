@@ -6,6 +6,7 @@ Uploaders: handsome_feng <jianfengli@ubuntukylin.com>,
 Build-Depends: debhelper (>= 11),
                libglib2.0-dev,
                qtbase5-dev,
+			   libqt5svg5-dev,
                qttools5-dev-tools
 Standards-Version: 4.2.1
 Homepage: https://github.com/ukui/ukui-sidebar.git
