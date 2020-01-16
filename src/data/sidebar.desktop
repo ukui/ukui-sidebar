@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=0.1
+Name=ukui-sidebar
+GenericName=ukui-sidebar
+Comment=ukui-sidebar
+Exec=ukui-sidebar
+Terminal=false
+Type=Application
+#Categories=
+NoDisplay=true
+#OnlyShowIn=
+X-UKUI-AutoRestart=true

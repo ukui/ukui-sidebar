@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <QtDBus>
 
+
 Widget::Widget(QWidget *parent) : QWidget (parent)
 {
     m_bShowFlag = false;
@@ -182,12 +183,12 @@ void Widget::iconActivated(QSystemTrayIcon::ActivationReason reason)
 /* 链接任务栏dbus接口 */
 int Widget::connectTaskBarDbus()
 {
-    serviceInterface = new QDBusInterface(PANEL_DBUS_SERVICE,
+    m_pServiceInterface = new QDBusInterface(PANEL_DBUS_SERVICE,
             PANEL_DBUS_PATH,
             PANEL_DBUS_INTERFACE,
             QDBusConnection::sessionBus());
-    serviceInterface->setTimeout(2147483647);
-    QDBusMessage msg = serviceInterface->call("GetPanelSize", QVariant("Panel"));
+    m_pServiceInterface->setTimeout(2147483647);
+    QDBusMessage msg = m_pServiceInterface->call("GetPanelSize", QVariant("Panel"));
     int panelHight = msg.arguments().at(0).toInt();
     qDebug() << "panelHight" << panelHight;
     return panelHight;
@@ -228,6 +229,7 @@ void Widget::onResolutionChanged(int argc)
     }
 
     QRect screenRect = deskWgt->screenGeometry();
+
     m_nScreenWidth = screenRect.width();
     m_nScreenHeight = screenRect.height() - connectTaskBarDbus();
     qInfo() << "screen width:" << m_nScreenWidth << ",height:" << m_nScreenHeight;

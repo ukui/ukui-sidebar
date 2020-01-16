@@ -6,7 +6,7 @@
 
 QT       += core gui dbus widgets
 
-TARGET = sidebar
+TARGET = ukui-sidebar
 TEMPLATE = app
 CONFIG += c++11
 

@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file>data/images/heart.png</file>
         <file>data/qss/psblack.css</file>
-        <file>data/images/add_bottom.png</file>
-        <file>data/images/add_top.png</file>
+        <file>data/images/麒麟工具箱.svg</file>
     </qresource>
 </RCC>

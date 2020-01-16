@@ -7,9 +7,7 @@
 #include "clipboardpluginiface.h"
 
 
-#define  PNG_PATH           ":/data/images/heart.png"
-#define  PNG_ADD_TOP        ":/data/images/add_top.png"
-#define  PNG_ADD_BOTTOM     ":/data/images/add_bottom.png"
+#define  PNG_PATH           ":/data/images/麒麟工具箱.svg"
 #define  QSS_PATH           ":/data/qss/psblack.css"
 
 #define PANEL_DBUS_SERVICE "com.ukui.panel.desktop"
@@ -38,7 +36,7 @@ public:
     void showAnimation();                                                       //show动作
     void hideAnimation();                                                       //hide动作
     void ListenClipboardSignal();                                               //监听剪贴板发送的信号
-    int connectTaskBarDbus();                                                  //连接任务栏dbus接口，获取任务栏高度
+    int  connectTaskBarDbus();                                                  //连接任务栏dbus接口，获取任务栏高度
 
     //系统托盘
     void createAction();                                                        //连接信号和槽函数，设置其动作;
@@ -56,7 +54,7 @@ private:
     QPropertyAnimation* m_pHideAnimation;                                       //隐藏动画对象
     QPropertyAnimation* m_pShowAnimation;                                       //展示动画对象
     QVBoxLayout*        m_pMainQVBoxLayout;                                     //主界面垂直布局器
-    QDBusInterface      *serviceInterface;                                      //获取任务栏的高度
+    QDBusInterface*     m_pServiceInterface;                                      //获取任务栏的高度
     bool                m_bShowFlag;                                            //控制托盘栏点击事件的标志位
     int                 m_nScreenWidth;                                         //屏幕分辨率的宽
     int                 m_nScreenHeight;                                        //屏幕分辨率的高
