@@ -10,23 +10,41 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     m_bShowFlag = false;
 
     /* 监听屏幕分辨率是否变化 */
-    QDesktopWidget * desk = QApplication::desktop();
+    QDesktopWidget* desk = QApplication::desktop();
     connect(desk, SIGNAL(resized(int)), this, SLOT(onResolutionChanged(int)));
 
-    //获取屏幕分辨率大小
-    connectTaskBarDbus();
-    QScreen* pScreen = QGuiApplication::primaryScreen();
-    QRect ScreenSize = pScreen->availableGeometry();
-    m_nScreenWidth = ScreenSize.width();        //屏幕分辨率的宽
-    m_nScreenHeight = ScreenSize.height();      //屏幕分辨率的高
+    QRect screenRect = desk->screenGeometry();
+    int nScreenHeight = screenRect.height();
+    m_nScreenHeight = screenRect.height();      //桌面分辨率的高
 
-    /* 加载剪贴板插件 */
-    ListenClipboardSignal();
+    for (int i = 0; i < 16; i++)
+    {
+        //获取桌面分辨率大小
+        QScreen* pScreen = QGuiApplication::primaryScreen();
+        QRect DeskSize = pScreen->availableGeometry();
+        m_nScreenWidth = DeskSize.width();        //桌面分辨率的宽
+        m_nScreenHeight = DeskSize.height();      //桌面分辨率的高
+        if(m_nScreenHeight < nScreenHeight)
+        {
+            break;
+        }
+
+        QThread::msleep(500);
+    }
 
 	/* 主界面显示 */
     m_pMainQVBoxLayout = new QVBoxLayout;
     m_pMainQVBoxLayout->setContentsMargins(0,0,0,0);
 
+    m_pServiceInterface = new QDBusInterface(PANEL_DBUS_SERVICE,
+            PANEL_DBUS_PATH,
+            PANEL_DBUS_INTERFACE,
+            QDBusConnection::sessionBus());
+
+    /* 加载剪贴板插件 */
+    ListenClipboardSignal();
+
+    //加载通知中心插件
     if(false == loadNotificationPlugin())
     {
         qDebug() << "通知中心插件加载失败";
@@ -183,10 +201,6 @@ void Widget::iconActivated(QSystemTrayIcon::ActivationReason reason)
 /* 链接任务栏dbus接口 */
 int Widget::connectTaskBarDbus()
 {
-    m_pServiceInterface = new QDBusInterface(PANEL_DBUS_SERVICE,
-            PANEL_DBUS_PATH,
-            PANEL_DBUS_INTERFACE,
-            QDBusConnection::sessionBus());
     m_pServiceInterface->setTimeout(2147483647);
     QDBusMessage msg = m_pServiceInterface->call("GetPanelSize", QVariant("Panel"));
     int panelHight = msg.arguments().at(0).toInt();
