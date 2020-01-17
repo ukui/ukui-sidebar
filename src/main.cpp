@@ -41,10 +41,10 @@ int main(int argc, char *argv[])
     setLogPath(LogFilePath + LOG_FILE_NAME);                        /* 绑定打印日志文件路径 */
     qInstallMessageHandler(customLogMessageHandler);                /* 安装日志打印功能 */
 
-    if (!QSystemTrayIcon::isSystemTrayAvailable()) {
-        QMessageBox::critical(nullptr, QObject::tr("Systray"), QObject::tr("I couldn't detect any system tray " "on this system."));
-        return 1;
-    }
+//    if (!QSystemTrayIcon::isSystemTrayAvailable()) {
+//        QMessageBox::critical(nullptr, QObject::tr("Systray"), QObject::tr("I couldn't detect any system tray " "on this system."));
+//        return 1;
+//    }
 
     //加载样式表
     QFile file(QSS_PATH);
