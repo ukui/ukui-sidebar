@@ -1,3 +1,22 @@
+/*
+* Copyright (C) 2019 Tianjin KYLIN Information Technology Co., Ltd.
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 3, or (at your option)
+* any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
+*
+*/
+
+
 #include "widget.h"
 #include "notification_interface.h"
 #include "pluginmanage.h"
@@ -12,6 +31,12 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     /* 监听屏幕分辨率是否变化 */
     QDesktopWidget* desk = QApplication::desktop();
     connect(desk, SIGNAL(resized(int)), this, SLOT(onResolutionChanged(int)));
+
+    m_pServiceInterface = new QDBusInterface(PANEL_DBUS_SERVICE,
+            PANEL_DBUS_PATH,
+            PANEL_DBUS_INTERFACE,
+            QDBusConnection::sessionBus());
+    connectTaskBarDbus();
 
     QRect screenRect = desk->screenGeometry();
     int nScreenHeight = screenRect.height();
@@ -35,11 +60,6 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
 	/* 主界面显示 */
     m_pMainQVBoxLayout = new QVBoxLayout;
     m_pMainQVBoxLayout->setContentsMargins(0,0,0,0);
-
-    m_pServiceInterface = new QDBusInterface(PANEL_DBUS_SERVICE,
-            PANEL_DBUS_PATH,
-            PANEL_DBUS_INTERFACE,
-            QDBusConnection::sessionBus());
 
     /* 加载剪贴板插件 */
     ListenClipboardSignal();

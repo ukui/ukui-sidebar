@@ -1,3 +1,21 @@
+/*
+* Copyright (C) 2019 Tianjin KYLIN Information Technology Co., Ltd.
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 3, or (at your option)
+* any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
+*
+*/
+
 #include "notification_plugin.h"
 #include "scrollareawidget.h"
 #include <QSvgRenderer>
@@ -7,6 +25,16 @@
 NotificationPlugin::NotificationPlugin()
 {
     m_pMainWidget = new QWidget;
+//    m_pMainWidget->setStyleSheet("border:none;border-style:none;padding:0px;color:rgba(26,26,26,0.95);background-color:rgba(26,26,26,0.95);");
+//    QFile file(":/qss/notification_plugin.css");
+//    if (file.open(QFile::ReadOnly)) {
+//        QString strQss = QLatin1String(file.readAll());
+//        QString strPaletteColor = strQss.mid(20, 7);
+//        m_pMainWidget->setPalette(QPalette(QColor(strPaletteColor)));
+//        m_pMainWidget->setStyleSheet(strQss);
+//        file.close();
+//    }
+
 
     //插件的总VBoxLayout布局器
     QVBoxLayout* pNotificationVBoxLayout = new QVBoxLayout;
@@ -22,8 +50,8 @@ NotificationPlugin::NotificationPlugin()
     pQHBoxLayout1->setContentsMargins(11,0,28,0);
     pQHBoxLayout1->setSpacing(0);
     QLabel* pLabel = new QLabel("通知中心");
-    pLabel->setStyleSheet("QLabel{border:0px solid #242424;padding:0px;}");
-    QFont font("NotoSansCJKsc-Regular", 20, 50);
+    QFont font;
+    font.setPixelSize(20);
     pLabel->setFont(font);
 
     //收纳按钮
@@ -59,7 +87,8 @@ NotificationPlugin::NotificationPlugin()
     pLabel = new QLabel("重要的信息");
     pLabel->setStyleSheet("QLabel{border:0px solid #242424;padding:0px;}");
     pLabel->resize(70, 14);
-    QFont font1("NotoSansCJKsc-Regular", 14, 50);
+    QFont font1;
+    font1.setPixelSize(14);
     pLabel->setFont(font1);
 
     QSpacerItem* pHSpacer = new QSpacerItem(300, 10, QSizePolicy::Expanding, QSizePolicy::Fixed);
@@ -67,14 +96,16 @@ NotificationPlugin::NotificationPlugin()
     QPushButton* pClearAllToolButton = new QPushButton();
     connect(pClearAllToolButton, SIGNAL(clicked()), this, SLOT(clearAllMessage()));
     pClearAllToolButton->setText("清空");
+    pClearAllToolButton->setStyleSheet("QPushButton{color:rgba(255,255,255,1);font-size:14px;}");
     pClearAllToolButton->setFixedSize(80,34);
-//    pClearAllToolButton->setStyleSheet("QToolButton{border-style:flat;}");
+
 
     QSpacerItem* pFixSpacer = new QSpacerItem(5, 10, QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     QPushButton* pSettingToolButton = new QPushButton();
     connect(pSettingToolButton, SIGNAL(clicked()), this, SLOT(callControlPanel()));
     pSettingToolButton->setText("设置");
+    pSettingToolButton->setStyleSheet("QPushButton{font-size:14px;}");
     pSettingToolButton->setFixedSize(80,34);
 
 
@@ -98,7 +129,7 @@ NotificationPlugin::NotificationPlugin()
 //    pQScrollArea->widget()->adjustSize();
 
     m_pMessageCenterLabel = new QLabel("没有新通知");
-    m_pMessageCenterLabel->setStyleSheet("QLabel{padding:0px 0px 0px 11px;}");
+    m_pMessageCenterLabel->setStyleSheet("QLabel{padding:10px 0px 0px 11px;}");
     m_pScrollAreaVBoxLayout->addWidget(m_pMessageCenterLabel);
     QSpacerItem* pVSpacer = new QSpacerItem(10, 10, QSizePolicy::Fixed, QSizePolicy::Expanding);
     m_pScrollAreaVBoxLayout->addSpacerItem(pVSpacer);
@@ -155,7 +186,7 @@ void NotificationPlugin::onClearMsg(SingleMsg* pSingleMsg)
     if(0 == m_listSingleMsg.count() && 1 == m_pScrollAreaVBoxLayout->count())
     {
         m_pMessageCenterLabel = new QLabel("没有新通知");
-        m_pMessageCenterLabel->setStyleSheet("QLabel{padding:0px 0px 0px 11px;}");
+        m_pMessageCenterLabel->setStyleSheet("QLabel{padding:10px 0px 0px 11px;}");
         m_pScrollAreaVBoxLayout->insertWidget((m_pScrollAreaVBoxLayout->count() - 1), m_pMessageCenterLabel);
     }
     return;
@@ -174,7 +205,7 @@ void NotificationPlugin::clearAllMessage()
     if(1 == m_pScrollAreaVBoxLayout->count())
     {
         m_pMessageCenterLabel = new QLabel("没有新通知");
-        m_pMessageCenterLabel->setStyleSheet("QLabel{padding:0px 0px 0px 11px;}");
+        m_pMessageCenterLabel->setStyleSheet("QLabel{padding:10px 0px 0px 11px;}");
         m_pScrollAreaVBoxLayout->insertWidget((m_pScrollAreaVBoxLayout->count() - 1), m_pMessageCenterLabel);
     }
 

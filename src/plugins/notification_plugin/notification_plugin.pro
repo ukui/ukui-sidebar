@@ -35,7 +35,7 @@ HEADERS += \
         notification_plugin.h \
     singlemsg.h \
     scrollareawidget.h
-DISTFILES += notification_plugin.json 
+DISTFILES += notification_plugin.json  
 
 unix {
     target.path = /usr/lib/ukui-sidebar/notification

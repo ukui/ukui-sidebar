@@ -1,9 +1,29 @@
+/*
+* Copyright (C) 2019 Tianjin KYLIN Information Technology Co., Ltd.
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 3, or (at your option)
+* any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
+*
+*/
+
+
 #include "singlemsg.h"
 #include "notification_plugin.h"
 
 SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString strIcon, QString strSummary, QDateTime dateTime, QString strBody)
 {
     this->setFixedWidth(380);
+    setStyleSheet("border:none;border-style:none;padding:0px;color:rgba(26,26,26,0.95);background-color:rgba(26,26,26,0.95);");
 
     m_strAppName = strAppName;
     m_dateTime = dateTime;
@@ -28,11 +48,10 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
 
     //设置应用名标签，采用省略模式
     QLabel* pAppNameLabel = new QLabel();
-    QFont font1("NotoSansCJKsc-Regular", 16, 50);
-    pAppNameLabel->setFont(font1);
+    pAppNameLabel->setStyleSheet("QLabel{color:rgba(255,255,255,1);font-size:16px;}");
     pAppNameLabel->setMaximumWidth(200);
     QFontMetrics fontMetrics1(pAppNameLabel->font());
-    QString formatAppName = fontMetrics1.elidedText(strAppName, Qt::ElideRight, pAppNameLabel->width());
+    QString formatAppName = fontMetrics1.elidedText(m_strAppName, Qt::ElideRight, pAppNameLabel->width());
     pAppNameLabel->setText(formatAppName);
 
     //设置通知消息中的弹簧，水平任意伸缩使主题和时间分开
@@ -41,8 +60,7 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
     //设置通知消息中的通知时间
     QString strTransTime = dateTime.toString("hh:mm:ss");
     QLabel* pTimeLabel = new QLabel(strTransTime);
-//    QFont font2("NotoSansCJKsc-Regular", 14, 50);
-//    pTimeLabel->setFont(font2);
+    pTimeLabel->setStyleSheet("QLabel{color:rgba(255,255,255,1);font-size:14px;}");
 
     pIconHLayout->addWidget(pIconToolButton, 0, Qt::AlignLeft|Qt::AlignBottom);
     pIconHLayout->addSpacerItem(pH6Spacer);
@@ -58,8 +76,7 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
     //设置通知消息中的主题，采用省略模式
     QLabel* pSummaryLabel = new QLabel();
     pSummaryLabel->setFixedWidth(300);
-    QFont font3("NotoSansCJKsc-Regular", 18, 50);
-    pSummaryLabel->setFont(font3);
+    pSummaryLabel->setStyleSheet("QLabel{color:rgba(255,255,255,1);font-size:18px;}");
     QFontMetrics fontMetrics(pSummaryLabel->font());
     QString formatSummary = fontMetrics.elidedText(strSummary, Qt::ElideRight, pSummaryLabel->width());
     pSummaryLabel->setText(formatSummary);
@@ -74,8 +91,7 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
         pHBodyLayout->setContentsMargins(43,0,0,0);
         m_pBodyLabel = new QLabel();
         m_pBodyLabel->setFixedWidth(305);
-        QFont font4("NotoSansCJKsc-Regular", 14, 50);
-        m_pBodyLabel->setFont(font4);
+        m_pBodyLabel->setStyleSheet("QLabel{color:rgba(255,255,255,1);font-size:14px;}");
         QFontMetrics fontMetrics(m_pBodyLabel->font());
         QString formatSummary = fontMetrics.elidedText(strBody, Qt::ElideRight, m_pBodyLabel->width());
         m_pBodyLabel->setText(formatSummary);
@@ -113,7 +129,8 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
     QPushButton* pTakeinButton = new QPushButton();
     pTakeinButton->setText("收纳");
     pTakeinButton->setFixedSize(184, 34);
-    pTakeinButton->setStyleSheet("QLabel{border-style:none;border:0px solid #242424;}");
+//    pTakeinButton->setStyleSheet("QLabel{border-style:none;border:0px solid #242424;}");
+    pTakeinButton->setStyleSheet("QPushButton{color:rgba(255,255,255,1);font-size:14px;}");
     pHButtonLayout->addWidget(pTakeinButton, 0, Qt::AlignLeft);
 
     QLabel* pVLabelLine = new QLabel;
@@ -126,6 +143,7 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
     QPushButton* pClearToolButton = new QPushButton();
     pClearToolButton->setText("删除");
     pClearToolButton->setFixedSize(184, 34);
+    pClearToolButton->setStyleSheet("QPushButton{color:rgba(255,255,255,1);font-size:14px;}");
     connect(pClearToolButton, SIGNAL(clicked()), this, SLOT(onClear()));
     connect(this, SIGNAL(Sig_Send(SingleMsg*)), parent, SLOT(onClearMsg(SingleMsg*)));
     pHButtonLayout->addWidget(pClearToolButton, 0, Qt::AlignRight);
@@ -155,6 +173,7 @@ void SingleMsg::enterEvent(QEvent *event)
 {
     Q_UNUSED(event);
     m_pButtonWidget->setVisible(true);
+    setStyleSheet("border:none;border-style:none;padding:0px;color:rgba(255,255,255,0.08);background-color:rgba(255,255,255,0.08);");
     return;
 }
 
@@ -162,6 +181,7 @@ void SingleMsg::leaveEvent(QEvent *event)
 {
     Q_UNUSED(event);
     m_pButtonWidget->setVisible(false);
+    setStyleSheet("border:none;border-style:none;padding:0px;color:rgba(26,26,26,0.95);background-color:rgba(26,26,26,0.95);");
     if(false == m_strBody.isEmpty())
     {
         m_pBodyLabel->setWordWrap(false);

@@ -1,3 +1,22 @@
+/*
+* Copyright (C) 2019 Tianjin KYLIN Information Technology Co., Ltd.
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 3, or (at your option)
+* any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
+*
+*/
+
+
 #include "register_client_to_gnome_session.h"
 
 #include "widget.h"
@@ -41,20 +60,15 @@ int main(int argc, char *argv[])
     setLogPath(LogFilePath + LOG_FILE_NAME);                        /* 绑定打印日志文件路径 */
     qInstallMessageHandler(customLogMessageHandler);                /* 安装日志打印功能 */
 
-    if (!QSystemTrayIcon::isSystemTrayAvailable()) {
-        QMessageBox::critical(nullptr, QObject::tr("Systray"), QObject::tr("I couldn't detect any system tray " "on this system."));
-        return 1;
-    }
-
     //加载样式表
-    QFile file(QSS_PATH);
-    if (file.open(QFile::ReadOnly)) {
-        QString strQss = QLatin1String(file.readAll());
-        QString strPaletteColor = strQss.mid(20, 7);
-        qApp->setPalette(QPalette(QColor(strPaletteColor)));
-        qApp->setStyleSheet(strQss);
-        file.close();
-    }
+//    QFile file(QSS_PATH);
+//    if (file.open(QFile::ReadOnly)) {
+//        QString strQss = QLatin1String(file.readAll());
+//        QString strPaletteColor = strQss.mid(20, 7);
+//        qApp->setPalette(QPalette(QColor(strPaletteColor)));
+//        qApp->setStyleSheet(strQss);
+//        file.close();
+//    }
 
     QApplication::setQuitOnLastWindowClosed(false);
     PluginManager::init();          /* 初始化插件管理器 */

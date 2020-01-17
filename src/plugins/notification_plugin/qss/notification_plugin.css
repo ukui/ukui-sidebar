@@ -1,0 +1,79 @@
+QPalette{background:#1A1A1A;}*{outline:1px;color:rgba(255, 255, 255, 0.05);}
+
+/*QWidget[form="true"],QLabel[frameShape="1"]{
+border:1px solid #242424;
+border-radius:0px;
+}
+
+QWidget[form="bottom"]{
+background:#484848;
+}
+
+QWidget[form="bottom"] .QFrame{
+border:1px solid #DCDCDC;
+}
+
+QWidget[form="bottom"] QLabel,QWidget[form="title"] QLabel{
+border-radius:0px;
+color:#DCDCDC;
+background:none;
+border-style:none;
+}
+
+QWidget[form="title"],QWidget[nav="left"],QWidget[nav="top"] QAbstractButton{
+border-style:none;
+border-radius:0px;
+padding:5px;
+color:#DCDCDC;
+background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #484848,stop:1 #383838);
+}
+
+QWidget[nav="top"] QAbstractButton:hover,QWidget[nav="top"] QAbstractButton:pressed,QWidget[nav="top"] QAbstractButton:checked{
+border-style:solid;
+border-width:0px 0px 2px 0px;
+padding:4px 4px 2px 4px;
+border-color:#00BB9E;
+background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #646464,stop:1 #525252);
+}
+
+QWidget[nav="left"] QAbstractButton{
+border-radius:0px;
+color:#DCDCDC;
+background:none;
+border-style:none;
+}
+
+QWidget[nav="left"] QAbstractButton:hover{
+color:#FFFFFF;
+background-color:#00BB9E;
+}
+
+QWidget[nav="left"] QAbstractButton:checked,QWidget[nav="left"] QAbstractButton:pressed{
+color:#DCDCDC;
+border-style:solid;
+border-width:0px 0px 0px 2px;
+padding:4px 4px 4px 2px;
+border-color:#00BB9E;
+background-color:#444444;
+}*/
+
+QWidget[video="true"] QLabel{
+color:rgba(26,26,26,0.95);
+border:1px solid rgba(255, 255, 255, 0.05);;
+background:rgba(26,26,26,0.95);
+}
+
+QWidget[video="true"] QLabel:focus{
+border:1px solid rgba(255, 255, 255, 0.05);;
+background:rgba(26,26,26,0.95);
+}
+
+
+
+
+
+
+
+
+
+
