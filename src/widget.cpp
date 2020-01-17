@@ -206,16 +206,16 @@ void Widget::mousePressEvent(QMouseEvent *event)
 //动画展开
 void Widget::showAnimation()
 {
-    m_pShowAnimation->setStartValue(QRect(m_nScreenWidth, 0, m_nScreenWidth/4, m_nScreenHeight));
-    m_pShowAnimation->setEndValue(QRect(m_nScreenWidth - m_nScreenWidth/4, 0, m_nScreenWidth/4, m_nScreenHeight));
+    m_pShowAnimation->setStartValue(QRect(m_nScreenWidth, 0, 400, m_nScreenHeight));
+    m_pShowAnimation->setEndValue(QRect(m_nScreenWidth - 400, 0, 400, m_nScreenHeight));
     m_pShowAnimation->start();
 }
 
 //隐藏动画
 void Widget::hideAnimation()
 {
-    m_pHideAnimation->setStartValue(QRect(m_nScreenWidth - m_nScreenWidth/4, 0, m_nScreenWidth/4, m_nScreenHeight + 1));
-    m_pHideAnimation->setEndValue(QRect(m_nScreenWidth, 0,  m_nScreenWidth/4, m_nScreenHeight + 1));
+    m_pHideAnimation->setStartValue(QRect(m_nScreenWidth - 400, 0, 400, m_nScreenHeight + 1));
+    m_pHideAnimation->setEndValue(QRect(m_nScreenWidth, 0,  400, m_nScreenHeight + 1));
     m_pHideAnimation->start();
 }
 
