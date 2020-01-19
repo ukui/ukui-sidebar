@@ -1,7 +1,7 @@
 QPalette{background:#1A1A1A;}
 
 /* 搜索栏的Widget */
-QWidget#SearhWidget {
+QWidget#SearhWidget{
     margin-top: 10px;
     margin-right: 0px;
     margin-bottom: 0px;
@@ -29,52 +29,53 @@ QWidget#WidgetEntry{
 QWidget#EditorWidget{
     width:400px;
     height:338px;
-    background:rgba(26,26,26,1);
-    border:0px;
-    box-shadow:0px 2px 6px 0px rgba(0, 0, 0, 0.2);
+    background:rgba(26,26,26,0.25);
+    border:1px solid rgba(255, 255, 255, 75%);
     opacity:0.75;
-    border-radius:0px;
+    border-radius:6px;
 }
 
 /* 清空所有的WidgetItem */
-QPushButton#CleanList{
+QWidget#SearhWidget>QPushButton{
     width:80px;
     height:34px;
-    margin-top:20;
-    margin-left:260px;
-    margin-bottom:18px;
-    margin-right:20px;
-    background:rgba(26,26,26,1);
+    margin-top:0px;
+    margin-left:5px;
+    margin-bottom:0px;
+    margin-right:5px;
     border:1px solid rgba(255,0,0,1);
 }
 
 /* 编辑区域确认按钮 */
-QPushButton#ConfirmButton{
+QGroupBox#OperationBox>QPushButton#ConfirmButton{
     width:120px;
     height:34px;
     background:rgba(61,107,229,1);
+    margin-top:1px;
+/*    margin-left:161px;*/
+    margin-bottom:1px;
+/*    margin-right:20px;*/
+    border: 0px solid rgba(255,0,0,1);
     border-radius:4px;
-    margin-top:20;
-    margin-left:260px;
-    margin-bottom:18px;
-    margin-right:20px;
 }
 
 /* 编辑区域取消按钮 */
-QPushButton#CancelButton{
+QGroupBox#OperationBox>QPushButton#CancelButton{
     width:120px;
     height:34px;
-    margin-top:20px;
-    margin-left:156px;
-    margin-bottom:18px;
-    margin-right:124px;
-    background:rgba(26,26,26,1);
+    margin-top:0px;
+    margin-left:100px;
+    margin-bottom:0px;
+    margin-right:5px;
+    background-color:rgba(26,26,26,25);
+    opacity:0.06;
+    border: 0px solid rgba(255,0,0,1);
     opacity:0.12;
-    border-radius:4px;
+
 }
 
 /* 查找栏的Lable */
-QLineEdit#SearchLabel{
+QWidget#SearhWidget>QLineEdit#SearchLabel{
     width:290px;
     height:30px;
     margin-top: 0px;
@@ -88,29 +89,16 @@ QLineEdit#SearchLabel{
 }
 
 /* 编辑WIdget的编辑区域 */
-QTextEdit#EditingArea
+QGroupBox#EditBox>QTextEdit#EditingArea
 {
     width:340px;
-    height:200px;
-    margin-right: 12px;
-    margin-bottom: 0px;
-    margin-left: 10px;
-    margin-top: 0px;
-    padding-right: 0px;
-    border:1px solid rgba(255,0,0,1);
-}
-
-/* 查找栏的ListWidget大小 */
-QListWidget#SearchList{
-    width:380px;
-    height:60px;
+    height:180px;
     margin-right: 0px;
     margin-bottom: 0px;
     margin-left: 0px;
     margin-top: 0px;
-    opacity:0.08;
-    border:0px;
-    background:rgba(26,26,26,1);
+    background-color:rgba(26,26,26,25);
+    border: 0px solid rgba(255,0,0,1);
 }
 
 /* 显示所有剪贴内容的WidgetList大小 */
@@ -123,14 +111,14 @@ QListWidget#ShortcutOperationList{
     margin-left: 0px;
     margin-top: 0px;
 
-    background:rgba(26,26,26,1);
+    background:rgba(26,26,26,0.5);
     border:0px;
-    opacity:0.08;
+    opacity:0.5;
 }
 
 /* 所有Item的大小 */
-/*
-QListWidgetItem{
+
+/*QListWidgetItem{
     width:380px;
     height:42px;
     margin-top:10px;
@@ -140,22 +128,22 @@ QListWidgetItem{
     background:rgba(26,26,26,1);
     opacity:0.08;
     border-radius:3px;
-}
-*/
+}*/
+
 
 /* 显示内容的groupbox大小 */
 QGroupBox{
     width:380px;
-    height:300px;
-    margin-top:40px;
+    height:400px;
+    margin-top:20px;
     margin-left:10px;
     margin-bottom:0px;
     margin-right:10px;
-    border: 1px solid rgba(28, 47, 146, 1);
+    border: 0px solid rgba(255,0,0,1);
 
     width:59px;
     height:19px;
-    font-size:24px;
+    font-size:20px;
     font-family:Noto Sans CJK SC;
     font-weight:400;
     color:rgba(255,255,255,1);
@@ -163,31 +151,43 @@ QGroupBox{
     opacity:0.97;
 }
 
-/*编辑区域*/
+/* 编辑区域 */
 QGroupBox#EditBox{
     width:362px;
     height:200px;
     margin-right: 20px;
-    margin-bottom: 72px;
-    margin-left: 28px;
-    margin-top: 66px;
-    background:rgba(255,255,255,1);
+    margin-bottom: 5px;
+    margin-left: 10px;
+    margin-top: 38px;
+    padding-top:0px;
+    padding-bottom:0px;
+    padding-left:0px;
+    padding-right:0px;
+    background:rgba(26,26,26,75%);
     opacity:0.06;
     border-radius:3px;
-    border: 0px solid;
+    border: 0px solid rgba(255,255,0,1);
+
+    font-size:24px;
+    font-family:Noto Sans CJK SC;
+    font-weight:400;
+    line-height:34px;
+    opacity:0.97;
 }
 
 /* 操作区域，确认取消 */
-QGroupBox#OperationBox{
+QGroupBox#OperationBox {
     width:362px;
     height:40px;
-    margin  0px;
-    padding 0px;
+    margin-right: 20px;
+    margin-bottom: 12px;
+    margin-left: 20px;
+    margin-top: 0px;
     border-radius:0px;
-    margin-top:3ex;
-    border: 0px solid;
+    padding-top:0px;
+    padding-bottom:0px;
+    border: 0px;
 }
-
 
 /*
 QGroupBox::indicator {
