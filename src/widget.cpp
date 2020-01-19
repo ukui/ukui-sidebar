@@ -36,26 +36,18 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
             PANEL_DBUS_PATH,
             PANEL_DBUS_INTERFACE,
             QDBusConnection::sessionBus());
-    connectTaskBarDbus();
+    m_pServiceInterface->setTimeout(2147483647);
 
-    QRect screenRect = desk->screenGeometry();
-    int nScreenHeight = screenRect.height();
-    m_nScreenHeight = screenRect.height();      //桌面分辨率的高
+	//获取桌面分辨率大小
+    QScreen* pScreen = QGuiApplication::primaryScreen();
+    QRect DeskSize = pScreen->availableGeometry();
+    m_nScreenWidth = DeskSize.width();        //桌面分辨率的宽
+    m_nScreenHeight = DeskSize.height();      //桌面分辨率的高
 
-    for (int i = 0; i < 16; i++)
-    {
-        //获取桌面分辨率大小
-        QScreen* pScreen = QGuiApplication::primaryScreen();
-        QRect DeskSize = pScreen->availableGeometry();
-        m_nScreenWidth = DeskSize.width();        //桌面分辨率的宽
-        m_nScreenHeight = DeskSize.height();      //桌面分辨率的高
-        if(m_nScreenHeight < nScreenHeight)
-        {
-            break;
-        }
+    qInfo() << "屏幕分辨率的宽" << m_nScreenWidth;
+    qInfo() << "屏幕分辨率的高" << m_nScreenHeight;
 
-        QThread::msleep(500);
-    }
+
 
 	/* 主界面显示 */
     m_pMainQVBoxLayout = new QVBoxLayout;
@@ -96,7 +88,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     trayIcon->setVisible(true);
 
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
-
+    qInfo() << "---------------------------主界面加载完毕---------------------------";
 }
 
 Widget::~Widget()
@@ -140,7 +132,7 @@ void Widget::ListenClipboardSignal()
     PluginInterface* pPluginInterface = PluginManager::getInstance()->m_PluginInterfaceHash.value("ClipBoard");
     m_pSidebarClipboard = dynamic_cast<ClipboardInterface *>(pPluginInterface);  //获取剪贴版插件指针;
     if (nullptr == m_pSidebarClipboard) {
-        qDebug() << "插件加载失败";
+        qWarning() << "剪贴板插件插件加载失败";
         return;
     }
     m_pSidebarSignal = m_pSidebarClipboard->createClipSignal();   //获取剪贴板的信号类指针
@@ -169,6 +161,10 @@ void Widget::createAction()
 void Widget::createSystray()
 {
     trayIconMenu = new QMenu(this);
+    if (trayIconMenu == nullptr) {
+        qWarning() << "分配空间trayIconMenu失败";
+        return ;
+    }
     trayIconMenu->addAction(minimizeAction);
     trayIconMenu->addAction(maximizeAction);
     trayIconMenu->addAction(restoreAction);
@@ -176,6 +172,10 @@ void Widget::createSystray()
     trayIconMenu->addAction(quitAction);
 
     trayIcon = new QSystemTrayIcon(this);
+    if (nullptr == trayIcon) {
+        qWarning() << "分配空间trayIcon失败";
+        return ;
+    }
     trayIcon->setContextMenu(trayIconMenu);
 }
 
@@ -221,7 +221,6 @@ void Widget::iconActivated(QSystemTrayIcon::ActivationReason reason)
 /* 链接任务栏dbus接口 */
 int Widget::connectTaskBarDbus()
 {
-    m_pServiceInterface->setTimeout(2147483647);
     QDBusMessage msg = m_pServiceInterface->call("GetPanelSize", QVariant("Panel"));
     int panelHight = msg.arguments().at(0).toInt();
     qDebug() << "panelHight" << panelHight;

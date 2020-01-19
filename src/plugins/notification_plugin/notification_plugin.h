@@ -47,6 +47,7 @@ private:
     QWidget*                m_pMainWidget;
     QList<SingleMsg*>       m_listSingleMsg;                    //对于SingleMsg类对象用list表记录
     QLabel*                 m_pMessageCenterLabel;
+    QString                 m_strQss;
 
 private slots:
     void onClearMsg(SingleMsg* pSingleMsg);                     //处理清除消息槽函数

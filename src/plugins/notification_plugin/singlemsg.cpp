@@ -22,8 +22,9 @@
 
 SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString strIcon, QString strSummary, QDateTime dateTime, QString strBody)
 {
+    setObjectName("singlemsg");
+
     this->setFixedWidth(380);
-    setStyleSheet("border:none;border-style:none;padding:0px;color:rgba(26,26,26,0.95);background-color:rgba(26,26,26,0.95);");
 
     m_strAppName = strAppName;
     m_dateTime = dateTime;
@@ -33,9 +34,13 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
     pMainVLaout->setContentsMargins(0,0,0,0);
     pMainVLaout->setSpacing(0);
 
+    //图标和时间行的水平布局部件
+    QWidget* pIconWidget = new QWidget;
+
     //图标和时间行的水平布局器
     QHBoxLayout* pIconHLayout = new QHBoxLayout();
     pIconHLayout->setContentsMargins(12,0,26,0);
+    pIconHLayout->setSpacing(0);
 
     //设置通知消息中的Icon，使用QToolButton
     QToolButton* pIconToolButton = new QToolButton();
@@ -47,12 +52,11 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
     QSpacerItem* pH6Spacer = new QSpacerItem(6, 6, QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     //设置应用名标签，采用省略模式
-    QLabel* pAppNameLabel = new QLabel();
-    pAppNameLabel->setStyleSheet("QLabel{color:rgba(255,255,255,1);font-size:16px;}");
-    pAppNameLabel->setMaximumWidth(200);
-    QFontMetrics fontMetrics1(pAppNameLabel->font());
-    QString formatAppName = fontMetrics1.elidedText(m_strAppName, Qt::ElideRight, pAppNameLabel->width());
-    pAppNameLabel->setText(formatAppName);
+    m_pAppNameLabel = new QLabel();
+    m_pAppNameLabel->setObjectName("AppName");
+    QFontMetrics fontMetrics1(m_pAppNameLabel->font());
+    QString formatAppName = fontMetrics1.elidedText(m_strAppName, Qt::ElideRight, m_pAppNameLabel->width());
+    m_pAppNameLabel->setText(formatAppName);
 
     //设置通知消息中的弹簧，水平任意伸缩使主题和时间分开
     QSpacerItem* pHExpandingSpacer = new QSpacerItem(400, 10, QSizePolicy::Expanding, QSizePolicy::Fixed);
@@ -60,43 +64,52 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
     //设置通知消息中的通知时间
     QString strTransTime = dateTime.toString("hh:mm:ss");
     QLabel* pTimeLabel = new QLabel(strTransTime);
-    pTimeLabel->setStyleSheet("QLabel{color:rgba(255,255,255,1);font-size:14px;}");
+    pTimeLabel->setObjectName("pushtime");
 
     pIconHLayout->addWidget(pIconToolButton, 0, Qt::AlignLeft|Qt::AlignBottom);
     pIconHLayout->addSpacerItem(pH6Spacer);
-    pIconHLayout->addWidget(pAppNameLabel, 0, Qt::AlignLeft|Qt::AlignVCenter);
+    pIconHLayout->addWidget(m_pAppNameLabel, 0, Qt::AlignLeft|Qt::AlignVCenter);
     pIconHLayout->addSpacerItem(pHExpandingSpacer);
     pIconHLayout->addWidget(pTimeLabel, 0, Qt::AlignRight);
-    pMainVLaout->addLayout(pIconHLayout, 0);
+    pIconWidget->setLayout(pIconHLayout);
+    pMainVLaout->addWidget(pIconWidget, 0);
 
+
+    //图标和时间行的水平布局部件
+    QWidget* pSummaryWidget = new QWidget;
     //设置主题的水平布局器
     QHBoxLayout* pHSummaryLayout = new QHBoxLayout();
     pHSummaryLayout->setContentsMargins(43,0,0,0);
     pHSummaryLayout->setSpacing(0);
     //设置通知消息中的主题，采用省略模式
     QLabel* pSummaryLabel = new QLabel();
-    pSummaryLabel->setFixedWidth(300);
-    pSummaryLabel->setStyleSheet("QLabel{color:rgba(255,255,255,1);font-size:18px;}");
+    pSummaryLabel->setObjectName("Summary");
+    pSummaryLabel->setMaximumWidth(300);
+
     QFontMetrics fontMetrics(pSummaryLabel->font());
     QString formatSummary = fontMetrics.elidedText(strSummary, Qt::ElideRight, pSummaryLabel->width());
     pSummaryLabel->setText(formatSummary);
     pHSummaryLayout->addWidget(pSummaryLabel, 0, Qt::AlignLeft);
-    pMainVLaout->addLayout(pHSummaryLayout);
+    pSummaryWidget->setLayout(pHSummaryLayout);
+    pMainVLaout->addWidget(pSummaryWidget);
 
     //设置通知消息中的正文QLabel，行高18px,采用自动换行模式
     if(false == strBody.isEmpty())
     {
         m_strBody = strBody;
+        //图标和时间行的水平布局部件
+        QWidget* pBodyWidget = new QWidget;
         QHBoxLayout* pHBodyLayout = new QHBoxLayout();
         pHBodyLayout->setContentsMargins(43,0,0,0);
         m_pBodyLabel = new QLabel();
-        m_pBodyLabel->setFixedWidth(305);
-        m_pBodyLabel->setStyleSheet("QLabel{color:rgba(255,255,255,1);font-size:14px;}");
+        m_pBodyLabel->setObjectName("body");
+        m_pBodyLabel->setMaximumWidth(305);
         QFontMetrics fontMetrics(m_pBodyLabel->font());
         QString formatSummary = fontMetrics.elidedText(strBody, Qt::ElideRight, m_pBodyLabel->width());
         m_pBodyLabel->setText(formatSummary);
         pHBodyLayout->addWidget(m_pBodyLabel, 0, Qt::AlignLeft);
-        pMainVLaout->addLayout(pHBodyLayout);
+        pBodyWidget->setLayout(pHBodyLayout);
+        pMainVLaout->addWidget(pBodyWidget);
     }
 
     //收纳和删除框上面的Widget,多包含一条顶横线
@@ -105,7 +118,7 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
     m_pButtonWidget->setFixedSize(380,39);
     m_pButtonWidget->setVisible(false);
 
-    //收纳和删除框上面的水平布局器
+    //收纳和删除框上面的垂直布局器
     QVBoxLayout* pVButtonLayout = new QVBoxLayout();
     pVButtonLayout->setContentsMargins(0,0,0,0);
     pVButtonLayout->setSpacing(0);
@@ -173,7 +186,7 @@ void SingleMsg::enterEvent(QEvent *event)
 {
     Q_UNUSED(event);
     m_pButtonWidget->setVisible(true);
-    setStyleSheet("border:none;border-style:none;padding:0px;color:rgba(255,255,255,0.08);background-color:rgba(255,255,255,0.08);");
+    setStyleSheet("background-color:rgba(255,255,255,0.08);");
     return;
 }
 
@@ -181,7 +194,7 @@ void SingleMsg::leaveEvent(QEvent *event)
 {
     Q_UNUSED(event);
     m_pButtonWidget->setVisible(false);
-    setStyleSheet("border:none;border-style:none;padding:0px;color:rgba(26,26,26,0.95);background-color:rgba(26,26,26,0.95);");
+    setStyleSheet("background-color:rgba(26,26,26,0.95);");
     if(false == m_strBody.isEmpty())
     {
         m_pBodyLabel->setWordWrap(false);

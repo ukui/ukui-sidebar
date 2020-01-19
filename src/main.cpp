@@ -60,15 +60,7 @@ int main(int argc, char *argv[])
     setLogPath(LogFilePath + LOG_FILE_NAME);                        /* 绑定打印日志文件路径 */
     qInstallMessageHandler(customLogMessageHandler);                /* 安装日志打印功能 */
 
-    //加载样式表
-//    QFile file(QSS_PATH);
-//    if (file.open(QFile::ReadOnly)) {
-//        QString strQss = QLatin1String(file.readAll());
-//        QString strPaletteColor = strQss.mid(20, 7);
-//        qApp->setPalette(QPalette(QColor(strPaletteColor)));
-//        qApp->setStyleSheet(strQss);
-//        file.close();
-//    }
+    qApp->setPalette(QPalette(QColor("#1A1A1A")));
 
     QApplication::setQuitOnLastWindowClosed(false);
     PluginManager::init();          /* 初始化插件管理器 */

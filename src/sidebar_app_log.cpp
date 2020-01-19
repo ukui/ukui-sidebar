@@ -23,12 +23,13 @@
 #include <QDir>
 #include <QTextStream>
 #include <QDateTime>
-
+#include <QDebug>
 static int s_logLevel = QtDebugMsg;
 
 void setLogPath(const QString & path)
 {
     s_logPath = path;
+    qDebug() << "path ::::" << s_logPath;
 }
 
 void setLogLevel(int level)
@@ -47,35 +48,35 @@ bool static ensureDirExist(const QString &dirPath)
     return dir.mkpath(dirPath);
 }
 
-void customLogMessageHandler(QtMsgType type, const QMessageLogContext& ctx, const QString& msg)
+void customLogMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg)
 {
-    Q_UNUSED(ctx);
+    Q_UNUSED(context);
     if (type < s_logLevel)
     {
         return;
     }
 
     QString logInfo;
-    QString logTime = QDateTime::currentDateTime().toString("hh-mm-ss-MM-dd-yyyy");
+    QString logTime = QDateTime::currentDateTime().toString("yyyy-MM-dd-hh-mm-ss");
     switch (type)
     {
     case QtDebugMsg:
-        logInfo = QString("%1 [Debug] %2").arg(logTime, msg);
+        logInfo = QString("%1 [Debug] %2 %3 %4 %5").arg(logTime, context.file, QString::number(context.line), context.function, msg);
         break;
 
     case QtWarningMsg:
-        logInfo = QString("%1 [Warning] %2").arg(logTime, msg);
+        logInfo = QString("%1 [Warning] %2 %3 %4 %5").arg(logTime, context.file, QString::number(context.line), context.function, msg);
         break;
 
     case QtCriticalMsg:
-        logInfo = QString("%1 [Critical] %2").arg(logTime, msg);
+        logInfo = QString("%1 [Critical] %2 %3 %4 %5").arg(logTime, context.file, QString::number(context.line), context.function, msg);
         break;
 
     case QtFatalMsg:
-        logInfo = QString("%1 [Fatal] %2").arg(logTime, msg);
+        logInfo = QString("%1 [Fatal] %2 %3 %4 %5").arg(logTime, context.file, QString::number(context.line), context.function, msg);
         abort();
     case QtInfoMsg:
-        logInfo = QString("%1 [Info] %2").arg(logTime, msg);
+        logInfo = QString("%1 [Info] %2 %3 %4 %5").arg(logTime, context.file, QString::number(context.line), context.function, msg);
         break;
     }
 

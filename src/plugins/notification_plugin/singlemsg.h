@@ -51,6 +51,7 @@ private:
     QDateTime       m_dateTime;                     //保存推送时间
     QString         m_strBody;                      //保存正文字符串
 
+    QLabel*         m_pAppNameLabel;
     QLabel*         m_pBodyLabel;                   //保存正文的Label
     QWidget*        m_pButtonWidget;                //保存底下收纳和删除按钮的Widget
 

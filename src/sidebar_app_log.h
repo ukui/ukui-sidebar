@@ -20,7 +20,7 @@
 #include <QMutex>
 #include <QString>
 
-#define LOG_FILE_NAME QString("/Log/") + QDateTime::currentDateTime().toString("yyyy-MM-dd-hh-mm-ss") + QString(".log")
+#define LOG_FILE_NAME QString("/SidebarLog/") + QDateTime::currentDateTime().toString("yyyy-MM-dd") + QString(".log")
 
 
 static QMutex s_logMutex;

@@ -24,17 +24,18 @@
 
 NotificationPlugin::NotificationPlugin()
 {
-    m_pMainWidget = new QWidget;
-//    m_pMainWidget->setStyleSheet("border:none;border-style:none;padding:0px;color:rgba(26,26,26,0.95);background-color:rgba(26,26,26,0.95);");
-//    QFile file(":/qss/notification_plugin.css");
-//    if (file.open(QFile::ReadOnly)) {
-//        QString strQss = QLatin1String(file.readAll());
-//        QString strPaletteColor = strQss.mid(20, 7);
-//        m_pMainWidget->setPalette(QPalette(QColor(strPaletteColor)));
-//        m_pMainWidget->setStyleSheet(strQss);
-//        file.close();
-//    }
+    /* 加载样式表 */
+    QFile file(":/qss/notification_plugin.css");
+    if (file.open(QFile::ReadOnly)) {
+        m_strQss = QLatin1String(file.readAll());
+        file.close();
+    }
 
+    m_pMainWidget = new QWidget;
+//    m_pMainWidget->setObjectName("NotificationCenter");
+    QString strPaletteColor = m_strQss.mid(20, 7);
+    m_pMainWidget->setPalette(QPalette(QColor(strPaletteColor)));
+    m_pMainWidget->setStyleSheet(m_strQss);
 
     //插件的总VBoxLayout布局器
     QVBoxLayout* pNotificationVBoxLayout = new QVBoxLayout;
@@ -43,21 +44,18 @@ NotificationPlugin::NotificationPlugin()
 
     //装第一行通知中心的Widget
     QWidget* pWidget1= new QWidget;
-    pWidget1->setFixedWidth(390);
+    pWidget1->setObjectName("NotificationName");
 
     //第一行通知中心标题栏，左侧标题“通知中心”，右侧收纳按钮
     QHBoxLayout* pQHBoxLayout1 = new QHBoxLayout;
     pQHBoxLayout1->setContentsMargins(11,0,28,0);
     pQHBoxLayout1->setSpacing(0);
     QLabel* pLabel = new QLabel("通知中心");
-    QFont font;
-    font.setPixelSize(20);
-    pLabel->setFont(font);
+    pLabel->setObjectName("notificationcentername");
 
     //收纳按钮
     QToolButton* pQToolButton = new QToolButton();
-    pQToolButton->setStyleSheet("QToolButton{border:0px solid #242424;padding:0px;background:transparent;}");
-    pQToolButton->resize(22, 24);
+    pQToolButton->setObjectName("takein");
     //QToolButton添加svg图片
     QSvgRenderer* pSvgRender = new QSvgRenderer;
     QString strSvg = ":/images/收纳盒.svg";
@@ -73,7 +71,7 @@ NotificationPlugin::NotificationPlugin()
     pWidget1->setLayout(pQHBoxLayout1);
     pNotificationVBoxLayout->addWidget(pWidget1);
 
-    QSpacerItem* pVFixedSpacer = new QSpacerItem(10, 20, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QSpacerItem* pVFixedSpacer = new QSpacerItem(10, 24, QSizePolicy::Fixed, QSizePolicy::Fixed);
     pNotificationVBoxLayout->addSpacerItem(pVFixedSpacer);
 
     //装第二行重要信息中的Widget
@@ -83,9 +81,7 @@ NotificationPlugin::NotificationPlugin()
     //第二行左侧标签“重要的信息”，右侧一个清空按钮，一个设置按钮
     QHBoxLayout* pQHBoxLayout2 = new QHBoxLayout;
     pQHBoxLayout2->setContentsMargins(12,0,10,10);
-    pQHBoxLayout2->setSpacing(0);
     pLabel = new QLabel("重要的信息");
-    pLabel->setStyleSheet("QLabel{border:0px solid #242424;padding:0px;}");
     pLabel->resize(70, 14);
     QFont font1;
     font1.setPixelSize(14);
@@ -94,19 +90,16 @@ NotificationPlugin::NotificationPlugin()
     QSpacerItem* pHSpacer = new QSpacerItem(300, 10, QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     QPushButton* pClearAllToolButton = new QPushButton();
+    pClearAllToolButton->setObjectName("clearall");
     connect(pClearAllToolButton, SIGNAL(clicked()), this, SLOT(clearAllMessage()));
     pClearAllToolButton->setText("清空");
-    pClearAllToolButton->setStyleSheet("QPushButton{color:rgba(255,255,255,1);font-size:14px;}");
-    pClearAllToolButton->setFixedSize(80,34);
-
 
     QSpacerItem* pFixSpacer = new QSpacerItem(5, 10, QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     QPushButton* pSettingToolButton = new QPushButton();
+    pSettingToolButton->setObjectName("setting");
     connect(pSettingToolButton, SIGNAL(clicked()), this, SLOT(callControlPanel()));
     pSettingToolButton->setText("设置");
-    pSettingToolButton->setStyleSheet("QPushButton{font-size:14px;}");
-    pSettingToolButton->setFixedSize(80,34);
 
 
     pQHBoxLayout2->addWidget(pLabel, 0, Qt::AlignLeft);
@@ -121,7 +114,8 @@ NotificationPlugin::NotificationPlugin()
     ScrollAreaWidget* pQScrollArea = new ScrollAreaWidget();
 
     m_pScrollAreaVBoxLayout = new QVBoxLayout();
-    m_pScrollAreaVBoxLayout->setContentsMargins(0, 0, 0, 0);
+    m_pScrollAreaVBoxLayout->setContentsMargins(0,0,0,0);
+    m_pScrollAreaVBoxLayout->setSpacing(0);
 
     QWidget* pInQWidget = new QWidget();  //收纳通知列表的最内层部件
     pInQWidget->setLayout(m_pScrollAreaVBoxLayout);
@@ -134,9 +128,7 @@ NotificationPlugin::NotificationPlugin()
     QSpacerItem* pVSpacer = new QSpacerItem(10, 10, QSizePolicy::Fixed, QSizePolicy::Expanding);
     m_pScrollAreaVBoxLayout->addSpacerItem(pVSpacer);
 
-
     pNotificationVBoxLayout->addWidget(pQScrollArea, 0);
-
     m_pMainWidget->setLayout(pNotificationVBoxLayout);
     return;
 }
