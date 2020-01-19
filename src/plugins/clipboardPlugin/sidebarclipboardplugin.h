@@ -32,13 +32,14 @@
 #include <QVBoxLayout>
 #include <QLineEdit>
 #include <QStaticText>
+#include <QColor>
 #include "clipboardpluginiface.h"
 #include "clipboardwidgetentry.h"
 #include "sidebarclipboardsignal.h"
 #include "searchwidgetitemcontent.h"
 #include "editorwidget.h"
 #include "clipboardsignal.h"
-#define  WIDGET_ENTRY_COUNT 5
+#define  WIDGET_ENTRY_COUNT 6
 #define  SIDEBAR_CLIPBOARD_QSS_PATH  ":/qss/sidebarClipboard.css"
 //static SidebarClipboardPlugin *global_instance = nullptr;
 class SidebarClipboardPlugin:public QObject, public ClipboardInterface
@@ -88,7 +89,7 @@ public:
 
 
 signals:
-    void change();
+    void Itemchange(int);
 
 public slots:
     void createWidgetEntry(const QMimeData *mimeData);
@@ -97,6 +98,7 @@ public slots:
     void removeButtonSlots(ClipboardWidgetEntry *w);
     void removeAllWidgetItem();
     void searchClipboardLableTextSlots(QString Text);
+    void WhetherTopFirst(int tmp);
 };
 
 #endif // SIDEBARCLIPBOARDPLUGIN_H

@@ -24,16 +24,16 @@ EditorWidget::EditorWidget()
     m_pMainQVBoxLayout = new QVBoxLayout();
     editBox();
     operationBox();
-    this->setObjectName("EditorWidget");
+
     m_pConfirmButton->setObjectName("ConfirmButton");
     m_pCancelButton->setObjectName("CancelButton");
     m_pEditingArea->setObjectName("EditingArea");
     m_pEditBox->setObjectName("EditBox");
     m_pOperationBox->setObjectName("OperationBox");
+    this->setObjectName("EditorWidget");
     m_pMainQVBoxLayout->addWidget(m_pEditBox);
     m_pMainQVBoxLayout->addWidget(m_pOperationBox);
-    this->setWindowFlags(Qt::FramelessWindowHint);
-    this->setFixedSize(400,338);
+    this->setWindowFlags(Qt::FramelessWindowHint|Qt::Tool);
 
     QScreen* pScreen = QGuiApplication::primaryScreen();
     QRect ScreenSize = pScreen->availableGeometry();
@@ -42,7 +42,6 @@ EditorWidget::EditorWidget()
     move(m_nScreenWidth/2-130, m_nScreenHeight/2-180);
     setLayout(m_pMainQVBoxLayout);
 }
-
 //void EditorWidget::titleBox()
 //{
 //    m_ptileLable = new QLabel(tr("编辑"));
@@ -58,7 +57,6 @@ EditorWidget::EditorWidget()
 void EditorWidget::editBox()
 {
     m_pEditingArea = new QTextEdit();
-    m_pEditingArea->setFixedSize(340, 200);
     m_pEditLaout = new QHBoxLayout;
     m_pEditLaout->addWidget(m_pEditingArea);
     m_pEditBox = new QGroupBox(tr("编辑内容"));

@@ -141,9 +141,7 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
     //设置一个收纳按钮
     QPushButton* pTakeinButton = new QPushButton();
     pTakeinButton->setText("收纳");
-    pTakeinButton->setFixedSize(184, 34);
-//    pTakeinButton->setStyleSheet("QLabel{border-style:none;border:0px solid #242424;}");
-    pTakeinButton->setStyleSheet("QPushButton{color:rgba(255,255,255,1);font-size:14px;}");
+    pTakeinButton->setObjectName("takein");
     pHButtonLayout->addWidget(pTakeinButton, 0, Qt::AlignLeft);
 
     QLabel* pVLabelLine = new QLabel;
@@ -155,8 +153,7 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
     //设置通知消息中的删除消息按钮
     QPushButton* pClearToolButton = new QPushButton();
     pClearToolButton->setText("删除");
-    pClearToolButton->setFixedSize(184, 34);
-    pClearToolButton->setStyleSheet("QPushButton{color:rgba(255,255,255,1);font-size:14px;}");
+    pClearToolButton->setObjectName("delete");
     connect(pClearToolButton, SIGNAL(clicked()), this, SLOT(onClear()));
     connect(this, SIGNAL(Sig_Send(SingleMsg*)), parent, SLOT(onClearMsg(SingleMsg*)));
     pHButtonLayout->addWidget(pClearToolButton, 0, Qt::AlignRight);

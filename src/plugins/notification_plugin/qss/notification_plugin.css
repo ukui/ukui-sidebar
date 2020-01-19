@@ -11,9 +11,7 @@ QWidget{
     margin-top: 0px;
     margin-right: 0px;
     margin-bottom: 0px;
-/*    width:400px;*/
-    background:rgba(26,26,26,0.95);
-/*    opacity:0.95;*/
+/*    background:rgba(26,26,26,0.95);*/
 }
 
 /*QWidget#NotificationCenter{
@@ -41,11 +39,15 @@ QToolButton#takein{
     height:24px;*/
 }
 
+QPushButton{
+    color:rgba(255,255,255,1);
+    font-size:14px;
+    font-family:Noto Sans CJK SC;
+/*    background:transparent;*/
+}
 
 QPushButton#clearall{
     color:rgba(255,255,255,231);
-    font-size:14px;
-    font-family:Noto Sans CJK SC;
     font-weight:400;
     border:1px dashed rgba(255,0,0,255);
     line-height:24px;
@@ -58,14 +60,51 @@ QPushButton#clearall{
 
 QPushButton#setting{
     color:rgba(255,255,255,231);
-    font-size:14px;
-    font-family:Noto Sans CJK SC;
     font-weight:400;
     border:1px dotted rgba(255,0,0,255);
     line-height:24px;
     width:80px;
     height:34px;
 }
+
+QPushButton#takein{
+    color:rgba(255,255,255,231);
+    font-weight:400;
+    border:0px;
+/*    background:transparent;
+    background:rgba(238,238,238,1);*/
+    width:184px;
+    height:34px;
+}
+
+QPushButton:hover#takein{
+    color:rgba(255,255,255,231);
+    font-weight:400;
+    border:0px;
+    background:rgba(255,255,255,0.12);
+    width:184px;
+    height:34px;
+}
+
+QPushButton#delete{
+    color:rgba(255,255,255,231);
+    font-weight:400;
+    border:0px;
+/*    background:transparent;
+    background:rgba(238,238,238,1);*/
+    width:184px;
+    height:34px;
+}
+
+QPushButton:hover#delete{
+    color:rgba(255,255,255,231);
+    font-weight:400;
+    border:0px;
+    background:rgba(255,255,255,0.12);
+    width:184px;
+    height:34px;
+}
+
 
 SingleMsg#singlemsg{
     background:rgba(255,0,0,1);
