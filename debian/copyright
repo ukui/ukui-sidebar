@@ -1,10 +1,10 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: ukui-sidebar
-Upstream-Contact: jianglinxuan@kylinos.cn
-Source: https://github.com/ukui/biometric-authentication
+Upstream-Contact: chenchunan@kylinos.cn
+Source: https://github.com/ukui/ukui-sidebar
 
 Files: *
-Copyright: 2020, jianglinxuan <jianglinxuan@kylinos.cn>
+Copyright: 2020, Tianjin KYLIN Information Technology Co., Ltd.
 License: LGPL-3+
  This package is free software; you can redistribute it and/or modify it
  under the terms of the GNU Lesser General Public License as published by
