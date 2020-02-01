@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>images/收纳盒.svg</file>
+        <file>images/box.svg</file>
         <file>qss/notification_plugin.css</file>
     </qresource>
 </RCC>

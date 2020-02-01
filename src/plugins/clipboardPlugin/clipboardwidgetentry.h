@@ -24,9 +24,9 @@
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QIcon>
-#define  EDIT_SVG_PATH  ":/image/编辑.svg"
-#define  COPY_SVG_PATH  ":/image/复制.svg"
-#define  REMOVE_SVG_PATH  ":/image/删除.svg"
+#define  EDIT_SVG_PATH  ":/image/edit.svg"
+#define  COPY_SVG_PATH  ":/image/copy.svg"
+#define  REMOVE_SVG_PATH  ":/image/delete.svg"
 class ClipboardWidgetEntry : public QWidget
 {
 public:

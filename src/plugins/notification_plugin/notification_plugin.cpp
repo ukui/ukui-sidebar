@@ -58,7 +58,7 @@ NotificationPlugin::NotificationPlugin()
     pQToolButton->setObjectName("takein");
     //QToolButton添加svg图片
     QSvgRenderer* pSvgRender = new QSvgRenderer;
-    QString strSvg = ":/images/收纳盒.svg";
+    QString strSvg = ":/images/box.svg";
     pSvgRender->load(strSvg);
     QPixmap* pPixmap = new QPixmap(22, 24);
     pPixmap->fill(Qt::transparent);
