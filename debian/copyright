@@ -5,7 +5,7 @@ Source: https://github.com/ukui/ukui-sidebar
 
 Files: *
 Copyright: 2020, Tianjin KYLIN Information Technology Co., Ltd.
-License: LGPL-3+
+License: GPL-3+
  This package is free software; you can redistribute it and/or modify it
  under the terms of the GNU Lesser General Public License as published by
  the Free Software Foundation; either version 3 of the License, or (at your
@@ -21,4 +21,4 @@ License: LGPL-3+
  Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  .
  On Debian systems, the complete text of the GNU Lesser General Public
- License can be found in `/usr/share/common-licenses/LGPL-3'.
+ License can be found in `/usr/share/common-licenses/GPL-3'.
