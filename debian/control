@@ -3,7 +3,7 @@ Section: x11
 Priority: optional
 Maintainer: Kylin Team <team+kylin@tracker.debian.org>
 Uploaders: handsome_feng <jianfengli@ubuntukylin.com>,
-Build-Depends: debhelper (>= 11),
+Build-Depends: debhelper-compat (= 12),
                libglib2.0-dev,
                qtbase5-dev,
 			   libqt5svg5-dev,
@@ -19,9 +19,7 @@ Architecture: any
 Depends: ${shlibs:Depends},
          ${misc:Depends},
 Description: some shortcut operation in the right of screen for UKUI
- The ukui-sidebar is mainly used in the desktop operating system. 
- It pops up from the right side of the desktop in the form of a tray, 
- displaying some application notification messages and some cutting 
+ The ukui-sidebar is mainly used in the desktop operating system.
+ It pops up from the right side of the desktop in the form of a tray,
+ displaying some application notification messages and some cutting
  storage information.
-
-
