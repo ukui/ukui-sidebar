@@ -22,12 +22,13 @@
 
 SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString strIcon, QString strSummary, QDateTime dateTime, QString strBody)
 {
-    setObjectName("singlemsg");
+    m_bTakeInFlag = false;
 
+    setObjectName("singlemsg");
     this->setFixedWidth(380);
 
     m_strAppName = strAppName;
-    m_dateTime = dateTime;
+    m_uNotifyTime = dateTime.toTime_t();
 
     //单条信息中的总的垂直布局器
     QVBoxLayout* pMainVLaout = new QVBoxLayout();
@@ -188,7 +189,10 @@ SingleMsg::~SingleMsg()
 void SingleMsg::enterEvent(QEvent *event)
 {
     Q_UNUSED(event);
-    m_pButtonWidget->setVisible(true);
+    if(false == m_bTakeInFlag)  //当不在收纳盒时，悬停在消息上才显示收纳和删除按钮
+    {
+        m_pButtonWidget->setVisible(true);
+    }
     setStyleSheet("background-color:rgba(255,255,255,0.08);");
 
     return;
@@ -197,7 +201,11 @@ void SingleMsg::enterEvent(QEvent *event)
 void SingleMsg::leaveEvent(QEvent *event)
 {
     Q_UNUSED(event);
-    m_pButtonWidget->setVisible(false);
+    if(false == m_bTakeInFlag)
+    {
+        m_pButtonWidget->setVisible(false);
+    }
+
     setStyleSheet("background-color:rgba(26,26,26,0.95);");
     if(false == m_strBody.isEmpty())
     {
@@ -231,6 +239,8 @@ void SingleMsg::onClear()
 
 void SingleMsg::onTakein()
 {
+    m_bTakeInFlag = true;
+    m_pButtonWidget->setVisible(false);
     emit Sig_SendTakein(this);
     return;
 }

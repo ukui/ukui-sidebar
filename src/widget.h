@@ -27,7 +27,6 @@
 
 
 #define  PNG_PATH           ":/data/images/kylin-tool-box.svg"
-#define  QSS_PATH           ":/data/qss/psblack.css"
 
 #define PANEL_DBUS_SERVICE "com.ukui.panel.desktop"
 #define PANEL_DBUS_PATH "/"

@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>images/box.svg</file>
         <file>qss/notification_plugin.css</file>
+        <file>images/exitbox.svg</file>
     </qresource>
 </RCC>

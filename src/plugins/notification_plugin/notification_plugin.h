@@ -25,6 +25,7 @@
 #include <QtWidgets>
 
 class ScrollAreaWidget;
+class QSvgRenderer;
 
 class NotificationPlugin : public QObject, public NotificationInterface
 {
@@ -54,12 +55,17 @@ private:
     QLabel*                 m_pMessageCenterLabel;
     QString                 m_strQss;
     bool                    m_bShowTakeIn;
+    QLabel*                 m_pNotificationLabel;               //重要的通知和不重要的通知标签
+    QSvgRenderer*           m_pSvgRender;
+    QToolButton*            m_pTakeInBoxToolButton;
+    QPixmap*                m_pPixmap;
 
 private slots:
     void onClearMsg(SingleMsg* pSingleMsg);                     //处理清除消息槽函数
     void onTakeinMsg(SingleMsg* pSingleMsg);
     void clearAllMessage();                                     //清除所有消息
     void showTakeInMessage();
+    void callControlPanel();                                    //调用控制面板
 
 
 };
