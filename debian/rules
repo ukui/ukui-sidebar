@@ -1,12 +1,7 @@
 #!/usr/bin/make -f
-DPKG_EXPORT_BUILDFLAGS = 1
-include /usr/share/dpkg/default.mk
 
 export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 export QT_SELECT := qt5
 
 %:
 	dh $@
-
-override_dh_auto_install:
-	dh_auto_install
