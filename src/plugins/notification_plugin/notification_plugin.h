@@ -24,6 +24,7 @@
 #include "singlemsg.h"
 #include <QtWidgets>
 
+class ScrollAreaWidget;
 
 class NotificationPlugin : public QObject, public NotificationInterface
 {
@@ -43,15 +44,22 @@ public slots :
     uint Notify(QString strAppName, uint uId, QString strIconPath, QString strSummary, QString strBody, QStringList actions, QVariantMap hint, int nTimeout);
 
 private:
-    QVBoxLayout*            m_pScrollAreaVBoxLayout;
     QWidget*                m_pMainWidget;
     QList<SingleMsg*>       m_listSingleMsg;                    //对于SingleMsg类对象用list表记录
+    QList<SingleMsg*>       m_listSingleTakeInMsg;
+    ScrollAreaWidget*       m_pQScrollAreaNotify;               //通知列表ScrollAreaWidget
+    QVBoxLayout*            m_pScrollAreaNotifyVBoxLayout;
+    ScrollAreaWidget*       m_pQScrollAreaTakeIn;               //收纳列表ScrollAreaWidget
+    QVBoxLayout*            m_pScrollAreaTakeInVBoxLayout;
     QLabel*                 m_pMessageCenterLabel;
     QString                 m_strQss;
+    bool                    m_bShowTakeIn;
 
 private slots:
     void onClearMsg(SingleMsg* pSingleMsg);                     //处理清除消息槽函数
-    void clearAllMessage();                                             //清除所有消息
+    void onTakeinMsg(SingleMsg* pSingleMsg);
+    void clearAllMessage();                                     //清除所有消息
+    void showTakeInMessage();
 
 
 };

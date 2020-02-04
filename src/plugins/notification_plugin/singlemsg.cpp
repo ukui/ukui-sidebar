@@ -57,6 +57,7 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
     QFontMetrics fontMetrics1(m_pAppNameLabel->font());
     QString formatAppName = fontMetrics1.elidedText(m_strAppName, Qt::ElideRight, m_pAppNameLabel->width());
     m_pAppNameLabel->setText(formatAppName);
+    m_pAppNameLabel->setStyleSheet("background-color:transparent;");
 
     //设置通知消息中的弹簧，水平任意伸缩使主题和时间分开
     QSpacerItem* pHExpandingSpacer = new QSpacerItem(400, 10, QSizePolicy::Expanding, QSizePolicy::Fixed);
@@ -65,6 +66,7 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
     QString strTransTime = dateTime.toString("hh:mm:ss");
     QLabel* pTimeLabel = new QLabel(strTransTime);
     pTimeLabel->setObjectName("pushtime");
+    pTimeLabel->setStyleSheet("background-color:transparent;");
 
     pIconHLayout->addWidget(pIconToolButton, 0, Qt::AlignLeft|Qt::AlignBottom);
     pIconHLayout->addSpacerItem(pH6Spacer);
@@ -85,6 +87,7 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
     QLabel* pSummaryLabel = new QLabel();
     pSummaryLabel->setObjectName("Summary");
     pSummaryLabel->setMaximumWidth(300);
+    pSummaryLabel->setStyleSheet("background-color:transparent;");
 
     QFontMetrics fontMetrics(pSummaryLabel->font());
     QString formatSummary = fontMetrics.elidedText(strSummary, Qt::ElideRight, pSummaryLabel->width());
@@ -103,7 +106,8 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
         pHBodyLayout->setContentsMargins(43,0,0,0);
         m_pBodyLabel = new QLabel();
         m_pBodyLabel->setObjectName("body");
-        m_pBodyLabel->setMaximumWidth(305);
+        m_pBodyLabel->setFixedWidth(305);
+        m_pBodyLabel->setStyleSheet("background-color:transparent;");
         QFontMetrics fontMetrics(m_pBodyLabel->font());
         QString formatSummary = fontMetrics.elidedText(strBody, Qt::ElideRight, m_pBodyLabel->width());
         m_pBodyLabel->setText(formatSummary);
@@ -142,6 +146,8 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
     QPushButton* pTakeinButton = new QPushButton();
     pTakeinButton->setText("收纳");
     pTakeinButton->setObjectName("takein");
+    connect(pTakeinButton, SIGNAL(clicked()), this, SLOT(onTakein()));
+    connect(this, SIGNAL(Sig_SendTakein(SingleMsg*)), parent, SLOT(onTakeinMsg(SingleMsg*)));
     pHButtonLayout->addWidget(pTakeinButton, 0, Qt::AlignLeft);
 
     QLabel* pVLabelLine = new QLabel;
@@ -184,6 +190,7 @@ void SingleMsg::enterEvent(QEvent *event)
     Q_UNUSED(event);
     m_pButtonWidget->setVisible(true);
     setStyleSheet("background-color:rgba(255,255,255,0.08);");
+
     return;
 }
 
@@ -219,6 +226,12 @@ void SingleMsg::mousePressEvent(QMouseEvent *event)
 void SingleMsg::onClear()
 {
     emit Sig_Send(this);
+    return;
+}
+
+void SingleMsg::onTakein()
+{
+    emit Sig_SendTakein(this);
     return;
 }
 

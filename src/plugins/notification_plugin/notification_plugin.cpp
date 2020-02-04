@@ -31,6 +31,8 @@ NotificationPlugin::NotificationPlugin()
         file.close();
     }
 
+    m_bShowTakeIn = false;
+
     m_pMainWidget = new QWidget;
 //    m_pMainWidget->setObjectName("NotificationCenter");
     QString strPaletteColor = m_strQss.mid(20, 7);
@@ -56,6 +58,7 @@ NotificationPlugin::NotificationPlugin()
     //收纳按钮
     QToolButton* pQToolButton = new QToolButton();
     pQToolButton->setObjectName("takein");
+    connect(pQToolButton, SIGNAL(clicked()), this, SLOT(showTakeInMessage()));
     //QToolButton添加svg图片
     QSvgRenderer* pSvgRender = new QSvgRenderer;
     QString strSvg = ":/images/box.svg";
@@ -111,24 +114,40 @@ NotificationPlugin::NotificationPlugin()
     pNotificationVBoxLayout->addWidget(pWidget2, 0);
 
     //通知列表
-    ScrollAreaWidget* pQScrollArea = new ScrollAreaWidget();
+    m_pQScrollAreaNotify = new ScrollAreaWidget();
 
-    m_pScrollAreaVBoxLayout = new QVBoxLayout();
-    m_pScrollAreaVBoxLayout->setContentsMargins(0,0,0,0);
-    m_pScrollAreaVBoxLayout->setSpacing(0);
+    m_pScrollAreaNotifyVBoxLayout = new QVBoxLayout();
+    m_pScrollAreaNotifyVBoxLayout->setContentsMargins(0,0,0,0);
+    m_pScrollAreaNotifyVBoxLayout->setSpacing(0);
 
-    QWidget* pInQWidget = new QWidget();  //收纳通知列表的最内层部件
-    pInQWidget->setLayout(m_pScrollAreaVBoxLayout);
-    pQScrollArea->setWidget(pInQWidget);
-//    pQScrollArea->widget()->adjustSize();
+    QWidget* pInQWidget = new QWidget();  //通知列表的最内层部件
+    pInQWidget->setLayout(m_pScrollAreaNotifyVBoxLayout);
+    m_pQScrollAreaNotify->setWidget(pInQWidget);
 
     m_pMessageCenterLabel = new QLabel("没有新通知");
     m_pMessageCenterLabel->setStyleSheet("QLabel{padding:10px 0px 0px 11px;}");
-    m_pScrollAreaVBoxLayout->addWidget(m_pMessageCenterLabel);
+    m_pScrollAreaNotifyVBoxLayout->addWidget(m_pMessageCenterLabel);
     QSpacerItem* pVSpacer = new QSpacerItem(10, 10, QSizePolicy::Fixed, QSizePolicy::Expanding);
-    m_pScrollAreaVBoxLayout->addSpacerItem(pVSpacer);
+    m_pScrollAreaNotifyVBoxLayout->addSpacerItem(pVSpacer);
 
-    pNotificationVBoxLayout->addWidget(pQScrollArea, 0);
+    pNotificationVBoxLayout->addWidget(m_pQScrollAreaNotify, 0);
+
+    //收纳列表
+    m_pQScrollAreaTakeIn = new ScrollAreaWidget();
+
+    m_pScrollAreaTakeInVBoxLayout = new QVBoxLayout();
+    m_pScrollAreaTakeInVBoxLayout->setContentsMargins(0,0,0,0);
+    m_pScrollAreaTakeInVBoxLayout->setSpacing(0);
+
+    QWidget* pTakeInQWidget = new QWidget();  //收纳列表的最内层部件
+    pTakeInQWidget->setLayout(m_pScrollAreaTakeInVBoxLayout);
+    m_pQScrollAreaTakeIn->setWidget(pTakeInQWidget);
+
+    QSpacerItem* pVSpacer2 = new QSpacerItem(10, 10, QSizePolicy::Fixed, QSizePolicy::Expanding);
+    m_pScrollAreaTakeInVBoxLayout->addSpacerItem(pVSpacer2);
+    pNotificationVBoxLayout->addWidget(m_pQScrollAreaTakeIn, 0);
+    m_pQScrollAreaTakeIn->setVisible(false);
+
     m_pMainWidget->setLayout(pNotificationVBoxLayout);
     return;
 }
@@ -147,9 +166,9 @@ uint NotificationPlugin::Notify(QString strAppName, uint uId, QString strIconPat
     Q_UNUSED(nTimeout);
 
     qDebug() <<"NotificationPlugin::Notify strAppName=" <<strAppName;
-    if(0 == m_listSingleMsg.count() && 2 == m_pScrollAreaVBoxLayout->count()) //当列表信息为空表明第一次来通知
+    if(0 == m_listSingleMsg.count() && 2 == m_pScrollAreaNotifyVBoxLayout->count()) //当列表信息为空表明第一次来通知
     {
-        m_pScrollAreaVBoxLayout->removeWidget(m_pMessageCenterLabel);
+        m_pScrollAreaNotifyVBoxLayout->removeWidget(m_pMessageCenterLabel);
         delete m_pMessageCenterLabel;
     }
 
@@ -157,12 +176,12 @@ uint NotificationPlugin::Notify(QString strAppName, uint uId, QString strIconPat
 
     SingleMsg* pSingleMsg = new SingleMsg(this, strAppName, strIconPath, strSummary, dateTime, strBody);
     m_listSingleMsg.append(pSingleMsg);
-    m_pScrollAreaVBoxLayout->insertWidget((m_pScrollAreaVBoxLayout->count() - 1), pSingleMsg);
+    m_pScrollAreaNotifyVBoxLayout->insertWidget((m_pScrollAreaNotifyVBoxLayout->count() - 1), pSingleMsg);
 
     return 1;
 }
 
-void NotificationPlugin::onClearMsg(SingleMsg* pSingleMsg)
+void NotificationPlugin::onTakeinMsg(SingleMsg* pSingleMsg)
 {
     int nIndex = m_listSingleMsg.indexOf(pSingleMsg);
     if(-1 == nIndex)
@@ -172,36 +191,110 @@ void NotificationPlugin::onClearMsg(SingleMsg* pSingleMsg)
     }
 
     m_listSingleMsg.removeAt(nIndex);
-    m_pScrollAreaVBoxLayout->removeWidget(pSingleMsg);
-    pSingleMsg->deleteLater();
+    m_pScrollAreaNotifyVBoxLayout->removeWidget(pSingleMsg);
+//    pSingleMsg->deleteLater();
 
-    if(0 == m_listSingleMsg.count() && 1 == m_pScrollAreaVBoxLayout->count())
+    if(0 == m_listSingleMsg.count() && 1 == m_pScrollAreaNotifyVBoxLayout->count())
     {
         m_pMessageCenterLabel = new QLabel("没有新通知");
         m_pMessageCenterLabel->setStyleSheet("QLabel{padding:10px 0px 0px 11px;}");
-        m_pScrollAreaVBoxLayout->insertWidget((m_pScrollAreaVBoxLayout->count() - 1), m_pMessageCenterLabel);
+        m_pScrollAreaNotifyVBoxLayout->insertWidget((m_pScrollAreaNotifyVBoxLayout->count() - 1), m_pMessageCenterLabel);
     }
+
+    m_listSingleTakeInMsg.append(pSingleMsg);
+    m_pScrollAreaTakeInVBoxLayout->insertWidget((m_pScrollAreaTakeInVBoxLayout->count() - 1), pSingleMsg);
+
+
     return;
 }
+
+void NotificationPlugin::onClearMsg(SingleMsg* pSingleMsg)
+{
+    if(false == m_bShowTakeIn)  //当展示通知列表时
+    {
+        int nIndex = m_listSingleMsg.indexOf(pSingleMsg);
+        if(-1 == nIndex)
+        {
+            qDebug()<<"NotificationPlugin::onClearMsg 在通知链表中未找到pSingleMsg指针";
+            return;
+        }
+
+        m_listSingleMsg.removeAt(nIndex);
+        m_pScrollAreaNotifyVBoxLayout->removeWidget(pSingleMsg);
+
+
+        if(0 == m_listSingleMsg.count() && 1 == m_pScrollAreaNotifyVBoxLayout->count())
+        {
+            m_pMessageCenterLabel = new QLabel("没有新通知");
+            m_pMessageCenterLabel->setStyleSheet("QLabel{padding:10px 0px 0px 11px;}");
+            m_pScrollAreaNotifyVBoxLayout->insertWidget((m_pScrollAreaNotifyVBoxLayout->count() - 1), m_pMessageCenterLabel);
+        }
+    }
+    else    //当展示收纳列表时
+    {
+        int nIndex = m_listSingleTakeInMsg.indexOf(pSingleMsg);
+        if(-1 == nIndex)
+        {
+            qDebug()<<"NotificationPlugin::onClearMsg 在收纳链表中未找到pSingleMsg指针";
+            return;
+        }
+
+        m_listSingleTakeInMsg.removeAt(nIndex);
+        m_pScrollAreaTakeInVBoxLayout->removeWidget(pSingleMsg);
+    }
+    pSingleMsg->deleteLater();
+
+    return;
+}
+
 
 void NotificationPlugin::clearAllMessage()
 {
-    while (m_listSingleMsg.count() > 0)
+    if(false == m_bShowTakeIn)  //当展示通知列表时
     {
-        SingleMsg* pSingleMsg = m_listSingleMsg.at(0);
-        m_pScrollAreaVBoxLayout->removeWidget(pSingleMsg);
-        pSingleMsg->deleteLater();
-        m_listSingleMsg.removeAt(0);
-    }
+        while (m_listSingleMsg.count() > 0)
+        {
+            SingleMsg* pSingleMsg = m_listSingleMsg.at(0);
+            m_pScrollAreaNotifyVBoxLayout->removeWidget(pSingleMsg);
+            pSingleMsg->deleteLater();
+            m_listSingleMsg.removeAt(0);
+        }
 
-    if(1 == m_pScrollAreaVBoxLayout->count())
+        if(1 == m_pScrollAreaNotifyVBoxLayout->count())
+        {
+            m_pMessageCenterLabel = new QLabel("没有新通知");
+            m_pMessageCenterLabel->setStyleSheet("QLabel{padding:10px 0px 0px 11px;}");
+            m_pScrollAreaNotifyVBoxLayout->insertWidget((m_pScrollAreaNotifyVBoxLayout->count() - 1), m_pMessageCenterLabel);
+        }
+
+    }
+    else    //当展示收纳列表时
     {
-        m_pMessageCenterLabel = new QLabel("没有新通知");
-        m_pMessageCenterLabel->setStyleSheet("QLabel{padding:10px 0px 0px 11px;}");
-        m_pScrollAreaVBoxLayout->insertWidget((m_pScrollAreaVBoxLayout->count() - 1), m_pMessageCenterLabel);
+        while (m_listSingleTakeInMsg.count() > 0)
+        {
+            SingleMsg* pSingleMsg = m_listSingleTakeInMsg.at(0);
+            m_pScrollAreaTakeInVBoxLayout->removeWidget(pSingleMsg);
+            pSingleMsg->deleteLater();
+            m_listSingleTakeInMsg.removeAt(0);
+        }
     }
 
     return;
 }
 
+void NotificationPlugin::showTakeInMessage()
+{
+    if(false == m_bShowTakeIn)
+    {
+        m_bShowTakeIn = true;
+        m_pQScrollAreaNotify->setVisible(false);
+        m_pQScrollAreaTakeIn->setVisible(true);
+    }
+    else
+    {
+        m_bShowTakeIn = false;
+        m_pQScrollAreaNotify->setVisible(true);
+        m_pQScrollAreaTakeIn->setVisible(false);
 
+    }
+}

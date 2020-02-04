@@ -59,9 +59,11 @@ private:
 
 signals:
     void            Sig_Send(SingleMsg *p);         //将本对象指针发送出去
+    void            Sig_SendTakein(SingleMsg *p);
 
 public slots:
     void            onClear();                      //清除消息
+    void            onTakein();                     //处理收纳消息
 
 };
 
