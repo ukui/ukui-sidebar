@@ -35,8 +35,8 @@ QToolButton#takein{
     padding:0px;
     background:transparent;
 /*    background:rgba(238,238,238,1);*/
-/*    width:22px;
-    height:24px;*/
+/*    width:24px;
+    height:30px;*/
 }
 
 QPushButton{
@@ -144,7 +144,11 @@ QLabel#body{
     font-size:14px;
 }
 
-
+QLabel#takeincout{
+    font-size:11px;
+    background-color:rgba(61,107,229,1);
+    border-radius:6px;
+}
 
 QScrollBar:vertical{
 background:#484848;

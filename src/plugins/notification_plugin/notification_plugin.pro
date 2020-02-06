@@ -28,13 +28,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         notification_plugin.cpp \
     singlemsg.cpp \
-    scrollareawidget.cpp
+    scrollareawidget.cpp \
+    takeinboxtoolbutton.cpp
 
 INCLUDEPATH    += ../../plugin-interface
 HEADERS += \
         notification_plugin.h \
     singlemsg.h \
-    scrollareawidget.h
+    scrollareawidget.h \
+    takeinboxtoolbutton.h
 DISTFILES += notification_plugin.json  
 
 unix {

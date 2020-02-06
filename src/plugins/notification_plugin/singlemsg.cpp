@@ -110,7 +110,7 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
         m_pBodyLabel->setFixedWidth(305);
         m_pBodyLabel->setStyleSheet("background-color:transparent;");
         QFontMetrics fontMetrics(m_pBodyLabel->font());
-        QString formatSummary = fontMetrics.elidedText(strBody, Qt::ElideRight, m_pBodyLabel->width());
+        QString formatSummary = fontMetrics.elidedText(strBody, Qt::ElideRight, m_pBodyLabel->width() - 50);
         m_pBodyLabel->setText(formatSummary);
         pHBodyLayout->addWidget(m_pBodyLabel, 0, Qt::AlignLeft);
         pBodyWidget->setLayout(pHBodyLayout);
