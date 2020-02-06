@@ -27,6 +27,7 @@
 #define  EDIT_SVG_PATH  ":/image/edit.svg"
 #define  COPY_SVG_PATH  ":/image/copy.svg"
 #define  REMOVE_SVG_PATH  ":/image/delete.svg"
+#define  SEARCH_SVG_CLEAN ":/image/hover.svg"
 class ClipboardWidgetEntry : public QWidget
 {
 public:

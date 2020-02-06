@@ -31,7 +31,7 @@ class SearchWidgetItemContent:public QWidget
 {
     Q_OBJECT
 public:
-    SearchWidgetItemContent();
+    SearchWidgetItemContent(QWidget *parent = nullptr);
     QPushButton *m_pClearTextEdit;
     QPushButton *m_pClearListWidgetButton;
     QLineEdit   *m_pLineEditArea;

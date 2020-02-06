@@ -56,10 +56,10 @@ int main(int argc, char *argv[])
     else
         setLogLevel(QtWarningMsg);
 
-    //QString LogFilePath = QCoreApplication::applicationDirPath();   /* 获取文件运行的当前路径 */
-	QString LogFilePath = "~";
+    QString LogFilePath = QCoreApplication::applicationDirPath();   /* 获取文件运行的当前路径 */
     setLogPath(LogFilePath + LOG_FILE_NAME);                        /* 绑定打印日志文件路径 */
-    qInstallMessageHandler(customLogMessageHandler);                /* 安装日志打印功能 */
+//    qInstallMessageHandler(customLogMessageHandler);                /* 安装日志打印功能 */
+
 
     qApp->setPalette(QPalette(QColor("#1A1A1A")));
 

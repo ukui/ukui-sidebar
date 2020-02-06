@@ -1,9 +1,10 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource prefix="/">
-   <file>image/edit.svg</file>
-   <file>image/copy.svg</file>
-   <file>image/delete.svg</file>
-   <file>qss/sidebarClipboard.css</file>
+        <file>qss/sidebarClipboard.css</file>
+        <file>image/copy.svg</file>
+        <file>image/delete.svg</file>
+        <file>image/edit.svg</file>
+        <file>image/hover.svg</file>
 </qresource>
 </RCC>
 

@@ -85,6 +85,7 @@ public:
     void removeLastWidgetItem(); //限制复制条数
     bool booleanExistWidgetItem(QString Text);
     void createFindClipboardWidgetItem(); /* 创建查找条目 */
+    void WhetherTopFirst(); /* 设置新置顶的条目写入到剪贴版中去 */
     QMimeData *copyMinedata(const QMimeData* mimeReference);
 
 
@@ -98,7 +99,6 @@ public slots:
     void removeButtonSlots(ClipboardWidgetEntry *w);
     void removeAllWidgetItem();
     void searchClipboardLableTextSlots(QString Text);
-    void WhetherTopFirst(int tmp);
 };
 
 #endif // SIDEBARCLIPBOARDPLUGIN_H
