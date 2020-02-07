@@ -32,7 +32,7 @@
 
 int main(int argc, char *argv[])
 {
-    register_client_to_gnome_session ();
+    register_client_to_gnome_session();
     /* 如果系统中有实例在运行则退出 */
     int check_ret = checkProcessRunning(PROGRAM_NAME);
     if (check_ret != 0)

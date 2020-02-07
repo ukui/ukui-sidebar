@@ -48,6 +48,7 @@ protected:
     virtual void mousePressEvent(QMouseEvent *event) override;
 
 private:
+    QToolButton*    m_pIconToolButton;              //消息图标
     QString         m_strAppName;                   //保存发送方的应用名
     uint            m_uNotifyTime;                  //保存推送时间的绝对时间
     QString         m_strBody;                      //保存正文字符串

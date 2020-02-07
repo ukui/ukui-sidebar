@@ -47,8 +47,6 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     qInfo() << "屏幕分辨率的宽" << m_nScreenWidth;
     qInfo() << "屏幕分辨率的高" << m_nScreenHeight;
 
-
-
 	/* 主界面显示 */
     m_pMainQVBoxLayout = new QVBoxLayout;
     m_pMainQVBoxLayout->setContentsMargins(0,0,0,0);
@@ -62,9 +60,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
         qDebug() << "通知中心插件加载失败";
     }
 
-    m_pMainQVBoxLayout->addWidget(m_pShortcutOperationGroupBox,0);
-    m_pShortcutOperationGroupBox->setObjectName("mainShortcutOperationGroupBox");
-
+    m_pMainQVBoxLayout->addWidget(m_pShortcutOperationGroupBox, 0);
     setLayout(m_pMainQVBoxLayout);
 
     /* 系统托盘栏显示 */

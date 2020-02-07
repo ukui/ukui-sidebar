@@ -105,11 +105,6 @@ QPushButton:hover#delete{
     height:34px;
 }
 
-
-SingleMsg#singlemsg{
-    background:rgba(255,0,0,1);
-}
-
 QLabel{
     color:#FFFFFF;    /*文字颜色*/
     font-family:NotoSansCJKsc-Regular;
@@ -120,6 +115,14 @@ QLabel#notificationcentername{
     color:rgba(255,255,255,247);    /*文字颜色*/
     font-family : NotoSansCJKsc-Regular;
     font-size:20px;
+}
+
+QLabel#importantnotification{
+    color:rgba(255,255,255,0.91);    /*文字颜色*/
+    font-family : NotoSansCJKsc-Regular;
+    font-size:14px;
+    width:70px;
+    height:14px;
 }
 
 QLabel#AppName{
@@ -136,7 +139,6 @@ QLabel#pushtime{
 QLabel#Summary{
     color:rgba(255,255,255,0.91);    /*文字颜色*/
     font-size:18px;
-    width:300px;
 }
 
 QLabel#body{

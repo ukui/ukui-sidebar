@@ -41,6 +41,7 @@ class NotificationPlugin : public QObject, public NotificationInterface
 public:
     NotificationPlugin();
     virtual QWidget* centerWidget() override;    
+    void    countTakeInBitAndUpate();       //统计收纳位数并更新至右上角提示
 
 public slots :
     uint Notify(QString strAppName, uint uId, QString strIconPath, QString strSummary, QString strBody, QStringList actions, QVariantMap hint, int nTimeout);

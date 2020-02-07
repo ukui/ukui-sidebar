@@ -24,7 +24,7 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
 {
     m_bTakeInFlag = false;
 
-    setObjectName("singlemsg");
+//    setObjectName("singlemsg");
     this->setFixedWidth(380);
 
     m_strAppName = strAppName;
@@ -40,14 +40,14 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
 
     //图标和时间行的水平布局器
     QHBoxLayout* pIconHLayout = new QHBoxLayout();
-    pIconHLayout->setContentsMargins(12,0,26,0);
+    pIconHLayout->setContentsMargins(12,11,26,0);
     pIconHLayout->setSpacing(0);
 
     //设置通知消息中的Icon，使用QToolButton
-    QToolButton* pIconToolButton = new QToolButton();
-    pIconToolButton->setStyleSheet("QToolButton{border:none;border-style:none;padding:0px;background:transparent;}");
-    pIconToolButton->setIconSize(QSize(22,24));
-    pIconToolButton->setIcon(QPixmap(strIcon));
+    m_pIconToolButton = new QToolButton();
+    m_pIconToolButton->setStyleSheet("QToolButton{border:none;border-style:none;padding:0px;background:transparent;}");
+    m_pIconToolButton->setIconSize(QSize(22,24));
+    m_pIconToolButton->setIcon(QPixmap(strIcon));
 
     //一个水平6分辨率的弹簧
     QSpacerItem* pH6Spacer = new QSpacerItem(6, 6, QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -69,7 +69,7 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
     pTimeLabel->setObjectName("pushtime");
     pTimeLabel->setStyleSheet("background-color:transparent;");
 
-    pIconHLayout->addWidget(pIconToolButton, 0, Qt::AlignLeft|Qt::AlignBottom);
+    pIconHLayout->addWidget(m_pIconToolButton, 0, Qt::AlignLeft|Qt::AlignBottom);
     pIconHLayout->addSpacerItem(pH6Spacer);
     pIconHLayout->addWidget(m_pAppNameLabel, 0, Qt::AlignLeft|Qt::AlignVCenter);
     pIconHLayout->addSpacerItem(pHExpandingSpacer);
@@ -78,7 +78,7 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
     pMainVLaout->addWidget(pIconWidget, 0);
 
 
-    //图标和时间行的水平布局部件
+    //主题部件
     QWidget* pSummaryWidget = new QWidget;
     //设置主题的水平布局器
     QHBoxLayout* pHSummaryLayout = new QHBoxLayout();
@@ -90,17 +90,27 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
     pSummaryLabel->setMaximumWidth(300);
     pSummaryLabel->setStyleSheet("background-color:transparent;");
 
+    QString formatSummary;
+    formatSummary.append("<p style='line-height:26px'>").append(strSummary).append("</p>");
     QFontMetrics fontMetrics(pSummaryLabel->font());
-    QString formatSummary = fontMetrics.elidedText(strSummary, Qt::ElideRight, pSummaryLabel->width());
-    pSummaryLabel->setText(formatSummary);
+    int nFontSize = fontMetrics.width(formatSummary);
+    QString strformatSummary = formatSummary;
+    if(nFontSize > (pSummaryLabel->width() + 70))
+    {
+        strformatSummary = fontMetrics.elidedText(formatSummary, Qt::ElideRight, pSummaryLabel->width() + 50);
+    }
+
+    pSummaryLabel->setText(strformatSummary);
     pHSummaryLayout->addWidget(pSummaryLabel, 0, Qt::AlignLeft);
     pSummaryWidget->setLayout(pHSummaryLayout);
     pMainVLaout->addWidget(pSummaryWidget);
 
-    //设置通知消息中的正文QLabel，行高18px,采用自动换行模式
+    //设置通知消息中的正文QLabel，行高24px,采用自动换行模式
     if(false == strBody.isEmpty())
     {
-        m_strBody = strBody;
+        m_strBody.append("<p style='line-height:24px'>").append(strBody).append("</p>");
+//        m_strBody = strBody;
+
         //图标和时间行的水平布局部件
         QWidget* pBodyWidget = new QWidget;
         QHBoxLayout* pHBodyLayout = new QHBoxLayout();
@@ -108,10 +118,16 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
         m_pBodyLabel = new QLabel();
         m_pBodyLabel->setObjectName("body");
         m_pBodyLabel->setFixedWidth(305);
-        m_pBodyLabel->setStyleSheet("background-color:transparent;");
+        m_pBodyLabel->setStyleSheet("padding:0px;background-color:transparent;");
         QFontMetrics fontMetrics(m_pBodyLabel->font());
-        QString formatSummary = fontMetrics.elidedText(strBody, Qt::ElideRight, m_pBodyLabel->width() - 50);
-        m_pBodyLabel->setText(formatSummary);
+        int fontSize = fontMetrics.width(m_strBody);
+        QString formatBody = m_strBody;
+        if(fontSize > (m_pBodyLabel->width() - 5))
+        {
+            formatBody = fontMetrics.elidedText(m_strBody, Qt::ElideRight, m_pBodyLabel->width() + 130);
+        }
+
+        m_pBodyLabel->setText(formatBody);
         pHBodyLayout->addWidget(m_pBodyLabel, 0, Qt::AlignLeft);
         pBodyWidget->setLayout(pHBodyLayout);
         pMainVLaout->addWidget(pBodyWidget);
@@ -131,7 +147,7 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
     QLabel* pHTopLabelLine = new QLabel;
     pHTopLabelLine->setFixedWidth(380);
     pHTopLabelLine->setFixedHeight(1);
-    pHTopLabelLine->setStyleSheet("QLabel{border-style:none;border:1px solid #242424;}");
+    pHTopLabelLine->setStyleSheet("QLabel{border-style:none;border:1px solid rgba(255,255,255,0.08);}");
     pVButtonLayout->addWidget(pHTopLabelLine, 0);
 
     //收纳和删除框上面的Widget
@@ -154,7 +170,7 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
     QLabel* pVLabelLine = new QLabel;
     pVLabelLine->setFixedWidth(1);
     pVLabelLine->setFixedHeight(30);
-    pVLabelLine->setStyleSheet("QLabel{border-style:none;border:1px solid #242424;}");
+    pVLabelLine->setStyleSheet("QLabel{border-style:none;border:1px solid rgba(255,255,255,0.08);}");
     pHButtonLayout->addWidget(pVLabelLine, 0, Qt::AlignHCenter);
 
     //设置通知消息中的删除消息按钮
@@ -174,7 +190,7 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
     QLabel* pHBottomLabelLine = new QLabel;
     pHBottomLabelLine->setFixedWidth(380);
     pHBottomLabelLine->setFixedHeight(1);
-    pHBottomLabelLine->setStyleSheet("QLabel{border-style:none;border:1px solid #242424;}");
+    pHBottomLabelLine->setStyleSheet("QLabel{border-style:none;border:1px solid rgba(255,255,255,0.08);}");
     pMainVLaout->addWidget(pHBottomLabelLine, 0);
 
     setLayout(pMainVLaout);
@@ -194,6 +210,7 @@ void SingleMsg::enterEvent(QEvent *event)
         m_pButtonWidget->setVisible(true);
     }
     setStyleSheet("background-color:rgba(255,255,255,0.08);");
+    m_pIconToolButton->setStyleSheet("QToolButton{border:1px dashed rgba(255,0,0,255);padding:0px;background:transparent;}");
 
     return;
 }
@@ -207,11 +224,18 @@ void SingleMsg::leaveEvent(QEvent *event)
     }
 
     setStyleSheet("background-color:rgba(26,26,26,0.95);");
+    m_pIconToolButton->setStyleSheet("QToolButton{border:none;border-style:none;padding:0px;background:transparent;}");
     if(false == m_strBody.isEmpty())
     {
         m_pBodyLabel->setWordWrap(false);
         QFontMetrics fontMetrics(m_pBodyLabel->font());
-        QString formatSummary = fontMetrics.elidedText(m_strBody, Qt::ElideRight, m_pBodyLabel->width());
+        int fontSize = fontMetrics.width(m_strBody);
+        QString formatSummary = m_strBody;
+        if(fontSize > (m_pBodyLabel->width() - 5))
+        {
+            formatSummary = fontMetrics.elidedText(m_strBody, Qt::ElideRight, m_pBodyLabel->width() + 195);
+        }
+
         m_pBodyLabel->setText(formatSummary);
     }
     return;
@@ -222,10 +246,23 @@ void SingleMsg::mousePressEvent(QMouseEvent *event)
 {
     if (event->buttons() == Qt::LeftButton)
     {
+        m_pIconToolButton->setStyleSheet("QToolButton{border:none;border-style:none;padding:0px;background:transparent;}");
         if(false == m_strBody.isEmpty())
         {
-            m_pBodyLabel->setWordWrap(true);
+//            QFontMetrics fontMetrics(m_pBodyLabel->font());
+//            int fontSize = fontMetrics.width(m_strBody);
+//            int nRow = fontSize / 305;
+//            int nRemaider = fontSize % 305;
+//            if(nRemaider > 0)
+//            {
+//                nRow++;
+//            }
+//            m_pBodyLabel->setFixedHeight(6 + 24 * nRow);
+
             m_pBodyLabel->setText(m_strBody);
+            m_pBodyLabel->setWordWrap(true);
+//            m_pBodyLabel->adjustSize();
+//            m_pBodyLabel->setAlignment(Qt::AlignTop);
         }
     }
     return;

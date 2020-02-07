@@ -59,9 +59,10 @@ NotificationPlugin::NotificationPlugin()
     connect(m_pTakeInBoxToolButton, SIGNAL(clicked()), this, SLOT(showTakeInMessage()));
 
     //QToolButton添加svg图片
-    m_pSvgRender = new QSvgRenderer;
+    m_pSvgRender = new QSvgRenderer(pWidget1);
     m_pSvgRender->load(QString(":/images/box.svg"));
     m_pPixmap = new QPixmap(24, 24);
+
     m_pPixmap->fill(Qt::transparent);
     QPainter painter(m_pPixmap);
     m_pSvgRender->render(&painter);
@@ -80,7 +81,7 @@ NotificationPlugin::NotificationPlugin()
     QSpacerItem* pVFixedSpacer = new QSpacerItem(10, 24, QSizePolicy::Fixed, QSizePolicy::Fixed);
     pNotificationVBoxLayout->addSpacerItem(pVFixedSpacer);
 
-    //装第二行重要信息中的Widget
+    //装第二行重要通知中的Widget
     QWidget* pWidget2= new QWidget;
     pWidget2->setFixedWidth(390);
 
@@ -88,10 +89,7 @@ NotificationPlugin::NotificationPlugin()
     QHBoxLayout* pQHBoxLayout2 = new QHBoxLayout;
     pQHBoxLayout2->setContentsMargins(12,0,10,10);
     m_pNotificationLabel = new QLabel("重要的通知");
-    m_pNotificationLabel->resize(70, 14);
-    QFont font1;
-    font1.setPixelSize(14);
-    m_pNotificationLabel->setFont(font1);
+    m_pNotificationLabel->setObjectName("importantnotification");
 
     QSpacerItem* pHSpacer = new QSpacerItem(300, 10, QSizePolicy::Expanding, QSizePolicy::Fixed);
 
@@ -118,6 +116,7 @@ NotificationPlugin::NotificationPlugin()
 
     //通知列表
     m_pQScrollAreaNotify = new ScrollAreaWidget();
+    m_pQScrollAreaNotify->setStyleSheet("QWidget{border:0px;}");
 
     m_pScrollAreaNotifyVBoxLayout = new QVBoxLayout();
     m_pScrollAreaNotifyVBoxLayout->setContentsMargins(0,0,0,0);
@@ -137,6 +136,7 @@ NotificationPlugin::NotificationPlugin()
 
     //收纳列表
     m_pQScrollAreaTakeIn = new ScrollAreaWidget();
+    m_pQScrollAreaTakeIn->setStyleSheet("QWidget{border:0px;}");
 
     m_pScrollAreaTakeInVBoxLayout = new QVBoxLayout();
     m_pScrollAreaTakeInVBoxLayout->setContentsMargins(0,0,0,0);
@@ -169,10 +169,10 @@ uint NotificationPlugin::Notify(QString strAppName, uint uId, QString strIconPat
     Q_UNUSED(nTimeout);
 
     qDebug() <<"NotificationPlugin::Notify strAppName=" <<strAppName;
-    if(0 == m_listSingleMsg.count() && 2 == m_pScrollAreaNotifyVBoxLayout->count()) //当列表信息为空表明第一次来通知
+    if(0 == m_listSingleMsg.count() && 2 == m_pScrollAreaNotifyVBoxLayout->count()) //当列表信息为空表明第一次来通知，列表个数为2，一个表面是“没有新通知标签”，一个是底部弹簧
     {
         m_pScrollAreaNotifyVBoxLayout->removeWidget(m_pMessageCenterLabel);
-        delete m_pMessageCenterLabel;
+        m_pMessageCenterLabel->setVisible(false);
     }
 
     QDateTime dateTime(QDateTime::currentDateTime());
@@ -182,6 +182,26 @@ uint NotificationPlugin::Notify(QString strAppName, uint uId, QString strIconPat
     m_pScrollAreaNotifyVBoxLayout->insertWidget((m_pScrollAreaNotifyVBoxLayout->count() - 1), pSingleMsg);
 
     return 1;
+}
+
+void NotificationPlugin::countTakeInBitAndUpate() //统计收纳位数并更新至右上角提示
+{
+    int nCount = m_listSingleTakeInMsg.count();
+    QString strCount = QString::number(nCount);
+    int nBit = 1; //收纳数的位数
+    while(nCount >= 10)
+    {
+        nCount = nCount / 10;
+        nBit++;
+    }
+
+    m_pTakeInCoutLabel->setGeometry(361, 21, (6 + 6 * nBit), 12);
+    m_pTakeInCoutLabel->setText(strCount);
+    if(false == m_pTakeInCoutLabel->isVisible())
+    {
+        m_pTakeInCoutLabel->setVisible(true);
+    }
+    return;
 }
 
 void NotificationPlugin::onTakeinMsg(SingleMsg* pSingleMsg)
@@ -196,10 +216,9 @@ void NotificationPlugin::onTakeinMsg(SingleMsg* pSingleMsg)
     m_listSingleMsg.removeAt(nIndex);
     m_pScrollAreaNotifyVBoxLayout->removeWidget(pSingleMsg);
 
-    if(0 == m_listSingleMsg.count() && 1 == m_pScrollAreaNotifyVBoxLayout->count())
+    if(0 == m_listSingleMsg.count() && 1 == m_pScrollAreaNotifyVBoxLayout->count()) //列表个数为1是指底部弹簧
     {
-        m_pMessageCenterLabel = new QLabel("没有新通知");
-        m_pMessageCenterLabel->setStyleSheet("QLabel{padding:10px 0px 0px 11px;}");
+        m_pMessageCenterLabel->setVisible(true);
         m_pScrollAreaNotifyVBoxLayout->insertWidget((m_pScrollAreaNotifyVBoxLayout->count() - 1), m_pMessageCenterLabel);
     }
 
@@ -216,28 +235,14 @@ void NotificationPlugin::onTakeinMsg(SingleMsg* pSingleMsg)
     m_listSingleTakeInMsg.insert(uIndex, pSingleMsg);
     m_pScrollAreaTakeInVBoxLayout->insertWidget(uIndex, pSingleMsg);
 
-    int nCount = m_listSingleTakeInMsg.count();
-    QString strCount = QString::number(nCount);
-    int nBit = 1; //收纳数的位数
-    while(nCount >= 10)
-    {
-        nCount = nCount / 10;
-        nBit++;
-    }
-
-    m_pTakeInCoutLabel->setGeometry(361, 21, (6 + 6 * nBit), 12);
-    m_pTakeInCoutLabel->setText(strCount);
-    if(false == m_pTakeInCoutLabel->isVisible())
-    {
-        m_pTakeInCoutLabel->setVisible(true);
-    }
+    countTakeInBitAndUpate();
 
     return;
 }
 
 void NotificationPlugin::onClearMsg(SingleMsg* pSingleMsg)
 {
-    if(true == m_bShowTakeIn)  //当展示通知列表时
+    if(true == m_bShowTakeIn)  //当展示收纳列表时
     {
         qDebug()<<"NotificationPlugin::onClearMsg 在收纳盒时，是不应该点击到删除按钮的";
         return;
@@ -256,8 +261,7 @@ void NotificationPlugin::onClearMsg(SingleMsg* pSingleMsg)
 
     if(0 == m_listSingleMsg.count() && 1 == m_pScrollAreaNotifyVBoxLayout->count())
     {
-        m_pMessageCenterLabel = new QLabel("没有新通知");
-        m_pMessageCenterLabel->setStyleSheet("QLabel{padding:10px 0px 0px 11px;}");
+        m_pMessageCenterLabel->setVisible(true);
         m_pScrollAreaNotifyVBoxLayout->insertWidget((m_pScrollAreaNotifyVBoxLayout->count() - 1), m_pMessageCenterLabel);
     }
 
@@ -279,8 +283,7 @@ void NotificationPlugin::clearAllMessage()
 
         if(1 == m_pScrollAreaNotifyVBoxLayout->count())
         {
-            m_pMessageCenterLabel = new QLabel("没有新通知");
-            m_pMessageCenterLabel->setStyleSheet("QLabel{padding:10px 0px 0px 11px;}");
+            m_pMessageCenterLabel->setVisible(true);
             m_pScrollAreaNotifyVBoxLayout->insertWidget((m_pScrollAreaNotifyVBoxLayout->count() - 1), m_pMessageCenterLabel);
         }
 
