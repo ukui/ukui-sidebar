@@ -18,7 +18,7 @@ Package: ukui-sidebar
 Architecture: any
 Depends: ${shlibs:Depends},
          ${misc:Depends},
-Description: some shortcut operation in the right of screen for UKUI
+Description: parallels toolbox for UKUI
  The ukui-sidebar is mainly used in the desktop operating system.
  It pops up from the right side of the desktop in the form of a tray,
  displaying some application notification messages and some cutting
