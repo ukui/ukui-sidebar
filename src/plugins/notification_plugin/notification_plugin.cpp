@@ -19,6 +19,7 @@
 #include "notification_plugin.h"
 #include "scrollareawidget.h"
 #include "takeinboxtoolbutton.h"
+#include "monitorthread.h"
 #include <QSvgRenderer>
 
 
@@ -152,6 +153,11 @@ NotificationPlugin::NotificationPlugin()
     m_pQScrollAreaTakeIn->setVisible(false);
 
     m_pMainWidget->setLayout(pNotificationVBoxLayout);
+
+    //新建一个线程
+    MonitorThread* pMonitorThread = new MonitorThread(this);
+    pMonitorThread->start();
+
     return;
 }
 
@@ -161,13 +167,31 @@ QWidget* NotificationPlugin::centerWidget()
     return  m_pMainWidget;
 }
 
-uint NotificationPlugin::Notify(QString strAppName, uint uId, QString strIconPath, QString strSummary, QString strBody, QStringList actions, QVariantMap hint, int nTimeout)
-{
-    Q_UNUSED(uId);
-    Q_UNUSED(actions);
-    Q_UNUSED(hint);
-    Q_UNUSED(nTimeout);
+//uint NotificationPlugin::Notify(QString strAppName, uint uId, QString strIconPath, QString strSummary, QString strBody, QStringList actions, QVariantMap hint, int nTimeout)
+//{
+//    Q_UNUSED(uId);
+//    Q_UNUSED(actions);
+//    Q_UNUSED(hint);
+//    Q_UNUSED(nTimeout);
 
+//    qDebug() <<"NotificationPlugin::Notify strAppName=" <<strAppName;
+//    if(0 == m_listSingleMsg.count() && 2 == m_pScrollAreaNotifyVBoxLayout->count()) //当列表信息为空表明第一次来通知，列表个数为2，一个表面是“没有新通知标签”，一个是底部弹簧
+//    {
+//        m_pScrollAreaNotifyVBoxLayout->removeWidget(m_pMessageCenterLabel);
+//        m_pMessageCenterLabel->setVisible(false);
+//    }
+
+//    QDateTime dateTime(QDateTime::currentDateTime());
+
+//    SingleMsg* pSingleMsg = new SingleMsg(this, strAppName, strIconPath, strSummary, dateTime, strBody);
+//    m_listSingleMsg.append(pSingleMsg);
+//    m_pScrollAreaNotifyVBoxLayout->insertWidget((m_pScrollAreaNotifyVBoxLayout->count() - 1), pSingleMsg);
+
+//    return 1;
+//}
+
+uint NotificationPlugin::Notify(QString strAppName, QString strIconPath, QString strSummary, QString strBody)
+{
     qDebug() <<"NotificationPlugin::Notify strAppName=" <<strAppName;
     if(0 == m_listSingleMsg.count() && 2 == m_pScrollAreaNotifyVBoxLayout->count()) //当列表信息为空表明第一次来通知，列表个数为2，一个表面是“没有新通知标签”，一个是底部弹簧
     {

@@ -16,29 +16,33 @@
 *
 */
 
-#ifndef TAKEINBOXTOOLBUTTON_H
-#define TAKEINBOXTOOLBUTTON_H
+#ifndef MONITORTHREAD_H
+#define MONITORTHREAD_H
 
-#include <QToolButton>
-#include <QWidget>
+#include <QThread>
+class NotificationPlugin;
+class QProcess;
+class QTimer;
 
-class TakeInBoxToolButton : public QToolButton
+class MonitorThread : public QThread
 {
     Q_OBJECT
 public:
-    explicit TakeInBoxToolButton();
-    void setEnterFlags(bool bFlags) {m_bEnterTakeInBox = bFlags;}
-
-protected:
-    virtual void enterEvent(QEvent *event) override;
-    virtual void leaveEvent(QEvent *event) override;
+    MonitorThread(NotificationPlugin *parent);
+    ~MonitorThread();
+    void run();//线程入口函数（工作线程的主函数）
+    void extractData(QString strOutput);
 
 private:
-    bool        m_bEnterTakeInBox;
+    NotificationPlugin* m_parent;
+    QProcess*           m_pProcess;
+    QTimer*             m_pTimer;
 
 signals:
+    void Sig_Notify(QString, QString, QString, QString);
 
 public slots:
+    void readOutputData();
 };
 
-#endif // TAKEINBOXTOOLBUTTON_H
+#endif // MONITORTHREAD_H

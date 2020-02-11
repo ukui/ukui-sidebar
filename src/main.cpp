@@ -26,6 +26,10 @@
 #include <sys/file.h>
 #include <unistd.h>
 #include <pwd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <syslog.h>
 #include <QMessageLogContext>
 #include <QCommandLineParser>
 #include <QCommandLineOption>
@@ -34,11 +38,17 @@ int main(int argc, char *argv[])
 {
     register_client_to_gnome_session();
     /* 如果系统中有实例在运行则退出 */
-    int check_ret = checkProcessRunning(PROGRAM_NAME);
-    if (check_ret != 0)
+    int fd = open("/tmp/ukui-sidebar-lock", O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+    if (fd < 0)
     {
-        qDebug() << "此进程正在运行中";
-        return check_ret;
+        exit(1);
+    }
+
+    if (lockf(fd, F_TLOCK, 0))
+    {
+        syslog(LOG_ERR, "Can't lock single file, ukui-sidebar is already running!");
+        qDebug()<<"Can't lock single file, ukui-sidebar is already running!";
+        exit(0);
     }
 
     QApplication a(argc, argv);

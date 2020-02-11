@@ -29,14 +29,16 @@ SOURCES += \
         notification_plugin.cpp \
     singlemsg.cpp \
     scrollareawidget.cpp \
-    takeinboxtoolbutton.cpp
+    takeinboxtoolbutton.cpp \
+    monitorthread.cpp
 
 INCLUDEPATH    += ../../plugin-interface
 HEADERS += \
         notification_plugin.h \
     singlemsg.h \
     scrollareawidget.h \
-    takeinboxtoolbutton.h
+    takeinboxtoolbutton.h \
+    monitorthread.h
 DISTFILES += notification_plugin.json  
 
 unix {

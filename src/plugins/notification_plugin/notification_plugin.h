@@ -36,7 +36,7 @@ class NotificationPlugin : public QObject, public NotificationInterface
     //Q_PLUGIN_METADATA宏用于描述插件元数据
     Q_PLUGIN_METADATA(IID NotificationInterface_iid FILE "notification_plugin.json")
     //申明该类有D-BUS服务接口
-    Q_CLASSINFO("D-Bus Interface", "com.scorpio.test.value")
+//    Q_CLASSINFO("D-Bus Interface", "com.scorpio.test.value")
 
 public:
     NotificationPlugin();
@@ -44,7 +44,10 @@ public:
     void    countTakeInBitAndUpate();       //统计收纳位数并更新至右上角提示
 
 public slots :
-    uint Notify(QString strAppName, uint uId, QString strIconPath, QString strSummary, QString strBody, QStringList actions, QVariantMap hint, int nTimeout);
+//    uint Notify(QString strAppName, uint uId, QString strIconPath, QString strSummary, QString strBody, QStringList actions, QVariantMap hint, int nTimeout);
+
+private slots :
+    uint Notify(QString strAppName, QString strIconPath, QString strSummary, QString strBody);
 
 private:
     QWidget*                m_pMainWidget;

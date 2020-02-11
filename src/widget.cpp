@@ -111,13 +111,13 @@ bool Widget::loadNotificationPlugin()
 
     m_pMainQVBoxLayout->addWidget(centerInterface->centerWidget(), 1);
 
-    QDBusConnection connection = QDBusConnection::sessionBus();
-    if(!connection.registerService("com.scorpio.test"))
-    {
-        qDebug() << "error:" << connection.lastError().message();
-        return false;
-    }
-    connection.registerObject("/test/objects", pNotificationPluginObject, QDBusConnection::ExportAllSlots);
+//    QDBusConnection connection = QDBusConnection::sessionBus();
+//    if(!connection.registerService("com.scorpio.test"))
+//    {
+//        qDebug() << "error:" << connection.lastError().message();
+//        return false;
+//    }
+//    connection.registerObject("/test/objects", pNotificationPluginObject, QDBusConnection::ExportAllSlots);
 
     return true;
 }

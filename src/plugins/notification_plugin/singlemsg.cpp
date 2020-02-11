@@ -135,7 +135,6 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
 
     //收纳和删除框上面的Widget,多包含一条顶横线
     m_pButtonWidget = new QWidget;
-    qDebug()<<"SingleMsg::SingleMsg"<<m_pButtonWidget->parent();
     m_pButtonWidget->setFixedSize(380,39);
     m_pButtonWidget->setVisible(false);
 
