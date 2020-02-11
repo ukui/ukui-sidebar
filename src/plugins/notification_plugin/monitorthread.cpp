@@ -49,7 +49,7 @@ void MonitorThread::extractData(QString strOutput)
     QString strAppName = strOutputTmp.mid(0, nIndex);
     strOutputTmp = strOutputTmp.mid(nIndex + 1);
 
-    //图标的获取
+    //图标路径的获取
     nIndex = strOutputTmp.indexOf("\"");
     if(-1 == nIndex)
     {
@@ -113,8 +113,8 @@ void MonitorThread::readOutputData()
         return;
     }
     qDebug()<<str_output;
-    int nIndex = 0;
 
+    int nIndex = 0;
     do{
         nIndex = str_output.indexOf("member=Notify");
         if(-1 == nIndex)
@@ -135,9 +135,9 @@ void MonitorThread::run()
     m_pProcess = new QProcess();
     m_pProcess->start("dbus-monitor interface=org.freedesktop.Notifications");
 
-    m_pTimer = new QTimer();
-    connect(m_pTimer, SIGNAL(timeout()), this, SLOT(readOutputData()));
-    m_pTimer->start(1000);
+    QTimer* pTimer = new QTimer();
+    connect(pTimer, SIGNAL(timeout()), this, SLOT(readOutputData()));
+    pTimer->start(1000);
 
     connect(this, SIGNAL(Sig_Notify(QString, QString, QString, QString)), m_parent, SLOT(Notify(QString, QString, QString, QString)));
     exec();

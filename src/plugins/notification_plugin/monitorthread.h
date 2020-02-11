@@ -34,9 +34,8 @@ public:
     void extractData(QString strOutput);
 
 private:
-    NotificationPlugin* m_parent;
+    NotificationPlugin* m_parent;               //传一个插件对象指针，用来回传槽函数
     QProcess*           m_pProcess;
-    QTimer*             m_pTimer;
 
 signals:
     void Sig_Notify(QString, QString, QString, QString);

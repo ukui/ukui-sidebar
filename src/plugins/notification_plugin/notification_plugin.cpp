@@ -154,7 +154,7 @@ NotificationPlugin::NotificationPlugin()
 
     m_pMainWidget->setLayout(pNotificationVBoxLayout);
 
-    //新建一个线程
+    //新建一个监控dbus消息的线程
     MonitorThread* pMonitorThread = new MonitorThread(this);
     pMonitorThread->start();
 
