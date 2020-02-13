@@ -23,7 +23,7 @@
 #include "notification_interface.h"
 #include <QtWidgets>
 
-class SingleMsg;
+class AppMsg;
 class ScrollAreaWidget;
 class QSvgRenderer;
 class TakeInBoxToolButton;
@@ -43,6 +43,7 @@ public:
     virtual QWidget* centerWidget() override;    
     virtual void updatePushTime() override;
     void    countTakeInBitAndUpate();       //统计收纳位数并更新至右上角提示
+    AppMsg* getAppMsgByName(QString strAppName);
 
 public slots :
 //    uint Notify(QString strAppName, uint uId, QString strIconPath, QString strSummary, QString strBody, QStringList actions, QVariantMap hint, int nTimeout);
@@ -52,8 +53,8 @@ private slots :
 
 private:
     QWidget*                m_pMainWidget;
-    QList<SingleMsg*>       m_listSingleMsg;                    //对于SingleMsg类对象用list表记录
-    QList<SingleMsg*>       m_listSingleTakeInMsg;
+    QList<AppMsg*>          m_listAppMsg;                       //对于SingleMsg类对象用list表记录
+    QList<AppMsg*>          m_listAppTakeInMsg;
     ScrollAreaWidget*       m_pQScrollAreaNotify;               //通知列表ScrollAreaWidget
     QVBoxLayout*            m_pScrollAreaNotifyVBoxLayout;
     ScrollAreaWidget*       m_pQScrollAreaTakeIn;               //收纳列表ScrollAreaWidget
@@ -68,8 +69,8 @@ private:
     QLabel*                 m_pTakeInCoutLabel;                 //收纳盒计数统计Label
 
 private slots:
-    void onClearMsg(SingleMsg* pSingleMsg);                     //处理清除消息槽函数
-    void onTakeinMsg(SingleMsg* pSingleMsg);
+    void onClearMsg(AppMsg* pSingleMsg);                        //处理清除消息槽函数
+    void onTakeinMsg(AppMsg* pSingleMsg);
     void clearAllMessage();                                     //清除所有消息
     void showTakeInMessage();
     void callControlPanel();                                    //调用控制面板

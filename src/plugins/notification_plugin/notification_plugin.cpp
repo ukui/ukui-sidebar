@@ -17,7 +17,7 @@
 */
 
 #include "notification_plugin.h"
-#include "singlemsg.h"
+#include "appmsg.h"
 #include "scrollareawidget.h"
 #include "takeinboxtoolbutton.h"
 #include "monitorthread.h"
@@ -172,18 +172,18 @@ void NotificationPlugin::updatePushTime()
 {
     if(false == m_bShowTakeIn)
     {
-        for(int i = 0; i < m_listSingleMsg.count(); i++)
+        for(int i = 0; i < m_listAppMsg.count(); i++)
         {
-            SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
-            pTmpSingleMsg->updatePushTime();
+            AppMsg* pAppMsg = m_listAppMsg.at(i);
+            pAppMsg->updateAppPushTime();
         }
     }
     else
     {
-        for(int i = 0; i < m_listSingleTakeInMsg.count(); i++)
+        for(int i = 0; i < m_listAppTakeInMsg.count(); i++)
         {
-            SingleMsg* pTmpSingleMsg = m_listSingleTakeInMsg.at(i);
-            pTmpSingleMsg->updatePushTime();
+            AppMsg* pAppMsg = m_listAppTakeInMsg.at(i);
+            pAppMsg->updateAppPushTime();
         }
     }
 }
@@ -196,7 +196,7 @@ void NotificationPlugin::updatePushTime()
 //    Q_UNUSED(nTimeout);
 
 //    qDebug() <<"NotificationPlugin::Notify strAppName=" <<strAppName;
-//    if(0 == m_listSingleMsg.count() && 2 == m_pScrollAreaNotifyVBoxLayout->count()) //当列表信息为空表明第一次来通知，列表个数为2，一个表面是“没有新通知标签”，一个是底部弹簧
+//    if(0 == m_listAppMsg.count() && 2 == m_pScrollAreaNotifyVBoxLayout->count()) //当列表信息为空表明第一次来通知，列表个数为2，一个表面是“没有新通知标签”，一个是底部弹簧
 //    {
 //        m_pScrollAreaNotifyVBoxLayout->removeWidget(m_pMessageCenterLabel);
 //        m_pMessageCenterLabel->setVisible(false);
@@ -204,31 +204,53 @@ void NotificationPlugin::updatePushTime()
 
 //    QDateTime dateTime(QDateTime::currentDateTime());
 
-//    SingleMsg* pSingleMsg = new SingleMsg(this, strAppName, strIconPath, strSummary, dateTime, strBody);
-//    m_listSingleMsg.append(pSingleMsg);
+//    AppMsg* pSingleMsg = new AppMsg(this, strAppName, strIconPath, strSummary, dateTime, strBody);
+//    m_listAppMsg.append(pSingleMsg);
 //    m_pScrollAreaNotifyVBoxLayout->insertWidget((m_pScrollAreaNotifyVBoxLayout->count() - 1), pSingleMsg);
 
 //    return 1;
 //}
 
+AppMsg* NotificationPlugin::getAppMsgByName(QString strAppName)
+{
+    AppMsg* pAppMsg = NULL;
+    for(int i = 0; i < m_listAppMsg.count(); i++)
+    {
+        AppMsg* pTmpAppMsg = m_listAppMsg.at(i);
+        if(strAppName == pTmpAppMsg->getAppName())
+        {
+            pAppMsg = pTmpAppMsg;
+            break;
+        }
+    }
+    return pAppMsg;
+}
+
 uint NotificationPlugin::Notify(QString strAppName, QString strIconPath, QString strSummary, QString strBody)
 {
+    QDateTime dateTime(QDateTime::currentDateTime());
     qDebug() <<"NotificationPlugin::Notify strAppName=" <<strAppName;
-    if(0 == m_listSingleMsg.count() && 2 == m_pScrollAreaNotifyVBoxLayout->count()) //当列表信息为空表明第一次来通知，列表个数为2，一个表面是“没有新通知标签”，一个是底部弹簧
+
+    if(0 == m_listAppMsg.count() && 2 == m_pScrollAreaNotifyVBoxLayout->count()) //当列表信息为空表明第一次来通知，列表个数为2，一个表面是“没有新通知标签”，一个是底部弹簧
     {
         m_pScrollAreaNotifyVBoxLayout->removeWidget(m_pMessageCenterLabel);
         m_pMessageCenterLabel->setVisible(false);
     }
 
-    QDateTime dateTime(QDateTime::currentDateTime());
-    SingleMsg* pSingleMsg = new SingleMsg(this, strAppName, strIconPath, strSummary, dateTime, strBody);
-    m_listSingleMsg.insert(0, pSingleMsg);
-    m_pScrollAreaNotifyVBoxLayout->insertWidget(0, pSingleMsg);
-
-    for(int i = 0; i < m_listSingleMsg.count(); i++)
+    AppMsg* pAppMsg = getAppMsgByName(strAppName);  //通过查找m_listAppMsg列表看该app是否已存在
+    if(NULL == pAppMsg)         //如果不存在，则新建一个AppMsg消息
     {
-        SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
-        pTmpSingleMsg->updatePushTime();
+        pAppMsg = new AppMsg(this, strAppName, strIconPath);
+        m_listAppMsg.insert(0, pAppMsg);
+        m_pScrollAreaNotifyVBoxLayout->insertWidget(0, pAppMsg);
+    }
+
+    pAppMsg->addSingleMsg(strSummary, dateTime, strBody); //在strAppName对应的AppMsg中添加单条信息
+
+    for(int i = 0; i < m_listAppMsg.count(); i++)
+    {
+        AppMsg* pTmpAppMsg = m_listAppMsg.at(i);
+        pTmpAppMsg->updateAppPushTime();
     }
 
     return 1;
@@ -236,13 +258,21 @@ uint NotificationPlugin::Notify(QString strAppName, QString strIconPath, QString
 
 void NotificationPlugin::countTakeInBitAndUpate() //统计收纳位数并更新至右上角提示
 {
-    int nCount = m_listSingleTakeInMsg.count();
+    int nCount = m_listAppTakeInMsg.count();
     QString strCount = QString::number(nCount);
     int nBit = 1; //收纳数的位数
-    while(nCount >= 10)
+    if(nCount > 999)
     {
-        nCount = nCount / 10;
-        nBit++;
+        nBit = 3;
+        strCount = "...";
+    }
+    else
+    {
+        while(nCount >= 10)
+        {
+            nCount = nCount / 10;
+            nBit++;
+        }
     }
 
     m_pTakeInCoutLabel->setGeometry(361, 21, (6 + 6 * nBit), 12);
@@ -254,35 +284,35 @@ void NotificationPlugin::countTakeInBitAndUpate() //统计收纳位数并更新�
     return;
 }
 
-void NotificationPlugin::onTakeinMsg(SingleMsg* pSingleMsg)
+void NotificationPlugin::onTakeinMsg(AppMsg* pSingleMsg)
 {
-    int nIndex = m_listSingleMsg.indexOf(pSingleMsg);
+    int nIndex = m_listAppMsg.indexOf(pSingleMsg);
     if(-1 == nIndex)
     {
         qDebug()<<"Widget::onClearMsg 在链表中未找到pSingleMsg指针";
         return;
     }
 
-    m_listSingleMsg.removeAt(nIndex);
+    m_listAppMsg.removeAt(nIndex);
     m_pScrollAreaNotifyVBoxLayout->removeWidget(pSingleMsg);
 
-    if(0 == m_listSingleMsg.count() && 1 == m_pScrollAreaNotifyVBoxLayout->count()) //列表个数为1是指底部弹簧
+    if(0 == m_listAppMsg.count() && 1 == m_pScrollAreaNotifyVBoxLayout->count()) //列表个数为1是指底部弹簧
     {
         m_pMessageCenterLabel->setVisible(true);
         m_pScrollAreaNotifyVBoxLayout->insertWidget(0, m_pMessageCenterLabel);
     }
 
-    uint uIndex = m_listSingleTakeInMsg.count();
-    for(int i = m_listSingleTakeInMsg.count() - 1; i >= 0; i--)
+    uint uIndex = m_listAppTakeInMsg.count();
+    for(int i = m_listAppTakeInMsg.count() - 1; i >= 0; i--)
     {
-        SingleMsg* pTmpSingleMsg = m_listSingleTakeInMsg.at(i);
+        AppMsg* pTmpSingleMsg = m_listAppTakeInMsg.at(i);
         if(pSingleMsg->getNotifyAbsuluteTime() < pTmpSingleMsg->getNotifyAbsuluteTime())
         {
             break;
         }
         uIndex = i;
     }
-    m_listSingleTakeInMsg.insert(uIndex, pSingleMsg);
+    m_listAppTakeInMsg.insert(uIndex, pSingleMsg);
     m_pScrollAreaTakeInVBoxLayout->insertWidget(uIndex, pSingleMsg);
 
     countTakeInBitAndUpate();
@@ -290,7 +320,7 @@ void NotificationPlugin::onTakeinMsg(SingleMsg* pSingleMsg)
     return;
 }
 
-void NotificationPlugin::onClearMsg(SingleMsg* pSingleMsg)
+void NotificationPlugin::onClearMsg(AppMsg* pSingleMsg)
 {
     if(true == m_bShowTakeIn)  //当展示收纳列表时
     {
@@ -298,18 +328,18 @@ void NotificationPlugin::onClearMsg(SingleMsg* pSingleMsg)
         return;
     }
 
-    int nIndex = m_listSingleMsg.indexOf(pSingleMsg);
+    int nIndex = m_listAppMsg.indexOf(pSingleMsg);
     if(-1 == nIndex)
     {
         qDebug()<<"NotificationPlugin::onClearMsg 在通知链表中未找到pSingleMsg指针";
         return;
     }
 
-    m_listSingleMsg.removeAt(nIndex);
+    m_listAppMsg.removeAt(nIndex);
     m_pScrollAreaNotifyVBoxLayout->removeWidget(pSingleMsg);
     pSingleMsg->deleteLater();
 
-    if(0 == m_listSingleMsg.count() && 1 == m_pScrollAreaNotifyVBoxLayout->count())
+    if(0 == m_listAppMsg.count() && 1 == m_pScrollAreaNotifyVBoxLayout->count())
     {
         m_pMessageCenterLabel->setVisible(true);
         m_pScrollAreaNotifyVBoxLayout->insertWidget(0, m_pMessageCenterLabel);
@@ -323,12 +353,12 @@ void NotificationPlugin::clearAllMessage()
 {
     if(false == m_bShowTakeIn)  //当展示通知列表时
     {
-        while (m_listSingleMsg.count() > 0)
+        while (m_listAppMsg.count() > 0)
         {
-            SingleMsg* pSingleMsg = m_listSingleMsg.at(0);
+            AppMsg* pSingleMsg = m_listAppMsg.at(0);
             m_pScrollAreaNotifyVBoxLayout->removeWidget(pSingleMsg);
             pSingleMsg->deleteLater();
-            m_listSingleMsg.removeAt(0);
+            m_listAppMsg.removeAt(0);
         }
 
         if(1 == m_pScrollAreaNotifyVBoxLayout->count())
@@ -340,12 +370,12 @@ void NotificationPlugin::clearAllMessage()
     }
     else    //当展示收纳列表时
     {
-        while (m_listSingleTakeInMsg.count() > 0)
+        while (m_listAppTakeInMsg.count() > 0)
         {
-            SingleMsg* pSingleMsg = m_listSingleTakeInMsg.at(0);
+            AppMsg* pSingleMsg = m_listAppTakeInMsg.at(0);
             m_pScrollAreaTakeInVBoxLayout->removeWidget(pSingleMsg);
             pSingleMsg->deleteLater();
-            m_listSingleTakeInMsg.removeAt(0);
+            m_listAppTakeInMsg.removeAt(0);
         }
         m_pTakeInCoutLabel->setVisible(false);
     }
@@ -379,10 +409,10 @@ void NotificationPlugin::showTakeInMessage()
 
         m_pTakeInCoutLabel->setVisible(false);
 
-        for(int i = 0; i < m_listSingleTakeInMsg.count(); i++)
+        for(int i = 0; i < m_listAppTakeInMsg.count(); i++)
         {
-            SingleMsg* pTmpSingleMsg = m_listSingleTakeInMsg.at(i);
-            pTmpSingleMsg->updatePushTime();
+            AppMsg* pAppMsg = m_listAppTakeInMsg.at(i);
+            pAppMsg->updateAppPushTime();
         }
     }
     else
@@ -399,15 +429,15 @@ void NotificationPlugin::showTakeInMessage()
         m_pTakeInBoxToolButton->setIcon(QIcon(*m_pPixmap));
         m_pTakeInBoxToolButton->setEnterFlags(m_bShowTakeIn);
 
-        if(m_listSingleTakeInMsg.count() > 0)
+        if(m_listAppTakeInMsg.count() > 0)
         {
             m_pTakeInCoutLabel->setVisible(true);
         }
 
-        for(int i = 0; i < m_listSingleMsg.count(); i++)
+        for(int i = 0; i < m_listAppMsg.count(); i++)
         {
-            SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
-            pTmpSingleMsg->updatePushTime();
+            AppMsg* pAppMsg = m_listAppMsg.at(i);
+            pAppMsg->updateAppPushTime();
         }
     }
 }

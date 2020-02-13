@@ -47,24 +47,72 @@ QPushButton{
 }
 
 QPushButton#clearall{
-    color:rgba(255,255,255,231);
+    color:rgba(255,255,255,0.91);
     font-weight:400;
-    border:1px dashed rgba(255,0,0,255);
+    border:1px dotted rgba(255,0,0,1);
     line-height:24px;
 /*    padding:0px;*/
-/*    background:transparent;
-    background:rgba(238,238,238,1);*/
+    font-size:14px;
     width:80px;
     height:34px;
 }
 
-QPushButton#setting{
-    color:rgba(255,255,255,231);
+QPushButton:hover#clearall{
+    color:rgba(255,255,255,0.91);
     font-weight:400;
-    border:1px dotted rgba(255,0,0,255);
+    border:1px dotted rgba(255,0,0,1);
     line-height:24px;
+    background:rgba(255,255,255,0.12);
+    font-size:14px;
     width:80px;
     height:34px;
+    border-radius:3px;
+}
+
+QPushButton:pressed#clearall{
+    color:rgba(255,255,255,0.91);
+    font-weight:400;
+    border:1px dotted rgba(255,0,0,1);
+    line-height:24px;
+    background:rgba(255,255,255,0.08);
+    font-size:14px;
+    width:80px;
+    height:34px;
+    border-radius:3px;
+}
+
+QPushButton#setting{
+    color:rgba(255,255,255,0.91);
+    font-weight:400;
+    border:1px dotted rgba(255,0,0,1);
+    line-height:24px;
+    font-size:14px;
+    width:80px;
+    height:34px;
+}
+
+QPushButton:hover#setting{
+    color:rgba(255,255,255,0.91);
+    font-weight:400;
+    border:1px dotted rgba(255,0,0,1);
+    line-height:24px;
+    background:rgba(255,255,255,0.12);
+    font-size:14px;
+    width:80px;
+    height:34px;
+    border-radius:3px;
+}
+
+QPushButton:pressed#setting{
+    color:rgba(255,255,255,0.91);
+    font-weight:400;
+    border:1px dotted rgba(255,0,0,1);
+    line-height:24px;
+    background:rgba(255,255,255,0.08);
+    font-size:14px;
+    width:80px;
+    height:34px;
+    border-radius:3px;
 }
 
 QPushButton#takein{
