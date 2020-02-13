@@ -41,6 +41,7 @@ public:
     SingleMsg(NotificationPlugin *parent, QString strAppName, QString strIcon, QString strSummary, QDateTime dateTime, QString strBody);
     ~SingleMsg();
     uint getNotifyAbsuluteTime() {return m_uNotifyTime;}
+    void updatePushTime();
 
 protected:
     virtual void enterEvent(QEvent *event) override;
@@ -50,10 +51,12 @@ protected:
 private:
     QToolButton*    m_pIconToolButton;              //消息图标
     QString         m_strAppName;                   //保存发送方的应用名
+    QDateTime       m_dateTime;                     //保存推送时间
     uint            m_uNotifyTime;                  //保存推送时间的绝对时间
     QString         m_strBody;                      //保存正文字符串
 
-    QLabel*         m_pAppNameLabel;
+    QLabel*         m_pAppNameLabel;                //保存应用名的Label
+    QLabel*         m_pTimeLabel;                   //保存推送时间的Label
     QLabel*         m_pBodyLabel;                   //保存正文的Label
     QWidget*        m_pButtonWidget;                //保存底下收纳和删除按钮的Widget
     bool            m_bTakeInFlag;                  //转变为收纳消息吗，默认为false

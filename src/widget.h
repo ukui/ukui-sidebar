@@ -72,10 +72,11 @@ private:
     QPropertyAnimation* m_pHideAnimation;                                       //隐藏动画对象
     QPropertyAnimation* m_pShowAnimation;                                       //展示动画对象
     QVBoxLayout*        m_pMainQVBoxLayout;                                     //主界面垂直布局器
-    QDBusInterface*     m_pServiceInterface;                                      //获取任务栏的高度
+    QDBusInterface*     m_pServiceInterface;                                    //获取任务栏的高度
     bool                m_bShowFlag;                                            //控制托盘栏点击事件的标志位
     int                 m_nScreenWidth;                                         //屏幕分辨率的宽
     int                 m_nScreenHeight;                                        //屏幕分辨率的高
+    QObject*            m_pNotificationPluginObject;                            //通知中心插件对象
 
     //快捷操作面板
     QGroupBox*      m_pShortcutOperationGroupBox;                               //快捷操作面板中的主Group

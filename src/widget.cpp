@@ -97,13 +97,13 @@ bool Widget::loadNotificationPlugin()
 {
     QDir pluginsDir("/usr/lib/ukui-sidebar/notification");
     QPluginLoader pluginLoader(pluginsDir.absoluteFilePath("libnotification_plugin.so"));
-    QObject* pNotificationPluginObject = pluginLoader.instance();
-    if(nullptr == pNotificationPluginObject)
+    m_pNotificationPluginObject = pluginLoader.instance();
+    if(nullptr == m_pNotificationPluginObject)
     {
         return false;
     }
 
-    auto centerInterface = qobject_cast<NotificationInterface*>(pNotificationPluginObject);
+    auto centerInterface = qobject_cast<NotificationInterface*>(m_pNotificationPluginObject);
     if(nullptr == centerInterface)
     {
         return false;
@@ -235,6 +235,13 @@ void Widget::mousePressEvent(QMouseEvent *event)
 //动画展开
 void Widget::showAnimation()
 {
+    auto centerInterface = qobject_cast<NotificationInterface*>(m_pNotificationPluginObject);
+    if(nullptr != centerInterface)
+    {
+        centerInterface->updatePushTime(); //当动画展开时也更新一下通知列表或者收纳列表的推送时间显示
+    }
+
+
     m_pShowAnimation->setStartValue(QRect(m_nScreenWidth, 0, 400, m_nScreenHeight));
     m_pShowAnimation->setEndValue(QRect(m_nScreenWidth - 400, 0, 400, m_nScreenHeight));
     m_pShowAnimation->start();

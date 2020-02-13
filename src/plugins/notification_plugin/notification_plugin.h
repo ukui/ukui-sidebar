@@ -21,9 +21,9 @@
 #define NOTIFICATION_PLUGIN_H
 
 #include "notification_interface.h"
-#include "singlemsg.h"
 #include <QtWidgets>
 
+class SingleMsg;
 class ScrollAreaWidget;
 class QSvgRenderer;
 class TakeInBoxToolButton;
@@ -41,6 +41,7 @@ class NotificationPlugin : public QObject, public NotificationInterface
 public:
     NotificationPlugin();
     virtual QWidget* centerWidget() override;    
+    virtual void updatePushTime() override;
     void    countTakeInBitAndUpate();       //统计收纳位数并更新至右上角提示
 
 public slots :

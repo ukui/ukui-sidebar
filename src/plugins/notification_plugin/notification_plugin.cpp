@@ -17,6 +17,7 @@
 */
 
 #include "notification_plugin.h"
+#include "singlemsg.h"
 #include "scrollareawidget.h"
 #include "takeinboxtoolbutton.h"
 #include "monitorthread.h"
@@ -167,6 +168,26 @@ QWidget* NotificationPlugin::centerWidget()
     return  m_pMainWidget;
 }
 
+void NotificationPlugin::updatePushTime()
+{
+    if(false == m_bShowTakeIn)
+    {
+        for(int i = 0; i < m_listSingleMsg.count(); i++)
+        {
+            SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
+            pTmpSingleMsg->updatePushTime();
+        }
+    }
+    else
+    {
+        for(int i = 0; i < m_listSingleTakeInMsg.count(); i++)
+        {
+            SingleMsg* pTmpSingleMsg = m_listSingleTakeInMsg.at(i);
+            pTmpSingleMsg->updatePushTime();
+        }
+    }
+}
+
 //uint NotificationPlugin::Notify(QString strAppName, uint uId, QString strIconPath, QString strSummary, QString strBody, QStringList actions, QVariantMap hint, int nTimeout)
 //{
 //    Q_UNUSED(uId);
@@ -200,10 +221,15 @@ uint NotificationPlugin::Notify(QString strAppName, QString strIconPath, QString
     }
 
     QDateTime dateTime(QDateTime::currentDateTime());
-
     SingleMsg* pSingleMsg = new SingleMsg(this, strAppName, strIconPath, strSummary, dateTime, strBody);
-    m_listSingleMsg.append(pSingleMsg);
-    m_pScrollAreaNotifyVBoxLayout->insertWidget((m_pScrollAreaNotifyVBoxLayout->count() - 1), pSingleMsg);
+    m_listSingleMsg.insert(0, pSingleMsg);
+    m_pScrollAreaNotifyVBoxLayout->insertWidget(0, pSingleMsg);
+
+    for(int i = 0; i < m_listSingleMsg.count(); i++)
+    {
+        SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
+        pTmpSingleMsg->updatePushTime();
+    }
 
     return 1;
 }
@@ -243,18 +269,18 @@ void NotificationPlugin::onTakeinMsg(SingleMsg* pSingleMsg)
     if(0 == m_listSingleMsg.count() && 1 == m_pScrollAreaNotifyVBoxLayout->count()) //列表个数为1是指底部弹簧
     {
         m_pMessageCenterLabel->setVisible(true);
-        m_pScrollAreaNotifyVBoxLayout->insertWidget((m_pScrollAreaNotifyVBoxLayout->count() - 1), m_pMessageCenterLabel);
+        m_pScrollAreaNotifyVBoxLayout->insertWidget(0, m_pMessageCenterLabel);
     }
 
     uint uIndex = m_listSingleTakeInMsg.count();
-    for(int i = 0; i < m_listSingleTakeInMsg.count(); i++)
+    for(int i = m_listSingleTakeInMsg.count() - 1; i >= 0; i--)
     {
         SingleMsg* pTmpSingleMsg = m_listSingleTakeInMsg.at(i);
         if(pSingleMsg->getNotifyAbsuluteTime() < pTmpSingleMsg->getNotifyAbsuluteTime())
         {
-            uIndex = i;
             break;
         }
+        uIndex = i;
     }
     m_listSingleTakeInMsg.insert(uIndex, pSingleMsg);
     m_pScrollAreaTakeInVBoxLayout->insertWidget(uIndex, pSingleMsg);
@@ -286,7 +312,7 @@ void NotificationPlugin::onClearMsg(SingleMsg* pSingleMsg)
     if(0 == m_listSingleMsg.count() && 1 == m_pScrollAreaNotifyVBoxLayout->count())
     {
         m_pMessageCenterLabel->setVisible(true);
-        m_pScrollAreaNotifyVBoxLayout->insertWidget((m_pScrollAreaNotifyVBoxLayout->count() - 1), m_pMessageCenterLabel);
+        m_pScrollAreaNotifyVBoxLayout->insertWidget(0, m_pMessageCenterLabel);
     }
 
     return;
@@ -308,7 +334,7 @@ void NotificationPlugin::clearAllMessage()
         if(1 == m_pScrollAreaNotifyVBoxLayout->count())
         {
             m_pMessageCenterLabel->setVisible(true);
-            m_pScrollAreaNotifyVBoxLayout->insertWidget((m_pScrollAreaNotifyVBoxLayout->count() - 1), m_pMessageCenterLabel);
+            m_pScrollAreaNotifyVBoxLayout->insertWidget(0, m_pMessageCenterLabel);
         }
 
     }
@@ -352,6 +378,12 @@ void NotificationPlugin::showTakeInMessage()
         m_pTakeInBoxToolButton->setEnterFlags(m_bShowTakeIn);
 
         m_pTakeInCoutLabel->setVisible(false);
+
+        for(int i = 0; i < m_listSingleTakeInMsg.count(); i++)
+        {
+            SingleMsg* pTmpSingleMsg = m_listSingleTakeInMsg.at(i);
+            pTmpSingleMsg->updatePushTime();
+        }
     }
     else
     {
@@ -370,6 +402,12 @@ void NotificationPlugin::showTakeInMessage()
         if(m_listSingleTakeInMsg.count() > 0)
         {
             m_pTakeInCoutLabel->setVisible(true);
+        }
+
+        for(int i = 0; i < m_listSingleMsg.count(); i++)
+        {
+            SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
+            pTmpSingleMsg->updatePushTime();
         }
     }
 }

@@ -28,6 +28,7 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
     this->setFixedWidth(380);
 
     m_strAppName = strAppName;
+    m_dateTime = dateTime;
     m_uNotifyTime = dateTime.toTime_t();
 
     //单条信息中的总的垂直布局器
@@ -64,16 +65,16 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
     QSpacerItem* pHExpandingSpacer = new QSpacerItem(400, 10, QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     //设置通知消息中的通知时间
-    QString strTransTime = dateTime.toString("hh:mm:ss");
-    QLabel* pTimeLabel = new QLabel(strTransTime);
-    pTimeLabel->setObjectName("pushtime");
-    pTimeLabel->setStyleSheet("background-color:transparent;");
+    m_pTimeLabel = new QLabel();
+    m_pTimeLabel->setObjectName("pushtime");
+    m_pTimeLabel->setText("现在");
+    m_pTimeLabel->setStyleSheet("background-color:transparent;");
 
     pIconHLayout->addWidget(m_pIconToolButton, 0, Qt::AlignLeft|Qt::AlignBottom);
     pIconHLayout->addSpacerItem(pH6Spacer);
     pIconHLayout->addWidget(m_pAppNameLabel, 0, Qt::AlignLeft|Qt::AlignVCenter);
     pIconHLayout->addSpacerItem(pHExpandingSpacer);
-    pIconHLayout->addWidget(pTimeLabel, 0, Qt::AlignRight);
+    pIconHLayout->addWidget(m_pTimeLabel, 0, Qt::AlignRight);
     pIconWidget->setLayout(pIconHLayout);
     pMainVLaout->addWidget(pIconWidget, 0);
 
@@ -198,6 +199,37 @@ SingleMsg::SingleMsg(NotificationPlugin *parent, QString strAppName, QString str
 
 SingleMsg::~SingleMsg()
 {
+
+}
+
+void SingleMsg::updatePushTime()
+{
+    QDateTime currentDateTime(QDateTime::currentDateTime());
+    QDate currentDate(QDate::currentDate());
+    if(currentDateTime.toTime_t() < (m_uNotifyTime + 60))
+    {
+        return;
+    }
+
+    if(m_dateTime.date() == currentDate)
+    {
+        QString strPushDate = m_dateTime.toString("hh:mm");
+        m_pTimeLabel->setText(strPushDate);
+        return;
+    }
+
+    QDate lastDate = currentDate.addDays(-1);
+    if(m_dateTime.date() == lastDate)
+    {
+        QString strPushDate = "昨天 ";
+        strPushDate = strPushDate + m_dateTime.toString("hh:mm");
+        m_pTimeLabel->setText(strPushDate);
+        return;
+    }
+
+    QString strPushDate = m_dateTime.toString("yyyy/MM/dd");
+    m_pTimeLabel->setText(strPushDate);
+    return;
 
 }
 
