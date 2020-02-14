@@ -30,8 +30,17 @@ SingleMsg::SingleMsg(QString strSummary, QDateTime dateTime, QString strBody)
     pMainVLaout->setContentsMargins(0, 0, 0, 0);
     pMainVLaout->setSpacing(0);
 
+    //添加顶边线
+    m_pHTopLabelLine = new QLabel;
+    m_pHTopLabelLine->setFixedWidth(340);
+    m_pHTopLabelLine->setFixedHeight(1);
+    m_pHTopLabelLine->setStyleSheet("QLabel{border-style:none;border:1px solid rgba(255,255,255,0.08);}");
+    m_pHTopLabelLine->setVisible(false);
+    pMainVLaout->addWidget(m_pHTopLabelLine, 0);
+
     //主题部件
     QWidget* pSummaryWidget = new QWidget;
+    pSummaryWidget->setStyleSheet("background-color:transparent;");
     //设置主题的水平布局器
     QHBoxLayout* pHSummaryLayout = new QHBoxLayout();
     pHSummaryLayout->setContentsMargins(0,0,26,0);
@@ -64,6 +73,7 @@ SingleMsg::SingleMsg(QString strSummary, QDateTime dateTime, QString strBody)
     m_pTimeLabel->setObjectName("pushtime");
     m_pTimeLabel->setText("现在");
     m_pTimeLabel->setStyleSheet("background-color:transparent;");
+    m_pTimeLabel->setVisible(false);
     pHSummaryLayout->addWidget(m_pTimeLabel, 0, Qt::AlignRight);
 
     pSummaryWidget->setLayout(pHSummaryLayout);
@@ -73,8 +83,6 @@ SingleMsg::SingleMsg(QString strSummary, QDateTime dateTime, QString strBody)
     if(false == strBody.isEmpty())
     {
         m_strBody.append("<p style='line-height:24px'>").append(strBody).append("</p>");
-//        m_strBody = strBody;
-
         m_pBodyLabel = new QLabel();
         m_pBodyLabel->setObjectName("body");
         m_pBodyLabel->setFixedWidth(305);
@@ -84,7 +92,7 @@ SingleMsg::SingleMsg(QString strSummary, QDateTime dateTime, QString strBody)
         QString formatBody = m_strBody;
         if(fontSize > (m_pBodyLabel->width() - 5))
         {
-            formatBody = fontMetrics.elidedText(m_strBody, Qt::ElideRight, m_pBodyLabel->width() + 130);
+            formatBody = fontMetrics.elidedText(m_strBody, Qt::ElideRight, m_pBodyLabel->width() + 120);
         }
 
         m_pBodyLabel->setText(formatBody);
@@ -92,11 +100,6 @@ SingleMsg::SingleMsg(QString strSummary, QDateTime dateTime, QString strBody)
         pMainVLaout->addWidget(m_pBodyLabel, 0, Qt::AlignLeft);
     }
 
-    QLabel* pHBottomLabelLine = new QLabel;
-    pHBottomLabelLine->setFixedWidth(340);
-    pHBottomLabelLine->setFixedHeight(1);
-    pHBottomLabelLine->setStyleSheet("QLabel{border-style:none;border:1px solid rgba(255,255,255,0.08);}");
-    pMainVLaout->addWidget(pHBottomLabelLine, 0);
     this->setLayout(pMainVLaout);
 
     return;
@@ -132,5 +135,54 @@ void SingleMsg::updatePushTime()
     return;
 
 }
+
+void SingleMsg::setTopLabelLineVisible(bool bFlag)
+{
+    m_pHTopLabelLine->setVisible(bFlag);
+    return;
+}
+
+void SingleMsg::setTimeLabelVisible(bool bFlag)
+{
+    m_pTimeLabel->setVisible(bFlag);
+    return;
+}
+
+void SingleMsg::setBodyLabelWordWrap(bool bFlag)
+{
+    if(true == m_strBody.isEmpty())
+    {
+        return;
+    }
+
+    m_pBodyLabel->setWordWrap(bFlag);
+
+    if(true == bFlag)
+    {
+        QFontMetrics fontMetrics(m_pBodyLabel->font());
+        int fontSize = fontMetrics.width(m_strBody);
+        QString formatBody = m_strBody;
+
+        if(fontSize > (m_pBodyLabel->width() * 4 - 5))
+        {
+            formatBody = fontMetrics.elidedText(m_strBody, Qt::ElideRight, m_pBodyLabel->width() * 4 + 140);
+        }
+        m_pBodyLabel->setText(formatBody);
+    }
+    else
+    {
+        QFontMetrics fontMetrics(m_pBodyLabel->font());
+        int fontSize = fontMetrics.width(m_strBody);
+        QString formatBody = m_strBody;
+        if(fontSize > (m_pBodyLabel->width() - 5))
+        {
+            formatBody = fontMetrics.elidedText(m_strBody, Qt::ElideRight, m_pBodyLabel->width() + 190);
+        }
+        m_pBodyLabel->setText(formatBody);
+    }
+
+    return;
+}
+
 
 

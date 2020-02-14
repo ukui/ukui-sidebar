@@ -49,7 +49,7 @@ QPushButton{
 QPushButton#clearall{
     color:rgba(255,255,255,0.91);
     font-weight:400;
-    border:1px dotted rgba(255,0,0,1);
+    border:0px;
     line-height:24px;
 /*    padding:0px;*/
     font-size:14px;
@@ -60,7 +60,7 @@ QPushButton#clearall{
 QPushButton:hover#clearall{
     color:rgba(255,255,255,0.91);
     font-weight:400;
-    border:1px dotted rgba(255,0,0,1);
+    border:0px;
     line-height:24px;
     background:rgba(255,255,255,0.12);
     font-size:14px;
@@ -72,7 +72,7 @@ QPushButton:hover#clearall{
 QPushButton:pressed#clearall{
     color:rgba(255,255,255,0.91);
     font-weight:400;
-    border:1px dotted rgba(255,0,0,1);
+    border:0px;
     line-height:24px;
     background:rgba(255,255,255,0.08);
     font-size:14px;
@@ -84,7 +84,7 @@ QPushButton:pressed#clearall{
 QPushButton#setting{
     color:rgba(255,255,255,0.91);
     font-weight:400;
-    border:1px dotted rgba(255,0,0,1);
+    border:0px;
     line-height:24px;
     font-size:14px;
     width:80px;
@@ -94,7 +94,7 @@ QPushButton#setting{
 QPushButton:hover#setting{
     color:rgba(255,255,255,0.91);
     font-weight:400;
-    border:1px dotted rgba(255,0,0,1);
+    border:0px;
     line-height:24px;
     background:rgba(255,255,255,0.12);
     font-size:14px;
@@ -106,7 +106,7 @@ QPushButton:hover#setting{
 QPushButton:pressed#setting{
     color:rgba(255,255,255,0.91);
     font-weight:400;
-    border:1px dotted rgba(255,0,0,1);
+    border:0px;
     line-height:24px;
     background:rgba(255,255,255,0.08);
     font-size:14px;
@@ -153,6 +153,27 @@ QPushButton:hover#delete{
     height:34px;
 }
 
+QPushButton#fold{
+    color:rgba(107,142,235,0.91);
+    font-weight:400;
+    border:0px;
+    font-size:14px;
+}
+
+QPushButton:hover#fold{
+    color:rgba(151,175,241,0.91);
+    font-weight:400;
+    border:0px;
+    font-size:14px;
+}
+
+QPushButton:pressed#fold{
+    color:rgba(61,107,229,0.91);
+    font-weight:400;
+    border:0px;
+    font-size:14px;
+}
+
 QLabel{
     color:#FFFFFF;    /*文字颜色*/
     font-family:NotoSansCJKsc-Regular;
@@ -191,6 +212,11 @@ QLabel#Summary{
 
 QLabel#body{
     color:rgba(255,255,255,0.57);    /*文字颜色*/
+    font-size:14px;
+}
+
+QLabel#ShowLeftItem{
+    color:rgba(255,255,255,0.35);
     font-size:14px;
 }
 

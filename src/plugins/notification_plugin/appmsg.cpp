@@ -67,22 +67,34 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, QString strIcon)
     m_pTimeLabel->setText("现在");
     m_pTimeLabel->setStyleSheet("background-color:transparent;");
 
+    //设置通知消息中的折叠按钮
+    m_pFoldButton = new QPushButton;
+    m_pFoldButton->setObjectName("fold");
+    m_pFoldButton->setText("折叠");
+    m_pFoldButton->setVisible(false);
+    connect(m_pFoldButton, SIGNAL(clicked()), this, SLOT(onFold()));
+
     pIconHLayout->addWidget(m_pIconToolButton, 0, Qt::AlignLeft|Qt::AlignBottom);
     pIconHLayout->addSpacerItem(pH6Spacer);
     pIconHLayout->addWidget(m_pAppNameLabel, 0, Qt::AlignLeft|Qt::AlignVCenter);
     pIconHLayout->addSpacerItem(pHExpandingSpacer);
     pIconHLayout->addWidget(m_pTimeLabel, 0, Qt::AlignRight);
+    pIconHLayout->addWidget(m_pFoldButton, 0, Qt::AlignRight);
     pIconWidget->setLayout(pIconHLayout);
-    m_pMainVLaout->addWidget(pIconWidget, 0);
+
 
     //添加该应用的消息列表部件
     QWidget* pAppMsgListWidget = new QWidget;
     m_pAppMsgListVLaout = new QVBoxLayout();
     m_pAppMsgListVLaout->setContentsMargins(40, 0, 0, 0);
     m_pAppMsgListVLaout->setSpacing(0);
-    pAppMsgListWidget->setLayout(m_pAppMsgListVLaout);
-    m_pMainVLaout->addWidget(pAppMsgListWidget);
+    m_pShowLeftItemLabel = new QLabel;
+    m_pShowLeftItemLabel->setObjectName("ShowLeftItem");
+    m_pShowLeftItemLabel->setVisible(false);
 
+    m_pAppMsgListVLaout->addWidget(m_pShowLeftItemLabel, 0, Qt::AlignLeft);
+
+    pAppMsgListWidget->setLayout(m_pAppMsgListVLaout);
 
     //收纳和删除框上面的Widget,多包含一条顶横线
     m_pButtonWidget = new QWidget;
@@ -110,40 +122,45 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, QString strIcon)
     pHButtonLayout->setSpacing(0);
 
     //设置一个收纳按钮
-    QPushButton* pTakeinButton = new QPushButton();
-    pTakeinButton->setText("收纳");
-    pTakeinButton->setObjectName("takein");
-    connect(pTakeinButton, SIGNAL(clicked()), this, SLOT(onTakein()));
+    m_pTakeinButton = new QPushButton();
+    m_pTakeinButton->setText("收纳");
+    m_pTakeinButton->setObjectName("takein");
+    connect(m_pTakeinButton, SIGNAL(clicked()), this, SLOT(onTakein()));
     connect(this, SIGNAL(Sig_SendTakein(AppMsg*)), parent, SLOT(onTakeinMsg(AppMsg*)));
-    pHButtonLayout->addWidget(pTakeinButton, 0, Qt::AlignLeft);
 
+    //设置一个中间的垂直分割线
     QLabel* pVLabelLine = new QLabel;
     pVLabelLine->setFixedWidth(1);
     pVLabelLine->setFixedHeight(30);
     pVLabelLine->setStyleSheet("QLabel{border-style:none;border:1px solid rgba(255,255,255,0.08);}");
-    pHButtonLayout->addWidget(pVLabelLine, 0, Qt::AlignHCenter);
 
     //设置通知消息中的删除消息按钮
-    QPushButton* pClearToolButton = new QPushButton();
-    pClearToolButton->setText("删除");
-    pClearToolButton->setObjectName("delete");
-    connect(pClearToolButton, SIGNAL(clicked()), this, SLOT(onClear()));
+    m_pDeleteButton = new QPushButton();
+    m_pDeleteButton->setText("删除");
+    m_pDeleteButton->setObjectName("delete");
+    connect(m_pDeleteButton, SIGNAL(clicked()), this, SLOT(onClear()));
     connect(this, SIGNAL(Sig_Send(AppMsg*)), parent, SLOT(onClearMsg(AppMsg*)));
-    pHButtonLayout->addWidget(pClearToolButton, 0, Qt::AlignRight);
+
+    pHButtonLayout->addWidget(m_pTakeinButton, 0, Qt::AlignLeft);
+    pHButtonLayout->addWidget(pVLabelLine, 0, Qt::AlignHCenter);
+    pHButtonLayout->addWidget(m_pDeleteButton, 0, Qt::AlignRight);
 
     pButtonWidget->setLayout(pHButtonLayout);
     pVButtonLayout->addWidget(pButtonWidget, 0);
-
     m_pButtonWidget->setLayout(pVButtonLayout);
-    m_pMainVLaout->addWidget(m_pButtonWidget, 0);
+
 
     QLabel* pHBottomLabelLine = new QLabel;
     pHBottomLabelLine->setFixedWidth(380);
     pHBottomLabelLine->setFixedHeight(1);
     pHBottomLabelLine->setStyleSheet("QLabel{border-style:none;border:1px solid rgba(255,255,255,0.08);}");
-    m_pMainVLaout->addWidget(pHBottomLabelLine, 0);
 
+    m_pMainVLaout->addWidget(pIconWidget, 0);
+    m_pMainVLaout->addWidget(pAppMsgListWidget);
+    m_pMainVLaout->addWidget(m_pButtonWidget, 0);
+    m_pMainVLaout->addWidget(pHBottomLabelLine, 0);
     setLayout(m_pMainVLaout);
+
     return;
 }
 
@@ -157,9 +174,48 @@ void AppMsg::addSingleMsg(QString strSummary, QDateTime dateTime, QString strBod
     m_dateTime = dateTime;
     m_uNotifyTime = dateTime.toTime_t();
 
+    if(m_listSingleMsg.count() > 0) //只要新增加前已存在条数，则先将最顶部一条的顶边线和推送时间设置可见
+    {
+        SingleMsg* pFirstMsg = m_listSingleMsg.at(0);
+        pFirstMsg->setTopLabelLineVisible(true);
+        pFirstMsg->setTimeLabelVisible(true);
+        pFirstMsg->setBodyLabelWordWrap(true);
+    }
+
     SingleMsg* pSingleMsg = new SingleMsg(strSummary, dateTime, strBody);
     m_listSingleMsg.insert(0, pSingleMsg);
-    m_pAppMsgListVLaout->insertWidget(0, pSingleMsg);  //索引0总是图标和appname那一行的部件，最后总是收纳和删除按钮部件
+    m_pAppMsgListVLaout->insertWidget(0, pSingleMsg);
+
+    int nShowLeftCount = m_listSingleMsg.count() - 1;
+    QString strShowLeft = "还有" + QString::number(nShowLeftCount) + "则通知";
+    QString strSetText;
+    strSetText.append("<p style='line-height:24px'>").append(strShowLeft).append("</p>");
+    m_pShowLeftItemLabel->setText(strSetText);
+
+    //当剩余条数大于0，且剩余数显示标签和折叠按钮都不可见，则将剩余数显示标签设置可见，由于总条数大于1，将收纳和删除修改为全部收纳和全部删除
+    if(nShowLeftCount > 0 && (false == m_pShowLeftItemLabel->isVisible()) && (false == m_pFoldButton->isVisible()))
+    {
+        m_pShowLeftItemLabel->setVisible(true);
+        m_pTakeinButton->setText("全部收纳");
+        m_pDeleteButton->setText("全部删除");
+    }
+
+    //如果剩余数显示标签可见，则索引从1开始，将所有SingleMsg设置不可见
+    if(true == m_pShowLeftItemLabel->isVisible())
+    {
+        for(int i = 1; i < m_listSingleMsg.count(); i++)
+        {
+            SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
+            pTmpSingleMsg->setVisible(false);
+        }
+    }
+
+    //如果折叠按钮可见，则新增信息也展开消息
+    if(true == m_pFoldButton->isVisible())
+    {
+        pSingleMsg->setBodyLabelWordWrap(true);
+    }
+
 
     return;
 }
@@ -209,7 +265,6 @@ void AppMsg::enterEvent(QEvent *event)
         m_pButtonWidget->setVisible(true);
     }
     setStyleSheet("background-color:rgba(255,255,255,0.08);");
-    m_pIconToolButton->setStyleSheet("QToolButton{border:1px dashed rgba(255,0,0,255);padding:0px;background:transparent;}");
 
     return;
 }
@@ -223,20 +278,6 @@ void AppMsg::leaveEvent(QEvent *event)
     }
 
     setStyleSheet("background-color:rgba(26,26,26,0.95);");
-    m_pIconToolButton->setStyleSheet("QToolButton{border:none;border-style:none;padding:0px;background:transparent;}");
-//    if(false == m_strBody.isEmpty())
-//    {
-//        m_pBodyLabel->setWordWrap(false);
-//        QFontMetrics fontMetrics(m_pBodyLabel->font());
-//        int fontSize = fontMetrics.width(m_strBody);
-//        QString formatSummary = m_strBody;
-//        if(fontSize > (m_pBodyLabel->width() - 5))
-//        {
-//            formatSummary = fontMetrics.elidedText(m_strBody, Qt::ElideRight, m_pBodyLabel->width() + 195);
-//        }
-
-//        m_pBodyLabel->setText(formatSummary);
-//    }
     return;
 }
 
@@ -245,7 +286,21 @@ void AppMsg::mousePressEvent(QMouseEvent *event)
 {
     if (event->buttons() == Qt::LeftButton)
     {
-        m_pIconToolButton->setStyleSheet("QToolButton{border:none;border-style:none;padding:0px;background:transparent;}");
+        //点击展开所有列表
+        SingleMsg* pFirstMsg = m_listSingleMsg.at(0);
+        pFirstMsg->setTimeLabelVisible(true);
+        pFirstMsg->setBodyLabelWordWrap(true);
+
+        for(int i = 1; i < m_listSingleMsg.count(); i++)
+        {
+            SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
+            pTmpSingleMsg->setVisible(true);
+        }
+        m_pShowLeftItemLabel->setVisible(false);
+        m_pTimeLabel->setVisible(false);
+        m_pFoldButton->setVisible(true);
+
+
 //        if(false == m_strBody.isEmpty())
 //        {
 ////            QFontMetrics fontMetrics(m_pBodyLabel->font());
@@ -280,6 +335,29 @@ void AppMsg::onTakein()
     emit Sig_SendTakein(this);
     return;
 }
+
+//折叠消息列表
+void AppMsg::onFold()
+{
+    SingleMsg* pFirstMsg = m_listSingleMsg.at(0);
+    pFirstMsg->setTimeLabelVisible(false);
+    pFirstMsg->setBodyLabelWordWrap(false);
+
+    for(int i = 1; i < m_listSingleMsg.count(); i++)
+    {
+        SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
+        pTmpSingleMsg->setVisible(false);
+    }
+
+    if(m_listSingleMsg.count() > 1)
+    {
+        m_pShowLeftItemLabel->setVisible(true);
+    }
+    m_pTimeLabel->setVisible(true);
+    m_pFoldButton->setVisible(false);
+}
+
+
 
 
 

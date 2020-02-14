@@ -57,9 +57,13 @@ private:
     QToolButton*        m_pIconToolButton;              //消息图标
     QLabel*             m_pAppNameLabel;                //保存应用名的Label
     QLabel*             m_pTimeLabel;                   //保存推送时间的Label
-    QVBoxLayout*        m_pAppMsgListVLaout;            //保存添加该应用的消息列表布局器
-    QLabel*             m_pBodyLabel;                   //保存正文的Label
+    QPushButton*        m_pFoldButton;                  //应用消息折叠按钮
+    QVBoxLayout*        m_pAppMsgListVLaout;            //保存添加该应用的消息列表布局器    
+    QLabel*             m_pShowLeftItemLabel;           //显示该应用未展开条数
     QWidget*            m_pButtonWidget;                //保存底下收纳和删除按钮的Widget
+    QPushButton*        m_pTakeinButton;                //收纳按钮
+    QPushButton*        m_pDeleteButton;                //删除按钮
+
 
     QList<SingleMsg*>   m_listSingleMsg;                //对于SingleMsg类对象用list表记录
     QString             m_strAppName;                   //保存发送方的应用名
@@ -76,6 +80,7 @@ signals:
 public slots:
     void                onClear();                      //清除消息
     void                onTakein();                     //处理收纳消息
+    void                onFold();                       //处理折叠
 
 };
 

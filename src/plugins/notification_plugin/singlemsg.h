@@ -29,12 +29,16 @@ class SingleMsg : public QWidget
 public:
     SingleMsg(QString strSummary, QDateTime dateTime, QString strBody);
     void updatePushTime();
+    void setTopLabelLineVisible(bool bFlag);
+    void setTimeLabelVisible(bool bFlag);
+    void setBodyLabelWordWrap(bool bFlag);
 
 private:
     QDateTime       m_dateTime;                     //保存推送时间
     uint            m_uNotifyTime;                  //保存推送时间的绝对时间
     QLabel*         m_pTimeLabel;
     QLabel*         m_pBodyLabel;
+    QLabel*         m_pHTopLabelLine;               //消息顶部分割线
     QString         m_strBody;
 
 signals:
