@@ -269,7 +269,11 @@ void Widget::onResolutionChanged(int argc)
     m_nScreenWidth = screenRect.width();
     m_nScreenHeight = screenRect.height() - connectTaskBarDbus();
     qInfo() << "screen width:" << m_nScreenWidth << ",height:" << m_nScreenHeight;
-
+    //if screen resolution changed while sidebar is visiable, sidebar could be display at unexpected places
+    if(this->isVisible())
+    {
+        this->setGeometry(m_nScreenWidth - 400,0,400,m_nScreenHeight);
+    }
     return;
 }
 
