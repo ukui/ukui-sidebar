@@ -42,17 +42,6 @@ EditorWidget::EditorWidget()
     move(m_nScreenWidth/2-130, m_nScreenHeight/2-180);
     setLayout(m_pMainQVBoxLayout);
 }
-//void EditorWidget::titleBox()
-//{
-//    m_ptileLable = new QLabel(tr("编辑"));
-//    QFont ft;
-//    ft.setPointSize(14);
-//    m_ptileLable->setFont(ft);
-//    m_ptileLayout = new QHBoxLayout;
-//    m_ptileLayout->addWidget(m_ptileLable);
-//    m_pTitleBox = new QGroupBox();
-//    m_pTitleBox->setLayout(m_ptileLayout);
-//}
 
 void EditorWidget::editBox()
 {

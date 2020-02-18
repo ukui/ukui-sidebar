@@ -2,7 +2,7 @@ QPalette{background:#1A1A1A;}
 
 /* 搜索栏的Widget */
 QWidget#SearhWidget {
-    margin-top: 10px;
+    margin-top: 0px;
     margin-right: 0px;
     margin-bottom: 0px;
     margin-left: 0px;
@@ -13,17 +13,17 @@ QWidget#SearhWidget {
     width:380px;
     height:40;
     background:rgba(255,0,0,1);
-    border: 1px solid rgba(255,0,0,1);
+    border: 1px solid rgba(255,255,0,1);
     opacity:0.95;
 }
 
 /* listWidget的中的widgetitem  */
 QWidget#WidgetEntry {
     width:350px;
-    height:38px;
+    height:32px;
 
-    margin-top: 3px;
-    margin-bottom: 3px;
+    margin-top: 0px;
+    margin-bottom: 0px;
     margin-right: 0px;
     margin-left: 0px;
 
@@ -32,20 +32,24 @@ QWidget#WidgetEntry {
     padding-bottom:0px;
     padding-left:0px;
     background:rgba(26, 26, 26, 1);
+    border: 0px solid rgba(255,0,0,1);
     opacity:0.08;
-    border-radius:3px;
+    border-bottom: 2px solid rgba(255,255,255,36);
 }
 
 /* 设置listWidget的中的widgetitem悬乎状态 */
 QWidget#WidgetEntry:hover {
     background:rgba(255, 255, 255, 36);
-    border: 0px solid rgba(255,0,0,1);
 }
 
 /* 显示内容条目Widget中的置顶按钮 */
 QWidget#WidgetEntry>QPushButton#PopButton {
     width:34px;
     height:34px;
+    margin-bottom: 6px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
     background:rgba(255,255,255,30);
     opacity:0.12;
     border-radius:3px;
@@ -55,11 +59,6 @@ QWidget#WidgetEntry>QPushButton#PopButton {
 QWidget#WidgetEntry>QPushButton#PopButton:hover {
     background-color:rgba(255,255,255,36); /*改变背景色*/
     border-style:inset;/*改变边框风格*/
-    margin-top:1px;
-/*　margin-left:161px;*/
-    margin-bottom:1px;
-/*  margin-right:20px;*/
-    border-radius:4px;
     border: 0px solid rgba(255,0,0,1);
 }
 
@@ -67,11 +66,6 @@ QWidget#WidgetEntry>QPushButton#PopButton:hover {
 QWidget#WidgetEntry>QPushButton#PopButton:pressed {
     background-color:rgba(255,255,255,25); /*改变背景色*/
     border-style:inset;/*改变边框风格*/
-    margin-top:1px;
-/*　margin-left:161px;*/
-    margin-bottom:1px;
-/*  margin-right:20px;*/
-    border-radius:4px;
     border: 0px solid rgba(255,0,0,1);
 }
 
@@ -79,6 +73,10 @@ QWidget#WidgetEntry>QPushButton#PopButton:pressed {
 QWidget#WidgetEntry>QPushButton#EditButon {
     width:34px;
     height:34px;
+    margin-bottom: 6px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
     background:rgba(255,255,255,30);
     opacity:0.12;
     border-radius:3px;
@@ -88,10 +86,6 @@ QWidget#WidgetEntry>QPushButton#EditButon {
 QWidget#WidgetEntry>QPushButton#EditButon:hover {
     background-color:rgba(255,255,255,36); /*改变背景色*/
     border-style:inset;/*改变边框风格*/
-    margin-top:1px;
-/*　margin-left:161px;*/
-    margin-bottom:1px;
-/*  margin-right:20px;*/
     border-radius:4px;
     border: 0px solid rgba(255,0,0,1);
 }
@@ -100,10 +94,6 @@ QWidget#WidgetEntry>QPushButton#EditButon:hover {
 QWidget#WidgetEntry>QPushButton#EditButon:pressed {
     background-color:rgba(255,255,255,25); /*改变背景色*/
     border-style:inset;/*改变边框风格*/
-    margin-top:1px;
-/*　margin-left:161px;*/
-    margin-bottom:1px;
-/*  margin-right:20px;*/
     border-radius:4px;
     border: 0px solid rgba(255,0,0,1);
 }
@@ -112,6 +102,10 @@ QWidget#WidgetEntry>QPushButton#EditButon:pressed {
 QWidget#WidgetEntry>QPushButton#RemoveButton {
     width:34px;
     height:34px;
+    margin-bottom: 6px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
     background:rgba(255,255,255,30);
     opacity:0.12;
     border-radius:3px;
@@ -121,10 +115,6 @@ QWidget#WidgetEntry>QPushButton#RemoveButton {
 QWidget#WidgetEntry>QPushButton#RemoveButton:hover {
     background-color:rgba(255,255,255,36); /*改变背景色*/
     border-style:inset;/*改变边框风格*/
-    margin-top:1px;
-/*　margin-left:161px;*/
-    margin-bottom:1px;
-/*  margin-right:20px;*/
     border-radius:4px;
     border: 0px solid rgba(255,0,0,1);
 }
@@ -133,9 +123,9 @@ QWidget#WidgetEntry>QPushButton#RemoveButton:hover {
 QWidget#WidgetEntry>QPushButton#RemoveButton:pressed {
     background-color:rgba(255,255,255,25); /*改变背景色*/
     border-style:inset;/*改变边框风格*/
-    margin-top:1px;
+    margin-top:0px;
 /*　margin-left:161px;*/
-    margin-bottom:1px;
+    margin-bottom:0px;
 /*  margin-right:20px;*/
     border-radius:4px;
     border: 0px solid rgba(255,0,0,1);
@@ -158,12 +148,12 @@ QWidget#SearhWidget>QPushButton#CleanList {
     margin-top:0px;
     margin-left:5px;
     margin-bottom:0px;
-    margin-right:5px;
+    margin-right:150px;
     border:0px solid rgba(255,0,0,1);
 }
 
 /* 清空所有的WidgetItem按扭悬浮时的效果 */
-QWidget#SearhWidget>QPushButton:hover{
+QWidget#SearhWidget>QPushButton#CleanList:hover{
     background-color:rgba(255,255,255,36); /*改变背景色*/
     border-style:inset;               /*改变边框风格*/
 
@@ -171,12 +161,31 @@ QWidget#SearhWidget>QPushButton:hover{
 }
 
 /* 清空所有的WidgetItem按扭按下时的效果 */
-QWidget#SearhWidget>QPushButton:pressed{
+QWidget#SearhWidget>QPushButton#CleanList:pressed{
     background-color:rgba(255,255,255,25); /*改变背景色*/
     border-style:inset;/*改变边框风格*/
 
     border: 0px solid rgba(255,0,0,1);
 }
+
+/* 清空所有的QlineEdit按扭 */
+QLineEdit#SearchLabel>QPushButton#ClearTextButton {
+    width:9px;
+    height:9px;
+    border-radius:9px;
+    border:0px solid rgba(255,255,0,1);
+}
+
+/*QLineEdit#SearchLabel>QPushButton#ClearTextButton:hover {
+    width:21px;
+    height:21px;
+    background:rgba(255,255,255,36);
+    opacity:0.12;
+    border-top-left-radius:150px;
+    border-top-right-radius:150px;
+    border-bottom-left-radius:150px;
+    border-bottom-right-radius:150px;
+}*/
 
 /* 编辑区域确认按钮 */
 QGroupBox#OperationBox>QPushButton#ConfirmButton {
@@ -247,7 +256,7 @@ QGroupBox#OperationBox>QPushButton#CancelButton:pressed{
 
 /* 查找栏的Lable */
 QWidget#SearhWidget>QLineEdit#SearchLabel {
-    width:285px;
+    width:270px;
     height:30px;
     margin-top: 0px;
     margin-right: 0px;
@@ -401,9 +410,25 @@ QGroupBox::title{
 QWidget#WidgetEntry>QLabel{
     width:130px;
     height:34px;
-    font-size:14px;
+    font-size:11px;
     font-weight:400;
 
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 15px;
+    margin-left: 0px;
+
+    padding-right: 0px;
+    padding-top: 0px;
+    padding-bottom:0px;
+    padding-left:0px;
+    font-family:Noto Sans CJK SC;
+    color:rgba(255,255,255,1);
+    line-height:10px;
+    opacity:0.91;
+    border: 0px solid rgba(255,255,0,1);
+}
+QWidget#WidgetEntry>QGridLayout#pHLayout{
     margin-top: 0px;
     margin-right: 0px;
     margin-bottom: 0px;
@@ -413,9 +438,18 @@ QWidget#WidgetEntry>QLabel{
     padding-top: 0px;
     padding-bottom:0px;
     padding-left:0px;
-    font-family:Noto Sans CJK SC;
+    border: 1px solid rgba(255,255,0,1);
+}
 
-    color:rgba(255,255,255,1);
-    line-height:34px;
-    opacity:0.91;
+QListWidget:Item{
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+
+    padding-right: 0px;
+    padding-top: 0px;
+    padding-bottom:0px;
+    padding-left:0px;
+    border: 0px solid rgba(255,255,0,1);
 }

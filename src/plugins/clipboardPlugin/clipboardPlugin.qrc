@@ -1,10 +1,12 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource prefix="/">
-        <file>qss/sidebarClipboard.css</file>
-        <file>image/copy.svg</file>
-        <file>image/delete.svg</file>
-        <file>image/edit.svg</file>
-        <file>image/hover.svg</file>
+   <file>image/editor.svg</file>
+   <file>image/copy.svg</file>
+   <file>image/delete.svg</file>
+   <file>image/button-close-hover-click-two.svg</file>
+   <file>image/button-close-hover-click-add-background-one.svg</file>
+   <file>image/button-close-default-add-background-three.svg</file>
+   <file>qss/sidebarClipboard.css</file>
 </qresource>
 </RCC>
 

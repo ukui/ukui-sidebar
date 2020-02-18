@@ -24,19 +24,30 @@
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QIcon>
-#define  EDIT_SVG_PATH  ":/image/edit.svg"
+#include <QLine>
+#include <QGroupBox>
+#define  EDIT_SVG_PATH  ":/image/editor.svg"
 #define  COPY_SVG_PATH  ":/image/copy.svg"
 #define  REMOVE_SVG_PATH  ":/image/delete.svg"
-#define  SEARCH_SVG_CLEAN ":/image/hover.svg"
+#define  SEARCH_SVG_CLEAN ":/image/button-close-hover-click-two.svg"
+#define  SEARCH_SVG_CLEAN_BACK ":/image/button-close-hover-click-add-background-one.svg"
 class ClipboardWidgetEntry : public QWidget
 {
 public:
     ClipboardWidgetEntry(QWidget *parent = nullptr);
+    void WidgetEntry();
+    void WidgetEntryLine();
     QPushButton *m_pPopButton;
     QPushButton *m_pEditButon;
     QPushButton *m_pRemoveButton;
     QLabel      *m_pCopyDataLabal;
+    QLabel      *m_pHBottomLabelLine;
     QHBoxLayout *m_pHLayout;
+    QHBoxLayout *m_pHorizontalLineLayout;
+    QLine       *m_pLine;
+    QGroupBox   *m_pMainWidgetEntryBox;
+    QGroupBox   *m_pEntryLineBox;
+    QVBoxLayout *m_pMainLayout;
 };
 
 #endif // CLIPBOARDWIDGETENTRY_H

@@ -107,7 +107,7 @@ void SidebarClipboardPlugin::createFindClipboardWidgetItem()
     m_pSearchArea = new SearchWidgetItemContent;
     connect(m_pSearchArea->m_pClearListWidgetButton, &QPushButton::clicked, this, &SidebarClipboardPlugin::removeAllWidgetItem);
     connect(m_pSearchArea->m_pLineEditArea, SIGNAL(textChanged(QString)), this, SLOT(searchClipboardLableTextSlots(QString)));
-    pListWidgetItem->setSizeHint(QSize(350,40));
+    pListWidgetItem->setSizeHint(QSize(345,40));
     m_pShortcutOperationListWidget->insertItem(0,pListWidgetItem);
     m_pShortcutOperationListWidget->setItemWidget(pListWidgetItem, m_pSearchArea);
 }
@@ -156,7 +156,7 @@ void SidebarClipboardPlugin::createWidgetEntry(const QMimeData *mimeData)
         removeLastWidgetItem();
     }
 
-    pListWidgetItem->setSizeHint(QSize(350,50));
+    pListWidgetItem->setSizeHint(QSize(345,42));
     pListWidgetItem->setFlags(Qt::NoItemFlags);
     w->m_pCopyDataLabal->setText(text);
     connect(w->m_pPopButton, &QPushButton::clicked, this, [=](){
@@ -171,7 +171,7 @@ void SidebarClipboardPlugin::createWidgetEntry(const QMimeData *mimeData)
         this->removeButtonSlots(w);
     });
 
-    m_pShortcutOperationListWidget->insertItem(1,pListWidgetItem);
+    m_pShortcutOperationListWidget->insertItem(1, pListWidgetItem);
     m_pShortcutOperationListWidget->setItemWidget(pListWidgetItem, w);
     registerWidgetItem(w, pListWidgetItem);
 }

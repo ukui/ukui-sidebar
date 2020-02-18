@@ -26,13 +26,14 @@
 #include <QLineEdit>
 #include <QHBoxLayout>
 #include <QAction>
+#include <QWidgetAction>
 #include "clipboardwidgetentry.h"
 class SearchWidgetItemContent:public QWidget
 {
     Q_OBJECT
 public:
     SearchWidgetItemContent(QWidget *parent = nullptr);
-    QPushButton *m_pClearTextEdit;
+    QPushButton *m_pClearTextButton;
     QPushButton *m_pClearListWidgetButton;
     QLineEdit   *m_pLineEditArea;
     QHBoxLayout *m_pHBoxLayout;

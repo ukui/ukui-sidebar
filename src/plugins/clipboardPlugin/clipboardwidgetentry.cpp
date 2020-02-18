@@ -42,12 +42,12 @@ ClipboardWidgetEntry::ClipboardWidgetEntry(QWidget *parent)
     m_pRemoveButton->setIcon(RemoveIcon);
     m_pRemoveButton->setObjectName("RemoveButton");
     m_pCopyDataLabal = new QLabel();
-    m_pCopyDataLabal->setFixedSize(200, 34);
+//    m_pCopyDataLabal->fontMetrics().elidedText(strText, Qt::ElideRight, 20, Qt::TextShowMnemonic);
+    m_pCopyDataLabal->setFixedSize(200, 38);
     m_pCopyDataLabal->setObjectName("EntryLable");
     m_pHLayout       = new QHBoxLayout();
     m_pHLayout->addWidget(m_pCopyDataLabal);
     m_pHLayout->addWidget(m_pPopButton);
-    m_pHLayout->setSpacing(1);
     m_pHLayout->addWidget(m_pEditButon);
     m_pHLayout->addWidget(m_pRemoveButton);
     this->setLayout(m_pHLayout);

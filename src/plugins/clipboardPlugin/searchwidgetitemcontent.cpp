@@ -27,26 +27,24 @@ SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
     m_pClearListWidgetButton = new QPushButton(tr("清除"));
     m_pClearListWidgetButton->setObjectName("CleanList");
 
-    m_pClearTextEdit = new QPushButton;
-    m_pClearTextEdit->setObjectName("ClearTextEdit");
+    m_pClearTextButton = new QPushButton;
+    m_pClearTextButton->setObjectName("ClearTextButton");
+    m_pClearTextButton->setStyleSheet("QPushButton:pressed{border-image:url(:/image/button-close-hover-click-add-background-one.svg)}");
+    m_pClearTextButton->setStyleSheet("QPushButton:hover{border-image:url(:/image/button-close-hover-click-add-background-one.svg)}");
     QIcon ClearTextEditIcon;
     ClearTextEditIcon.addFile(SEARCH_SVG_CLEAN);
-    m_pClearTextEdit->setIcon(ClearTextEditIcon);
-    m_pClearTextEdit->setCursor(Qt::ArrowCursor);
+    m_pClearTextButton->setIcon(ClearTextEditIcon);
+    m_pClearTextButton->setCursor(Qt::ArrowCursor);
 
     m_pHBoxLayout = new QHBoxLayout;
     m_pLineEditArea = new QLineEdit;
     m_pLineEditArea->setObjectName("SearchLabel");
-    QAction *clearAction = new QAction;
-    clearAction->setIcon(QApplication::style()->standardIcon(QStyle::SP_DialogResetButton));
-    clearAction->setObjectName("cleanLineButton");
-    // QLineEdit::TrailingPosition表示将action放置在右边
-    QIcon RemoveIcon;
-    RemoveIcon.addFile(SEARCH_SVG_CLEAN);
-    clearAction->setIcon(RemoveIcon);
-    m_pLineEditArea->addAction(clearAction, QLineEdit::TrailingPosition);
-    connect(clearAction, &QAction::triggered, m_pLineEditArea,[=](){
-        m_pLineEditArea->setText("");
+    QWidgetAction* action = new QWidgetAction(m_pLineEditArea);
+    action->setDefaultWidget(m_pClearTextButton);
+    m_pLineEditArea->addAction(action, QLineEdit::TrailingPosition);
+
+    connect(m_pClearTextButton, &QPushButton::clicked, this, [=](){
+          m_pLineEditArea->setText("");
     });
     m_pHBoxLayout->addWidget(m_pLineEditArea);
     m_pHBoxLayout->addWidget(m_pClearListWidgetButton);
