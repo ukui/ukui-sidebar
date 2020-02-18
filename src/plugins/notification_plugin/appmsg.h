@@ -40,11 +40,12 @@ class AppMsg : public QWidget
 {
     Q_OBJECT
 public:
-    AppMsg(NotificationPlugin *parent, QString strAppName, QString strIcon);
+    AppMsg(NotificationPlugin *parent, QString strAppName, QString strIcon, bool bTakeInFlag = false);
     ~AppMsg();
     uint getNotifyAbsuluteTime() {return m_uNotifyTime;}
     QString getAppName() {return m_strAppName;}
     void addSingleMsg(QString strSummary, QDateTime dateTime, QString strBody);
+    void TakeinSingleMsg(QString strSummary, QDateTime dateTime, QString strBody);
     void updateAppPushTime();   //更新应用最新的推送时间
 
 protected:
@@ -67,6 +68,7 @@ private:
 
     QList<SingleMsg*>   m_listSingleMsg;                //对于SingleMsg类对象用list表记录
     QString             m_strAppName;                   //保存发送方的应用名
+    QString             m_strIcon;                      //保存发送方的图标路径
     QDateTime           m_dateTime;                     //保存推送时间
     uint                m_uNotifyTime;                  //保存推送时间的绝对时间
     bool                m_bTakeInFlag;                  //转变为收纳消息吗，默认为false
@@ -74,13 +76,15 @@ private:
 
 
 signals:
-    void                Sig_Send(AppMsg *p);         //将本对象指针发送出去
-    void                Sig_SendTakein(AppMsg *p);
+    void                Sig_onDeleteAppMsg(AppMsg* p);            //将本对象指针发送出去
+    void                Sig_SendTakein(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime);
 
 public slots:
-    void                onClear();                      //清除消息
-    void                onTakein();                     //处理收纳消息
+    void                onDeleteAppMsg();                      //清除一个应用消息
+    void                onTakein();                     //收纳一个应用消息
     void                onFold();                       //处理折叠
+    void                onDeleSingleMsg(SingleMsg* pSingleMsg);
+    void                onTakeInSingleMsg(SingleMsg* pSingleMsg);
 
 };
 

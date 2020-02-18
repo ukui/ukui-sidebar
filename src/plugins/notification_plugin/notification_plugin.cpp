@@ -180,9 +180,9 @@ void NotificationPlugin::updatePushTime()
     }
     else
     {
-        for(int i = 0; i < m_listAppTakeInMsg.count(); i++)
+        for(int i = 0; i < m_listTakeInAppMsg.count(); i++)
         {
-            AppMsg* pAppMsg = m_listAppTakeInMsg.at(i);
+            AppMsg* pAppMsg = m_listTakeInAppMsg.at(i);
             pAppMsg->updateAppPushTime();
         }
     }
@@ -226,6 +226,22 @@ AppMsg* NotificationPlugin::getAppMsgByName(QString strAppName)
     return pAppMsg;
 }
 
+void NotificationPlugin::onTakeinMsg(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime)
+{
+    AppMsg* pAppMsg = getTakeinAppMsgByName(strAppName);  //通过查找m_listTakeInAppMsg列表看该app是否已存在
+    if(NULL == pAppMsg)         //如果不存在，则新建一个AppMsg消息
+    {
+        pAppMsg = new AppMsg(this, strAppName, strIcon, true);
+        m_listTakeInAppMsg.insert(0, pAppMsg);
+        m_pScrollAreaTakeInVBoxLayout->insertWidget(0, pAppMsg);
+    }
+
+    pAppMsg->TakeinSingleMsg(strSummary, dateTime, strBody);
+    countTakeInBitAndUpate();
+
+    return;
+}
+
 uint NotificationPlugin::Notify(QString strAppName, QString strIconPath, QString strSummary, QString strBody)
 {
     QDateTime dateTime(QDateTime::currentDateTime());
@@ -258,7 +274,7 @@ uint NotificationPlugin::Notify(QString strAppName, QString strIconPath, QString
 
 void NotificationPlugin::countTakeInBitAndUpate() //统计收纳位数并更新至右上角提示
 {
-    int nCount = m_listAppTakeInMsg.count();
+    int nCount = m_listTakeInAppMsg.count();
     QString strCount = QString::number(nCount);
     int nBit = 1; //收纳数的位数
     if(nCount > 999)
@@ -284,51 +300,32 @@ void NotificationPlugin::countTakeInBitAndUpate() //统计收纳位数并更新�
     return;
 }
 
-void NotificationPlugin::onTakeinMsg(AppMsg* pSingleMsg)
+AppMsg* NotificationPlugin::getTakeinAppMsgByName(QString strAppName)
 {
-    int nIndex = m_listAppMsg.indexOf(pSingleMsg);
-    if(-1 == nIndex)
+    AppMsg* pAppMsg = NULL;
+    for(int i = 0; i < m_listTakeInAppMsg.count(); i++)
     {
-        qDebug()<<"Widget::onClearMsg 在链表中未找到pSingleMsg指针";
-        return;
-    }
-
-    m_listAppMsg.removeAt(nIndex);
-    m_pScrollAreaNotifyVBoxLayout->removeWidget(pSingleMsg);
-
-    if(0 == m_listAppMsg.count() && 1 == m_pScrollAreaNotifyVBoxLayout->count()) //列表个数为1是指底部弹簧
-    {
-        m_pMessageCenterLabel->setVisible(true);
-        m_pScrollAreaNotifyVBoxLayout->insertWidget(0, m_pMessageCenterLabel);
-    }
-
-    uint uIndex = m_listAppTakeInMsg.count();
-    for(int i = m_listAppTakeInMsg.count() - 1; i >= 0; i--)
-    {
-        AppMsg* pTmpSingleMsg = m_listAppTakeInMsg.at(i);
-        if(pSingleMsg->getNotifyAbsuluteTime() < pTmpSingleMsg->getNotifyAbsuluteTime())
+        AppMsg* pTmpAppMsg = m_listTakeInAppMsg.at(i);
+        if(strAppName == pTmpAppMsg->getAppName())
         {
+            pAppMsg = pTmpAppMsg;
             break;
         }
-        uIndex = i;
     }
-    m_listAppTakeInMsg.insert(uIndex, pSingleMsg);
-    m_pScrollAreaTakeInVBoxLayout->insertWidget(uIndex, pSingleMsg);
-
-    countTakeInBitAndUpate();
-
-    return;
+    return pAppMsg;
 }
 
-void NotificationPlugin::onClearMsg(AppMsg* pSingleMsg)
-{
-    if(true == m_bShowTakeIn)  //当展示收纳列表时
-    {
-        qDebug()<<"NotificationPlugin::onClearMsg 在收纳盒时，是不应该点击到删除按钮的";
-        return;
-    }
 
-    int nIndex = m_listAppMsg.indexOf(pSingleMsg);
+
+void NotificationPlugin::onClearMsg(AppMsg* pAppMsg)
+{
+//    if(true == m_bShowTakeIn)  //当展示收纳列表时
+//    {
+//        qDebug()<<"NotificationPlugin::onClearMsg 在收纳盒时，是不应该点击到删除按钮的";
+//        return;
+//    }
+
+    int nIndex = m_listAppMsg.indexOf(pAppMsg);
     if(-1 == nIndex)
     {
         qDebug()<<"NotificationPlugin::onClearMsg 在通知链表中未找到pSingleMsg指针";
@@ -336,8 +333,8 @@ void NotificationPlugin::onClearMsg(AppMsg* pSingleMsg)
     }
 
     m_listAppMsg.removeAt(nIndex);
-    m_pScrollAreaNotifyVBoxLayout->removeWidget(pSingleMsg);
-    pSingleMsg->deleteLater();
+    m_pScrollAreaNotifyVBoxLayout->removeWidget(pAppMsg);
+    pAppMsg->deleteLater();
 
     if(0 == m_listAppMsg.count() && 1 == m_pScrollAreaNotifyVBoxLayout->count())
     {
@@ -370,12 +367,12 @@ void NotificationPlugin::clearAllMessage()
     }
     else    //当展示收纳列表时
     {
-        while (m_listAppTakeInMsg.count() > 0)
+        while (m_listTakeInAppMsg.count() > 0)
         {
-            AppMsg* pSingleMsg = m_listAppTakeInMsg.at(0);
+            AppMsg* pSingleMsg = m_listTakeInAppMsg.at(0);
             m_pScrollAreaTakeInVBoxLayout->removeWidget(pSingleMsg);
             pSingleMsg->deleteLater();
-            m_listAppTakeInMsg.removeAt(0);
+            m_listTakeInAppMsg.removeAt(0);
         }
         m_pTakeInCoutLabel->setVisible(false);
     }
@@ -409,9 +406,9 @@ void NotificationPlugin::showTakeInMessage()
 
         m_pTakeInCoutLabel->setVisible(false);
 
-        for(int i = 0; i < m_listAppTakeInMsg.count(); i++)
+        for(int i = 0; i < m_listTakeInAppMsg.count(); i++)
         {
-            AppMsg* pAppMsg = m_listAppTakeInMsg.at(i);
+            AppMsg* pAppMsg = m_listTakeInAppMsg.at(i);
             pAppMsg->updateAppPushTime();
         }
     }
@@ -429,7 +426,7 @@ void NotificationPlugin::showTakeInMessage()
         m_pTakeInBoxToolButton->setIcon(QIcon(*m_pPixmap));
         m_pTakeInBoxToolButton->setEnterFlags(m_bShowTakeIn);
 
-        if(m_listAppTakeInMsg.count() > 0)
+        if(m_listTakeInAppMsg.count() > 0)
         {
             m_pTakeInCoutLabel->setVisible(true);
         }

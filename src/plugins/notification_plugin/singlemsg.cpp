@@ -17,11 +17,14 @@
 */
 
 #include "singlemsg.h"
+#include "appmsg.h"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
-SingleMsg::SingleMsg(QString strSummary, QDateTime dateTime, QString strBody)
+SingleMsg::SingleMsg(AppMsg* pParent, QString strSummary, QDateTime dateTime, QString strBody, bool bTakeInFlag)
 {
+    m_strSummary = strSummary;
+    m_strBody = strBody;
     m_dateTime = dateTime;
     m_uNotifyTime = dateTime.toTime_t();
 
@@ -76,23 +79,49 @@ SingleMsg::SingleMsg(QString strSummary, QDateTime dateTime, QString strBody)
     m_pTimeLabel->setVisible(false);
     pHSummaryLayout->addWidget(m_pTimeLabel, 0, Qt::AlignRight);
 
+    //当该条消息不属于收纳消息时，才需要新建收纳按钮
+    if(false == bTakeInFlag)
+    {
+        //单独收纳按钮
+        QToolButton* pSingleTakeinButton = new QToolButton();
+        pSingleTakeinButton->setStyleSheet("QToolButton{border:none;border-style:none;padding:0px;background:transparent;}");
+        pSingleTakeinButton->setIconSize(QSize(14,12));
+        connect(pSingleTakeinButton, SIGNAL(clicked()), this, SLOT(onTakeIn()));
+        connect(this, SIGNAL(Sig_onTakeIn(SingleMsg*)), pParent, SLOT(onTakeInSingleMsg(SingleMsg*)));
+        QString strTakein = ":/images/box.svg";
+        pSingleTakeinButton->setIcon(QPixmap(strTakein));
+
+        pHSummaryLayout->addWidget(pSingleTakeinButton, 0, Qt::AlignRight);
+    }
+
+
+    //单独删除按钮
+    m_pSingleDeleteButton = new QToolButton();
+    m_pSingleDeleteButton->setStyleSheet("QToolButton{border:none;border-style:none;padding:0px;background:transparent;}");
+    m_pSingleDeleteButton->setIconSize(QSize(22,24));
+    connect(m_pSingleDeleteButton, SIGNAL(clicked()), this, SLOT(onDele()));
+    connect(this, SIGNAL(Sig_onDele(SingleMsg*)), pParent, SLOT(onDeleSingleMsg(SingleMsg*)));
+    QString strDelete = ":/images/hover.svg";
+    m_pSingleDeleteButton->setIcon(QPixmap(strDelete));
+    pHSummaryLayout->addWidget(m_pSingleDeleteButton, 0, Qt::AlignRight);
+
     pSummaryWidget->setLayout(pHSummaryLayout);
     pMainVLaout->addWidget(pSummaryWidget);
 
     //设置通知消息中的正文QLabel，行高24px,采用自动换行模式
     if(false == strBody.isEmpty())
     {
-        m_strBody.append("<p style='line-height:24px'>").append(strBody).append("</p>");
+        m_strFormatBody.append("<p style='line-height:24px'>").append(strBody).append("</p>");
         m_pBodyLabel = new QLabel();
         m_pBodyLabel->setObjectName("body");
         m_pBodyLabel->setFixedWidth(305);
         m_pBodyLabel->setStyleSheet("padding:0px;background-color:transparent;");
         QFontMetrics fontMetrics(m_pBodyLabel->font());
-        int fontSize = fontMetrics.width(m_strBody);
-        QString formatBody = m_strBody;
+        int fontSize = fontMetrics.width(m_strFormatBody);
+        QString formatBody = m_strFormatBody;
         if(fontSize > (m_pBodyLabel->width() - 5))
         {
-            formatBody = fontMetrics.elidedText(m_strBody, Qt::ElideRight, m_pBodyLabel->width() + 120);
+            formatBody = fontMetrics.elidedText(m_strFormatBody, Qt::ElideRight, m_pBodyLabel->width() + 120);
         }
 
         m_pBodyLabel->setText(formatBody);
@@ -101,6 +130,7 @@ SingleMsg::SingleMsg(QString strSummary, QDateTime dateTime, QString strBody)
     }
 
     this->setLayout(pMainVLaout);
+
 
     return;
 }
@@ -150,7 +180,7 @@ void SingleMsg::setTimeLabelVisible(bool bFlag)
 
 void SingleMsg::setBodyLabelWordWrap(bool bFlag)
 {
-    if(true == m_strBody.isEmpty())
+    if(true == m_strFormatBody.isEmpty())
     {
         return;
     }
@@ -160,29 +190,57 @@ void SingleMsg::setBodyLabelWordWrap(bool bFlag)
     if(true == bFlag)
     {
         QFontMetrics fontMetrics(m_pBodyLabel->font());
-        int fontSize = fontMetrics.width(m_strBody);
-        QString formatBody = m_strBody;
+        int fontSize = fontMetrics.width(m_strFormatBody);
+        QString formatBody = m_strFormatBody;
 
         if(fontSize > (m_pBodyLabel->width() * 4 - 5))
         {
-            formatBody = fontMetrics.elidedText(m_strBody, Qt::ElideRight, m_pBodyLabel->width() * 4 + 140);
+            formatBody = fontMetrics.elidedText(m_strFormatBody, Qt::ElideRight, m_pBodyLabel->width() * 4 + 140);
         }
         m_pBodyLabel->setText(formatBody);
     }
     else
     {
         QFontMetrics fontMetrics(m_pBodyLabel->font());
-        int fontSize = fontMetrics.width(m_strBody);
-        QString formatBody = m_strBody;
+        int fontSize = fontMetrics.width(m_strFormatBody);
+        QString formatBody = m_strFormatBody;
         if(fontSize > (m_pBodyLabel->width() - 5))
         {
-            formatBody = fontMetrics.elidedText(m_strBody, Qt::ElideRight, m_pBodyLabel->width() + 190);
+            formatBody = fontMetrics.elidedText(m_strFormatBody, Qt::ElideRight, m_pBodyLabel->width() + 190);
         }
         m_pBodyLabel->setText(formatBody);
     }
 
     return;
 }
+
+void SingleMsg::enterEvent(QEvent *event)
+{
+    Q_UNUSED(event);
+
+
+    return;
+}
+
+void SingleMsg::leaveEvent(QEvent *event)
+{
+    Q_UNUSED(event);
+
+    return;
+}
+
+void SingleMsg::onDele()
+{
+    emit Sig_onDele(this);
+    return;
+}
+
+void SingleMsg::onTakeIn()
+{
+    emit Sig_onTakeIn(this);
+    return;
+}
+
 
 
 

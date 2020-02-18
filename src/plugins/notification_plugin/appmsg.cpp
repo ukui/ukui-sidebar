@@ -21,12 +21,13 @@
 #include "notification_plugin.h"
 #include "singlemsg.h"
 
-AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, QString strIcon)
+AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, QString strIcon, bool bTakeInFlag)
 {
-    m_bTakeInFlag = false;
+    m_bTakeInFlag = bTakeInFlag;
     this->setFixedWidth(380);
 
     m_strAppName = strAppName;
+    m_strIcon = strIcon;
 
     //App信息中的总的垂直布局器
     m_pMainVLaout = new QVBoxLayout();
@@ -126,7 +127,7 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, QString strIcon)
     m_pTakeinButton->setText("收纳");
     m_pTakeinButton->setObjectName("takein");
     connect(m_pTakeinButton, SIGNAL(clicked()), this, SLOT(onTakein()));
-    connect(this, SIGNAL(Sig_SendTakein(AppMsg*)), parent, SLOT(onTakeinMsg(AppMsg*)));
+    connect(this, SIGNAL(Sig_SendTakein(QString, QString, QString, QString, QDateTime)), parent, SLOT(onTakeinMsg(QString, QString, QString, QString, QDateTime)));
 
     //设置一个中间的垂直分割线
     QLabel* pVLabelLine = new QLabel;
@@ -138,8 +139,8 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, QString strIcon)
     m_pDeleteButton = new QPushButton();
     m_pDeleteButton->setText("删除");
     m_pDeleteButton->setObjectName("delete");
-    connect(m_pDeleteButton, SIGNAL(clicked()), this, SLOT(onClear()));
-    connect(this, SIGNAL(Sig_Send(AppMsg*)), parent, SLOT(onClearMsg(AppMsg*)));
+    connect(m_pDeleteButton, SIGNAL(clicked()), this, SLOT(onDeleteAppMsg()));
+    connect(this, SIGNAL(Sig_onDeleteAppMsg(AppMsg*)), parent, SLOT(onClearMsg(AppMsg*)));
 
     pHButtonLayout->addWidget(m_pTakeinButton, 0, Qt::AlignLeft);
     pHButtonLayout->addWidget(pVLabelLine, 0, Qt::AlignHCenter);
@@ -169,6 +170,33 @@ AppMsg::~AppMsg()
 
 }
 
+//收纳单条消息至收纳盒，也需要new，因为收纳次序不定，所以根据时间插入位置
+void AppMsg::TakeinSingleMsg(QString strSummary, QDateTime dateTime, QString strBody)
+{
+    SingleMsg* pSingleMsg = new SingleMsg(this, strSummary, dateTime, strBody, true);
+
+    int uIndex = m_listSingleMsg.count();
+    for(int i = m_listSingleMsg.count() - 1; i >= 0; i--)
+    {
+        SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
+        if(pSingleMsg->getPushTime() < pTmpSingleMsg->getPushTime())
+        {
+            break;
+        }
+        uIndex = i;
+    }
+
+    m_listSingleMsg.insert(uIndex, pSingleMsg);
+    m_pAppMsgListVLaout->insertWidget(uIndex, pSingleMsg);
+
+    SingleMsg* pTopSingleMsg = m_listSingleMsg.at(0); //将该应用中最顶上的一条消息的时间赋给应用
+    m_uNotifyTime = pTopSingleMsg->getPushTime();
+    m_dateTime = pTopSingleMsg->getPushDateTime();
+
+    return;
+}
+
+//新增单条消息至通知列表，崭新消息需要new，然后添加至列表最上面
 void AppMsg::addSingleMsg(QString strSummary, QDateTime dateTime, QString strBody)
 {
     m_dateTime = dateTime;
@@ -182,7 +210,7 @@ void AppMsg::addSingleMsg(QString strSummary, QDateTime dateTime, QString strBod
         pFirstMsg->setBodyLabelWordWrap(true);
     }
 
-    SingleMsg* pSingleMsg = new SingleMsg(strSummary, dateTime, strBody);
+    SingleMsg* pSingleMsg = new SingleMsg(this, strSummary, dateTime, strBody);
     m_listSingleMsg.insert(0, pSingleMsg);
     m_pAppMsgListVLaout->insertWidget(0, pSingleMsg);
 
@@ -322,17 +350,24 @@ void AppMsg::mousePressEvent(QMouseEvent *event)
     return;
 }
 
-void AppMsg::onClear()
+void AppMsg::onDeleteAppMsg()
 {
-    emit Sig_Send(this);
+    emit Sig_onDeleteAppMsg(this);
     return;
 }
 
 void AppMsg::onTakein()
 {
-    m_bTakeInFlag = true;
-    m_pButtonWidget->setVisible(false);
-    emit Sig_SendTakein(this);
+    while(m_listSingleMsg.count() > 0)
+    {
+        SingleMsg* pSingleMsg = m_listSingleMsg.at(0);
+        m_pAppMsgListVLaout->removeWidget(pSingleMsg);
+        m_listSingleMsg.removeAt(0);
+        emit Sig_SendTakein(m_strAppName, m_strIcon, pSingleMsg->getSummary(), pSingleMsg->getBody(), pSingleMsg->getPushDateTime());
+    }
+
+    emit Sig_onDeleteAppMsg(this);
+
     return;
 }
 
@@ -357,7 +392,47 @@ void AppMsg::onFold()
     m_pFoldButton->setVisible(false);
 }
 
+void AppMsg::onDeleSingleMsg(SingleMsg* pSingleMsg)
+{
+    int nIndex = m_listSingleMsg.indexOf(pSingleMsg);
+    if(-1 == nIndex)
+    {
+        qDebug()<<"AppMsg::onDeleSingleMsg 在通知链表中未找到pSingleMsg指针";
+        return;
+    }
 
+    m_listSingleMsg.removeAt(nIndex);
+    m_pAppMsgListVLaout->removeWidget(pSingleMsg);
+    pSingleMsg->deleteLater();
+
+    if(0 == m_listSingleMsg.count())
+    {
+        emit Sig_onDeleteAppMsg(this);
+    }
+
+    return;
+}
+
+void AppMsg::onTakeInSingleMsg(SingleMsg* pSingleMsg)
+{
+    int nIndex = m_listSingleMsg.indexOf(pSingleMsg);
+    if(-1 == nIndex)
+    {
+        qDebug()<<"AppMsg::onTakeInSingleMsg 在通知链表中未找到pSingleMsg指针";
+        return;
+    }
+
+    m_listSingleMsg.removeAt(nIndex);
+    m_pAppMsgListVLaout->removeWidget(pSingleMsg);
+
+    emit Sig_SendTakein(m_strAppName, m_strIcon, pSingleMsg->getSummary(), pSingleMsg->getBody(), pSingleMsg->getPushDateTime());
+    pSingleMsg->deleteLater();
+
+    if(0 == m_listSingleMsg.count())
+    {
+        emit Sig_onDeleteAppMsg(this);
+    }
+}
 
 
 

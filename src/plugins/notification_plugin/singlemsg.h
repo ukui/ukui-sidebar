@@ -22,28 +22,47 @@
 #include <QWidget>
 #include <QLabel>
 #include <QDateTime>
+#include <QToolButton>
+
+class AppMsg;
 
 class SingleMsg : public QWidget
 {
     Q_OBJECT
 public:
-    SingleMsg(QString strSummary, QDateTime dateTime, QString strBody);
+    SingleMsg(AppMsg* pParent, QString strSummary, QDateTime dateTime, QString strBody, bool bTakeInFlag = false);
     void updatePushTime();
     void setTopLabelLineVisible(bool bFlag);
     void setTimeLabelVisible(bool bFlag);
     void setBodyLabelWordWrap(bool bFlag);
+    uint getPushTime() {return m_uNotifyTime;}
+    QDateTime getPushDateTime() {return m_dateTime;}
+    QString getSummary() {return m_strSummary;}
+    QString getBody() {return m_strBody;}
 
-private:
+protected:
+    virtual void enterEvent(QEvent *event) override;
+    virtual void leaveEvent(QEvent *event) override;
+
+private:    
     QDateTime       m_dateTime;                     //保存推送时间
     uint            m_uNotifyTime;                  //保存推送时间的绝对时间
     QLabel*         m_pTimeLabel;
+    QToolButton*    m_pSingleDeleteButton;
     QLabel*         m_pBodyLabel;
     QLabel*         m_pHTopLabelLine;               //消息顶部分割线
-    QString         m_strBody;
+    QString         m_strSummary;                   //保存主题
+    QString         m_strBody;                      //保存正文
+    QString         m_strFormatBody;                //保存格式化后的正文
 
 signals:
+    void            Sig_onDele(SingleMsg* p);
+    void            Sig_onTakeIn(SingleMsg* p);
 
 public slots:
+    void            onDele();
+    void            onTakeIn();
+
 };
 
 #endif // SINGLEMSG_H
