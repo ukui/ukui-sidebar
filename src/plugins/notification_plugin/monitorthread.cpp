@@ -129,9 +129,9 @@ void MonitorThread::readOutputData()
     return;
 }
 
-
 void MonitorThread::run()
 {
+    system("killall dbus-monitor");
     m_pProcess = new QProcess();
     m_pProcess->start("dbus-monitor interface=org.freedesktop.Notifications");
 

@@ -71,9 +71,10 @@ private:
     QLabel*                 m_pTakeInCoutLabel;                 //收纳盒计数统计Label
 
 private slots:
-    void onClearMsg(AppMsg* pSingleMsg);                        //处理清除消息槽函数
-    void onTakeinMsg(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime);
+    void onClearMsg(AppMsg* pAppMsg);                           //处理删除通知应用消息槽函数
     void clearAllMessage();                                     //清除所有消息
+    void onTakeinMsg(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime);
+    void onClearTakeInMsg(AppMsg* pAppMsg);                     //处理删除收纳应用的槽函数
     void showTakeInMessage();
     void callControlPanel();                                    //调用控制面板
 

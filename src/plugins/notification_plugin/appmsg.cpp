@@ -126,7 +126,7 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, QString strIcon, 
     m_pTakeinButton = new QPushButton();
     m_pTakeinButton->setText("收纳");
     m_pTakeinButton->setObjectName("takein");
-    connect(m_pTakeinButton, SIGNAL(clicked()), this, SLOT(onTakein()));
+    connect(m_pTakeinButton, SIGNAL(clicked()), this, SLOT(onTakeinWholeApp()));
     connect(this, SIGNAL(Sig_SendTakein(QString, QString, QString, QString, QDateTime)), parent, SLOT(onTakeinMsg(QString, QString, QString, QString, QDateTime)));
 
     //设置一个中间的垂直分割线
@@ -140,7 +140,14 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, QString strIcon, 
     m_pDeleteButton->setText("删除");
     m_pDeleteButton->setObjectName("delete");
     connect(m_pDeleteButton, SIGNAL(clicked()), this, SLOT(onDeleteAppMsg()));
-    connect(this, SIGNAL(Sig_onDeleteAppMsg(AppMsg*)), parent, SLOT(onClearMsg(AppMsg*)));
+    if(false == m_bTakeInFlag)
+    {
+        connect(this, SIGNAL(Sig_onDeleteAppMsg(AppMsg*)), parent, SLOT(onClearMsg(AppMsg*)));
+    }
+    else
+    {
+        connect(this, SIGNAL(Sig_onDeleteTakeInAppMsg(AppMsg*)), parent, SLOT(onClearTakeInMsg(AppMsg*)));
+    }
 
     pHButtonLayout->addWidget(m_pTakeinButton, 0, Qt::AlignLeft);
     pHButtonLayout->addWidget(pVLabelLine, 0, Qt::AlignHCenter);
@@ -170,8 +177,8 @@ AppMsg::~AppMsg()
 
 }
 
-//收纳单条消息至收纳盒，也需要new，因为收纳次序不定，所以根据时间插入位置
-void AppMsg::TakeinSingleMsg(QString strSummary, QDateTime dateTime, QString strBody)
+//收纳单条消息至收纳盒，也需要new，因为收纳次序不定，所以根据时间插入位置, 来自上层NotificationPlugin的新增调用(新增收纳消息)
+void AppMsg::addTakeinSingleMsg(QString strSummary, QDateTime dateTime, QString strBody)
 {
     SingleMsg* pSingleMsg = new SingleMsg(this, strSummary, dateTime, strBody, true);
 
@@ -356,7 +363,7 @@ void AppMsg::onDeleteAppMsg()
     return;
 }
 
-void AppMsg::onTakein()
+void AppMsg::onTakeinWholeApp()
 {
     while(m_listSingleMsg.count() > 0)
     {
@@ -407,12 +414,20 @@ void AppMsg::onDeleSingleMsg(SingleMsg* pSingleMsg)
 
     if(0 == m_listSingleMsg.count())
     {
-        emit Sig_onDeleteAppMsg(this);
+        if(false == m_bTakeInFlag)
+        {
+            emit Sig_onDeleteAppMsg(this);
+        }
+        else
+        {
+            emit Sig_onDeleteTakeInAppMsg(this);
+        }
     }
 
     return;
 }
 
+//来自SingleMsg下的事件,处理收纳事件
 void AppMsg::onTakeInSingleMsg(SingleMsg* pSingleMsg)
 {
     int nIndex = m_listSingleMsg.indexOf(pSingleMsg);

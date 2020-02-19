@@ -45,7 +45,7 @@ public:
     uint getNotifyAbsuluteTime() {return m_uNotifyTime;}
     QString getAppName() {return m_strAppName;}
     void addSingleMsg(QString strSummary, QDateTime dateTime, QString strBody);
-    void TakeinSingleMsg(QString strSummary, QDateTime dateTime, QString strBody);
+    void addTakeinSingleMsg(QString strSummary, QDateTime dateTime, QString strBody);
     void updateAppPushTime();   //更新应用最新的推送时间
 
 protected:
@@ -76,12 +76,13 @@ private:
 
 
 signals:
-    void                Sig_onDeleteAppMsg(AppMsg* p);            //将本对象指针发送出去
+    void                Sig_onDeleteAppMsg(AppMsg* p);              //该对象属于通知应用,发出删除应用的信号
+    void                Sig_onDeleteTakeInAppMsg(AppMsg* p);        //当该对象属于收纳应用时,发出删除收纳应用的信号
     void                Sig_SendTakein(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime);
 
 public slots:
     void                onDeleteAppMsg();                      //清除一个应用消息
-    void                onTakein();                     //收纳一个应用消息
+    void                onTakeinWholeApp();                     //收纳整个应用消息
     void                onFold();                       //处理折叠
     void                onDeleSingleMsg(SingleMsg* pSingleMsg);
     void                onTakeInSingleMsg(SingleMsg* pSingleMsg);

@@ -11,6 +11,11 @@ The sidebar mainly consists of two parts: notification center and cutting board.
 
 The ukui-sidebar is a shortcut tool on the right side of the screen for UKUI.
 
+How to test notification-center
+==================
+
+notify-send -a wechat -i "/home/ccn/heart.png" Summary Body
+
 How to report bugs
 ==================
 
