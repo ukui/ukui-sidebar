@@ -43,9 +43,8 @@ public:
     NotificationPlugin();
     virtual QWidget* centerWidget() override;    
     virtual void updatePushTime() override;
-    void    countTakeInBitAndUpate();       //统计收纳位数并更新至右上角提示
-    AppMsg* getAppMsgByName(QString strAppName);
-    AppMsg* getTakeinAppMsgByName(QString strAppName);
+    AppMsg* getAppMsgAndIndexByName(QString strAppName, int& nIndex);
+    AppMsg* getTakeinAppMsgAndIndexByName(QString strAppName, int& nIndex);
 
 public slots :
 //    uint Notify(QString strAppName, uint uId, QString strIconPath, QString strSummary, QString strBody, QStringList actions, QVariantMap hint, int nTimeout);
@@ -77,7 +76,7 @@ private slots:
     void onClearTakeInMsg(AppMsg* pAppMsg);                     //处理删除收纳应用的槽函数
     void showTakeInMessage();
     void callControlPanel();                                    //调用控制面板
-
+    void countTakeInBitAndUpate();                              //统计收纳位数并更新至右上角提示
 
 };
 

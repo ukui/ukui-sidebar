@@ -23,6 +23,7 @@
 
 AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, QString strIcon, bool bTakeInFlag)
 {
+    m_bFold = true;
     m_bTakeInFlag = bTakeInFlag;
     this->setFixedWidth(380);
 
@@ -129,6 +130,9 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, QString strIcon, 
     connect(m_pTakeinButton, SIGNAL(clicked()), this, SLOT(onTakeinWholeApp()));
     connect(this, SIGNAL(Sig_SendTakein(QString, QString, QString, QString, QDateTime)), parent, SLOT(onTakeinMsg(QString, QString, QString, QString, QDateTime)));
 
+    //发个统计收纳数更新信号
+    connect(this, SIGNAL(Sig_countTakeInBitAndUpate()), parent, SLOT(countTakeInBitAndUpate()));
+
     //设置一个中间的垂直分割线
     QLabel* pVLabelLine = new QLabel;
     pVLabelLine->setFixedWidth(1);
@@ -193,14 +197,78 @@ void AppMsg::addTakeinSingleMsg(QString strSummary, QDateTime dateTime, QString 
         uIndex = i;
     }
 
+    //当新收纳的消息将插入最顶部时,将已有列表最顶部的顶线和时间设置可见,并且将正文设置自动换行
+    if((0 == uIndex) && (m_listSingleMsg.count() > 0))
+    {
+        SingleMsg* pFirstMsg = m_listSingleMsg.at(0);
+        pFirstMsg->setTopLabelLineVisible(true);
+        pFirstMsg->setTimeLabelVisible(true);
+        pFirstMsg->setBodyLabelWordWrap(true);
+    }
+
+    //当新收纳消息不是插入最顶部时,将新收纳消息最顶部的顶线和时间设置可见,并且将正文设置自动换行
+    if(uIndex > 0)
+    {
+        pSingleMsg->setTopLabelLineVisible(true);
+        pSingleMsg->setTimeLabelVisible(true);
+        pSingleMsg->setBodyLabelWordWrap(true);
+    }
+
+    //如果插入第0条,并且已展开,则将新收纳消息时间设置可见
+    if((0 == uIndex) && (false == m_bFold))
+    {
+        pSingleMsg->setTimeLabelVisible(true);
+        pSingleMsg->setBodyLabelWordWrap(true);
+    }
+
     m_listSingleMsg.insert(uIndex, pSingleMsg);
     m_pAppMsgListVLaout->insertWidget(uIndex, pSingleMsg);
+
+    statisticLeftItem();
+
+    //只要是折叠状态则索引从1开始，将所有SingleMsg设置不可见
+    if(true == m_bFold)
+    {
+        for(int i = 1; i < m_listSingleMsg.count(); i++)
+        {
+            SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
+            pTmpSingleMsg->setVisible(false);
+        }
+    }
 
     SingleMsg* pTopSingleMsg = m_listSingleMsg.at(0); //将该应用中最顶上的一条消息的时间赋给应用
     m_uNotifyTime = pTopSingleMsg->getPushTime();
     m_dateTime = pTopSingleMsg->getPushDateTime();
 
     return;
+}
+
+//统计应用剩余显示条数
+void AppMsg::statisticLeftItem()
+{
+    int nShowLeftCount = m_listSingleMsg.count() - 1;
+    QString strShowLeft = "还有" + QString::number(nShowLeftCount) + "则通知";
+    QString strSetText;
+    strSetText.append("<p style='line-height:24px'>").append(strShowLeft).append("</p>");
+    m_pShowLeftItemLabel->setText(strSetText);
+
+    //当剩余条数大于0
+    if(nShowLeftCount > 0)
+    {
+        m_pTakeinButton->setText("全部收纳");
+        m_pDeleteButton->setText("全部删除");
+        //当剩余条数大于0, 且是折叠状态则显示剩余标签
+        if(true == m_bFold)
+        {
+            m_pShowLeftItemLabel->setVisible(true);
+        }
+    }
+    else
+    {
+        m_pTakeinButton->setText("收纳");
+        m_pDeleteButton->setText("删除");
+        m_pShowLeftItemLabel->setVisible(false);
+    }
 }
 
 //新增单条消息至通知列表，崭新消息需要new，然后添加至列表最上面
@@ -215,42 +283,31 @@ void AppMsg::addSingleMsg(QString strSummary, QDateTime dateTime, QString strBod
         pFirstMsg->setTopLabelLineVisible(true);
         pFirstMsg->setTimeLabelVisible(true);
         pFirstMsg->setBodyLabelWordWrap(true);
+        pFirstMsg->setLeaveShowNoTimeFlag(false);
     }
 
     SingleMsg* pSingleMsg = new SingleMsg(this, strSummary, dateTime, strBody);
     m_listSingleMsg.insert(0, pSingleMsg);
     m_pAppMsgListVLaout->insertWidget(0, pSingleMsg);
 
-    int nShowLeftCount = m_listSingleMsg.count() - 1;
-    QString strShowLeft = "还有" + QString::number(nShowLeftCount) + "则通知";
-    QString strSetText;
-    strSetText.append("<p style='line-height:24px'>").append(strShowLeft).append("</p>");
-    m_pShowLeftItemLabel->setText(strSetText);
+    //统计应用剩余显示条数
+    statisticLeftItem();
 
-    //当剩余条数大于0，且剩余数显示标签和折叠按钮都不可见，则将剩余数显示标签设置可见，由于总条数大于1，将收纳和删除修改为全部收纳和全部删除
-    if(nShowLeftCount > 0 && (false == m_pShowLeftItemLabel->isVisible()) && (false == m_pFoldButton->isVisible()))
-    {
-        m_pShowLeftItemLabel->setVisible(true);
-        m_pTakeinButton->setText("全部收纳");
-        m_pDeleteButton->setText("全部删除");
-    }
-
-    //如果剩余数显示标签可见，则索引从1开始，将所有SingleMsg设置不可见
-    if(true == m_pShowLeftItemLabel->isVisible())
+    //只要是折叠状态则索引从1开始，将所有SingleMsg设置不可见
+    if(true == m_bFold)
     {
         for(int i = 1; i < m_listSingleMsg.count(); i++)
         {
             SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
             pTmpSingleMsg->setVisible(false);
         }
+        //如果是折叠状态，则将最顶部的那条消息设置为鼠标离开时不显示时间标志
+        pSingleMsg->setLeaveShowNoTimeFlag(true);
     }
-
-    //如果折叠按钮可见，则新增信息也展开消息
-    if(true == m_pFoldButton->isVisible())
+    else
     {
-        pSingleMsg->setBodyLabelWordWrap(true);
+        pSingleMsg->setBodyLabelWordWrap(true); //如果已展开，则新增信息也展开消息
     }
-
 
     return;
 }
@@ -289,13 +346,17 @@ void AppMsg::updateAppPushTime()
     QString strPushDate = m_dateTime.toString("yyyy/MM/dd");
     m_pTimeLabel->setText(strPushDate);
     return;
+}
 
+int AppMsg::getSingleMsgCount()
+{
+    return m_listSingleMsg.count();
 }
 
 void AppMsg::enterEvent(QEvent *event)
 {
     Q_UNUSED(event);
-    if(false == m_bTakeInFlag)  //当不在收纳盒时，悬停在消息上才显示收纳和删除按钮
+    if(false == m_bTakeInFlag)  //当不是收纳消息时，悬停在消息上才显示收纳和删除按钮
     {
         m_pButtonWidget->setVisible(true);
     }
@@ -321,10 +382,15 @@ void AppMsg::mousePressEvent(QMouseEvent *event)
 {
     if (event->buttons() == Qt::LeftButton)
     {
+        m_bFold = false;  //置为false,表示展开
         //点击展开所有列表
         SingleMsg* pFirstMsg = m_listSingleMsg.at(0);
-        pFirstMsg->setTimeLabelVisible(true);
+        if(false == pFirstMsg->getSingleDeleteButtonVisible())  //只有当单条删除按钮不可见时，才设置时间可见，此为鼠标悬停在第一条上时点击按钮出现
+        {
+            pFirstMsg->setTimeLabelVisible(true);
+        }
         pFirstMsg->setBodyLabelWordWrap(true);
+        pFirstMsg->setLeaveShowNoTimeFlag(false);
 
         for(int i = 1; i < m_listSingleMsg.count(); i++)
         {
@@ -381,9 +447,11 @@ void AppMsg::onTakeinWholeApp()
 //折叠消息列表
 void AppMsg::onFold()
 {
+    m_bFold = true;  //置为true,表示折叠
     SingleMsg* pFirstMsg = m_listSingleMsg.at(0);
     pFirstMsg->setTimeLabelVisible(false);
     pFirstMsg->setBodyLabelWordWrap(false);
+    pFirstMsg->setLeaveShowNoTimeFlag(true);
 
     for(int i = 1; i < m_listSingleMsg.count(); i++)
     {
@@ -412,6 +480,21 @@ void AppMsg::onDeleSingleMsg(SingleMsg* pSingleMsg)
     m_pAppMsgListVLaout->removeWidget(pSingleMsg);
     pSingleMsg->deleteLater();
 
+    //当本次删除为应用首条时,且该应用不止一条,则需将新的首条设置为顶部消息状态
+    if(0 == nIndex)
+    {
+        setTopWithSecondItem();
+    }
+
+    //统计剩余显示条数,看情况显示
+    statisticLeftItem();
+
+    //只有当该应用属于收纳应用对象时,每删除一条都要更新收纳计数
+    if(true == m_bTakeInFlag)
+    {
+        emit Sig_countTakeInBitAndUpate();
+    }
+
     if(0 == m_listSingleMsg.count())
     {
         if(false == m_bTakeInFlag)
@@ -424,6 +507,29 @@ void AppMsg::onDeleSingleMsg(SingleMsg* pSingleMsg)
         }
     }
 
+    return;
+}
+
+//当应用最顶条被删除后,将第二条置顶
+void AppMsg::setTopWithSecondItem()
+{
+    if(m_listSingleMsg.count() > 0)
+    {
+        SingleMsg* pFirstMsg = m_listSingleMsg.at(0);
+        pFirstMsg->setTopLabelLineVisible(false);
+        pFirstMsg->setLeaveShowNoTimeFlag(false);
+        if(true == m_bFold)
+        {
+            pFirstMsg->setTimeLabelVisible(false);
+            pFirstMsg->setBodyLabelWordWrap(false);
+        }
+        else
+        {
+            pFirstMsg->setTimeLabelVisible(true);
+            pFirstMsg->setBodyLabelWordWrap(true);
+        }
+        pFirstMsg->setVisible(true);
+    }
     return;
 }
 
@@ -442,6 +548,15 @@ void AppMsg::onTakeInSingleMsg(SingleMsg* pSingleMsg)
 
     emit Sig_SendTakein(m_strAppName, m_strIcon, pSingleMsg->getSummary(), pSingleMsg->getBody(), pSingleMsg->getPushDateTime());
     pSingleMsg->deleteLater();
+
+    //当本次收纳为应用首条时,且该应用不止一条,考虑将新的首条设置为顶部消息状态
+    if(0 == nIndex)
+    {
+        setTopWithSecondItem();
+    }
+
+    //统计剩余显示条数,看情况显示
+    statisticLeftItem();
 
     if(0 == m_listSingleMsg.count())
     {

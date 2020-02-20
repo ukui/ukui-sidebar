@@ -188,7 +188,7 @@ void NotificationPlugin::updatePushTime()
     }
 }
 
-AppMsg* NotificationPlugin::getAppMsgByName(QString strAppName)
+AppMsg* NotificationPlugin::getAppMsgAndIndexByName(QString strAppName, int& nIndex)
 {
     AppMsg* pAppMsg = NULL;
     for(int i = 0; i < m_listAppMsg.count(); i++)
@@ -197,6 +197,7 @@ AppMsg* NotificationPlugin::getAppMsgByName(QString strAppName)
         if(strAppName == pTmpAppMsg->getAppName())
         {
             pAppMsg = pTmpAppMsg;
+            nIndex = i;
             break;
         }
     }
@@ -214,12 +215,23 @@ uint NotificationPlugin::Notify(QString strAppName, QString strIconPath, QString
         m_pMessageCenterLabel->setVisible(false);
     }
 
-    AppMsg* pAppMsg = getAppMsgByName(strAppName);  //通过查找m_listAppMsg列表看该app是否已存在
-    if(NULL == pAppMsg)         //如果不存在，则新建一个AppMsg消息
+    int nIndex = -1;
+    AppMsg* pAppMsg = getAppMsgAndIndexByName(strAppName, nIndex);  //通过查找m_listAppMsg列表看该app是否已存在
+    if(NULL == pAppMsg)         //如果不存在，则新建一个AppMsg消息,并且直接置顶
     {
         pAppMsg = new AppMsg(this, strAppName, strIconPath);
         m_listAppMsg.insert(0, pAppMsg);
         m_pScrollAreaNotifyVBoxLayout->insertWidget(0, pAppMsg);
+    }
+    else
+    {
+        if(0 != nIndex) //假如找到已有的应用消息，但不是排序在最顶端，则需要将该消息移动至最顶部
+        {
+            m_listAppMsg.removeAt(nIndex);
+            m_pScrollAreaNotifyVBoxLayout->removeWidget(pAppMsg);
+            m_listAppMsg.insert(0, pAppMsg);
+            m_pScrollAreaNotifyVBoxLayout->insertWidget(0, pAppMsg);
+        }
     }
 
     pAppMsg->addSingleMsg(strSummary, dateTime, strBody); //在strAppName对应的AppMsg中添加单条信息
@@ -235,7 +247,13 @@ uint NotificationPlugin::Notify(QString strAppName, QString strIconPath, QString
 
 void NotificationPlugin::countTakeInBitAndUpate() //统计收纳位数并更新至右上角提示
 {
-    int nCount = m_listTakeInAppMsg.count();
+    int nCount = 0;
+    for(int i = 0; i < m_listTakeInAppMsg.count(); i++)
+    {
+        AppMsg* pTmpAppMsg = m_listTakeInAppMsg.at(i);
+        nCount = nCount + pTmpAppMsg->getSingleMsgCount();
+    }
+
     QString strCount = QString::number(nCount);
     int nBit = 1; //收纳数的位数
     if(nCount > 999)
@@ -254,7 +272,7 @@ void NotificationPlugin::countTakeInBitAndUpate() //统计收纳位数并更新�
 
     m_pTakeInCoutLabel->setGeometry(361, 21, (6 + 6 * nBit), 12);
     m_pTakeInCoutLabel->setText(strCount);
-    if(false == m_pTakeInCoutLabel->isVisible())
+    if(false == m_bShowTakeIn)
     {
         m_pTakeInCoutLabel->setVisible(true);
     }
@@ -311,13 +329,14 @@ void NotificationPlugin::clearAllMessage()
             pSingleMsg->deleteLater();
             m_listTakeInAppMsg.removeAt(0);
         }
+        countTakeInBitAndUpate();
         m_pTakeInCoutLabel->setVisible(false);
     }
 
     return;
 }
 
-AppMsg* NotificationPlugin::getTakeinAppMsgByName(QString strAppName)
+AppMsg* NotificationPlugin::getTakeinAppMsgAndIndexByName(QString strAppName, int& nIndex)
 {
     AppMsg* pAppMsg = NULL;
     for(int i = 0; i < m_listTakeInAppMsg.count(); i++)
@@ -326,6 +345,7 @@ AppMsg* NotificationPlugin::getTakeinAppMsgByName(QString strAppName)
         if(strAppName == pTmpAppMsg->getAppName())
         {
             pAppMsg = pTmpAppMsg;
+            nIndex = i;
             break;
         }
     }
@@ -334,15 +354,34 @@ AppMsg* NotificationPlugin::getTakeinAppMsgByName(QString strAppName)
 
 void NotificationPlugin::onTakeinMsg(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime)
 {
-    AppMsg* pAppMsg = getTakeinAppMsgByName(strAppName);  //通过查找m_listTakeInAppMsg列表看该app是否已存在
+    int nIndex = -1;
+    AppMsg* pAppMsg = getTakeinAppMsgAndIndexByName(strAppName, nIndex);  //通过查找m_listTakeInAppMsg列表看该app是否已存在
     if(NULL == pAppMsg)         //如果不存在，则新建一个AppMsg消息
     {
         pAppMsg = new AppMsg(this, strAppName, strIcon, true);
-        m_listTakeInAppMsg.insert(0, pAppMsg);
-        m_pScrollAreaTakeInVBoxLayout->insertWidget(0, pAppMsg);
+    }
+    else
+    {
+        m_listTakeInAppMsg.removeAt(nIndex);   //如果找到该收纳应用，则先移除，后面根据时间插入
+        m_pScrollAreaTakeInVBoxLayout->removeWidget(pAppMsg);
+    }
+    pAppMsg->addTakeinSingleMsg(strSummary, dateTime, strBody);
+
+
+    int uIndex = m_listTakeInAppMsg.count();
+    for(int i = m_listTakeInAppMsg.count() - 1; i >= 0; i--)
+    {
+        AppMsg* pTmpAppMsg = m_listTakeInAppMsg.at(i);
+        if(pAppMsg->getAppPushTime() < pTmpAppMsg->getAppPushTime())
+        {
+            break;
+        }
+        uIndex = i;
     }
 
-    pAppMsg->addTakeinSingleMsg(strSummary, dateTime, strBody);
+    m_listTakeInAppMsg.insert(uIndex, pAppMsg);
+    m_pScrollAreaTakeInVBoxLayout->insertWidget(uIndex, pAppMsg);
+
     countTakeInBitAndUpate();
 
     return;

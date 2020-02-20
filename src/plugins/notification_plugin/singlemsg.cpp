@@ -23,10 +23,12 @@
 
 SingleMsg::SingleMsg(AppMsg* pParent, QString strSummary, QDateTime dateTime, QString strBody, bool bTakeInFlag)
 {
+    m_bLeaveShowNoTimeFlag = false;
     m_strSummary = strSummary;
     m_strBody = strBody;
     m_dateTime = dateTime;
     m_uNotifyTime = dateTime.toTime_t();
+    m_bTakeInFlag = bTakeInFlag;
 
     //单条消息总体垂直布局器
     QVBoxLayout* pMainVLaout = new QVBoxLayout;
@@ -80,18 +82,18 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strSummary, QDateTime dateTime, QS
     pHSummaryLayout->addWidget(m_pTimeLabel, 0, Qt::AlignRight);
 
     //当该条消息不属于收纳消息时，才需要新建收纳按钮
-    if(false == bTakeInFlag)
+    if(false == m_bTakeInFlag)
     {
         //单独收纳按钮
-        QToolButton* pSingleTakeinButton = new QToolButton();
-        pSingleTakeinButton->setStyleSheet("QToolButton{border:none;border-style:none;padding:0px;background:transparent;}");
-        pSingleTakeinButton->setIconSize(QSize(14,12));
-        connect(pSingleTakeinButton, SIGNAL(clicked()), this, SLOT(onTakeIn()));
+        m_pSingleTakeinButton = new QToolButton();
+        m_pSingleTakeinButton->setStyleSheet("QToolButton{border:none;border-style:none;padding:0px;background:transparent;}");
+        m_pSingleTakeinButton->setIconSize(QSize(14,12));
+        connect(m_pSingleTakeinButton, SIGNAL(clicked()), this, SLOT(onTakeIn()));
         connect(this, SIGNAL(Sig_onTakeIn(SingleMsg*)), pParent, SLOT(onTakeInSingleMsg(SingleMsg*)));
         QString strTakein = ":/images/box.svg";
-        pSingleTakeinButton->setIcon(QPixmap(strTakein));
-
-        pHSummaryLayout->addWidget(pSingleTakeinButton, 0, Qt::AlignRight);
+        m_pSingleTakeinButton->setIcon(QPixmap(strTakein));
+        m_pSingleTakeinButton->setVisible(false);
+        pHSummaryLayout->addWidget(m_pSingleTakeinButton, 0, Qt::AlignRight);
     }
 
 
@@ -103,6 +105,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strSummary, QDateTime dateTime, QS
     connect(this, SIGNAL(Sig_onDele(SingleMsg*)), pParent, SLOT(onDeleSingleMsg(SingleMsg*)));
     QString strDelete = ":/images/hover.svg";
     m_pSingleDeleteButton->setIcon(QPixmap(strDelete));
+    m_pSingleDeleteButton->setVisible(false);
     pHSummaryLayout->addWidget(m_pSingleDeleteButton, 0, Qt::AlignRight);
 
     pSummaryWidget->setLayout(pHSummaryLayout);
@@ -217,7 +220,12 @@ void SingleMsg::setBodyLabelWordWrap(bool bFlag)
 void SingleMsg::enterEvent(QEvent *event)
 {
     Q_UNUSED(event);
-
+    if(false == m_bTakeInFlag)
+    {
+        m_pSingleTakeinButton->setVisible(true);
+    }
+    m_pSingleDeleteButton->setVisible(true);
+    m_pTimeLabel->setVisible(false);
 
     return;
 }
@@ -225,6 +233,15 @@ void SingleMsg::enterEvent(QEvent *event)
 void SingleMsg::leaveEvent(QEvent *event)
 {
     Q_UNUSED(event);
+    if(false == m_bTakeInFlag)
+    {
+        m_pSingleTakeinButton->setVisible(false);
+    }
+    m_pSingleDeleteButton->setVisible(false);
+    if(false == m_bLeaveShowNoTimeFlag)
+    {
+        m_pTimeLabel->setVisible(true);
+    }
 
     return;
 }
