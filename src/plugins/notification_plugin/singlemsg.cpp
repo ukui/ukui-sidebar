@@ -111,26 +111,31 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strSummary, QDateTime dateTime, QS
     //设置通知消息中的正文QLabel，行高24px,采用自动换行模式
     if(false == strBody.isEmpty())
     {
-        m_strFormatBody.append("<p style='line-height:24px'>").append(strBody).append("</p>");
+        //m_strFormatBody.append("<p style='line-height:12px'>").append(strBody).append("</p>");
+        m_strFormatBody = strBody;
         m_pBodyLabel = new QLabel();
         m_pBodyLabel->setObjectName("body");
-        m_pBodyLabel->setFixedWidth(305);
-        m_pBodyLabel->setStyleSheet("padding:0px;background-color:transparent;");
-        QFontMetrics fontMetrics(m_pBodyLabel->font());
-        int fontSize = fontMetrics.width(m_strFormatBody);
-        QString formatBody = m_strFormatBody;
-        if(fontSize > (m_pBodyLabel->width() - 5))
-        {
-            formatBody = fontMetrics.elidedText(m_strFormatBody, Qt::ElideRight, m_pBodyLabel->width() + 120);
-        }
+        m_pBodyLabel->setFixedWidth(315);
+        m_pBodyLabel->setStyleSheet("border: 1px solid transparent;padding:0px;width: 315px;height: 24px;font-size: 14px; background-color:transparent;");
+        m_pBodyLabel->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Maximum);
 
-        m_pBodyLabel->setText(formatBody);
+        m_pBodyLabel->setWordWrap(false);
+//        QFontMetrics fontMetrics(m_pBodyLabel->font());
+//        int fontSize = fontMetrics.width(m_strFormatBody);
+//        QString formatBody = m_strFormatBody;
+//        if(fontSize > (m_pBodyLabel->width()-5) )
+//        {
+//            //formatBody = fontMetrics.elidedText(m_strFormatBody, Qt::ElideRight, m_pBodyLabel->width()+100);
+//            formatBody = fontMetrics.elidedText(m_strFormatBody, Qt::ElideRight, m_pBodyLabel->width());
+//        }
+
+        m_pBodyLabel->setText(m_strFormatBody);
 
         pMainVLaout->addWidget(m_pBodyLabel, 0, Qt::AlignLeft);
     }
 
     this->setLayout(pMainVLaout);
-
+    setBodyLabelWordWrap(false);
 
     return;
 }
@@ -195,7 +200,8 @@ void SingleMsg::setBodyLabelWordWrap(bool bFlag)
 
         if(fontSize > (m_pBodyLabel->width() * 4 - 5))
         {
-            formatBody = fontMetrics.elidedText(m_strFormatBody, Qt::ElideRight, m_pBodyLabel->width() * 4 + 140);
+            //formatBody = fontMetrics.elidedText(m_strFormatBody, Qt::ElideRight, m_pBodyLabel->width() * 4 + 140);
+            formatBody = fontMetrics.elidedText(m_strFormatBody, Qt::ElideRight, m_pBodyLabel->width() * 4);
         }
         m_pBodyLabel->setText(formatBody);
     }
@@ -206,7 +212,8 @@ void SingleMsg::setBodyLabelWordWrap(bool bFlag)
         QString formatBody = m_strFormatBody;
         if(fontSize > (m_pBodyLabel->width() - 5))
         {
-            formatBody = fontMetrics.elidedText(m_strFormatBody, Qt::ElideRight, m_pBodyLabel->width() + 190);
+            //formatBody = fontMetrics.elidedText(m_strFormatBody, Qt::ElideRight, m_pBodyLabel->width() + 190);
+            formatBody = fontMetrics.elidedText(m_strFormatBody, Qt::ElideRight, m_pBodyLabel->width());
         }
         m_pBodyLabel->setText(formatBody);
     }
