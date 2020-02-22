@@ -29,7 +29,7 @@ NotificationPlugin::NotificationPlugin()
 {
     m_bShowTakeIn = false;
     m_pMainWidget = new QWidget;
-//    m_pMainWidget->setObjectName("NotificationCenter");
+    m_pMainWidget->setObjectName("NotificationCenter");
 
     /* 加载样式表 */
     QFile file(":/qss/notification_plugin.css");
@@ -89,7 +89,7 @@ NotificationPlugin::NotificationPlugin()
 
     //第二行左侧标签“重要的信息”，右侧一个清空按钮，一个设置按钮
     QHBoxLayout* pQHBoxLayout2 = new QHBoxLayout;
-    pQHBoxLayout2->setContentsMargins(12,0,10,10);
+    pQHBoxLayout2->setContentsMargins(12,0,10,8);
     m_pNotificationLabel = new QLabel("重要的通知");
     m_pNotificationLabel->setObjectName("importantnotification");
 
@@ -118,13 +118,13 @@ NotificationPlugin::NotificationPlugin()
 
     //通知列表
     m_pQScrollAreaNotify = new ScrollAreaWidget();
-    m_pQScrollAreaNotify->setStyleSheet("QWidget{border:0px;}");
 
     m_pScrollAreaNotifyVBoxLayout = new QVBoxLayout();
     m_pScrollAreaNotifyVBoxLayout->setContentsMargins(0,0,0,0);
     m_pScrollAreaNotifyVBoxLayout->setSpacing(0);
 
     QWidget* pInQWidget = new QWidget();  //通知列表的最内层部件
+    pInQWidget->setObjectName("QScrollAreaInQWidget");
     pInQWidget->setLayout(m_pScrollAreaNotifyVBoxLayout);
     m_pQScrollAreaNotify->setWidget(pInQWidget);
 
@@ -138,13 +138,13 @@ NotificationPlugin::NotificationPlugin()
 
     //收纳列表
     m_pQScrollAreaTakeIn = new ScrollAreaWidget();
-    m_pQScrollAreaTakeIn->setStyleSheet("QWidget{border:0px;}");
 
     m_pScrollAreaTakeInVBoxLayout = new QVBoxLayout();
     m_pScrollAreaTakeInVBoxLayout->setContentsMargins(0,0,0,0);
     m_pScrollAreaTakeInVBoxLayout->setSpacing(0);
 
     QWidget* pTakeInQWidget = new QWidget();  //收纳列表的最内层部件
+    pTakeInQWidget->setObjectName("QScrollAreaInQWidget");
     pTakeInQWidget->setLayout(m_pScrollAreaTakeInVBoxLayout);
     m_pQScrollAreaTakeIn->setWidget(pTakeInQWidget);
 
@@ -219,7 +219,7 @@ uint NotificationPlugin::Notify(QString strAppName, QString strIconPath, QString
     AppMsg* pAppMsg = getAppMsgAndIndexByName(strAppName, nIndex);  //通过查找m_listAppMsg列表看该app是否已存在
     if(NULL == pAppMsg)         //如果不存在，则新建一个AppMsg消息,并且直接置顶
     {
-        pAppMsg = new AppMsg(this, strAppName, strIconPath);
+        pAppMsg = new AppMsg(this, strAppName);
         m_listAppMsg.insert(0, pAppMsg);
         m_pScrollAreaNotifyVBoxLayout->insertWidget(0, pAppMsg);
     }
@@ -234,7 +234,7 @@ uint NotificationPlugin::Notify(QString strAppName, QString strIconPath, QString
         }
     }
 
-    pAppMsg->addSingleMsg(strSummary, dateTime, strBody); //在strAppName对应的AppMsg中添加单条信息
+    pAppMsg->addSingleMsg(strIconPath, strSummary, dateTime, strBody); //在strAppName对应的AppMsg中添加单条信息
 
     for(int i = 0; i < m_listAppMsg.count(); i++)
     {
@@ -352,20 +352,20 @@ AppMsg* NotificationPlugin::getTakeinAppMsgAndIndexByName(QString strAppName, in
     return pAppMsg;
 }
 
-void NotificationPlugin::onTakeinMsg(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime)
+void NotificationPlugin::onTakeInSingleMsg(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime)
 {
     int nIndex = -1;
     AppMsg* pAppMsg = getTakeinAppMsgAndIndexByName(strAppName, nIndex);  //通过查找m_listTakeInAppMsg列表看该app是否已存在
     if(NULL == pAppMsg)         //如果不存在，则新建一个AppMsg消息
     {
-        pAppMsg = new AppMsg(this, strAppName, strIcon, true);
+        pAppMsg = new AppMsg(this, strAppName, true);
     }
     else
     {
         m_listTakeInAppMsg.removeAt(nIndex);   //如果找到该收纳应用，则先移除，后面根据时间插入
         m_pScrollAreaTakeInVBoxLayout->removeWidget(pAppMsg);
     }
-    pAppMsg->addTakeinSingleMsg(strSummary, dateTime, strBody);
+    pAppMsg->addTakeinSingleMsg(strIcon, strSummary, dateTime, strBody);
 
 
     int uIndex = m_listTakeInAppMsg.count();

@@ -40,12 +40,12 @@ class AppMsg : public QWidget
 {
     Q_OBJECT
 public:
-    AppMsg(NotificationPlugin *parent, QString strAppName, QString strIcon, bool bTakeInFlag = false);
+    AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag = false);
     ~AppMsg();
     uint getAppPushTime() {return m_uNotifyTime;}
     QString getAppName() {return m_strAppName;}
-    void addSingleMsg(QString strSummary, QDateTime dateTime, QString strBody);
-    void addTakeinSingleMsg(QString strSummary, QDateTime dateTime, QString strBody);
+    void addSingleMsg(QString strIconPath, QString strSummary, QDateTime dateTime, QString strBody);
+    void addTakeinSingleMsg(QString strIcon, QString strSummary, QDateTime dateTime, QString strBody);
     void updateAppPushTime();       //更新应用最新的推送时间
     int getSingleMsgCount();        //获取应用消息数
     void statisticLeftItem();       //统计应用剩余显示条数
@@ -58,20 +58,9 @@ protected:
 
 private:
     QVBoxLayout*        m_pMainVLaout;                  //App信息中的总的垂直布局器
-    QToolButton*        m_pIconToolButton;              //消息图标
-    QLabel*             m_pAppNameLabel;                //保存应用名的Label
-    QLabel*             m_pTimeLabel;                   //保存推送时间的Label
-    QPushButton*        m_pFoldButton;                  //应用消息折叠按钮
-    QVBoxLayout*        m_pAppMsgListVLaout;            //保存添加该应用的消息列表布局器    
-    QLabel*             m_pShowLeftItemLabel;           //显示该应用未展开条数
-    QWidget*            m_pButtonWidget;                //保存底下收纳和删除按钮的Widget
-    QPushButton*        m_pTakeinButton;                //收纳按钮
-    QPushButton*        m_pDeleteButton;                //删除按钮
-
 
     QList<SingleMsg*>   m_listSingleMsg;                //对于SingleMsg类对象用list表记录
     QString             m_strAppName;                   //保存发送方的应用名
-    QString             m_strIcon;                      //保存发送方的图标路径
     QDateTime           m_dateTime;                     //保存推送时间
     uint                m_uNotifyTime;                  //保存推送时间的绝对时间
     bool                m_bTakeInFlag;                  //转变为收纳消息吗，默认为false
@@ -82,15 +71,15 @@ private:
 signals:
     void                Sig_onDeleteAppMsg(AppMsg* p);              //该对象属于通知应用,发出删除应用的信号
     void                Sig_onDeleteTakeInAppMsg(AppMsg* p);        //当该对象属于收纳应用时,发出删除收纳应用的信号
-    void                Sig_SendTakein(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime);
+    void                Sig_SendTakeInSingleMsg(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime);
     void                Sig_countTakeInBitAndUpate();               //发个统计收纳数信号
 
 public slots:
-    void                onDeleteAppMsg();                       //清除一个应用消息
-    void                onTakeinWholeApp();                     //收纳整个应用消息
-    void                onFold();                               //处理折叠
+    void                onDeleteAppMsg();                           //删除一个应用消息
+    void                onTakeinWholeApp();                         //收纳整个应用消息
     void                onDeleSingleMsg(SingleMsg* pSingleMsg);
     void                onTakeInSingleMsg(SingleMsg* pSingleMsg);
+    void                setAppFoldFlag(bool bFlag);
 
 };
 
