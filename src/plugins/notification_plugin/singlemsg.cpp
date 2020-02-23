@@ -38,7 +38,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     connect(this, SIGNAL(Sig_onDeleSingleMsg(SingleMsg*)), pParent, SLOT(onDeleSingleMsg(SingleMsg*)));
     connect(this, SIGNAL(Sig_onDeleteAppMsg()), pParent, SLOT(onDeleteAppMsg()));
     connect(this, SIGNAL(Sig_onTakeInSingleMsg(SingleMsg*)), pParent, SLOT(onTakeInSingleMsg(SingleMsg*)));
-
+    connect(this, SIGNAL(Sig_onTakeinWholeApp()), pParent, SLOT(onTakeinWholeApp()));
 
     //为了设置AppMsg的样式,在里面套了一个QWidget
     QVBoxLayout* pAppVLaout = new QVBoxLayout();
@@ -155,19 +155,37 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     //设置通知消息中的正文QLabel，行高24px,采用自动换行模式
     if(false == strBody.isEmpty())   //当正文消息不为空
     {
-        m_strFormatBody.append("<p style='line-height:24px'>").append(strBody).append("</p>");
+//        m_strFormatBody.append("<p style='line-height:24px'>").append(strBody).append("</p>");
+//        m_pBodyLabel = new QLabel();
+//        m_pBodyLabel->setObjectName("body");
+//        m_pBodyLabel->setFixedWidth(305);
+//        m_pBodyLabel->setStyleSheet("padding:0px;background-color:transparent;");
+//        QFontMetrics fontMetrics(m_pBodyLabel->font());
+//        int fontSize = fontMetrics.width(m_strFormatBody);
+//        QString formatBody = m_strFormatBody;
+//        if(fontSize > (m_pBodyLabel->width() - 5))
+//        {
+//            formatBody = fontMetrics.elidedText(m_strFormatBody, Qt::ElideRight, m_pBodyLabel->width() + 120);
+//        }
+
+//        m_pBodyLabel->setText(formatBody);
+
+        m_strFormatBody = strBody;
         m_pBodyLabel = new QLabel();
         m_pBodyLabel->setObjectName("body");
-        m_pBodyLabel->setFixedWidth(305);
-        m_pBodyLabel->setStyleSheet("padding:0px;background-color:transparent;");
+        m_pBodyLabel->setFixedWidth(315);
+//        m_pBodyLabel->setStyleSheet("padding:0px;height:24px;font-size:14px;background-color:transparent;");
+        m_pBodyLabel->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Maximum);
+        m_pBodyLabel->setWordWrap(false);
+//        m_pBodyLabel->setText(m_strFormatBody);
+
         QFontMetrics fontMetrics(m_pBodyLabel->font());
         int fontSize = fontMetrics.width(m_strFormatBody);
         QString formatBody = m_strFormatBody;
-        if(fontSize > (m_pBodyLabel->width() - 5))
+        if(fontSize > (m_pBodyLabel->width() - 45))
         {
-            formatBody = fontMetrics.elidedText(m_strFormatBody, Qt::ElideRight, m_pBodyLabel->width() + 120);
+            formatBody = fontMetrics.elidedText(m_strFormatBody, Qt::ElideRight, m_pBodyLabel->width() - 40);
         }
-
         m_pBodyLabel->setText(formatBody);
 
         pVContextLayout->addWidget(m_pBodyLabel, 0, Qt::AlignLeft);
@@ -234,29 +252,27 @@ void SingleMsg::setBodyLabelWordWrap(bool bFlag)
 
     m_pBodyLabel->setWordWrap(bFlag);
 
+    QFontMetrics fontMetrics(m_pBodyLabel->font());
+    int fontSize = fontMetrics.width(m_strFormatBody);
+    QString formatBody = m_strFormatBody;
+
     if(true == bFlag)
     {
-        QFontMetrics fontMetrics(m_pBodyLabel->font());
-        int fontSize = fontMetrics.width(m_strFormatBody);
-        QString formatBody = m_strFormatBody;
-
-        if(fontSize > (m_pBodyLabel->width() * 4 - 5))
+        //如果展开,就超过四行末尾显示省略号
+        if(fontSize > (m_pBodyLabel->width() * 4 - 30))
         {
-            formatBody = fontMetrics.elidedText(m_strFormatBody, Qt::ElideRight, m_pBodyLabel->width() * 4 + 140);
+            formatBody = fontMetrics.elidedText(m_strFormatBody, Qt::ElideRight, m_pBodyLabel->width() * 4 - 20);
         }
-        m_pBodyLabel->setText(formatBody);
     }
     else
     {
-        QFontMetrics fontMetrics(m_pBodyLabel->font());
-        int fontSize = fontMetrics.width(m_strFormatBody);
-        QString formatBody = m_strFormatBody;
-        if(fontSize > (m_pBodyLabel->width() - 5))
+        //如果不展开,就超过一行末尾显示省略号
+        if(fontSize > (m_pBodyLabel->width() - 45))
         {
-            formatBody = fontMetrics.elidedText(m_strFormatBody, Qt::ElideRight, m_pBodyLabel->width() + 190);
+            formatBody = fontMetrics.elidedText(m_strFormatBody, Qt::ElideRight, m_pBodyLabel->width());
         }
-        m_pBodyLabel->setText(formatBody);
     }
+    m_pBodyLabel->setText(formatBody);
 
     return;
 }
@@ -361,7 +377,15 @@ void SingleMsg::onDele()
 
 void SingleMsg::onTakeIn()
 {
-    emit Sig_onTakeInSingleMsg(this);
+    if(true == m_bMain && true == m_bFold)
+    {
+        emit Sig_onTakeinWholeApp();
+    }
+    else
+    {
+        emit Sig_onTakeInSingleMsg(this);
+    }
+
     return;
 }
 

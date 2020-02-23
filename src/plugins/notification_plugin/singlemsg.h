@@ -78,6 +78,7 @@ signals:
     void            Sig_onDeleSingleMsg(SingleMsg* p);
     void            Sig_onTakeInSingleMsg(SingleMsg* p);
     void            Sig_onDeleteAppMsg();
+    void            Sig_onTakeinWholeApp();
     void            Sig_setAppFoldFlag(bool bFoldFlag);
 
 public slots:

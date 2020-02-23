@@ -36,8 +36,10 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
 
     this->setLayout(m_pMainVLaout);
 
-    //发个信号通知插件删除该应用消息
+    //发个信号通知插件删除该通知应用消息
     connect(this, SIGNAL(Sig_onDeleteAppMsg(AppMsg*)), parent, SLOT(onClearMsg(AppMsg*)));
+    //发个信号通知插件删除该收纳应用消息
+    connect(this, SIGNAL(Sig_onDeleteTakeInAppMsg(AppMsg*)), parent, SLOT(onClearTakeInMsg(AppMsg*)));
 
     //发个信号通知插件收纳单条应用消息
     connect(this, SIGNAL(Sig_SendTakeInSingleMsg(QString, QString, QString, QString, QDateTime)), parent, SLOT(onTakeInSingleMsg(QString, QString, QString, QString, QDateTime)));
@@ -83,6 +85,11 @@ void AppMsg::addTakeinSingleMsg(QString strIcon, QString strSummary, QDateTime d
     if((0 == uIndex) && (false == m_bFold))
     {
         pSingleMsg->setBodyLabelWordWrap(true);
+    }
+    //如果插入的不是第0条,则自己不能为主
+    if(0 != uIndex)
+    {
+        pSingleMsg->setMainFlag(false);
     }
 
     m_listSingleMsg.insert(uIndex, pSingleMsg);
@@ -241,8 +248,15 @@ void AppMsg::mousePressEvent(QMouseEvent *event)
 }
 
 void AppMsg::onDeleteAppMsg()
-{
-    emit Sig_onDeleteAppMsg(this);
+{   
+    if(false == m_bTakeInFlag)  //是通知应用就通知插件删该通知应用
+    {
+        emit Sig_onDeleteAppMsg(this);
+    }
+    else                        //是收纳应用就通知插件删该收纳应用
+    {
+        emit Sig_onDeleteTakeInAppMsg(this);
+    }
     return;
 }
 
