@@ -1,0 +1,13 @@
+language: cpp
+dist: bionic
+compiler: g++
+sudo: required
+
+before_install:
+
+install:
+  - sudo apt-get install g++ cmake clang-format make debhelper-compat libglib2.0-dev libqt5svg5-dev qttools5-dev-tools qt5base qt5base-dev
+
+script:
+  - qmake
+  - make
