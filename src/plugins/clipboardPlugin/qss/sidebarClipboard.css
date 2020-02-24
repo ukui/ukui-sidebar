@@ -148,7 +148,7 @@ QWidget#SearhWidget>QPushButton#CleanList {
     margin-top:0px;
     margin-left:5px;
     margin-bottom:0px;
-    margin-right:150px;
+    margin-right:10px;
     border:0px solid rgba(255,0,0,1);
 }
 
@@ -292,6 +292,10 @@ QWidget#SearhWidget>QLineEdit#SearchLabel:focus {
 
 /* 编辑WIdget的编辑区域 */
 QGroupBox#EditBox>QTextEdit#EditingArea {
+    font-size:14px;
+    font-weight:400;
+    font-family:Noto Sans CJK SC;
+    color:rgba(255,255,255,1);
     width:340px;
     height:180px;
     margin-right: 0px;
@@ -408,14 +412,14 @@ QGroupBox::title{
 
 /* widget条目的Lable */
 QWidget#WidgetEntry>QLabel{
-    width:130px;
+    width:200px;
     height:34px;
-    font-size:11px;
+    font-size:14px;
     font-weight:400;
 
     margin-top: 0px;
-    margin-right: 0px;
-    margin-bottom: 15px;
+    margin-right: 120px;
+    margin-bottom: 0px;
     margin-left: 0px;
 
     padding-right: 0px;

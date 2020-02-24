@@ -21,11 +21,14 @@
 #define CLIPBOARDWIDGETENTRY_H
 #include <QWidget>
 #include <QPushButton>
+#include <QLineEdit>
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QIcon>
 #include <QLine>
 #include <QGroupBox>
+#include <QEvent>
+#include <QDebug>
 #define  EDIT_SVG_PATH  ":/image/editor.svg"
 #define  COPY_SVG_PATH  ":/image/copy.svg"
 #define  REMOVE_SVG_PATH  ":/image/delete.svg"
@@ -41,13 +44,15 @@ public:
     QPushButton *m_pEditButon;
     QPushButton *m_pRemoveButton;
     QLabel      *m_pCopyDataLabal;
-    QLabel      *m_pHBottomLabelLine;
     QHBoxLayout *m_pHLayout;
     QHBoxLayout *m_pHorizontalLineLayout;
     QLine       *m_pLine;
     QGroupBox   *m_pMainWidgetEntryBox;
     QGroupBox   *m_pEntryLineBox;
     QVBoxLayout *m_pMainLayout;
+protected:
+    void enterEvent(QEvent *);                      //进入QWidget瞬间事件
+    void leaveEvent(QEvent *);                      //离开QWidget瞬间事件
 };
 
 #endif // CLIPBOARDWIDGETENTRY_H

@@ -33,6 +33,8 @@
 #include <QLineEdit>
 #include <QStaticText>
 #include <QColor>
+#include <QLabel>
+#include <QByteArray>
 #include "clipboardpluginiface.h"
 #include "clipboardwidgetentry.h"
 #include "sidebarclipboardsignal.h"
@@ -66,6 +68,7 @@ public:
     /* 剪贴板成员和成员函数 */
     QHash<ClipboardWidgetEntry*, QListWidgetItem*> m_pclipboardEntryItem;
     QHash<ClipboardWidgetEntry*, const QMimeData*> m_pclipbordMimeData; //保留从剪贴板拿到原数据
+    QHash<QLabel*, QString> m_pLabelText; //条目中Label与label中的text对应关系
     QListWidget *m_pShortcutOperationListWidget;
     QGroupBox   *m_pSidebarClipboardBox;
 
@@ -79,9 +82,18 @@ public:
     void registerWidgetItem(ClipboardWidgetEntry *key, QListWidgetItem *value);
     QListWidgetItem* getWidgetItem(ClipboardWidgetEntry *key);
     void removeWidgetItem(ClipboardWidgetEntry *key);
+    void removeHashAllWidgetItem();
+
     void registerMimeData(ClipboardWidgetEntry *key, const QMimeData *value);
     const QMimeData* getMimeData(ClipboardWidgetEntry *key);
     void removeMimeData(ClipboardWidgetEntry *key);
+    void removeHashAllMimeData();
+
+    void registerLabelText(QLabel *key, QString value);  //注册条目中的lable与条目中的原始字符串文本相对应关系
+    QString getLabelText(QLabel *key);
+    void removeLabelText(QLabel *key);
+    void removeHashAllLabelText();
+
     void removeLastWidgetItem(); //限制复制条数
     bool booleanExistWidgetItem(QString Text);
     void createFindClipboardWidgetItem(); /* 创建查找条目 */

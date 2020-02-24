@@ -43,12 +43,39 @@ ClipboardWidgetEntry::ClipboardWidgetEntry(QWidget *parent)
     m_pRemoveButton->setObjectName("RemoveButton");
     m_pCopyDataLabal = new QLabel();
 //    m_pCopyDataLabal->fontMetrics().elidedText(strText, Qt::ElideRight, 20, Qt::TextShowMnemonic);
-    m_pCopyDataLabal->setFixedSize(200, 38);
-    m_pCopyDataLabal->setObjectName("EntryLable");
+//    m_pCopyDataLabal->setFixedSize(200, 34);
+    m_pCopyDataLabal->setObjectName("EntryQLineEdit");
     m_pHLayout       = new QHBoxLayout();
     m_pHLayout->addWidget(m_pCopyDataLabal);
     m_pHLayout->addWidget(m_pPopButton);
     m_pHLayout->addWidget(m_pEditButon);
     m_pHLayout->addWidget(m_pRemoveButton);
+    m_pPopButton->setVisible(false);
+    m_pEditButon->setVisible(false);
+    m_pRemoveButton->setVisible(false);
     this->setLayout(m_pHLayout);
+}
+
+void ClipboardWidgetEntry::enterEvent(QEvent *e)
+{
+    if(e == nullptr) {
+        return;
+    }
+    m_pPopButton->setVisible(true);
+    m_pEditButon->setVisible(true);
+    m_pRemoveButton->setVisible(true);
+    m_pCopyDataLabal->setStyleSheet("QWidget#WidgetEntry>QLabel{width:200px;height:34px;margin-right: 0px;} ");
+    qDebug()<<tr("鼠标进入主界面事件");
+}
+
+void ClipboardWidgetEntry::leaveEvent(QEvent *e)
+{
+    if(e == nullptr) {
+        return;
+    }
+    m_pPopButton->setVisible(false);
+    m_pEditButon->setVisible(false);
+    m_pRemoveButton->setVisible(false);
+    m_pCopyDataLabal->setStyleSheet("QWidget#WidgetEntry>QLabel{width:200px;height:34px;margin-right: 120px}");
+    qDebug()<<tr("鼠标离开主界面事件");
 }
