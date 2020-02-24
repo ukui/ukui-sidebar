@@ -27,6 +27,7 @@ TakeInBoxToolButton::TakeInBoxToolButton()
 
 void TakeInBoxToolButton::enterEvent(QEvent *event)
 {
+    Q_UNUSED(event);
 //    QHelpEvent *helpEvent = static_cast<QHelpEvent *>(event);
     setStyleSheet("QToolTip{border:1px solid rgb(118, 118, 118); background-color: #ffffff; color:#484848; font-size:12px;}"); //设置边框, 边框色, 背景色, 字体色, 字号
     if(false == m_bEnterTakeInBox)

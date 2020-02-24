@@ -191,10 +191,17 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
         pVContextLayout->addWidget(m_pBodyLabel, 0, Qt::AlignLeft);
     }
 
+    //显示该应用未展开部件
+    m_pShowLeftWidget = new QWidget;
+    m_pShowLeftWidget->setVisible(false);
+    QVBoxLayout* pVShowLeftLayout = new QVBoxLayout();
+    pVShowLeftLayout->setContentsMargins(0,6,0,14);
+
     m_pShowLeftItemLabel = new QLabel;
     m_pShowLeftItemLabel->setObjectName("ShowLeftItem");
-    m_pShowLeftItemLabel->setVisible(false);
-    pVContextLayout->addWidget(m_pShowLeftItemLabel, 0, Qt::AlignLeft);
+    pVShowLeftLayout->addWidget(m_pShowLeftItemLabel, 0, Qt::AlignLeft);
+    m_pShowLeftWidget->setLayout(pVShowLeftLayout);
+    pVContextLayout->addWidget(m_pShowLeftWidget, 0, Qt::AlignLeft);
 
     pContextWidget->setLayout(pVContextLayout);
     pMainVLaout->addWidget(pContextWidget);
@@ -282,24 +289,22 @@ void SingleMsg::setLeftItem(int nShowLeftCount)
 {
     m_nShowLeftCount = nShowLeftCount;
     QString strShowLeft = "还有" + QString::number(nShowLeftCount) + "则通知";
-    QString strSetText;
-    strSetText.append("<p style='line-height:24px'>").append(strShowLeft).append("</p>");
-    m_pShowLeftItemLabel->setText(strSetText);
+    m_pShowLeftItemLabel->setText(strShowLeft);
 
     //当剩余条数大于0, 且是折叠状态则显示剩余标签
     if((true == m_bFold) && (m_nShowLeftCount > 0))
     {
-        m_pShowLeftItemLabel->setVisible(true);
+        m_pShowLeftWidget->setVisible(true);
     }
     else
     {
-        m_pShowLeftItemLabel->setVisible(false);
+        m_pShowLeftWidget->setVisible(false);
     }
 }
 
 void SingleMsg::setShowLeftItemFlag(bool bFlag)
 {
-    m_pShowLeftItemLabel->setVisible(bFlag);
+    m_pShowLeftWidget->setVisible(bFlag);
 }
 
 void SingleMsg::enterEvent(QEvent *event)
@@ -351,11 +356,11 @@ void SingleMsg::mousePressEvent(QMouseEvent *event)
             //当剩余条数大于0, 且是折叠状态则显示剩余标签
             if((true == m_bFold) && (m_nShowLeftCount > 0))
             {
-                m_pShowLeftItemLabel->setVisible(true);
+                m_pShowLeftWidget->setVisible(true);
             }
             else
             {
-                m_pShowLeftItemLabel->setVisible(false);
+                m_pShowLeftWidget->setVisible(false);
             }
         }
     }

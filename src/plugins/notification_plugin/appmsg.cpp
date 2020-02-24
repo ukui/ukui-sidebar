@@ -78,13 +78,17 @@ void AppMsg::addTakeinSingleMsg(QString strIcon, QString strSummary, QDateTime d
         SingleMsg* pFirstMsg = m_listSingleMsg.at(0);
         pFirstMsg->setMainFlag(false);
         pFirstMsg->setShowLeftItemFlag(false);
-        pFirstMsg->setBodyLabelWordWrap(false);
+        if(true == m_bFold) //只有已经折叠的才需要将现有的顶部设为缩略显示
+        {
+            pFirstMsg->setBodyLabelWordWrap(false);
+        }
     }
 
-    //如果插入第0条,并且已展开,则将新收纳消息设置自动换行
+    //如果插入第0条,并且已展开,则将新收纳消息设置自动换行,并且折叠标志设为false
     if((0 == uIndex) && (false == m_bFold))
     {
         pSingleMsg->setBodyLabelWordWrap(true);
+        pSingleMsg->setFoldFlag(false);
     }
     //如果插入的不是第0条,则自己不能为主
     if(0 != uIndex)
@@ -94,8 +98,6 @@ void AppMsg::addTakeinSingleMsg(QString strIcon, QString strSummary, QDateTime d
 
     m_listSingleMsg.insert(uIndex, pSingleMsg);
     m_pMainVLaout->insertWidget(uIndex, pSingleMsg);
-
-    statisticLeftItem();
 
     //只要是折叠状态则索引从1开始，将所有SingleMsg设置不可见
     if(true == m_bFold)
@@ -111,6 +113,7 @@ void AppMsg::addTakeinSingleMsg(QString strIcon, QString strSummary, QDateTime d
     m_uNotifyTime = pTopSingleMsg->getPushTime();
     m_dateTime = pTopSingleMsg->getPushDateTime();
 
+    statisticLeftItem();
     return;
 }
 
@@ -138,14 +141,14 @@ void AppMsg::addSingleMsg(QString strIconPath, QString strSummary, QDateTime dat
         SingleMsg* pFirstMsg = m_listSingleMsg.at(0);
         pFirstMsg->setMainFlag(false);
         pFirstMsg->setShowLeftItemFlag(false);
+        pFirstMsg->setBodyLabelWordWrap(false);
+        pFirstMsg->setFoldFlag(true);
     }
 
     SingleMsg* pSingleMsg = new SingleMsg(this, strIconPath, m_strAppName, strSummary, dateTime, strBody);
     m_listSingleMsg.insert(0, pSingleMsg);
     m_pMainVLaout->insertWidget(0, pSingleMsg);
-
-    //统计应用剩余显示条数
-    statisticLeftItem();
+    pSingleMsg->setFoldFlag(m_bFold);
 
     //只要是折叠状态则索引从1开始，将所有SingleMsg设置不可见
     if(true == m_bFold)
@@ -160,6 +163,9 @@ void AppMsg::addSingleMsg(QString strIconPath, QString strSummary, QDateTime dat
     {
         pSingleMsg->setBodyLabelWordWrap(true); //如果已展开，则新增信息也展开消息
     }
+
+    //统计应用剩余显示条数
+    statisticLeftItem();
 
     return;
 }
@@ -391,6 +397,8 @@ void AppMsg::setAppFoldFlag(bool bFlag)
         {
             SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
             pTmpSingleMsg->setVisible(false);
+            pTmpSingleMsg->setFoldFlag(true);
+            pTmpSingleMsg->setBodyLabelWordWrap(false);
         }
     }
 
