@@ -1,0 +1,17 @@
+language: cpp
+dist: bionic
+compiler: g++
+sudo: required
+
+before_install:
+  - sudo add-apt-repository -y ppa:beineri/opt-qt-5.12.7-bionic
+  - sudo apt-get update
+
+install:
+  - sudo apt-get install -y qt512base qt512svg qt512charts-no-lgpl qt512xmlpatterns qt512tools
+  - sudo apt-get install -y g++ cmake clang-format make debhelper-compat libglib2.0-dev libqt5svg5-dev qttools5-dev-tools mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev
+  - source /opt/qt512/bin/qt512-env.sh
+
+script:
+  - qmake
+  - make
