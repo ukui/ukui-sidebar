@@ -33,14 +33,12 @@ class SingleMsg : public QWidget
 public:
     SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, QString strSummary, QDateTime dateTime, QString strBody, bool bTakeInFlag = false);
     void updatePushTime();
-    void setTimeLabelVisible(bool bFlag);
     void setBodyLabelWordWrap(bool bFlag);
     uint getPushTime() {return m_uNotifyTime;}
     QDateTime getPushDateTime() {return m_dateTime;}
     QString getIcon() {return m_strIconPath;}
     QString getSummary() {return m_strSummary;}
     QString getBody() {return m_strBody;}
-    bool getSingleDeleteButtonVisible() {return m_pSingleDeleteButton->isVisible();}
     void setLeftItem(int nShowLeftCount);
     void setMainFlag(bool bFlag) {m_bMain = bFlag;}
     void setFoldFlag(bool bFlag) {m_bFold = bFlag;}
@@ -52,9 +50,7 @@ protected:
     virtual void leaveEvent(QEvent *event) override;
     virtual void mousePressEvent(QMouseEvent *event) override;
 
-private:    
-    QToolButton*    m_pIconToolButton;              //应用图标
-    QLabel*         m_pAppNameLabel;                //保存应用名的Label
+private:
     QLabel*         m_pTimeLabel;
     QToolButton*    m_pSingleTakeinButton;          //单条消息中的收纳按钮
     QToolButton*    m_pSingleDeleteButton;          //单条消息中的删除按钮
@@ -64,10 +60,8 @@ private:
 
 
     QString         m_strIconPath;                  //图标路径
-    QString         m_strAppName;                   //应用名
     QString         m_strSummary;                   //保存主题
     QString         m_strBody;                      //保存正文
-    QString         m_strFormatBody;                //保存格式化后的正文
     QDateTime       m_dateTime;                     //保存推送时间
     uint            m_uNotifyTime;                  //保存推送时间的绝对时间
     bool            m_bTakeInFlag;                  //收纳标志
@@ -78,13 +72,16 @@ private:
 signals:
     void            Sig_onDeleSingleMsg(SingleMsg* p);
     void            Sig_onTakeInSingleMsg(SingleMsg* p);
+    void            Sig_onRecoverSingleMsg(SingleMsg* p);
     void            Sig_onDeleteAppMsg();
     void            Sig_onTakeinWholeApp();
+    void            Sig_onRecoverWholeApp();
     void            Sig_setAppFoldFlag(bool bFoldFlag);
 
 public slots:
-    void            onDele();
-    void            onTakeIn();
+    void            onDele();                       //通知中心或者收纳盒中的删除
+    void            onTakeIn();                     //通知中心消息收纳至收纳盒
+    void            onRecover();                    //收纳盒消息恢复至通知中心
 
 };
 

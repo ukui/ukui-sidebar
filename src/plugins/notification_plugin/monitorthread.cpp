@@ -19,6 +19,7 @@
 #include "monitorthread.h"
 #include "notification_plugin.h"
 
+
 MonitorThread::MonitorThread(NotificationPlugin *parent)
 {
     m_parent = parent;
@@ -94,12 +95,8 @@ void MonitorThread::extractData(QString strOutput)
     QString strBody = strOutputTmp.mid(0, nIndex);
     strOutputTmp = strOutputTmp.mid(nIndex + 1);
 
-    qDebug()<<"MonitorThread::extractData";
-    qDebug()<<strAppName;
-    qDebug()<<strIcon;
-    qDebug()<<strSummary;
-    qDebug()<<strBody;
-    emit Sig_Notify(strAppName, strIcon, strSummary, strBody);
+    QDateTime dateTime(QDateTime::currentDateTime());
+    emit Sig_Notify(strAppName, strIcon, strSummary, strBody, dateTime);
     return;
 }
 
@@ -139,7 +136,7 @@ void MonitorThread::run()
     connect(pTimer, SIGNAL(timeout()), this, SLOT(readOutputData()));
     pTimer->start(1000);
 
-    connect(this, SIGNAL(Sig_Notify(QString, QString, QString, QString)), m_parent, SLOT(Notify(QString, QString, QString, QString)));
+    connect(this, SIGNAL(Sig_Notify(QString, QString, QString, QString, QDateTime)), m_parent, SLOT(onAddSingleNotify(QString, QString, QString, QString, QDateTime)));
     exec();
 
 }

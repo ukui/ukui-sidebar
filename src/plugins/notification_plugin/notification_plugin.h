@@ -47,10 +47,7 @@ public:
     AppMsg* getTakeinAppMsgAndIndexByName(QString strAppName, int& nIndex);
 
 public slots :
-//    uint Notify(QString strAppName, uint uId, QString strIconPath, QString strSummary, QString strBody, QStringList actions, QVariantMap hint, int nTimeout);
-
-private slots :
-    uint Notify(QString strAppName, QString strIconPath, QString strSummary, QString strBody);
+//    uint onAddSingleNotify(QString strAppName, uint uId, QString strIconPath, QString strSummary, QString strBody, QStringList actions, QVariantMap hint, int nTimeout);
 
 private:
     QWidget*                m_pMainWidget;
@@ -61,7 +58,6 @@ private:
     ScrollAreaWidget*       m_pQScrollAreaTakeIn;               //收纳列表ScrollAreaWidget
     QVBoxLayout*            m_pScrollAreaTakeInVBoxLayout;
     QLabel*                 m_pMessageCenterLabel;
-    QString                 m_strQss;
     bool                    m_bShowTakeIn;
     QLabel*                 m_pNotificationLabel;               //重要的通知和不重要的通知标签
     QSvgRenderer*           m_pSvgRender;
@@ -70,13 +66,14 @@ private:
     QLabel*                 m_pTakeInCoutLabel;                 //收纳盒计数统计Label
 
 private slots:
-    void onClearMsg(AppMsg* pAppMsg);                           //处理删除通知应用消息槽函数
-    void clearAllMessage();                                     //清除所有消息
-    void onTakeInSingleMsg(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime);
-    void onClearTakeInMsg(AppMsg* pAppMsg);                     //处理删除收纳应用的槽函数
-    void showTakeInMessage();
-    void callControlPanel();                                    //调用控制面板
-    void countTakeInBitAndUpate();                              //统计收纳位数并更新至右上角提示
+    uint onAddSingleNotify(QString strAppName, QString strIconPath, QString strSummary, QString strBody, QDateTime dateTime);                       //处理新增单条通知
+    void onTakeInSingleNotify(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime);       //处理收纳单条通知
+    void onClearAllMessage();                                           //清除所有消息
+    void onClearAppMsg(AppMsg* pAppMsg);                                //处理删除通知应用消息槽函数
+    void onClearTakeInAppMsg(AppMsg* pAppMsg);                          //处理删除收纳应用的槽函数
+    void onShowTakeInMessage();
+    void onCallControlPanel();                                          //调用控制面板
+    void onCountTakeInBitAndUpate();                                    //统计收纳位数并更新至右上角提示
 
 };
 

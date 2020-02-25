@@ -20,6 +20,7 @@
 #define MONITORTHREAD_H
 
 #include <QThread>
+#include <QDateTime>
 class NotificationPlugin;
 class QProcess;
 class QTimer;
@@ -38,7 +39,7 @@ private:
     QProcess*           m_pProcess;
 
 signals:
-    void Sig_Notify(QString, QString, QString, QString);
+    void Sig_Notify(QString, QString, QString, QString, QDateTime);
 
 public slots:
     void readOutputData();

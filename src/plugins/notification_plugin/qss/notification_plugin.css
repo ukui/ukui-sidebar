@@ -46,6 +46,15 @@ QToolButton#takein{
     height:30px;*/
 }
 
+QToolButton#SingleMsgToolButton{
+    border:none;
+    border-style:none;
+    padding:0px;
+    background:transparent;
+    width:24px;
+    height:24px;
+}
+
 QPushButton{
     color:rgba(255,255,255,1);
     font-size:14px;

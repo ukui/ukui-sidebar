@@ -45,16 +45,12 @@ public:
     uint getAppPushTime() {return m_uNotifyTime;}
     QString getAppName() {return m_strAppName;}
     void addSingleMsg(QString strIconPath, QString strSummary, QDateTime dateTime, QString strBody);
-    void addTakeinSingleMsg(QString strIcon, QString strSummary, QDateTime dateTime, QString strBody);
     void updateAppPushTime();       //更新应用最新的推送时间
     int getSingleMsgCount();        //获取应用消息数
     void statisticLeftItem();       //统计应用剩余显示条数
     void setTopWithSecondItem();    //当应用最顶条被删除后,将第二条置顶
 
 protected:
-    virtual void enterEvent(QEvent *event) override;
-    virtual void leaveEvent(QEvent *event) override;
-    virtual void mousePressEvent(QMouseEvent *event) override;
 
 private:
     QVBoxLayout*        m_pMainVLaout;                  //App信息中的总的垂直布局器
@@ -72,13 +68,16 @@ signals:
     void                Sig_onDeleteAppMsg(AppMsg* p);              //该对象属于通知应用,发出删除应用的信号
     void                Sig_onDeleteTakeInAppMsg(AppMsg* p);        //当该对象属于收纳应用时,发出删除收纳应用的信号
     void                Sig_SendTakeInSingleMsg(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime);
+    void                Sig_SendAddSingleMsg(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime);
     void                Sig_countTakeInBitAndUpate();               //发个统计收纳数信号
 
 public slots:
     void                onDeleteAppMsg();                           //删除一个应用消息
     void                onTakeinWholeApp();                         //收纳整个应用消息
-    void                onDeleSingleMsg(SingleMsg* pSingleMsg);
-    void                onTakeInSingleMsg(SingleMsg* pSingleMsg);
+    void                onRecoverWholeApp();                        //恢复整个应用消息
+    void                onDeleSingleMsg(SingleMsg* pSingleMsg);     //删除单条消息
+    void                onTakeInSingleMsg(SingleMsg* pSingleMsg);   //收纳单条消息
+    void                onRecoverSingleMsg(SingleMsg* pSingleMsg);  //恢复单条消息
     void                setAppFoldFlag(bool bFlag);
 
 };
