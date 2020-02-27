@@ -204,21 +204,20 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 void SingleMsg::updatePushTime()
 {
     QDateTime currentDateTime(QDateTime::currentDateTime());
-    QDate currentDate(QDate::currentDate());
+
     if(currentDateTime.toTime_t() < (m_uNotifyTime + 60))
     {
         return;
     }
 
-    if(m_dateTime.date() == currentDate)
+    if(m_dateTime.date() == currentDateTime.date())
     {
         QString strPushDate = m_dateTime.toString("hh:mm");
         m_pTimeLabel->setText(strPushDate);
         return;
     }
 
-    QDate lastDate = currentDate.addDays(-1);
-    if(m_dateTime.date() == lastDate)
+    if(1 == (currentDateTime.date().toJulianDay() - m_dateTime.date().toJulianDay()))
     {
         QString strPushDate = "昨天 ";
         strPushDate = strPushDate + m_dateTime.toString("hh:mm");
@@ -226,8 +225,18 @@ void SingleMsg::updatePushTime()
         return;
     }
 
-    QString strPushDate = m_dateTime.toString("yyyy/MM/dd");
-    m_pTimeLabel->setText(strPushDate);
+    //一周以内
+    if((currentDateTime.date().toJulianDay() - m_dateTime.date().toJulianDay()) < 7)
+    {
+        QString strPushDate = m_dateTime.toString("ddd hh:mm");
+        m_pTimeLabel->setText(strPushDate);
+    }
+    else  //一周以外
+    {
+        QString strPushDate = m_dateTime.toString("yyyy/MM/dd");
+        m_pTimeLabel->setText(strPushDate);
+    }
+
     return;
 
 }

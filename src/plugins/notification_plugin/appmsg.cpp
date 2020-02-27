@@ -142,31 +142,6 @@ void AppMsg::updateAppPushTime()
         pTmpSingleMsg->updatePushTime();
     }
 
-    QDateTime currentDateTime(QDateTime::currentDateTime());
-    QDate currentDate(QDate::currentDate());
-    if(currentDateTime.toTime_t() < (m_uNotifyTime + 60))
-    {
-        return;
-    }
-
-    if(m_dateTime.date() == currentDate)
-    {
-        QString strPushDate = m_dateTime.toString("hh:mm");
-//        m_pTimeLabel->setText(strPushDate);
-        return;
-    }
-
-    QDate lastDate = currentDate.addDays(-1);
-    if(m_dateTime.date() == lastDate)
-    {
-        QString strPushDate = "昨天 ";
-        strPushDate = strPushDate + m_dateTime.toString("hh:mm");
-//        m_pTimeLabel->setText(strPushDate);
-        return;
-    }
-
-    QString strPushDate = m_dateTime.toString("yyyy/MM/dd");
-//    m_pTimeLabel->setText(strPushDate);
     return;
 }
 

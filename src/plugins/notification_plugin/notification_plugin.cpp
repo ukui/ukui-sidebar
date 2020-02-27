@@ -170,7 +170,11 @@ QWidget* NotificationPlugin::centerWidget()
 
 void NotificationPlugin::updatePushTime()
 {
-    if(false == m_bShowTakeIn)
+    if(true == m_bShowTakeIn)  //侧边栏展开时，如果已经显示收纳盒，则切换至通知中心
+    {
+        onShowTakeInMessage();
+    }
+    else                        //侧边栏展开时，如果已显示通知中心，则只需更新推送时间
     {
         for(int i = 0; i < m_listAppMsg.count(); i++)
         {
@@ -178,14 +182,7 @@ void NotificationPlugin::updatePushTime()
             pAppMsg->updateAppPushTime();
         }
     }
-    else
-    {
-        for(int i = 0; i < m_listTakeInAppMsg.count(); i++)
-        {
-            AppMsg* pAppMsg = m_listTakeInAppMsg.at(i);
-            pAppMsg->updateAppPushTime();
-        }
-    }
+
 }
 
 AppMsg* NotificationPlugin::getAppMsgAndIndexByName(QString strAppName, int& nIndex)
@@ -246,11 +243,25 @@ uint NotificationPlugin::onAddSingleNotify(QString strAppName, QString strIconPa
     m_listAppMsg.insert(uIndex, pAppMsg);
     m_pScrollAreaNotifyVBoxLayout->insertWidget(uIndex, pAppMsg);
 
-    for(int i = 0; i < m_listAppMsg.count(); i++)
+    //如果是新通知，有必要对通知列表更新推送时间；如果是恢复，说明在收纳盒中，所以更新收纳盒中的推送时间
+    if(true == bNewNotificationFlag)
     {
-        AppMsg* pTmpAppMsg = m_listAppMsg.at(i);
-        pTmpAppMsg->updateAppPushTime();
+        for(int i = 0; i < m_listAppMsg.count(); i++)
+        {
+            AppMsg* pTmpAppMsg = m_listAppMsg.at(i);
+            pTmpAppMsg->updateAppPushTime();
+        }
     }
+    else
+    {
+        for(int i = 0; i < m_listTakeInAppMsg.count(); i++)
+        {
+            AppMsg* pTmpAppMsg = m_listTakeInAppMsg.at(i);
+            pTmpAppMsg->updateAppPushTime();
+        }
+    }
+
+
 
     return 1;
 }
@@ -392,10 +403,10 @@ void NotificationPlugin::onTakeInSingleNotify(QString strAppName, QString strIco
     m_listTakeInAppMsg.insert(uIndex, pAppMsg);
     m_pScrollAreaTakeInVBoxLayout->insertWidget(uIndex, pAppMsg);
 
-    //对收纳app所有应用推送时间进行更新
-    for(int i = 0; i < m_listTakeInAppMsg.count(); i++)
+    //收纳的时候没必要对收纳列表更新，可以对通知列表更新时间，反正点击进入收纳盒时，会更新收纳列表
+    for(int i = 0; i < m_listAppMsg.count(); i++)
     {
-        AppMsg* pTmpAppMsg = m_listTakeInAppMsg.at(i);
+        AppMsg* pTmpAppMsg = m_listAppMsg.at(i);
         pTmpAppMsg->updateAppPushTime();
     }
 
