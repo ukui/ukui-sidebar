@@ -27,6 +27,7 @@
 Widget::Widget(QWidget *parent) : QWidget (parent)
 {
     m_bShowFlag = false;
+    m_bFwinkleFlag = true;
 
     /* 监听屏幕分辨率是否变化 */
     QDesktopWidget* desk = QApplication::desktop();
@@ -66,7 +67,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     /* 系统托盘栏显示 */
     createAction();
     createSystray();
-    setIcon();
+    setIcon(TRAY_ICON);
 
     //安装事件过滤器
     installEventFilter(this);
@@ -85,6 +86,9 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
 
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
     qInfo() << "---------------------------主界面加载完毕---------------------------";
+
+    m_pTimer = new QTimer();
+    connect(m_pTimer, SIGNAL(timeout()), this, SLOT(twinkle()));
 }
 
 Widget::~Widget()
@@ -108,6 +112,8 @@ bool Widget::loadNotificationPlugin()
     {
         return false;
     }
+
+    connect(m_pNotificationPluginObject, SIGNAL(Sig_onNewNotification()), this, SLOT(onNewNotification()));
 
     m_pMainQVBoxLayout->addWidget(centerInterface->centerWidget(), 1);
 
@@ -176,12 +182,12 @@ void Widget::createSystray()
 }
 
 //设置托盘栏的图标
-void Widget::setIcon()
+void Widget::setIcon(QString strIcon)
 {
-    QIcon icon = QIcon(PNG_PATH);
+    QIcon icon = QIcon(strIcon);
     trayIcon->setIcon(icon);
     setWindowIcon(icon);
-    trayIcon->setToolTip("heart");
+    trayIcon->setToolTip("ukui-sidebar");
 }
 
 //设置activated信号
@@ -199,6 +205,8 @@ void Widget::iconActivated(QSystemTrayIcon::ActivationReason reason)
                 this->show();
                 qDebug() << "Widget::iconActivated 展开";
                 m_bShowFlag = true;
+                m_pTimer->stop();
+                setIcon(TRAY_ICON);
             }
             break;
         }
@@ -207,6 +215,8 @@ void Widget::iconActivated(QSystemTrayIcon::ActivationReason reason)
             showAnimation();
             this->show();
             m_bShowFlag = true;
+            m_pTimer->stop();
+            setIcon(TRAY_ICON);
             break;
         }
         default:
@@ -282,6 +292,30 @@ void Widget::HideAnimationEndSlots()
 {
     this->hide();
     return;
+}
+
+void Widget::onNewNotification()
+{
+    if(false == m_bShowFlag)
+    {
+        m_bFwinkleFlag = true;
+        m_pTimer->start(500);
+    }
+    return;
+}
+
+void Widget::twinkle()
+{
+    if(true == m_bFwinkleFlag)
+    {
+        m_bFwinkleFlag = false;
+        setIcon(TRAY_NULL_ICON);
+    }
+    else
+    {
+        m_bFwinkleFlag = true;
+        setIcon(TRAY_ICON);
+    }
 }
 
 /* 事件过滤器 */

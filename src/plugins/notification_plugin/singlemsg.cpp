@@ -18,6 +18,7 @@
 
 #include "singlemsg.h"
 #include "appmsg.h"
+#include "buttonwidget.h"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QMouseEvent>
@@ -44,8 +45,6 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     connect(this, SIGNAL(Sig_onTakeinWholeApp()), pParent, SLOT(onTakeinWholeApp()));
     connect(this, SIGNAL(Sig_onRecoverSingleMsg(SingleMsg*)), pParent, SLOT(onRecoverSingleMsg(SingleMsg*)));
     connect(this, SIGNAL(Sig_onRecoverWholeApp()), pParent, SLOT(onRecoverWholeApp()));
-
-
 
     //为了设置AppMsg的样式,在里面套了一个QWidget
     QVBoxLayout* pAppVLaout = new QVBoxLayout();
@@ -95,42 +94,27 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pTimeLabel->setStyleSheet("background-color:transparent;");
 
     //单独收纳按钮
-    m_pSingleTakeinButton = new QToolButton();
-    m_pSingleTakeinButton->setObjectName("SingleMsgToolButton");
-    m_pSingleTakeinButton->setVisible(false);
-
-    QSvgRenderer* m_pTakeinSvgRender = new QSvgRenderer(pIconWidget);
-
     if(false == m_bTakeInFlag)
     {
-        m_pTakeinSvgRender->load(QString(":/images/box.svg"));          //当该条消息不属于收纳消息时，QToolButton添加svg收纳盒图片
-        connect(m_pSingleTakeinButton, SIGNAL(clicked()), this, SLOT(onTakeIn()));
+        QString strIcon = ":/images/box-translucent.svg";
+        QString strHoverIcon = ":/images/box.svg";
+        m_pSingleTakeinButton = new ButtonWidget(strIcon, strHoverIcon);
+        connect(m_pSingleTakeinButton, SIGNAL(Sig_clicked()), this, SLOT(onTakeIn()));
     }
     else
     {
-        m_pTakeinSvgRender->load(QString(":/images/exitbox.svg"));      //当该条消息属于收纳消息时，QToolButton添加svg出收纳盒图片
-        connect(m_pSingleTakeinButton, SIGNAL(clicked()), this, SLOT(onRecover()));
+        QString strIcon = ":/images/exitbox-translucent.svg";
+        QString strHoverIcon = ":/images/exitbox.svg";
+        m_pSingleTakeinButton = new ButtonWidget(strIcon, strHoverIcon);
+        connect(m_pSingleTakeinButton, SIGNAL(Sig_clicked()), this, SLOT(onRecover()));
     }
-    QPixmap* m_pTakeinPixmap = new QPixmap(13, 13);
-    m_pTakeinPixmap->fill(Qt::transparent);
-    QPainter takeinPainter(m_pTakeinPixmap);
-    m_pTakeinSvgRender->render(&takeinPainter);
-    m_pSingleTakeinButton->setIcon(QIcon(*m_pTakeinPixmap));
+    m_pSingleTakeinButton->setVisible(false);
 
     //单独删除按钮
-    m_pSingleDeleteButton = new QToolButton();
-    m_pSingleDeleteButton->setObjectName("SingleMsgToolButton");
-
-    //QToolButton添加svg图片
-    QSvgRenderer* m_pDeleteSvgRender = new QSvgRenderer(pIconWidget);
-    m_pDeleteSvgRender->load(QString(":/images/hover.svg"));
-    QPixmap* m_pDeletePixmap = new QPixmap(12, 12);
-    m_pDeletePixmap->fill(Qt::transparent);
-    QPainter painter(m_pDeletePixmap);
-    m_pDeleteSvgRender->render(&painter);
-    m_pSingleDeleteButton->setIcon(QIcon(*m_pDeletePixmap));
-
-    connect(m_pSingleDeleteButton, SIGNAL(clicked()), this, SLOT(onDele()));
+    QString strIcon = ":/images/hover-translucent.svg";
+    QString strHoverIcon = ":/images/hover.svg";
+    m_pSingleDeleteButton = new ButtonWidget(strIcon, strHoverIcon);
+    connect(m_pSingleDeleteButton, SIGNAL(Sig_clicked()), this, SLOT(onDele()));
     m_pSingleDeleteButton->setVisible(false);
 
     pIconHLayout->addWidget(pIconToolButton, 0, Qt::AlignLeft);

@@ -26,6 +26,7 @@
 
 
 class AppMsg;
+class ButtonWidget;
 
 class SingleMsg : public QWidget
 {
@@ -52,8 +53,8 @@ protected:
 
 private:
     QLabel*         m_pTimeLabel;
-    QToolButton*    m_pSingleTakeinButton;          //单条消息中的收纳按钮
-    QToolButton*    m_pSingleDeleteButton;          //单条消息中的删除按钮
+    ButtonWidget*    m_pSingleTakeinButton;          //单条消息中的收纳按钮
+    ButtonWidget*    m_pSingleDeleteButton;          //单条消息中的删除按钮
     QLabel*         m_pBodyLabel;                   //正文标签
     QWidget*        m_pShowLeftWidget;              //显示该应用未展开部件
     QLabel*         m_pShowLeftItemLabel;           //显示该应用未展开条数

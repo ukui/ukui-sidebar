@@ -65,8 +65,11 @@ private:
     QPixmap*                m_pPixmap;
     QLabel*                 m_pTakeInCoutLabel;                 //收纳盒计数统计Label
 
+signals:
+    void    Sig_onNewNotification();
+
 private slots:
-    uint onAddSingleNotify(QString strAppName, QString strIconPath, QString strSummary, QString strBody, QDateTime dateTime);                       //处理新增单条通知
+    uint onAddSingleNotify(QString strAppName, QString strIconPath, QString strSummary, QString strBody, QDateTime dateTime, bool bNewNotificationFlag);                       //处理新增单条通知
     void onTakeInSingleNotify(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime);       //处理收纳单条通知
     void onClearAllMessage();                                           //清除所有消息
     void onClearAppMsg(AppMsg* pAppMsg);                                //处理删除通知应用消息槽函数

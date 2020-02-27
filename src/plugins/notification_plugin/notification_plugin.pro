@@ -31,7 +31,8 @@ SOURCES += \
     scrollareawidget.cpp \
     takeinboxtoolbutton.cpp \
     monitorthread.cpp \
-    singlemsg.cpp
+    singlemsg.cpp \
+    buttonwidget.cpp
 
 INCLUDEPATH    += ../../plugin-interface
 HEADERS += \
@@ -40,7 +41,8 @@ HEADERS += \
     scrollareawidget.h \
     takeinboxtoolbutton.h \
     monitorthread.h \
-    singlemsg.h
+    singlemsg.h \
+    buttonwidget.h
 DISTFILES += notification_plugin.json  
 
 unix {

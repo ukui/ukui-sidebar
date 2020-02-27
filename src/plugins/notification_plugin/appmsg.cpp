@@ -44,7 +44,7 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
     //发个信号通知插件收纳单条应用消息
     connect(this, SIGNAL(Sig_SendTakeInSingleMsg(QString, QString, QString, QString, QDateTime)), parent, SLOT(onTakeInSingleNotify(QString, QString, QString, QString, QDateTime)));
     //发个信号通知插件恢复单条应用消息
-    connect(this, SIGNAL(Sig_SendAddSingleMsg(QString, QString, QString, QString, QDateTime)), parent, SLOT(onAddSingleNotify(QString, QString, QString, QString, QDateTime)));
+    connect(this, SIGNAL(Sig_SendAddSingleMsg(QString, QString, QString, QString, QDateTime, bool)), parent, SLOT(onAddSingleNotify(QString, QString, QString, QString, QDateTime, bool)));
 
     //发个统计收纳数更新信号
     connect(this, SIGNAL(Sig_countTakeInBitAndUpate()), parent, SLOT(onCountTakeInBitAndUpate()));
@@ -176,7 +176,7 @@ int AppMsg::getSingleMsgCount()
 }
 
 void AppMsg::onDeleteAppMsg()
-{   
+{
     if(false == m_bTakeInFlag)  //是通知应用就通知插件删该通知应用
     {
         emit Sig_onDeleteAppMsg(this);
@@ -210,16 +210,10 @@ void AppMsg::onRecoverWholeApp()
         SingleMsg* pSingleMsg = m_listSingleMsg.at(0);
         m_pMainVLaout->removeWidget(pSingleMsg);
         m_listSingleMsg.removeAt(0);
-        emit Sig_SendAddSingleMsg(m_strAppName, pSingleMsg->getIcon(), pSingleMsg->getSummary(), pSingleMsg->getBody(), pSingleMsg->getPushDateTime());
+        emit Sig_SendAddSingleMsg(m_strAppName, pSingleMsg->getIcon(), pSingleMsg->getSummary(), pSingleMsg->getBody(), pSingleMsg->getPushDateTime(), false);
     }
 
     emit Sig_onDeleteTakeInAppMsg(this);
-
-    //当该应用属于收纳应用对象时,恢复后都要更新收纳计数
-    if(true == m_bTakeInFlag)
-    {
-        emit Sig_countTakeInBitAndUpate();
-    }
 
     return;
 }
@@ -333,7 +327,7 @@ void AppMsg::onRecoverSingleMsg(SingleMsg* pSingleMsg)
     m_listSingleMsg.removeAt(nIndex);
     m_pMainVLaout->removeWidget(pSingleMsg);
 
-    emit Sig_SendAddSingleMsg(m_strAppName, pSingleMsg->getIcon(), pSingleMsg->getSummary(), pSingleMsg->getBody(), pSingleMsg->getPushDateTime());
+    emit Sig_SendAddSingleMsg(m_strAppName, pSingleMsg->getIcon(), pSingleMsg->getSummary(), pSingleMsg->getBody(), pSingleMsg->getPushDateTime(), false);
     pSingleMsg->deleteLater();
 
     //当本次收纳为应用首条时,且该应用不止一条,考虑将新的首条设置为顶部消息状态

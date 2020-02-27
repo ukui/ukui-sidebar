@@ -26,7 +26,8 @@
 #include "clipboardpluginiface.h"
 
 
-#define  PNG_PATH           ":/data/images/kylin-tool-box.svg"
+#define  TRAY_ICON           ":/data/images/kylin-tool-box.svg"
+#define  TRAY_NULL_ICON      ":/data/images/kylin-tool-box-null.svg"
 
 #define PANEL_DBUS_SERVICE "com.ukui.panel.desktop"
 #define PANEL_DBUS_PATH "/"
@@ -59,7 +60,7 @@ public:
     //系统托盘
     void createAction();                                                        //连接信号和槽函数，设置其动作;
     void createSystray();                                                       //设置menu界面、添加动作 和 创建sysytray实例
-    void setIcon();                                                             //设置图标和提示信息;
+    void setIcon(QString strIcon);                                                             //设置图标和提示信息;
     void iconActivated(QSystemTrayIcon::ActivationReason reason);               //获取点击事件
     bool loadNotificationPlugin();                                              //加载通知中心插件
 
@@ -92,10 +93,14 @@ private:
     QAction*            maximizeAction;
     QAction*            restoreAction;
     QAction*            quitAction;
+    QTimer*             m_pTimer;                           //新通知闪烁定时器
+    bool                m_bFwinkleFlag;                     //新通知闪烁标志
 
 private slots :
     void onResolutionChanged(int);
     void HideAnimationEndSlots();
+    void onNewNotification();
+    void twinkle();
 
 };
 

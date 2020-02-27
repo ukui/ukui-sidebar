@@ -39,7 +39,7 @@ private:
     QProcess*           m_pProcess;
 
 signals:
-    void Sig_Notify(QString, QString, QString, QString, QDateTime);
+    void Sig_Notify(QString, QString, QString, QString, QDateTime, bool);
 
 public slots:
     void readOutputData();

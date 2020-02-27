@@ -204,9 +204,13 @@ AppMsg* NotificationPlugin::getAppMsgAndIndexByName(QString strAppName, int& nIn
     return pAppMsg;
 }
 
-uint NotificationPlugin::onAddSingleNotify(QString strAppName, QString strIconPath, QString strSummary, QString strBody, QDateTime dateTime)
+uint NotificationPlugin::onAddSingleNotify(QString strAppName, QString strIconPath, QString strSummary, QString strBody, QDateTime dateTime, bool bNewNotificationFlag)
 {
     qDebug() <<"NotificationPlugin::onAddSingleNotify strAppName=" <<strAppName;
+    if(true == bNewNotificationFlag)
+    {
+        emit Sig_onNewNotification();
+    }
 
     if(0 == m_listAppMsg.count() && 2 == m_pScrollAreaNotifyVBoxLayout->count()) //当列表信息为空表明第一次来通知，列表个数为2，一个表面是“没有新通知标签”，一个是底部弹簧
     {
@@ -414,6 +418,7 @@ void NotificationPlugin::onClearTakeInAppMsg(AppMsg* pAppMsg)
     m_pScrollAreaTakeInVBoxLayout->removeWidget(pAppMsg);
     pAppMsg->deleteLater();
 
+    onCountTakeInBitAndUpate();
     return;
 }
 

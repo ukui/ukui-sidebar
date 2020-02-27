@@ -96,7 +96,7 @@ void MonitorThread::extractData(QString strOutput)
     strOutputTmp = strOutputTmp.mid(nIndex + 1);
 
     QDateTime dateTime(QDateTime::currentDateTime());
-    emit Sig_Notify(strAppName, strIcon, strSummary, strBody, dateTime);
+    emit Sig_Notify(strAppName, strIcon, strSummary, strBody, dateTime, true);
     return;
 }
 
@@ -136,7 +136,7 @@ void MonitorThread::run()
     connect(pTimer, SIGNAL(timeout()), this, SLOT(readOutputData()));
     pTimer->start(1000);
 
-    connect(this, SIGNAL(Sig_Notify(QString, QString, QString, QString, QDateTime)), m_parent, SLOT(onAddSingleNotify(QString, QString, QString, QString, QDateTime)));
+    connect(this, SIGNAL(Sig_Notify(QString, QString, QString, QString, QDateTime, bool)), m_parent, SLOT(onAddSingleNotify(QString, QString, QString, QString, QDateTime, bool)));
     exec();
 
 }

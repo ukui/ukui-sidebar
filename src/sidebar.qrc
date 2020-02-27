@@ -3,5 +3,6 @@
         <file>data/images/heart.png</file>
         <file>data/qss/psblack.css</file>
         <file>data/images/kylin-tool-box.svg</file>
+        <file>data/images/kylin-tool-box-null.svg</file>
     </qresource>
 </RCC>

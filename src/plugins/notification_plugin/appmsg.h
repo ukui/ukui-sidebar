@@ -68,7 +68,7 @@ signals:
     void                Sig_onDeleteAppMsg(AppMsg* p);              //该对象属于通知应用,发出删除应用的信号
     void                Sig_onDeleteTakeInAppMsg(AppMsg* p);        //当该对象属于收纳应用时,发出删除收纳应用的信号
     void                Sig_SendTakeInSingleMsg(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime);
-    void                Sig_SendAddSingleMsg(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime);
+    void                Sig_SendAddSingleMsg(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime, bool bNewNotificationFlag);
     void                Sig_countTakeInBitAndUpate();               //发个统计收纳数信号
 
 public slots:
