@@ -47,6 +47,9 @@ class Widget : public QWidget
 {
     Q_OBJECT
 
+    //申明该类有D-BUS服务接口
+    Q_CLASSINFO("D-Bus Interface", "com.scorpio.test.value")
+
 public:
     explicit Widget(QWidget *parent = nullptr);
 
@@ -63,6 +66,10 @@ public:
     void setIcon(QString strIcon);                                                             //设置图标和提示信息;
     void iconActivated(QSystemTrayIcon::ActivationReason reason);               //获取点击事件
     bool loadNotificationPlugin();                                              //加载通知中心插件
+
+public slots :
+    uint panelHeightChangeNotify(uint uId);
+
 
 protected:
     void mousePressEvent(QMouseEvent *event);                                   //鼠标点击事件

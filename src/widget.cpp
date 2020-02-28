@@ -96,6 +96,12 @@ Widget::~Widget()
 
 }
 
+uint Widget::panelHeightChangeNotify(uint uId)
+{
+    int bbb = uId;
+    return 1;
+}
+
 //加载通知中心插件
 bool Widget::loadNotificationPlugin()
 {

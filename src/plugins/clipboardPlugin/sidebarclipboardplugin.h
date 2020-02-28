@@ -41,7 +41,7 @@
 #include "searchwidgetitemcontent.h"
 #include "editorwidget.h"
 #include "clipboardsignal.h"
-#define  WIDGET_ENTRY_COUNT 6
+#define  WIDGET_ENTRY_COUNT 5
 #define  SIDEBAR_CLIPBOARD_QSS_PATH  ":/qss/sidebarClipboard.css"
 //static SidebarClipboardPlugin *global_instance = nullptr;
 class SidebarClipboardPlugin:public QObject, public ClipboardInterface
@@ -70,6 +70,7 @@ public:
     QHash<ClipboardWidgetEntry*, const QMimeData*> m_pclipbordMimeData; //保留从剪贴板拿到原数据
     QHash<QLabel*, QString> m_pLabelText; //条目中Label与label中的text对应关系
     QListWidget *m_pShortcutOperationListWidget;
+    QListWidget *m_pSearchWidgetListWidget;
     QGroupBox   *m_pSidebarClipboardBox;
 
     QVBoxLayout     *m_pClipboardLaout;

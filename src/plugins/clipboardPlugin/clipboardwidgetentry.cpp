@@ -65,7 +65,7 @@ void ClipboardWidgetEntry::enterEvent(QEvent *e)
     m_pEditButon->setVisible(true);
     m_pRemoveButton->setVisible(true);
     m_pCopyDataLabal->setStyleSheet("QWidget#WidgetEntry>QLabel{width:200px;height:34px;margin-right: 0px;} ");
-    qDebug()<<tr("鼠标进入主界面事件");
+//    qDebug()<<tr("鼠标进入主界面事件");
 }
 
 void ClipboardWidgetEntry::leaveEvent(QEvent *e)
@@ -77,5 +77,5 @@ void ClipboardWidgetEntry::leaveEvent(QEvent *e)
     m_pEditButon->setVisible(false);
     m_pRemoveButton->setVisible(false);
     m_pCopyDataLabal->setStyleSheet("QWidget#WidgetEntry>QLabel{width:200px;height:34px;margin-right: 120px}");
-    qDebug()<<tr("鼠标离开主界面事件");
+//    qDebug()<<tr("鼠标离开主界面事件");
 }

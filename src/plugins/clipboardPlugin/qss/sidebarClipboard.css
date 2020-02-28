@@ -31,10 +31,10 @@ QWidget#WidgetEntry {
     padding-top: 0px;
     padding-bottom:0px;
     padding-left:0px;
-    background:rgba(26, 26, 26, 1);
+    background:rgba(19, 19, 20, 1);
     border: 0px solid rgba(255,0,0,1);
     opacity:0.08;
-    border-bottom: 2px solid rgba(255,255,255,36);
+    border-bottom: 1px solid rgba(255,255,255,95);
 }
 
 /* 设置listWidget的中的widgetitem悬乎状态 */
@@ -316,7 +316,30 @@ QListWidget#ShortcutOperationList {
     margin-left: 0px;
     margin-top: 0px;
 
-    background:rgba(26,26,26,0.5);
+    padding-top:0px;
+    padding-bottom:0px;
+    padding-left:0px;
+    padding-right:0px;
+    background:rgba(19,19,20,1);
+    border:0px;
+    opacity:0.5;
+}
+
+QListWidget#SearchWidgetListWidget {
+    width:380px;
+    height:34px;
+
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-top: 0px;
+
+    padding-top:0px;
+    padding-bottom:0px;
+    padding-left:0px;
+    padding-right:0px;
+    background:rgba(19,19,20,1);
+    border: 0px solid rgba(255,0,0,1);
     border:0px;
     opacity:0.5;
 }
@@ -432,6 +455,7 @@ QWidget#WidgetEntry>QLabel{
     opacity:0.91;
     border: 0px solid rgba(255,255,0,1);
 }
+
 QWidget#WidgetEntry>QGridLayout#pHLayout{
     margin-top: 0px;
     margin-right: 0px;

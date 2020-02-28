@@ -43,7 +43,10 @@ HEADERS += \
         sidebar_app_log.h
 
 
-INCLUDEPATH +=/usr/include/gio-unix-2.0/ /usr/include/glib-2.0 /usr/lib/x86_64-linux-gnu/glib-2.0/include ./plugin-interface ./plugin-sub-manager
+INCLUDEPATH +=./plugin-interface ./plugin-sub-manager
+
+CONFIG += link_pkgconfig
+
 PKGCONFIG +=gio-2.0 glib-2.0 gio-unix-2.0
 LIBS += -lgio-2.0 -lgobject-2.0 -lglib-2.0
 

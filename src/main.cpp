@@ -71,12 +71,19 @@ int main(int argc, char *argv[])
 //    qInstallMessageHandler(customLogMessageHandler);                /* 安装日志打印功能 */
 
 
-    qApp->setPalette(QPalette(QColor("#1A1A1A")));
+    qApp->setPalette(QPalette(QColor("#131314")));
 
     QApplication::setQuitOnLastWindowClosed(false);
     PluginManager::init();          /* 初始化插件管理器 */
 
     Widget w;
+
+    QDBusConnection connection = QDBusConnection::sessionBus();
+    if(!connection.registerService("com.scorpio.test"))
+    {
+        qDebug() << "error:" << connection.lastError().message();
+    }
+    connection.registerObject("/test/objects", &w, QDBusConnection::ExportAllSlots);
 
     return a.exec();
 }

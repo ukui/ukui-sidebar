@@ -29,10 +29,14 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
     m_pSidebarClipboardBox->setObjectName("ClipboardBox");
     m_pClipboardLaout = new QVBoxLayout;
     m_pShortcutOperationListWidget = new QListWidget;
+    m_pSearchWidgetListWidget      = new QListWidget;
+    m_pSearchWidgetListWidget->setFixedSize(380, 40);
     createFindClipboardWidgetItem();
+    m_pClipboardLaout->addWidget(m_pSearchWidgetListWidget);
     m_pClipboardLaout->addWidget(m_pShortcutOperationListWidget);
     m_pSidebarClipboardBox->setLayout(m_pClipboardLaout);
     m_pShortcutOperationListWidget->setObjectName("ShortcutOperationList");
+    m_pSearchWidgetListWidget->setObjectName("SearchWidgetListWidget");
     m_pSidebarClipboardBox->setObjectName("ClipboardBox");
     m_pSidebarClipboard = QApplication::clipboard();
     m_pEditWidget = nullptr;
@@ -110,8 +114,8 @@ void SidebarClipboardPlugin::createFindClipboardWidgetItem()
     connect(m_pSearchArea->m_pClearListWidgetButton, &QPushButton::clicked, this, &SidebarClipboardPlugin::removeAllWidgetItem);
     connect(m_pSearchArea->m_pLineEditArea, SIGNAL(textChanged(QString)), this, SLOT(searchClipboardLableTextSlots(QString)));
     pListWidgetItem->setSizeHint(QSize(345,40));
-    m_pShortcutOperationListWidget->insertItem(0,pListWidgetItem);
-    m_pShortcutOperationListWidget->setItemWidget(pListWidgetItem, m_pSearchArea);
+    m_pSearchWidgetListWidget->insertItem(0,pListWidgetItem);
+    m_pSearchWidgetListWidget->setItemWidget(pListWidgetItem, m_pSearchArea);
 }
 
 /*创建Widgetitem条目*/
@@ -203,7 +207,7 @@ void SidebarClipboardPlugin::createWidgetEntry(const QMimeData *mimeData)
         this->removeButtonSlots(w);
     });
 
-    m_pShortcutOperationListWidget->insertItem(1, pListWidgetItem);
+    m_pShortcutOperationListWidget->insertItem(0, pListWidgetItem);
     m_pShortcutOperationListWidget->setItemWidget(pListWidgetItem, w);
     registerWidgetItem(w, pListWidgetItem);
 }
@@ -289,11 +293,6 @@ void SidebarClipboardPlugin::removeMimeData(ClipboardWidgetEntry *key)
         qWarning() << "删除：ClipboardWidgetEntry *key 为空";
         return;
     }
-//    const QMimeData* userInfo = m_pclipbordMimeData.value(key);
-//    if(userInfo != nullptr) {
-//        delete userInfo;
-//        userInfo = nullptr;
-//    }
     m_pclipbordMimeData.remove(key);
     return;
 }
@@ -374,7 +373,7 @@ void SidebarClipboardPlugin::WhetherTopFirst()
     //当删除为第一项时，则自动将第二项置顶
     int count = m_pShortcutOperationListWidget->count();
     qDebug() << "当前还剩多少条目" << count;
-    QListWidgetItem *PopWidgetItem =  m_pShortcutOperationListWidget->item(1);
+    QListWidgetItem *PopWidgetItem =  m_pShortcutOperationListWidget->item(0);
     qDebug() << "QListWidgetItem *PopWidgetItem" << PopWidgetItem;
     if (PopWidgetItem == nullptr) {
         qWarning() << "从剪贴板获取的PopWidgetItem指针为空";
@@ -410,7 +409,7 @@ void SidebarClipboardPlugin::popButtonSlots(ClipboardWidgetEntry *w)
     }
     QListWidgetItem *p = getWidgetItem(w); //获取Item
     int row_num = m_pShortcutOperationListWidget->row(p);
-    if (row_num == 1) {
+    if (row_num == 0) {
         qDebug() << "当前的item为第一条，不需要置顶操作";
         return;
     }
@@ -440,7 +439,7 @@ void SidebarClipboardPlugin::removeButtonSlots(ClipboardWidgetEntry *w)
     w->deleteLater(); //释放掉ClipboardWidgetEntry;
 
     /* 判断当前删除的是不是第一个条目 */
-    if (1 == tmp) {
+    if (0 == tmp) {
         qDebug() << "删除当前的条目为第一个条目";
         /* 将新的第一个条目中的内容重新写到剪贴板中去 */
         WhetherTopFirst();
@@ -480,6 +479,7 @@ void SidebarClipboardPlugin::editButtonSlots(ClipboardWidgetEntry *w)
 
 //        }
 //    }
+//    QListWidgetItem* p_wItem = (QListWidgetItem*)getWidgetItem(w);
     m_pEditWidget = new EditorWidget;
     QString text = getLabelText(w->m_pCopyDataLabal);
     m_pEditWidget->m_pEditingArea->setText(text);
@@ -528,7 +528,7 @@ void SidebarClipboardPlugin::editButtonSlots(ClipboardWidgetEntry *w)
         }
         //获取当前条目所在位置，是不是在第一
 //        int row_num = m_pShortcutOperationListWidget->row(p_wItem);
-//        if (row_num == 1) {
+//        if (row_num == 0) {
 //            m_pSidebarClipboard->setMimeData((QMimeData*)pMimeData, QClipboard::Clipboard);
 //            m_pSidebarClipboard->setMimeData((QMimeData*)pMimeData, QClipboard::Selection);
 //        }
@@ -548,7 +548,6 @@ void SidebarClipboardPlugin::removeLastWidgetItem()
 {
     ClipboardWidgetEntry *w = (ClipboardWidgetEntry*)m_pShortcutOperationListWidget->itemWidget(m_pShortcutOperationListWidget->item(m_pShortcutOperationListWidget->count()-1));
     qDebug() << "当前条目数目" << m_pShortcutOperationListWidget->count();
-    //m_pShortcutOperationListWidget->takeItem(m_pShortcutOperationListWidget->count()-1);
     delete m_pShortcutOperationListWidget->item(m_pShortcutOperationListWidget->count()-1);
     removeWidgetItem(w);
     removeMimeData(w);
@@ -560,11 +559,11 @@ void SidebarClipboardPlugin::removeLastWidgetItem()
 bool SidebarClipboardPlugin::booleanExistWidgetItem(QString Text)
 {
     int tmp = m_pShortcutOperationListWidget->count();
-    for(int i = 1; i < tmp; i++) {
+    for(int i = 0; i < tmp; i++) {
         ClipboardWidgetEntry *w = (ClipboardWidgetEntry*)m_pShortcutOperationListWidget->itemWidget(m_pShortcutOperationListWidget->item(i));
         QString WidgetText = getLabelText(w->m_pCopyDataLabal);
         if (WidgetText == Text) {
-            if(i == 1) {
+            if(i == 0) {
                 qDebug() << "当前的数据就是置顶数据";
                 return true;
             }
@@ -579,10 +578,10 @@ bool SidebarClipboardPlugin::booleanExistWidgetItem(QString Text)
 void SidebarClipboardPlugin::removeAllWidgetItem()
 {
     int tmp = m_pShortcutOperationListWidget->count();
-    for(int i = 1; i < tmp; i++) {
-        ClipboardWidgetEntry *w = (ClipboardWidgetEntry*)m_pShortcutOperationListWidget->itemWidget(m_pShortcutOperationListWidget->item(1));
+    for(int i = 0; i < tmp; i++) {
+        ClipboardWidgetEntry *w = (ClipboardWidgetEntry*)m_pShortcutOperationListWidget->itemWidget(m_pShortcutOperationListWidget->item(0));
         qDebug() << w;
-        m_pShortcutOperationListWidget->takeItem(1);
+        m_pShortcutOperationListWidget->takeItem(0);
         removeWidgetItem(w);
         removeMimeData(w);
         removeLabelText(w->m_pCopyDataLabal);
@@ -600,9 +599,9 @@ void SidebarClipboardPlugin::removeAllWidgetItem()
 void SidebarClipboardPlugin::searchClipboardLableTextSlots(QString Text)
 {
     qDebug() << "Text" << Text;
-    int row=1;
+    int row=0;
     QString line;
-    while(row<(m_pShortcutOperationListWidget->count()))
+    while(row < (m_pShortcutOperationListWidget->count()))
     {
         ClipboardWidgetEntry *w = (ClipboardWidgetEntry*)m_pShortcutOperationListWidget->itemWidget(m_pShortcutOperationListWidget->item(row));
         line=w->m_pCopyDataLabal->text();
