@@ -17,8 +17,6 @@
 */
 
 
-#include "register_client_to_gnome_session.h"
-
 #include "widget.h"
 #include "pluginmanage.h"
 #include "sidebar_app_log.h"
@@ -36,7 +34,6 @@
 
 int main(int argc, char *argv[])
 {
-    register_client_to_gnome_session();
     /* 如果系统中有实例在运行则退出 */
     int fd = open("/tmp/ukui-sidebar-lock", O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
     if (fd < 0)

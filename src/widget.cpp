@@ -28,6 +28,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
 {
     m_bShowFlag = false;
     m_bFwinkleFlag = true;
+    m_bFirstGetDeskSizeFlag = false;
 
     /* 监听屏幕分辨率是否变化 */
     QDesktopWidget* desk = QApplication::desktop();
@@ -40,13 +41,13 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     m_pServiceInterface->setTimeout(2147483647);
 
 	//获取桌面分辨率大小
-    QScreen* pScreen = QGuiApplication::primaryScreen();
-    QRect DeskSize = pScreen->availableGeometry();
-    m_nScreenWidth = DeskSize.width();        //桌面分辨率的宽
-    m_nScreenHeight = DeskSize.height();      //桌面分辨率的高
+//    QScreen* pScreen = QGuiApplication::primaryScreen();
+//    QRect DeskSize = pScreen->availableGeometry();
+//    m_nDeskWidth = DeskSize.width();        //桌面分辨率的宽
+//    m_nDeskHeight = DeskSize.height();      //桌面分辨率的高
 
-    qInfo() << "屏幕分辨率的宽" << m_nScreenWidth;
-    qInfo() << "屏幕分辨率的高" << m_nScreenHeight;
+//    qInfo() << "屏幕分辨率的宽" << m_nDeskWidth;
+//    qInfo() << "屏幕分辨率的高" << m_nDeskHeight;
 
 	/* 主界面显示 */
     m_pMainQVBoxLayout = new QVBoxLayout;
@@ -98,7 +99,21 @@ Widget::~Widget()
 
 uint Widget::panelHeightChangeNotify(uint uId)
 {
-    int bbb = uId;
+    QDesktopWidget *deskWgt = QApplication::desktop();
+    if (nullptr == deskWgt) {
+        return 0;
+    }
+
+    QRect screenRect = deskWgt->screenGeometry();
+    m_nDeskWidth = screenRect.width();
+    m_nDeskHeight = screenRect.height() - uId;
+    qInfo() << "screen width:" << m_nDeskWidth << ",height:" << m_nDeskHeight;
+
+    if(true == m_bShowFlag)  //当展开时，才需要实时改变尺寸
+    {
+        this->setGeometry(m_nDeskWidth - 400,0,400,m_nDeskHeight);
+    }
+
     return 1;
 }
 
@@ -211,7 +226,7 @@ void Widget::iconActivated(QSystemTrayIcon::ActivationReason reason)
                 this->show();
                 qDebug() << "Widget::iconActivated 展开";
                 m_bShowFlag = true;
-                m_pTimer->stop();
+                m_pTimer->stop();           //当侧边栏展开时，停止闪烁定时器，并且设置有图标的托盘图标
                 setIcon(TRAY_ICON);
             }
             break;
@@ -221,7 +236,7 @@ void Widget::iconActivated(QSystemTrayIcon::ActivationReason reason)
             showAnimation();
             this->show();
             m_bShowFlag = true;
-            m_pTimer->stop();
+            m_pTimer->stop();               //当侧边栏展开时，停止闪烁定时器，并且设置有图标的托盘图标
             setIcon(TRAY_ICON);
             break;
         }
@@ -257,17 +272,28 @@ void Widget::showAnimation()
         centerInterface->updatePushTime(); //当动画展开时也更新一下通知列表或者收纳列表的推送时间显示
     }
 
+    if(false == m_bFirstGetDeskSizeFlag)
+    {
+        m_bFirstGetDeskSizeFlag = true;
+        QDesktopWidget *deskWgt = QApplication::desktop();
+        if (nullptr == deskWgt) {
+            return;
+        }
+        QRect screenRect = deskWgt->screenGeometry();
+        m_nDeskWidth = screenRect.width();
+        m_nDeskHeight = screenRect.height() - connectTaskBarDbus();
+    }
 
-    m_pShowAnimation->setStartValue(QRect(m_nScreenWidth, 0, 400, m_nScreenHeight));
-    m_pShowAnimation->setEndValue(QRect(m_nScreenWidth - 400, 0, 400, m_nScreenHeight));
+    m_pShowAnimation->setStartValue(QRect(m_nDeskWidth, 0, 400, m_nDeskHeight));
+    m_pShowAnimation->setEndValue(QRect(m_nDeskWidth - 400, 0, 400, m_nDeskHeight));
     m_pShowAnimation->start();
 }
 
 //隐藏动画
 void Widget::hideAnimation()
 {
-    m_pHideAnimation->setStartValue(QRect(m_nScreenWidth - 400, 0, 400, m_nScreenHeight + 1));
-    m_pHideAnimation->setEndValue(QRect(m_nScreenWidth, 0,  400, m_nScreenHeight + 1));
+    m_pHideAnimation->setStartValue(QRect(m_nDeskWidth - 400, 0, 400, m_nDeskHeight + 1));
+    m_pHideAnimation->setEndValue(QRect(m_nDeskWidth, 0,  400, m_nDeskHeight + 1));
     m_pHideAnimation->start();
 }
 
@@ -282,13 +308,14 @@ void Widget::onResolutionChanged(int argc)
 
     QRect screenRect = deskWgt->screenGeometry();
 
-    m_nScreenWidth = screenRect.width();
-    m_nScreenHeight = screenRect.height() - connectTaskBarDbus();
-    qInfo() << "screen width:" << m_nScreenWidth << ",height:" << m_nScreenHeight;
+    m_nDeskWidth = screenRect.width();
+    m_nDeskHeight = screenRect.height() - connectTaskBarDbus();
+    qInfo() << "screen width:" << m_nDeskWidth << ",height:" << m_nDeskHeight;
     //if screen resolution changed while sidebar is visiable, sidebar could be display at unexpected places
-    if(this->isVisible())
+
+    if(true == m_bShowFlag)  //当展开时，才需要实时改变尺寸
     {
-        this->setGeometry(m_nScreenWidth - 400,0,400,m_nScreenHeight);
+        this->setGeometry(m_nDeskWidth - 400,0,400,m_nDeskHeight);
     }
     return;
 }
@@ -302,7 +329,7 @@ void Widget::HideAnimationEndSlots()
 
 void Widget::onNewNotification()
 {
-    if(false == m_bShowFlag)
+    if(false == m_bShowFlag)  //当没展开时，来了新通知才提示
     {
         m_bFwinkleFlag = true;
         m_pTimer->start(500);

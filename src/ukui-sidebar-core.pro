@@ -30,7 +30,6 @@ RESOURCES  += sidebar.qrc
 SOURCES += \
         main.cpp \
         widget.cpp \
-        register_client_to_gnome_session.cpp \
         pluginmanage.cpp \
         sidebar_app_log.cpp
 
@@ -38,7 +37,6 @@ INCLUDEPATH += ./plugin-interface
 
 HEADERS += \
         widget.h \
-        register_client_to_gnome_session.h \
         pluginmanage.h \
         sidebar_app_log.h
 
