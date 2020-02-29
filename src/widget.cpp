@@ -99,7 +99,7 @@ Widget::~Widget()
 
 }
 
-uint Widget::panelHeightChangeNotify(uint uId)
+uint Widget::panelSizeChangeNotify(uint uId)
 {
     QDesktopWidget *deskWgt = QApplication::desktop();
     if (nullptr == deskWgt) {

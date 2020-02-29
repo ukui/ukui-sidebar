@@ -68,7 +68,7 @@ public:
     bool loadNotificationPlugin();                                              //加载通知中心插件
 
 public slots :
-    uint panelHeightChangeNotify(uint uId);
+    uint panelSizeChangeNotify(uint uId);
 
 
 protected:
