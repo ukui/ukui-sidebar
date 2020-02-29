@@ -135,8 +135,8 @@ QWidget#WidgetEntry>QPushButton#RemoveButton:pressed {
 QWidget#EditorWidget {
     width:400px;
     height:338px;
-    background:rgba(26,26,26,0.25);
-    border:1px solid rgba(255, 255, 255, 75%);
+    background:rgba(19, 19, 20, 1);
+    border:0px solid rgba(255, 255, 255, 75%);
     opacity:0.75;
     border-radius:6px;
 }
@@ -270,6 +270,7 @@ QWidget#SearhWidget>QLineEdit#SearchLabel {
     border:0px solid rgba(61,107,229,1);
     border-radius:4px;
 }
+
 /*
 QWidget#SearhWidget>QLineEdit#SearchLabel>QAction#cleanLineButton:hover{
     border: 1px solid rgba(255,0,0,1);
@@ -368,6 +369,7 @@ QGroupBox {
     margin-bottom:0px;
     margin-right:10px;
     border: 0px solid rgba(255,0,0,1);
+    background:rgba(19, 19, 20, 1);
 
     width:59px;
     height:19px;

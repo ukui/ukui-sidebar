@@ -61,8 +61,10 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     {
         qDebug() << "通知中心插件加载失败";
     }
-
+    m_pShortcutOperationGroupBox->setObjectName("ShortcutOperationGroupBox");
+    m_pShortcutOperationGroupBox->setStyleSheet("QGroupBox#ShortcutOperationGroupBox{background:rgba(19, 19, 20, 1)}");
     m_pMainQVBoxLayout->addWidget(m_pShortcutOperationGroupBox, 0);
+
     setLayout(m_pMainQVBoxLayout);
 
     /* 系统托盘栏显示 */

@@ -53,8 +53,8 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
     if (file.open(QFile::ReadOnly)) {
         QString strQss = QLatin1String(file.readAll());
         QString strPaletteColor = strQss.mid(20, 7);
-        m_pSidebarClipboardBox->setPalette(QPalette(QColor(strPaletteColor)));
-        m_pSidebarClipboardBox->setStyleSheet(strQss);
+        qApp->setPalette(QPalette(QColor(strPaletteColor)));
+        qApp->setStyleSheet(strQss);
         file.close();
     }
 }
@@ -408,11 +408,11 @@ void SidebarClipboardPlugin::popButtonSlots(ClipboardWidgetEntry *w)
         return;
     }
     QListWidgetItem *p = getWidgetItem(w); //获取Item
-    int row_num = m_pShortcutOperationListWidget->row(p);
-    if (row_num == 0) {
-        qDebug() << "当前的item为第一条，不需要置顶操作";
-        return;
-    }
+//    int row_num = m_pShortcutOperationListWidget->row(p);
+//    if (row_num == 0) {
+//        qDebug() << "当前的item为第一条，不需要置顶操作";
+//        return;
+//    }
     removeWidgetItem(w); //移除hash表中保存的Widget和Item键值对
     removeMimeData(w);
     m_pShortcutOperationListWidget->takeItem(m_pShortcutOperationListWidget->row(p)); //删除Item;
@@ -479,7 +479,7 @@ void SidebarClipboardPlugin::editButtonSlots(ClipboardWidgetEntry *w)
 
 //        }
 //    }
-//    QListWidgetItem* p_wItem = (QListWidgetItem*)getWidgetItem(w);
+    QListWidgetItem* p_wItem = (QListWidgetItem*)getWidgetItem(w);
     m_pEditWidget = new EditorWidget;
     QString text = getLabelText(w->m_pCopyDataLabal);
     m_pEditWidget->m_pEditingArea->setText(text);
@@ -527,12 +527,13 @@ void SidebarClipboardPlugin::editButtonSlots(ClipboardWidgetEntry *w)
             registerLabelText(w->m_pCopyDataLabal, m_pEditWidget->m_pEditingArea->toPlainText());
         }
         //获取当前条目所在位置，是不是在第一
-//        int row_num = m_pShortcutOperationListWidget->row(p_wItem);
-//        if (row_num == 0) {
+        int row_num = m_pShortcutOperationListWidget->row(p_wItem);
+        if (row_num == 0) {
 //            m_pSidebarClipboard->setMimeData((QMimeData*)pMimeData, QClipboard::Clipboard);
 //            m_pSidebarClipboard->setMimeData((QMimeData*)pMimeData, QClipboard::Selection);
-//        }
-//        qDebug() << "d当前所在的条木" << row_num;
+            popButtonSlots(w);
+        }
+        qDebug() << "d当前所在的条木" << row_num;
         m_pEditWidget->deleteLater();
         m_pEditWidget = nullptr;
     });
