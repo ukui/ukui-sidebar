@@ -76,11 +76,11 @@ int main(int argc, char *argv[])
     Widget w;
 
     QDBusConnection connection = QDBusConnection::sessionBus();
-    if(!connection.registerService("com.scorpio.test"))
+    if(!connection.registerService("com.ukui.panel.sidebar"))
     {
         qDebug() << "error:" << connection.lastError().message();
     }
-    connection.registerObject("/test/objects", &w, QDBusConnection::ExportAllSlots);
+    connection.registerObject("/getvalue/panel", &w, QDBusConnection::ExportAllSlots);
 
     return a.exec();
 }

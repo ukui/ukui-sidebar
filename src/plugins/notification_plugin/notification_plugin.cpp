@@ -435,7 +435,6 @@ void NotificationPlugin::onClearTakeInAppMsg(AppMsg* pAppMsg)
 
 void NotificationPlugin::onCallControlPanel()
 {
-    system("killall ukui-control-center");
     QProcess p(0);
     p.startDetached("ukui-control-center");
     p.waitForStarted();

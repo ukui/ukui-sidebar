@@ -48,7 +48,7 @@ class Widget : public QWidget
     Q_OBJECT
 
     //申明该类有D-BUS服务接口
-    Q_CLASSINFO("D-Bus Interface", "com.scorpio.test.value")
+    Q_CLASSINFO("D-Bus Interface", "com.ukui.panel.sidebar.value")
 
 public:
     explicit Widget(QWidget *parent = nullptr);
