@@ -1,3 +1,15 @@
+ukui-sidebar (1.0.1-1) unstable; urgency=medium
+
+  * New upstream release,
+    - Fix the build error.
+    - Fix sidbar display error after screen resolution changed.
+    - Fix the error when starting control center.
+    - Fix the clipboard issues.
+    - Solve the problem of hinding window after lose focus.
+    - Adjust the framwork by new design.
+
+ -- handsome_feng <jianfengli@ubuntukylin.com>  Sun, 01 Mar 2020 16:28:20 +0800
+
 ukui-sidebar (1.0.0-1) unstable; urgency=medium
 
   * Initial release. (Closes: #951065)
