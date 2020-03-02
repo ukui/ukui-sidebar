@@ -37,6 +37,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_dateTime = dateTime;
     m_uNotifyTime = dateTime.toTime_t();
     m_bTakeInFlag = bTakeInFlag;
+    m_bTimeFormat = true;
 
     connect(this, SIGNAL(Sig_setAppFoldFlag(bool)), pParent, SLOT(setAppFoldFlag(bool)));
     connect(this, SIGNAL(Sig_onDeleSingleMsg(SingleMsg*)), pParent, SLOT(onDeleSingleMsg(SingleMsg*)));
@@ -162,26 +163,28 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
         m_pBodyLabel = new QLabel();
         m_pBodyLabel->setObjectName("body");
         m_pBodyLabel->setFixedWidth(315);
-//        m_pBodyLabel->setStyleSheet("padding:0px;height:24px;font-size:14px;background-color:transparent;");
-        m_pBodyLabel->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Maximum);
-        m_pBodyLabel->setWordWrap(false);
-//        m_pBodyLabel->setText(m_strBody);
+        m_pBodyLabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+        m_pBodyLabel->adjustSize();
+
+        QFont font1;
+        font1.setPixelSize(14);
+        m_pBodyLabel->setFont(font1);
 
         QFontMetrics fontMetrics(m_pBodyLabel->font());
         int fontSize = fontMetrics.width(m_strBody);
         QString formatBody = m_strBody;
-        if(fontSize > (m_pBodyLabel->width() - 45))
+
+        m_pBodyLabel->setWordWrap(false);
+        if(fontSize > (m_pBodyLabel->width()))
         {
-            formatBody = fontMetrics.elidedText(m_strBody, Qt::ElideRight, m_pBodyLabel->width() - 40);
+            formatBody = fontMetrics.elidedText(m_strBody, Qt::ElideRight, m_pBodyLabel->width());
         }
         m_pBodyLabel->setText(formatBody);
-
         pVContextLayout->addWidget(m_pBodyLabel, 0, Qt::AlignLeft);
     }
 
     //显示该应用未展开部件
     m_pShowLeftWidget = new QWidget;
-    m_pShowLeftWidget->setVisible(false);
     QVBoxLayout* pVShowLeftLayout = new QVBoxLayout();
     pVShowLeftLayout->setContentsMargins(0,6,0,14);
 
@@ -210,30 +213,53 @@ void SingleMsg::updatePushTime()
         return;
     }
 
+    QString strPushDate;
     if(m_dateTime.date() == currentDateTime.date())
     {
-        QString strPushDate = m_dateTime.toString("hh:mm");
+        if(true == m_bTimeFormat)   //24小时制
+        {
+            strPushDate = m_dateTime.toString("hh:mm");
+        }
+        else                        //12小时制
+        {
+            strPushDate = m_dateTime.toString("AP h:mm");
+        }
         m_pTimeLabel->setText(strPushDate);
         return;
     }
 
     if(1 == (currentDateTime.date().toJulianDay() - m_dateTime.date().toJulianDay()))
     {
-        QString strPushDate = "昨天 ";
-        strPushDate = strPushDate + m_dateTime.toString("hh:mm");
+        strPushDate = "昨天 ";
+        if(true == m_bTimeFormat)   //24小时制
+        {
+            strPushDate = strPushDate + m_dateTime.toString("hh:mm");
+        }
+        else                        //12小时制
+        {
+            strPushDate = strPushDate + m_dateTime.toString("AP h:mm");
+        }
         m_pTimeLabel->setText(strPushDate);
+
         return;
     }
 
     //一周以内
     if((currentDateTime.date().toJulianDay() - m_dateTime.date().toJulianDay()) < 7)
     {
-        QString strPushDate = m_dateTime.toString("ddd hh:mm");
+        if(true == m_bTimeFormat)   //24小时制
+        {
+            strPushDate = m_dateTime.toString("ddd hh:mm");
+        }
+        else                        //12小时制
+        {
+            strPushDate =  m_dateTime.toString("ddd AP h:mm");
+        }
         m_pTimeLabel->setText(strPushDate);
     }
     else  //一周以外
     {
-        QString strPushDate = m_dateTime.toString("yyyy/MM/dd");
+        strPushDate = m_dateTime.toString("yyyy/MM/dd");
         m_pTimeLabel->setText(strPushDate);
     }
 
@@ -249,7 +275,9 @@ void SingleMsg::setBodyLabelWordWrap(bool bFlag)
     }
 
     m_pBodyLabel->setWordWrap(bFlag);
-
+    QFont font1;
+    font1.setPixelSize(14);
+    m_pBodyLabel->setFont(font1);
     QFontMetrics fontMetrics(m_pBodyLabel->font());
     int fontSize = fontMetrics.width(m_strBody);
     QString formatBody = m_strBody;
@@ -257,15 +285,15 @@ void SingleMsg::setBodyLabelWordWrap(bool bFlag)
     if(true == bFlag)
     {
         //如果展开,就超过四行末尾显示省略号
-        if(fontSize > (m_pBodyLabel->width() * 4 - 30))
+        if(fontSize > (m_pBodyLabel->width() * 4 - 28))
         {
-            formatBody = fontMetrics.elidedText(m_strBody, Qt::ElideRight, m_pBodyLabel->width() * 4 - 20);
+            formatBody = fontMetrics.elidedText(m_strBody, Qt::ElideRight, m_pBodyLabel->width() * 4 - 28);
         }
     }
     else
     {
         //如果不展开,就超过一行末尾显示省略号
-        if(fontSize > (m_pBodyLabel->width() - 45))
+        if(fontSize > (m_pBodyLabel->width()))
         {
             formatBody = fontMetrics.elidedText(m_strBody, Qt::ElideRight, m_pBodyLabel->width());
         }
@@ -285,17 +313,17 @@ void SingleMsg::setLeftItem(int nShowLeftCount)
     //当剩余条数大于0, 且是折叠状态则显示剩余标签
     if((true == m_bFold) && (m_nShowLeftCount > 0))
     {
-        m_pShowLeftWidget->setVisible(true);
+        m_pShowLeftItemLabel->setVisible(true);
     }
     else
     {
-        m_pShowLeftWidget->setVisible(false);
+        m_pShowLeftItemLabel->setVisible(false);
     }
 }
 
 void SingleMsg::setShowLeftItemFlag(bool bFlag)
 {
-    m_pShowLeftWidget->setVisible(bFlag);
+    m_pShowLeftItemLabel->setVisible(bFlag);
 }
 
 void SingleMsg::enterEvent(QEvent *event)
@@ -343,11 +371,11 @@ void SingleMsg::mousePressEvent(QMouseEvent *event)
             //当剩余条数大于0, 且是折叠状态则显示剩余标签
             if((true == m_bFold) && (m_nShowLeftCount > 0))
             {
-                m_pShowLeftWidget->setVisible(true);
+                m_pShowLeftItemLabel->setVisible(true);
             }
             else
             {
-                m_pShowLeftWidget->setVisible(false);
+                m_pShowLeftItemLabel->setVisible(false);
             }
         }
     }

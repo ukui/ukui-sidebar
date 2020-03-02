@@ -210,7 +210,7 @@ void Widget::setIcon(QString strIcon)
     QIcon icon = QIcon(strIcon);
     trayIcon->setIcon(icon);
     setWindowIcon(icon);
-    trayIcon->setToolTip("ukui-sidebar");
+    trayIcon->setToolTip("侧边栏");
 }
 
 //设置activated信号
@@ -277,13 +277,20 @@ void Widget::showAnimation()
     if(false == m_bFirstGetDeskSizeFlag)
     {
         m_bFirstGetDeskSizeFlag = true;
-        QDesktopWidget *deskWgt = QApplication::desktop();
-        if (nullptr == deskWgt) {
-            return;
+        if(0 == connectTaskBarDbus()) //如果取不到任务栏的高度,还是优先获取桌面分辨率
+        {
+            QScreen* pScreen = QGuiApplication::primaryScreen();
+            QRect DeskSize = pScreen->availableGeometry();
+            m_nDeskWidth = DeskSize.width();        //桌面分辨率的宽
+            m_nDeskHeight = DeskSize.height();      //桌面分辨率的高
         }
-        QRect screenRect = deskWgt->screenGeometry();
-        m_nDeskWidth = screenRect.width();
-        m_nDeskHeight = screenRect.height() - connectTaskBarDbus();
+        else                        //如果取到任务栏的高度,还是用屏幕分辨率的高度减去任务栏的高度得到桌面高度
+        {
+            QDesktopWidget *deskWgt = QApplication::desktop();
+            QRect screenRect = deskWgt->screenGeometry();
+            m_nDeskWidth = screenRect.width();
+            m_nDeskHeight = screenRect.height() - connectTaskBarDbus();
+        }
     }
 
     m_pShowAnimation->setStartValue(QRect(m_nDeskWidth, 0, 400, m_nDeskHeight));

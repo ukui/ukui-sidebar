@@ -220,7 +220,7 @@ QLabel#body{
     font-size:14px;
     background-color:transparent;
     padding:0px;
-    height:24px;
+/*    height:24px;*/
 }
 
 QLabel#ShowLeftItem{

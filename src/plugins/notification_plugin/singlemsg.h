@@ -53,8 +53,8 @@ protected:
 
 private:
     QLabel*         m_pTimeLabel;
-    ButtonWidget*    m_pSingleTakeinButton;          //单条消息中的收纳按钮
-    ButtonWidget*    m_pSingleDeleteButton;          //单条消息中的删除按钮
+    ButtonWidget*   m_pSingleTakeinButton;          //单条消息中的收纳按钮
+    ButtonWidget*   m_pSingleDeleteButton;          //单条消息中的删除按钮
     QLabel*         m_pBodyLabel;                   //正文标签
     QWidget*        m_pShowLeftWidget;              //显示该应用未展开部件
     QLabel*         m_pShowLeftItemLabel;           //显示该应用未展开条数
@@ -69,6 +69,7 @@ private:
     bool            m_bFold;                        //是否折叠
     bool            m_bMain;                        //是否为主窗口
     int             m_nShowLeftCount;               //为主窗口时,剩余显示条数
+    bool            m_bTimeFormat;                  //time制式，0代表12小时制，1代表24小时制
 
 signals:
     void            Sig_onDeleSingleMsg(SingleMsg* p);
