@@ -28,6 +28,7 @@
 #include <QAction>
 #include <QWidgetAction>
 #include "clipboardwidgetentry.h"
+#define  SIDEBAR_SEARCH_QSS_PATH  ":/qss/sideBarSearchArea.css"
 class SearchWidgetItemContent:public QWidget
 {
     Q_OBJECT

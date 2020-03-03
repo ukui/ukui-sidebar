@@ -33,6 +33,9 @@
 #include <QScreen>
 #include <QRect>
 #include <QDebug>
+#include <QStyleOption>
+#include <QPainter>
+#define  SIDEBAR_EDITAREA_QSS_PATH  ":/qss/sideBarEditArea.css"
 class EditorWidget : public QWidget
 {
     Q_OBJECT
@@ -53,6 +56,9 @@ public:
     void titleBox();
     void editBox();
     void operationBox();
+
+protected:
+    void paintEvent(QPaintEvent *);
 };
 
 #endif // EDITORWIDGET_H

@@ -1,8 +1,8 @@
-QPalette{background:#1A1A1A;}
+QPalette{background:#131314;}
 
 /* 搜索栏的Widget */
 QWidget#SearhWidget {
-    margin-top: 0px;
+/*  margin-top: 0px;
     margin-right: 0px;
     margin-bottom: 0px;
     margin-left: 0px;
@@ -12,9 +12,9 @@ QWidget#SearhWidget {
     padding-left:0px;
     width:380px;
     height:40;
-    background:rgba(255,0,0,1);
+    background:rgba(19, 19, 20, 0);
+    opacity:0;*/
     border: 1px solid rgba(255,255,0,1);
-    opacity:0.95;
 }
 
 /* listWidget的中的widgetitem  */
@@ -31,7 +31,7 @@ QWidget#WidgetEntry {
     padding-top: 0px;
     padding-bottom:0px;
     padding-left:0px;
-    background:rgba(19, 19, 20, 1);
+    background:rgba(255, 255, 255, 0);
     border: 0px solid rgba(255,0,0,1);
     opacity:0.08;
     border-bottom: 1px solid rgba(255,255,255,95);
@@ -149,6 +149,13 @@ QWidget#SearhWidget>QPushButton#CleanList {
     margin-left:5px;
     margin-bottom:0px;
     margin-right:10px;
+
+    font-size:11px;
+    font-family:Noto Sans CJK SC;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    line-height:24px;
+    opacity:0.91;
     border:0px solid rgba(255,0,0,1);
 }
 
@@ -242,7 +249,6 @@ QGroupBox#OperationBox>QPushButton#CancelButton {
 QGroupBox#OperationBox>QPushButton#CancelButton:hover{
     background-color:rgba(255,255,255,36); /*改变背景色*/
     border-style:inset;               /*改变边框风格*/
-
     border: 0px solid rgba(255,0,0,1);
 }
 
@@ -303,7 +309,7 @@ QGroupBox#EditBox>QTextEdit#EditingArea {
     margin-bottom: 0px;
     margin-left: 0px;
     margin-top: 0px;
-    background-color:rgba(255,255,255,36);
+    background-color:rgba(255,255,255,0.01);
     border: 0px solid rgba(255,0,0,1);
 }
 
@@ -321,9 +327,9 @@ QListWidget#ShortcutOperationList {
     padding-bottom:0px;
     padding-left:0px;
     padding-right:0px;
-    background:rgba(19,19,20,1);
+    background:rgba(19, 19, 20, 0);
+    opacity:0;
     border:0px;
-    opacity:0.5;
 }
 
 QListWidget#SearchWidgetListWidget {
@@ -339,10 +345,10 @@ QListWidget#SearchWidgetListWidget {
     padding-bottom:0px;
     padding-left:0px;
     padding-right:0px;
-    background:rgba(19,19,20,1);
+    background:rgba(19, 19, 20, 0);
+    opacity:0;
     border: 0px solid rgba(255,0,0,1);
     border:0px;
-    opacity:0.5;
 }
 
 /* 所有Item的大小 */
@@ -365,11 +371,12 @@ QGroupBox {
     width:380px;
     height:400px;
     margin-top:20px;
-    margin-left:10px;
+    margin-left:0px;
     margin-bottom:0px;
-    margin-right:10px;
+    margin-right:0px;
     border: 0px solid rgba(255,0,0,1);
-    background:rgba(19, 19, 20, 1);
+    background:rgba(19, 19, 20, 0);
+    opacity:0.05;
 
     width:59px;
     height:19px;
@@ -378,7 +385,6 @@ QGroupBox {
     font-weight:400;
     color:rgba(255,255,255,1);
     line-height:34px;
-    opacity:0.97;
 }
 
 /* 编辑区域 */
@@ -418,22 +424,6 @@ QGroupBox#OperationBox {
     padding-bottom:0px;
     border: 0px;
 }
-
-/*
-QGroupBox::indicator {
-    width: 59px;
-    height: 19px;
-}
-
-QGroupBox::title{
-        font-size:20px;
-        font-family:Noto Sans CJK SC;
-        font-weight:400;
-        color:rgba(255,255,255,1);
-        line-height:34px;
-        opacity:0.97;
-}*/
-
 
 /* widget条目的Lable */
 QWidget#WidgetEntry>QLabel{
@@ -481,5 +471,6 @@ QListWidget:Item{
     padding-top: 0px;
     padding-bottom:0px;
     padding-left:0px;
+    background:rgba(19, 19, 20, 0);
     border: 0px solid rgba(255,255,0,1);
 }

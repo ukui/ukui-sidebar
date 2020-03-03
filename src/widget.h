@@ -74,6 +74,7 @@ public slots :
 protected:
     void mousePressEvent(QMouseEvent *event);                                   //鼠标点击事件
     bool eventFilter(QObject *obj, QEvent *event);                              //设置过滤事件
+    void paintEvent(QPaintEvent *);
 
 private:
     //主界面
@@ -82,7 +83,6 @@ private:
     QVBoxLayout*        m_pMainQVBoxLayout;                                     //主界面垂直布局器
     QDBusInterface*     m_pServiceInterface;                                    //获取任务栏的高度
     bool                m_bShowFlag;                                            //控制托盘栏点击事件的标志位
-    bool                m_bFirstGetDeskSizeFlag;                                //首次获取桌面尺寸的标志
     int                 m_nDeskWidth;                                           //屏幕分辨率的宽
     int                 m_nDeskHeight;                                          //屏幕分辨率的高
     QObject*            m_pNotificationPluginObject;                            //通知中心插件对象

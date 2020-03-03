@@ -35,6 +35,7 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
     m_pClipboardLaout->addWidget(m_pSearchWidgetListWidget);
     m_pClipboardLaout->addWidget(m_pShortcutOperationListWidget);
     m_pSidebarClipboardBox->setLayout(m_pClipboardLaout);
+    m_pSidebarClipboardBox->setAttribute(Qt::WA_TranslucentBackground);
     m_pShortcutOperationListWidget->setObjectName("ShortcutOperationList");
     m_pSearchWidgetListWidget->setObjectName("SearchWidgetListWidget");
     m_pSidebarClipboardBox->setObjectName("ClipboardBox");
@@ -52,11 +53,12 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
     QFile file(SIDEBAR_CLIPBOARD_QSS_PATH);
     if (file.open(QFile::ReadOnly)) {
         QString strQss = QLatin1String(file.readAll());
-        QString strPaletteColor = strQss.mid(20, 7);
-        qApp->setPalette(QPalette(QColor(strPaletteColor)));
-        qApp->setStyleSheet(strQss);
+//        QString strPaletteColor = strQss.mid(20, 7);
+//        qApp->setPalette(QPalette(QColor(strPaletteColor)));
+        m_pSidebarClipboardBox->setStyleSheet(strQss);
         file.close();
     }
+
 }
 
 /* 构造原型的QMimeData数据类型 */
@@ -481,6 +483,7 @@ void SidebarClipboardPlugin::editButtonSlots(ClipboardWidgetEntry *w)
 //    }
     QListWidgetItem* p_wItem = (QListWidgetItem*)getWidgetItem(w);
     m_pEditWidget = new EditorWidget;
+//    m_pEditWidget->setStyleSheet("QWidget{background:rgba(19, 19, 20, 0.5);}");
     QString text = getLabelText(w->m_pCopyDataLabal);
     m_pEditWidget->m_pEditingArea->setText(text);
     m_pEditWidget->show();

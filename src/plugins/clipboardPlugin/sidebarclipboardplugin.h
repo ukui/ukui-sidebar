@@ -43,6 +43,7 @@
 #include "clipboardsignal.h"
 #define  WIDGET_ENTRY_COUNT 5
 #define  SIDEBAR_CLIPBOARD_QSS_PATH  ":/qss/sidebarClipboard.css"
+
 //static SidebarClipboardPlugin *global_instance = nullptr;
 class SidebarClipboardPlugin:public QObject, public ClipboardInterface
 {

@@ -1,0 +1,58 @@
+/* 搜索栏的Widget */
+QWidget#SearhWidget{
+    width:380px;
+    height:40;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+    padding-bottom:0px;
+    padding-left:0px;
+    background:rgba(19, 19, 20, 1);
+    opacity:0;
+    border: 0px solid rgba(255,255,0,1);
+}
+
+/* 清空所有的WidgetItem按扭 */
+QWidget#SearhWidget>QPushButton#CleanList {
+    width:80px;
+    height:34px;
+    margin-top:0px;
+    margin-left:5px;
+    margin-bottom:0px;
+    margin-right:10px;
+
+    font-size:11px;
+    font-family:Noto Sans CJK SC;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    line-height:24px;
+    opacity:0.91;
+    border:0px solid rgba(255,0,0,1);
+}
+
+/* 清空所有的WidgetItem按扭悬浮时的效果 */
+QWidget#SearhWidget>QPushButton#CleanList:hover{
+    background-color:rgba(255,255,255,36); /*改变背景色*/
+    border-style:inset;               /*改变边框风格*/
+
+    border: 0px solid rgba(255,0,0,1);
+}
+
+/* 清空所有的WidgetItem按扭按下时的效果 */
+QWidget#SearhWidget>QPushButton#CleanList:pressed{
+    background-color:rgba(255,255,255,25); /*改变背景色*/
+    border-style:inset;/*改变边框风格*/
+
+    border: 0px solid rgba(255,0,0,1);
+}
+
+/* 清空所有的QlineEdit按扭 */
+QLineEdit#SearchLabel>QPushButton#ClearTextButton {
+    width:9px;
+    height:9px;
+    border-radius:9px;
+    border:0px solid rgba(255,255,0,1);
+}

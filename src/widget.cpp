@@ -28,7 +28,6 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
 {
     m_bShowFlag = false;
     m_bFwinkleFlag = true;
-    m_bFirstGetDeskSizeFlag = false;
 
     /* 监听屏幕分辨率是否变化 */
     QDesktopWidget* desk = QApplication::desktop();
@@ -40,7 +39,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
             QDBusConnection::sessionBus());
     m_pServiceInterface->setTimeout(2147483647);
 
-	//获取桌面分辨率大小
+    //获取桌面分辨率大小
 //    QScreen* pScreen = QGuiApplication::primaryScreen();
 //    QRect DeskSize = pScreen->availableGeometry();
 //    m_nDeskWidth = DeskSize.width();        //桌面分辨率的宽
@@ -49,7 +48,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
 //    qInfo() << "屏幕分辨率的宽" << m_nDeskWidth;
 //    qInfo() << "屏幕分辨率的高" << m_nDeskHeight;
 
-	/* 主界面显示 */
+    /* 主界面显示 */
     m_pMainQVBoxLayout = new QVBoxLayout;
     m_pMainQVBoxLayout->setContentsMargins(0,0,0,0);
 
@@ -62,7 +61,8 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
         qDebug() << "通知中心插件加载失败";
     }
     m_pShortcutOperationGroupBox->setObjectName("ShortcutOperationGroupBox");
-    m_pShortcutOperationGroupBox->setStyleSheet("QGroupBox#ShortcutOperationGroupBox{background:rgba(19, 19, 20, 1)}");
+    m_pShortcutOperationGroupBox->setAttribute(Qt::WA_TranslucentBackground);
+//    m_pShortcutOperationGroupBox->setStyleSheet("QGroupBox#ShortcutOperationGroupBox{background:rgba(19, 19, 20, 0)}");
     m_pMainQVBoxLayout->addWidget(m_pShortcutOperationGroupBox, 0);
 
     setLayout(m_pMainQVBoxLayout);
@@ -77,7 +77,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
 
     //设置hide动画
     m_pHideAnimation = new QPropertyAnimation(this, "geometry");
-    m_pHideAnimation->setDuration(400);
+    m_pHideAnimation->setDuration(200);
     connect(m_pHideAnimation, &QPropertyAnimation::finished, this, &Widget::HideAnimationEndSlots);
 
     //设置show动画
@@ -101,20 +101,20 @@ Widget::~Widget()
 
 uint Widget::panelSizeChangeNotify(uint uId)
 {
-    QDesktopWidget *deskWgt = QApplication::desktop();
-    if (nullptr == deskWgt) {
-        return 0;
-    }
+//    QDesktopWidget *deskWgt = QApplication::desktop();
+//    if (nullptr == deskWgt) {
+//        return 0;
+//    }
 
-    QRect screenRect = deskWgt->screenGeometry();
-    m_nDeskWidth = screenRect.width();
-    m_nDeskHeight = screenRect.height() - uId;
-    qInfo() << "screen width:" << m_nDeskWidth << ",height:" << m_nDeskHeight;
+//    QRect screenRect = deskWgt->screenGeometry();
+//    m_nDeskWidth = screenRect.width();
+//    m_nDeskHeight = screenRect.height() - uId;
+//    qInfo() << "screen width:" << m_nDeskWidth << ",height:" << m_nDeskHeight;
 
-    if(true == m_bShowFlag)  //当展开时，才需要实时改变尺寸
-    {
-        this->setGeometry(m_nDeskWidth - 400,0,400,m_nDeskHeight);
-    }
+//    if(true == m_bShowFlag)  //当展开时，才需要实时改变尺寸
+//    {
+//        this->setGeometry(m_nDeskWidth - 400,0,400,m_nDeskHeight);
+//    }
 
     return 1;
 }
@@ -250,9 +250,13 @@ void Widget::iconActivated(QSystemTrayIcon::ActivationReason reason)
 /* 链接任务栏dbus接口 */
 int Widget::connectTaskBarDbus()
 {
-    QDBusMessage msg = m_pServiceInterface->call("GetPanelSize", QVariant("Panel"));
+    QDBusMessage msg = m_pServiceInterface->call("GetPanelSize", QVariant("Hight"));
     int panelHight = msg.arguments().at(0).toInt();
     qDebug() << "panelHight" << panelHight;
+
+    msg = m_pServiceInterface->call("GetPanelPosition", QVariant("Position"));
+    int panelPosition = msg.arguments().at(0).toInt();
+    qDebug() << "Position" << panelPosition;
     return panelHight;
 }
 
@@ -274,23 +278,19 @@ void Widget::showAnimation()
         centerInterface->updatePushTime(); //当动画展开时也更新一下通知列表或者收纳列表的推送时间显示
     }
 
-    if(false == m_bFirstGetDeskSizeFlag)
+    if(0 == connectTaskBarDbus()) //如果取不到任务栏的高度,还是优先获取桌面分辨率
     {
-        m_bFirstGetDeskSizeFlag = true;
-        if(0 == connectTaskBarDbus()) //如果取不到任务栏的高度,还是优先获取桌面分辨率
-        {
-            QScreen* pScreen = QGuiApplication::primaryScreen();
-            QRect DeskSize = pScreen->availableGeometry();
-            m_nDeskWidth = DeskSize.width();        //桌面分辨率的宽
-            m_nDeskHeight = DeskSize.height();      //桌面分辨率的高
-        }
-        else                        //如果取到任务栏的高度,还是用屏幕分辨率的高度减去任务栏的高度得到桌面高度
-        {
-            QDesktopWidget *deskWgt = QApplication::desktop();
-            QRect screenRect = deskWgt->screenGeometry();
-            m_nDeskWidth = screenRect.width();
-            m_nDeskHeight = screenRect.height() - connectTaskBarDbus();
-        }
+        QScreen* pScreen = QGuiApplication::primaryScreen();
+        QRect DeskSize = pScreen->availableGeometry();
+        m_nDeskWidth = DeskSize.width();        //桌面分辨率的宽
+        m_nDeskHeight = DeskSize.height();      //桌面分辨率的高
+    }
+    else                        //如果取到任务栏的高度,还是用屏幕分辨率的高度减去任务栏的高度得到桌面高度
+    {
+        QDesktopWidget *deskWgt = QApplication::desktop();
+        QRect screenRect = deskWgt->screenGeometry();
+        m_nDeskWidth = screenRect.width();
+        m_nDeskHeight = screenRect.height() - connectTaskBarDbus();
     }
 
     m_pShowAnimation->setStartValue(QRect(m_nDeskWidth, 0, 400, m_nDeskHeight));
@@ -301,8 +301,8 @@ void Widget::showAnimation()
 //隐藏动画
 void Widget::hideAnimation()
 {
-    m_pHideAnimation->setStartValue(QRect(m_nDeskWidth - 400, 0, 400, m_nDeskHeight + 1));
-    m_pHideAnimation->setEndValue(QRect(m_nDeskWidth, 0,  400, m_nDeskHeight + 1));
+    m_pHideAnimation->setStartValue(QRect(m_nDeskWidth - 400, 0, 400, m_nDeskHeight));
+    m_pHideAnimation->setEndValue(QRect(m_nDeskWidth, 0,  400, m_nDeskHeight));
     m_pHideAnimation->start();
 }
 
@@ -377,4 +377,21 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
         activateWindow();
     }
     return false;
+}
+
+/* 重新绘制背景色 */
+void Widget::paintEvent(QPaintEvent *)
+{
+    QStyleOption opt;
+    opt.init(this);
+    QPainter p(this);
+
+    p.setBrush(QBrush(QColor("#131314")));
+    p.setOpacity(0.4);
+    p.setPen(Qt::NoPen);
+
+    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+    p.drawRoundedRect(opt.rect,0,0);
+    p.drawRect(opt.rect);
+    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }

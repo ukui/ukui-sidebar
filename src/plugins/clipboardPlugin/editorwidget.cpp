@@ -18,7 +18,7 @@
 
 
 #include "editorwidget.h"
-
+#include <QFile>
 EditorWidget::EditorWidget()
 {
     m_pMainQVBoxLayout = new QVBoxLayout();
@@ -41,6 +41,15 @@ EditorWidget::EditorWidget()
     int m_nScreenHeight = ScreenSize.height();      //屏幕分辨率的高
     move(m_nScreenWidth/2-130, m_nScreenHeight/2-180);
     setLayout(m_pMainQVBoxLayout);
+    setAttribute(Qt::WA_TranslucentBackground);
+    QFile file(SIDEBAR_EDITAREA_QSS_PATH);
+    if (file.open(QFile::ReadOnly)) {
+        QString strQss = QLatin1String(file.readAll());
+        QString strPaletteColor = strQss.mid(20, 7);
+        this->setPalette(QPalette(QColor(strPaletteColor)));
+        this->setStyleSheet(strQss);
+        file.close();
+    }
 }
 
 void EditorWidget::editBox()
@@ -62,4 +71,20 @@ void EditorWidget::operationBox()
     m_pOperationLayout->addWidget(m_pConfirmButton);
     m_pOperationBox = new QGroupBox();
     m_pOperationBox->setLayout(m_pOperationLayout);
+}
+
+void EditorWidget::paintEvent(QPaintEvent *)
+{
+    QStyleOption opt;
+    opt.init(this);
+    QPainter p(this);
+
+    p.setBrush(QBrush(QColor("#131314")));
+    p.setOpacity(0.4);
+    p.setPen(Qt::NoPen);
+
+    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+    p.drawRoundedRect(opt.rect,0,0);
+    p.drawRect(opt.rect);
+    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }

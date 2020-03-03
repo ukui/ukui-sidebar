@@ -20,6 +20,7 @@
 #include "searchwidgetitemcontent.h"
 #include <QApplication>
 #include <QStyle>
+#include <QFile>
 SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
 {
     Q_UNUSED(parent);
