@@ -113,7 +113,7 @@ void MonitorThread::readOutputData()
     {
         return;
     }
-    qDebug()<<str_output;
+//    qDebug()<<str_output;
 
     int nIndex = 0;
     do{

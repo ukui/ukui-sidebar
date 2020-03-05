@@ -34,6 +34,27 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
     m_pMainVLaout->setContentsMargins(0,0,0,0);
     m_pMainVLaout->setSpacing(0);
 
+    //当出现多条消息时，增加底图
+    m_pBaseMapWidget = new QWidget;
+    QVBoxLayout* pBaseMapVLaout = new QVBoxLayout();
+    pBaseMapVLaout->setContentsMargins(0,0,0,0);
+    pBaseMapVLaout->setSpacing(0);
+
+    QWidget* pBaseMapWidget = new QWidget;
+    pBaseMapWidget->setObjectName("BaseMap");
+    pBaseMapWidget->setFixedWidth(360);
+    pBaseMapWidget->setFixedHeight(6);
+    pBaseMapWidget->setStyleSheet("QWidget{background:rgba(255,255,255,0.06);border-top-left-radius:0px;border-top-right-radius:0px;border-bottom-left-radius:6px;border-bottom-right-radius:6px;}");
+    pBaseMapVLaout->addWidget(pBaseMapWidget, 0 , Qt::AlignHCenter);
+
+    //添加一个6px的固定弹簧
+    QSpacerItem* pVBottomSpacer = new QSpacerItem(6, 6, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    pBaseMapVLaout->addSpacerItem(pVBottomSpacer);
+
+    m_pBaseMapWidget->setLayout(pBaseMapVLaout);
+    m_pMainVLaout->addWidget(m_pBaseMapWidget, 0 , Qt::AlignHCenter);
+    m_pBaseMapWidget->setVisible(false);
+
     this->setLayout(m_pMainVLaout);
 
     //发个信号通知插件删除该通知应用消息
@@ -64,7 +85,17 @@ void AppMsg::statisticLeftItem()
     {
         return;
     }
+
     int nShowLeftCount = m_listSingleMsg.count() - 1;
+    if((true == m_bFold) && (nShowLeftCount > 0)) //当应用处于折叠状态，且剩余条数大于0时,应用底图部件显示
+    {
+        m_pBaseMapWidget->setVisible(true);
+    }
+    else
+    {
+        m_pBaseMapWidget->setVisible(false);
+    }
+
     SingleMsg* pTopSingleMsg = m_listSingleMsg.at(0);
     pTopSingleMsg->setLeftItem(nShowLeftCount);
     return;
@@ -91,10 +122,12 @@ void AppMsg::addSingleMsg(QString strIconPath, QString strSummary, QDateTime dat
     {
         SingleMsg* pFirstMsg = m_listSingleMsg.at(0);
         pFirstMsg->setMainFlag(false);
-        pFirstMsg->setShowLeftItemFlag(false);
-        if(true == m_bFold) //只有已经折叠的才需要将现有的顶部设为缩略显示
+        pFirstMsg->setShowLeftItemAndContentsMargin(false);
+        if(true == m_bFold) //只有已经折叠的才需要将现有的正文设置为缩略显示
         {
             pFirstMsg->setBodyLabelWordWrap(false);
+            //将SingleMsg底部设置6px空隙
+            pFirstMsg->setSingleMsgContentsMargins(0, 0, 0, 6);
         }
     }
 
@@ -245,16 +278,12 @@ void AppMsg::setTopWithSecondItem()
         SingleMsg* pFirstMsg = m_listSingleMsg.at(0);
         pFirstMsg->setMainFlag(true);
         pFirstMsg->setFoldFlag(m_bFold);
-        if(true == m_bFold)
-        {
-            pFirstMsg->setBodyLabelWordWrap(false);
-        }
-        else
-        {
-            pFirstMsg->setBodyLabelWordWrap(true);
-        }
+
+        //都是在删除单挑、收纳单挑和恢复单挑的情况下调用的setTopWithSecondItem，此时App应该都是展开状态
+        pFirstMsg->setBodyLabelWordWrap(true);
         pFirstMsg->setVisible(true);
     }
+
     return;
 }
 
@@ -351,6 +380,26 @@ void AppMsg::setAppFoldFlag(bool bFlag)
         }
     }
 
+    if((true == m_bFold) && (m_listSingleMsg.count() > 1)) //当应用处于折叠状态，且总条数大于1时,应用底图部件显示
+    {
+        m_pBaseMapWidget->setVisible(true);
+    }
+    else
+    {
+        m_pBaseMapWidget->setVisible(false);
+    }
+
+}
+
+//当app展开时，将app设置折叠
+void AppMsg::setAppFold()
+{
+    if(false == m_bFold)
+    {
+        //假如应用展开，则将应用主消息设置折叠
+        SingleMsg* pFirstSingleMsg = m_listSingleMsg.at(0);
+        pFirstSingleMsg->mainMsgSetFold();
+    }
 }
 
 

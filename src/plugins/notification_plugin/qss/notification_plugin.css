@@ -12,13 +12,20 @@ QWidget#NotificationCenter{
     background:rgba(19,19,20,1);
 }
 
-QWidget#AppMsg{
+QWidget#SingleNotification{
     background:rgba(255,255,255,0.12);
     border-radius:6px;
 }
 
 QWidget#QScrollAreaInQWidget{
     background:rgba(19,19,20,1);
+}
+
+QWidget#BaseMap{
+    background:rgba(255,255,255,0.06);
+    width:360px;
+    height:6px;
+    border-radius:0px 0px 6px 6px;
 }
 
 /*QWidget#NotificationCenter{

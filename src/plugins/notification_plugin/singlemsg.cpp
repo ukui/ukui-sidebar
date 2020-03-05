@@ -20,7 +20,6 @@
 #include "appmsg.h"
 #include "buttonwidget.h"
 #include <QHBoxLayout>
-#include <QVBoxLayout>
 #include <QMouseEvent>
 #include <QSvgRenderer>
 #include <QPixmap>
@@ -47,18 +46,17 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     connect(this, SIGNAL(Sig_onRecoverSingleMsg(SingleMsg*)), pParent, SLOT(onRecoverSingleMsg(SingleMsg*)));
     connect(this, SIGNAL(Sig_onRecoverWholeApp()), pParent, SLOT(onRecoverWholeApp()));
 
-    //为了设置AppMsg的样式,在里面套了一个QWidget
-    QVBoxLayout* pAppVLaout = new QVBoxLayout();
-    pAppVLaout->setContentsMargins(0,0,0,6);
-    pAppVLaout->setSpacing(0);
-    QWidget* pAppWidget = new QWidget;
-    pAppWidget->setObjectName("AppMsg");
+    //为了设置SingleMsg的6px圆角的样式,在里面套了一个QWidget
+    m_pAppVLaout = new QVBoxLayout();
+    m_pAppVLaout->setContentsMargins(0,0,0,6);
+    m_pAppVLaout->setSpacing(0);
+    QWidget* pSingleWidget = new QWidget;
+    pSingleWidget->setObjectName("SingleNotification");
 
     //单条消息总体垂直布局器
     QVBoxLayout* pMainVLaout = new QVBoxLayout;
     pMainVLaout->setContentsMargins(0, 0, 0, 0);
     pMainVLaout->setSpacing(0);
-
 
     //图标和时间行的水平布局部件
     QWidget* pIconWidget = new QWidget;
@@ -190,6 +188,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
     m_pShowLeftItemLabel = new QLabel;
     m_pShowLeftItemLabel->setObjectName("ShowLeftItem");
+    m_pShowLeftItemLabel->setVisible(false);
     pVShowLeftLayout->addWidget(m_pShowLeftItemLabel, 0, Qt::AlignLeft);
     m_pShowLeftWidget->setLayout(pVShowLeftLayout);
     pVContextLayout->addWidget(m_pShowLeftWidget, 0, Qt::AlignLeft);
@@ -197,9 +196,9 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     pContextWidget->setLayout(pVContextLayout);
     pMainVLaout->addWidget(pContextWidget);
 
-    pAppWidget->setLayout(pMainVLaout);
-    pAppVLaout->addWidget(pAppWidget);
-    this->setLayout(pAppVLaout);
+    pSingleWidget->setLayout(pMainVLaout);
+    m_pAppVLaout->addWidget(pSingleWidget);
+    this->setLayout(m_pAppVLaout);
 
     return;
 }
@@ -313,17 +312,32 @@ void SingleMsg::setLeftItem(int nShowLeftCount)
     //当剩余条数大于0, 且是折叠状态则显示剩余标签
     if((true == m_bFold) && (m_nShowLeftCount > 0))
     {
+        m_pAppVLaout->setContentsMargins(0,0,0,0); //假如折叠，剩余条目显示将可见，则SingleMsg的内容均无空隙
         m_pShowLeftItemLabel->setVisible(true);
     }
     else
     {
+        m_pAppVLaout->setContentsMargins(0,0,0,6); //假如展开，剩余条目显示不可见，则SingleMsg的内容空白恢复正常，即底部多出6个px的空隙
         m_pShowLeftItemLabel->setVisible(false);
     }
 }
 
-void SingleMsg::setShowLeftItemFlag(bool bFlag)
+void SingleMsg::setShowLeftItemAndContentsMargin(bool bFlag)
 {
+    if(true == bFlag)
+    {
+        m_pAppVLaout->setContentsMargins(0,0,0,0);
+    }
+    else        //假如将剩余条目显示不可见，则SingleMsg的内容空白恢复正常，即底部多出6个px的空隙
+    {
+        m_pAppVLaout->setContentsMargins(0,0,0,6);
+    }
     m_pShowLeftItemLabel->setVisible(bFlag);
+}
+
+void SingleMsg::setSingleMsgContentsMargins(int left, int top, int right, int bottom)
+{
+    m_pAppVLaout->setContentsMargins(left, top, right, bottom);
 }
 
 void SingleMsg::enterEvent(QEvent *event)
@@ -371,15 +385,34 @@ void SingleMsg::mousePressEvent(QMouseEvent *event)
             //当剩余条数大于0, 且是折叠状态则显示剩余标签
             if((true == m_bFold) && (m_nShowLeftCount > 0))
             {
+                m_pAppVLaout->setContentsMargins(0,0,0,0); //假如折叠，剩余条目显示将可见，则SingleMsg的内容均无空隙
                 m_pShowLeftItemLabel->setVisible(true);
             }
             else
             {
+                m_pAppVLaout->setContentsMargins(0,0,0,6); //假如展开，剩余条目显示不可见，则SingleMsg的内容空白恢复正常，即底部多出6个px的空隙
                 m_pShowLeftItemLabel->setVisible(false);
             }
         }
     }
     return;
+}
+
+void SingleMsg::mainMsgSetFold()
+{
+    //当消息为主窗口时,由主消息设置折叠
+    if(true == m_bMain)
+    {
+        m_bFold = true;  //置为true,表示折叠
+        setBodyLabelWordWrap(false);
+        //当剩余条数大于0, 且是折叠状态则显示剩余标签
+        if(m_nShowLeftCount > 0)
+        {
+            m_pAppVLaout->setContentsMargins(0,0,0,0); //假如折叠，剩余条目显示将可见，则SingleMsg的内容均无空隙
+            m_pShowLeftItemLabel->setVisible(true);
+        }
+        emit Sig_setAppFoldFlag(true);
+    }
 }
 
 //通知中心或者收纳盒中的删除

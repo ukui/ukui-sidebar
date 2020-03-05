@@ -49,11 +49,13 @@ public:
     int getSingleMsgCount();        //获取应用消息数
     void statisticLeftItem();       //统计应用剩余显示条数
     void setTopWithSecondItem();    //当应用最顶条被删除后,将第二条置顶
+    void setAppFold();              //当app展开时，将app设置折叠
 
 protected:
 
 private:
     QVBoxLayout*        m_pMainVLaout;                  //App信息中的总的垂直布局器
+    QWidget*            m_pBaseMapWidget;               //多条消息时，显示底图部件
 
     QList<SingleMsg*>   m_listSingleMsg;                //对于SingleMsg类对象用list表记录
     QString             m_strAppName;                   //保存发送方的应用名

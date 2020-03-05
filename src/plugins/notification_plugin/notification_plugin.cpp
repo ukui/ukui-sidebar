@@ -174,12 +174,13 @@ void NotificationPlugin::updatePushTime()
     {
         onShowTakeInMessage();
     }
-    else                        //侧边栏展开时，如果已显示通知中心，则只需更新推送时间
+    else                        //侧边栏展开时，如果已显示通知中心，则只需更新推送时间并将每个应用设置为折叠
     {
         for(int i = 0; i < m_listAppMsg.count(); i++)
         {
             AppMsg* pAppMsg = m_listAppMsg.at(i);
             pAppMsg->updateAppPushTime();
+            pAppMsg->setAppFold();
         }
     }
 
@@ -464,6 +465,7 @@ void NotificationPlugin::onShowTakeInMessage()
         {
             AppMsg* pAppMsg = m_listTakeInAppMsg.at(i);
             pAppMsg->updateAppPushTime();
+            pAppMsg->setAppFold();
         }
     }
     else
@@ -489,6 +491,7 @@ void NotificationPlugin::onShowTakeInMessage()
         {
             AppMsg* pAppMsg = m_listAppMsg.at(i);
             pAppMsg->updateAppPushTime();
+            pAppMsg->setAppFold();
         }
     }
 }

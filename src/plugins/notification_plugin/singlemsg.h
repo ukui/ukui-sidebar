@@ -23,6 +23,7 @@
 #include <QLabel>
 #include <QDateTime>
 #include <QToolButton>
+#include <QVBoxLayout>
 
 
 class AppMsg;
@@ -43,7 +44,9 @@ public:
     void setLeftItem(int nShowLeftCount);
     void setMainFlag(bool bFlag) {m_bMain = bFlag;}
     void setFoldFlag(bool bFlag) {m_bFold = bFlag;}
-    void setShowLeftItemFlag(bool bFlag);
+    void setShowLeftItemAndContentsMargin(bool bFlag);
+    void setSingleMsgContentsMargins(int left, int top, int right, int bottom);
+    void mainMsgSetFold();
 
 
 protected:
@@ -52,6 +55,7 @@ protected:
     virtual void mousePressEvent(QMouseEvent *event) override;
 
 private:
+    QVBoxLayout*    m_pAppVLaout;
     QLabel*         m_pTimeLabel;
     ButtonWidget*   m_pSingleTakeinButton;          //单条消息中的收纳按钮
     ButtonWidget*   m_pSingleDeleteButton;          //单条消息中的删除按钮
