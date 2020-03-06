@@ -1,11 +1,9 @@
 /* 编辑的Widget  */
 QWidget#EditorWidget {
-/*    width:400px;
+    width:400px;
     height:338px;
-    background:rgba(19, 19, 20, 1);
     border:1px solid rgba(255, 255, 255, 75%);
-    opacity:1;
-    border-radius:6px;*/
+    border-radius:6px;
 }
 
 /* 编辑区域 */
@@ -14,8 +12,8 @@ QGroupBox#EditBox {
     height:200px;
     margin-right: 20px;
     margin-bottom: 5px;
-    margin-left: 10px;
-    margin-top: 38px;
+    margin-left: 3px;
+    margin-top: 45px;
     padding-top:0px;
     padding-bottom:0px;
     padding-left:0px;
@@ -37,13 +35,14 @@ QGroupBox#EditBox {
 QGroupBox#OperationBox {
     width:362px;
     height:40px;
-    margin-right: 20px;
-    margin-bottom: 12px;
+    margin-right: 0px;
+    margin-bottom: 0px;
     margin-left: 20px;
     margin-top: 0px;
     border-radius:0px;
     padding-top:0px;
     padding-bottom:0px;
+    color:rgba(255,255,255,1);
     border: 0px;
 }
 
@@ -55,7 +54,8 @@ QGroupBox#OperationBox>QPushButton#ConfirmButton {
     margin-top:1px;
     margin-left:5px;
     margin-bottom:1px;
-    margin-right:20px;
+    margin-right:10px;
+    color:rgba(255,255,255,1);
     border: 0px solid rgba(255,0,0,1);
     border-radius:4px;
 }
@@ -89,13 +89,14 @@ QGroupBox#OperationBox>QPushButton#CancelButton {
     width:120px;
     height:34px;
     margin-top:0px;
-    margin-left:100px;
+    margin-left:124px;
     margin-bottom:0px;
     margin-right:5px;
     border-radius:4px;
     background-color:rgba(255,255,255,30);
     opacity:0.12;
     border: 0px solid rgba(255,0,0,1);
+    color:rgba(255,255,255,1);
     opacity:0.12;
 }
 

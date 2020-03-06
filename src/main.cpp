@@ -67,17 +67,12 @@ int main(int argc, char *argv[])
     setLogPath(LogFilePath + LOG_FILE_NAME);                        /* 绑定打印日志文件路径 */
 //    qInstallMessageHandler(customLogMessageHandler);                /* 安装日志打印功能 */
 
-
-//    qApp->setPalette(QPalette(QColor("#131314")));
-
     QApplication::setQuitOnLastWindowClosed(false);
     PluginManager::init();          /* 初始化插件管理器 */
 
     Widget w;
-    w.setObjectName("SidebarWidget");
-    w.setPalette(QPalette(QColor("#131314")));
-
     w.setAttribute(Qt::WA_TranslucentBackground);
+
     QDBusConnection connection = QDBusConnection::sessionBus();
     if(!connection.registerService("com.ukui.panel.sidebar"))
     {

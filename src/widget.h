@@ -37,12 +37,6 @@ class QGroupBox;
 class QGridLayout;
 class QVBoxLayout;
 
-enum {
-    NumGridRows = 3,
-    NumButtons = 4,
-    NumListButton = 5
-};
-
 class Widget : public QWidget
 {
     Q_OBJECT
@@ -54,18 +48,27 @@ public:
     explicit Widget(QWidget *parent = nullptr);
 
     ~Widget();
+    enum PanelStatePosition
+    {
+        PanelDown = 0,
+        PanelUp,
+        PanelLeft,
+        PanelRight
+    };
     //主界面
     void showAnimation();                                                       //show动作
     void hideAnimation();                                                       //hide动作
     void ListenClipboardSignal();                                               //监听剪贴板发送的信号
     int  connectTaskBarDbus();                                                  //连接任务栏dbus接口，获取任务栏高度
+    int  getPanelSite();                                                        //获取任务栏位置
 
     //系统托盘
     void createAction();                                                        //连接信号和槽函数，设置其动作;
     void createSystray();                                                       //设置menu界面、添加动作 和 创建sysytray实例
-    void setIcon(QString strIcon);                                                             //设置图标和提示信息;
+    void setIcon(QString strIcon);                                              //设置图标和提示信息;
     void iconActivated(QSystemTrayIcon::ActivationReason reason);               //获取点击事件
     bool loadNotificationPlugin();                                              //加载通知中心插件
+    void GetsAvailableAreaScreen();                                             //获取屏幕可用区域高度
 
 public slots :
     uint panelSizeChangeNotify(uint uId);
@@ -75,7 +78,7 @@ protected:
     void mousePressEvent(QMouseEvent *event);                                   //鼠标点击事件
     bool eventFilter(QObject *obj, QEvent *event);                              //设置过滤事件
     void paintEvent(QPaintEvent *);
-
+    virtual void focusOutEvent(QFocusEvent *event);
 private:
     //主界面
     QPropertyAnimation* m_pHideAnimation;                                       //隐藏动画对象

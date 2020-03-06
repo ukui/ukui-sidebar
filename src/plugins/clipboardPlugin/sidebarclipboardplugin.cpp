@@ -35,7 +35,7 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
     m_pClipboardLaout->addWidget(m_pSearchWidgetListWidget);
     m_pClipboardLaout->addWidget(m_pShortcutOperationListWidget);
     m_pSidebarClipboardBox->setLayout(m_pClipboardLaout);
-    m_pSidebarClipboardBox->setAttribute(Qt::WA_TranslucentBackground);
+//    m_pSidebarClipboardBox->setAttribute(Qt::WA_TranslucentBackground);
     m_pShortcutOperationListWidget->setObjectName("ShortcutOperationList");
     m_pSearchWidgetListWidget->setObjectName("SearchWidgetListWidget");
     m_pSidebarClipboardBox->setObjectName("ClipboardBox");
@@ -113,6 +113,7 @@ void SidebarClipboardPlugin::createFindClipboardWidgetItem()
     QListWidgetItem *pListWidgetItem = new QListWidgetItem;
     pListWidgetItem->setFlags(Qt::NoItemFlags);
     m_pSearchArea = new SearchWidgetItemContent;
+
     connect(m_pSearchArea->m_pClearListWidgetButton, &QPushButton::clicked, this, &SidebarClipboardPlugin::removeAllWidgetItem);
     connect(m_pSearchArea->m_pLineEditArea, SIGNAL(textChanged(QString)), this, SLOT(searchClipboardLableTextSlots(QString)));
     pListWidgetItem->setSizeHint(QSize(345,40));
@@ -410,11 +411,6 @@ void SidebarClipboardPlugin::popButtonSlots(ClipboardWidgetEntry *w)
         return;
     }
     QListWidgetItem *p = getWidgetItem(w); //获取Item
-//    int row_num = m_pShortcutOperationListWidget->row(p);
-//    if (row_num == 0) {
-//        qDebug() << "当前的item为第一条，不需要置顶操作";
-//        return;
-//    }
     removeWidgetItem(w); //移除hash表中保存的Widget和Item键值对
     removeMimeData(w);
     m_pShortcutOperationListWidget->takeItem(m_pShortcutOperationListWidget->row(p)); //删除Item;
@@ -609,11 +605,13 @@ void SidebarClipboardPlugin::searchClipboardLableTextSlots(QString Text)
     {
         ClipboardWidgetEntry *w = (ClipboardWidgetEntry*)m_pShortcutOperationListWidget->itemWidget(m_pShortcutOperationListWidget->item(row));
         line=w->m_pCopyDataLabal->text();
+        qDebug() << "当前剪贴板中的文本" << line;
         if (line.contains(Text, Qt::CaseSensitive)) {
             popButtonSlots(w);
             w->show();
             //w->hide();
         } else {
+            qDebug() << "是否进入没有查找到类型";
             w->hide();
         }
         row++;

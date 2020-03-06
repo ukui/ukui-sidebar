@@ -61,7 +61,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
         qDebug() << "通知中心插件加载失败";
     }
     m_pShortcutOperationGroupBox->setObjectName("ShortcutOperationGroupBox");
-    m_pShortcutOperationGroupBox->setAttribute(Qt::WA_TranslucentBackground);
+//    m_pShortcutOperationGroupBox->setAttribute(Qt::WA_TranslucentBackground);
 //    m_pShortcutOperationGroupBox->setStyleSheet("QGroupBox#ShortcutOperationGroupBox{background:rgba(19, 19, 20, 0)}");
     m_pMainQVBoxLayout->addWidget(m_pShortcutOperationGroupBox, 0);
 
@@ -247,17 +247,22 @@ void Widget::iconActivated(QSystemTrayIcon::ActivationReason reason)
     }
 }
 
-/* 链接任务栏dbus接口 */
+/* 链接任务栏dbus获取高度的接口 */
 int Widget::connectTaskBarDbus()
 {
     QDBusMessage msg = m_pServiceInterface->call("GetPanelSize", QVariant("Hight"));
     int panelHight = msg.arguments().at(0).toInt();
     qDebug() << "panelHight" << panelHight;
-
-    msg = m_pServiceInterface->call("GetPanelPosition", QVariant("Position"));
-    int panelPosition = msg.arguments().at(0).toInt();
-    qDebug() << "Position" << panelPosition;
     return panelHight;
+}
+
+/* 获取任务栏状态位置 下 上 左 右 */
+int Widget::getPanelSite()
+{
+    QDBusMessage msg = m_pServiceInterface->call("GetPanelPosition", QVariant("Site"));
+    int PanelSite = msg.arguments().at(0).toInt();
+    qDebug() << "panel所在的位置" << PanelSite;
+    return PanelSite;
 }
 
 void Widget::mousePressEvent(QMouseEvent *event)
@@ -269,6 +274,24 @@ void Widget::mousePressEvent(QMouseEvent *event)
 
 }
 
+//获取屏幕的可用区域高度和宽度
+void Widget::GetsAvailableAreaScreen()
+{
+    //如果取不到任务栏的高度,还是优先获取桌面分辨率,可用区域
+    if((0 == connectTaskBarDbus()) && (0 == getPanelSite())) {
+        QScreen* pScreen = QGuiApplication::primaryScreen();
+        QRect DeskSize = pScreen->availableGeometry();
+        m_nDeskWidth = DeskSize.width();        //桌面分辨率的宽
+        m_nDeskHeight = DeskSize.height();      //桌面分辨率的高
+    } else {
+        //如果取到任务栏的高度,还是用屏幕分辨率的高度减去任务栏的高度得到桌面高度
+        QDesktopWidget *deskWgt = QApplication::desktop();
+        QRect screenRect = deskWgt->screenGeometry();
+        m_nDeskWidth = screenRect.width();
+        m_nDeskHeight = screenRect.height();
+    }
+}
+
 //动画展开
 void Widget::showAnimation()
 {
@@ -277,32 +300,145 @@ void Widget::showAnimation()
     {
         centerInterface->updatePushTime(); //当动画展开时也更新一下通知列表或者收纳列表的推送时间显示
     }
+    GetsAvailableAreaScreen(); //获取屏幕可用高度区域
 
-    if(0 == connectTaskBarDbus()) //如果取不到任务栏的高度,还是优先获取桌面分辨率
-    {
-        QScreen* pScreen = QGuiApplication::primaryScreen();
-        QRect DeskSize = pScreen->availableGeometry();
-        m_nDeskWidth = DeskSize.width();        //桌面分辨率的宽
-        m_nDeskHeight = DeskSize.height();      //桌面分辨率的高
-    }
-    else                        //如果取到任务栏的高度,还是用屏幕分辨率的高度减去任务栏的高度得到桌面高度
-    {
-        QDesktopWidget *deskWgt = QApplication::desktop();
-        QRect screenRect = deskWgt->screenGeometry();
-        m_nDeskWidth = screenRect.width();
-        m_nDeskHeight = screenRect.height() - connectTaskBarDbus();
-    }
+    int  AnimaStartSideBarSite[4];                       //侧边栏动画开始位置
+    int  AnimaStopSidebarSite[4];                        //侧边栏动画结束位置
+    switch (getPanelSite()) {
+        case Widget::PanelDown : {
+            qDebug() << "所在位置" << getPanelSite();
+            //起始位置的坐标
+            AnimaStartSideBarSite[0] = m_nDeskWidth;
+            AnimaStartSideBarSite[1] = 0;
+            AnimaStartSideBarSite[2] = 400;
+            AnimaStartSideBarSite[3] = m_nDeskHeight - connectTaskBarDbus();
+            //结束位置坐标
+            AnimaStopSidebarSite[0]  = m_nDeskWidth - 400;
+            AnimaStopSidebarSite[1]  = 0;
+            AnimaStopSidebarSite[2]  = 400;
+            AnimaStopSidebarSite[3]  = m_nDeskHeight  - connectTaskBarDbus();
+        }
+        break;
+        case Widget::PanelUp: {
+            qDebug() << "所在位置" << getPanelSite();
+            //起始位置的坐标
+            AnimaStartSideBarSite[0] = m_nDeskWidth;
+            AnimaStartSideBarSite[1] = connectTaskBarDbus();
+            AnimaStartSideBarSite[2] = 400;
+            AnimaStartSideBarSite[3] = m_nDeskHeight  - connectTaskBarDbus();
+            //结束位置坐标
+            AnimaStopSidebarSite[0]  = m_nDeskWidth - 400;
+            AnimaStopSidebarSite[1]  = connectTaskBarDbus();;
+            AnimaStopSidebarSite[2]  = 400;
+            AnimaStopSidebarSite[3]  = m_nDeskHeight - connectTaskBarDbus();
+        }
+        break;
+        case Widget::PanelLeft: {
+            qDebug() << "所在位置" << getPanelSite();
+            //起始位置的坐标
+            AnimaStartSideBarSite[0] = m_nDeskWidth;
+            AnimaStartSideBarSite[1] = 0;
+            AnimaStartSideBarSite[2] = 400;
+            AnimaStartSideBarSite[3] = m_nDeskHeight;
+            //结束位置坐标
+            AnimaStopSidebarSite[0]  = m_nDeskWidth - 400;
+            AnimaStopSidebarSite[1]  = 0;
+            AnimaStopSidebarSite[2]  = 400;
+            AnimaStopSidebarSite[3]  = m_nDeskHeight;
+        }
+        break;
+        case Widget::PanelRight: {
+            qDebug() << "所在位置" << getPanelSite();
+            //起始位置的坐标
+            AnimaStartSideBarSite[0] = m_nDeskWidth - connectTaskBarDbus();
+            AnimaStartSideBarSite[1] = 0;
+            AnimaStartSideBarSite[2] = 400;
+            AnimaStartSideBarSite[3] = m_nDeskHeight;
+            //结束位置坐标
+            AnimaStopSidebarSite[0]  = m_nDeskWidth - 400 - connectTaskBarDbus();
+            AnimaStopSidebarSite[1]  = 0;
+            AnimaStopSidebarSite[2]  = 400;
+            AnimaStopSidebarSite[3]  = m_nDeskHeight;
 
-    m_pShowAnimation->setStartValue(QRect(m_nDeskWidth, 0, 400, m_nDeskHeight));
-    m_pShowAnimation->setEndValue(QRect(m_nDeskWidth - 400, 0, 400, m_nDeskHeight));
+        }
+        break;
+        default:
+        break;
+    }
+    //动画起始位置，根据获取状态来进行状态设置
+    m_pShowAnimation->setStartValue(QRect(AnimaStartSideBarSite[0], AnimaStartSideBarSite[1], AnimaStartSideBarSite[2], AnimaStartSideBarSite[3]));
+    m_pShowAnimation->setEndValue(QRect(AnimaStopSidebarSite[0], AnimaStopSidebarSite[1], AnimaStopSidebarSite[2], AnimaStopSidebarSite[3]));
     m_pShowAnimation->start();
 }
 
 //隐藏动画
 void Widget::hideAnimation()
 {
-    m_pHideAnimation->setStartValue(QRect(m_nDeskWidth - 400, 0, 400, m_nDeskHeight));
-    m_pHideAnimation->setEndValue(QRect(m_nDeskWidth, 0,  400, m_nDeskHeight));
+    int  AnimaStartSideBarSite[4];                       //侧边栏动画开始位置
+    int  AnimaStopSidebarSite[4];                        //侧边栏动画结束位置
+    switch (getPanelSite()) {
+        case Widget::PanelDown : {
+            qDebug() << "所在位置" << getPanelSite();
+            //起始位置的坐标
+            AnimaStartSideBarSite[0] = m_nDeskWidth - 400;
+            AnimaStartSideBarSite[1] = 0;
+            AnimaStartSideBarSite[2] = 400;
+            AnimaStartSideBarSite[3] = m_nDeskHeight - connectTaskBarDbus();
+            //结束位置坐标
+            AnimaStopSidebarSite[0]  = m_nDeskWidth;
+            AnimaStopSidebarSite[1]  = 0;
+            AnimaStopSidebarSite[2]  = 400;
+            AnimaStopSidebarSite[3]  = m_nDeskHeight  - connectTaskBarDbus();
+        }
+        break;
+        case Widget::PanelUp: {
+            qDebug() << "所在位置" << getPanelSite();
+            //起始位置的坐标
+            AnimaStartSideBarSite[0] = m_nDeskWidth - 400;
+            AnimaStartSideBarSite[1] = connectTaskBarDbus();
+            AnimaStartSideBarSite[2] = 400;
+            AnimaStartSideBarSite[3] = m_nDeskHeight  - connectTaskBarDbus();
+            //结束位置坐标
+            AnimaStopSidebarSite[0]  = m_nDeskWidth;
+            AnimaStopSidebarSite[1]  = connectTaskBarDbus();;
+            AnimaStopSidebarSite[2]  = 400;
+            AnimaStopSidebarSite[3]  = m_nDeskHeight - connectTaskBarDbus();
+        }
+        break;
+        case Widget::PanelLeft: {
+            qDebug() << "所在位置" << getPanelSite();
+            //起始位置的坐标
+            AnimaStartSideBarSite[0] = m_nDeskWidth - 400;
+            AnimaStartSideBarSite[1] = 0;
+            AnimaStartSideBarSite[2] = 400;
+            AnimaStartSideBarSite[3] = m_nDeskHeight;
+            //结束位置坐标
+            AnimaStopSidebarSite[0]  = m_nDeskWidth;
+            AnimaStopSidebarSite[1]  = 0;
+            AnimaStopSidebarSite[2]  = 400;
+            AnimaStopSidebarSite[3]  = m_nDeskHeight;
+        }
+        break;
+        case Widget::PanelRight: {
+            qDebug() << "所在位置" << getPanelSite();
+            //起始位置的坐标
+            AnimaStartSideBarSite[0] = m_nDeskWidth - connectTaskBarDbus() - 400;
+            AnimaStartSideBarSite[1] = 0;
+            AnimaStartSideBarSite[2] = 400;
+            AnimaStartSideBarSite[3] = m_nDeskHeight;
+            //结束位置坐标
+            AnimaStopSidebarSite[0]  = m_nDeskWidth - connectTaskBarDbus();
+            AnimaStopSidebarSite[1]  = 0;
+            AnimaStopSidebarSite[2]  = 400;
+            AnimaStopSidebarSite[3]  = m_nDeskHeight;
+        }
+        break;
+        default:
+        break;
+    }
+
+    m_pHideAnimation->setStartValue(QRect(AnimaStartSideBarSite[0], AnimaStartSideBarSite[1], AnimaStartSideBarSite[2], AnimaStartSideBarSite[3]));
+    m_pHideAnimation->setEndValue(QRect(AnimaStopSidebarSite[0], AnimaStopSidebarSite[1], AnimaStopSidebarSite[2], AnimaStopSidebarSite[3]));
     m_pHideAnimation->start();
 }
 
@@ -316,7 +452,6 @@ void Widget::onResolutionChanged(int argc)
     }
 
     QRect screenRect = deskWgt->screenGeometry();
-
     m_nDeskWidth = screenRect.width();
     m_nDeskHeight = screenRect.height() - connectTaskBarDbus();
     qInfo() << "screen width:" << m_nDeskWidth << ",height:" << m_nDeskHeight;
@@ -373,6 +508,7 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
             return true;
         }
     }
+
     if (!isActiveWindow()) {
         activateWindow();
     }
@@ -394,4 +530,13 @@ void Widget::paintEvent(QPaintEvent *)
     p.drawRoundedRect(opt.rect,0,0);
     p.drawRect(opt.rect);
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+}
+
+void Widget:: focusOutEvent(QFocusEvent *event)
+{
+    Q_UNUSED(event);
+    qDebug() << "退出窗口";
+    hideAnimation();
+    m_bShowFlag = false;
+    return;
 }

@@ -29,6 +29,7 @@ SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
     m_pClearListWidgetButton->setObjectName("CleanList");
 
     m_pClearTextButton = new QPushButton;
+    m_pClearTextButton->setIconSize(QSize(8.5,8.5));
     m_pClearTextButton->setObjectName("ClearTextButton");
     m_pClearTextButton->setStyleSheet("QPushButton:pressed{border-image:url(:/image/button-close-hover-click-add-background-one.svg)}");
     m_pClearTextButton->setStyleSheet("QPushButton:hover{border-image:url(:/image/button-close-hover-click-add-background-one.svg)}");

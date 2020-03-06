@@ -84,7 +84,6 @@ void EditorWidget::paintEvent(QPaintEvent *)
     p.setPen(Qt::NoPen);
 
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-    p.drawRoundedRect(opt.rect,0,0);
-    p.drawRect(opt.rect);
+    p.drawRoundedRect(opt.rect,6,6);
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }

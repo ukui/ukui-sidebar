@@ -210,7 +210,7 @@ QLabel#AppName{
     color:rgba(255,255,255,0.57);    /*文字颜色*/
     font-size:14px;
     background-color:transparent;
-    width:200px;
+    width:84px;
 }
 
 QLabel#pushtime{
