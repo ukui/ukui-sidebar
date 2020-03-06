@@ -208,7 +208,8 @@ QLabel#importantnotification{
 
 QLabel#AppName{
     color:rgba(255,255,255,0.57);    /*文字颜色*/
-    font-size:16px;
+    font-size:14px;
+    background-color:transparent;
     width:200px;
 }
 
@@ -218,8 +219,8 @@ QLabel#pushtime{
 }
 
 QLabel#Summary{
-    color:rgba(255,255,255,0.91);    /*文字颜色*/
-    font-size:18px;
+    color:rgba(255,255,255,0.97);    /*文字颜色*/
+    font-size:16px;
 }
 
 QLabel#body{
@@ -242,8 +243,41 @@ QLabel#takeincout{
     border-radius:6px;
 }
 
-QScrollArea{
-    border:0px;
+QScrollBar:horizontal{
+background:#484848;
+padding:0px;
+border-radius:6px;
+max-height:12px;
+}
+
+QScrollBar::handle:horizontal{
+background:#242424;
+min-width:50px;
+border-radius:6px;
+}
+
+QScrollBar::handle:horizontal:hover{
+background:#00BB9E;
+}
+
+QScrollBar::handle:horizontal:pressed{
+background:#00BB9E;
+}
+
+QScrollBar::add-page:horizontal{
+background:none;
+}
+
+QScrollBar::sub-page:horizontal{
+background:none;
+}
+
+QScrollBar::add-line:horizontal{
+background:none;
+}
+
+QScrollBar::sub-line:horizontal{
+background:none;
 }
 
 QScrollBar:vertical{
@@ -257,6 +291,14 @@ QScrollBar::handle:vertical{
 background:#242424;
 min-height:50px;
 border-radius:6px;
+}
+
+QScrollBar::handle:vertical:hover{
+background:#00BB9E;
+}
+
+QScrollBar::handle:vertical:pressed{
+background:#00BB9E;
 }
 
 QScrollBar::add-page:vertical{
@@ -274,3 +316,8 @@ background:none;
 QScrollBar::sub-line:vertical{
 background:none;
 }
+
+QScrollArea{
+border:0px;
+}
+

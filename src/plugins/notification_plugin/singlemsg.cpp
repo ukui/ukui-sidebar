@@ -33,6 +33,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_strIconPath = strIconPath;
     m_strSummary = strSummary;
     m_strBody = strBody;
+
     m_dateTime = dateTime;
     m_uNotifyTime = dateTime.toTime_t();
     m_bTakeInFlag = bTakeInFlag;
@@ -45,6 +46,9 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     connect(this, SIGNAL(Sig_onTakeinWholeApp()), pParent, SLOT(onTakeinWholeApp()));
     connect(this, SIGNAL(Sig_onRecoverSingleMsg(SingleMsg*)), pParent, SLOT(onRecoverSingleMsg(SingleMsg*)));
     connect(this, SIGNAL(Sig_onRecoverWholeApp()), pParent, SLOT(onRecoverWholeApp()));
+    connect(this, SIGNAL(Sig_onMainEnter()), pParent, SLOT(onMainMsgEnter()));
+    connect(this, SIGNAL(Sig_onMainLeave()), pParent, SLOT(onMainMsgLeave()));
+
 
     //为了设置SingleMsg的6px圆角的样式,在里面套了一个QWidget
     m_pAppVLaout = new QVBoxLayout();
@@ -72,16 +76,21 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     pIconToolButton->setIconSize(QSize(24,24));
     pIconToolButton->setIcon(QPixmap(strIconPath));
 
-    //一个水平6分辨率的弹簧
-    QSpacerItem* pH6Spacer = new QSpacerItem(3, 6, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    //一个水平3分辨率的弹簧
+//    QSpacerItem* pH6Spacer = new QSpacerItem(3, 6, QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     //设置应用名标签，采用省略模式
     QLabel* pAppNameLabel = new QLabel();
     pAppNameLabel->setObjectName("AppName");
+    pAppNameLabel->setFixedWidth(84);
+    QFont font14;
+    font14.setPixelSize(14);
+    pAppNameLabel->setFont(font14);
     QFontMetrics fontMetrics1(pAppNameLabel->font());
+
     QString formatAppName = fontMetrics1.elidedText(strAppName, Qt::ElideRight, pAppNameLabel->width());
     pAppNameLabel->setText(formatAppName);
-    pAppNameLabel->setStyleSheet("background-color:transparent;");
+
 
     //设置通知消息中的弹簧，水平任意伸缩使主题和时间分开
     QSpacerItem* pHExpandSpacer = new QSpacerItem(400, 10, QSizePolicy::Expanding, QSizePolicy::Fixed);
@@ -117,7 +126,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pSingleDeleteButton->setVisible(false);
 
     pIconHLayout->addWidget(pIconToolButton, 0, Qt::AlignLeft);
-    pIconHLayout->addSpacerItem(pH6Spacer);
+//    pIconHLayout->addSpacerItem(pH6Spacer);
     pIconHLayout->addWidget(pAppNameLabel, 0, Qt::AlignLeft|Qt::AlignVCenter);
     pIconHLayout->addSpacerItem(pHExpandSpacer);
     pIconHLayout->addWidget(m_pTimeLabel, 0, Qt::AlignRight);
@@ -126,7 +135,6 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
     pIconWidget->setLayout(pIconHLayout);
     pMainVLaout->addWidget(pIconWidget, 0);
-
 
 
     //内容部件,将主题正文以及剩余条数显示装入内容部件
@@ -138,44 +146,45 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     pVContextLayout->setSpacing(0);
     //设置通知消息中的主题，采用省略模式
     QLabel* pSummaryLabel = new QLabel();
-    pSummaryLabel->setObjectName("Summary");
-    pSummaryLabel->setMaximumWidth(250);
-    pSummaryLabel->setStyleSheet("background-color:transparent;");
+    pSummaryLabel->setFixedWidth(314);
+    pSummaryLabel->setStyleSheet("color:rgba(255,255,255,0.97);font-weight:400;font-size:16px;background-color:transparent;line-height:26px;padding:0px;");
+    QFont font16;
+    font16.setPixelSize(16);
+    pSummaryLabel->setFont(font16);
 
     QString formatSummary;
-    formatSummary.append("<p style='line-height:26px'>").append(strSummary).append("</p>");
+    formatSummary.append("<p style='line-height:26px'>").append(m_strSummary).append("</p>");
     QFontMetrics fontMetrics(pSummaryLabel->font());
     int nFontSize = fontMetrics.width(formatSummary);
     QString strformatSummary = formatSummary;
-    if(nFontSize > (pSummaryLabel->width() + 70))
+    if(nFontSize > (pSummaryLabel->width() + 239))
     {
-        strformatSummary = fontMetrics.elidedText(formatSummary, Qt::ElideRight, pSummaryLabel->width() + 50);
+        strformatSummary = fontMetrics.elidedText(formatSummary, Qt::ElideRight, pSummaryLabel->width() + 210);
     }
 
     pSummaryLabel->setText(strformatSummary);
     pVContextLayout->addWidget(pSummaryLabel, 0, Qt::AlignLeft);
 
+
     //设置通知消息中的正文QLabel，行高24px,采用自动换行模式
-    if(false == strBody.isEmpty())   //当正文消息不为空
+    if(false == m_strBody.isEmpty())   //当正文消息不为空
     {
+        QString strLineHeight24Body;
+        strLineHeight24Body.append("<p style='line-height:24px'>").append(m_strBody).append("</p>");
         m_pBodyLabel = new QLabel();
-        m_pBodyLabel->setObjectName("body");
         m_pBodyLabel->setFixedWidth(315);
         m_pBodyLabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
         m_pBodyLabel->adjustSize();
-
-        QFont font1;
-        font1.setPixelSize(14);
-        m_pBodyLabel->setFont(font1);
+        m_pBodyLabel->setStyleSheet("color:rgba(255,255,255,0.57);font-weight:400;font-size:14px;background-color:transparent;line-height:24px;padding:0px;");
 
         QFontMetrics fontMetrics(m_pBodyLabel->font());
-        int fontSize = fontMetrics.width(m_strBody);
-        QString formatBody = m_strBody;
+        int fontSize = fontMetrics.width(strLineHeight24Body);
+        QString formatBody = strLineHeight24Body;
 
         m_pBodyLabel->setWordWrap(false);
-        if(fontSize > (m_pBodyLabel->width()))
+        if(fontSize > (m_pBodyLabel->width() + 209))
         {
-            formatBody = fontMetrics.elidedText(m_strBody, Qt::ElideRight, m_pBodyLabel->width());
+            formatBody = fontMetrics.elidedText(strLineHeight24Body, Qt::ElideRight, m_pBodyLabel->width() + 180);
         }
         m_pBodyLabel->setText(formatBody);
         pVContextLayout->addWidget(m_pBodyLabel, 0, Qt::AlignLeft);
@@ -274,27 +283,29 @@ void SingleMsg::setBodyLabelWordWrap(bool bFlag)
     }
 
     m_pBodyLabel->setWordWrap(bFlag);
-    QFont font1;
-    font1.setPixelSize(14);
-    m_pBodyLabel->setFont(font1);
+    QFont font14;
+    font14.setPixelSize(14);
+    m_pBodyLabel->setFont(font14);
     QFontMetrics fontMetrics(m_pBodyLabel->font());
-    int fontSize = fontMetrics.width(m_strBody);
-    QString formatBody = m_strBody;
+    QString strLineHeight24Body;
+    strLineHeight24Body.append("<p style='line-height:24px'>").append(m_strBody).append("</p>");
+    int fontSize = fontMetrics.width(strLineHeight24Body);
+    QString formatBody = strLineHeight24Body;
 
     if(true == bFlag)
     {
         //如果展开,就超过四行末尾显示省略号
-        if(fontSize > (m_pBodyLabel->width() * 4 - 28))
+        if(fontSize > (m_pBodyLabel->width() * 4 + 181))
         {
-            formatBody = fontMetrics.elidedText(m_strBody, Qt::ElideRight, m_pBodyLabel->width() * 4 - 28);
+            formatBody = fontMetrics.elidedText(strLineHeight24Body, Qt::ElideRight, m_pBodyLabel->width() * 4 + 152);
         }
     }
     else
     {
         //如果不展开,就超过一行末尾显示省略号
-        if(fontSize > (m_pBodyLabel->width()))
+        if(fontSize > (m_pBodyLabel->width() + 209))
         {
-            formatBody = fontMetrics.elidedText(m_strBody, Qt::ElideRight, m_pBodyLabel->width());
+            formatBody = fontMetrics.elidedText(strLineHeight24Body, Qt::ElideRight, m_pBodyLabel->width() + 180);
         }
     }
     m_pBodyLabel->setText(formatBody);
@@ -348,6 +359,11 @@ void SingleMsg::enterEvent(QEvent *event)
     m_pSingleDeleteButton->setVisible(true);
     m_pTimeLabel->setVisible(false);
 
+    if((true == m_bMain) && (true == m_bFold) && (m_nShowLeftCount > 0))
+    {
+        emit Sig_onMainEnter();
+    }
+
     return;
 }
 
@@ -358,6 +374,11 @@ void SingleMsg::leaveEvent(QEvent *event)
     m_pSingleTakeinButton->setVisible(false);
     m_pSingleDeleteButton->setVisible(false);
     m_pTimeLabel->setVisible(true);
+
+    if((true == m_bMain) && (true == m_bFold) && (m_nShowLeftCount > 0))
+    {
+        emit Sig_onMainLeave();
+    }
 
     return;
 }
@@ -385,11 +406,13 @@ void SingleMsg::mousePressEvent(QMouseEvent *event)
             //当剩余条数大于0, 且是折叠状态则显示剩余标签
             if((true == m_bFold) && (m_nShowLeftCount > 0))
             {
+                emit Sig_onMainEnter();
                 m_pAppVLaout->setContentsMargins(0,0,0,0); //假如折叠，剩余条目显示将可见，则SingleMsg的内容均无空隙
                 m_pShowLeftItemLabel->setVisible(true);
             }
             else
             {
+                emit Sig_onMainLeave();     //点击后也让app的分层底图恢复原色
                 m_pAppVLaout->setContentsMargins(0,0,0,6); //假如展开，剩余条目显示不可见，则SingleMsg的内容空白恢复正常，即底部多出6个px的空隙
                 m_pShowLeftItemLabel->setVisible(false);
             }

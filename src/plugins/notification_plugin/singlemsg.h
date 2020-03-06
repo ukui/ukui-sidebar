@@ -83,6 +83,8 @@ signals:
     void            Sig_onTakeinWholeApp();
     void            Sig_onRecoverWholeApp();
     void            Sig_setAppFoldFlag(bool bFoldFlag);
+    void            Sig_onMainEnter();              //应用主消息鼠标进入信号，发送至App,让分层底图变色
+    void            Sig_onMainLeave();              //应用主消息鼠标离开信号，发送至App,让分层底图背景变回来
 
 public slots:
     void            onDele();                       //通知中心或者收纳盒中的删除

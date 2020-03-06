@@ -35,25 +35,25 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
     m_pMainVLaout->setSpacing(0);
 
     //当出现多条消息时，增加底图
-    m_pBaseMapWidget = new QWidget;
+    m_pAppBaseMapWidget = new QWidget;
     QVBoxLayout* pBaseMapVLaout = new QVBoxLayout();
     pBaseMapVLaout->setContentsMargins(0,0,0,0);
     pBaseMapVLaout->setSpacing(0);
 
-    QWidget* pBaseMapWidget = new QWidget;
-    pBaseMapWidget->setObjectName("BaseMap");
-    pBaseMapWidget->setFixedWidth(360);
-    pBaseMapWidget->setFixedHeight(6);
-    pBaseMapWidget->setStyleSheet("QWidget{background:rgba(255,255,255,0.06);border-top-left-radius:0px;border-top-right-radius:0px;border-bottom-left-radius:6px;border-bottom-right-radius:6px;}");
-    pBaseMapVLaout->addWidget(pBaseMapWidget, 0 , Qt::AlignHCenter);
+    m_pBaseMapWidget = new QWidget;
+    m_pBaseMapWidget->setObjectName("BaseMap");
+    m_pBaseMapWidget->setFixedWidth(360);
+    m_pBaseMapWidget->setFixedHeight(6);
+    m_pBaseMapWidget->setStyleSheet("QWidget{background:rgba(255,255,255,0.04);border-top-left-radius:0px;border-top-right-radius:0px;border-bottom-left-radius:6px;border-bottom-right-radius:6px;}");
+    pBaseMapVLaout->addWidget(m_pBaseMapWidget, 0 , Qt::AlignHCenter);
 
     //添加一个6px的固定弹簧
     QSpacerItem* pVBottomSpacer = new QSpacerItem(6, 6, QSizePolicy::Fixed, QSizePolicy::Fixed);
     pBaseMapVLaout->addSpacerItem(pVBottomSpacer);
 
-    m_pBaseMapWidget->setLayout(pBaseMapVLaout);
-    m_pMainVLaout->addWidget(m_pBaseMapWidget, 0 , Qt::AlignHCenter);
-    m_pBaseMapWidget->setVisible(false);
+    m_pAppBaseMapWidget->setLayout(pBaseMapVLaout);
+    m_pMainVLaout->addWidget(m_pAppBaseMapWidget, 0 , Qt::AlignHCenter);
+    m_pAppBaseMapWidget->setVisible(false);
 
     this->setLayout(m_pMainVLaout);
 
@@ -89,11 +89,11 @@ void AppMsg::statisticLeftItem()
     int nShowLeftCount = m_listSingleMsg.count() - 1;
     if((true == m_bFold) && (nShowLeftCount > 0)) //当应用处于折叠状态，且剩余条数大于0时,应用底图部件显示
     {
-        m_pBaseMapWidget->setVisible(true);
+        m_pAppBaseMapWidget->setVisible(true);
     }
     else
     {
-        m_pBaseMapWidget->setVisible(false);
+        m_pAppBaseMapWidget->setVisible(false);
     }
 
     SingleMsg* pTopSingleMsg = m_listSingleMsg.at(0);
@@ -382,11 +382,11 @@ void AppMsg::setAppFoldFlag(bool bFlag)
 
     if((true == m_bFold) && (m_listSingleMsg.count() > 1)) //当应用处于折叠状态，且总条数大于1时,应用底图部件显示
     {
-        m_pBaseMapWidget->setVisible(true);
+        m_pAppBaseMapWidget->setVisible(true);
     }
     else
     {
-        m_pBaseMapWidget->setVisible(false);
+        m_pAppBaseMapWidget->setVisible(false);
     }
 
 }
@@ -400,6 +400,18 @@ void AppMsg::setAppFold()
         SingleMsg* pFirstSingleMsg = m_listSingleMsg.at(0);
         pFirstSingleMsg->mainMsgSetFold();
     }
+}
+
+//应用主消息进入
+void AppMsg::onMainMsgEnter()
+{
+    m_pBaseMapWidget->setStyleSheet("QWidget{background:rgba(255,255,255,0.1);border-top-left-radius:0px;border-top-right-radius:0px;border-bottom-left-radius:6px;border-bottom-right-radius:6px;}");
+}
+
+//应用主消息离开
+void AppMsg::onMainMsgLeave()
+{
+    m_pBaseMapWidget->setStyleSheet("QWidget{background:rgba(255,255,255,0.04);border-top-left-radius:0px;border-top-right-radius:0px;border-bottom-left-radius:6px;border-bottom-right-radius:6px;}");
 }
 
 

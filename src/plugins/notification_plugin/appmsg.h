@@ -55,7 +55,8 @@ protected:
 
 private:
     QVBoxLayout*        m_pMainVLaout;                  //App信息中的总的垂直布局器
-    QWidget*            m_pBaseMapWidget;               //多条消息时，显示底图部件
+    QWidget*            m_pAppBaseMapWidget;            //多条消息时，底图部件包括底部6个px的空白
+    QWidget*            m_pBaseMapWidget;               //多条消息时，底图部件不包括底部6个px的空白
 
     QList<SingleMsg*>   m_listSingleMsg;                //对于SingleMsg类对象用list表记录
     QString             m_strAppName;                   //保存发送方的应用名
@@ -81,6 +82,8 @@ public slots:
     void                onTakeInSingleMsg(SingleMsg* pSingleMsg);   //收纳单条消息
     void                onRecoverSingleMsg(SingleMsg* pSingleMsg);  //恢复单条消息
     void                setAppFoldFlag(bool bFlag);
+    void                onMainMsgEnter();                           //应用主消息进入
+    void                onMainMsgLeave();                           //应用主消息离开
 
 };
 
