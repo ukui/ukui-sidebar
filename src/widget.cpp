@@ -39,15 +39,6 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
             QDBusConnection::sessionBus());
     m_pServiceInterface->setTimeout(2147483647);
 
-    //获取桌面分辨率大小
-//    QScreen* pScreen = QGuiApplication::primaryScreen();
-//    QRect DeskSize = pScreen->availableGeometry();
-//    m_nDeskWidth = DeskSize.width();        //桌面分辨率的宽
-//    m_nDeskHeight = DeskSize.height();      //桌面分辨率的高
-
-//    qInfo() << "屏幕分辨率的宽" << m_nDeskWidth;
-//    qInfo() << "屏幕分辨率的高" << m_nDeskHeight;
-
     /* 主界面显示 */
     m_pMainQVBoxLayout = new QVBoxLayout;
     m_pMainQVBoxLayout->setContentsMargins(0,0,0,0);
@@ -78,11 +69,12 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     //设置hide动画
     m_pHideAnimation = new QPropertyAnimation(this, "geometry");
     m_pHideAnimation->setDuration(200);
-    connect(m_pHideAnimation, &QPropertyAnimation::finished, this, &Widget::HideAnimationEndSlots);
+//    connect(m_pHideAnimation, &QPropertyAnimation::finished, this, &Widget::HideAnimationEndSlots);
 
     //设置show动画
     m_pShowAnimation = new QPropertyAnimation(this, "geometry");
     m_pShowAnimation->setDuration(400);
+
     //将托盘栏图标和widget联系起来
     connect(trayIcon, &QSystemTrayIcon::activated, this, &Widget::iconActivated);
     trayIcon->setVisible(true);
@@ -161,7 +153,6 @@ void Widget::ListenClipboardSignal()
         return;
     }
     m_pSidebarSignal = m_pSidebarClipboard->createClipSignal();   //获取剪贴板的信号类指针
-    m_pShortcutOperationListWidget = m_pSidebarClipboard->getClipbaordListWidget();  //获取剪贴板的ListWidget指针
     m_pShortcutOperationGroupBox = m_pSidebarClipboard->getClipbaordGroupBox();      //获取剪贴板的Groubox指针;
     return;
 }
@@ -465,11 +456,11 @@ void Widget::onResolutionChanged(int argc)
 }
 
 /* 当隐藏动画结束时需要将widget隐藏 */
-void Widget::HideAnimationEndSlots()
-{
-    this->hide();
-    return;
-}
+//void Widget::HideAnimationEndSlots()
+//{
+//    this->hide();
+//    return;
+//}
 
 void Widget::onNewNotification()
 {

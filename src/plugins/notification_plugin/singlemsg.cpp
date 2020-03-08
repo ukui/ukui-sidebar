@@ -165,7 +165,6 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     pSummaryLabel->setText(strformatSummary);
     pVContextLayout->addWidget(pSummaryLabel, 0, Qt::AlignLeft);
 
-
     //设置通知消息中的正文QLabel，行高24px,采用自动换行模式
     if(false == m_strBody.isEmpty())   //当正文消息不为空
     {
@@ -295,7 +294,7 @@ void SingleMsg::setBodyLabelWordWrap(bool bFlag)
     if(true == bFlag)
     {
         //如果展开,就超过四行末尾显示省略号
-        if(fontSize > (m_pBodyLabel->width() * 4 + 181))
+//        if(fontSize > (m_pBodyLabel->width() * 4 + 181))
         {
             formatBody = fontMetrics.elidedText(strLineHeight24Body, Qt::ElideRight, m_pBodyLabel->width() * 4 + 152);
         }
@@ -333,16 +332,8 @@ void SingleMsg::setLeftItem(int nShowLeftCount)
     }
 }
 
-void SingleMsg::setShowLeftItemAndContentsMargin(bool bFlag)
+void SingleMsg::setShowLeftItemFlag(bool bFlag)
 {
-    if(true == bFlag)
-    {
-        m_pAppVLaout->setContentsMargins(0,0,0,0);
-    }
-    else        //假如将剩余条目显示不可见，则SingleMsg的内容空白恢复正常，即底部多出6个px的空隙
-    {
-        m_pAppVLaout->setContentsMargins(0,0,0,6);
-    }
     m_pShowLeftItemLabel->setVisible(bFlag);
 }
 

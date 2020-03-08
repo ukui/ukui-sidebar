@@ -75,6 +75,7 @@ NotificationPlugin::NotificationPlugin()
     pWidget1->setLayout(pQHBoxLayout1);
     pNotificationVBoxLayout->addWidget(pWidget1);
 
+    //悬浮收纳数标签
     m_pTakeInCoutLabel = new QLabel(m_pMainWidget);
     m_pTakeInCoutLabel->setObjectName("takeincout");
     m_pTakeInCoutLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
@@ -131,7 +132,7 @@ NotificationPlugin::NotificationPlugin()
     m_pMessageCenterLabel = new QLabel("没有新通知");
     m_pMessageCenterLabel->setStyleSheet("QLabel{color:rgba(255,255,255,0.91);padding:119px 0px 0px 0px;font-size:14px;}");
     m_pScrollAreaNotifyVBoxLayout->addWidget(m_pMessageCenterLabel, 0, Qt::AlignHCenter);
-    QSpacerItem* pVSpacer = new QSpacerItem(10, 10, QSizePolicy::Fixed, QSizePolicy::Expanding);
+    QSpacerItem* pVSpacer = new QSpacerItem(10, 1, QSizePolicy::Fixed, QSizePolicy::Expanding);
     m_pScrollAreaNotifyVBoxLayout->addSpacerItem(pVSpacer);
 
     pNotificationVBoxLayout->addWidget(m_pQScrollAreaNotify, 0);
@@ -147,11 +148,15 @@ NotificationPlugin::NotificationPlugin()
     pTakeInQWidget->setObjectName("QScrollAreaInQWidget");
     pTakeInQWidget->setLayout(m_pScrollAreaTakeInVBoxLayout);
     m_pQScrollAreaTakeIn->setWidget(pTakeInQWidget);
+    m_pQScrollAreaTakeIn->setVisible(false);
 
-    QSpacerItem* pVSpacer2 = new QSpacerItem(10, 10, QSizePolicy::Fixed, QSizePolicy::Expanding);
+    QSpacerItem* pVSpacer2 = new QSpacerItem(10, 1, QSizePolicy::Fixed, QSizePolicy::Expanding);
     m_pScrollAreaTakeInVBoxLayout->addSpacerItem(pVSpacer2);
     pNotificationVBoxLayout->addWidget(m_pQScrollAreaTakeIn, 0);
-    m_pQScrollAreaTakeIn->setVisible(false);
+
+    //通知中心最底部固定9px的空白
+    QSpacerItem* pVBottomSpacer = new QSpacerItem(9, 9, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    pNotificationVBoxLayout->addSpacerItem(pVBottomSpacer);
 
     m_pMainWidget->setLayout(pNotificationVBoxLayout);
 

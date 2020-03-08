@@ -25,9 +25,8 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
 {
     m_bFold = true;
     m_bTakeInFlag = bTakeInFlag;
+    m_strAppName = strAppName;
     this->setFixedWidth(380);
-
-    m_strAppName = strAppName;    
 
     //App信息中的总的垂直布局器
     m_pMainVLaout = new QVBoxLayout();
@@ -117,15 +116,16 @@ void AppMsg::addSingleMsg(QString strIconPath, QString strSummary, QDateTime dat
         uIndex = i;
     }
 
-    //当新增的消息将插入最顶部时,将已有列表最顶部的正文设置一行缩略显示
+    //当新增的消息将插入最顶部时,将已有列表最顶部的老主消息正文设置一行缩略显示
     if((0 == uIndex) && (m_listSingleMsg.count() > 0))
     {
         SingleMsg* pFirstMsg = m_listSingleMsg.at(0);
         pFirstMsg->setMainFlag(false);
-        pFirstMsg->setShowLeftItemAndContentsMargin(false);
+        pFirstMsg->setShowLeftItemFlag(false);
         if(true == m_bFold) //只有已经折叠的才需要将现有的正文设置为缩略显示
         {
             pFirstMsg->setBodyLabelWordWrap(false);
+            pFirstMsg->setVisible(false);
             //将SingleMsg底部设置6px空隙
             pFirstMsg->setSingleMsgContentsMargins(0, 0, 0, 6);
         }
@@ -142,20 +142,24 @@ void AppMsg::addSingleMsg(QString strIconPath, QString strSummary, QDateTime dat
     if(0 != uIndex)
     {
         pSingleMsg->setMainFlag(false);
+        if(true == m_bFold)                 //并且已经折叠的自己不可见
+        {
+            pSingleMsg->setVisible(false);
+        }
     }
 
     m_listSingleMsg.insert(uIndex, pSingleMsg);
     m_pMainVLaout->insertWidget(uIndex, pSingleMsg);
 
     //只要是折叠状态则索引从1开始，将所有SingleMsg设置不可见
-    if(true == m_bFold)
-    {
-        for(int i = 1; i < m_listSingleMsg.count(); i++)
-        {
-            SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
-            pTmpSingleMsg->setVisible(false);
-        }
-    }
+//    if(true == m_bFold)
+//    {
+//        for(int i = 1; i < m_listSingleMsg.count(); i++)
+//        {
+//            SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
+//            pTmpSingleMsg->setVisible(false);
+//        }
+//    }
 
     SingleMsg* pTopSingleMsg = m_listSingleMsg.at(0); //将该应用中最顶上的一条消息的时间赋给应用
     m_uNotifyTime = pTopSingleMsg->getPushTime();

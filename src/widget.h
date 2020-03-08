@@ -79,6 +79,7 @@ protected:
     bool eventFilter(QObject *obj, QEvent *event);                              //设置过滤事件
     void paintEvent(QPaintEvent *);
     virtual void focusOutEvent(QFocusEvent *event);
+
 private:
     //主界面
     QPropertyAnimation* m_pHideAnimation;                                       //隐藏动画对象
@@ -91,11 +92,9 @@ private:
     QObject*            m_pNotificationPluginObject;                            //通知中心插件对象
 
     //快捷操作面板
-    QGroupBox*      m_pShortcutOperationGroupBox;                               //快捷操作面板中的主Group
-    QGridLayout*    m_pShortcutOperationGridLayout;                             //快捷操作面板的总体GridLayout
-    QListWidget*    m_pShortcutOperationListWidget;                             //快捷操作面板的总体GridLayout中右边的ListWidget
-    ClipboardInterface *m_pSidebarClipboard;                                    //侧边栏剪贴板指针
-    SidebarClipBoardSignal *m_pSidebarSignal;                                   //剪贴板通信类
+    QGroupBox*          m_pShortcutOperationGroupBox;                           //快捷操作面板中的主Group
+    ClipboardInterface* m_pSidebarClipboard;                                    //侧边栏剪贴板指针
+    SidebarClipBoardSignal* m_pSidebarSignal;                                   //剪贴板通信类
 
     //系统托盘
     QSystemTrayIcon*    trayIcon;
@@ -109,7 +108,7 @@ private:
 
 private slots :
     void onResolutionChanged(int);
-    void HideAnimationEndSlots();
+//    void HideAnimationEndSlots();
     void onNewNotification();
     void twinkle();
 

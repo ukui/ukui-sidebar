@@ -44,7 +44,7 @@ public:
     void setLeftItem(int nShowLeftCount);
     void setMainFlag(bool bFlag) {m_bMain = bFlag;}
     void setFoldFlag(bool bFlag) {m_bFold = bFlag;}
-    void setShowLeftItemAndContentsMargin(bool bFlag);
+    void setShowLeftItemFlag(bool bFlag);
     void setSingleMsgContentsMargins(int left, int top, int right, int bottom);
     void mainMsgSetFold();
 
