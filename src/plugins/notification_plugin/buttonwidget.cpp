@@ -1,5 +1,4 @@
 #include "buttonwidget.h"
-#include "singlemsg.h"
 #include <QMouseEvent>
 #include <QSvgRenderer>
 #include <QPixmap>

@@ -18,7 +18,6 @@
 
 
 #include "scrollareawidget.h"
-#include <QDebug>
 
 
 ScrollBarWidget::ScrollBarWidget()
@@ -33,7 +32,7 @@ ScrollBarWidget::ScrollBarWidget()
 void ScrollBarWidget::enterEvent(QEvent *event)
 {
     Q_UNUSED(event);
-    setStyleSheet("QScrollBar::vertical {width:10px;padding-left:2px;padding-top:0px;padding-right:2px;padding-bottom:0px;background:rgba(48,48,51,1);border-radius:6px;}"
+    setStyleSheet("QScrollBar::vertical {width:10px;padding-left:2px;padding-top:0px;padding-right:2px;padding-bottom:0px;background:transparent;border-radius:6px;}"
                   "QScrollBar::handle:vertical {width:6px;background-color:rgba(72,72,76,1);border-radius:3px;}"
                   "QScrollBar::handle:vertical:hover{width:6px;background-color:rgba(97,97,102,1);border-radius:3px;}"
                   "QScrollBar::handle:vertical:pressed{width:6px;background-color:rgba(133,133,140,1);border-radius:3px;}"

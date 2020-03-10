@@ -27,6 +27,7 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
     m_bTakeInFlag = bTakeInFlag;
     m_strAppName = strAppName;
     this->setFixedWidth(380);
+    this->adjustSize();
 
     //App信息中的总的垂直布局器
     m_pMainVLaout = new QVBoxLayout();
@@ -363,13 +364,19 @@ void AppMsg::setAppFoldFlag(bool bFlag)
 {
     m_bFold = bFlag;
 
+    if((false == m_bFold) || (m_listSingleMsg.count() <= 1)) //当应用处于展开状态，或者总条数小于等于1时,应用底图部件隐藏
+    {
+        m_pAppBaseMapWidget->setVisible(false);
+    }
+
     if(false == m_bFold)    //false表示应用展开
     {
         //展开时,索引从第1条开始,消息全部可见
         for(int i = 1; i < m_listSingleMsg.count(); i++)
         {
             SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
-            pTmpSingleMsg->setVisible(true);
+            pTmpSingleMsg->setAnimationUnfoldStatus(m_bFold); //返回单条消息折叠时的高度
+            pTmpSingleMsg->startAnimation();
         }
     }
     else
@@ -378,19 +385,12 @@ void AppMsg::setAppFoldFlag(bool bFlag)
         for(int i = 1; i < m_listSingleMsg.count(); i++)
         {
             SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
-            pTmpSingleMsg->setVisible(false);
             pTmpSingleMsg->setFoldFlag(true);
             pTmpSingleMsg->setBodyLabelWordWrap(false);
-        }
-    }
 
-    if((true == m_bFold) && (m_listSingleMsg.count() > 1)) //当应用处于折叠状态，且总条数大于1时,应用底图部件显示
-    {
-        m_pAppBaseMapWidget->setVisible(true);
-    }
-    else
-    {
-        m_pAppBaseMapWidget->setVisible(false);
+            pTmpSingleMsg->setAnimationFoldStatus(m_bFold);
+            pTmpSingleMsg->startAnimation();
+        }
     }
 
 }
@@ -416,6 +416,17 @@ void AppMsg::onMainMsgEnter()
 void AppMsg::onMainMsgLeave()
 {
     m_pBaseMapWidget->setStyleSheet("QWidget{background:rgba(255,255,255,0.04);border-top-left-radius:0px;border-top-right-radius:0px;border-bottom-left-radius:6px;border-bottom-right-radius:6px;}");
+}
+
+void AppMsg::onShowBaseMap()
+{
+    if((true == m_bFold) && (m_listSingleMsg.count() > 1)) //当应用处于折叠状态，且总条数大于1时,应用底图部件显示
+    {
+        SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(0);
+        pTmpSingleMsg->setSingleMsgContentsMargins(0, 0, 0, 0); //假如折叠，剩余条目显示将可见，则SingleMsg的内容均无空隙
+        pTmpSingleMsg->setShowLeftItemFlag(true);
+        m_pAppBaseMapWidget->setVisible(true);
+    }
 }
 
 

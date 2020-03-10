@@ -24,7 +24,8 @@
 #include <QSvgRenderer>
 #include <QPixmap>
 #include <QPainter>
-
+#include "diypropertyanimation.h"
+#include <QDebug>
 
 SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, QString strSummary, QDateTime dateTime, QString strBody, bool bTakeInFlag)
 {
@@ -39,6 +40,8 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_bTakeInFlag = bTakeInFlag;
     m_bTimeFormat = true;
 
+    this->adjustSize();
+
     connect(this, SIGNAL(Sig_setAppFoldFlag(bool)), pParent, SLOT(setAppFoldFlag(bool)));
     connect(this, SIGNAL(Sig_onDeleSingleMsg(SingleMsg*)), pParent, SLOT(onDeleSingleMsg(SingleMsg*)));
     connect(this, SIGNAL(Sig_onDeleteAppMsg()), pParent, SLOT(onDeleteAppMsg()));
@@ -48,14 +51,17 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     connect(this, SIGNAL(Sig_onRecoverWholeApp()), pParent, SLOT(onRecoverWholeApp()));
     connect(this, SIGNAL(Sig_onMainEnter()), pParent, SLOT(onMainMsgEnter()));
     connect(this, SIGNAL(Sig_onMainLeave()), pParent, SLOT(onMainMsgLeave()));
-
+    connect(this, SIGNAL(Sig_notifyAppShowBaseMap()), pParent, SLOT(onShowBaseMap()));
 
     //为了设置SingleMsg的6px圆角的样式,在里面套了一个QWidget
     m_pAppVLaout = new QVBoxLayout();
     m_pAppVLaout->setContentsMargins(0,0,0,6);
     m_pAppVLaout->setSpacing(0);
-    QWidget* pSingleWidget = new QWidget;
-    pSingleWidget->setObjectName("SingleNotification");
+    m_pSingleWidget = new QWidget;
+    m_pSingleWidget->setObjectName("SingleNotification");
+
+    m_pAnimationBaseMapWidget = new QWidget;
+    m_pAnimationBaseMapWidget->setStyleSheet("background:transparent;");
 
     //单条消息总体垂直布局器
     QVBoxLayout* pMainVLaout = new QVBoxLayout;
@@ -63,7 +69,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     pMainVLaout->setSpacing(0);
 
     //图标和时间行的水平布局部件
-    QWidget* pIconWidget = new QWidget;
+    m_pIconWidget = new QWidget;
 
     //图标和时间行的水平布局器
     QHBoxLayout* pIconHLayout = new QHBoxLayout();
@@ -133,8 +139,8 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     pIconHLayout->addWidget(m_pSingleTakeinButton, 0, Qt::AlignRight);
     pIconHLayout->addWidget(m_pSingleDeleteButton, 0, Qt::AlignRight);
 
-    pIconWidget->setLayout(pIconHLayout);
-    pMainVLaout->addWidget(pIconWidget, 0);
+    m_pIconWidget->setLayout(pIconHLayout);
+    pMainVLaout->addWidget(m_pIconWidget, 0);
 
 
     //内容部件,将主题正文以及剩余条数显示装入内容部件
@@ -145,25 +151,25 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     pVContextLayout->setContentsMargins(40,0,26,0);
     pVContextLayout->setSpacing(0);
     //设置通知消息中的主题，采用省略模式
-    QLabel* pSummaryLabel = new QLabel();
-    pSummaryLabel->setFixedWidth(314);
-    pSummaryLabel->setStyleSheet("color:rgba(255,255,255,0.97);font-weight:400;font-size:16px;background-color:transparent;line-height:26px;padding:0px;");
+    m_pSummaryLabel = new QLabel();
+    m_pSummaryLabel->setFixedWidth(314);
+    m_pSummaryLabel->setStyleSheet("color:rgba(255,255,255,0.97);font-weight:400;font-size:16px;background-color:transparent;line-height:26px;padding:0px;");
     QFont font16;
     font16.setPixelSize(16);
-    pSummaryLabel->setFont(font16);
+    m_pSummaryLabel->setFont(font16);
 
     QString formatSummary;
     formatSummary.append("<p style='line-height:26px'>").append(m_strSummary).append("</p>");
-    QFontMetrics fontMetrics(pSummaryLabel->font());
+    QFontMetrics fontMetrics(m_pSummaryLabel->font());
     int nFontSize = fontMetrics.width(formatSummary);
     QString strformatSummary = formatSummary;
-    if(nFontSize > (pSummaryLabel->width() + 239))
+    if(nFontSize > (m_pSummaryLabel->width() + 239))
     {
-        strformatSummary = fontMetrics.elidedText(formatSummary, Qt::ElideRight, pSummaryLabel->width() + 210);
+        strformatSummary = fontMetrics.elidedText(formatSummary, Qt::ElideRight, m_pSummaryLabel->width() + 210);
     }
 
-    pSummaryLabel->setText(strformatSummary);
-    pVContextLayout->addWidget(pSummaryLabel, 0, Qt::AlignLeft);
+    m_pSummaryLabel->setText(strformatSummary);
+    pVContextLayout->addWidget(m_pSummaryLabel, 0, Qt::AlignLeft);
 
     //设置通知消息中的正文QLabel，行高24px,采用自动换行模式
     if(false == m_strBody.isEmpty())   //当正文消息不为空
@@ -204,8 +210,8 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     pContextWidget->setLayout(pVContextLayout);
     pMainVLaout->addWidget(pContextWidget);
 
-    pSingleWidget->setLayout(pMainVLaout);
-    m_pAppVLaout->addWidget(pSingleWidget);
+    m_pSingleWidget->setLayout(pMainVLaout);
+    m_pAppVLaout->addWidget(m_pSingleWidget);
     this->setLayout(m_pAppVLaout);
 
     return;
@@ -392,14 +398,10 @@ void SingleMsg::mousePressEvent(QMouseEvent *event)
         //当消息为主窗口时,发送折叠信息给App
         if(true == m_bMain)
         {
-            emit Sig_setAppFoldFlag(m_bFold);
-
             //当剩余条数大于0, 且是折叠状态则显示剩余标签
             if((true == m_bFold) && (m_nShowLeftCount > 0))
             {
                 emit Sig_onMainEnter();
-                m_pAppVLaout->setContentsMargins(0,0,0,0); //假如折叠，剩余条目显示将可见，则SingleMsg的内容均无空隙
-                m_pShowLeftItemLabel->setVisible(true);
             }
             else
             {
@@ -407,6 +409,7 @@ void SingleMsg::mousePressEvent(QMouseEvent *event)
                 m_pAppVLaout->setContentsMargins(0,0,0,6); //假如展开，剩余条目显示不可见，则SingleMsg的内容空白恢复正常，即底部多出6个px的空隙
                 m_pShowLeftItemLabel->setVisible(false);
             }
+            emit Sig_setAppFoldFlag(m_bFold);
         }
     }
     return;
@@ -427,6 +430,63 @@ void SingleMsg::mainMsgSetFold()
         }
         emit Sig_setAppFoldFlag(true);
     }
+}
+
+//返回单条消息折叠时的高度
+void SingleMsg::setAnimationUnfoldStatus(bool bFlag)
+{
+    m_bAnimationFlag = bFlag;
+    m_pAppVLaout->removeWidget(m_pSingleWidget);
+    m_pAnimationBaseMapWidget->setFixedSize(10, 0);
+    m_pAppVLaout->addWidget(m_pAnimationBaseMapWidget, 0, Qt::AlignHCenter);
+    this->setVisible(true);
+    return;
+}
+
+void SingleMsg::startAnimation()
+{
+    int width = this->width();
+    int height;
+    if(true == m_strBody.isEmpty())
+    {
+        height = 90;
+    }
+    else
+    {
+        height = 114;
+    }
+
+    height = height - 6;   //在删除里面总部件之前已保存消息总体折叠时的高度，现已减去底部6px的空白区域，得出动画框体偏移距离
+
+    //设置show动画
+    DiyPropertyAnimation* m_pShowAnimation = new DiyPropertyAnimation(m_pSingleWidget, "geometry");
+    m_pShowAnimation->setDuration(300);
+    connect(m_pShowAnimation, SIGNAL(Sig_currentRect(int, int, int, int)), this, SLOT(updateCurrentRect(int, int, int, int)));
+    connect(m_pShowAnimation, SIGNAL(finished()), this, SLOT(onAnimationFinish()));
+
+    m_pShowAnimation->setStartValue(QRect(0, 0, width, height));
+    m_pShowAnimation->setEndValue(QRect(0, height, width, height));
+    m_pShowAnimation->start(QAbstractAnimation::DeleteWhenStopped);
+}
+
+void SingleMsg::setAnimationFoldStatus(bool bFlag)
+{
+    m_bAnimationFlag = bFlag;
+    int nHeight;
+    if(true == m_strBody.isEmpty())
+    {
+        nHeight = 90;
+    }
+    else
+    {
+        nHeight = 114;
+    }
+
+    m_pAnimationBaseMapWidget->setFixedSize(10, nHeight);
+    m_pAppVLaout->removeWidget(m_pSingleWidget);
+    m_pAppVLaout->addWidget(m_pAnimationBaseMapWidget, 0, Qt::AlignHCenter);
+//    this->setVisible(true);
+    return;
 }
 
 //通知中心或者收纳盒中的删除
@@ -471,6 +531,50 @@ void SingleMsg::onRecover()
     }
 
     return;
+}
+
+void SingleMsg::updateCurrentRect(int x1, int y1, int x2, int y2)
+{
+    qDebug()<<"SingleMsg::updateCurrentRect "<<y1;
+    int nHeight;
+    if(true == m_strBody.isEmpty())
+    {
+        nHeight = 90 - 6;
+    }
+    else
+    {
+        nHeight = 114 - 6;
+    }
+
+    if(false == m_bAnimationFlag)
+    {
+        m_pSingleWidget->setGeometry(0, (y1 - nHeight), this->width(), nHeight);
+        m_pAnimationBaseMapWidget->setFixedSize(10, y1);
+    }
+    else
+    {
+        m_pSingleWidget->setGeometry(0, (0 - y1), this->width(), nHeight);
+        m_pAnimationBaseMapWidget->setFixedSize(10, (nHeight - y1));
+    }
+
+//    this->resize(x2, y1 + 6);
+    return;
+}
+
+void SingleMsg::onAnimationFinish()
+{
+    if(false == m_bAnimationFlag)
+    {
+        m_pAppVLaout->removeWidget(m_pAnimationBaseMapWidget);
+        m_pAppVLaout->addWidget(m_pSingleWidget);
+    }
+    else
+    {
+        this->setVisible(false);
+        m_pAppVLaout->removeWidget(m_pAnimationBaseMapWidget);
+        m_pAppVLaout->addWidget(m_pSingleWidget);
+        emit Sig_notifyAppShowBaseMap();
+    }
 }
 
 

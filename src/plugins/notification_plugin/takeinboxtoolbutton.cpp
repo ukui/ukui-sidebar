@@ -18,7 +18,7 @@
 
 #include "takeinboxtoolbutton.h"
 #include <QToolTip>
-#include <QHelpEvent>
+//#include <QHelpEvent>
 
 TakeInBoxToolButton::TakeInBoxToolButton()
 {

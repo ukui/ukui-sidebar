@@ -28,6 +28,7 @@
 
 class AppMsg;
 class ButtonWidget;
+class DiyPropertyAnimation;
 
 class SingleMsg : public QWidget
 {
@@ -47,6 +48,9 @@ public:
     void setShowLeftItemFlag(bool bFlag);
     void setSingleMsgContentsMargins(int left, int top, int right, int bottom);
     void mainMsgSetFold();
+    void startAnimation();
+    void setAnimationUnfoldStatus(bool bFlag);          //开启展开动画之前，设置的一些准备状态
+    void setAnimationFoldStatus(bool bFlag);            //开启折叠动画之前，设置的一些准备状态
 
 
 protected:
@@ -56,12 +60,21 @@ protected:
 
 private:
     QVBoxLayout*    m_pAppVLaout;
+    QWidget*        m_pSingleWidget;                //除去底部6px的空白之外的一个内框部件
+    QWidget*        m_pAnimationBaseMapWidget;      //动画底图动态模拟大小替身部件
+
+    QWidget*        m_pIconWidget;                  //在动画中暂定高38px
     QLabel*         m_pTimeLabel;
     ButtonWidget*   m_pSingleTakeinButton;          //单条消息中的收纳按钮
     ButtonWidget*   m_pSingleDeleteButton;          //单条消息中的删除按钮
-    QLabel*         m_pBodyLabel;                   //正文标签
+
+    QLabel*         m_pSummaryLabel;                //在动画中暂定高26px
+
+    QLabel*         m_pBodyLabel;                   //正文标签,收缩时,在动画中暂定高24px
+
     QWidget*        m_pShowLeftWidget;              //显示该应用未展开部件
     QLabel*         m_pShowLeftItemLabel;           //显示该应用未展开条数
+
 
 
     QString         m_strIconPath;                  //图标路径
@@ -71,6 +84,7 @@ private:
     uint            m_uNotifyTime;                  //保存推送时间的绝对时间
     bool            m_bTakeInFlag;                  //收纳标志
     bool            m_bFold;                        //是否折叠
+    bool            m_bAnimationFlag;               //动画标志位，false为展开，true为折叠
     bool            m_bMain;                        //是否为主窗口
     int             m_nShowLeftCount;               //为主窗口时,剩余显示条数
     bool            m_bTimeFormat;                  //time制式，0代表12小时制，1代表24小时制
@@ -85,11 +99,14 @@ signals:
     void            Sig_setAppFoldFlag(bool bFoldFlag);
     void            Sig_onMainEnter();              //应用主消息鼠标进入信号，发送至App,让分层底图变色
     void            Sig_onMainLeave();              //应用主消息鼠标离开信号，发送至App,让分层底图背景变回来
+    void            Sig_notifyAppShowBaseMap();     //当动画折叠后，通知主app考虑显示底图
 
 public slots:
     void            onDele();                       //通知中心或者收纳盒中的删除
     void            onTakeIn();                     //通知中心消息收纳至收纳盒
     void            onRecover();                    //收纳盒消息恢复至通知中心
+    void            updateCurrentRect(int x1, int y1, int x2, int y2);
+    void            onAnimationFinish();
 
 };
 
