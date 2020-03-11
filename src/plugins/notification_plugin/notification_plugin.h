@@ -42,7 +42,8 @@ class NotificationPlugin : public QObject, public NotificationInterface
 public:
     NotificationPlugin();
     virtual QWidget* centerWidget() override;    
-    virtual void updatePushTime() override;
+    virtual void showNotification() override;
+    virtual void hideNotification() override;
     AppMsg* getAppMsgAndIndexByName(QString strAppName, int& nIndex);
     AppMsg* getTakeinAppMsgAndIndexByName(QString strAppName, int& nIndex);
 

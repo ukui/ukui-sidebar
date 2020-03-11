@@ -12,7 +12,7 @@ class ButtonWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ButtonWidget(QString strIcon, QString strHoverIcon);
+    explicit ButtonWidget(QString strIcon, QString strHoverIcon, QString strPressIcon);
 
 protected:
     virtual void enterEvent(QEvent *event) override;
@@ -23,12 +23,13 @@ protected:
 private:
     QLabel*         m_ToolButton;
     QSvgRenderer*   m_pTakeinSvgRender;
-    QPixmap*        m_pTakeinPixmap;
-    QPixmap*        m_pTakeinPixmap80percent;
+    QPixmap*        m_pTakeinPixmap;                //收纳默认或悬停时的像素
+    QPixmap*        m_pTakeinPressPixmap;           //收纳点击时的像素
 
     bool            m_bTakeInFlag;
     QString         m_strIcon;
     QString         m_strHoverIcon;
+    QString         m_strPressIcon;
 
 signals:
     void            Sig_clicked();

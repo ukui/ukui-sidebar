@@ -48,15 +48,19 @@ public:
     void setShowLeftItemFlag(bool bFlag);
     void setSingleMsgContentsMargins(int left, int top, int right, int bottom);
     void mainMsgSetFold();
-    void startAnimation();
     void setAnimationUnfoldStatus(bool bFlag);          //开启展开动画之前，设置的一些准备状态
     void setAnimationFoldStatus(bool bFlag);            //开启折叠动画之前，设置的一些准备状态
+    void startAnimation();                              //开启展开或折叠动画
+    void setAnimationDeleStatus(bool bFlag);            //开启删除动画之前，设置的一些准备状态
+    void startAnimationDeleLeftMove();                  //开启删除左移动画
+    void startAnimationDeleUpperMove();                 //开启删除上移动画
 
 
 protected:
     virtual void enterEvent(QEvent *event) override;
     virtual void leaveEvent(QEvent *event) override;
     virtual void mousePressEvent(QMouseEvent *event) override;
+    virtual void resizeEvent(QResizeEvent *event) override;
 
 private:
     QVBoxLayout*    m_pAppVLaout;
@@ -107,6 +111,10 @@ public slots:
     void            onRecover();                    //收纳盒消息恢复至通知中心
     void            updateCurrentRect(int x1, int y1, int x2, int y2);
     void            onAnimationFinish();
+    void            updateDeleLeftMove(int x1, int y1, int x2, int y2);
+    void            onAnimationDeleLeftMoveFinish();
+    void            updateDeleUpperMove(int x1, int y1, int x2, int y2);
+    void            onAnimationDeleUpperMoveFinish();
 
 };
 

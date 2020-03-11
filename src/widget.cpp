@@ -69,7 +69,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     //设置hide动画
     m_pHideAnimation = new QPropertyAnimation(this, "geometry");
     m_pHideAnimation->setDuration(200);
-//    connect(m_pHideAnimation, &QPropertyAnimation::finished, this, &Widget::HideAnimationEndSlots);
+    connect(m_pHideAnimation, &QPropertyAnimation::finished, this, &Widget::HideAnimationEndSlots);
 
     //设置show动画
     m_pShowAnimation = new QPropertyAnimation(this, "geometry");
@@ -289,7 +289,7 @@ void Widget::showAnimation()
     auto centerInterface = qobject_cast<NotificationInterface*>(m_pNotificationPluginObject);
     if(nullptr != centerInterface)
     {
-        centerInterface->updatePushTime(); //当动画展开时也更新一下通知列表或者收纳列表的推送时间显示
+        centerInterface->showNotification(); //当动画展开时给插件一个通知
     }
     GetsAvailableAreaScreen(); //获取屏幕可用高度区域
 
@@ -365,6 +365,11 @@ void Widget::showAnimation()
 //隐藏动画
 void Widget::hideAnimation()
 {
+    auto centerInterface = qobject_cast<NotificationInterface*>(m_pNotificationPluginObject);
+    if(nullptr != centerInterface)
+    {
+        centerInterface->hideNotification(); //当动画展开时给插件一个通知
+    }
     int  AnimaStartSideBarSite[4];                       //侧边栏动画开始位置
     int  AnimaStopSidebarSite[4];                        //侧边栏动画结束位置
     switch (getPanelSite()) {
@@ -456,11 +461,11 @@ void Widget::onResolutionChanged(int argc)
 }
 
 /* 当隐藏动画结束时需要将widget隐藏 */
-//void Widget::HideAnimationEndSlots()
-//{
-//    this->hide();
-//    return;
-//}
+void Widget::HideAnimationEndSlots()
+{
+    this->hide();
+    return;
+}
 
 void Widget::onNewNotification()
 {

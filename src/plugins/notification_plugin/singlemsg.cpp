@@ -57,10 +57,10 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pAppVLaout = new QVBoxLayout();
     m_pAppVLaout->setContentsMargins(0,0,0,6);
     m_pAppVLaout->setSpacing(0);
-    m_pSingleWidget = new QWidget;
+    m_pSingleWidget = new QWidget(this);
     m_pSingleWidget->setObjectName("SingleNotification");
 
-    m_pAnimationBaseMapWidget = new QWidget;
+    m_pAnimationBaseMapWidget = new QWidget(this);
     m_pAnimationBaseMapWidget->setStyleSheet("background:transparent;");
 
     //单条消息总体垂直布局器
@@ -110,16 +110,18 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     //单独收纳按钮
     if(false == m_bTakeInFlag)
     {
-        QString strIcon = ":/images/box-translucent.svg";
-        QString strHoverIcon = ":/images/box.svg";
-        m_pSingleTakeinButton = new ButtonWidget(strIcon, strHoverIcon);
+        QString strIcon = ":/images/box-16-translucent.svg";
+        QString strHoverIcon = ":/images/box-16.svg";
+        QString strPressIcon = ":/images/box-14-translucent.svg";
+        m_pSingleTakeinButton = new ButtonWidget(strIcon, strHoverIcon, strPressIcon);
         connect(m_pSingleTakeinButton, SIGNAL(Sig_clicked()), this, SLOT(onTakeIn()));
     }
     else
     {
-        QString strIcon = ":/images/exitbox-translucent.svg";
-        QString strHoverIcon = ":/images/exitbox.svg";
-        m_pSingleTakeinButton = new ButtonWidget(strIcon, strHoverIcon);
+        QString strIcon = ":/images/exitbox-16-translucent.svg";
+        QString strHoverIcon = ":/images/exitbox-16.svg";
+        QString strPressIcon = ":/images/exitbox-14-translucent.svg";
+        m_pSingleTakeinButton = new ButtonWidget(strIcon, strHoverIcon, strPressIcon);
         connect(m_pSingleTakeinButton, SIGNAL(Sig_clicked()), this, SLOT(onRecover()));
     }
     m_pSingleTakeinButton->setVisible(false);
@@ -127,7 +129,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     //单独删除按钮
     QString strIcon = ":/images/hover-translucent.svg";
     QString strHoverIcon = ":/images/hover.svg";
-    m_pSingleDeleteButton = new ButtonWidget(strIcon, strHoverIcon);
+    m_pSingleDeleteButton = new ButtonWidget(strIcon, strHoverIcon, strIcon);
     connect(m_pSingleDeleteButton, SIGNAL(Sig_clicked()), this, SLOT(onDele()));
     m_pSingleDeleteButton->setVisible(false);
 
@@ -415,6 +417,12 @@ void SingleMsg::mousePressEvent(QMouseEvent *event)
     return;
 }
 
+void SingleMsg::resizeEvent(QResizeEvent *event)
+{
+    qDebug()<<"SingleMsg::resizeEvent"<<m_bMain <<this->width() <<this->height();
+
+}
+
 void SingleMsg::mainMsgSetFold()
 {
     //当消息为主窗口时,由主消息设置折叠
@@ -432,9 +440,10 @@ void SingleMsg::mainMsgSetFold()
     }
 }
 
-//返回单条消息折叠时的高度
+//多消息展开
 void SingleMsg::setAnimationUnfoldStatus(bool bFlag)
 {
+    int height = m_pSingleWidget->height();
     m_bAnimationFlag = bFlag;
     m_pAppVLaout->removeWidget(m_pSingleWidget);
     m_pAnimationBaseMapWidget->setFixedSize(10, 0);
@@ -443,36 +452,12 @@ void SingleMsg::setAnimationUnfoldStatus(bool bFlag)
     return;
 }
 
-void SingleMsg::startAnimation()
-{
-    int width = this->width();
-    int height;
-    if(true == m_strBody.isEmpty())
-    {
-        height = 90;
-    }
-    else
-    {
-        height = 114;
-    }
-
-    height = height - 6;   //在删除里面总部件之前已保存消息总体折叠时的高度，现已减去底部6px的空白区域，得出动画框体偏移距离
-
-    //设置show动画
-    DiyPropertyAnimation* m_pShowAnimation = new DiyPropertyAnimation(m_pSingleWidget, "geometry");
-    m_pShowAnimation->setDuration(300);
-    connect(m_pShowAnimation, SIGNAL(Sig_currentRect(int, int, int, int)), this, SLOT(updateCurrentRect(int, int, int, int)));
-    connect(m_pShowAnimation, SIGNAL(finished()), this, SLOT(onAnimationFinish()));
-
-    m_pShowAnimation->setStartValue(QRect(0, 0, width, height));
-    m_pShowAnimation->setEndValue(QRect(0, height, width, height));
-    m_pShowAnimation->start(QAbstractAnimation::DeleteWhenStopped);
-}
-
+//多消息折叠
 void SingleMsg::setAnimationFoldStatus(bool bFlag)
 {
     m_bAnimationFlag = bFlag;
-    int nHeight;
+    m_pSingleWidget->repaint();
+    int nHeight = m_pSingleWidget->height();
     if(true == m_strBody.isEmpty())
     {
         nHeight = 90;
@@ -489,6 +474,93 @@ void SingleMsg::setAnimationFoldStatus(bool bFlag)
     return;
 }
 
+void SingleMsg::startAnimation()
+{
+    int width = this->width();
+    int height = this->height();
+    if(true == m_strBody.isEmpty())
+    {
+        height = 90 - 6;            //在删除里面总部件之前已保存消息总体折叠时的高度，现已减去底部6px的空白区域，得出动画框体偏移距离
+    }
+    else
+    {
+        height = 114 - 6;
+    }
+
+    //设置show动画
+    DiyPropertyAnimation* pAnimation = new DiyPropertyAnimation(m_pSingleWidget, "geometry");
+    pAnimation->setDuration(1000);
+    connect(pAnimation, SIGNAL(Sig_currentRect(int, int, int, int)), this, SLOT(updateCurrentRect(int, int, int, int)));
+    connect(pAnimation, SIGNAL(finished()), this, SLOT(onAnimationFinish()));
+
+    pAnimation->setStartValue(QRect(0, 0, width, height));
+    pAnimation->setEndValue(QRect(0, height, width, height));
+    pAnimation->start(QAbstractAnimation::DeleteWhenStopped);
+}
+
+//开启删除动画之前，设置的一些准备状态
+void SingleMsg::setAnimationDeleStatus(bool bFlag)
+{
+    int nHeight;
+    if(true == m_strBody.isEmpty())
+    {
+        nHeight = 90 - 6;
+    }
+    else
+    {
+        nHeight = 114 - 6;
+    }
+
+    m_pAppVLaout->removeWidget(m_pSingleWidget);
+    m_pAnimationBaseMapWidget->setFixedSize(this->width(), nHeight);
+    m_pAppVLaout->addWidget(m_pAnimationBaseMapWidget, 0, Qt::AlignHCenter);
+}
+
+//开启删除左移动画
+void SingleMsg::startAnimationDeleLeftMove()
+{
+    int width = this->width();
+    int height;
+    if(true == m_strBody.isEmpty())
+    {
+        height = 90;
+    }
+    else
+    {
+        height = 114;
+    }
+
+    height = height - 6;   //在删除里面总部件之前已保存消息总体折叠时的高度，现已减去底部6px的空白区域，得出动画框体偏移距离
+
+    //设置show动画
+    DiyPropertyAnimation* pAnimation = new DiyPropertyAnimation(m_pSingleWidget, "geometry");
+    pAnimation->setDuration(3000);
+    connect(pAnimation, SIGNAL(Sig_currentRect(int, int, int, int)), this, SLOT(updateDeleLeftMove(int, int, int, int)));
+    connect(pAnimation, SIGNAL(finished()), this, SLOT(onAnimationDeleLeftMoveFinish()));
+
+    pAnimation->setStartValue(QRect(0, 0, width, height));
+    pAnimation->setEndValue(QRect(0 - width, 0, width, height));
+    pAnimation->start(QAbstractAnimation::DeleteWhenStopped);
+
+}
+
+//开启删除上移动画
+void SingleMsg::startAnimationDeleUpperMove()
+{
+    int width = m_pAnimationBaseMapWidget->width() + 6;
+    int height = m_pAnimationBaseMapWidget->height() + 6;
+
+    //设置show动画
+    DiyPropertyAnimation* pAnimation = new DiyPropertyAnimation(m_pAnimationBaseMapWidget, "geometry");
+    pAnimation->setDuration(2000);
+    connect(pAnimation, SIGNAL(Sig_currentRect(int, int, int, int)), this, SLOT(updateDeleUpperMove(int, int, int, int)));
+    connect(pAnimation, SIGNAL(finished()), this, SLOT(onAnimationDeleUpperMoveFinish()));
+
+    pAnimation->setStartValue(QRect(0, 0, width, height));
+    pAnimation->setEndValue(QRect(0, 0 - height, width, height));
+    pAnimation->start(QAbstractAnimation::DeleteWhenStopped);
+}
+
 //通知中心或者收纳盒中的删除
 void SingleMsg::onDele()
 {
@@ -498,7 +570,8 @@ void SingleMsg::onDele()
     }
     else
     {
-        emit Sig_onDeleSingleMsg(this);
+        setAnimationDeleStatus(false);
+        startAnimationDeleLeftMove();
     }
     return;
 }
@@ -577,7 +650,47 @@ void SingleMsg::onAnimationFinish()
     }
 }
 
+void SingleMsg::updateDeleLeftMove(int x1, int y1, int x2, int y2)
+{
+    qDebug()<<"SingleMsg::updateDeleLeftMove "<<x1;
+    int nWidth = this->width();
+    int nHeight = this->height();
+    if(true == m_strBody.isEmpty())
+    {
+        nHeight = 90 - 6;
+    }
+    else
+    {
+        nHeight = 114 - 6;
+    }
 
+    m_pSingleWidget->setGeometry(x1, 0, nWidth, nHeight);
+
+}
+
+void SingleMsg::onAnimationDeleLeftMoveFinish()
+{
+    startAnimationDeleUpperMove();
+}
+
+void SingleMsg::updateDeleUpperMove(int x1, int y1, int x2, int y2)
+{
+    qDebug()<<"SingleMsg::updateDeleUpperMove "<<x2 <<y1;
+    if((y2 - 6 + y1) >= 0) //y2-6表示填充控件的高度，y1为负数，首先将填充控件的高度不断减少直至0
+    {
+        m_pAnimationBaseMapWidget->setFixedSize(x2, (y2 - 6 + y1));
+    }
+    else  //当填充控件减至0以后，就需要减少底部6个px的空白
+    {
+        m_pAppVLaout->setContentsMargins(0,0,0,(y2 + y1));
+    }
+
+}
+
+void SingleMsg::onAnimationDeleUpperMoveFinish()
+{
+    emit Sig_onDeleSingleMsg(this);
+}
 
 
 

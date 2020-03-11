@@ -7,10 +7,11 @@
 #include <QSvgWidget>
 #include <QDebug>
 
-ButtonWidget::ButtonWidget(QString strIcon, QString strHoverIcon)
+ButtonWidget::ButtonWidget(QString strIcon, QString strHoverIcon, QString strPressIcon)
 {
     m_strIcon = strIcon;
     m_strHoverIcon = strHoverIcon;
+    m_strPressIcon = strPressIcon;
 
     this->setFixedWidth(24);
     this->setFixedHeight(24);
@@ -23,8 +24,8 @@ ButtonWidget::ButtonWidget(QString strIcon, QString strHoverIcon)
     m_ToolButton = new QLabel;
     m_pTakeinSvgRender = new QSvgRenderer(m_ToolButton);
     m_pTakeinSvgRender->load(m_strIcon);
-    m_pTakeinPixmap = new QPixmap(13, 13);
-    m_pTakeinPixmap80percent = new QPixmap(11, 11);
+    m_pTakeinPixmap = new QPixmap(16, 16);
+    m_pTakeinPressPixmap = new QPixmap(14, 14);
     m_pTakeinPixmap->fill(Qt::transparent);
     QPainter takeinPainter(m_pTakeinPixmap);
     m_pTakeinSvgRender->render(&takeinPainter);
@@ -65,11 +66,11 @@ void ButtonWidget::mousePressEvent(QMouseEvent *event)
 {
     if (event->buttons() == Qt::LeftButton)
     {
-        m_pTakeinSvgRender->load(m_strIcon);
-        m_pTakeinPixmap80percent->fill(Qt::transparent);
-        QPainter takeinPainter(m_pTakeinPixmap80percent);
+        m_pTakeinSvgRender->load(m_strPressIcon);
+        m_pTakeinPressPixmap->fill(Qt::transparent);
+        QPainter takeinPainter(m_pTakeinPressPixmap);
         m_pTakeinSvgRender->render(&takeinPainter);
-        m_ToolButton->setPixmap(*m_pTakeinPixmap80percent);
+        m_ToolButton->setPixmap(*m_pTakeinPressPixmap);
     }
 
     return;

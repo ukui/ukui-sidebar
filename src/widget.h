@@ -108,7 +108,7 @@ private:
 
 private slots :
     void onResolutionChanged(int);
-//    void HideAnimationEndSlots();
+    void HideAnimationEndSlots();
     void onNewNotification();
     void twinkle();
 

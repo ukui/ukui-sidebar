@@ -29,8 +29,10 @@ public:
 
     //返回一个Widget设置到centerwidget中进行显示
     virtual QWidget* centerWidget() = 0;
-    //更新通知中心通知列表或收纳列表的推送时间显示
-    virtual void updatePushTime() = 0;
+    //当侧边栏展开时给通知中心一个通知
+    virtual void showNotification() = 0;
+    //当侧边栏隐藏时给通知中心一个通知
+    virtual void hideNotification() = 0;
 //    virtual void Notify(QString strAppName, QString strIconPath, QString strSummary, QString strTime, QString strBody) = 0;
 };
 

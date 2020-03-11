@@ -62,7 +62,7 @@ NotificationPlugin::NotificationPlugin()
 
     //QToolButton添加svg图片
     m_pSvgRender = new QSvgRenderer(pWidget1);
-    m_pSvgRender->load(QString(":/images/box.svg"));
+    m_pSvgRender->load(QString(":/images/box-24.svg"));
     m_pPixmap = new QPixmap(24, 24);
 
     m_pPixmap->fill(Qt::transparent);
@@ -173,20 +173,29 @@ QWidget* NotificationPlugin::centerWidget()
     return  m_pMainWidget;
 }
 
-void NotificationPlugin::updatePushTime()
+void NotificationPlugin::showNotification()
 {
-    if(true == m_bShowTakeIn)  //侧边栏展开时，如果已经显示收纳盒，则切换至通知中心
+//    if(false == m_bShowTakeIn)  //侧边栏展开时，如果已显示通知中心，则只需更新推送时间并将每个应用设置为折叠
     {
-        onShowTakeInMessage();
-    }
-    else                        //侧边栏展开时，如果已显示通知中心，则只需更新推送时间并将每个应用设置为折叠
-    {
-        for(int i = 0; i < m_listAppMsg.count(); i++)
+        for(int i = 0; i < m_listAppMsg.count(); i++)   //上面不需要判断，因为在隐藏时，已经切换至通知中心，m_bShowTakeIn为false
         {
             AppMsg* pAppMsg = m_listAppMsg.at(i);
             pAppMsg->updateAppPushTime();
-            pAppMsg->setAppFold();
         }
+    }
+}
+
+void NotificationPlugin::hideNotification()
+{
+    if(true == m_bShowTakeIn)  //侧边栏隐藏时，如果已经显示收纳盒，则切换至通知列表
+    {
+        onShowTakeInMessage();
+    }
+
+    for(int i = 0; i < m_listAppMsg.count(); i++)   //隐藏时，因为上面已切换至通知列表，所以只需将通知列表都折叠即可
+    {
+        AppMsg* pAppMsg = m_listAppMsg.at(i);
+        pAppMsg->setAppFold();
     }
 
 }
@@ -455,9 +464,9 @@ void NotificationPlugin::onShowTakeInMessage()
         m_bShowTakeIn = true;
         m_pQScrollAreaNotify->setVisible(false);
         m_pQScrollAreaTakeIn->setVisible(true);
-        m_pNotificationLabel->setText("不重要的通知");
+        m_pNotificationLabel->setText("不重要的通知");  //show收纳盒
 
-        m_pSvgRender->load(QString(":/images/exitbox.svg"));
+        m_pSvgRender->load(QString(":/images/exitbox-24.svg"));
         m_pPixmap->fill(Qt::transparent);
         QPainter painter(m_pPixmap);
         m_pSvgRender->render(&painter);
@@ -466,10 +475,15 @@ void NotificationPlugin::onShowTakeInMessage()
 
         m_pTakeInCoutLabel->setVisible(false);
 
-        for(int i = 0; i < m_listTakeInAppMsg.count(); i++)
+        for(int i = 0; i < m_listTakeInAppMsg.count(); i++)     //当切换至收纳盒时，先将各个收纳应用更新下时间
         {
             AppMsg* pAppMsg = m_listTakeInAppMsg.at(i);
             pAppMsg->updateAppPushTime();
+        }
+
+        for(int i = 0; i < m_listAppMsg.count(); i++)           //再将各个通知应用折叠起来
+        {
+            AppMsg* pAppMsg = m_listAppMsg.at(i);
             pAppMsg->setAppFold();
         }
     }
@@ -478,9 +492,9 @@ void NotificationPlugin::onShowTakeInMessage()
         m_bShowTakeIn = false;
         m_pQScrollAreaNotify->setVisible(true);
         m_pQScrollAreaTakeIn->setVisible(false);
-        m_pNotificationLabel->setText("重要的通知");
+        m_pNotificationLabel->setText("重要的通知");  //show通知列表
 
-        m_pSvgRender->load(QString(":/images/box.svg"));
+        m_pSvgRender->load(QString(":/images/box-24.svg"));
         m_pPixmap->fill(Qt::transparent);
         QPainter painter(m_pPixmap);
         m_pSvgRender->render(&painter);
@@ -492,10 +506,15 @@ void NotificationPlugin::onShowTakeInMessage()
             m_pTakeInCoutLabel->setVisible(true);
         }
 
-        for(int i = 0; i < m_listAppMsg.count(); i++)
+        for(int i = 0; i < m_listAppMsg.count(); i++)           //当切换至通知列表时，先将各个通知应用更新下时间
         {
             AppMsg* pAppMsg = m_listAppMsg.at(i);
             pAppMsg->updateAppPushTime();
+        }
+
+        for(int i = 0; i < m_listTakeInAppMsg.count(); i++)     //再将各个收纳应用折叠起来
+        {
+            AppMsg* pAppMsg = m_listTakeInAppMsg.at(i);
             pAppMsg->setAppFold();
         }
     }
