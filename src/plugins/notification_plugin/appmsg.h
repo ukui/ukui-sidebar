@@ -84,7 +84,8 @@ public slots:
     void                setAppFoldFlag(bool bFlag);
     void                onMainMsgEnter();                           //应用主消息进入
     void                onMainMsgLeave();                           //应用主消息离开
-    void                onShowBaseMap();
+    void                onShowBaseMap();                            //显示应用底图
+    void                onHideBaseMap();                            //隐藏底图部件
 
 };
 

@@ -23,7 +23,7 @@
 ScrollBarWidget::ScrollBarWidget()
 {
     setStyleSheet("QScrollBar::vertical {width:10px;padding-left:3px;padding-top:0px;padding-right:3px;padding-bottom:0px;background:transparent;border-radius:6px;}"
-                  "QScrollBar::handle:vertical {width:4px;background-color:rgba(61,61,65,1);border-radius:2px;}"
+                  "QScrollBar::handle:vertical {width:4px;background-color:transparent;border-radius:2px;}"
                   "QScrollBar::sub-line:vertical {background-color:transparent;height:0px;width:0px;}"
                   "QScrollBar::add-line:vertical {background-color:transparent;height:0px;width:0px;}");
     return;
@@ -58,19 +58,25 @@ ScrollAreaWidget::ScrollAreaWidget()
     ScrollBarWidget *pScrollbar = new ScrollBarWidget;
     setVerticalScrollBar(pScrollbar);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff); //隐藏横向滚动条
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff); //隐藏纵向滚动条
+    setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded); //隐藏纵向滚动条
 }
 
 void ScrollAreaWidget::enterEvent(QEvent *event)
 {
     Q_UNUSED(event);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded); //显示纵向滚动条
+    this->verticalScrollBar()->setStyleSheet("QScrollBar::vertical {width:10px;padding-left:3px;padding-top:0px;padding-right:3px;padding-bottom:0px;background:transparent;border-radius:6px;}"
+                  "QScrollBar::handle:vertical {width:4px;background-color:rgba(61,61,65,1);border-radius:2px;}"
+                  "QScrollBar::sub-line:vertical {background-color:transparent;height:0px;width:0px;}"
+                  "QScrollBar::add-line:vertical {background-color:transparent;height:0px;width:0px;}");
     return;
 }
 
 void ScrollAreaWidget::leaveEvent(QEvent *event)
 {
     Q_UNUSED(event);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff); //隐藏纵向滚动条
+    this->verticalScrollBar()->setStyleSheet("QScrollBar::vertical {width:10px;padding-left:3px;padding-top:0px;padding-right:3px;padding-bottom:0px;background:transparent;border-radius:6px;}"
+                  "QScrollBar::handle:vertical {width:4px;background-color:transparent;border-radius:2px;}"
+                  "QScrollBar::sub-line:vertical {background-color:transparent;height:0px;width:0px;}"
+                  "QScrollBar::add-line:vertical {background-color:transparent;height:0px;width:0px;}");
     return;
 }

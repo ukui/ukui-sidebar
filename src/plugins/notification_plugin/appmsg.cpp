@@ -37,7 +37,7 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
     //当出现多条消息时，增加底图
     m_pAppBaseMapWidget = new QWidget;
     QVBoxLayout* pBaseMapVLaout = new QVBoxLayout();
-    pBaseMapVLaout->setContentsMargins(0,0,0,0);
+    pBaseMapVLaout->setContentsMargins(0,0,0,6);
     pBaseMapVLaout->setSpacing(0);
 
     m_pBaseMapWidget = new QWidget;
@@ -46,10 +46,6 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
     m_pBaseMapWidget->setFixedHeight(6);
     m_pBaseMapWidget->setStyleSheet("QWidget{background:rgba(255,255,255,0.04);border-top-left-radius:0px;border-top-right-radius:0px;border-bottom-left-radius:6px;border-bottom-right-radius:6px;}");
     pBaseMapVLaout->addWidget(m_pBaseMapWidget, 0 , Qt::AlignHCenter);
-
-    //添加一个6px的固定弹簧
-    QSpacerItem* pVBottomSpacer = new QSpacerItem(6, 6, QSizePolicy::Fixed, QSizePolicy::Fixed);
-    pBaseMapVLaout->addSpacerItem(pVBottomSpacer);
 
     m_pAppBaseMapWidget->setLayout(pBaseMapVLaout);
     m_pMainVLaout->addWidget(m_pAppBaseMapWidget, 0 , Qt::AlignHCenter);
@@ -127,8 +123,8 @@ void AppMsg::addSingleMsg(QString strIconPath, QString strSummary, QDateTime dat
         {
             pFirstMsg->setBodyLabelWordWrap(false);
             pFirstMsg->setVisible(false);
-            //将SingleMsg底部设置6px空隙
-            pFirstMsg->setSingleMsgContentsMargins(0, 0, 0, 6);
+            //将SingleMsg底部设置0px空隙,当其展开时，让他完全从0展开
+            pFirstMsg->setSingleMsgContentsMargins(0, 0, 0, 0);
         }
     }
 
@@ -375,8 +371,7 @@ void AppMsg::setAppFoldFlag(bool bFlag)
         for(int i = 1; i < m_listSingleMsg.count(); i++)
         {
             SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
-            pTmpSingleMsg->setAnimationUnfoldStatus(m_bFold); //返回单条消息折叠时的高度
-            pTmpSingleMsg->startAnimation();
+            pTmpSingleMsg->startAnimationUnfold();
         }
     }
     else
@@ -385,11 +380,7 @@ void AppMsg::setAppFoldFlag(bool bFlag)
         for(int i = 1; i < m_listSingleMsg.count(); i++)
         {
             SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
-            pTmpSingleMsg->setFoldFlag(true);
-            pTmpSingleMsg->setBodyLabelWordWrap(false);
-
-            pTmpSingleMsg->setAnimationFoldStatus(m_bFold);
-            pTmpSingleMsg->startAnimation();
+            pTmpSingleMsg->startAnimationFold();
         }
     }
 
@@ -429,6 +420,11 @@ void AppMsg::onShowBaseMap()
     }
 }
 
+//隐藏底图部件
+void AppMsg::onHideBaseMap()
+{
+    m_pAppBaseMapWidget->setVisible(false);
+}
 
 
 

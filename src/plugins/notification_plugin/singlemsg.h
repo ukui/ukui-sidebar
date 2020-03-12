@@ -48,11 +48,8 @@ public:
     void setShowLeftItemFlag(bool bFlag);
     void setSingleMsgContentsMargins(int left, int top, int right, int bottom);
     void mainMsgSetFold();
-    void setAnimationUnfoldStatus(bool bFlag);          //开启展开动画之前，设置的一些准备状态
-    void setAnimationFoldStatus(bool bFlag);            //开启折叠动画之前，设置的一些准备状态
-    void startAnimation();                              //开启展开或折叠动画
-    void setAnimationDeleStatus(bool bFlag);            //开启删除动画之前，设置的一些准备状态
-    void startAnimationDeleLeftMove();                  //开启删除左移动画
+    void startAnimationUnfold();                        //开启展开动画
+    void startAnimationFold();                          //开启折叠动画
     void startAnimationDeleUpperMove();                 //开启删除上移动画
 
 
@@ -73,7 +70,6 @@ private:
     ButtonWidget*   m_pSingleDeleteButton;          //单条消息中的删除按钮
 
     QLabel*         m_pSummaryLabel;                //在动画中暂定高26px
-
     QLabel*         m_pBodyLabel;                   //正文标签,收缩时,在动画中暂定高24px
 
     QWidget*        m_pShowLeftWidget;              //显示该应用未展开部件
@@ -88,7 +84,6 @@ private:
     uint            m_uNotifyTime;                  //保存推送时间的绝对时间
     bool            m_bTakeInFlag;                  //收纳标志
     bool            m_bFold;                        //是否折叠
-    bool            m_bAnimationFlag;               //动画标志位，false为展开，true为折叠
     bool            m_bMain;                        //是否为主窗口
     int             m_nShowLeftCount;               //为主窗口时,剩余显示条数
     bool            m_bTimeFormat;                  //time制式，0代表12小时制，1代表24小时制
@@ -104,17 +99,24 @@ signals:
     void            Sig_onMainEnter();              //应用主消息鼠标进入信号，发送至App,让分层底图变色
     void            Sig_onMainLeave();              //应用主消息鼠标离开信号，发送至App,让分层底图背景变回来
     void            Sig_notifyAppShowBaseMap();     //当动画折叠后，通知主app考虑显示底图
+    void            Sig_notifyAppHideBaseMap();     //通知隐藏应用的底图部件
 
 public slots:
     void            onDele();                       //通知中心或者收纳盒中的删除
     void            onTakeIn();                     //通知中心消息收纳至收纳盒
     void            onRecover();                    //收纳盒消息恢复至通知中心
-    void            updateCurrentRect(int x1, int y1, int x2, int y2);
-    void            onAnimationFinish();
-    void            updateDeleLeftMove(int x1, int y1, int x2, int y2);
-    void            onAnimationDeleLeftMoveFinish();
-    void            updateDeleUpperMove(int x1, int y1, int x2, int y2);
-    void            onAnimationDeleUpperMoveFinish();
+
+    void            updateUnfoldMove(int x1, int y1, int x2, int y2);       //更新展开的移动数据
+    void            onUnfoldFinish();                                       //处理展开完成时的函数
+    void            updateFoldMove(int x1, int y1, int x2, int y2);         //更新折叠的移动数据
+    void            onFoldFinish();                                         //处理折叠完成时的函数
+    void            updateDeleLeftMove(int x1, int y1, int x2, int y2);     //更新删除左移时的移动数据
+    void            onDeleLeftMoveFinish();                                 //处理删除左移完成时的函数
+    void            updateDeleUpperMove(int x1, int y1, int x2, int y2);    //更新删除上移时的移动数据
+    void            onDeleUpperMoveFinish();                                //处理删除上移完成时的函数
+
+    void            startAnimationDeleLeftMove();                           //开启删除左移动画
+
 
 };
 
