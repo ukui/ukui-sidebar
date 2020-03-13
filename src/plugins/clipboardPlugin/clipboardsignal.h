@@ -30,4 +30,5 @@ signals:
 
 public slots:
 };
+
 #endif // CLIPBOARDSIGNAL_H

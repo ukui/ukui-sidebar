@@ -71,14 +71,15 @@ int main(int argc, char *argv[])
     PluginManager::init();          /* 初始化插件管理器 */
 
     Widget w;
-    w.setAttribute(Qt::WA_TranslucentBackground);
+	w.setObjectName("SidebarWidget");
+//    w.setAttribute(Qt::WA_TranslucentBackground);
 
-    QDBusConnection connection = QDBusConnection::sessionBus();
-    if(!connection.registerService("com.ukui.panel.sidebar"))
-    {
-        qDebug() << "error:" << connection.lastError().message();
-    }
-    connection.registerObject("/getvalue/panel", &w, QDBusConnection::ExportAllSlots);
+//    QDBusConnection connection = QDBusConnection::sessionBus();
+//    if(!connection.registerService("com.ukui.panel.sidebar"))
+//    {
+//        qDebug() << "error:" << connection.lastError().message();
+//    }
+//    connection.registerObject("/getvalue/panel", &w, QDBusConnection::ExportAllSlots);
 
     return a.exec();
 }

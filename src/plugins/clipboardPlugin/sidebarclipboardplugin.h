@@ -26,6 +26,7 @@
 #include <QDebug>
 #include <QListWidgetItem>
 #include <QListWidget>
+#include <QMouseEvent>
 #include <QClipboard>
 #include <QMimeData>
 #include <QGroupBox>
@@ -41,6 +42,7 @@
 #include "searchwidgetitemcontent.h"
 #include "editorwidget.h"
 #include "clipboardsignal.h"
+#include "clipboardlisetwidget.h"
 #define  WIDGET_ENTRY_COUNT 5
 #define  SIDEBAR_CLIPBOARD_QSS_PATH  ":/qss/sidebarClipboard.css"
 
@@ -101,7 +103,7 @@ public:
     void createFindClipboardWidgetItem(); /* 创建查找条目 */
     void WhetherTopFirst(); /* 设置新置顶的条目写入到剪贴版中去 */
     QMimeData *copyMinedata(const QMimeData* mimeReference);
-
+    void SendHideSignal();
 
 signals:
     void Itemchange(int);

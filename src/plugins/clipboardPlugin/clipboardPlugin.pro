@@ -29,7 +29,8 @@ SOURCES += \
         sidebarclipboardplugin.cpp \
     clipboardwidgetentry.cpp \
     editorwidget.cpp \
-    searchwidgetitemcontent.cpp
+    searchwidgetitemcontent.cpp \
+    clipboardlisetwidget.cpp
 
 INCLUDEPATH    += ../../plugin-interface ../../plugin-signals
 
@@ -39,10 +40,11 @@ HEADERS += \
     clipboardsignal.h \
     editorwidget.h \
     searchwidgetitemcontent.h \
-    ../../plugin-signals/sidebarclipboardsignal.h
+    ../../plugin-signals/sidebarclipboardsignal.h \
+    clipboardlisetwidget.h
 DISTFILES += clipboardPlugin.json 
 
 unix {
-    target.path = /usr/lib/ukui-sidebar/sidebar_pushbutton_plugins
+    target.path = /usr/lib/ukui-sidebar/sidebar_clipboardPlugin_plugins
     INSTALLS += target
 }

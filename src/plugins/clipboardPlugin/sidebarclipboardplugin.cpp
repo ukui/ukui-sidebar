@@ -22,13 +22,15 @@
 #include <QApplication>
 #include <QMimeData>
 #include <QFile>
+ClipboardSignal *globalClipboardSignal;
 SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
 {
     Q_UNUSED(parent);
+    installEventFilter(this);
     m_pSidebarClipboardBox = new QGroupBox(tr("  剪贴板"));
     m_pSidebarClipboardBox->setObjectName("ClipboardBox");
     m_pClipboardLaout = new QVBoxLayout;
-    m_pShortcutOperationListWidget = new QListWidget;
+    m_pShortcutOperationListWidget = new ClipBoardLisetWidget;
     m_pSearchWidgetListWidget      = new QListWidget;
     m_pSearchWidgetListWidget->setFixedSize(380, 40);
     createFindClipboardWidgetItem();
@@ -58,7 +60,6 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
         m_pSidebarClipboardBox->setStyleSheet(strQss);
         file.close();
     }
-
 }
 
 /* 构造原型的QMimeData数据类型 */
@@ -94,7 +95,13 @@ QListWidget* SidebarClipboardPlugin::getClipbaordListWidget()
 SidebarClipBoardSignal* SidebarClipboardPlugin :: createClipSignal()
 {
     m_pClipSignal = new ClipboardSignal;
+    globalClipboardSignal = m_pClipSignal;
     return m_pClipSignal;
+}
+
+void SidebarClipboardPlugin::SendHideSignal()
+{
+    qDebug() << "进入信号发送函数";
 }
 
 /* 侧边栏接口，将整个剪贴板界面set进入侧边栏 */
@@ -464,22 +471,8 @@ void SidebarClipboardPlugin::editButtonSlots(ClipboardWidgetEntry *w)
     QStringList formats = pMimeData->formats();
 
     qDebug() << "保存在hash表中的数据 pMimeData ----->" << formats;
-
-//    QByteArray data = pMimeData->data(formats);
-//    QMimeData* pNewStructureMimeData = new QMimeData();
-//    pNewStructureMimeData->setData(m_pEditWidget->m_pEditingArea->toPlainText(), data);
-//    if (nullptr == pMimeData->urls().value(0).toString()) {
-//        //说明为文本数据
-//    } else if(pMimeData->urls().value(0).toString() != ""){
-//        QList<QUrl> fileUrls = pMimeData->urls();
-
-//        for (int i = 0; i < fileUrls.size(); ++i) {
-
-//        }
-//    }
     QListWidgetItem* p_wItem = (QListWidgetItem*)getWidgetItem(w);
     m_pEditWidget = new EditorWidget;
-//    m_pEditWidget->setStyleSheet("QWidget{background:rgba(19, 19, 20, 0.5);}");
     QString text = getLabelText(w->m_pCopyDataLabal);
     m_pEditWidget->m_pEditingArea->setText(text);
     m_pEditWidget->show();
@@ -528,8 +521,6 @@ void SidebarClipboardPlugin::editButtonSlots(ClipboardWidgetEntry *w)
         //获取当前条目所在位置，是不是在第一
         int row_num = m_pShortcutOperationListWidget->row(p_wItem);
         if (row_num == 0) {
-//            m_pSidebarClipboard->setMimeData((QMimeData*)pMimeData, QClipboard::Clipboard);
-//            m_pSidebarClipboard->setMimeData((QMimeData*)pMimeData, QClipboard::Selection);
             popButtonSlots(w);
         }
         qDebug() << "d当前所在的条木" << row_num;
@@ -609,7 +600,6 @@ void SidebarClipboardPlugin::searchClipboardLableTextSlots(QString Text)
         if (line.contains(Text, Qt::CaseSensitive)) {
             popButtonSlots(w);
             w->show();
-            //w->hide();
         } else {
             qDebug() << "是否进入没有查找到类型";
             w->hide();
@@ -618,4 +608,3 @@ void SidebarClipboardPlugin::searchClipboardLableTextSlots(QString Text)
     }
     return;
 }
-

@@ -29,6 +29,7 @@ include(./plugin-interface/plugin-interface.pri)
 RESOURCES  += sidebar.qrc
 SOURCES += \
         main.cpp \
+        realtimepropertyanimation.cpp \
         widget.cpp \
         pluginmanage.cpp \
         sidebar_app_log.cpp
@@ -36,6 +37,7 @@ SOURCES += \
 INCLUDEPATH += ./plugin-interface
 
 HEADERS += \
+        realtimepropertyanimation.h \
         widget.h \
         pluginmanage.h \
         sidebar_app_log.h

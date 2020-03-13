@@ -58,7 +58,7 @@ public:
     //主界面
     void showAnimation();                                                       //show动作
     void hideAnimation();                                                       //hide动作
-    void ListenClipboardSignal();                                               //监听剪贴板发送的信号
+    int ListenClipboardSignal();                                                //监听剪贴板发送的信号
     int  connectTaskBarDbus();                                                  //连接任务栏dbus接口，获取任务栏高度
     int  getPanelSite();                                                        //获取任务栏位置
 
@@ -70,31 +70,30 @@ public:
     bool loadNotificationPlugin();                                              //加载通知中心插件
     void GetsAvailableAreaScreen();                                             //获取屏幕可用区域高度
 
-public slots :
-    uint panelSizeChangeNotify(uint uId);
-
 
 protected:
     void mousePressEvent(QMouseEvent *event);                                   //鼠标点击事件
     bool eventFilter(QObject *obj, QEvent *event);                              //设置过滤事件
     void paintEvent(QPaintEvent *);
-    virtual void focusOutEvent(QFocusEvent *event);
 
 private:
     //主界面
-    QPropertyAnimation* m_pHideAnimation;                                       //隐藏动画对象
-    QPropertyAnimation* m_pShowAnimation;                                       //展示动画对象
-    QVBoxLayout*        m_pMainQVBoxLayout;                                     //主界面垂直布局器
-    QDBusInterface*     m_pServiceInterface;                                    //获取任务栏的高度
-    bool                m_bShowFlag;                                            //控制托盘栏点击事件的标志位
-    int                 m_nDeskWidth;                                           //屏幕分辨率的宽
-    int                 m_nDeskHeight;                                          //屏幕分辨率的高
-    QObject*            m_pNotificationPluginObject;                            //通知中心插件对象
+    QVBoxLayout*                m_pMainOuterBoxLayout;                          //主界面最外框布局器
+    QWidget*                    m_pMainOuterWidget;                             //主界面最外框架部件
+
+    QVBoxLayout*                m_pMainQVBoxLayout;                             //主界面垂直布局器
+    QDBusInterface*             m_pServiceInterface;                            //获取任务栏的高度
+    bool                        m_bShowFlag;                                    //控制托盘栏点击事件的标志位
+    int                         m_nScreenWidth;                                   //屏幕分辨率的宽
+    int                         m_nScreenHeight;                                  //屏幕分辨率的高
+    QObject*                    m_pNotificationPluginObject;                    //通知中心插件对象
+
+    int                         m_nInitalXPosition;
 
     //快捷操作面板
-    QGroupBox*          m_pShortcutOperationGroupBox;                           //快捷操作面板中的主Group
-    ClipboardInterface* m_pSidebarClipboard;                                    //侧边栏剪贴板指针
-    SidebarClipBoardSignal* m_pSidebarSignal;                                   //剪贴板通信类
+    QGroupBox*                  m_pShortcutOperationGroupBox;                   //快捷操作面板中的主Group
+    ClipboardInterface*         m_pSidebarClipboard;                            //侧边栏剪贴板指针
+    SidebarClipBoardSignal*     m_pSidebarSignal;                               //剪贴板通信类
 
     //系统托盘
     QSystemTrayIcon*    trayIcon;
@@ -108,9 +107,10 @@ private:
 
 private slots :
     void onResolutionChanged(int);
-    void HideAnimationEndSlots();
     void onNewNotification();
     void twinkle();
+    void updateAnimationPosition(int, int, int, int);                             //更新动画坐标动态
+    void onUnfoldFinish();
 
 };
 

@@ -307,7 +307,7 @@ QGroupBox#EditBox>QTextEdit#EditingArea {
 /* 显示所有剪贴内容的WidgetList大小 */
 QListWidget#ShortcutOperationList {
     width:380px;
-    height:740px;
+    height:760px;
 
     margin-right: 0px;
     margin-bottom: 0px;
