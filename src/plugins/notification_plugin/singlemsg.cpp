@@ -30,8 +30,8 @@
 
 SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, QString strSummary, QDateTime dateTime, QString strBody, bool bTakeInFlag)
 {
-    m_bMain = true;     //默认是主窗口
-    m_bFold = true;     //默认折叠状态
+    m_bMain = true;                 //默认是主窗口
+    m_bFold = true;                 //默认折叠状态
     m_strIconPath = strIconPath;
     m_strSummary = strSummary;
     m_strBody = strBody;
@@ -84,9 +84,6 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     pIconToolButton->setIconSize(QSize(24,24));
     pIconToolButton->setIcon(QPixmap(strIconPath));
 
-    //一个水平3分辨率的弹簧
-//    QSpacerItem* pH6Spacer = new QSpacerItem(3, 6, QSizePolicy::Fixed, QSizePolicy::Fixed);
-
     //设置应用名标签，采用省略模式
     QLabel* pAppNameLabel = new QLabel();
     pAppNameLabel->setObjectName("AppName");
@@ -136,7 +133,6 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pSingleDeleteButton->setVisible(false);
 
     pIconHLayout->addWidget(pIconToolButton, 0, Qt::AlignLeft);
-//    pIconHLayout->addSpacerItem(pH6Spacer);
     pIconHLayout->addWidget(pAppNameLabel, 0, Qt::AlignLeft|Qt::AlignVCenter);
     pIconHLayout->addSpacerItem(pHExpandSpacer);
     pIconHLayout->addWidget(m_pTimeLabel, 0, Qt::AlignRight);
@@ -176,7 +172,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     pVContextLayout->addWidget(m_pSummaryLabel, 0, Qt::AlignLeft);
 
     //设置通知消息中的正文QLabel，行高24px,采用自动换行模式
-    if(false == m_strBody.isEmpty())   //当正文消息不为空
+    if(false == m_strBody.isEmpty())
     {
         QString strLineHeight24Body;
         strLineHeight24Body.append("<p style='line-height:24px'>").append(m_strBody).append("</p>");
@@ -233,13 +229,13 @@ void SingleMsg::updatePushTime()
     QString strPushDate;
     if(m_dateTime.date() == currentDateTime.date())
     {
-        if(true == m_bTimeFormat)   //24小时制
+        if(true == m_bTimeFormat)
         {
-            strPushDate = m_dateTime.toString("hh:mm");
+            strPushDate = m_dateTime.toString("hh:mm");                     //24小时制
         }
-        else                        //12小时制
+        else
         {
-            strPushDate = m_dateTime.toString("AP h:mm");
+            strPushDate = m_dateTime.toString("AP h:mm");                   //12小时制
         }
         m_pTimeLabel->setText(strPushDate);
         return;
@@ -248,13 +244,13 @@ void SingleMsg::updatePushTime()
     if(1 == (currentDateTime.date().toJulianDay() - m_dateTime.date().toJulianDay()))
     {
         strPushDate = "昨天 ";
-        if(true == m_bTimeFormat)   //24小时制
+        if(true == m_bTimeFormat)
         {
-            strPushDate = strPushDate + m_dateTime.toString("hh:mm");
+            strPushDate = strPushDate + m_dateTime.toString("hh:mm");       //24小时制
         }
-        else                        //12小时制
+        else
         {
-            strPushDate = strPushDate + m_dateTime.toString("AP h:mm");
+            strPushDate = strPushDate + m_dateTime.toString("AP h:mm");     //12小时制
         }
         m_pTimeLabel->setText(strPushDate);
 
@@ -264,19 +260,19 @@ void SingleMsg::updatePushTime()
     //一周以内
     if((currentDateTime.date().toJulianDay() - m_dateTime.date().toJulianDay()) < 7)
     {
-        if(true == m_bTimeFormat)   //24小时制
+        if(true == m_bTimeFormat)
         {
-            strPushDate = m_dateTime.toString("ddd hh:mm");
+            strPushDate = m_dateTime.toString("ddd hh:mm");                 //24小时制
         }
-        else                        //12小时制
+        else
         {
-            strPushDate =  m_dateTime.toString("ddd AP h:mm");
+            strPushDate =  m_dateTime.toString("ddd AP h:mm");              //12小时制
         }
         m_pTimeLabel->setText(strPushDate);
     }
-    else  //一周以外
+    else
     {
-        strPushDate = m_dateTime.toString("yyyy/MM/dd");
+        strPushDate = m_dateTime.toString("yyyy/MM/dd");                    //一周以外
         m_pTimeLabel->setText(strPushDate);
     }
 
@@ -304,7 +300,7 @@ void SingleMsg::setBodyLabelWordWrap(bool bFlag)
     if(true == bFlag)
     {
         //如果展开,就超过四行末尾显示省略号
-//        if(fontSize > (m_pBodyLabel->width() * 4 + 181))
+        //if(fontSize > (m_pBodyLabel->width() * 4 + 181))
         {
             formatBody = fontMetrics.elidedText(strLineHeight24Body, Qt::ElideRight, m_pBodyLabel->width() * 4 + 152);
         }
@@ -391,12 +387,12 @@ void SingleMsg::mousePressEvent(QMouseEvent *event)
     {
         if(true == m_bFold)
         {
-            m_bFold = false;  //置为false,表示展开
+            m_bFold = false;                                //置为false,表示展开
             setBodyLabelWordWrap(true);
         }
         else
         {
-            m_bFold = true;  //置为true,表示折叠
+            m_bFold = true;                                 //置为true,表示折叠
             setBodyLabelWordWrap(false);
         }
         //当消息为主窗口时,发送折叠信息给App
@@ -409,8 +405,8 @@ void SingleMsg::mousePressEvent(QMouseEvent *event)
             }
             else
             {
-                emit Sig_onMainLeave();     //点击后也让app的分层底图恢复原色
-                m_pAppVLaout->setContentsMargins(0,0,0,6); //假如展开，剩余条目显示不可见，则SingleMsg的内容空白恢复正常，即底部多出6个px的空隙
+                emit Sig_onMainLeave();                     //点击后也让app的分层底图恢复原色
+                m_pAppVLaout->setContentsMargins(0,0,0,6);  //假如展开，剩余条目显示不可见，则SingleMsg的内容空白恢复正常，即底部多出6个px的空隙
                 m_pShowLeftItemLabel->setVisible(false);
             }
             emit Sig_setAppFoldFlag(m_bFold);
@@ -422,10 +418,6 @@ void SingleMsg::mousePressEvent(QMouseEvent *event)
 void SingleMsg::resizeEvent(QResizeEvent *event)
 {
     Q_UNUSED(event);
-//    QDateTime currentDateTime(QDateTime::currentDateTime());
-//    QString strCurrentTime = currentDateTime.toString("hh:mm:ss.zzz");
-//    qDebug()<<strCurrentTime <<"SingleMsg::resizeEvent"<<this <<this->width() <<this->height();
-
 }
 
 void SingleMsg::mainMsgSetFold()
@@ -433,12 +425,14 @@ void SingleMsg::mainMsgSetFold()
     //当消息为主窗口时,由主消息设置折叠
     if(true == m_bMain)
     {
-        m_bFold = true;  //置为true,表示折叠
+        //置为true,表示折叠
+        m_bFold = true;
         setBodyLabelWordWrap(false);
+
         //当剩余条数大于0, 且是折叠状态则显示剩余标签
         if(m_nShowLeftCount > 0)
         {
-            m_pAppVLaout->setContentsMargins(0,0,0,0); //假如折叠，剩余条目显示将可见，则SingleMsg的内容均无空隙
+            m_pAppVLaout->setContentsMargins(0,0,0,0);      //假如折叠，剩余条目显示将可见，则SingleMsg的内容均无空隙
             m_pShowLeftItemLabel->setVisible(true);
         }
         emit Sig_setAppFoldFlag(true);
@@ -510,7 +504,7 @@ void SingleMsg::startAnimationDeleLeftMove()
     QString strCurrentTime = currentDateTime.toString("hh:mm:ss.zzz");
     qDebug()<<strCurrentTime <<"SingleMsg::setAnimationDeleStatus"<<this <<nWidth <<nHeight;
 
-    nHeight = nHeight - 6;   //减去底部6px的空白区域，得出动画框体偏移高度
+    nHeight = nHeight - 6;                  //减去底部6px的空白区域，得出动画框体偏移高度
 
     m_pAppVLaout->removeWidget(m_pSingleWidget);
     m_pAnimationBaseMapWidget->setFixedSize(nWidth, nHeight);
@@ -537,6 +531,7 @@ void SingleMsg::startAnimationDeleUpperMove()
     QDateTime currentDateTime(QDateTime::currentDateTime());
     QString strCurrentTime = currentDateTime.toString("hh:mm:ss.zzz");
     qDebug()<<strCurrentTime <<"SingleMsg::startAnimationDeleUpperMove"<<this <<width <<height;
+
     //设置show动画
     DiyPropertyAnimation* pAnimation = new DiyPropertyAnimation(m_pAnimationBaseMapWidget, "geometry");
     pAnimation->setDuration(150);
@@ -554,11 +549,11 @@ void SingleMsg::onDele()
     if((true == m_bMain) && (true == m_bFold) && (m_nShowLeftCount > 0))
     {
         m_pAppVLaout->setContentsMargins(0,0,0,6);
-        emit Sig_notifyAppHideBaseMap();   //通知隐藏应用的底图部件，但保留显示底部6px的空白
+        emit Sig_notifyAppHideBaseMap();                    //通知隐藏应用的底图部件，但保留显示底部6px的空白
     }
 
     QTimer* pSetDeleDelayTimer = new QTimer(this);
-    pSetDeleDelayTimer->setSingleShot(true);      //设置一个单次定时器,只为延迟2毫秒执行删除
+    pSetDeleDelayTimer->setSingleShot(true);                //设置一个单次定时器,只为延迟2毫秒执行删除
     connect(pSetDeleDelayTimer, SIGNAL(timeout()), this, SLOT(startAnimationDeleLeftMove()));
     pSetDeleDelayTimer->start(2);
 
@@ -599,15 +594,15 @@ void SingleMsg::onRecover()
 void SingleMsg::updateUnfoldMove(int x1, int y1, int x2, int y2)
 {
     Q_UNUSED(x1);
-//    qDebug()<<"SingleMsg::updateUnfoldMove "<<y1;
 
-    if(y1 <= 6) //首先将填充控件的高度不断增加直至6
+    //首先将填充控件的高度不断增加直至6
+    if(y1 <= 6)
     {
         m_pAppVLaout->setContentsMargins(0, 0, 0, y1);
     }
-    else  //当填充控件增加直至6以后
+    else
     {
-        m_pAppVLaout->setContentsMargins(0, 0, 0, 6);
+        m_pAppVLaout->setContentsMargins(0, 0, 0, 6);               //当填充控件增加直至6以后
         m_pSingleWidget->setGeometry(0, (y1 - y2), x2, (y2 - 6));   //(y2 - 6)即为m_pSingleWidget的本来高度
         m_pAnimationBaseMapWidget->setFixedSize(x2, (y1 - 6));
     }
@@ -619,18 +614,18 @@ void SingleMsg::updateUnfoldMove(int x1, int y1, int x2, int y2)
 void SingleMsg::updateFoldMove(int x1, int y1, int x2, int y2)
 {
     Q_UNUSED(x1);
-//    qDebug()<<"SingleMsg::updateFoldMove "<<y1;
+    //m_pSingleWidget的本来高度
+    int nHeight = y2 - 6;
 
-    int nHeight = y2 - 6; //m_pSingleWidget的本来高度
-
-    if(y1 <= nHeight) //首先将m_pSingleWidget慢慢消失
+    //首先将m_pSingleWidget慢慢消失
+    if(y1 <= nHeight)
     {
         m_pSingleWidget->setGeometry(0, (0 - y1), x2, nHeight);
         m_pAnimationBaseMapWidget->setFixedSize(x2, (nHeight - y1));
     }
-    else  //当m_pSingleWidget消失后，开始将底部6个px的空白消失
+    else
     {
-        m_pSingleWidget->setGeometry(0, (0 - nHeight), x2, nHeight);
+        m_pSingleWidget->setGeometry(0, (0 - nHeight), x2, nHeight);    //当m_pSingleWidget消失后，开始将底部6个px的空白消失
         m_pAnimationBaseMapWidget->setFixedSize(x2, 0);
         m_pAppVLaout->setContentsMargins(0, 0, 0, (6 - (y1 - nHeight)));
     }
@@ -664,7 +659,6 @@ void SingleMsg::onFoldFinish()
 void SingleMsg::updateDeleLeftMove(int x1, int y1, int x2, int y2)
 {
     Q_UNUSED(y1);
-//    qDebug()<<"SingleMsg::updateDeleLeftMove "<<x1;
     m_pSingleWidget->setGeometry(x1, 0, x2, y2);
 
 }
@@ -679,14 +673,15 @@ void SingleMsg::onDeleLeftMoveFinish()
 void SingleMsg::updateDeleUpperMove(int x1, int y1, int x2, int y2)
 {
     Q_UNUSED(x1);
-//    qDebug()<<"SingleMsg::updateDeleUpperMove "<<x2 <<y1;
-    if((y2 - 6 + y1) >= 0) //y2-6表示填充控件的高度，y1为负数，首先将填充控件的高度不断减少直至0
+
+    //y2-6表示填充控件的高度，y1为负数，首先将填充控件的高度不断减少直至0
+    if((y2 - 6 + y1) >= 0)
     {
         m_pAnimationBaseMapWidget->setFixedSize(x2, (y2 - 6 + y1));
     }
-    else  //当填充控件减至0以后，就需要减少底部6个px的空白
+    else
     {
-        m_pAnimationBaseMapWidget->setVisible(false);
+        m_pAnimationBaseMapWidget->setVisible(false);           //当填充控件减至0以后，就需要减少底部6个px的空白
         m_pAppVLaout->setContentsMargins(0,0,0,(y2 + y1));
     }
 

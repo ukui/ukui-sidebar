@@ -26,11 +26,6 @@ MonitorThread::MonitorThread(NotificationPlugin *parent)
     this->moveToThread(this);
 }
 
-MonitorThread::~MonitorThread()
-{
-
-}
-
 void MonitorThread::extractData(QString strOutput)
 {
     QString strOutputTmp = strOutput;
@@ -113,7 +108,7 @@ void MonitorThread::readOutputData()
     {
         return;
     }
-//    qDebug()<<str_output;
+    //qDebug()<<str_output;
 
     int nIndex = 0;
     do{

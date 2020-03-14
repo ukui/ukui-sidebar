@@ -23,6 +23,7 @@
 #include "realtimepropertyanimation.h"
 #include <stdio.h>
 #include <QtDBus>
+#include "customstyle.h"
 
 
 Widget::Widget(QWidget *parent) : QWidget (parent)
@@ -104,14 +105,14 @@ bool Widget::loadNotificationPlugin()
         return false;
     }
 
-    auto centerInterface = qobject_cast<NotificationInterface*>(m_pNotificationPluginObject);
-    if(nullptr == centerInterface)
+    NotificationInterface* pNotificationPluginObject = qobject_cast<NotificationInterface*>(m_pNotificationPluginObject);
+    if(nullptr == pNotificationPluginObject)
     {
         return false;
     }
 
     connect(m_pNotificationPluginObject, SIGNAL(Sig_onNewNotification()), this, SLOT(onNewNotification()));
-    m_pMainQVBoxLayout->addWidget(centerInterface->centerWidget(), 1);
+    m_pMainQVBoxLayout->addWidget(pNotificationPluginObject->centerWidget(), 1);
 
     return true;
 }
@@ -171,11 +172,13 @@ void Widget::createSystray()
     trayIconMenu->addAction(quitAction);
 
     trayIcon = new QSystemTrayIcon(this);
-    qApp->setStyleSheet("QToolTip{border:1px solid rgba(255, 255, 255, 0.2); background-color: #1A1A1A; color:#FFFFFF; padding:3px; border-radius:3px; font-size:14px;}");
+
+    qApp->setStyle(new CustomStyle());
+    qApp->setStyleSheet("QToolTip{border:1px solid rgba(255, 255, 255, 0.2); background-color: #1A1A1A; color:#FFFFFF; padding:2px; border-radius:6px; font-size:14px;}");
 
     if (nullptr == trayIcon)
     {
-        qWarning() << "分配空间trayIcon失败";
+        qWarning()<< "分配空间trayIcon失败";
         return ;
     }
     trayIcon->setContextMenu(trayIconMenu);
@@ -273,10 +276,10 @@ void Widget::GetsAvailableAreaScreen()
 //动画展开
 void Widget::showAnimation()
 {
-    auto centerInterface = qobject_cast<NotificationInterface*>(m_pNotificationPluginObject);
-    if(nullptr != centerInterface)
+    NotificationInterface* pNotificationPluginObject = qobject_cast<NotificationInterface*>(m_pNotificationPluginObject);
+    if(nullptr != pNotificationPluginObject)
     {
-        centerInterface->showNotification();                //当动画展开时给插件一个通知
+        pNotificationPluginObject->showNotification();      //当动画展开时给插件一个通知
     }
     GetsAvailableAreaScreen();                              //获取屏幕可用高度区域
 
@@ -381,10 +384,10 @@ void Widget::showAnimationFinish()
 void Widget::hideAnimation()
 {
     m_bShowFlag = false;
-    auto centerInterface = qobject_cast<NotificationInterface*>(m_pNotificationPluginObject);
-    if(nullptr != centerInterface)
+    NotificationInterface* pNotificationPluginObject = qobject_cast<NotificationInterface*>(m_pNotificationPluginObject);
+    if(nullptr != pNotificationPluginObject)
     {
-        centerInterface->hideNotification();                //当动画隐藏时给插件一个通知
+        pNotificationPluginObject->hideNotification();      //当动画隐藏时给插件一个通知
     }
 
     int  AnimaStartSideBarSite[4];                          //侧边栏动画开始位置
@@ -554,7 +557,7 @@ void Widget::paintEvent(QPaintEvent *)
     p.setOpacity(0.4);
     p.setPen(Qt::NoPen);
 
-    p.setRenderHint(QPainter::Antialiasing);                    //反锯齿;
+    p.setRenderHint(QPainter::Antialiasing);                        //反锯齿
     p.drawRoundedRect(opt.rect,0,0);
     p.drawRect(opt.rect);
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);

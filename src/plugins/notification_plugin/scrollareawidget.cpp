@@ -57,8 +57,8 @@ ScrollAreaWidget::ScrollAreaWidget()
     setWidgetResizable(true);
     ScrollBarWidget *pScrollbar = new ScrollBarWidget;
     setVerticalScrollBar(pScrollbar);
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff); //隐藏横向滚动条
-    setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded); //隐藏纵向滚动条
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);       //隐藏横向滚动条
+    setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);          //显示纵向滚动条
 }
 
 void ScrollAreaWidget::enterEvent(QEvent *event)

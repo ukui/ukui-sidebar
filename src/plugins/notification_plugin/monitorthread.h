@@ -30,13 +30,12 @@ class MonitorThread : public QThread
     Q_OBJECT
 public:
     MonitorThread(NotificationPlugin *parent);
-    ~MonitorThread();
-    void run();//线程入口函数（工作线程的主函数）
+    void run();                                 //线程入口函数（工作线程的主函数）
     void extractData(QString strOutput);
 
 private:
-    NotificationPlugin* m_parent;               //传一个插件对象指针，用来回传槽函数
-    QProcess*           m_pProcess;
+    NotificationPlugin*     m_parent;           //传一个插件对象指针，用来回传槽函数
+    QProcess*               m_pProcess;
 
 signals:
     void Sig_Notify(QString, QString, QString, QString, QDateTime, bool);

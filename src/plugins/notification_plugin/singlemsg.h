@@ -37,11 +37,6 @@ public:
     SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, QString strSummary, QDateTime dateTime, QString strBody, bool bTakeInFlag = false);
     void updatePushTime();
     void setBodyLabelWordWrap(bool bFlag);
-    uint getPushTime() {return m_uNotifyTime;}
-    QDateTime getPushDateTime() {return m_dateTime;}
-    QString getIcon() {return m_strIconPath;}
-    QString getSummary() {return m_strSummary;}
-    QString getBody() {return m_strBody;}
     void setLeftItem(int nShowLeftCount);
     void setMainFlag(bool bFlag) {m_bMain = bFlag;}
     void setFoldFlag(bool bFlag) {m_bFold = bFlag;}
@@ -51,6 +46,12 @@ public:
     void startAnimationUnfold();                        //开启展开动画
     void startAnimationFold();                          //开启折叠动画
     void startAnimationDeleUpperMove();                 //开启删除上移动画
+
+    uint        getPushTime() {return m_uNotifyTime;}
+    QDateTime   getPushDateTime() {return m_dateTime;}
+    QString     getIcon() {return m_strIconPath;}
+    QString     getSummary() {return m_strSummary;}
+    QString     getBody() {return m_strBody;}
 
 
 protected:
@@ -63,15 +64,12 @@ private:
     QVBoxLayout*    m_pAppVLaout;
     QWidget*        m_pSingleWidget;                //除去底部6px的空白之外的一个内框部件
     QWidget*        m_pAnimationBaseMapWidget;      //动画底图动态模拟大小替身部件
-
     QWidget*        m_pIconWidget;                  //在动画中暂定高38px
-    QLabel*         m_pTimeLabel;
+    QLabel*         m_pTimeLabel;                   //时间标签
     ButtonWidget*   m_pSingleTakeinButton;          //单条消息中的收纳按钮
     ButtonWidget*   m_pSingleDeleteButton;          //单条消息中的删除按钮
-
     QLabel*         m_pSummaryLabel;                //在动画中暂定高26px
     QLabel*         m_pBodyLabel;                   //正文标签,收缩时,在动画中暂定高24px
-
     QWidget*        m_pShowLeftWidget;              //显示该应用未展开部件
     QLabel*         m_pShowLeftItemLabel;           //显示该应用未展开条数
 
@@ -114,9 +112,7 @@ public slots:
     void            onDeleLeftMoveFinish();                                 //处理删除左移完成时的函数
     void            updateDeleUpperMove(int x1, int y1, int x2, int y2);    //更新删除上移时的移动数据
     void            onDeleUpperMoveFinish();                                //处理删除上移完成时的函数
-
     void            startAnimationDeleLeftMove();                           //开启删除左移动画
-
 
 };
 

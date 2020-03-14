@@ -27,20 +27,17 @@ TakeInBoxToolButton::TakeInBoxToolButton()
 void TakeInBoxToolButton::enterEvent(QEvent *event)
 {
     Q_UNUSED(event);
-//    QHelpEvent *helpEvent = static_cast<QHelpEvent *>(event);
-    setStyleSheet("QToolTip{border:1px solid rgba(255, 255, 255, 0.2); background-color: #1A1A1A; color:#FFFFFF; padding:1px; border-radius:4px; font-size:12px;}"); //设置边框, 边框色, 背景色, 字体色, 字号
+
+    //设置边框, 边框色, 背景色, 字体色, 字号
+    setStyleSheet("QToolTip{border:1px solid rgba(255, 255, 255, 0.2); background-color: #1A1A1A; color:#FFFFFF; padding:1px; border-radius:4px; font-size:12px;}");
 
     if(false == m_bEnterTakeInBox)
     {
         this->setToolTip(QString::fromLocal8Bit("进入收纳盒"));
-//        QToolTip::showText(QPoint(helpEvent->pos().x(), (helpEvent->pos().y() + 30)), "进入收纳盒");
-//        QToolTip::showText(helpEvent->globalPos(), "进入收纳盒");
     }
     else
     {
         this->setToolTip(QString::fromLocal8Bit("退出收纳盒"));
-//        QToolTip::showText(QPoint(helpEvent->pos().x(), (helpEvent->pos().y() + 30)), "退出收纳盒");
-//        QToolTip::showText(helpEvent->globalPos(), "退出收纳盒");
     }
     return;
 }
@@ -48,6 +45,5 @@ void TakeInBoxToolButton::enterEvent(QEvent *event)
 void TakeInBoxToolButton::leaveEvent(QEvent *event)
 {
     Q_UNUSED(event);
-//    QToolTip::hideText();
     return;
 }

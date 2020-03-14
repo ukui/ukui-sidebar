@@ -37,7 +37,7 @@ class NotificationPlugin : public QObject, public NotificationInterface
     //Q_PLUGIN_METADATA宏用于描述插件元数据
     Q_PLUGIN_METADATA(IID NotificationInterface_iid FILE "notification_plugin.json")
     //申明该类有D-BUS服务接口
-//    Q_CLASSINFO("D-Bus Interface", "com.scorpio.test.value")
+    //Q_CLASSINFO("D-Bus Interface", "com.scorpio.test.value")
 
 public:
     NotificationPlugin();
@@ -46,9 +46,6 @@ public:
     virtual void hideNotification() override;
     AppMsg* getAppMsgAndIndexByName(QString strAppName, int& nIndex);
     AppMsg* getTakeinAppMsgAndIndexByName(QString strAppName, int& nIndex);
-
-public slots :
-//    uint onAddSingleNotify(QString strAppName, uint uId, QString strIconPath, QString strSummary, QString strBody, QStringList actions, QVariantMap hint, int nTimeout);
 
 private:
     QWidget*                m_pMainWidget;
@@ -70,14 +67,14 @@ signals:
     void    Sig_onNewNotification();
 
 private slots:
-    uint onAddSingleNotify(QString strAppName, QString strIconPath, QString strSummary, QString strBody, QDateTime dateTime, bool bNewNotificationFlag);                       //处理新增单条通知
-    void onTakeInSingleNotify(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime);       //处理收纳单条通知
-    void onClearAllMessage();                                           //清除所有消息
-    void onClearAppMsg(AppMsg* pAppMsg);                                //处理删除通知应用消息槽函数
-    void onClearTakeInAppMsg(AppMsg* pAppMsg);                          //处理删除收纳应用的槽函数
-    void onShowTakeInMessage();
-    void onCallControlPanel();                                          //调用控制面板
-    void onCountTakeInBitAndUpate();                                    //统计收纳位数并更新至右上角提示
+    uint onAddSingleNotify(QString strAppName, QString strIconPath, QString strSummary, QString strBody, QDateTime dateTime, bool bNewNotificationFlag);    //处理新增单条通知
+    void onTakeInSingleNotify(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime);                                //处理收纳单条通知
+    void onClearAllMessage();                                   //清除所有消息
+    void onClearAppMsg(AppMsg* pAppMsg);                        //处理删除通知应用消息槽函数
+    void onClearTakeInAppMsg(AppMsg* pAppMsg);                  //处理删除收纳应用的槽函数
+    void onShowTakeInMessage();                                 //切换至收纳盒
+    void onCallControlPanel();                                  //调用控制面板
+    void onCountTakeInBitAndUpate();                            //统计收纳位数并更新至右上角提示
 
 };
 

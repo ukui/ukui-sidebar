@@ -69,21 +69,18 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
     return;
 }
 
-AppMsg::~AppMsg()
-{
-
-}
-
 //统计应用剩余显示条数
 void AppMsg::statisticLeftItem()
 {
-    if(m_listSingleMsg.count() < 1) //小于1时,表示列表为空,直接返回
+    //小于1时,表示列表为空,直接返回
+    if(m_listSingleMsg.count() < 1)
     {
         return;
     }
 
     int nShowLeftCount = m_listSingleMsg.count() - 1;
-    if((true == m_bFold) && (nShowLeftCount > 0)) //当应用处于折叠状态，且剩余条数大于0时,应用底图部件显示
+    //当应用处于折叠状态，且剩余条数大于0时,应用底图部件显示
+    if((true == m_bFold) && (nShowLeftCount > 0))
     {
         m_pAppBaseMapWidget->setVisible(true);
     }
@@ -119,7 +116,8 @@ void AppMsg::addSingleMsg(QString strIconPath, QString strSummary, QDateTime dat
         SingleMsg* pFirstMsg = m_listSingleMsg.at(0);
         pFirstMsg->setMainFlag(false);
         pFirstMsg->setShowLeftItemFlag(false);
-        if(true == m_bFold) //只有已经折叠的才需要将现有的正文设置为缩略显示
+        //只有已经折叠的才需要将现有的正文设置为缩略显示
+        if(true == m_bFold)
         {
             pFirstMsg->setBodyLabelWordWrap(false);
             pFirstMsg->setVisible(false);
@@ -139,7 +137,8 @@ void AppMsg::addSingleMsg(QString strIconPath, QString strSummary, QDateTime dat
     if(0 != uIndex)
     {
         pSingleMsg->setMainFlag(false);
-        if(true == m_bFold)                 //并且已经折叠的自己不可见
+        //并且已经折叠的自己不可见
+        if(true == m_bFold)
         {
             pSingleMsg->setVisible(false);
         }
@@ -148,17 +147,8 @@ void AppMsg::addSingleMsg(QString strIconPath, QString strSummary, QDateTime dat
     m_listSingleMsg.insert(uIndex, pSingleMsg);
     m_pMainVLaout->insertWidget(uIndex, pSingleMsg);
 
-    //只要是折叠状态则索引从1开始，将所有SingleMsg设置不可见
-//    if(true == m_bFold)
-//    {
-//        for(int i = 1; i < m_listSingleMsg.count(); i++)
-//        {
-//            SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
-//            pTmpSingleMsg->setVisible(false);
-//        }
-//    }
-
-    SingleMsg* pTopSingleMsg = m_listSingleMsg.at(0); //将该应用中最顶上的一条消息的时间赋给应用
+    //将该应用中最顶上的一条消息的时间赋给应用
+    SingleMsg* pTopSingleMsg = m_listSingleMsg.at(0);
     m_uNotifyTime = pTopSingleMsg->getPushTime();
     m_dateTime = pTopSingleMsg->getPushDateTime();
 
@@ -186,13 +176,13 @@ int AppMsg::getSingleMsgCount()
 
 void AppMsg::onDeleteAppMsg()
 {
-    if(false == m_bTakeInFlag)  //是通知应用就通知插件删该通知应用
+    if(false == m_bTakeInFlag)
     {
-        emit Sig_onDeleteAppMsg(this);
+        emit Sig_onDeleteAppMsg(this);              //是通知应用就通知插件删该通知应用
     }
-    else                        //是收纳应用就通知插件删该收纳应用
+    else
     {
-        emit Sig_onDeleteTakeInAppMsg(this);
+        emit Sig_onDeleteTakeInAppMsg(this);        //是收纳应用就通知插件删该收纳应用
     }
     return;
 }
@@ -252,13 +242,13 @@ void AppMsg::onDeleSingleMsg(SingleMsg* pSingleMsg)
     //当删除一条消息后,如果应用列表为空
     if(0 == m_listSingleMsg.count())
     {
-        if(false == m_bTakeInFlag)  //是通知应用就通知插件删该通知应用
+        if(false == m_bTakeInFlag)
         {
-            emit Sig_onDeleteAppMsg(this);
+            emit Sig_onDeleteAppMsg(this);              //是通知应用就通知插件删该通知应用
         }
-        else                        //是收纳应用就通知插件删该收纳应用
+        else
         {
-            emit Sig_onDeleteTakeInAppMsg(this);
+            emit Sig_onDeleteTakeInAppMsg(this);        //是收纳应用就通知插件删该收纳应用
         }
     }
 
@@ -360,12 +350,14 @@ void AppMsg::setAppFoldFlag(bool bFlag)
 {
     m_bFold = bFlag;
 
-    if((false == m_bFold) || (m_listSingleMsg.count() <= 1)) //当应用处于展开状态，或者总条数小于等于1时,应用底图部件隐藏
+    //当应用处于展开状态，或者总条数小于等于1时,应用底图部件隐藏
+    if((false == m_bFold) || (m_listSingleMsg.count() <= 1))
     {
         m_pAppBaseMapWidget->setVisible(false);
     }
 
-    if(false == m_bFold)    //false表示应用展开
+    //false表示应用展开
+    if(false == m_bFold)
     {
         //展开时,索引从第1条开始,消息全部可见
         for(int i = 1; i < m_listSingleMsg.count(); i++)
@@ -411,10 +403,11 @@ void AppMsg::onMainMsgLeave()
 
 void AppMsg::onShowBaseMap()
 {
-    if((true == m_bFold) && (m_listSingleMsg.count() > 1)) //当应用处于折叠状态，且总条数大于1时,应用底图部件显示
+    //当应用处于折叠状态，且总条数大于1时,应用底图部件显示
+    if((true == m_bFold) && (m_listSingleMsg.count() > 1))
     {
         SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(0);
-        pTmpSingleMsg->setSingleMsgContentsMargins(0, 0, 0, 0); //假如折叠，剩余条目显示将可见，则SingleMsg的内容均无空隙
+        pTmpSingleMsg->setSingleMsgContentsMargins(0, 0, 0, 0);     //假如折叠，剩余条目显示将可见，则SingleMsg的内容均无空隙
         pTmpSingleMsg->setShowLeftItemFlag(true);
         m_pAppBaseMapWidget->setVisible(true);
     }
