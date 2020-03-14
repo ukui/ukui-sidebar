@@ -59,27 +59,23 @@ int main(int argc, char *argv[])
     parser.process(a);
 
     if(parser.isSet(debugOption))
+    {
         setLogLevel(QtDebugMsg);                                    /* 根据命令行设定日志等级 */
+    }
     else
+    {
         setLogLevel(QtWarningMsg);
+    }
 
     QString LogFilePath = QCoreApplication::applicationDirPath();   /* 获取文件运行的当前路径 */
     setLogPath(LogFilePath + LOG_FILE_NAME);                        /* 绑定打印日志文件路径 */
-//    qInstallMessageHandler(customLogMessageHandler);                /* 安装日志打印功能 */
 
     QApplication::setQuitOnLastWindowClosed(false);
-    PluginManager::init();          /* 初始化插件管理器 */
+    PluginManager::init();                                          /* 初始化插件管理器 */
 
     Widget w;
-	w.setObjectName("SidebarWidget");
-//    w.setAttribute(Qt::WA_TranslucentBackground);
-
-//    QDBusConnection connection = QDBusConnection::sessionBus();
-//    if(!connection.registerService("com.ukui.panel.sidebar"))
-//    {
-//        qDebug() << "error:" << connection.lastError().message();
-//    }
-//    connection.registerObject("/getvalue/panel", &w, QDBusConnection::ExportAllSlots);
-
+    w.setObjectName("SidebarWidget");
+    w.setAttribute(Qt::WA_TranslucentBackground);
+    w.show();
     return a.exec();
 }

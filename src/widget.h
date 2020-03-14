@@ -58,7 +58,7 @@ public:
     //主界面
     void showAnimation();                                                       //show动作
     void hideAnimation();                                                       //hide动作
-    int ListenClipboardSignal();                                                //监听剪贴板发送的信号
+    int  ListenClipboardSignal();                                               //监听剪贴板发送的信号
     int  connectTaskBarDbus();                                                  //连接任务栏dbus接口，获取任务栏高度
     int  getPanelSite();                                                        //获取任务栏位置
 
@@ -80,12 +80,13 @@ private:
     //主界面
     QVBoxLayout*                m_pMainOuterBoxLayout;                          //主界面最外框布局器
     QWidget*                    m_pMainOuterWidget;                             //主界面最外框架部件
+    QWidget*                    m_pMainOuterReplaceWidget;                      //主界面最外框架动画时替代部件
 
     QVBoxLayout*                m_pMainQVBoxLayout;                             //主界面垂直布局器
     QDBusInterface*             m_pServiceInterface;                            //获取任务栏的高度
     bool                        m_bShowFlag;                                    //控制托盘栏点击事件的标志位
-    int                         m_nScreenWidth;                                   //屏幕分辨率的宽
-    int                         m_nScreenHeight;                                  //屏幕分辨率的高
+    int                         m_nScreenWidth;                                 //屏幕分辨率的宽
+    int                         m_nScreenHeight;                                //屏幕分辨率的高
     QObject*                    m_pNotificationPluginObject;                    //通知中心插件对象
 
     int                         m_nInitalXPosition;
@@ -96,21 +97,22 @@ private:
     SidebarClipBoardSignal*     m_pSidebarSignal;                               //剪贴板通信类
 
     //系统托盘
-    QSystemTrayIcon*    trayIcon;
-    QMenu*              trayIconMenu;
-    QAction*            minimizeAction;
-    QAction*            maximizeAction;
-    QAction*            restoreAction;
-    QAction*            quitAction;
-    QTimer*             m_pTimer;                           //新通知闪烁定时器
-    bool                m_bFwinkleFlag;                     //新通知闪烁标志
+    QSystemTrayIcon*            trayIcon;
+    QMenu*                      trayIconMenu;
+    QAction*                    minimizeAction;
+    QAction*                    maximizeAction;
+    QAction*                    restoreAction;
+    QAction*                    quitAction;
+    QTimer*                     m_pTimer;                                       //新通知闪烁定时器
+    bool                        m_bFwinkleFlag;                                 //新通知闪烁标志
 
 private slots :
-    void onResolutionChanged(int);
-    void onNewNotification();
-    void twinkle();
-    void updateAnimationPosition(int, int, int, int);                             //更新动画坐标动态
-    void onUnfoldFinish();
+    void onResolutionChanged(int);                                              //当改变屏幕分辨率时重新获取屏幕分辨率
+    void onNewNotification();                                                   //当没展开时，来了新通知才提示
+    void twinkle();                                                             //新消息闪烁设置
+    void updateAnimationPosition(int, int, int, int);                           //更新动画坐标动态
+    void showAnimationFinish();                                                 //展开动画完成
+    void hideAnimationFinish();                                                 //隐藏动画完成
 
 };
 
