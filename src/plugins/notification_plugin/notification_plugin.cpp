@@ -148,6 +148,8 @@ NotificationPlugin::NotificationPlugin()
 
     //收纳列表
     m_pQScrollAreaTakeIn = new ScrollAreaWidget();
+    m_pQScrollAreaTakeIn->setStyleSheet("QWidget{background:transparent;}");
+
     m_pScrollAreaTakeInVBoxLayout = new QVBoxLayout();
     m_pScrollAreaTakeInVBoxLayout->setContentsMargins(0,0,0,0);
     m_pScrollAreaTakeInVBoxLayout->setSpacing(0);
