@@ -27,7 +27,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     diypropertyanimation.cpp \
-        notification_plugin.cpp \
+    notification_plugin.cpp \
     appmsg.cpp \
     scrollareawidget.cpp \
     takeinboxtoolbutton.cpp \
@@ -38,7 +38,7 @@ SOURCES += \
 INCLUDEPATH    += ../../plugin-interface
 HEADERS += \
     diypropertyanimation.h \
-        notification_plugin.h \
+    notification_plugin.h \
     appmsg.h \
     scrollareawidget.h \
     takeinboxtoolbutton.h \
@@ -50,8 +50,12 @@ DISTFILES += notification_plugin.json
 unix {
     target.path = /usr/lib/ukui-sidebar/notification
     INSTALLS += target
+
+    translation.path = /usr/share/ukui-sidebar-notification
+    translation.files += ../../../translations/notification_plugin/*.ts
+    translation.files += ../../../translations/notification_plugin/*.qm
+    INSTALLS += translation
 }
- 
 
 RESOURCES += \
     notification_plugin.qrc
