@@ -126,6 +126,7 @@ NotificationPlugin::NotificationPlugin()
 
     //通知列表
     m_pQScrollAreaNotify = new ScrollAreaWidget();
+    m_pQScrollAreaNotify->setStyleSheet("QWidget{background:transparent;}");
 
     m_pScrollAreaNotifyVBoxLayout = new QVBoxLayout();
     m_pScrollAreaNotifyVBoxLayout->setContentsMargins(0,0,0,0);

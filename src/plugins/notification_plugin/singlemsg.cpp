@@ -72,6 +72,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
     //图标和时间行的水平布局部件
     m_pIconWidget = new QWidget;
+    m_pIconWidget->setStyleSheet("background:transparent;");
 
     //图标和时间行的水平布局器
     QHBoxLayout* pIconHLayout = new QHBoxLayout();
@@ -214,6 +215,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pAppVLaout->addWidget(m_pSingleWidget);
     this->setLayout(m_pAppVLaout);
 
+    setStyleSheet("background-color:rgba(255,255,255,0.12);");
     return;
 }
 
