@@ -350,6 +350,7 @@ void Widget::showAnimation()
 
     m_nInitalXPosition =  AnimaStartSideBarSite[0];
     this->setGeometry(AnimaStartSideBarSite[0], AnimaStartSideBarSite[1], 0, AnimaStartSideBarSite[3]);
+    this->show();
     m_pMainOuterReplaceWidget->setGeometry(0, 0, 0, AnimaStopSidebarSite[3]);
     m_pMainOuterReplaceWidget->setVisible(true);
     m_pMainOuterBoxLayout->addWidget(m_pMainOuterReplaceWidget);
@@ -473,6 +474,7 @@ void Widget::hideAnimationFinish()
 {
     m_pMainOuterBoxLayout->removeWidget(m_pMainOuterReplaceWidget);
     m_pMainOuterReplaceWidget->setVisible(false);
+    this->hide();
 }
 
 //当改变屏幕分辨率时重新获取屏幕分辨率
