@@ -3,5 +3,7 @@
         <file>data/qss/psblack.css</file>
         <file>data/images/kylin-tool-box.svg</file>
         <file>data/images/kylin-tool-box-null.svg</file>
+        <file>data/images/kylin-alarm-clock.svg</file>
+        <file>data/images/kylin-notebook.svg</file>
     </qresource>
 </RCC>

@@ -21,19 +21,22 @@
 #include <QFile>
 EditorWidget::EditorWidget()
 {
+    installEventFilter(this);
     m_pMainQVBoxLayout = new QVBoxLayout();
     editBox();
     operationBox();
 
     m_pConfirmButton->setObjectName("ConfirmButton");
     m_pCancelButton->setObjectName("CancelButton");
+    connect(m_pConfirmButton, &QPushButton::clicked, this, &EditorWidget::accept);
+    connect(m_pCancelButton, &QPushButton::clicked, this, &EditorWidget::reject);
     m_pEditingArea->setObjectName("EditingArea");
     m_pEditBox->setObjectName("EditBox");
     m_pOperationBox->setObjectName("OperationBox");
     this->setObjectName("EditorWidget");
     m_pMainQVBoxLayout->addWidget(m_pEditBox);
     m_pMainQVBoxLayout->addWidget(m_pOperationBox);
-    this->setWindowFlags(Qt::FramelessWindowHint|Qt::Tool);
+    this->setWindowFlags(Qt::FramelessWindowHint);
 
     QScreen* pScreen = QGuiApplication::primaryScreen();
     QRect ScreenSize = pScreen->availableGeometry();

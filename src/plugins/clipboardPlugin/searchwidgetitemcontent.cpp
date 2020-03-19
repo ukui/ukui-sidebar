@@ -25,9 +25,9 @@ SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
 {
     Q_UNUSED(parent);
     this->setObjectName("SearhWidget");
+    this->setContentsMargins(0,0,0,0);
     m_pClearListWidgetButton = new QPushButton(tr("清除"));
     m_pClearListWidgetButton->setObjectName("CleanList");
-
     m_pClearTextButton = new QPushButton;
     m_pClearTextButton->setIconSize(QSize(8.5,8.5));
     m_pClearTextButton->setObjectName("ClearTextButton");
@@ -39,7 +39,9 @@ SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
     m_pClearTextButton->setCursor(Qt::ArrowCursor);
 
     m_pHBoxLayout = new QHBoxLayout;
+    m_pHBoxLayout->setContentsMargins(0,0,0,0);
     m_pLineEditArea = new QLineEdit;
+    m_pLineEditArea->setFixedSize(290, 30);
     m_pLineEditArea->setObjectName("SearchLabel");
     QWidgetAction* action = new QWidgetAction(m_pLineEditArea);
     action->setDefaultWidget(m_pClearTextButton);
@@ -48,7 +50,12 @@ SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
     connect(m_pClearTextButton, &QPushButton::clicked, this, [=](){
           m_pLineEditArea->setText("");
     });
+    QSpacerItem *item = new QSpacerItem(10,20);
+    QSpacerItem *item1 = new QSpacerItem(10,20);
+    m_pHBoxLayout->addItem(item);
     m_pHBoxLayout->addWidget(m_pLineEditArea);
     m_pHBoxLayout->addWidget(m_pClearListWidgetButton);
+    m_pHBoxLayout->addItem(item1);
+    m_pHBoxLayout->setSpacing(10);
     this->setLayout(m_pHBoxLayout);
 }

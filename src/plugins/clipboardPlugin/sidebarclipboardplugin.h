@@ -55,7 +55,7 @@ class SidebarClipboardPlugin:public QObject, public ClipboardInterface
 
 public:
     SidebarClipboardPlugin(QObject *parent = 0);
-    //plugin implement
+    //plugin implement 统一接口
     const QString name() override {return QObject::tr("ClipBoard");}
     PluginType pluginType() override {return PluginType::ClipBoard;}
     const QString description() override {return QObject::tr("Show the folder children as icons.");}
@@ -66,36 +66,40 @@ public:
     /* 剪贴板接口 */
     virtual QListWidget* getClipbaordListWidget() override;
     virtual SidebarClipBoardSignal* createClipSignal() override;
-    virtual QGroupBox* getClipbaordGroupBox() override;
+    virtual QWidget* getClipbaordGroupBox() override;
     //    static SidebarClipboardPlugin *getInstance();
+
     /* 剪贴板成员和成员函数 */
     QHash<ClipboardWidgetEntry*, QListWidgetItem*> m_pclipboardEntryItem;
     QHash<ClipboardWidgetEntry*, const QMimeData*> m_pclipbordMimeData; //保留从剪贴板拿到原数据
-    QHash<QLabel*, QString> m_pLabelText; //条目中Label与label中的text对应关系
+    QHash<ClipboardWidgetEntry*, QString> m_pLabelText; //条目中Label与label中的text对应关系
     QListWidget *m_pShortcutOperationListWidget;
     QListWidget *m_pSearchWidgetListWidget;
     QGroupBox   *m_pSidebarClipboardBox;
+    QWidget     *m_pSidebarClipboardWidget;
 
     QVBoxLayout     *m_pClipboardLaout;
     QClipboard      *m_pSidebarClipboard;
     ClipboardSignal *m_pClipSignal;
-    EditorWidget    *m_pEditWidget;
     SearchWidgetItemContent *m_pSearchArea;
     QMimeData mineData;
 
+    /* 注册Widget条目界面和Item的hash表 */
     void registerWidgetItem(ClipboardWidgetEntry *key, QListWidgetItem *value);
     QListWidgetItem* getWidgetItem(ClipboardWidgetEntry *key);
     void removeWidgetItem(ClipboardWidgetEntry *key);
     void removeHashAllWidgetItem();
 
+    /* 注册Widget条目和剪贴板数据的关系 */
     void registerMimeData(ClipboardWidgetEntry *key, const QMimeData *value);
     const QMimeData* getMimeData(ClipboardWidgetEntry *key);
     void removeMimeData(ClipboardWidgetEntry *key);
     void removeHashAllMimeData();
 
-    void registerLabelText(QLabel *key, QString value);  //注册条目中的lable与条目中的原始字符串文本相对应关系
-    QString getLabelText(QLabel *key);
-    void removeLabelText(QLabel *key);
+    /* 注册Widget界面和lable中的文本的关系 */
+    void registerLabelText(ClipboardWidgetEntry *key, QString value);  //注册条目中的lable与条目中的原始字符串文本相对应关系
+    QString getLabelText(ClipboardWidgetEntry *key);
+    void removeLabelText(ClipboardWidgetEntry *key);
     void removeHashAllLabelText();
 
     void removeLastWidgetItem(); //限制复制条数
@@ -103,10 +107,10 @@ public:
     void createFindClipboardWidgetItem(); /* 创建查找条目 */
     void WhetherTopFirst(); /* 设置新置顶的条目写入到剪贴版中去 */
     QMimeData *copyMinedata(const QMimeData* mimeReference);
-    void SendHideSignal();
 
 signals:
     void Itemchange(int);
+    void EditConfirmButtonSignal(ClipboardWidgetEntry *, EditorWidget*);
 
 public slots:
     void createWidgetEntry(const QMimeData *mimeData);

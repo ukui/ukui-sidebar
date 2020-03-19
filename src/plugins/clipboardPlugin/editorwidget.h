@@ -35,8 +35,9 @@
 #include <QDebug>
 #include <QStyleOption>
 #include <QPainter>
+#include <QDialog>
 #define  SIDEBAR_EDITAREA_QSS_PATH  ":/qss/sideBarEditArea.css"
-class EditorWidget : public QWidget
+class EditorWidget : public QDialog
 {
     Q_OBJECT
 public:

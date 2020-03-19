@@ -32,6 +32,7 @@ signals:
     void removeSignal();
     void popSignal();
     void ClipboardHideSignal();
+    void CLipBoardEditSignal();
 public slots:
 };
 #endif // SIDEBARCLIPBOARDSIGNAL_H

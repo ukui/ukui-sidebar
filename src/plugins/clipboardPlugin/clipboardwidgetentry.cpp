@@ -23,12 +23,16 @@ ClipboardWidgetEntry::ClipboardWidgetEntry(QWidget *parent)
 {
     Q_UNUSED(parent);
     this->setObjectName("WidgetEntry");
+    this->setContentsMargins(0,0,0,0);
     QIcon EditIcon;
     EditIcon.addFile(EDIT_SVG_PATH);
     QIcon PopIcon;
     PopIcon.addFile(COPY_SVG_PATH);
     QIcon RemoveIcon;
     RemoveIcon.addFile(REMOVE_SVG_PATH);
+    m_pHideButtonItem = new QSpacerItem(120, 20);
+    QSpacerItem *item = new QSpacerItem(10,20);
+    QSpacerItem *item1 = new QSpacerItem(10,20);
     m_pPopButton     = new QPushButton();
     m_pPopButton->setFixedSize(34, 34);
     m_pPopButton->setIcon(PopIcon);
@@ -42,15 +46,21 @@ ClipboardWidgetEntry::ClipboardWidgetEntry(QWidget *parent)
     m_pRemoveButton->setIcon(RemoveIcon);
     m_pRemoveButton->setObjectName("RemoveButton");
     m_pCopyDataLabal = new QLabel();
-    m_pCopyDataLabal->setObjectName("EntryQLineEdit");
+    m_pCopyDataLabal->setObjectName("EntryLable");
+    m_pCopyDataLabal->setFixedSize(260, 34);
     m_pHLayout       = new QHBoxLayout();
+    m_pHLayout->setContentsMargins(0,0,0,0);
+    m_pHLayout->addItem(item1);
     m_pHLayout->addWidget(m_pCopyDataLabal);
     m_pHLayout->addWidget(m_pPopButton);
     m_pHLayout->addWidget(m_pEditButon);
     m_pHLayout->addWidget(m_pRemoveButton);
+    m_pHLayout->addItem(item);
+    m_pHLayout->setSpacing(5);
     m_pPopButton->setVisible(false);
     m_pEditButon->setVisible(false);
     m_pRemoveButton->setVisible(false);
+    m_pHLayout->addItem(m_pHideButtonItem);
     this->setLayout(m_pHLayout);
 }
 
@@ -59,10 +69,10 @@ void ClipboardWidgetEntry::enterEvent(QEvent *e)
     if(e == nullptr) {
         return;
     }
+    m_pHLayout->removeItem(m_pHideButtonItem);
     m_pPopButton->setVisible(true);
     m_pEditButon->setVisible(true);
     m_pRemoveButton->setVisible(true);
-    m_pCopyDataLabal->setStyleSheet("QWidget#WidgetEntry>QLabel{width:200px;height:34px;margin-right: 1px;} ");
 }
 
 void ClipboardWidgetEntry::leaveEvent(QEvent *e)
@@ -73,5 +83,5 @@ void ClipboardWidgetEntry::leaveEvent(QEvent *e)
     m_pPopButton->setVisible(false);
     m_pEditButon->setVisible(false);
     m_pRemoveButton->setVisible(false);
-    m_pCopyDataLabal->setStyleSheet("QWidget#WidgetEntry>QLabel{width:200px;height:34px;margin-right: 120px}");
+    m_pHLayout->addItem(m_pHideButtonItem);
 }

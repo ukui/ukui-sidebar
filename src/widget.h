@@ -61,6 +61,7 @@ public:
     int  ListenClipboardSignal();                                               //监听剪贴板发送的信号
     int  connectTaskBarDbus();                                                  //连接任务栏dbus接口，获取任务栏高度
     int  getPanelSite();                                                        //获取任务栏位置
+    int  setClipBoardWidgetScaleFactor();                                       //获取通知中心下半部分高度比例系数
 
     //系统托盘
     void createAction();                                                        //连接信号和槽函数，设置其动作;
@@ -92,7 +93,6 @@ private:
     int                         m_nInitalXPosition;
 
     //快捷操作面板
-    QGroupBox*                  m_pShortcutOperationGroupBox;                   //快捷操作面板中的主Group
     ClipboardInterface*         m_pSidebarClipboard;                            //侧边栏剪贴板指针
     SidebarClipBoardSignal*     m_pSidebarSignal;                               //剪贴板通信类
 
@@ -113,7 +113,6 @@ private slots :
     void updateAnimationPosition(int, int, int, int);                           //更新动画坐标动态
     void showAnimationFinish();                                                 //展开动画完成
     void hideAnimationFinish();                                                 //隐藏动画完成
-
 };
 
 #endif // WIDGET_H

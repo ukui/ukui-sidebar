@@ -21,6 +21,7 @@
 #include "notification_interface.h"
 #include "pluginmanage.h"
 #include "realtimepropertyanimation.h"
+#include "sidebarpluginswidgets.h"
 #include <stdio.h>
 #include <QtDBus>
 #include "customstyle.h"
@@ -53,6 +54,10 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     //主界面显示
     m_pMainQVBoxLayout = new QVBoxLayout;
     m_pMainQVBoxLayout->setContentsMargins(0,0,0,0);
+    m_pMainQVBoxLayout->setSpacing(0);
+
+    /* 初始化剪贴板与小插件界面 */
+    sidebarPluginsWidgets::initPluginsWidgets();
 
     //加载通知中心插件
     if(false == loadNotificationPlugin())
@@ -60,7 +65,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
         qDebug() << "通知中心插件加载失败";
     }
 
-    //加载剪贴板插件
+    //加载剪贴板插件, 将剪贴板插件加入到sidebarPluginsWidgets的GroupBox中
     if (ListenClipboardSignal()) {
         qDebug() << "剪贴板插件加载失败";
     }
@@ -85,7 +90,6 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
 
     m_pTimer = new QTimer();
     connect(m_pTimer, SIGNAL(timeout()), this, SLOT(twinkle()));
-
 }
 
 Widget::~Widget()
@@ -122,20 +126,23 @@ int Widget::ListenClipboardSignal()
 {
     PluginInterface* pPluginInterface = PluginManager::getInstance()->m_PluginInterfaceHash.value("ClipBoard");
     m_pSidebarClipboard = dynamic_cast<ClipboardInterface *>(pPluginInterface);                     //获取剪贴版插件指针;
-    if (nullptr == m_pSidebarClipboard)
-    {
+    if (nullptr == m_pSidebarClipboard) {
         qWarning() << "剪贴板插件插件加载失败";
         return 1;
     }
     m_pSidebarSignal = m_pSidebarClipboard->createClipSignal();                                     //获取剪贴板的信号类指针
+    /* 点击剪贴板空白区域时，隐藏侧边栏 */
     connect(m_pSidebarSignal, &SidebarClipBoardSignal::ClipboardHideSignal, this, [=]() {
         hideAnimation();
     });
 
-    m_pShortcutOperationGroupBox = m_pSidebarClipboard->getClipbaordGroupBox();                     //获取剪贴板的Groubox指针;
-    m_pShortcutOperationGroupBox->setObjectName("ShortcutOperationGroupBox");
-    m_pShortcutOperationGroupBox->setContentsMargins(0, 0, 0, 0);
-    m_pMainQVBoxLayout->addWidget(m_pShortcutOperationGroupBox, 0);
+    sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pClipboardWidget = m_pSidebarClipboard->getClipbaordGroupBox();   //获取剪贴板的Groubox指针;
+    GetsAvailableAreaScreen();                               //获取屏幕可用高度区域
+    int clipboardhight = setClipBoardWidgetScaleFactor();
+    qDebug() << "剪贴板高度" << clipboardhight;
+    sidebarPluginsWidgets::getInstancePluinsWidgets()->setClipboardWidgetSize(clipboardhight); //设定剪贴板高度
+    sidebarPluginsWidgets::getInstancePluinsWidgets()->AddPluginWidgetInterface();       //将下半部分所有控件加入到sidebarPluginsWidgets中
+    m_pMainQVBoxLayout->addWidget( sidebarPluginsWidgets::getInstancePluinsWidgets(), 0);
 
     return 0;
 }
@@ -173,7 +180,7 @@ void Widget::createSystray()
 
     trayIcon = new QSystemTrayIcon(this);
 
-    qApp->setStyle(new CustomStyle());
+//    qApp->setStyle(new CustomStyle());
     qApp->setStyleSheet("QToolTip{border:1px solid rgba(255, 255, 255, 0.2); background-color: #1A1A1A; color:#FFFFFF; padding:2px; border-radius:6px; font-size:14px;}");
 
     if (nullptr == trayIcon)
@@ -273,18 +280,39 @@ void Widget::GetsAvailableAreaScreen()
     }
 }
 
+/* 设定剪贴板高度 */
+int Widget::setClipBoardWidgetScaleFactor()
+{
+    int x , y;
+    x = m_nScreenWidth;
+    y = m_nScreenHeight;
+    if ((x >= 800 && x <= 1280)&&(y >= 600 && y <= 720)) {
+        qDebug() << "进入第一种方案";
+        return m_nScreenHeight/2 - connectTaskBarDbus();
+    } else if ((x >= 1280 && x <= 2048)&&(y >= 900 && y <= 1024)) {
+        qDebug() << "进入第二种方案";
+        return m_nScreenHeight/3;
+    } else if ((x >= 1920 && x <= 3840)&&(y >= 1200 && y <= 2160)) {
+        qDebug() << "进入第三种方案";
+        return m_nScreenHeight/4;
+    }
+}
+
 //动画展开
 void Widget::showAnimation()
 {
     NotificationInterface* pNotificationPluginObject = qobject_cast<NotificationInterface*>(m_pNotificationPluginObject);
     if(nullptr != pNotificationPluginObject)
     {
-        pNotificationPluginObject->showNotification();      //当动画展开时给插件一个通知
+        pNotificationPluginObject->showNotification();       //当动画展开时给插件一个通知
     }
-    GetsAvailableAreaScreen();                              //获取屏幕可用高度区域
 
-    int  AnimaStartSideBarSite[4];                          //侧边栏动画开始位置
-    int  AnimaStopSidebarSite[4];                           //侧边栏动画结束位置
+    GetsAvailableAreaScreen();                               //获取屏幕可用高度区域
+    int clipboardhight = setClipBoardWidgetScaleFactor();
+    qDebug() << "剪贴板高度" << clipboardhight;
+    sidebarPluginsWidgets::getInstancePluinsWidgets()->setClipboardWidgetSize(clipboardhight); //设定剪贴板高度
+    int  AnimaStartSideBarSite[4];                           //侧边栏动画开始位置
+    int  AnimaStopSidebarSite[4];                            //侧边栏动画结束位置
     switch (getPanelSite())
     {
         case Widget::PanelDown :
@@ -350,7 +378,6 @@ void Widget::showAnimation()
 
     m_nInitalXPosition =  AnimaStartSideBarSite[0];
     this->setGeometry(AnimaStartSideBarSite[0], AnimaStartSideBarSite[1], 0, AnimaStartSideBarSite[3]);
-    this->show();
     m_pMainOuterReplaceWidget->setGeometry(0, 0, 0, AnimaStopSidebarSite[3]);
     m_pMainOuterReplaceWidget->setVisible(true);
     m_pMainOuterBoxLayout->addWidget(m_pMainOuterReplaceWidget);
@@ -474,7 +501,6 @@ void Widget::hideAnimationFinish()
 {
     m_pMainOuterBoxLayout->removeWidget(m_pMainOuterReplaceWidget);
     m_pMainOuterReplaceWidget->setVisible(false);
-    this->hide();
 }
 
 //当改变屏幕分辨率时重新获取屏幕分辨率
@@ -530,16 +556,17 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
 {
     Q_UNUSED(obj);
     Q_UNUSED(event);
-    if (obj == this)
-    {
-        if (event->type() == QEvent::WindowDeactivate && true == m_bShowFlag)
-        {
-            qDebug() << "Widget::eventFilter 消失";
-            hideAnimation();
-            m_bShowFlag = false;
-            return true;
-        }
-    }
+//    if (obj == this)
+//    {
+//        if (event->type() == QEvent::WindowDeactivate && true == m_bShowFlag)
+//        {
+//            qDebug() << "事件类型" << event->type();
+//            qDebug() << "Widget::eventFilter 消失";
+//            hideAnimation();
+//            m_bShowFlag = false;
+//            return true;
+//        }
+//    }
 
     if (!isActiveWindow())
     {
@@ -555,8 +582,8 @@ void Widget::paintEvent(QPaintEvent *)
     opt.init(this);
     QPainter p(this);
 
-    p.setBrush(QBrush(QColor("#131314")));
-    p.setOpacity(0.4);
+    p.setBrush(QBrush(QColor("#161617")));
+    p.setOpacity(0.7);
     p.setPen(Qt::NoPen);
 
     p.setRenderHint(QPainter::Antialiasing);                        //反锯齿

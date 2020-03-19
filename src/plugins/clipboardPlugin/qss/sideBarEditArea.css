@@ -57,6 +57,11 @@ QGroupBox#OperationBox>QPushButton#ConfirmButton {
     margin-right:10px;
     color:rgba(255,255,255,1);
     border: 0px solid rgba(255,0,0,1);
+    font-size:14px;
+    font-family:Noto Sans CJK SC;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    line-height:24px;
     border-radius:4px;
 }
 
@@ -97,6 +102,11 @@ QGroupBox#OperationBox>QPushButton#CancelButton {
     opacity:0.12;
     border: 0px solid rgba(255,0,0,1);
     color:rgba(255,255,255,1);
+    font-size:14px;
+    font-family:Noto Sans CJK SC;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    line-height:24px;
     opacity:0.12;
 }
 

@@ -31,6 +31,7 @@
 #include <QMessageLogContext>
 #include <QCommandLineParser>
 #include <QCommandLineOption>
+#include "sidebarpluginswidgets.h"
 
 int main(int argc, char *argv[])
 {
