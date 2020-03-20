@@ -60,14 +60,14 @@ void EditorWidget::editBox()
     m_pEditingArea = new QTextEdit();
     m_pEditLaout = new QHBoxLayout;
     m_pEditLaout->addWidget(m_pEditingArea);
-    m_pEditBox = new QGroupBox(tr("编辑内容"));
+    m_pEditBox = new QGroupBox(tr("Edit"));
     m_pEditBox->setLayout(m_pEditLaout);
 }
 
 void EditorWidget::operationBox()
 {
-    m_pConfirmButton = new QPushButton("确认");
-    m_pCancelButton  = new QPushButton("取消");
+    m_pConfirmButton = new QPushButton(tr("Confirm"));
+    m_pCancelButton  = new QPushButton(tr("Cancel"));
     m_pOperationLayout = new QHBoxLayout;
 
     m_pOperationLayout->addWidget(m_pCancelButton);

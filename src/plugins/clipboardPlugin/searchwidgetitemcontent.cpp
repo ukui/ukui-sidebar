@@ -26,7 +26,7 @@ SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
     Q_UNUSED(parent);
     this->setObjectName("SearhWidget");
     this->setContentsMargins(0,0,0,0);
-    m_pClearListWidgetButton = new QPushButton(tr("清除"));
+    m_pClearListWidgetButton = new QPushButton(tr("Clear"));
     m_pClearListWidgetButton->setObjectName("CleanList");
     m_pClearTextButton = new QPushButton;
     m_pClearTextButton->setIconSize(QSize(8.5,8.5));

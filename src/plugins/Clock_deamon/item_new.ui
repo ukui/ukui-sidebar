@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>item_new</class>
+ <widget class="QWidget" name="item_new">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>376</width>
+    <height>56</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">border-radius:12px;</string>
+  </property>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

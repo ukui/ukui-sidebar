@@ -1,0 +1,33 @@
+QPushButton#SidebarPluginButton:hover{
+    width:90px;
+    height:34px;
+    background:rgba(61,107,229,0);
+    border-radius:4px;
+}
+
+QPushButton#SidebarPluginButton:pressed {
+    background-color:rgba(255,255,255,0.08); /*改变背景色*/
+    opacity:0.08;
+    border: 0px solid rgba(255,0,0,1);
+}
+
+QPushButton#ClipboardButton:hover{
+    width:90px;
+    height:34px;
+    background:rgba(61,107,229,0);
+    border-radius:4px;
+}
+
+QPushButton#ClipboardButton:pressed{
+    width:90px;
+    height:34px;
+    background:rgba(61,107,229,0);
+    border-radius:4px;
+}
+
+QPushButton#BlueBackgroundButton{
+    width:90px;
+    height:34px;
+    background:rgba(61,107,229,1);
+    border-radius:4px;
+}

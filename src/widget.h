@@ -75,7 +75,6 @@ public:
 protected:
     void mousePressEvent(QMouseEvent *event);                                   //鼠标点击事件
     bool eventFilter(QObject *obj, QEvent *event);                              //设置过滤事件
-    void paintEvent(QPaintEvent *);
 
 private:
     //主界面

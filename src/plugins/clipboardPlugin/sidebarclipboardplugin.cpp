@@ -35,12 +35,16 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
     m_pClipboardLaout->setContentsMargins(0,0,0,0);
     m_pShortcutOperationListWidget = new ClipBoardLisetWidget;
     m_pSearchWidgetListWidget      = new QListWidget;
+//    connect(this, &SidebarClipboardPlugin::Itemchange, this, &SidebarClipboardPlugin::ItemNumchagedSlots);
     m_pSearchWidgetListWidget->setFixedSize(400, 42);
     m_pShortcutOperationListWidget->setContentsMargins(0,0,0,0);
     m_pSearchWidgetListWidget->setContentsMargins(0,0,0,0);
+//    m_pSideBarClipboardLable = new QLabel(tr("无剪贴内容"));
+//    m_pSideBarClipboardLable->setObjectName("SideBarClipboardLable");
     createFindClipboardWidgetItem();
     m_pClipboardLaout->addWidget(m_pSearchWidgetListWidget);
     m_pClipboardLaout->addWidget(m_pShortcutOperationListWidget);
+//    m_pClipboardLaout->addWidget(m_pSideBarClipboardLable);
     m_pSidebarClipboardWidget->setLayout(m_pClipboardLaout);
     m_pShortcutOperationListWidget->setObjectName("ShortcutOperationList");
     m_pSearchWidgetListWidget->setObjectName("SearchWidgetListWidget");
@@ -151,7 +155,7 @@ void SidebarClipboardPlugin::createWidgetEntry(const QMimeData *mimeData)
         qWarning() << "text文本为空";
         return ;
     }
-
+    emit Itemchange();
     /* 当有重复的时候将会置顶 */
     if(booleanExistWidgetItem(text)) {
         qDebug() << "此条内容已存在，就是当前置顶的条数";
@@ -578,4 +582,18 @@ void SidebarClipboardPlugin::searchClipboardLableTextSlots(QString Text)
         }
     }
     return;
+}
+
+/* Item数目发生变化 */
+void SidebarClipboardPlugin::ItemNumchagedSlots()
+{
+    int num = m_pShortcutOperationListWidget->count();
+    qDebug() << "Item数目发生变化， 当前Item数目" << num;
+    if (num >= 0) {
+        m_pSideBarClipboardLable->setVisible(false);
+        m_pShortcutOperationListWidget->setVisible(true);
+    } else {
+        m_pSideBarClipboardLable->setVisible(true);
+        m_pShortcutOperationListWidget->setVisible(false);
+    }
 }

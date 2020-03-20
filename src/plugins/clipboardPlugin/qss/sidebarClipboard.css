@@ -317,3 +317,19 @@ QListWidget:Item{
     background:rgba(19, 19, 20, 0);
     border: 0px solid rgba(255,255,0,1);
 }
+
+/* 无剪贴板内容字样 */
+QLabel#SideBarClipboardLable{
+    width:70px;
+    height:14px;
+    margin-top:130px;
+    margin-left:166px;
+    margin-bottom:144px;
+    margin-right:160px;
+    font-size:14px;
+    font-family:Noto Sans CJK SC;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    line-height:28px;
+    opacity:0.57;
+}

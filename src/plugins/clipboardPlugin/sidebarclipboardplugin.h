@@ -77,6 +77,7 @@ public:
     QListWidget *m_pSearchWidgetListWidget;
     QGroupBox   *m_pSidebarClipboardBox;
     QWidget     *m_pSidebarClipboardWidget;
+    QLabel      *m_pSideBarClipboardLable;
 
     QVBoxLayout     *m_pClipboardLaout;
     QClipboard      *m_pSidebarClipboard;
@@ -109,7 +110,7 @@ public:
     QMimeData *copyMinedata(const QMimeData* mimeReference);
 
 signals:
-    void Itemchange(int);
+    void Itemchange();
     void EditConfirmButtonSignal(ClipboardWidgetEntry *, EditorWidget*);
 
 public slots:
@@ -119,6 +120,7 @@ public slots:
     void removeButtonSlots(ClipboardWidgetEntry *w);
     void removeAllWidgetItem();
     void searchClipboardLableTextSlots(QString Text);
+    void ItemNumchagedSlots();
 };
 
 #endif // SIDEBARCLIPBOARDPLUGIN_H

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>stopwatch_item</class>
+ <widget class="QWidget" name="stopwatch_item">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>376</width>
+    <height>56</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

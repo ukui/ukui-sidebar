@@ -19,6 +19,12 @@ sidebarPluginsWidgets::sidebarPluginsWidgets(QWidget *parent) : QWidget(parent)
     initUnGroupBox();
 
     initLableBackgroundAnimation();
+    QFile file(KYLIN_SIDEBAR_SMALL_PLUGINS);
+    if (file.open(QFile::ReadOnly)) {
+        QString strQss = QLatin1String(file.readAll());
+        this->setStyleSheet(strQss);
+        file.close();
+    }
 }
 
 /* 返回全局的Widget指针 */
@@ -47,30 +53,19 @@ void sidebarPluginsWidgets::initUpGroupBoxButton()
     m_pGrouBoxUpButtonHLayout->setContentsMargins(0,5,0,0);
 
     m_pClipboardButton = new SmallPluginsButton();
-    m_pClipboardButton->setText("剪贴板");
+    m_pClipboardButton->setText(tr("剪贴板"));
     m_pClipboardButton->setObjectName("ClipboardButton");
     m_pClipboardButton->setFixedSize(90,34);
-    m_pClipboardButton->setStyleSheet("QPushButton#ClipboardButton{width:90px; \
-                                      height:34px; \
-                                      background:rgba(61,107,229,0); \
-                                      border-radius:4px; \
-                                     }");
 
 
     m_pSidebarPluginButton = new SmallPluginsButton();
-    m_pSidebarPluginButton->setText("小插件");
+    m_pSidebarPluginButton->setText(tr("小插件"));
     m_pSidebarPluginButton->setObjectName("SidebarPluginButton");
     m_pSidebarPluginButton->setFixedSize(90,34);
-    m_pSidebarPluginButton->setStyleSheet("QPushButton#SidebarPluginButton{width:90px; \
-                                          height:34px; \
-                                          background:rgba(61,107,229,0); \
-                                          border-radius:4px; \
-                                        }");
+
     m_pBlueBackgroundButton = new QPushButton();
     m_pBlueBackgroundButton->setFixedSize(90, 34);
     m_pBlueBackgroundButton->setObjectName("BlueBackgroundButton");
-    m_pBlueBackgroundButton->setStyleSheet("QPushButton#BlueBackgroundButton{background:rgba(61,107,229,1); \
-                                border: 0px solid rgba(255,0,0,1);}");
     m_pBlueBackgroundButton->setChecked(false);
 
     m_pBlueBackgroundButton->setVisible(false);
@@ -309,4 +304,21 @@ void sidebarPluginsWidgets::setClipboardWidgetSize(int ClipHight)
     qDebug() << "设置小剪贴板的界面大小---->" << ClipHight;
     this->setFixedSize(400, ClipHight);
     return;
+}
+
+////重新绘制背景色
+void sidebarPluginsWidgets::paintEvent(QPaintEvent *)
+{
+    QStyleOption opt;
+    opt.init(this);
+    QPainter p(this);
+
+    p.setBrush(QBrush(QColor("#161617")));
+    p.setOpacity(0.42);
+    p.setPen(Qt::NoPen);
+
+    p.setRenderHint(QPainter::Antialiasing);                        //反锯齿
+    p.drawRoundedRect(opt.rect,0,0);
+    p.drawRect(opt.rect);
+    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }

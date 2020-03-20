@@ -3,7 +3,7 @@
 
 #define  KYLIN_ALARM_CLACK_ICON      ":/data/images/kylin-alarm-clock.svg"
 #define  KYLIN_NOTEBOOK              ":/data/images/kylin-notebook.svg"
-
+#define  KYLIN_SIDEBAR_SMALL_PLUGINS ":/data/qss/SidebarSmallPlugins.css"
 #include <QtWidgets>
 #include <QPushButton>
 #include <QVBoxLayout>
@@ -57,6 +57,8 @@ signals:
 private slots:
     void m_pClipBoardStateSlots();
     void m_pSmallPluginsStateSlots();
+protected:
+    void paintEvent(QPaintEvent *);
 
 };
 

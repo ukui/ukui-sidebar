@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>data/qss/psblack.css</file>
+        <file>data/qss/SidebarSmallPlugins.css</file>
         <file>data/images/kylin-tool-box.svg</file>
         <file>data/images/kylin-tool-box-null.svg</file>
         <file>data/images/kylin-alarm-clock.svg</file>

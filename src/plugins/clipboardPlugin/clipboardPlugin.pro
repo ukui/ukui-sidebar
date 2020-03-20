@@ -44,6 +44,8 @@ HEADERS += \
     clipboardlisetwidget.h
 DISTFILES += clipboardPlugin.json 
 
+TRANSLATIONS += test_zh_CN.ts
+
 unix {
     target.path = /usr/lib/ukui-sidebar/sidebar_clipboardPlugin_plugins
     INSTALLS += target

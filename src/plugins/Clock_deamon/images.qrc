@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/">
+        <file>background.png</file>
+        <file>clock.png</file>
+        <file>deleteBtn.png</file>
+        <file>alarm_off.png</file>
+        <file>alarm_on.png</file>
+        <file>icon-4-16x16.png</file>
+        <file>icon-1.png</file>
+        <file>icon-2.png</file>
+        <file>icon-3.png</file>
+        <file>open-menu-symbolic.png</file>
+        <file>window-close-symbolic.png</file>
+        <file>window-minimize-symbolic.png</file>
+        <file>push_1.png</file>
+        <file>push_2.png</file>
+        <file>start_1.png</file>
+        <file>start_2.png</file>
+        <file>continu.png</file>
+        <file>sax.mp3</file>
+    </qresource>
+</RCC>

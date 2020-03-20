@@ -574,20 +574,3 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
     }
     return false;
 }
-
-//重新绘制背景色
-void Widget::paintEvent(QPaintEvent *)
-{
-    QStyleOption opt;
-    opt.init(this);
-    QPainter p(this);
-
-    p.setBrush(QBrush(QColor("#161617")));
-    p.setOpacity(0.7);
-    p.setPen(Qt::NoPen);
-
-    p.setRenderHint(QPainter::Antialiasing);                        //反锯齿
-    p.drawRoundedRect(opt.rect,0,0);
-    p.drawRect(opt.rect);
-    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
-}
