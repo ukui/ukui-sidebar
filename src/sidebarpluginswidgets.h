@@ -1,8 +1,26 @@
+/*
+* Copyright (C) 2019 Tianjin KYLIN Information Technology Co., Ltd.
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 3, or (at your option)
+* any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
+*
+*/
 #ifndef SIDEBARPLUGINSWIDGETS_H
 #define SIDEBARPLUGINSWIDGETS_H
 
 #define  KYLIN_ALARM_CLACK_ICON      ":/data/images/kylin-alarm-clock.svg"
 #define  KYLIN_NOTEBOOK              ":/data/images/kylin-notebook.svg"
+#define  KYLIN_FEEDBACK              ":/data/images/kylin-feedback.png"
 #define  KYLIN_SIDEBAR_SMALL_PLUGINS ":/data/qss/SidebarSmallPlugins.css"
 #include <QtWidgets>
 #include <QPushButton>
@@ -44,6 +62,8 @@ public:
     SmallPluginsButton *m_pSidebarPluginButton;                   //插件 界面显示按钮
     QToolButton *m_pNotebookButton;                               //笔记本 按钮
     QToolButton *m_pAlarmClockButton;                             //闹钟  按钮
+    QToolButton *m_pFeedbackButtom;                               //用户反馈按钮
+    QTranslator *translator;
     QPropertyAnimation *m_pAnimationLeftRight;
     QPropertyAnimation *m_pAnimationRightLeft;
 
@@ -52,6 +72,7 @@ public:
     QState *m_pClipBoardState;                                    //剪贴板状态
     QState *m_pSmallPluginsState;                                 //小插件状态
     bool    m_pBoolStates;
+
 signals:
 
 private slots:

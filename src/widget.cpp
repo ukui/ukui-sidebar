@@ -22,6 +22,7 @@
 #include "pluginmanage.h"
 #include "realtimepropertyanimation.h"
 #include "sidebarpluginswidgets.h"
+#include "clock_interface.h"
 #include <stdio.h>
 #include <QtDBus>
 #include "customstyle.h"
@@ -59,6 +60,30 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     /* 初始化剪贴板与小插件界面 */
     sidebarPluginsWidgets::initPluginsWidgets();
 
+    if(loadnotebookPlugin())
+    {
+        qDebug() << "loadnotebookPlugin";
+        connect(sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pNotebookButton, &QToolButton::clicked, this, [=](){
+            m_pnotebookPluginObject->show();
+        });
+    }
+
+
+    if(loadfeedbackPlugin())
+    {
+        connect(sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pFeedbackButtom, &QToolButton::clicked, this,[=](){
+            m_pPlugin_Plugin->show();
+        });
+        qDebug() << "feedback插件加";
+    }
+
+    //加载闹钟插件
+    if (loadClockPlugin()) {
+        connect(sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pAlarmClockButton, &QToolButton::clicked, this, [=]() {
+            m_pclock_Plugin->show();
+            });
+    }
+
     //加载通知中心插件
     if(false == loadNotificationPlugin())
     {
@@ -95,6 +120,79 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
 Widget::~Widget()
 {
 
+}
+
+bool Widget::loadnotebookPlugin()
+{
+
+    QDir pluginsDir("/usr/lib/ukui-sidebar/sidebarNotebook");
+    QPluginLoader pluginLoader(pluginsDir.absoluteFilePath("libukui_notebook.so"));
+
+    m_pnotebook_PluginObject = pluginLoader.instance();
+
+    if(nullptr == m_pnotebook_PluginObject)
+    {
+        qDebug() <<"notebook plugin loader failed";
+        return false;
+    }
+
+    m_pnotebookPluginObject = qobject_cast<nood_bookInterface*>(m_pnotebook_PluginObject);
+    if(nullptr == m_pnotebookPluginObject)
+    {
+        return false;
+    }
+    return true;
+}
+
+//加载feedback
+bool Widget::loadfeedbackPlugin()
+{
+
+    QDir pluginsDir("/usr/lib/ukui-sidebar/sidebar_feedbackPlugin_plugins");
+    QPluginLoader pluginLoader(pluginsDir.absoluteFilePath("libfeedback.so"));
+
+    m_pfeedback_PluginObject = pluginLoader.instance();
+
+    if(nullptr == m_pfeedback_PluginObject)
+    {
+        return false;
+    }
+
+    m_pPlugin_Plugin = qobject_cast<FeedbackInterface*>(m_pfeedback_PluginObject);
+    if(nullptr == m_pPlugin_Plugin)
+    {
+        return false;
+    }
+    connect(m_pfeedback_PluginObject, SIGNAL(feedback_ification()), this, SLOT(onNewNotification()));
+    //m_pMainQVBoxLayout->addWidget(pPluginObject->centerWidget(), 0);
+//    m_pPlugin_Plugin->show();
+
+    return true;
+}
+
+//加载闹钟插件
+bool Widget::loadClockPlugin()
+{
+
+    QDir pluginsDir("/usr/lib/ukui-sidebar/sidebaralarm");
+    QPluginLoader pluginLoader(pluginsDir.absoluteFilePath("libClock_deamon.so"));
+
+    m_pclock_PluginObject = pluginLoader.instance();
+
+    if(nullptr == m_pclock_PluginObject)
+    {
+        return false;
+    }
+
+    m_pclock_Plugin = qobject_cast<ClockInterface*>(m_pclock_PluginObject);
+    if(nullptr == m_pclock_Plugin)
+    {
+        return false;
+    }
+    connect(m_pclock_PluginObject, SIGNAL(Clock_ification()), this, SLOT(onNewNotification()));
+    //m_pMainQVBoxLayout->addWidget(pPluginObject->centerWidget(), 0);
+
+    return true;
 }
 
 //加载通知中心插件

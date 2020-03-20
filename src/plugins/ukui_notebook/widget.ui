@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Widget</class>
+ <widget class="QWidget" name="Widget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>568</width>
+    <height>542</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Widget</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">width:568px;
+height:542px;
+background:rgba(0,0,0,1);
+border-radius:6px;
+opacity:0.7;</string>
+  </property>
+  <widget class="QPushButton" name="pushButton_Exit">
+   <property name="geometry">
+    <rect>
+     <x>530</x>
+     <y>10</y>
+     <width>30</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">width:126px;
+height:68px;
+background:linear-gradient(0deg,rgba(31,32,34,1) 0%,rgba(31,32,34,0.9) 100%);
+border:1px solid rgba(255, 255, 255, 0.1);
+border-radius:4px;
+image: url(:/new/prefix1/SVG/浅色主题/关闭-普通.svg);
+border-width:0;
+border-style:outset</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_Mini">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>10</y>
+     <width>30</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">width:126px;
+height:68px;
+background:linear-gradient(0deg,rgba(31,32,34,1) 0%,rgba(31,32,34,0.9) 100%);
+border:1px solid rgba(255, 255, 255, 0.1);
+border-radius:4px;
+image: url(:/new/prefix1/SVG/浅色主题/最小化-普通.svg);
+border-width:0;
+border-style:outset</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="ukui_labelTitle">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>47</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>-1</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgba(255,255,255,1);
+border-color: rgb(0, 0, 0);
+opacity:0.91;
+font-size:20px;
+border-width:0;
+border-style:outset
+</string>
+   </property>
+   <property name="text">
+    <string>笔记</string>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="listWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>50</y>
+     <width>568</width>
+     <height>397</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:rgb(0,0,0);
+</string>
+   </property>
+  </widget>
+  <widget class="QToolButton" name="toolButton">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>480</y>
+     <width>48</width>
+     <height>48</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">image: url(:/new/prefix1/SVG/新建-b-普通.svg);
+background-color: rgb(22, 22, 23);
+border-width:0;
+border-style:outset</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>

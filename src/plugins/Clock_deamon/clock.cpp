@@ -1,3 +1,20 @@
+/*
+* Copyright (C) 2019 Tianjin KYLIN Information Technology Co., Ltd.
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 3, or (at your option)
+* any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
+*
+*/
 #include "clock.h"
 #include "ui_clock.h"
 #include <QPainter>
@@ -44,7 +61,7 @@ Clock::Clock(QWidget *parent) :
     ui(new Ui::Clock)
 {
     ui->setupUi(this);
-    this->setFixedSize(400, 660);
+    //this->setFixedSize(400, 660);
     createConnection();
 
     setWindowFlags(Qt::FramelessWindowHint);   /* 开启窗口无边框 */
@@ -331,7 +348,7 @@ void Clock::on_pushButton_ring_clicked()
     ui->listWidget_2->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     stopwatch_w[stopwatch_item_flag] = new stopwatch_item(ui->listWidget_2);
 
-    stopwatch_w[stopwatch_item_flag]->stopwatch1->setText("计次"+QString::number(stopwatch_item_flag));
+    stopwatch_w[stopwatch_item_flag]->stopwatch1->setText(tr("计次")+QString::number(stopwatch_item_flag));
     stopwatch_w[stopwatch_item_flag]->stopwatch2->setText(stopwatch_jg_h+":"+stopwatch_jg_m+"."+stopwatch_jg_s);
     stopwatch_w[stopwatch_item_flag]->stopwatch3->setText(stopwatch_h+":"+stopwatch_m+"."+stopwatch_s);
 
@@ -441,7 +458,6 @@ void Clock::text_timerUpdate()
 //动态监控闹钟与本地时间
 void Clock::timerUpdate()
 {
-
     //qDebug() << "timerupdate" << n++;
 
     QTime time = QTime::currentTime();
@@ -456,9 +472,7 @@ void Clock::timerUpdate()
     {
 
         if( model->index(i, 3).data().toInt() == 1){
-            //qDebug() << "---------------continut--"<<"--"<< i<<"--"<<model->index(i, 3).data().toInt();
             continue;
-
         }
         if(timeH == model->index(i, 0).data().toInt()
                 && timeM == model->index(i, 1).data().toInt()
@@ -469,10 +483,10 @@ void Clock::timerUpdate()
             player->setPlaylist(mediaList);
             qDebug() << mediaList;
             player->setVolume(99);
-            player->setMedia(QUrl::fromLocalFile("/home/hyd/桌面/sax.mp3"));
+            player->setMedia(QUrl::fromLocalFile(":/sax.mp3"));
             player->play();
 
-            QMessageBox::warning(this, "警告", "时间到！", QMessageBox::Yes);
+            QMessageBox::warning(this, tr("警告"), tr("时间到！"), QMessageBox::Yes);
         }
     }
     update();
@@ -492,7 +506,7 @@ void Clock::setAlarmClock()
     hourBox->setStyleSheet("background-color: rgb(250, 250, 250); color: rgb(0, 0, 0);");
     minuteBox->setStyleSheet("background-color: rgb(250, 250, 250);color: rgb(0, 0, 0);");
 
-    label1->setText("闹铃时间：");
+    label1->setText(tr("闹铃时间："));
     label1->setFont(alarmFont);
     label1->move(20, 30);
 
@@ -509,8 +523,8 @@ void Clock::setAlarmClock()
     minuteBox->move(QPoint(150, 80));
     minuteBox->setFont(alarmFont);
 
-    QPushButton *sureBtn = new QPushButton("确定", dialog);
-    QPushButton *cancelBtn = new QPushButton("取消", dialog);
+    QPushButton *sureBtn = new QPushButton(tr("确定"), dialog);
+    QPushButton *cancelBtn = new QPushButton(tr("取消"), dialog);
 
     sureBtn->move(50, 180);
     sureBtn->resize(80, 30);
@@ -522,7 +536,7 @@ void Clock::setAlarmClock()
     connect( sureBtn, SIGNAL(clicked()), this, SLOT(sureAlarmClock()) );
     connect( cancelBtn, SIGNAL(clicked()), this, SLOT(cancelAlarmClock()) );
 
-    dialog->setWindowTitle("添加闹钟");
+    dialog->setWindowTitle(tr("添加闹钟"));
     // dialog->setWindowFlags(Qt::FramelessWindowHint);
     //设置固定窗口大小
     dialog->setFixedSize(300, 240);
@@ -625,7 +639,7 @@ void Clock::sureAlarmClock()
     }
     else
     {
-        QMessageBox::warning(this, "警告", "闹钟数量已达上限！", QMessageBox::Yes);
+        QMessageBox::warning(this, tr("警告"), tr("闹钟数量已达上限！"), QMessageBox::Yes);
     }
     dialog->close();
     // }
@@ -643,7 +657,7 @@ void Clock::stopPlayMusic()
 
 void Clock::selectMusic()
 {
-    musicPath = QFileDialog::getOpenFileName(this, "选择铃声",
+    musicPath = QFileDialog::getOpenFileName(this, tr("选择铃声"),
                                              "G:/歌曲", "*.mp3");
 }
 
@@ -700,23 +714,19 @@ void Clock::listClickslot()
         x_h --;
     }
 
-    ui->label_7->setText(QString::number(x_h)+"小时"+QString::number(x_m)+"分钟后铃响");
+    ui->label_7->setText(QString::number(x_h)+tr("小时")+QString::number(x_m)+tr("分钟后铃响"));
 }
 
 void Clock::deleteAlarm()
 {
     int num=ui->listWidget->currentRow();
     int rowNum = model->rowCount();
-
     //QObject::sender()返回发送信号的对象的指针
-    QPushButton *btn = qobject_cast<QPushButton*>(QObject::sender());
-
-
     model->removeRows(num, 1);
     qDebug() << "delete " <<num;
 
-    int ok = QMessageBox::warning(this, "删除当前闹钟！",
-                                  "您确定删除当前闹钟吗？",
+    int ok = QMessageBox::warning(this, tr("删除当前闹钟！"),
+                                  tr("您确定删除当前闹钟吗？"),
                                   QMessageBox::Yes, QMessageBox::No);
     if(ok == QMessageBox::No)
     {
@@ -820,9 +830,9 @@ void Clock::stat_countdown(){
     ui->label_9->setText(h+":"+m+":"+s);
 
     if(countdown_hour==0 && countdown_minute==0 && countdown_second==0){
-        player->setMedia(QUrl::fromLocalFile("/home/hyd/桌面/sax.mp3"));
+        player->setMedia(QUrl::fromLocalFile(":/sax.mp3"));
         player->play();
-        QMessageBox::warning(this, "Warning", "该休息了");
+        QMessageBox::warning(this, "Warning", tr("该休息了"));
         player->stop();
         countdown_timer->stop();
         startbtn_countdown();
@@ -846,24 +856,24 @@ void Clock::startbtn_countdown(){
         }
         ui->count_stat->setStyleSheet("width:100px;\
                                       height:32px;\
-                background:rgba(44,44,46,1);\
-border:1px solid rgba(68,68,71,1);\
-        border-radius:4px;");
+                                      background:rgba(44,44,46,1);\
+                                      border:1px solid rgba(68,68,71,1);\
+                                      border-radius:4px;");
 
         countdown_timer->start();
         countdown_isStarted=1;
-        ui->count_stat->setText("结束");
+        ui->count_stat->setText(tr("结束"));
         ui->stackedWidget_4->setCurrentIndex(1);
     } else {
         ui->count_stat->setStyleSheet("width:100px;\
                                       height:32px;\
-                color: rgb(255, 255, 255);\
-        background-color:rgb(37, 200, 124);\
-font: 11pt 'Sans Serif';");
+                                      color: rgb(255, 255, 255);\
+                                      background-color:rgb(37, 200, 124);\
+                                      font: 11pt 'Sans Serif';");
 
         countdown_timer->stop();
         countdown_isStarted=0;
-        ui->count_stat->setText("开始");
+        ui->count_stat->setText(tr("开始"));
         ui->label_9->setText("00:00:00");
         ui->label_8->setText("00:00:00");
         ui->stackedWidget_4->setCurrentIndex(0);
@@ -944,12 +954,12 @@ void Clock::get_countdown_over_time()
     }
     if(x_h >= 24){
         x_h = x_h - 24;
-        ui->label_11->setText("明日"+QString::number(x_h)+":"+QString::number(x_m));
+        ui->label_11->setText(tr("明日")+QString::number(x_h)+":"+QString::number(x_m));
     }else if(x_h >= 12){
         x_h = x_h - 12;
-        ui->label_11->setText("下午"+QString::number(x_h)+":"+QString::number(x_m));
+        ui->label_11->setText(tr("下午")+QString::number(x_h)+":"+QString::number(x_m));
     }else {
-        ui->label_11->setText("上午"+QString::number(x_h)+":"+QString::number(x_m));
+        ui->label_11->setText(tr("上午")+QString::number(x_h)+":"+QString::number(x_m));
     }
 }
 //倒计时-暂停开始

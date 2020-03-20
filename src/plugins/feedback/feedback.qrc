@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>success.png</file>
+        <file>fail.png</file>
+        <file>image/kylin-feedback.png</file>
+        <file>Resource/feedback_en.qm</file>
+    </qresource>
+</RCC>

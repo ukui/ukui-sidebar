@@ -1,3 +1,20 @@
+/*
+* Copyright (C) 2019 Tianjin KYLIN Information Technology Co., Ltd.
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 3, or (at your option)
+* any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
+*
+*/
 #include "stopwatch_item.h"
 #include "ui_stopwatch_item.h"
 
@@ -17,7 +34,7 @@ stopwatch_item::stopwatch_item(QWidget *parent) :
                               font-family:Source Han Sans CN;\
                               font-weight:400;\
                               color:rgba(255,255,255,1);");
-    stopwatch1->setText("起床铃");
+    stopwatch1->setText(tr("起床铃"));
 
 
     stopwatch2 = new QLabel( this);//间隔
@@ -29,7 +46,7 @@ stopwatch_item::stopwatch_item(QWidget *parent) :
                               font-family:Source Han Sans CN;\
                               font-weight:400;\
                               opacity:0.45;");
-    stopwatch2->setText("工作日");
+    stopwatch2->setText(tr("工作日"));
     stopwatch2->setVisible(true);
 
 

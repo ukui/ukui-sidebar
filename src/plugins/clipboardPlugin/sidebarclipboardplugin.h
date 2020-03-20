@@ -85,6 +85,8 @@ public:
     SearchWidgetItemContent *m_pSearchArea;
     QMimeData mineData;
 
+    QTranslator *translator;
+
     /* 注册Widget条目界面和Item的hash表 */
     void registerWidgetItem(ClipboardWidgetEntry *key, QListWidgetItem *value);
     QListWidgetItem* getWidgetItem(ClipboardWidgetEntry *key);

@@ -4,6 +4,15 @@ static sidebarPluginsWidgets *global_Plugin_Widgets_instance = nullptr;
 sidebarPluginsWidgets::sidebarPluginsWidgets(QWidget *parent) : QWidget(parent)
 {
     Q_UNUSED(parent);
+    translator = new QTranslator;
+    QLocale locale;
+
+    if( locale.language() == QLocale::Chinese )  //获取系统语言环境
+    {
+        qDebug() << "中文环境2" ;
+        translator->load(QString(":sidebartranslat/Sidebar_zh_CN.qm"));  //选择翻译文件
+        QApplication::installTranslator(translator);
+    }
     this->setContentsMargins(0,0,0,0);
     this->setFixedSize(400,300);
     this->setStyleSheet("QWidget{background:rgba(255, 255, 0, 0);}");
@@ -47,19 +56,19 @@ void sidebarPluginsWidgets::initUpGroupBoxButton()
 {
     m_pButtonWidget = new QWidget(this);
     m_pButtonWidget->setContentsMargins(0,0,0,0);
-    m_pButtonWidget->setFixedSize(400, 50);
+    m_pButtonWidget->setFixedSize(400, 60);
 
     m_pGrouBoxUpButtonHLayout = new QHBoxLayout;
     m_pGrouBoxUpButtonHLayout->setContentsMargins(0,5,0,0);
 
     m_pClipboardButton = new SmallPluginsButton();
-    m_pClipboardButton->setText(tr("剪贴板"));
+    m_pClipboardButton->setText(tr("Clipboard"));
     m_pClipboardButton->setObjectName("ClipboardButton");
     m_pClipboardButton->setFixedSize(90,34);
 
 
     m_pSidebarPluginButton = new SmallPluginsButton();
-    m_pSidebarPluginButton->setText(tr("小插件"));
+    m_pSidebarPluginButton->setText(tr("Plugins"));
     m_pSidebarPluginButton->setObjectName("SidebarPluginButton");
     m_pSidebarPluginButton->setFixedSize(90,34);
 
@@ -101,18 +110,22 @@ void sidebarPluginsWidgets::initUnGroupBox()
     /* 插件 按钮 */
     m_pNotebookButton = new QToolButton();
     m_pAlarmClockButton = new QToolButton();
+    m_pFeedbackButtom   = new QToolButton();
     m_pNotebookButton->setObjectName("NotebookButton");
     m_pAlarmClockButton->setObjectName("AlarmClockButton");
+    m_pFeedbackButtom->setObjectName("FeedbackButtom");
     m_pNotebookButton->setFixedSize(90,90);
     m_pAlarmClockButton->setFixedSize(90,90);
+    m_pFeedbackButtom->setFixedSize(90,90);
     m_pNotebookButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     m_pAlarmClockButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    m_pFeedbackButtom->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 
     /* 笔记本按钮 */
-    QIcon NoteBookPng = QIcon::fromTheme("NoteBook", QIcon(KYLIN_NOTEBOOK));
+    QIcon NoteBookPng = QIcon::fromTheme("noteBook", QIcon(KYLIN_NOTEBOOK));
     m_pNotebookButton->setIcon(NoteBookPng);
     m_pNotebookButton->setIconSize(QSize(48,48));
-    m_pNotebookButton->setText("笔记本");
+    m_pNotebookButton->setText(tr("Notebook"));
     m_pNotebookButton->setStyleSheet("QToolButton#NotebookButton{font-size:14px; \
                                                    font-family:Noto Sans CJK SC; \
                                                    font-weight:400;              \
@@ -120,11 +133,22 @@ void sidebarPluginsWidgets::initUnGroupBox()
                                                    line-height:34px;}");
 
     /* 闹钟按钮 */
-    QIcon AlarmPng = QIcon::fromTheme("clock", QIcon(KYLIN_ALARM_CLACK_ICON));
+    QIcon AlarmPng = QIcon::fromTheme("alarm-clock", QIcon(KYLIN_ALARM_CLACK_ICON));
     m_pAlarmClockButton->setIcon(AlarmPng);
     m_pAlarmClockButton->setIconSize(QSize(48,48));
-    m_pAlarmClockButton->setText("闹钟");
+    m_pAlarmClockButton->setText(tr("Alarm clock"));
     m_pAlarmClockButton->setStyleSheet("QToolButton#AlarmClockButton{font-size:14px; \
+                                                   font-family:Noto Sans CJK SC; \
+                                                   font-weight:400;              \
+                                                   color:rgba(255,255,255,1);    \
+                                                   line-height:34px;}");
+
+    /* 设置用户反馈反馈程序按钮 */
+    QIcon FeedBackPng = QIcon::fromTheme("customer_feedback", QIcon(KYLIN_FEEDBACK));
+    m_pFeedbackButtom->setIcon(FeedBackPng);
+    m_pFeedbackButtom->setIconSize(QSize(48,48));
+    m_pFeedbackButtom->setText(tr("Feedback"));
+    m_pFeedbackButtom->setStyleSheet("QToolButton#FeedbackButtom{font-size:14px; \
                                                    font-family:Noto Sans CJK SC; \
                                                    font-weight:400;              \
                                                    color:rgba(255,255,255,1);    \
@@ -132,20 +156,22 @@ void sidebarPluginsWidgets::initUnGroupBox()
 
     /* 设置按钮图表 */
     m_pGroupBoxUnSmallPluginsGLayout = new QGridLayout();
-    m_pGroupBoxUnSmallPluginsGLayout->setContentsMargins(0,0,0,160);
+    m_pGroupBoxUnSmallPluginsGLayout->setContentsMargins(0,19,0,160);
 
     m_pPluginsButtonWidget->setLayout(m_pGroupBoxUnSmallPluginsGLayout);
 
     QSpacerItem *item1 = new QSpacerItem(10, 20);
     QSpacerItem *item2 = new QSpacerItem(10, 20);
-    QSpacerItem *item3 = new QSpacerItem(202,20);
+    QSpacerItem *item3 = new QSpacerItem(102,20);
 
     m_pGroupBoxUnSmallPluginsGLayout->addItem(item1,0,0);
-    m_pGroupBoxUnSmallPluginsGLayout->addWidget(m_pNotebookButton,0,1);
+    m_pGroupBoxUnSmallPluginsGLayout->addWidget(m_pAlarmClockButton,0,1);
 
     m_pGroupBoxUnSmallPluginsGLayout->addItem(item2,0,2);
-    m_pGroupBoxUnSmallPluginsGLayout->addWidget(m_pAlarmClockButton,0,3);
-    m_pGroupBoxUnSmallPluginsGLayout->addItem(item3,0,4);
+    m_pGroupBoxUnSmallPluginsGLayout->addWidget(m_pNotebookButton,0,3);
+    m_pGroupBoxUnSmallPluginsGLayout->addItem(item2,0,4);
+    m_pGroupBoxUnSmallPluginsGLayout->addWidget(m_pFeedbackButtom,0,5);
+    m_pGroupBoxUnSmallPluginsGLayout->addItem(item3,0,6);
     m_pGroupBoxUnSmallPluginsGLayout->setSpacing(0);
 }
 
@@ -236,12 +262,12 @@ void sidebarPluginsWidgets::initLableBackgroundAnimation()
 {
     m_pAnimationLeftRight = new QPropertyAnimation(m_pBlueBackgroundButton, "geometry");
     m_pAnimationLeftRight->setDuration(200);
-    m_pAnimationLeftRight->setStartValue(QRect(10, 10, 90, 34));
-    m_pAnimationLeftRight->setEndValue(QRect(108, 10, 90, 34));
+    m_pAnimationLeftRight->setStartValue(QRect(10, 15, 90, 34));
+    m_pAnimationLeftRight->setEndValue(QRect(108, 15, 90, 34));
     m_pAnimationRightLeft = new QPropertyAnimation(m_pBlueBackgroundButton, "geometry");
     m_pAnimationRightLeft->setDuration(200);
-    m_pAnimationRightLeft->setStartValue(QRect(108, 10, 90, 34));
-    m_pAnimationRightLeft->setEndValue(QRect(10, 10, 90, 34));
+    m_pAnimationRightLeft->setStartValue(QRect(108, 15, 90, 34));
+    m_pAnimationRightLeft->setEndValue(QRect(10, 15, 90, 34));
     connect(m_pAnimationLeftRight, &QPropertyAnimation::finished, this, &sidebarPluginsWidgets::m_pSmallPluginsStateSlots);
     connect(m_pAnimationRightLeft, &QPropertyAnimation::finished, this, &sidebarPluginsWidgets::m_pClipBoardStateSlots);
 }

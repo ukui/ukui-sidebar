@@ -24,7 +24,9 @@
 #include <QDBusInterface>
 #include <QDBusPendingCallWatcher>
 #include "clipboardpluginiface.h"
-
+#include "clock_interface.h"
+#include "feedback_interface.h"
+#include "ukui-noodbook_pluginiface.h"
 
 #define  TRAY_ICON           ":/data/images/kylin-tool-box.svg"
 #define  TRAY_NULL_ICON      ":/data/images/kylin-tool-box-null.svg"
@@ -69,6 +71,9 @@ public:
     void setIcon(QString strIcon);                                              //设置图标和提示信息;
     void iconActivated(QSystemTrayIcon::ActivationReason reason);               //获取点击事件
     bool loadNotificationPlugin();                                              //加载通知中心插件
+    bool loadClockPlugin();                                                     //加载闹钟插件
+    bool loadfeedbackPlugin();                                                  //加载用户反馈程序
+    bool loadnotebookPlugin();
     void GetsAvailableAreaScreen();                                             //获取屏幕可用区域高度
 
 
@@ -88,7 +93,12 @@ private:
     int                         m_nScreenWidth;                                 //屏幕分辨率的宽
     int                         m_nScreenHeight;                                //屏幕分辨率的高
     QObject*                    m_pNotificationPluginObject;                    //通知中心插件对象
-
+    QObject*                    m_pclock_PluginObject;                          //闹钟插件第一次加载插件对象
+    QObject*                    m_pfeedback_PluginObject;
+    QObject*                    m_pnotebook_PluginObject;
+    ClockInterface              *m_pclock_Plugin;                               //闹钟插件全局变量
+    FeedbackInterface           *m_pPlugin_Plugin;                               //问题反馈全局变量
+    nood_bookInterface           *m_pnotebookPluginObject;
     int                         m_nInitalXPosition;
 
     //快捷操作面板

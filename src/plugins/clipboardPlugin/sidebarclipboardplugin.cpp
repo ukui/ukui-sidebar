@@ -22,11 +22,20 @@
 #include <QApplication>
 #include <QMimeData>
 #include <QFile>
-
+#include <QTranslator>
 ClipboardSignal *globalClipboardSignal;
 SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
 {
     Q_UNUSED(parent);
+    translator = new QTranslator;
+    QLocale locale;
+
+    if( locale.language() == QLocale::Chinese )  //获取系统语言环境
+    {
+        qDebug() << "中文环境" ;
+        translator->load(QString(":/translations/test_zh_CN.qm"));  //选择翻译文件
+        QApplication::installTranslator(translator);
+    }
     installEventFilter(this);
     m_pSidebarClipboardWidget = new QWidget();
     m_pSidebarClipboardWidget->setObjectName("ClipboardWidget");
