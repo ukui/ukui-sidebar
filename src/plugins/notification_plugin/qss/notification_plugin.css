@@ -9,7 +9,7 @@ QWidget{
 }
 
 QWidget#NotificationCenter{
-    background:rgba(19,19,20,1);
+    background:rgba(19,19,20,0.7);
 }
 
 QWidget#SingleNotification{
@@ -18,7 +18,7 @@ QWidget#SingleNotification{
 }
 
 QWidget#QScrollAreaInQWidget{
-    background:rgba(19,19,20,1);
+    background:rgba(19,19,20,0.7);
 }
 
 QWidget#BaseMap{

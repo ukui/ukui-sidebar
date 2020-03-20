@@ -31,6 +31,10 @@ NotificationPlugin::NotificationPlugin()
     m_pMainWidget = new QWidget;
     m_pMainWidget->setObjectName("NotificationCenter");
 
+    QTranslator *qtTranslator = new QTranslator(this);
+    qtTranslator->load("/usr/share/ukui-sidebar-notification/language.qm");
+    QApplication::installTranslator(qtTranslator);
+
     //加载样式表
     QFile file(":/qss/notification_plugin.css");
     if (file.open(QFile::ReadOnly))
@@ -53,7 +57,8 @@ NotificationPlugin::NotificationPlugin()
     QHBoxLayout* pQHBoxLayout1 = new QHBoxLayout;
     pQHBoxLayout1->setContentsMargins(11,0,28,0);
     pQHBoxLayout1->setSpacing(0);
-    QLabel* pLabel = new QLabel("通知中心");
+
+    QLabel* pLabel = new QLabel(QObject::tr("Notification center"));
     pLabel->setObjectName("notificationcentername");
 
     //收纳按钮
@@ -92,7 +97,8 @@ NotificationPlugin::NotificationPlugin()
     //第二行左侧标签“重要的信息”，右侧一个清空按钮，一个设置按钮
     QHBoxLayout* pQHBoxLayout2 = new QHBoxLayout;
     pQHBoxLayout2->setContentsMargins(12,0,10,8);
-    m_pNotificationLabel = new QLabel("重要的通知");
+
+    m_pNotificationLabel = new QLabel(QObject::tr("Important notice"));
     m_pNotificationLabel->setObjectName("importantnotification");
 
     QSpacerItem* pHSpacer = new QSpacerItem(300, 10, QSizePolicy::Expanding, QSizePolicy::Fixed);
@@ -100,14 +106,14 @@ NotificationPlugin::NotificationPlugin()
     QPushButton* pClearAllToolButton = new QPushButton();
     pClearAllToolButton->setObjectName("clearall");
     connect(pClearAllToolButton, SIGNAL(clicked()), this, SLOT(onClearAllMessage()));
-    pClearAllToolButton->setText("清空");
+    pClearAllToolButton->setText(QObject::tr("Clean up"));
 
     QSpacerItem* pFixSpacer = new QSpacerItem(5, 10, QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     QPushButton* pSettingToolButton = new QPushButton();
     pSettingToolButton->setObjectName("setting");
     connect(pSettingToolButton, SIGNAL(clicked()), this, SLOT(onCallControlPanel()));
-    pSettingToolButton->setText("设置");
+    pSettingToolButton->setText(QObject::tr("Set up"));
 
 
     pQHBoxLayout2->addWidget(m_pNotificationLabel, 0, Qt::AlignLeft);
@@ -120,6 +126,7 @@ NotificationPlugin::NotificationPlugin()
 
     //通知列表
     m_pQScrollAreaNotify = new ScrollAreaWidget();
+    m_pQScrollAreaNotify->setStyleSheet("QWidget{background:transparent;}");
 
     m_pScrollAreaNotifyVBoxLayout = new QVBoxLayout();
     m_pScrollAreaNotifyVBoxLayout->setContentsMargins(0,0,0,0);
@@ -131,7 +138,7 @@ NotificationPlugin::NotificationPlugin()
     pInQWidget->setLayout(m_pScrollAreaNotifyVBoxLayout);
     m_pQScrollAreaNotify->setWidget(pInQWidget);
 
-    m_pMessageCenterLabel = new QLabel("没有新通知");
+    m_pMessageCenterLabel = new QLabel(QObject::tr("No new notifications"));
     m_pMessageCenterLabel->setStyleSheet("QLabel{color:rgba(255,255,255,0.91);padding:119px 0px 0px 0px;font-size:14px;}");
     m_pScrollAreaNotifyVBoxLayout->addWidget(m_pMessageCenterLabel, 0, Qt::AlignHCenter);
     QSpacerItem* pVSpacer = new QSpacerItem(10, 1, QSizePolicy::Fixed, QSizePolicy::Expanding);
@@ -141,6 +148,8 @@ NotificationPlugin::NotificationPlugin()
 
     //收纳列表
     m_pQScrollAreaTakeIn = new ScrollAreaWidget();
+    m_pQScrollAreaTakeIn->setStyleSheet("QWidget{background:transparent;}");
+
     m_pScrollAreaTakeInVBoxLayout = new QVBoxLayout();
     m_pScrollAreaTakeInVBoxLayout->setContentsMargins(0,0,0,0);
     m_pScrollAreaTakeInVBoxLayout->setSpacing(0);
@@ -477,7 +486,7 @@ void NotificationPlugin::onShowTakeInMessage()
         m_bShowTakeIn = true;
         m_pQScrollAreaNotify->setVisible(false);
         m_pQScrollAreaTakeIn->setVisible(true);
-        m_pNotificationLabel->setText("不重要的通知");
+        m_pNotificationLabel->setText(QObject::tr("Unimportant notice"));
 
         m_pSvgRender->load(QString(":/images/exitbox-24.svg"));
         m_pPixmap->fill(Qt::transparent);
@@ -507,7 +516,7 @@ void NotificationPlugin::onShowTakeInMessage()
         m_bShowTakeIn = false;
         m_pQScrollAreaNotify->setVisible(true);
         m_pQScrollAreaTakeIn->setVisible(false);
-        m_pNotificationLabel->setText("重要的通知");
+        m_pNotificationLabel->setText(QObject::tr("Important notice"));
 
         m_pSvgRender->load(QString(":/images/box-24.svg"));
         m_pPixmap->fill(Qt::transparent);
