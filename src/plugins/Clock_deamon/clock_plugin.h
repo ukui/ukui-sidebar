@@ -36,7 +36,7 @@ class clock_plugin : public QObject, public ClockInterface
 
 
 public:
-
+    bool Clockflag = false;
     clock_plugin();
     ~clock_plugin();
     void show();
