@@ -654,17 +654,17 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
 {
     Q_UNUSED(obj);
     Q_UNUSED(event);
-//    if (obj == this)
-//    {
-//        if (event->type() == QEvent::WindowDeactivate && true == m_bShowFlag)
-//        {
-//            qDebug() << "事件类型" << event->type();
-//            qDebug() << "Widget::eventFilter 消失";
-//            hideAnimation();
-//            m_bShowFlag = false;
-//            return true;
-//        }
-//    }
+    if (obj == this)
+    {
+        if (event->type() == QEvent::WindowDeactivate && true == m_bShowFlag)
+        {
+            qDebug() << "事件类型" << event->type();
+            qDebug() << "Widget::eventFilter 消失";
+            hideAnimation();
+            m_bShowFlag = false;
+            return true;
+        }
+    }
 
     if (!isActiveWindow())
     {
