@@ -17,9 +17,8 @@ vcs-Browser: https://github.com/ukui/ukui-sidebar
 
 Package: ukui-sidebar
 Architecture: any
-Depends:
-	 ${shlibs:Depends},
-         ${misc:Depends}
+Depends:${shlibs:Depends},
+        ${misc:Depends}
 Description: parallels toolbox for UKUI
  The ukui-sidebar is mainly used in the desktop operating system.
  It pops up from the right side of the desktop in the form of a tray,
