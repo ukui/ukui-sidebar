@@ -283,7 +283,7 @@ void sidebarPluginsWidgets::setClipboardButtonBackgroundIsBlue()
                                                                   font-weight:400; \
                                                                   color:rgba(255,255,255,1); \
                                                                   line-height:34px; \
-                                                                  opacity:0.97; \}");
+                                                                  opacity:0.97;}");
 }
 
 void sidebarPluginsWidgets::setSmallPluginsButtonBackgroudIsBlue()
@@ -296,7 +296,7 @@ void sidebarPluginsWidgets::setSmallPluginsButtonBackgroudIsBlue()
                                                                   font-weight:400; \
                                                                   color:rgba(255,255,255,1); \
                                                                   line-height:34px; \
-                                                                  opacity:0.97; \}");
+                                                                  opacity:0.97;}");
 }
 
 void sidebarPluginsWidgets::setClipboardButtonBackgroundIsBlank()
@@ -309,7 +309,7 @@ void sidebarPluginsWidgets::setClipboardButtonBackgroundIsBlank()
                                                                   font-weight:400; \
                                                                   color:rgba(255,255,255,1); \
                                                                   line-height:34px; \
-                                                                  opacity:0.97; \}");
+                                                                  opacity:0.97;}");
 }
 
 void sidebarPluginsWidgets::setSmallPluginsButtonBackgroudIsBlank()
@@ -322,7 +322,7 @@ void sidebarPluginsWidgets::setSmallPluginsButtonBackgroudIsBlank()
                                                                   font-weight:400; \
                                                                   color:rgba(255,255,255,1); \
                                                                   line-height:34px; \
-                                                                  opacity:0.97; \}");
+                                                                  opacity:0.97;}");
 }
 
 void sidebarPluginsWidgets::setClipboardWidgetSize(int ClipHight)
