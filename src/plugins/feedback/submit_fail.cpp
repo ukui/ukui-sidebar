@@ -56,5 +56,5 @@ submit_fail::~submit_fail()
 
 void submit_fail::on_pushButton_2_clicked()
 {
-    ::exit(0);
+    this->close();
 }
