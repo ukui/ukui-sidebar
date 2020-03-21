@@ -22,9 +22,9 @@
 #include <QSqlQuery>
 #include <QStandardPaths>
 
-static bool createConnection()
+static bool createSql()
 {
-    QString url_filepath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) +"/.config/ukui/notebook_database.db";
+    QString url_filepath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) +"/.config/ukui/notebookSql.db";
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(url_filepath);
 
@@ -32,7 +32,7 @@ static bool createConnection()
 
     QSqlQuery query;
     query.exec(QString(
-      "create table fileInfo (fileName QString)")); //提示：主键不能相同
+      "create table fileInfo (fileName QString)"));
 
     return true;
 }

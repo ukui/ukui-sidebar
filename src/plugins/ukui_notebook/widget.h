@@ -78,8 +78,6 @@ private:
 
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
-    void paintEvent(QPaintEvent *);
-
 
 private slots:
     void exitSlot();

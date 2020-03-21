@@ -23,7 +23,6 @@
 notebook_plugin::notebook_plugin()
 {
     mp_notebook = new Widget;
-    NoteBookFlag = false;
 }
 
 void notebook_plugin::onNotification() {
@@ -31,14 +30,10 @@ void notebook_plugin::onNotification() {
 }
 
 void notebook_plugin::show() {
-    if (NoteBookFlag) {
-        mp_notebook = new Widget ;
-    }
     QDesktopWidget *desk = QApplication::desktop();
     QRect deskRect = desk->availableGeometry();
     mp_notebook->show();
     mp_notebook->move((deskRect.width()-mp_notebook->width())/2, (deskRect.height()-mp_notebook->height())/2);
-    NoteBookFlag = true;
 }
 notebook_plugin::~notebook_plugin() {
     if( mp_notebook)
