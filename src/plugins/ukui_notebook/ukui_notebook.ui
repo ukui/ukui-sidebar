@@ -27,7 +27,7 @@ border:1px solid rgba(255, 255, 255, 0.05);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">image: url(:/new/prefix1/SVG/新建-b-普通.svg);
+    <string notr="true">image: url(:/new/prefix1/SVG/new-b.svg);
 border-width:0;
 border-style:outset</string>
    </property>
@@ -45,7 +45,7 @@ border-style:outset</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">image: url(:/new/prefix1/SVG/深色主题/关闭-普通.svg);
+    <string notr="true">image: url(:/new/prefix1/SVG/dark_theme/close.svg);
 border-width:0;
 border-style:outset;
 background-color: rgb(0, 0, 0);</string>
@@ -64,10 +64,7 @@ background-color: rgb(0, 0, 0);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">width:380px;
-height:204px;
-background:rgba(255,255,255,1);
-opacity:0.06;
+    <string notr="true">background-color: rgb(165, 165, 165);
 border-radius:4px;</string>
    </property>
   </widget>
@@ -93,7 +90,9 @@ border-radius:4px;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url(:/new/prefix1/SVG/字体-普通.svg);</string>
+     <string notr="true">image: url(:/new/prefix1/SVG/font.svg);
+border-width:0;
+border-style:outset;</string>
     </property>
     <property name="text">
      <string/>
@@ -109,7 +108,9 @@ border-radius:4px;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url(:/new/prefix1/SVG/导出jpg-普通.svg);</string>
+     <string notr="true">image: url(:/new/prefix1/SVG/exportJPG.svg);
+border-width:0;
+border-style:outset;</string>
     </property>
     <property name="text">
      <string/>
@@ -125,7 +126,9 @@ border-radius:4px;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url(:/new/prefix1/SVG/导出pdf-普通.svg);</string>
+     <string notr="true">image: url(:/new/prefix1/SVG/exportPDF.svg);
+border-width:0;
+border-style:outset;</string>
     </property>
     <property name="text">
      <string/>
@@ -141,7 +144,9 @@ border-radius:4px;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url(:/new/prefix1/SVG/插入时间-普通.svg);</string>
+     <string notr="true">image: url(:/new/prefix1/SVG/insertTime.svg);
+border-width:0;
+border-style:outset;</string>
     </property>
     <property name="text">
      <string/>
@@ -157,7 +162,9 @@ border-radius:4px;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url(:/new/prefix1/SVG/删除-普通.svg);</string>
+     <string notr="true">image: url(:/new/prefix1/SVG/delete.svg);
+border-width:0;
+border-style:outset;</string>
     </property>
     <property name="text">
      <string/>

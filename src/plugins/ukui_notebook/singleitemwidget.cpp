@@ -23,15 +23,6 @@ SingleItemWidget::SingleItemWidget(QWidget *parent) :
     ui(new Ui::SingleItemWidget)
 {
     ui->setupUi(this);
-//    ui->textEdit_Item->setStyleSheet("QTextEdit{width:299px; \
-//                                     height:15px; \
-//                                     font-size:14px; \
-//                                     font-family:Noto Sans CJK SC; \
-//                                     font-weight:400; \
-//                                     color:rgba(255,255,0,1); \
-//                                     line-height:40px; \
-//                                     background:rgba(255,255,255, 0);)  \
-//                                     opacity:0.91;}");
     SingleItem_init();
     SingleItem_conn();
 }
@@ -77,6 +68,10 @@ void SingleItemWidget::SingleItem_init()
 //    //设置图片大小
 //    ui->toolButtonDel->setIconSize(QSize(12,16));
 //    ui->toolButtonLock->setIconSize(QSize(12,16));
+    //文本框属性
+    ui->textEdit_Item->setReadOnly(true);//只读
+    //ui->textEdit_Item->setFocusPolicy(Qt::NoFocus);//无焦点
+    ui->textEdit_ItemDate->setReadOnly(true);
 }
 
 

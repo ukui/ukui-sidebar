@@ -46,7 +46,6 @@ private slots:
 private:
     void SingleItem_init();
     void SingleItem_conn();
-//    void paintEvent(QPaintEvent *);
 };
 
 #endif // SINGLEITEMWIDGET_H

@@ -16,7 +16,7 @@
   <property name="styleSheet">
    <string notr="true">width:568px;
 height:542px;
-background:rgba(0,0,0,1);
+background-color: rgb(0, 0, 0);
 border-radius:6px;
 opacity:0.7;</string>
   </property>
@@ -30,14 +30,9 @@ opacity:0.7;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">width:126px;
-height:68px;
-background:linear-gradient(0deg,rgba(31,32,34,1) 0%,rgba(31,32,34,0.9) 100%);
-border:1px solid rgba(255, 255, 255, 0.1);
-border-radius:4px;
-image: url(:/new/prefix1/SVG/浅色主题/关闭-普通.svg);
+    <string notr="true">background-color: rgb(0, 0, 0);
 border-width:0;
-border-style:outset</string>
+</string>
    </property>
    <property name="text">
     <string/>
@@ -53,14 +48,11 @@ border-style:outset</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">width:126px;
-height:68px;
-background:linear-gradient(0deg,rgba(31,32,34,1) 0%,rgba(31,32,34,0.9) 100%);
-border:1px solid rgba(255, 255, 255, 0.1);
-border-radius:4px;
-image: url(:/new/prefix1/SVG/浅色主题/最小化-普通.svg);
+    <string notr="true">background-color: rgb(0, 0, 0);
 border-width:0;
-border-style:outset</string>
+color: rgb(255, 255, 255);
+hover:color(0,0,255);
+</string>
    </property>
    <property name="text">
     <string/>
@@ -77,17 +69,21 @@ border-style:outset</string>
    </property>
    <property name="font">
     <font>
+     <family>Noto Sans CJK SC</family>
      <pointsize>-1</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">color:rgba(255,255,255,1);
-border-color: rgb(0, 0, 0);
-opacity:0.91;
+    <string notr="true">width:47px;
+height:23px;
 font-size:20px;
-border-width:0;
-border-style:outset
-</string>
+font-family:Noto Sans CJK SC;
+font-weight:400;
+line-height:40px;
+background-color: rgb(0, 0, 0);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>笔记</string>
@@ -117,10 +113,9 @@ border-style:outset
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">image: url(:/new/prefix1/SVG/新建-b-普通.svg);
-background-color: rgb(22, 22, 23);
+    <string notr="true">background-color: rgb(0, 0, 0);
 border-width:0;
-border-style:outset</string>
+border-style:outset;</string>
    </property>
    <property name="text">
     <string/>

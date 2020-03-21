@@ -24,8 +24,7 @@ Widget::Widget(QWidget *parent) :
     ui(new Ui::Widget)
 {    
     ui->setupUi(this);
-    createConnection();
-    this->setAttribute(Qt::WA_TranslucentBackground);
+    createSql();
     this->ukui_init();
     this->ukui_conn();
     ukui_sql_init();
@@ -39,19 +38,33 @@ Widget::~Widget()
 
 void Widget::ukui_init()
 {
-    ui->ukui_labelTitle->setStyleSheet("QLabel{width:47px;      \
-                                       height:23px;     \
-                                       font-size:24px;      \
-                                       font-family:Noto Sans CJK SC;    \
-                                       font-weight:400;     \
-                                       color:rgba(255,255,255,1);   \
-                                       line-height:40px;        \
-                                       opacity:0.91;};");
-
-     ui->listWidget->setAttribute(Qt::WA_TranslucentBackground);
-     ui->toolButton->setAttribute(Qt::WA_TranslucentBackground);
-    //setWindowIcon(QIcon(":/.png"));//设置图标
+    //窗口属性
     setWindowFlags(Qt::FramelessWindowHint);//开启窗口无边框
+    setWindowOpacity(0.8);//窗口透明度
+    //组件属性
+    //ui->listWidget->setAttribute(Qt::WA_TranslucentBackground);//设置透明度
+    //ui->toolButton->setAttribute(Qt::WA_TranslucentBackground);
+    //标题
+    ui->ukui_labelTitle->setStyleSheet("color:#ffffff;        \
+                                        background-color: rgb(0, 0, 0);");
+    //按钮
+    ui->pushButton_Mini->setStyleSheet("QPushButton#pushButton_Mini{image:   \
+                                               url(:/new/prefix1/SVG/dark_theme/min.svg);}"
+                                      "QPushButton#pushButton_Mini:hover{image:     \
+                                               url(:/new/prefix1/SVG/dark_theme/min-hover.svg);}"
+                                      "QPushButton#pushButton_Mini:pressed{image: \
+                                               url(:/new/prefix1/SVG/dark_theme/min-click.svg);}"
+                                      "border-radius:4px;");
+    ui->pushButton_Exit->setStyleSheet("QPushButton#pushButton_Exit{image:   \
+                                               url(:/new/prefix1/SVG/dark_theme/close.svg);}"
+                                      "QPushButton#pushButton_Exit:hover{image:     \
+                                               url(:/new/prefix1/SVG/dark_theme/close-hover.svg);}"
+                                      "QPushButton#pushButton_Exit:pressed{image:      \
+                                               url(:/new/prefix1/SVG/dark_theme/close-click.svg);}"
+                                      "border-radius:4px;");
+    ui->toolButton->setStyleSheet("QToolButton#toolButton{image:url(:/new/prefix1/SVG/new-b.svg);}"
+                            "QToolButton#toolButton:hover{image:url(:/new/prefix1/SVG/new-b-hover.svg);}"
+                            "QToolButton#toolButton:pressed{image:url(:/new/prefix1/SVG/new-b-click.svg);}");
     //全局new
     ukui_notebook = new ukui_NoteBook;
     ukui_notebookOpen = new ukui_NoteBook;
@@ -95,21 +108,6 @@ void Widget::ukui_sql_init(){
     ukui_updateItem();
 }
 
-bool Widget::ukui_sql_load(){
-    qDebug() << "ukui_sql_load";
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("database.db");
-
-    if(!db.open()) {
-        return false;
-        qDebug() << "db open false";
-    }
-
-    QSqlQuery query;
-    query.exec(QString(
-      "create table fileInfo (fileName QString)")); //提示：主键不能相同
-    return true;
-}
 //读取数据库，更新Item
 void Widget::ukui_updateItem(){
      int rowNum = model->rowCount();
@@ -124,7 +122,6 @@ void Widget::ukui_updateItem(){
         ui->listWidget->addItem(item[txtNum]);
         singleItem[txtNum]= new SingleItemWidget(ui->listWidget);
         ui->listWidget->setItemWidget(item[txtNum],singleItem[txtNum]);
-        //singleItem[txtNum]->setAttribute(Qt::WA_TranslucentBackground);
         //读取数据库,设置label值
         QDateTime dateTime = QDateTime::currentDateTime();//获取当前系统时间
 
