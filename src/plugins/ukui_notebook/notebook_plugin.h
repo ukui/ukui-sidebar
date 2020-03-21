@@ -33,6 +33,7 @@ public:
     Q_PLUGIN_METADATA(IID NotebookInterface_iid FILE "notebook.json")
     //申明该类有D-BUS服务接口
     //Q_CLASSINFO("D-Bus Interface", "com.scorpio.test.value")
+    bool NoteBookFlag;
 
     ~notebook_plugin();
     void show();
