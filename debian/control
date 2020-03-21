@@ -7,6 +7,7 @@ Build-Depends: debhelper-compat (= 12),
                libglib2.0-dev,
                qtbase5-dev,
 	       libqt5svg5-dev,
+	       qtmultimedia5-dev,
                qttools5-dev-tools
 Standards-Version: 4.5.0
 Rules-Requires-Root: no
@@ -17,7 +18,6 @@ vcs-Browser: https://github.com/ukui/ukui-sidebar
 Package: ukui-sidebar
 Architecture: any
 Depends:
-         libqt5multimedia5,
 	 ${shlibs:Depends},
          ${misc:Depends}
 Description: parallels toolbox for UKUI
