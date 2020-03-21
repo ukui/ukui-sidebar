@@ -68,7 +68,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
         });
     }
 
-
+    /* load Feedback Plugins */
     if(loadfeedbackPlugin())
     {
         connect(sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pFeedbackButtom, &QToolButton::clicked, this,[=](){
@@ -122,6 +122,7 @@ Widget::~Widget()
 
 }
 
+/* load Notebook Plugins */
 bool Widget::loadnotebookPlugin()
 {
 
@@ -164,8 +165,6 @@ bool Widget::loadfeedbackPlugin()
         return false;
     }
     connect(m_pfeedback_PluginObject, SIGNAL(feedback_ification()), this, SLOT(onNewNotification()));
-    //m_pMainQVBoxLayout->addWidget(pPluginObject->centerWidget(), 0);
-//    m_pPlugin_Plugin->show();
 
     return true;
 }
@@ -190,8 +189,6 @@ bool Widget::loadClockPlugin()
         return false;
     }
     connect(m_pclock_PluginObject, SIGNAL(Clock_ification()), this, SLOT(onNewNotification()));
-    //m_pMainQVBoxLayout->addWidget(pPluginObject->centerWidget(), 0);
-
     return true;
 }
 
@@ -278,7 +275,6 @@ void Widget::createSystray()
 
     trayIcon = new QSystemTrayIcon(this);
 
-//    qApp->setStyle(new CustomStyle());
     qApp->setStyleSheet("QToolTip{border:1px solid rgba(255, 255, 255, 0.2); background-color: #1A1A1A; color:#FFFFFF; padding:2px; border-radius:6px; font-size:14px;}");
 
     if (nullptr == trayIcon)
@@ -385,13 +381,13 @@ int Widget::setClipBoardWidgetScaleFactor()
     x = m_nScreenWidth;
     y = m_nScreenHeight;
     if ((x >= 800 && x <= 1280)&&(y >= 600 && y <= 720)) {
-        qDebug() << "进入第一种方案";
+        qDebug() << "800 <= x <= 1280 && 600 <= y <= 720 ";
         return m_nScreenHeight/2 - connectTaskBarDbus();
     } else if ((x >= 1280 && x <= 2048)&&(y >= 900 && y <= 1024)) {
-        qDebug() << "进入第二种方案";
+        qDebug() << "1280 <= x <= 2048 && 900 <= y <= 1024";
         return m_nScreenHeight/3;
     } else if ((x >= 1920 && x <= 3840)&&(y >= 1200 && y <= 2160)) {
-        qDebug() << "进入第三种方案";
+        qDebug() << "1920 <= x 3840 && y >= 1200 && y <= 2160";
         return m_nScreenHeight/4;
     }
 }
@@ -654,17 +650,17 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
 {
     Q_UNUSED(obj);
     Q_UNUSED(event);
-//    if (obj == this)
-//    {
-//        if (event->type() == QEvent::WindowDeactivate && true == m_bShowFlag)
-//        {
-//            qDebug() << "事件类型" << event->type();
-//            qDebug() << "Widget::eventFilter 消失";
-//            hideAnimation();
-//            m_bShowFlag = false;
-//            return true;
-//        }
-//    }
+    if (obj == this)
+    {
+        if (event->type() == QEvent::WindowDeactivate && true == m_bShowFlag)
+        {
+            qDebug() << "事件类型" << event->type();
+            qDebug() << "Widget::eventFilter 消失";
+            hideAnimation();
+            m_bShowFlag = false;
+            return true;
+        }
+    }
 
     if (!isActiveWindow())
     {
