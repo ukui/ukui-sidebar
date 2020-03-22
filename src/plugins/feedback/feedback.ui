@@ -486,7 +486,7 @@ border-bottom-right-radius:4px;
     <property name="geometry">
      <rect>
       <x>143</x>
-      <y>380</y>
+      <y>396</y>
       <width>311</width>
       <height>31</height>
      </rect>
@@ -535,7 +535,7 @@ spacing: 5px;
     <property name="geometry">
      <rect>
       <x>35</x>
-      <y>384</y>
+      <y>400</y>
       <width>71</width>
       <height>23</height>
      </rect>
@@ -581,6 +581,28 @@ font: 12px;</string>
     </property>
     <property name="text">
      <string>文件大小超过了3MB或文件格式不支持</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="errorMailMessage">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>360</y>
+      <width>201</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color:rgb(255,0,0)</string>
+    </property>
+    <property name="text">
+     <string>请输入正确的邮箱格式</string>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>

@@ -115,6 +115,7 @@ void feedback::window_ui_init()
     ui->checkBox_4->setStyleSheet(" spacing: 6px;");
     //设置反馈类型的样式
     ui->comboBox->setStyleSheet("min-height: 30px;background-color: rgb(244, 244, 244);color: rgb(68, 68, 68);font: 14px ;");
+    ui->errorMailMessage->setVisible(false);
 }
 //获取图片
 void feedback::on_pushButton_clicked()
@@ -432,7 +433,19 @@ void feedback::on_textEdit_2_textChanged()
         emailflag = 0;
     }
     else{
-        emailflag = 1;
+        //使用正则表达式来判断邮箱地址
+        QRegExp rx("^[\\w-]+(\\.[\\w-]+)*@[\\w-]+(\\.[\\w-]+)+");
+        int pos=0;
+        QRegExpValidator v(rx, 0);
+        if(2==v.validate(email_str,pos)){
+            ui->errorMailMessage->setVisible(false);
+            emailflag = 1;
+        }
+        else{
+            ui->errorMailMessage->setVisible(true);
+            emailflag=0;
+        }
+
     }
     if (describeflag == 1 && emailflag == 1){//邮箱和详细描述都已经填写
         ui->pushButton_2->setEnabled(true);
