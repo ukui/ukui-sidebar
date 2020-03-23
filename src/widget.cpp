@@ -402,10 +402,6 @@ void Widget::showAnimation()
         pNotificationPluginObject->showNotification();       //当动画展开时给插件一个通知
     }
 
-//    GetsAvailableAreaScreen();                               //获取屏幕可用高度区域
-//    int clipboardhight = setClipBoardWidgetScaleFactor();
-//    qDebug() << "剪贴板高度" << clipboardhight;
-//    sidebarPluginsWidgets::getInstancePluinsWidgets()->setClipboardWidgetSize(clipboardhight); //设定剪贴板高度
     int  AnimaStartSideBarSite[4];                           //侧边栏动画开始位置
     int  AnimaStopSidebarSite[4];                            //侧边栏动画结束位置
     switch (getPanelSite())
