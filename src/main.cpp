@@ -36,7 +36,7 @@
 int main(int argc, char *argv[])
 {
     /* 如果系统中有实例在运行则退出 */
-    int fd = open("/tmp/ukui-sidebar-lock", O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+    int fd = open("/tmp/ukui-sidebar-lock-"+getuid(), O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
     if (fd < 0)
     {
         exit(1);
