@@ -640,15 +640,27 @@ void feedback::add_fileinfo_model()
         file_size = QString::number((float)info.size()/(float)1000000,'f',1) + "M";
 
     int rowNum = model->rowCount();
+    qDebug()<<"文件名："<<file_name;
+    qDebug()<<"文件大小："<<file_size;
+    qDebug()<<"文件名："<<filename;
     if(rowNum < 5)
     {
+        qDebug()<<"开始插入数据";
         model->insertRow(rowNum);
+        qDebug()<<"插入数据准备完成";
         model->setData(model->index(rowNum, 0), file_name);
+        qDebug()<<"设置第一列数据";
         model->setData(model->index(rowNum, 1), file_size);
+        qDebug()<<"设置第二列数据";
         model->setData(model->index(rowNum, 2), filename);
+        qDebug()<<"设置第三列数据";
         model->submitAll();
-        model->setTable("clock");
-        model->select();
+        // 在此处崩溃，故注释，经测试，可以通过
+        // model->setTable("clock");
+        // qDebug()<<"重新选择表";
+        // model->select();
+        // qDebug()<<"重新选定所有数据";
+        
 
         for(int i=0; i<rowNum; i++)
         {
@@ -712,7 +724,8 @@ bool feedback::all_file_size_than_3M()
     int rowNum = model->rowCount();
     for(int filenum=0; filenum<rowNum; filenum++)
     {
-        file_info.setFile(model->index(filenum, 1).data().toString());
+        file_info.setFile(model->index(filenum, 2).data().toString());
+        qDebug()<<file_info.size();
         all_filesize += file_info.size();
     }
 
@@ -728,7 +741,7 @@ bool feedback::all_file_size_than_3M()
         file_info.setFile("/var/log/syslog");
         all_filesize += file_info.size();
     }
-    //qDebug()<<all_filesize;
+    qDebug()<<all_filesize;
     if(all_filesize > 3*1024*1024)
     {
         return true;
