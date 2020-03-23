@@ -322,14 +322,15 @@ QListWidget:Item{
 QLabel#SideBarClipboardLable{
     width:70px;
     height:14px;
-    margin-top:130px;
-    margin-left:166px;
-    margin-bottom:144px;
-    margin-right:160px;
+    margin-top:50px;
+    margin-left:146px;
+    margin-bottom:150px;
+    margin-right:150px;
     font-size:14px;
     font-family:Noto Sans CJK SC;
     font-weight:400;
     color:rgba(255,255,255,1);
     line-height:28px;
     opacity:0.57;
+/*    border: 1px solid rgba(255,255,0,1);*/
 }

@@ -85,8 +85,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     }
 
     //加载通知中心插件
-    if(false == loadNotificationPlugin())
-    {
+    if (false == loadNotificationPlugin()) {
         qDebug() << "通知中心插件加载失败";
     }
 
@@ -232,13 +231,12 @@ int Widget::ListenClipboardSignal()
     });
 
     sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pClipboardWidget = m_pSidebarClipboard->getClipbaordGroupBox();   //获取剪贴板的Groubox指针;
-    GetsAvailableAreaScreen();                               //获取屏幕可用高度区域
+    GetsAvailableAreaScreen();                                                                     //获取屏幕可用高度区域
     int clipboardhight = setClipBoardWidgetScaleFactor();
     qDebug() << "剪贴板高度" << clipboardhight;
     sidebarPluginsWidgets::getInstancePluinsWidgets()->setClipboardWidgetSize(clipboardhight); //设定剪贴板高度
     sidebarPluginsWidgets::getInstancePluinsWidgets()->AddPluginWidgetInterface();       //将下半部分所有控件加入到sidebarPluginsWidgets中
-    m_pMainQVBoxLayout->addWidget( sidebarPluginsWidgets::getInstancePluinsWidgets(), 0);
-
+    m_pMainQVBoxLayout->addWidget(sidebarPluginsWidgets::getInstancePluinsWidgets(), 0);
     return 0;
 }
 
@@ -332,7 +330,6 @@ int Widget::connectTaskBarDbus()
 {
     QDBusMessage msg = m_pServiceInterface->call("GetPanelSize", QVariant("Hight"));
     int panelHight = msg.arguments().at(0).toInt();
-    qDebug() << "panelHight" << panelHight;
     return panelHight;
 }
 
@@ -380,7 +377,7 @@ int Widget::setClipBoardWidgetScaleFactor()
     int x , y;
     x = m_nScreenWidth;
     y = m_nScreenHeight;
-    if ((x >= 800 && x <= 1280)&&(y >= 600 && y <= 720)) {
+    if ((x >= 800 && x <= 1280)&&(y >= 600 && y <= 768)) {
         qDebug() << "800 <= x <= 1280 && 600 <= y <= 720 ";
         return m_nScreenHeight/2 - connectTaskBarDbus();
     } else if ((x >= 1280 && x <= 2048)&&(y >= 900 && y <= 1024)) {
@@ -389,6 +386,9 @@ int Widget::setClipBoardWidgetScaleFactor()
     } else if ((x >= 1920 && x <= 3840)&&(y >= 1200 && y <= 2160)) {
         qDebug() << "1920 <= x 3840 && y >= 1200 && y <= 2160";
         return m_nScreenHeight/4;
+    } else {
+        return m_nScreenHeight/2 - connectTaskBarDbus();
+        qDebug() << "y <= 600 || y>= 2160";
     }
 }
 
@@ -401,10 +401,6 @@ void Widget::showAnimation()
         pNotificationPluginObject->showNotification();       //当动画展开时给插件一个通知
     }
 
-    GetsAvailableAreaScreen();                               //获取屏幕可用高度区域
-    int clipboardhight = setClipBoardWidgetScaleFactor();
-    qDebug() << "剪贴板高度" << clipboardhight;
-    sidebarPluginsWidgets::getInstancePluinsWidgets()->setClipboardWidgetSize(clipboardhight); //设定剪贴板高度
     int  AnimaStartSideBarSite[4];                           //侧边栏动画开始位置
     int  AnimaStopSidebarSite[4];                            //侧边栏动画结束位置
     switch (getPanelSite())
@@ -472,6 +468,7 @@ void Widget::showAnimation()
 
     m_nInitalXPosition =  AnimaStartSideBarSite[0];
     this->setGeometry(AnimaStartSideBarSite[0], AnimaStartSideBarSite[1], 0, AnimaStartSideBarSite[3]);
+    this->show();
     m_pMainOuterReplaceWidget->setGeometry(0, 0, 0, AnimaStopSidebarSite[3]);
     m_pMainOuterReplaceWidget->setVisible(true);
     m_pMainOuterBoxLayout->addWidget(m_pMainOuterReplaceWidget);
@@ -595,28 +592,28 @@ void Widget::hideAnimationFinish()
 {
     m_pMainOuterBoxLayout->removeWidget(m_pMainOuterReplaceWidget);
     m_pMainOuterReplaceWidget->setVisible(false);
+    this->hide();
 }
 
 //当改变屏幕分辨率时重新获取屏幕分辨率
 void Widget::onResolutionChanged(int argc)
 {
     Q_UNUSED(argc);
-    QDesktopWidget *deskWgt = QApplication::desktop();
-    if (nullptr == deskWgt)
-    {
-        return;
+    GetsAvailableAreaScreen();                               //获取屏幕可用高度区域
+    int clipboardhight = setClipBoardWidgetScaleFactor();
+    qDebug() << "剪贴板高度" << clipboardhight;
+    sidebarPluginsWidgets::getInstancePluinsWidgets()->setClipboardWidgetSize(clipboardhight); //设定剪贴板高度
+
+    if (sidebarPluginsWidgets::getInstancePluinsWidgets()->m_statusFlag == KYLIN_STATE_CLIPBOARD) {
+        sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pSidebarPluginButton->SendSingal();
+        sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pClipboardButton->SendSingal();
+        qDebug() << "jinruzhuangtai1111";
+    } else if (sidebarPluginsWidgets::getInstancePluinsWidgets()->m_statusFlag == KYLIN_STATE_SMALL_PLUGINS) {
+        sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pClipboardButton->SendSingal();
+        sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pSidebarPluginButton->SendSingal();
+        qDebug() << "jinruzhuangtaier";
     }
 
-    QRect screenRect = deskWgt->screenGeometry();
-    m_nScreenWidth = screenRect.width();
-    m_nScreenHeight = screenRect.height() - connectTaskBarDbus();
-    qInfo() << "screen width:" << m_nScreenWidth << ",height:" << m_nScreenHeight;
-
-    //当展开时，才需要实时改变尺寸
-    if(true == m_bShowFlag)
-    {
-        this->setGeometry(m_nScreenWidth - 400,0,400,m_nScreenHeight);
-    }
     return;
 }
 

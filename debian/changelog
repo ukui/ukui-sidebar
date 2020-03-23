@@ -1,3 +1,13 @@
+ukui-sidebar (1.1.0-1) unstable; urgency=medium
+
+  * New upstream release.
+    - Fix the problem of grabbing the mouse focus when new notification comes.
+    - Fix the error when search on the clipboard.
+    - Adjust the CSS style.
+    - Add plugin: clock, notebook and feedback.
+
+ -- handsome_feng <jianfengli@ubuntukylin.com>  Sat, 21 Mar 2020 15:44:04 +0800
+
 ukui-sidebar (1.0.2-1) unstable; urgency=medium
 
   * New upstream release.

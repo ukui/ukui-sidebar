@@ -31,3 +31,11 @@ QPushButton#BlueBackgroundButton{
     background:rgba(61,107,229,1);
     border-radius:4px;
 }
+
+QToolButton{
+    font-size:14px;
+    font-family:Noto Sans CJK SC;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    line-height:34px;
+}

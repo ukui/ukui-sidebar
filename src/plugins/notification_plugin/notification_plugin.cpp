@@ -30,10 +30,13 @@ NotificationPlugin::NotificationPlugin()
     m_bShowTakeIn = false;
     m_pMainWidget = new QWidget;
     m_pMainWidget->setObjectName("NotificationCenter");
-
-    QTranslator *qtTranslator = new QTranslator(this);
-    qtTranslator->load("/usr/share/ukui-sidebar-notification/language.qm");
-    QApplication::installTranslator(qtTranslator);
+    QLocale locale;
+    if ( locale.language() == QLocale::Chinese )  //获取系统语言环境
+    {
+        QTranslator *qtTranslator = new QTranslator(this);
+        qtTranslator->load("/usr/share/ukui-sidebar-notification/language.qm");
+        QApplication::installTranslator(qtTranslator);
+    }
 
     //加载样式表
     QFile file(":/qss/notification_plugin.css");

@@ -36,10 +36,16 @@ sidebarPluginsWidgets::sidebarPluginsWidgets(QWidget *parent) : QWidget(parent)
     }
 }
 
+sidebarPluginsWidgets::~sidebarPluginsWidgets()
+{
+
+}
+
 /* 返回全局的Widget指针 */
 sidebarPluginsWidgets* sidebarPluginsWidgets::getInstancePluinsWidgets()
 {
     if (global_Plugin_Widgets_instance == nullptr) {
+        qDebug() << "是否重复进入此处，重复进行new";
         global_Plugin_Widgets_instance = new sidebarPluginsWidgets();
     }
     return global_Plugin_Widgets_instance;
@@ -48,7 +54,7 @@ sidebarPluginsWidgets* sidebarPluginsWidgets::getInstancePluinsWidgets()
 /* 初始化sidebarPluginsWidgets类 */
 void sidebarPluginsWidgets::initPluginsWidgets()
 {
-    sidebarPluginsWidgets::getInstancePluinsWidgets();
+    getInstancePluinsWidgets();
 }
 
 /* 上半部分 剪贴板 小插件 俩按钮 groupBox初始化布局 */
@@ -98,13 +104,13 @@ void sidebarPluginsWidgets::initUpGroupBoxButton()
 void sidebarPluginsWidgets::initUnGroupBox()
 {
     /* 剪贴板GroupBox指针 */
-    m_pClipboardWidget = new QWidget();
-    m_pClipboardWidget->setFixedSize(400, 250);
-    m_pClipboardWidget->setContentsMargins(0,0,0,0);
+//    m_pClipboardWidget = new QWidget();
+//    m_pClipboardWidget->setFixedSize(400, 250);
+//    m_pClipboardWidget->setContentsMargins(0,0,0,0);
 
     /* 小插件GroupBox指针 */
     m_pPluginsButtonWidget = new QWidget();
-    m_pClipboardWidget->setFixedSize(400, 250);
+    m_pPluginsButtonWidget->setFixedSize(400, 250);
     m_pPluginsButtonWidget->setContentsMargins(0,0,0,0);
 
     /* 插件 按钮 */
@@ -126,33 +132,18 @@ void sidebarPluginsWidgets::initUnGroupBox()
     m_pNotebookButton->setIcon(NoteBookPng);
     m_pNotebookButton->setIconSize(QSize(48,48));
     m_pNotebookButton->setText(tr("Notebook"));
-    m_pNotebookButton->setStyleSheet("QToolButton#NotebookButton{font-size:14px; \
-                                                   font-family:Noto Sans CJK SC; \
-                                                   font-weight:400;              \
-                                                   color:rgba(255,255,255,1);    \
-                                                   line-height:34px;}");
 
     /* 闹钟按钮 */
     QIcon AlarmPng = QIcon::fromTheme("alarm-clock", QIcon(KYLIN_ALARM_CLACK_ICON));
     m_pAlarmClockButton->setIcon(AlarmPng);
     m_pAlarmClockButton->setIconSize(QSize(48,48));
     m_pAlarmClockButton->setText(tr("Alarm clock"));
-    m_pAlarmClockButton->setStyleSheet("QToolButton#AlarmClockButton{font-size:14px; \
-                                                   font-family:Noto Sans CJK SC; \
-                                                   font-weight:400;              \
-                                                   color:rgba(255,255,255,1);    \
-                                                   line-height:34px;}");
 
     /* 设置用户反馈反馈程序按钮 */
     QIcon FeedBackPng = QIcon::fromTheme("customer_feedback", QIcon(KYLIN_FEEDBACK));
     m_pFeedbackButtom->setIcon(FeedBackPng);
     m_pFeedbackButtom->setIconSize(QSize(48,48));
     m_pFeedbackButtom->setText(tr("Feedback"));
-    m_pFeedbackButtom->setStyleSheet("QToolButton#FeedbackButtom{font-size:14px; \
-                                                   font-family:Noto Sans CJK SC; \
-                                                   font-weight:400;              \
-                                                   color:rgba(255,255,255,1);    \
-                                                   line-height:34px;}");
 
     /* 设置按钮图表 */
     m_pGroupBoxUnSmallPluginsGLayout = new QGridLayout();
@@ -227,6 +218,7 @@ void sidebarPluginsWidgets::AddPluginWidgetInterface()
         setSmallPluginsButtonBackgroudIsBlank();
         m_pBlueBackgroundButton->setVisible(true);
         m_pAnimationRightLeft->start();
+        m_statusFlag = KYLIN_STATE_CLIPBOARD;
     });
 
     /* 进入状态机二时将按钮小插件的背景设置成空白 */
@@ -234,6 +226,7 @@ void sidebarPluginsWidgets::AddPluginWidgetInterface()
         setClipboardButtonBackgroundIsBlank();
         m_pBlueBackgroundButton->setVisible(true);
         m_pAnimationLeftRight->start();
+        m_statusFlag = KYLIN_STATE_SMALL_PLUGINS;
     });
 
     m_pMachine->setInitialState(m_pClipBoardState);
@@ -328,7 +321,7 @@ void sidebarPluginsWidgets::setSmallPluginsButtonBackgroudIsBlank()
 void sidebarPluginsWidgets::setClipboardWidgetSize(int ClipHight)
 {
     qDebug() << "设置小剪贴板的界面大小---->" << ClipHight;
-    this->setFixedSize(400, ClipHight);
+    m_pClipboardWidget->setFixedSize(400, ClipHight);
     return;
 }
 

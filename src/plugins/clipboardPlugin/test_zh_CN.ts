@@ -40,4 +40,12 @@
         <translation type="unfinished">清空</translation>
     </message>
 </context>
+<context>
+    <name>SidebarClipboardPlugin</name>
+    <message>
+        <location filename="sidebarclipboardplugin.cpp" line="49"/>
+        <source>No clip content</source>
+        <translation>无剪贴内容</translation>
+    </message>
+</context>
 </TS>
