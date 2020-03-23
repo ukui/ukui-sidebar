@@ -24,10 +24,10 @@ Widget::Widget(QWidget *parent) :
     ui(new Ui::Widget)
 {    
     ui->setupUi(this);
-    createSql();
+    //createSql();
     this->ukui_init();
     this->ukui_conn();
-    ukui_sql_init();
+    //ukui_sql_init();
 }
 
 Widget::~Widget()
@@ -320,6 +320,6 @@ void Widget::fileSavedSlot(QString data)
     qDebug() << "fileSavedSlot";
     filename = data;
     qDebug() << "fileSavedSlot filename = " << data;
-    ukui_addItem();
+    //ukui_addItem();
 }
 
