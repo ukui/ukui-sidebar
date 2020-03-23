@@ -22,6 +22,8 @@
 #define  KYLIN_NOTEBOOK              ":/data/images/kylin-notebook.svg"
 #define  KYLIN_FEEDBACK              ":/data/images/kylin-feedback.png"
 #define  KYLIN_SIDEBAR_SMALL_PLUGINS ":/data/qss/SidebarSmallPlugins.css"
+#define  KYLIN_STATE_CLIPBOARD       1
+#define  KYLIN_STATE_SMALL_PLUGINS   2
 #include <QtWidgets>
 #include <QPushButton>
 #include <QVBoxLayout>
@@ -36,6 +38,7 @@ class sidebarPluginsWidgets : public QWidget
     Q_OBJECT
 public:
     explicit sidebarPluginsWidgets(QWidget *parent = nullptr);
+    ~sidebarPluginsWidgets();
     static sidebarPluginsWidgets* getInstancePluinsWidgets();
     static void initPluginsWidgets();
     void AddPluginWidgetInterface();
@@ -57,7 +60,7 @@ public:
     QWidget     *m_pClipboardWidget;                              //放置剪贴板的Box
     QWidget     *m_pPluginsButtonWidget;                          //放置小插件按钮Box
 
-    QPushButton      *m_pBlueBackgroundButton;                          //蓝色背景块
+    QPushButton      *m_pBlueBackgroundButton;                    //蓝色背景块
     SmallPluginsButton *m_pClipboardButton;                       //剪贴板 界面显示按钮
     SmallPluginsButton *m_pSidebarPluginButton;                   //插件 界面显示按钮
     QToolButton *m_pNotebookButton;                               //笔记本 按钮
@@ -72,6 +75,7 @@ public:
     QState *m_pClipBoardState;                                    //剪贴板状态
     QState *m_pSmallPluginsState;                                 //小插件状态
     bool    m_pBoolStates;
+    int     m_statusFlag;                                         //状态机位置
 
 signals:
 
