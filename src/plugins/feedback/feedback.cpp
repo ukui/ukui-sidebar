@@ -647,18 +647,18 @@ void feedback::add_fileinfo_model()
     {
         qDebug()<<"开始插入数据";
         model->insertRow(rowNum);
-        qDebug()<<"插入数据准备完成";
+        //qDebug()<<"插入数据准备完成";
         model->setData(model->index(rowNum, 0), file_name);
-        qDebug()<<"设置第一列数据";
+        //qDebug()<<"设置第一列数据";
         model->setData(model->index(rowNum, 1), file_size);
-        qDebug()<<"设置第二列数据";
+        //qDebug()<<"设置第二列数据";
         model->setData(model->index(rowNum, 2), filename);
-        qDebug()<<"设置第三列数据";
+        //qDebug()<<"设置第三列数据";
         model->submitAll();
         // 在此处崩溃，故注释，经测试，可以通过
         // model->setTable("clock");
         // qDebug()<<"重新选择表";
-        // model->select();
+         model->select();
         // qDebug()<<"重新选定所有数据";
         
 
