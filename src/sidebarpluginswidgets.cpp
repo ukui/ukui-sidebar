@@ -132,33 +132,18 @@ void sidebarPluginsWidgets::initUnGroupBox()
     m_pNotebookButton->setIcon(NoteBookPng);
     m_pNotebookButton->setIconSize(QSize(48,48));
     m_pNotebookButton->setText(tr("Notebook"));
-    m_pNotebookButton->setStyleSheet("QToolButton#NotebookButton{font-size:14px; \
-                                                   font-family:Noto Sans CJK SC; \
-                                                   font-weight:400;              \
-                                                   color:rgba(255,255,255,1);    \
-                                                   line-height:34px;}");
 
     /* 闹钟按钮 */
     QIcon AlarmPng = QIcon::fromTheme("alarm-clock", QIcon(KYLIN_ALARM_CLACK_ICON));
     m_pAlarmClockButton->setIcon(AlarmPng);
     m_pAlarmClockButton->setIconSize(QSize(48,48));
     m_pAlarmClockButton->setText(tr("Alarm clock"));
-    m_pAlarmClockButton->setStyleSheet("QToolButton#AlarmClockButton{font-size:14px; \
-                                                   font-family:Noto Sans CJK SC; \
-                                                   font-weight:400;              \
-                                                   color:rgba(255,255,255,1);    \
-                                                   line-height:34px;}");
 
     /* 设置用户反馈反馈程序按钮 */
     QIcon FeedBackPng = QIcon::fromTheme("customer_feedback", QIcon(KYLIN_FEEDBACK));
     m_pFeedbackButtom->setIcon(FeedBackPng);
     m_pFeedbackButtom->setIconSize(QSize(48,48));
     m_pFeedbackButtom->setText(tr("Feedback"));
-    m_pFeedbackButtom->setStyleSheet("QToolButton#FeedbackButtom{font-size:14px; \
-                                                   font-family:Noto Sans CJK SC; \
-                                                   font-weight:400;              \
-                                                   color:rgba(255,255,255,1);    \
-                                                   line-height:34px;}");
 
     /* 设置按钮图表 */
     m_pGroupBoxUnSmallPluginsGLayout = new QGridLayout();

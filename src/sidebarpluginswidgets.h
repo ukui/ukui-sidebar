@@ -50,6 +50,7 @@ public:
     void setClipboardButtonBackgroundIsBlank();                   //设置侧边栏按钮背景色为空白
     void setSmallPluginsButtonBackgroudIsBlank();                 //设置小插件按钮背景色为空白
     void setClipboardWidgetSize(int ClipHight);                   //设置此窗口的大小
+    const char* setTileString();
 
 
     QVBoxLayout *m_pWidgetOutVLayout;                             //最外层布局

@@ -231,7 +231,7 @@ int Widget::ListenClipboardSignal()
     });
 
     sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pClipboardWidget = m_pSidebarClipboard->getClipbaordGroupBox();   //获取剪贴板的Groubox指针;
-    GetsAvailableAreaScreen();                               //获取屏幕可用高度区域
+    GetsAvailableAreaScreen();                                                                     //获取屏幕可用高度区域
     int clipboardhight = setClipBoardWidgetScaleFactor();
     qDebug() << "剪贴板高度" << clipboardhight;
     sidebarPluginsWidgets::getInstancePluinsWidgets()->setClipboardWidgetSize(clipboardhight); //设定剪贴板高度
@@ -330,7 +330,6 @@ int Widget::connectTaskBarDbus()
 {
     QDBusMessage msg = m_pServiceInterface->call("GetPanelSize", QVariant("Hight"));
     int panelHight = msg.arguments().at(0).toInt();
-    qDebug() << "panelHight" << panelHight;
     return panelHight;
 }
 

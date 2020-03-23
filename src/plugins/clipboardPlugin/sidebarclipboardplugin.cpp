@@ -39,23 +39,34 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
     m_pSidebarClipboardWidget = new QWidget();
     m_pSidebarClipboardWidget->setObjectName("ClipboardWidget");
     m_pSidebarClipboardWidget->setContentsMargins(0,0,0,0);
+
     m_pClipboardLaout = new QVBoxLayout;
     m_pClipboardLaout->setContentsMargins(0,0,0,0);
+
     m_pShortcutOperationListWidget = new ClipBoardLisetWidget;
     m_pSearchWidgetListWidget      = new QListWidget;
-//    connect(this, &SidebarClipboardPlugin::Itemchange, this, &SidebarClipboardPlugin::ItemNumchagedSlots);
+
+    m_pSideBarClipboardLable = new QLabel(tr("No clip content"));
+
+    connect(this, &SidebarClipboardPlugin::Itemchange, this, &SidebarClipboardPlugin::ItemNumchagedSlots);
+
     m_pSearchWidgetListWidget->setFixedSize(400, 42);
     m_pShortcutOperationListWidget->setContentsMargins(0,0,0,0);
     m_pSearchWidgetListWidget->setContentsMargins(0,0,0,0);
-//    m_pSideBarClipboardLable = new QLabel(tr("无剪贴内容"));
-//    m_pSideBarClipboardLable->setObjectName("SideBarClipboardLable");
+
     createFindClipboardWidgetItem();
+
     m_pClipboardLaout->addWidget(m_pSearchWidgetListWidget);
     m_pClipboardLaout->addWidget(m_pShortcutOperationListWidget);
-//    m_pClipboardLaout->addWidget(m_pSideBarClipboardLable);
+    m_pClipboardLaout->addWidget(m_pSideBarClipboardLable);
+
     m_pSidebarClipboardWidget->setLayout(m_pClipboardLaout);
+    m_pShortcutOperationListWidget->setVisible(false);
+
     m_pShortcutOperationListWidget->setObjectName("ShortcutOperationList");
     m_pSearchWidgetListWidget->setObjectName("SearchWidgetListWidget");
+    m_pSideBarClipboardLable->setObjectName("SideBarClipboardLable");
+
     m_pSidebarClipboard = QApplication::clipboard();
     connect(m_pSidebarClipboard, &QClipboard::dataChanged, this, [=]() {
        const QMimeData *mimeData = new QMimeData();
@@ -163,7 +174,7 @@ void SidebarClipboardPlugin::createWidgetEntry(const QMimeData *mimeData)
         qWarning() << "text文本为空";
         return ;
     }
-    emit Itemchange();
+
     /* 当有重复的时候将会置顶 */
     if(booleanExistWidgetItem(text)) {
         qDebug() << "此条内容已存在，就是当前置顶的条数";
@@ -171,7 +182,6 @@ void SidebarClipboardPlugin::createWidgetEntry(const QMimeData *mimeData)
         delete w;
         return;
     }
-
     /* hash插入QMimeData，保留原数据 */
     registerMimeData(w, copyMinedata(mimeData));
     registerLabelText(w, text);
@@ -228,6 +238,7 @@ void SidebarClipboardPlugin::createWidgetEntry(const QMimeData *mimeData)
     m_pShortcutOperationListWidget->insertItem(0, pListWidgetItem);
     m_pShortcutOperationListWidget->setItemWidget(pListWidgetItem, w);
     registerWidgetItem(w, pListWidgetItem);
+    emit Itemchange();
 }
 
 /* 注册WidgetItem条目与widgetItem的键值对关系 */
@@ -455,8 +466,8 @@ void SidebarClipboardPlugin::removeButtonSlots(ClipboardWidgetEntry *w)
         qDebug() << "删除当前的条目为第一个条目";
         /* 将新的第一个条目中的内容重新写到剪贴板中去 */
         WhetherTopFirst();
-        return;
     }
+    emit Itemchange();
     return;
 }
 
@@ -572,6 +583,7 @@ void SidebarClipboardPlugin::removeAllWidgetItem()
         removeLabelText(w);
         w->deleteLater();
     }
+    emit Itemchange();
 }
 
 /* 搜索 槽函数 */
@@ -597,7 +609,7 @@ void SidebarClipboardPlugin::ItemNumchagedSlots()
 {
     int num = m_pShortcutOperationListWidget->count();
     qDebug() << "Item数目发生变化， 当前Item数目" << num;
-    if (num >= 0) {
+    if (num > 0) {
         m_pSideBarClipboardLable->setVisible(false);
         m_pShortcutOperationListWidget->setVisible(true);
     } else {
