@@ -1,4 +1,4 @@
-/*
+                /*
 * Copyright (C) 2019 Tianjin KYLIN Information Technology Co., Ltd.
 *
 * This program is free software; you can redistribute it and/or modify
@@ -48,6 +48,7 @@ feedback_plugin::~feedback_plugin() {
         delete mp_feedback;
     }
     mp_feedback = nullptr;
+
 }
 
 QWidget* feedback_plugin::centerWidget()

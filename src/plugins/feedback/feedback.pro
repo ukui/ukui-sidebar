@@ -25,7 +25,9 @@ TRANSLATIONS += Resource/feedback_zh.ts \
 
 SOURCES += \
     browse_button.cpp \
+    closeBtn_hover.cpp \
     feedback.cpp \
+    fileitem_init.cpp \
     submit_fail.cpp \
     submit_success.cpp \
     systeminfo_button.cpp \
@@ -34,8 +36,9 @@ SOURCES += \
 INCLUDEPATH    += ../../plugin-interface
 HEADERS += \
     browse_button.h \
-    database.h \
+    closeBtn_hover.h \
     feedback.h \
+    fileitem_init.h \
     submit_fail.h \
     submit_success.h \
     systeminfo_button.h \
@@ -45,10 +48,7 @@ DESTDIR = ../feedback_plugins
 
 DISTFILES += feedback.json
 
-FORMS += \
-    feedback.ui \
-    submit_fail.ui \
-    submit_success.ui
+FORMS +=
 
 RESOURCES += \
     feedback.qrc
