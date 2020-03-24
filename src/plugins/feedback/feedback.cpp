@@ -330,6 +330,10 @@ void feedback::on_pushButton_2_clicked()
         ui->label_13->show();
         return;
     }
+    //修改按钮的提示，想做一个弹出窗口提示发送中，等拿到状态码之后关闭，发现不会。。。。
+    ui->pushButton_2->setText("提交中");
+    //禁止点击
+    ui->pushButton_2->setDisabled(true);
     //反馈信息类型
 
     QString s1("?title=");
@@ -776,6 +780,9 @@ void feedback::finishedSlot(QNetworkReply *reply)
         (*iter)->close() ;
     }
     m_filesArray.clear();
+     //发送完成后提交按钮设置有效，本意是想在弹出窗口关闭的时候设置回来，但是发现自己不会。。。。。
+    ui->pushButton_2->setText("提交");
+    ui->pushButton_2->setEnabled(true);
 }
 
 
