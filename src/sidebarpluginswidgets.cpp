@@ -4,15 +4,7 @@ static sidebarPluginsWidgets *global_Plugin_Widgets_instance = nullptr;
 sidebarPluginsWidgets::sidebarPluginsWidgets(QWidget *parent) : QWidget(parent)
 {
     Q_UNUSED(parent);
-    translator = new QTranslator;
-    QLocale locale;
 
-    if( locale.language() == QLocale::Chinese )  //获取系统语言环境
-    {
-        qDebug() << "中文环境2" ;
-        translator->load(QString(":sidebartranslat/Sidebar_zh_CN.qm"));  //选择翻译文件
-        QApplication::installTranslator(translator);
-    }
     this->setContentsMargins(0,0,0,0);
     this->setFixedSize(400,300);
     this->setStyleSheet("QWidget{background:rgba(255, 255, 0, 0);}");
@@ -153,7 +145,7 @@ void sidebarPluginsWidgets::initUnGroupBox()
 
     QSpacerItem *item1 = new QSpacerItem(10, 20);
     QSpacerItem *item2 = new QSpacerItem(10, 20);
-    QSpacerItem *item3 = new QSpacerItem(102,20);
+    QSpacerItem *item3 = new QSpacerItem(100,20);
 
     m_pGroupBoxUnSmallPluginsGLayout->addItem(item1,0,0);
     m_pGroupBoxUnSmallPluginsGLayout->addWidget(m_pAlarmClockButton,0,1);

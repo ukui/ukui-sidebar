@@ -67,7 +67,7 @@ public:
     QToolButton *m_pNotebookButton;                               //笔记本 按钮
     QToolButton *m_pAlarmClockButton;                             //闹钟  按钮
     QToolButton *m_pFeedbackButtom;                               //用户反馈按钮
-    QTranslator *translator;
+
     QPropertyAnimation *m_pAnimationLeftRight;
     QPropertyAnimation *m_pAnimationRightLeft;
 

@@ -12,6 +12,11 @@
 <context>
     <name>Widget</name>
     <message>
+        <location filename="widget.cpp" line="221"/>
+        <source>ClipBoard</source>
+        <translation>剪贴板</translation>
+    </message>
+    <message>
         <location filename="widget.cpp" line="246"/>
         <source>Mi&amp;nimize</source>
         <translation type="unfinished"></translation>
@@ -31,6 +36,11 @@
         <source>&amp;Quit</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="widget.cpp" line="291"/>
+        <source>Sidebar</source>
+        <translation>侧边栏</translation>
+    </message>
 </context>
 <context>
     <name>sidebarPluginsWidgets</name>
@@ -45,15 +55,17 @@
         <translation>小插件</translation>
     </message>
     <message>
+        <location filename="sidebarpluginswidgets.cpp" line="134"/>
         <source>Notebook</source>
-        <translation type="vanished">笔记本</translation>
+        <translation>笔记本</translation>
     </message>
     <message>
+        <location filename="sidebarpluginswidgets.cpp" line="140"/>
         <source>Alarm clock</source>
-        <translation type="vanished">闹钟</translation>
+        <translation>闹钟</translation>
     </message>
     <message>
-        <location filename="sidebarpluginswidgets.cpp" line="148"/>
+        <location filename="sidebarpluginswidgets.cpp" line="146"/>
         <source>Feedback</source>
         <translation>用户反馈</translation>
     </message>

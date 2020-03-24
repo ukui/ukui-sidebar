@@ -33,6 +33,14 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     m_bShowFlag = false;
     m_bFwinkleFlag = true;
 
+    m_pTranslator = new QTranslator;
+    QLocale locale;
+    if( locale.language() == QLocale::Chinese )  //获取系统语言环境
+    {
+        m_pTranslator->load(QString(":sidebartranslat/Sidebar_zh_CN.qm"));  //选择翻译文件
+        QApplication::installTranslator(m_pTranslator);
+    }
+
     //监听屏幕分辨率是否变化
     QDesktopWidget* desk = QApplication::desktop();
     connect(desk, SIGNAL(resized(int)), this, SLOT(onResolutionChanged(int)));

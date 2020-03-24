@@ -24,7 +24,7 @@
     <message>
         <location filename="sidebarclipboardplugin.h" line="59"/>
         <source>ClipBoard</source>
-        <translation type="unfinished"></translation>
+        <translation>剪贴板</translation>
     </message>
     <message>
         <location filename="sidebarclipboardplugin.h" line="61"/>

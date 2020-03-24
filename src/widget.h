@@ -100,6 +100,7 @@ private:
     FeedbackInterface           *m_pPlugin_Plugin;                               //问题反馈全局变量
     nood_bookInterface           *m_pnotebookPluginObject;
     int                         m_nInitalXPosition;
+    QTranslator                 *m_pTranslator;
 
     //快捷操作面板
     ClipboardInterface*         m_pSidebarClipboard;                            //侧边栏剪贴板指针
