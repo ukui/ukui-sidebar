@@ -327,7 +327,8 @@ void feedback::on_pushButton_2_clicked()
     //判断文件总大小是否超过3M，如果超过，提示
     if(all_file_size_than_3M() == true)
     {
-        ui->label_13->show();
+        //ui->label_13->show();
+        QMessageBox::warning(this,"文件大小超限","文件的总大小超过3M",QMessageBox::Yes);
         return;
     }
     //修改按钮的提示，想做一个弹出窗口提示发送中，等拿到状态码之后关闭，发现不会。。。。
