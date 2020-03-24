@@ -29,7 +29,8 @@ SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
     m_pClearListWidgetButton = new QPushButton(tr("Clear"));
     m_pClearListWidgetButton->setObjectName("CleanList");
     m_pClearTextButton = new QPushButton;
-    m_pClearTextButton->setIconSize(QSize(8.5,8.5));
+    m_pClearTextButton->setFixedSize(21, 21);
+    m_pClearTextButton->setIconSize(QSize(9, 9));
     m_pClearTextButton->setObjectName("ClearTextButton");
     m_pClearTextButton->setStyleSheet("QPushButton:pressed{border-image:url(:/image/button-close-hover-click-add-background-one.svg)}");
     m_pClearTextButton->setStyleSheet("QPushButton:hover{border-image:url(:/image/button-close-hover-click-add-background-one.svg)}");
@@ -43,10 +44,23 @@ SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
     m_pLineEditArea = new QLineEdit;
     m_pLineEditArea->setFixedSize(290, 30);
     m_pLineEditArea->setObjectName("SearchLabel");
+    m_pLineEditArea->setContentsMargins(0,0,0,0);
+    m_pLineEditArea->setPlaceholderText(tr("search..."));
+    connect(m_pLineEditArea, &QLineEdit::textChanged, this, &SearchWidgetItemContent::textChageSlots);
+    /* Sets the font color of the placeholder */
+    QBrush LineEditBrush;
+    QPalette paletteLineEdit;
+    QColor ColorPlaceholderText(255,255,255,89);
+    LineEditBrush = paletteLineEdit.placeholderText();
+    LineEditBrush.setColor(ColorPlaceholderText);
+    paletteLineEdit.setBrush(QPalette::PlaceholderText, LineEditBrush);
+    m_pLineEditArea->setPalette(paletteLineEdit);
+
     QWidgetAction* action = new QWidgetAction(m_pLineEditArea);
     action->setDefaultWidget(m_pClearTextButton);
-    m_pLineEditArea->addAction(action, QLineEdit::TrailingPosition);
 
+    m_pLineEditArea->addAction(action, QLineEdit::TrailingPosition);
+    m_pClearTextButton->setVisible(false);
     connect(m_pClearTextButton, &QPushButton::clicked, this, [=](){
           m_pLineEditArea->setText("");
     });
@@ -58,4 +72,13 @@ SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
     m_pHBoxLayout->addItem(item1);
     m_pHBoxLayout->setSpacing(10);
     this->setLayout(m_pHBoxLayout);
+}
+
+void SearchWidgetItemContent::textChageSlots(const QString &text)
+{
+    if (text != "") {
+        m_pClearTextButton->setVisible(true);
+    } else {
+        m_pClearTextButton->setVisible(false);
+    }
 }

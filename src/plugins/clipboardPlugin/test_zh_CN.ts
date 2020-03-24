@@ -37,7 +37,12 @@
     <message>
         <location filename="searchwidgetitemcontent.cpp" line="29"/>
         <source>Clear</source>
-        <translation type="unfinished">清空</translation>
+        <translation>清空</translation>
+    </message>
+    <message>
+        <location filename="searchwidgetitemcontent.cpp" line="48"/>
+        <source>search...</source>
+        <translation>搜索...</translation>
     </message>
 </context>
 <context>

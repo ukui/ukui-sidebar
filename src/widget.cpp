@@ -218,7 +218,7 @@ bool Widget::loadNotificationPlugin()
 //加载剪贴板插件
 int Widget::ListenClipboardSignal()
 {
-    PluginInterface* pPluginInterface = PluginManager::getInstance()->m_PluginInterfaceHash.value("ClipBoard");
+    PluginInterface* pPluginInterface = PluginManager::getInstance()->m_PluginInterfaceHash.value(tr("ClipBoard"));
     m_pSidebarClipboard = dynamic_cast<ClipboardInterface *>(pPluginInterface);                     //获取剪贴版插件指针;
     if (nullptr == m_pSidebarClipboard) {
         qWarning() << "剪贴板插件插件加载失败";
@@ -272,7 +272,6 @@ void Widget::createSystray()
     trayIconMenu->addAction(quitAction);
 
     trayIcon = new QSystemTrayIcon(this);
-
     qApp->setStyleSheet("QToolTip{border:1px solid rgba(255, 255, 255, 0.2); background-color: #1A1A1A; color:#FFFFFF; padding:2px; border-radius:6px; font-size:14px;}");
 
     if (nullptr == trayIcon)
@@ -289,7 +288,7 @@ void Widget::setIcon(QString strIcon)
     QIcon icon = QIcon(strIcon);
     trayIcon->setIcon(icon);
     setWindowIcon(icon);
-    trayIcon->setToolTip("侧边栏");
+    trayIcon->setToolTip(tr("Sidebar"));
 }
 
 //设置activated信号

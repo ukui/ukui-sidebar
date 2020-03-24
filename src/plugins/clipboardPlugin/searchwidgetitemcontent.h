@@ -38,6 +38,9 @@ public:
     QPushButton *m_pClearListWidgetButton;
     QLineEdit   *m_pLineEditArea;
     QHBoxLayout *m_pHBoxLayout;
+
+private slots:
+    void textChageSlots(const QString &text);
 };
 
 #endif // SEARCHWIDGETITEMCONTENT_H
