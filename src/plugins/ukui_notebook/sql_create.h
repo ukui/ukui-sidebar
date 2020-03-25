@@ -24,9 +24,9 @@
 
 static bool createSql()
 {
-    QString url_filepath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) +"/.config/ukui/notebookSql.db";
+    QString SqlFilepath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) +"/.config/ukui/notebookSql.db";
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName(url_filepath);
+    db.setDatabaseName(SqlFilepath);
 
     if(!db.open()) return false;
 

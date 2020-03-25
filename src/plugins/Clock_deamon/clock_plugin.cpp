@@ -20,7 +20,6 @@
 #include "clock.h"
 #include "connection.h"
 #include "debug.h"
-#include "clock_interface.h"
 #include "qdebug.h"
 #include <QDesktopWidget>
 
@@ -34,7 +33,7 @@ void clock_plugin::onNotification() {
     qDebug()<< "onNotification";
 }
 
-void clock_plugin::show() {
+void clock_plugin::PluginsShowInterface() {
     if(Clockflag)
         m_pClock = new Clock;
     QDesktopWidget *desk = QApplication::desktop();

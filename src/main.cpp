@@ -32,6 +32,7 @@
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 #include "sidebarpluginswidgets.h"
+#include "smallpluginsmanage.h"
 
 int main(int argc, char *argv[])
 {
@@ -72,7 +73,9 @@ int main(int argc, char *argv[])
     setLogPath(LogFilePath + LOG_FILE_NAME);                        /* 绑定打印日志文件路径 */
 
     QApplication::setQuitOnLastWindowClosed(false);
+    SmallPluginsManage::SmallPluginsManageInit();                   /* 初始化侧边栏小插件管理容器 */
     PluginManager::init();                                          /* 初始化插件管理器 */
+
 
     Widget w;
     w.setObjectName("SidebarWidget");

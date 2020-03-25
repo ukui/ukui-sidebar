@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Widget</string>
+   <string>Note</string>
   </property>
   <property name="styleSheet">
    <string notr="true">width:568px;
@@ -30,9 +30,7 @@ opacity:0.7;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(0, 0, 0);
-border-width:0;
-</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string/>
@@ -48,11 +46,7 @@ border-width:0;
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(0, 0, 0);
-border-width:0;
-color: rgb(255, 255, 255);
-hover:color(0,0,255);
-</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string/>
@@ -70,23 +64,18 @@ hover:color(0,0,255);
    <property name="font">
     <font>
      <family>Noto Sans CJK SC</family>
-     <pointsize>-1</pointsize>
      <weight>50</weight>
      <bold>false</bold>
     </font>
    </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
    <property name="styleSheet">
-    <string notr="true">width:47px;
-height:23px;
-font-size:20px;
-font-family:Noto Sans CJK SC;
-font-weight:400;
-line-height:40px;
-background-color: rgb(0, 0, 0);
-color: rgb(255, 255, 255);</string>
+    <string notr="true"/>
    </property>
    <property name="text">
-    <string>笔记</string>
+    <string>Note</string>
    </property>
   </widget>
   <widget class="QListWidget" name="listWidget">
@@ -99,8 +88,7 @@ color: rgb(255, 255, 255);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color:rgb(0,0,0);
-</string>
+    <string notr="true"/>
    </property>
   </widget>
   <widget class="QToolButton" name="toolButton">
@@ -113,14 +101,17 @@ color: rgb(255, 255, 255);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(0, 0, 0);
-border-width:0;
-border-style:outset;</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string/>
    </property>
   </widget>
+  <zorder>pushButton_Exit</zorder>
+  <zorder>pushButton_Mini</zorder>
+  <zorder>ukui_labelTitle</zorder>
+  <zorder>toolButton</zorder>
+  <zorder>listWidget</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

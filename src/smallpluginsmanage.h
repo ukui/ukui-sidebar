@@ -16,35 +16,27 @@
 *
 */
 
-
-#ifndef PLUGINMANAGE_H
-#define PLUGINMANAGE_H
-
+#ifndef SMALLPLUGINSMANAGE_H
+#define SMALLPLUGINSMANAGE_H
 #include <QObject>
-#include "plugin-iface.h"
+#include <QDebug>
 #include "sidebarSmallPluginInterface.h"
-class PluginManager : public QObject
+#include "plugin-iface.h"
+class SmallPluginsManage : public QObject
 {
     Q_OBJECT
 public:
-    static void init();
-    static PluginManager *getInstance();
-    void close();
-    QHash<QString, PluginInterface*> m_PluginInterfaceHash;
+    SmallPluginsManage();
+    ~SmallPluginsManage();
 
+    static void SmallPluginsManageInit();
+    static SmallPluginsManage *getInstance();
 
-Q_SIGNALS:
-    void pluginStateChanged(const QString &pluginName, bool enable);
-
-private:
-    explicit PluginManager(QObject *parent = nullptr);
-    ~PluginManager();
-
-
-public Q_SLOTS:
-    void setPluginEnableByName(const QString &pluginName, bool enable);
-
-
+    QHash<PluginInterface*, SidebarSmallPluginInterface*> m_pSmallPluginsHash;
+    void registerSmallplugin(PluginInterface *key, SidebarSmallPluginInterface *value);
+    SidebarSmallPluginInterface* getSmallplugin(PluginInterface *key);
+    void removeSmallplugin(PluginInterface *key);
+    int m_PluginsNum;
 };
 
-#endif // PLUGINMANAGE_H
+#endif // SMALLPLUGINSMANAGE_H

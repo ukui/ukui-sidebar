@@ -31,7 +31,7 @@ void feedback_plugin::onNotification() {
     qDebug()<< "onNotification";
 }
 
-void feedback_plugin::show() {
+void feedback_plugin::PluginsShowInterface() {
     if (FeedBackFlag) {
         mp_feedback = new feedback ;
     }

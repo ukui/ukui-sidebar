@@ -29,12 +29,16 @@ void notebook_plugin::onNotification() {
     qDebug()<< "onNotification";
 }
 
-void notebook_plugin::show() {
+void notebook_plugin::PluginsShowInterface() {
+    if(Notebookflag)
+        mp_notebook = new Widget;
     QDesktopWidget *desk = QApplication::desktop();
     QRect deskRect = desk->availableGeometry();
     mp_notebook->show();
     mp_notebook->move((deskRect.width()-mp_notebook->width())/2, (deskRect.height()-mp_notebook->height())/2);
+    Notebookflag = true;
 }
+
 notebook_plugin::~notebook_plugin() {
     if( mp_notebook)
     {

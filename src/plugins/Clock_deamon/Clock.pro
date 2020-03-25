@@ -26,7 +26,7 @@ HEADERS  += clock.h \
     clock_plugin.h \
     stopwatch_item.h
 
-DESTDIR = ../clock_plugins
+DESTDIR = ../sidebarSmallPlugins
 
 INCLUDEPATH    += ../../plugin-interface
 
@@ -44,6 +44,6 @@ RESOURCES += \
 RC_FILE = clock.rc
 
 unix {
-    target.path = /usr/lib/ukui-sidebar/sidebaralarm
+    target.path = /usr/lib/ukui-sidebar/sidebarSmallPlugins
     INSTALLS += target
 }

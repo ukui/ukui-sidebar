@@ -24,13 +24,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 
-DESTDIR = ../note_book_plugins
+DESTDIR = ../sidebarSmallPlugins
 
 INCLUDEPATH    += ../../plugin-interface
 
 DISTFILES += notebook.json
 
 CONFIG += c++11
+
+TRANSLATIONS += \
+        ukui_notebook_zh_CN.ts
 
 SOURCES += \
         widget.cpp \
@@ -54,6 +57,6 @@ RESOURCES += \
     ukui_notebook.qrc
 
 unix {
-    target.path = /usr/lib/ukui-sidebar/sidebarNotebook
+    target.path = /usr/lib/ukui-sidebar/sidebarSmallPlugins
     INSTALLS += target
 }

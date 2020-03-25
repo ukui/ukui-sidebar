@@ -20,24 +20,40 @@
 
 
 #include <QWidget>
-#include "feedback_interface.h"
-class feedback_plugin : public QObject, public FeedbackInterface
+#include "sidebarSmallPluginInterface.h"
+class feedback_plugin : public QObject, public SidebarSmallPluginInterface
 {
+
+    Q_OBJECT
+    //Q_INTERFACES宏用于告诉Qt该类实现的接口
+    //Q_PLUGIN_METADATA宏用于描述插件元数据
+    Q_PLUGIN_METADATA(IID SidebarSmallPluginInterface_iid FILE "feedback.json")
+    Q_INTERFACES(SidebarSmallPluginInterface)
 public:
     feedback_plugin();
 
 
-    Q_OBJECT
-    //Q_INTERFACES宏用于告诉Qt该类实现的接口
-    Q_INTERFACES(FeedbackInterface)
-    //Q_PLUGIN_METADATA宏用于描述插件元数据
-    Q_PLUGIN_METADATA(IID feedbackInterface_iid FILE "feedback.json")
-    //申明该类有D-BUS服务接口
-    //Q_CLASSINFO("D-Bus Interface", "com.scorpio.test.value")
     bool FeedBackFlag;
 
     ~feedback_plugin();
-    void show();
+    const QString name() override {return QObject::tr("用户反馈");}
+    PluginType pluginType() override {return PluginType::SmallPlugin;}
+    const QString description() override {return QObject::tr("用户反馈问题的插件");}
+    const QIcon icon() override {return QIcon::fromTheme("feedback", QIcon::fromTheme("feedback",QIcon("://image/kylin-feedback.png")));}
+    void setEnable(bool enable) override {Q_UNUSED(enable)}
+    bool isEnable() override {return true;}
+
+    virtual int PluginButtonLocation_X() override {return 0;}
+    virtual int PluginButtonLocation_Y() override {return 3;}
+
+    virtual QString PluginButtonName() override {return QObject::tr("用户反馈");}
+    virtual int     pluginsLoadingSequence() override {return 3;}
+
+    virtual QString PluginIconName() override {return QObject::tr("用户反馈");}
+    virtual int PluginIconSize_W() override {return 48;}
+    virtual int PluginIconSize_H()  override {return 48;}
+
+    virtual void PluginsShowInterface() override;
 
     QWidget * mp_feedback;
     QWidget*  centerWidget();
@@ -50,3 +66,4 @@ signals:
 };
 
 #endif // FEEDBACK_PLUGIN_H
+

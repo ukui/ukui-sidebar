@@ -20,6 +20,7 @@
 #include "pluginmanage.h"
 #include "clipboardpluginiface.h"
 #include "widget.h"
+#include "smallpluginsmanage.h"
 #include <QDebug>
 #include <QDir>
 #include <QPluginLoader>
@@ -28,7 +29,7 @@ static PluginManager *global_instance = nullptr;
 
 PluginManager::PluginManager(QObject *parent) : QObject(parent)
 {
-    QDir pluginsDir("/usr/lib/ukui-sidebar/sidebar_clipboardPlugin_plugins");
+    QDir pluginsDir("/usr/lib/ukui-sidebar/sidebarSmallPlugins");
     pluginsDir.setFilter(QDir::Files);
 
     qDebug()<<pluginsDir.entryList().count();
@@ -52,10 +53,14 @@ PluginManager::PluginManager(QObject *parent) : QObject(parent)
         qDebug()<<pPluginInterface->name();
         m_PluginInterfaceHash.insert(pPluginInterface->name(), pPluginInterface);
         switch (pPluginInterface->pluginType()) {
-            case PluginInterface::PushBtton1: {
+            case PluginInterface::SmallPlugin: {
+                /* Plugins Num++, add Hash SmallPlugins pPluginInterface-->SmallPluginsInterface */
+                qDebug() << "Plugins Num++, add Hash SmallPlugins pPluginInterface-->SmallPluginsInterface";
+                SidebarSmallPluginInterface *p_SmallPluginsInterface = dynamic_cast<SidebarSmallPluginInterface*>(pPluginInterface);
+                SmallPluginsManage::getInstance()->registerSmallplugin(pPluginInterface, p_SmallPluginsInterface);
                 break;
             }
-            case PluginInterface::PushBtton2: {
+            case PluginInterface::ClipBoard: {
                 break;
             }
             case PluginInterface::PushBtton3: {
