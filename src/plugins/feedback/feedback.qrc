@@ -2,7 +2,19 @@
     <qresource prefix="/">
         <file>success.png</file>
         <file>fail.png</file>
+        <file>translation/feedback_en_US.qm</file>
         <file>image/kylin-feedback.png</file>
-        <file>Resource/feedback_en.qm</file>
+        <file>image/close_default.png</file>
+        <file>image/close_hover.png</file>
+        <file>image/mix_default.png</file>
+        <file>image/mix_hover.png</file>
+        <file>image/conning-a/1.png</file>
+        <file>image/conning-a/2.png</file>
+        <file>image/conning-a/3.png</file>
+        <file>image/conning-a/4.png</file>
+        <file>image/conning-a/5.png</file>
+        <file>image/conning-a/6.png</file>
+        <file>image/conning-a/7.png</file>
+        <file>image/conning-a/8.png</file>
     </qresource>
 </RCC>

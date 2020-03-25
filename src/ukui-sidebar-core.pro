@@ -32,6 +32,7 @@ SOURCES += \
         realtimepropertyanimation.cpp \
         sidebarpluginswidgets.cpp \
         smallpluginsbutton.cpp \
+        smallpluginsmanage.cpp \
         widget.cpp \
         pluginmanage.cpp \
         sidebar_app_log.cpp
@@ -42,6 +43,7 @@ HEADERS += \
         realtimepropertyanimation.h \
         sidebarpluginswidgets.h \
         smallpluginsbutton.h \
+        smallpluginsmanage.h \
         widget.h \
         pluginmanage.h \
         sidebar_app_log.h

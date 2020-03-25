@@ -15,39 +15,21 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#ifndef SUBMIT_SUCCESS_H
-#define SUBMIT_SUCCESS_H
+#include "fileitem_init.h"
+#include <QWidget>
 
-#include <QDialog>
-#include <QPushButton>
-#include <QLabel>
-
-class feedback;
-
-
-class submit_success : public QDialog
+fileitem_init::fileitem_init(QWidget *parent) :
+    QWidget(parent)
 {
-    Q_OBJECT
+    if (this->objectName().isEmpty())
+        this->setObjectName(QString::fromUtf8("fileitem_init"));
 
-public:
-    explicit submit_success(QWidget *parent = nullptr);
-    ~submit_success();
 
-private slots:
-    void on_pushButton_2_clicked();
+    deletebtn0 = new QPushButton(this);
+    filename_label0 = new QLabel(this);
+    filesize_label0 = new QLabel(this);
+}
 
-    void on_pushButton_clicked();
-
-private:
-    feedback *parentWnd;
-
-    void UI_init();
-
-    QLabel *label;
-    QPushButton *pushButton;
-    QPushButton *pushButton_2;
-    QLabel *label_2;
-
-};
-
-#endif // SUBMIT_SUCCESS_H
+fileitem_init::~fileitem_init()
+{
+}

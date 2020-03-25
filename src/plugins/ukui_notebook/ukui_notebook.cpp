@@ -1,20 +1,3 @@
-/*
-* Copyright (C) 2019 Tianjin KYLIN Information Technology Co., Ltd.
-*
-* This program is free software; you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation; either version 3, or (at your option)
-* any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
-*
-*/
 #include "ukui_notebook.h"
 #include "ui_ukui_notebook.h"
 
@@ -45,9 +28,45 @@ ukui_NoteBook::~ukui_NoteBook()
 void ukui_NoteBook::ukuiNoteBook_init()
 {
     qDebug() << "ukuiNoteBook_init";
+    this->setWindowTitle(tr("NoteBook"));
+    //按钮属性
+    ui->ukui_NoteClose->setStyleSheet("QPushButton{image:url(:/new/prefix1/SVG/dark_theme/close.svg);}"
+                                      "QPushButton:hover{image:     \
+                                               url(:/new/prefix1/SVG/dark_theme/close-hover.svg);}"
+                                      "QPushButton:pressed{image:      \
+                                               url(:/new/prefix1/SVG/dark_theme/close-click.svg);}"
+                                      "border-width:0;              \
+                                       border-style:outset;");
+    ui->ukui_NoteNew->setStyleSheet("QPushButton{image:url(:/new/prefix1/SVG/new-s.svg);}"
+                                    "QPushButton:hover{image:url(:/new/prefix1/SVG/new-s-hover.svg);}"
+                                    "QPushButton:pressed{image:url(:/new/prefix1/SVG/new-s-click.svg);}");
+    ui->ukui_NoteFont->setStyleSheet("QToolButton{image:url(:/new/prefix1/SVG/font.svg);}"
+                                     "QToolButton:hover{image:url(:/new/prefix1/SVG/font-hover.svg);}"
+                                     "QToolButton:pressed{image:url(:/new/prefix1/SVG/font-click.svg);}");
+
+    ui->ukui_NoteJpg->setStyleSheet("QToolButton{image:url(:/new/prefix1/SVG/exportJPG.svg);}"
+                                    "QToolButton:hover{image:url(:/new/prefix1/SVG/exportJPG-hover.svg);}"
+                                    "QToolButton:pressed{image:url(:/new/prefix1/SVG/exportJPG-click.svg);}");
+
+    ui->ukui_NotePdf->setStyleSheet("QToolButton{image:url(:/new/prefix1/SVG/exportPDF.svg);}"
+                                    "QToolButton:hover{image:url(:/new/prefix1/SVG/exportPDF-hover.svg);}"
+                                    "QToolButton:pressed{image:url(:/new/prefix1/SVG/exportPDF-click.svg);}");
+
+    ui->ukui_NoteDate->setStyleSheet("QToolButton{image:url(:/new/prefix1/SVG/insertTime.svg);}"
+                                     "QToolButton:hover{image:url(:/new/prefix1/SVG/insertTime-hover.svg);}"
+                                     "QToolButton:pressed{image:url(:/new/prefix1/SVG/insertTime-click.svg);}");
+
+    ui->ukui_NoteDel->setStyleSheet("QToolButton{image:url(:/new/prefix1/SVG/delete.svg);}"
+                                    "QToolButton:hover{image:url(:/new/prefix1/SVG/delete-hover.svg);}"
+                                    "QToolButton:pressed{image:url(:/new/prefix1/SVG/delete-click.svg);}");
+    ui->ukui_NoteClose->setFocusPolicy(Qt::NoFocus);
     //字体初始化
     setting = new QSettings("config.ini",QSettings::IniFormat);
     setWindowFlags(Qt::FramelessWindowHint);//开启窗口无边框
+    setWindowOpacity(0.8);//设置窗口透明度
+    //窗口弹出位置
+    QDesktopWidget *desktop = QApplication::desktop();
+    move((desktop->width() - this->width())/2, (desktop->height() - this->height())/2);
 }
 
 void ukui_NoteBook::ukuiNoteBook_connect()
@@ -78,9 +97,11 @@ void ukui_NoteBook::saveFile()
         QTextStream out(&file);
         out << ui->textEdit->document()->toPlainText();
         file.close();
-        //this->setWindowTitle(fileName.mid(fileName.lastIndexOf('/')+1)+" - 记事本");
+        this->setWindowTitle(fileName.mid(fileName.lastIndexOf('/')+1)+" - Note");
         fileContent = ui->textEdit->document()->toPlainText();
         qDebug() << "fileContent = " <<ui->textEdit->document()->toPlainText() ;
+        qDebug() << "emit filesaved";
+        emit fileSaved(fileName);
     }else{
         QMessageBox box(QMessageBox::Question,"提示","保存文件失败！");
         box.setIcon(QMessageBox::Warning);
@@ -92,9 +113,7 @@ void ukui_NoteBook::saveFile()
 //    qDebug() << info.created();
 //    qDebug() << info.lastModified();
 //    qDebug() << info.fileName();
-    emit fileSaved(fileName);
-    qDebug() << "fileName = " << fileName;
-    qDebug() << "emid filesaved";
+
 }
 
 void ukui_NoteBook::saveTextToFile()
@@ -117,21 +136,6 @@ void ukui_NoteBook::mousePressEvent(QMouseEvent *event)
         m_lastPoint = event->globalPos() - frameGeometry().topLeft();
         event->accept();
     }
-}
-
-void ukui_NoteBook::paintEvent(QPaintEvent *)
-{
-    QStyleOption opt;
-    opt.init(this);
-    QPainter p(this);
-
-    p.setBrush(QBrush(QColor("#161617")));
-    p.setOpacity(0.42);
-    p.setPen(Qt::NoPen);
-
-    p.drawRoundedRect(opt.rect,0,0);
-    p.drawRect(opt.rect);
-    style()->drawPrimitive(QStyle::PE_Widget,&opt,&p,this);
 }
 
 void ukui_NoteBook::mouseMoveEvent(QMouseEvent *event)
@@ -164,7 +168,7 @@ void ukui_NoteBook::exitFileSlot()
         if(result == QMessageBox::Ok){
             if(fileName.isEmpty()){//新建
                 //弹出保存文件对话框
-                fileName = QFileDialog::getSaveFileName(this, tr("保存文件"),QDir::homePath(),tr("文本文件 (*.txt*);;"));
+                fileName = QFileDialog::getSaveFileName(this, tr("Save File"),QDir::homePath(),tr("Text File (*.txt*);;"));
                 if(!fileName.isEmpty()){
                     if(QFileInfo(fileName).suffix().isEmpty()){
                         fileName.append(".txt");
@@ -215,15 +219,14 @@ void ukui_NoteBook::openFileSlot()
 void ukui_NoteBook::saveFileSlot()
 {
     qDebug() << "saveFileSlot";
-    if(ui->textEdit->document()->isModified() && !ui->textEdit->document()->isEmpty()
-            && fileContent != ui->textEdit->document()->toPlainText())
-    {
-        //判断是新建还是读取的文本
-        if(fileName.isEmpty())
-        {//新建
+    //新建的文件
+    if(fileName.isEmpty())
+    {   //如果文本内容不为空
+        if(!ui->textEdit->document()->isEmpty())
+        {
             //弹出保存文件对话框
             //this->setStyleSheet("QFileDialog{background-color:rgb(0,0,0);}");
-            fileName = QFileDialog::getSaveFileName(this, tr("保存文件"),QDir::homePath(),tr("文本文件(*.txt*);;"));
+            fileName = QFileDialog::getSaveFileName(this, tr("Save File"),QDir::homePath(),tr("Text File(*.txt*);;"));
             if(!fileName.isEmpty())
             {
                 if(QFileInfo(fileName).suffix().isEmpty())
@@ -233,32 +236,48 @@ void ukui_NoteBook::saveFileSlot()
                 //保存文件
                 this->saveFile();
             }
-        }else{//读取的文本
-            this->saveFile();
+        }
+        //文本内容为空
+        else{
+            QMessageBox box(QMessageBox::Question,"提示","文本内容为空");
+            box.setIcon(QMessageBox::Warning);
+            box.setStandardButtons (QMessageBox::Ok);
+            box.setButtonText (QMessageBox::Ok,QString("确定"));
+            box.exec();
         }
     }
-    else if(ui->textEdit->document()->isEmpty()){
-        QMessageBox box(QMessageBox::Question,"提示","文本内容为空");
-        box.setIcon(QMessageBox::Warning);
-        box.setStandardButtons (QMessageBox::Ok);
-        box.setButtonText (QMessageBox::Ok,QString("确定"));
-        box.exec();
-    }
-    else if (fileContent == ui->textEdit->document()->toPlainText()) {
+    //打开的已存在文件
+    else
+    {   //文本内容为空
+        if(ui->textEdit->document()->isEmpty()){
+                QMessageBox box(QMessageBox::Question,"提示","文本内容为空");
+                box.setIcon(QMessageBox::Warning);
+                box.setStandardButtons (QMessageBox::Ok);
+                box.setButtonText (QMessageBox::Ok,QString("确定"));
+                box.exec();
+        }
+//        else if(fileContent == ui->textEdit->document()->toPlainText())
+//        {
+//            qDebug() << "fileContent = " << fileContent;
+//            QMessageBox box(QMessageBox::Question,"提示","文本未修改");
+//            box.setIcon(QMessageBox::Warning);
+//            box.setStandardButtons (QMessageBox::Ok);
+//            box.setButtonText (QMessageBox::Ok,QString("确定"));
+//            box.exec();
+//        }
+        else if(!ui->textEdit->document()->isModified())
+        {
             QMessageBox box(QMessageBox::Question,"提示","文本未修改");
             box.setIcon(QMessageBox::Warning);
             box.setStandardButtons (QMessageBox::Ok);
             box.setButtonText (QMessageBox::Ok,QString("确定"));
             box.exec();
+        }
+        else
+            this->saveFile();
+
     }
-    else if(!ui->textEdit->document()->isModified())
-    {
-        QMessageBox box(QMessageBox::Question,"提示","文本未修改");
-        box.setIcon(QMessageBox::Warning);
-        box.setStandardButtons (QMessageBox::Ok);
-        box.setButtonText (QMessageBox::Ok,QString("确定"));
-        box.exec();
-    }
+
 }
 
 void ukui_NoteBook::saveFileAsSlot()

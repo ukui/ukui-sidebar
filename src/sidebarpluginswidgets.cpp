@@ -9,7 +9,9 @@ sidebarPluginsWidgets::sidebarPluginsWidgets(QWidget *parent) : QWidget(parent)
     this->setFixedSize(400,300);
     this->setStyleSheet("QWidget{background:rgba(255, 255, 0, 0);}");
     m_pBoolStates = true;
-
+//    resizeFlag    = false;
+//    resizeFlagTwo = false;
+//    resizeFlagOne = false;
     m_pWidgetOutVLayout = new QVBoxLayout();
     m_pWidgetOutVLayout->setContentsMargins(0,0,0,0);
 
@@ -95,66 +97,14 @@ void sidebarPluginsWidgets::initUpGroupBoxButton()
 /* 显示插件的界面下半部分 */
 void sidebarPluginsWidgets::initUnGroupBox()
 {
-    /* 剪贴板GroupBox指针 */
-//    m_pClipboardWidget = new QWidget();
-//    m_pClipboardWidget->setFixedSize(400, 250);
-//    m_pClipboardWidget->setContentsMargins(0,0,0,0);
-
     /* 小插件GroupBox指针 */
     m_pPluginsButtonWidget = new QWidget();
     m_pPluginsButtonWidget->setFixedSize(400, 250);
     m_pPluginsButtonWidget->setContentsMargins(0,0,0,0);
 
-    /* 插件 按钮 */
-    m_pNotebookButton = new QToolButton();
-    m_pAlarmClockButton = new QToolButton();
-    m_pFeedbackButtom   = new QToolButton();
-    m_pNotebookButton->setObjectName("NotebookButton");
-    m_pAlarmClockButton->setObjectName("AlarmClockButton");
-    m_pFeedbackButtom->setObjectName("FeedbackButtom");
-    m_pNotebookButton->setFixedSize(90,90);
-    m_pAlarmClockButton->setFixedSize(90,90);
-    m_pFeedbackButtom->setFixedSize(90,90);
-    m_pNotebookButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    m_pAlarmClockButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    m_pFeedbackButtom->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-
-    /* 笔记本按钮 */
-    QIcon NoteBookPng = QIcon::fromTheme("noteBook", QIcon(KYLIN_NOTEBOOK));
-    m_pNotebookButton->setIcon(NoteBookPng);
-    m_pNotebookButton->setIconSize(QSize(48,48));
-    m_pNotebookButton->setText(tr("Notebook"));
-
-    /* 闹钟按钮 */
-    QIcon AlarmPng = QIcon::fromTheme("alarm-clock", QIcon(KYLIN_ALARM_CLACK_ICON));
-    m_pAlarmClockButton->setIcon(AlarmPng);
-    m_pAlarmClockButton->setIconSize(QSize(48,48));
-    m_pAlarmClockButton->setText(tr("Alarm clock"));
-
-    /* 设置用户反馈反馈程序按钮 */
-    QIcon FeedBackPng = QIcon::fromTheme("customer_feedback", QIcon(KYLIN_FEEDBACK));
-    m_pFeedbackButtom->setIcon(FeedBackPng);
-    m_pFeedbackButtom->setIconSize(QSize(48,48));
-    m_pFeedbackButtom->setText(tr("Feedback"));
-
     /* 设置按钮图表 */
     m_pGroupBoxUnSmallPluginsGLayout = new QGridLayout();
-    m_pGroupBoxUnSmallPluginsGLayout->setContentsMargins(0,19,0,160);
-
     m_pPluginsButtonWidget->setLayout(m_pGroupBoxUnSmallPluginsGLayout);
-
-    QSpacerItem *item1 = new QSpacerItem(10, 20);
-    QSpacerItem *item2 = new QSpacerItem(10, 20);
-    QSpacerItem *item3 = new QSpacerItem(100,20);
-
-    m_pGroupBoxUnSmallPluginsGLayout->addItem(item1,0,0);
-    m_pGroupBoxUnSmallPluginsGLayout->addWidget(m_pAlarmClockButton,0,1);
-
-    m_pGroupBoxUnSmallPluginsGLayout->addItem(item2,0,2);
-    m_pGroupBoxUnSmallPluginsGLayout->addWidget(m_pNotebookButton,0,3);
-    m_pGroupBoxUnSmallPluginsGLayout->addItem(item2,0,4);
-    m_pGroupBoxUnSmallPluginsGLayout->addWidget(m_pFeedbackButtom,0,5);
-    m_pGroupBoxUnSmallPluginsGLayout->addItem(item3,0,6);
     m_pGroupBoxUnSmallPluginsGLayout->setSpacing(0);
 }
 
@@ -163,8 +113,8 @@ void sidebarPluginsWidgets::initUnGroupBox()
 void sidebarPluginsWidgets::AddPluginWidgetInterface()
 {
     m_pWidgetOutVLayout->addWidget(m_pButtonWidget);                //加载俩个按钮界面
-    m_pWidgetOutVLayout->addWidget(m_pClipboardWidget);             //剪贴板GroupBox
-    m_pWidgetOutVLayout->addWidget(m_pPluginsButtonWidget);         //显示小插件的GroupBox
+    m_pWidgetOutVLayout->addWidget(m_pClipboardWidget);             //剪贴板Widget
+    m_pWidgetOutVLayout->addWidget(m_pPluginsButtonWidget);         //显示小插件的Widget
     m_pWidgetOutVLayout->setSpacing(0);
     this->setLayout(m_pWidgetOutVLayout);
 
@@ -185,9 +135,19 @@ void sidebarPluginsWidgets::AddPluginWidgetInterface()
     QAbstractTransition *t1 = m_pClipBoardState->addTransition(m_pSidebarPluginButton, SIGNAL(enterButtonSignal()), m_pSmallPluginsState);
     t1->addAnimation(new QPropertyAnimation(m_pPluginsButtonWidget, "geometry"));
 
+//    QDesktopWidget* desk = QApplication::desktop();
+//    QAbstractTransition *t3 = m_pClipBoardState->addTransition(desk, SIGNAL(resized(int)), m_pSmallPluginsState);
+//    t3->addAnimation(new QPropertyAnimation(m_pPluginsButtonWidget, "geometry"));
+
+//    connect(desk, &QDesktopWidget::resized, this, [=]() {
+//        resizeFlag = true;
+//    });
 
     QAbstractTransition *t2 = m_pSmallPluginsState->addTransition(m_pClipboardButton, SIGNAL(enterButtonSignal()), m_pClipBoardState);
     t2->addAnimation(new QPropertyAnimation(m_pClipboardWidget, "geometry"));
+
+//    QAbstractTransition *t4 = m_pSmallPluginsState->addTransition(desk1, SIGNAL(resized(int)), m_pClipBoardState);
+//    t4->addAnimation(new QPropertyAnimation(m_pClipboardWidget, "geometry"));
 
     /* 初始化状态机时所要做的事情 */
     connect(m_pClipBoardState, &QState::propertiesAssigned, this,[=]{
@@ -196,13 +156,38 @@ void sidebarPluginsWidgets::AddPluginWidgetInterface()
             m_pSidebarPluginButton->SendSingal();
             qDebug() << "进入小插件界面";
         }
+
+//        if (resizeFlag) {
+//            resizeFlag = false;
+//            resizeFlagTwo = true;
+//            m_pSidebarPluginButton->SendSingal();
+//            qDebug() << "resizeFlagOne::1";
+//        }
+
+//        if (resizeFlagOne) {
+//            m_pSidebarPluginButton->SendSingal();
+//            resizeFlagOne = false;
+//            qDebug() << "resizeFlagOne:2";
+//        }
     });
+
     connect(m_pSmallPluginsState, &QState::propertiesAssigned, this, [=] {
         if (m_pBoolStates) {
             m_pClipboardButton->SendSingal();
             m_pBoolStates = false;
             qDebug() << "进入剪贴板界面";
         }
+//        if (resizeFlag) {
+//            resizeFlag = false;
+//            resizeFlagOne = true;
+//            m_pClipboardButton->SendSingal();
+//            qDebug() << "resizeFlagTwo::1";
+//        }
+//        if (resizeFlagTwo) {
+//            m_pClipboardButton->SendSingal();
+//            resizeFlagTwo = false;
+//            qDebug() << "resizeFlagTwo:2";
+//        }
     });
 
     /* 进入状态机一需要将小插件按钮的背景设置成空白 */
@@ -317,7 +302,7 @@ void sidebarPluginsWidgets::setClipboardWidgetSize(int ClipHight)
     return;
 }
 
-////重新绘制背景色
+//重新绘制背景色
 void sidebarPluginsWidgets::paintEvent(QPaintEvent *)
 {
     QStyleOption opt;
@@ -332,4 +317,48 @@ void sidebarPluginsWidgets::paintEvent(QPaintEvent *)
     p.drawRoundedRect(opt.rect,0,0);
     p.drawRect(opt.rect);
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+}
+
+void sidebarPluginsWidgets::loadSmallPlugins()
+{
+    /* Iterative m_pSmallPluginsHash hash table */
+    int pluginsNum = SmallPluginsManage::getInstance()->m_PluginsNum;
+    qDebug() << "1111111111111-->pluginsNum" << pluginsNum;
+    int Sequence = 1;
+    int add_x = 0;
+    int add_y = 1;
+    QSpacerItem *item1 = new QSpacerItem(10, 20);
+    while (pluginsNum) {
+        QHash<PluginInterface*, SidebarSmallPluginInterface*> ::const_iterator iter1 = SmallPluginsManage::getInstance()->m_pSmallPluginsHash.constBegin();
+        while (iter1 != SmallPluginsManage::getInstance()->m_pSmallPluginsHash.constEnd()) {
+                qDebug() << "iter1.value()->pluginsLoadingSequence() --> " << iter1.value()->pluginsLoadingSequence();
+                if (iter1.value()->pluginsLoadingSequence() == Sequence) {
+                    QToolButton *p_ToolButton = new QToolButton();
+                    p_ToolButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+                    p_ToolButton->setFixedSize(90,90);
+                    p_ToolButton->setIcon(iter1.value()->icon());
+                    p_ToolButton->setText(iter1.value()->PluginButtonName());
+                    qDebug() << "jiekoumingzi4560000000" << iter1.value()->PluginButtonName();
+                    p_ToolButton->setIconSize(QSize(iter1.value()->PluginIconSize_W(), iter1.value()->PluginIconSize_H()));
+                    m_pGroupBoxUnSmallPluginsGLayout->addItem(item1, add_x, add_y - 1);
+                    m_pGroupBoxUnSmallPluginsGLayout->addWidget(p_ToolButton, add_x, add_y);
+                    connect(p_ToolButton, &QToolButton::clicked, this, [=]() {
+                        iter1.value()->PluginsShowInterface();
+                    });
+                    pluginsNum--;
+                    add_y += 2;
+                    if (add_y > 8) {
+                        add_x++;
+                        add_y = 1;
+                    }
+                    break;
+                }
+                ++iter1;
+        }
+        Sequence++;
+    }
+    qDebug() << "x -->" << add_x << "y -->" << add_y;
+    QSpacerItem *item2 = new QSpacerItem(400 - 100*(add_y/2), 20);
+    m_pGroupBoxUnSmallPluginsGLayout->addItem(item2, add_x, add_y - 1);
+    m_pGroupBoxUnSmallPluginsGLayout->setContentsMargins(0, 19, 0, 250 - 90*(add_x + 1));
 }

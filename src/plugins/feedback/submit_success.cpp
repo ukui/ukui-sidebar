@@ -16,29 +16,58 @@
 *
 */
 #include "submit_success.h"
-#include "ui_submit_success.h"
 #include "feedback.h"
 
 submit_success::submit_success(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::submit_success)
+    QDialog(parent)
 {
-    ui->setupUi(this);
-    parentWnd =dynamic_cast<feedback*>(parent);
-    setWindowTitle(tr("提交成功 "));
-    ui->pushButton->setFlat(true);
-    ui->pushButton_2->setFlat(true);
+    parentWnd = (feedback *)parent;
+    UI_init();
 }
+void submit_success::UI_init()
+{
+    if (this->objectName().isEmpty())
+        this->setObjectName(QString::fromUtf8("submit_success"));
+    this->resize(430, 260);
+    setWindowTitle(tr("提交成功 "));
+    this->setStyleSheet(QString::fromUtf8("border 2px;"));
+    this->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint); //设置窗口无边框
+    label = new QLabel(this);
+    label->setText(tr("问题提交成功"));
+    label->setObjectName(QString::fromUtf8("label"));
+    label->setGeometry(QRect(130, 85, 291, 60));
+    label->setStyleSheet(QString::fromUtf8("font: 30px;\n"
+                                           "color: rgb(68, 68, 68);"));
+    pushButton = new QPushButton(this);
+    pushButton->setText(tr("继续反馈问题"));
+    pushButton->setObjectName(QString::fromUtf8("pushButton"));
+    pushButton->setGeometry(QRect(130, 165, 131, 26));
+    pushButton->setFlat(true);
+    pushButton->setStyleSheet(QString::fromUtf8("color: rgb(61, 107, 229);"));
+    pushButton_2 = new QPushButton(this);
+    pushButton_2->setText(tr("退出"));
+    pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
+    pushButton_2->setGeometry(QRect(270, 165, 81, 26));
+    pushButton_2->setFlat(true);
+    pushButton_2->setStyleSheet(QString::fromUtf8("color: rgb(61, 107, 229);"));
+    label_2 = new QLabel(this);
+    label_2->setObjectName(QString::fromUtf8("label_2"));
+    label_2->setGeometry(QRect(70, 94, 50, 50));
+    label_2->setStyleSheet(QString::fromUtf8("background-image: url(://success.png);"));
 
+    connect(pushButton,SIGNAL(clicked()),this,SLOT(on_pushButton_clicked()));
+    connect(pushButton_2,SIGNAL(clicked()),this,SLOT(on_pushButton_2_clicked()));
+    qDebug()<<"submit_success::UI_init()";
+    this->show();
+}
 submit_success::~submit_success()
 {
 
-    delete ui;
 }
 
 void submit_success::on_pushButton_2_clicked()
 {
-    ::exit(0);
+    this->close();
 }
 
 void submit_success::on_pushButton_clicked()

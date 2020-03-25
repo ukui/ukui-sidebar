@@ -22,6 +22,7 @@
 
 #include <QObject>
 #include "plugin-iface.h"
+#include "sidebarSmallPluginInterface.h"
 class PluginManager : public QObject
 {
     Q_OBJECT
@@ -30,6 +31,7 @@ public:
     static PluginManager *getInstance();
     void close();
     QHash<QString, PluginInterface*> m_PluginInterfaceHash;
+
 
 Q_SIGNALS:
     void pluginStateChanged(const QString &pluginName, bool enable);

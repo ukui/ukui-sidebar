@@ -1,20 +1,3 @@
-/*
-* Copyright (C) 2019 Tianjin KYLIN Information Technology Co., Ltd.
-*
-* This program is free software; you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation; either version 3, or (at your option)
-* any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
-*
-*/
 #ifndef WIDGET_H
 #define WIDGET_H
 
@@ -28,9 +11,18 @@
 #include <QSqlQuery>
 #include <QSqlTableModel>
 #include <QListWidgetItem>
+#include <QDesktopWidget>
+#include <iostream>
+#include <QTranslator>
 #include "ui_ukui_notebook.h"
 #include "ui_singleitemwidget.h"
 #include "sql_create.h"
+//#include "mythrow.h"
+
+#define     Button_tristate(className,imageUrl)     (#className"{border-image:url("#imageUrl")}"  \
+                                              #className":houver{border-image:url("#imageUrl"-houver)}"  \
+                                              #className":pressed{border-image:url("#imageUrl"-pressed)}")
+
 namespace Ui {
 class Widget;
 }
@@ -46,9 +38,10 @@ public:
 signals:
     void listItemClicked(int);
 
-public:
-    static bool ukui_sql_load();
 
+public:
+//    void error_throw();
+    QTranslator *translator;
 
 private:
     Ui::Widget *ui;
@@ -63,6 +56,7 @@ private:
     int rowNum;
     QString ukui_textEdit;
     QString filename;
+    QString modifyTime;
     QListWidgetItem *item[100];
     SingleItemWidget *singleItem[100];
     //QString fileContent;//读到的文件内容
@@ -75,9 +69,12 @@ private:
     void ukui_addItem();
     //更新Item列表
     void ukui_updateItem();
-
+    //获取文件创建时间、修改时间
+    void getFileModifyTime(QString fileInfo);
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
+    //void paintEvent(QPaintEvent *);
+
 
 private slots:
     void exitSlot();

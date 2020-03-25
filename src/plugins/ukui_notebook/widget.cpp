@@ -1,28 +1,18 @@
-/*
-* Copyright (C) 2019 Tianjin KYLIN Information Technology Co., Ltd.
-*
-* This program is free software; you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation; either version 3, or (at your option)
-* any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
-*
-*/
 #include "widget.h"
 #include "ui_widget.h"
-
 
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)
 {    
+    translator = new QTranslator;
+    QLocale locale;
+    //获取系统语言环境
+    if ( locale.language() == QLocale::Chinese ) {
+        qDebug() << "中文环境2323232323" ;
+        translator->load(QString(":/new/translation/ukui_notebook_zh_CN.qm"));  //选择翻译文件
+        QApplication::installTranslator(translator);
+    }
     ui->setupUi(this);
     //createSql();
     this->ukui_init();
@@ -35,36 +25,59 @@ Widget::~Widget()
     delete ui;
 }
 
+//void Widget::error_throw()
+//{
+//    try
+//    {
+//        MY_THROW(ExceptionDerived,"error throw");
+//    }
+//    catch(ExceptionDerived &e)
+//    {
+//        std::cout << e.what() << std::endl;
+//    }
+//}
+
 
 void Widget::ukui_init()
 {
     //窗口属性
     setWindowFlags(Qt::FramelessWindowHint);//开启窗口无边框
     setWindowOpacity(0.8);//窗口透明度
+    //弹出位置
+    QDesktopWidget *desktop = QApplication::desktop();
+    move((desktop->width() - this->width())/2, (desktop->height() - this->height())/2);
     //组件属性
     //ui->listWidget->setAttribute(Qt::WA_TranslucentBackground);//设置透明度
     //ui->toolButton->setAttribute(Qt::WA_TranslucentBackground);
     //标题
-    ui->ukui_labelTitle->setStyleSheet("color:#ffffff;        \
-                                        background-color: rgb(0, 0, 0);");
+    this->setWindowTitle(tr("Note"));
+
+    ui->ukui_labelTitle->setStyleSheet("width:47px;        \
+                                        height:23px;        \
+                                        font-size:20px;     \
+                                        font-family:Noto Sans CJK SC;       \
+                                        font-weight:400;        \
+                                        line-height:40px;           \
+                                        background-color: rgb(0, 0, 0);     \
+                                        color: rgb(255, 255, 255);");
     //按钮
     ui->pushButton_Mini->setStyleSheet("QPushButton#pushButton_Mini{image:   \
-                                               url(:/new/prefix1/SVG/dark_theme/min.svg);}"
-                                      "QPushButton#pushButton_Mini:hover{image:     \
-                                               url(:/new/prefix1/SVG/dark_theme/min-hover.svg);}"
-                                      "QPushButton#pushButton_Mini:pressed{image: \
-                                               url(:/new/prefix1/SVG/dark_theme/min-click.svg);}"
-                                      "border-radius:4px;");
+                                                url(:/new/prefix1/SVG/dark_theme/min.svg);}"
+                                       "QPushButton#pushButton_Mini:hover{image:     \
+                                                url(:/new/prefix1/SVG/dark_theme/min-hover.svg);}"
+                                       "QPushButton#pushButton_Mini:pressed{image: \
+                                                url(:/new/prefix1/SVG/dark_theme/min-click.svg);}"
+                                       "border-radius:4px;");
     ui->pushButton_Exit->setStyleSheet("QPushButton#pushButton_Exit{image:   \
-                                               url(:/new/prefix1/SVG/dark_theme/close.svg);}"
-                                      "QPushButton#pushButton_Exit:hover{image:     \
-                                               url(:/new/prefix1/SVG/dark_theme/close-hover.svg);}"
-                                      "QPushButton#pushButton_Exit:pressed{image:      \
-                                               url(:/new/prefix1/SVG/dark_theme/close-click.svg);}"
-                                      "border-radius:4px;");
+                                                url(:/new/prefix1/SVG/dark_theme/close.svg);}"
+                                       "QPushButton#pushButton_Exit:hover{image:     \
+                                                url(:/new/prefix1/SVG/dark_theme/close-hover.svg);}"
+                                       "QPushButton#pushButton_Exit:pressed{image:      \
+                                                url(:/new/prefix1/SVG/dark_theme/close-click.svg);}"
+                                       "border-radius:4px;");
     ui->toolButton->setStyleSheet("QToolButton#toolButton{image:url(:/new/prefix1/SVG/new-b.svg);}"
-                            "QToolButton#toolButton:hover{image:url(:/new/prefix1/SVG/new-b-hover.svg);}"
-                            "QToolButton#toolButton:pressed{image:url(:/new/prefix1/SVG/new-b-click.svg);}");
+                             "QToolButton#toolButton:hover{image:url(:/new/prefix1/SVG/new-b-hover.svg);}"
+                             "QToolButton#toolButton:pressed{image:url(:/new/prefix1/SVG/new-b-click.svg);}");
     //全局new
     ukui_notebook = new ukui_NoteBook;
     ukui_notebookOpen = new ukui_NoteBook;
@@ -76,7 +89,7 @@ void Widget::ukui_init()
     //ui->listWidget->setIconSize(QSize(16,16));
     //ui->listWidget->setViewMode(QListWidget::IconMode);//设置图片文本 垂直显示
     ui->listWidget->setMovement(QListWidget::Static);
-    //ui->listWidget->openPersistentEditor();//设置item可编辑
+    //ui->listWidget->openPersistentEditor(false);//设置item可编辑
     //设置滚动条样式(使用.qss)
     //ui->listWidget->verticalScrollBar()->setCursor(Qt::PointingHandCursor);
     ui->listWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);//隐藏垂直滚动条
@@ -114,7 +127,7 @@ void Widget::ukui_updateItem(){
      qDebug() << "ukui_updateItem" << rowNum;
 
      QString currentFileName;
-
+     QString fileContent;
      for(int txtNum = 0; txtNum < rowNum; txtNum++){
         qDebug() << "txtNum = " << txtNum;                
         item[txtNum] =new QListWidgetItem();
@@ -122,8 +135,6 @@ void Widget::ukui_updateItem(){
         ui->listWidget->addItem(item[txtNum]);
         singleItem[txtNum]= new SingleItemWidget(ui->listWidget);
         ui->listWidget->setItemWidget(item[txtNum],singleItem[txtNum]);
-        //读取数据库,设置label值
-        QDateTime dateTime = QDateTime::currentDateTime();//获取当前系统时间
 
         currentFileName = model->index(txtNum,0).data().toString();
         QFile currentFile(currentFileName);
@@ -132,43 +143,61 @@ void Widget::ukui_updateItem(){
         if(!currentFile.open(QIODevice::ReadOnly | QIODevice::Text))
             qDebug() << "open file failed";
         QTextStream aStream(&currentFile);//用文本流读取文件
-        aStream.setAutoDetectUnicode(true);//自动检测unicode,才能显示汉字
-
-        singleItem[txtNum]->ui->textEdit_Item->setPlainText(aStream.readAll());
-
-        qDebug() << "文本内容" << singleItem[txtNum]->ui->textEdit_Item->document()->toPlainText();
-
-        singleItem[txtNum]->ui->textEdit_ItemDate->setText(dateTime.toString("yyyy/MM/dd hh:mm"));
-        //singleItem[txtNum]->ui->textEdit_ItemDate->setText(model->index(txtNum,1).data().toString());
-        qDebug() << "时间" << singleItem[txtNum]->ui->textEdit_ItemDate->document()->toPlainText();
+        aStream >> fileContent;
+        //aStream.setAutoDetectUnicode(true);//自动检测unicode,才能显示汉字
+        getFileModifyTime(currentFileName);
+        qDebug() << "astream.readall" << aStream.readAll() << fileContent;
+        singleItem[txtNum]->ui->label_Item->setText(fileContent);
+        //singleItem[txtNum]->ui->label_Item->setText("dat");
+        singleItem[txtNum]->ui->label_ItemDate->setText(modifyTime);
         currentFile.close();
         //子窗口Del点击事件
         connect(singleItem[txtNum],SIGNAL(childDelEvent()),this,SLOT(listDelSingleSlot()));
      }
 }
 
+void Widget::getFileModifyTime(QString fileInfo)
+{
+    QFileInfo info(fileInfo);
+    if(info.exists())
+    {
+        //QDateTime dt = info.created();
+        //createTime = tr("%1").arg(dt.toString("yyyy/MM/dd hh:mm"));
+        QDateTime dt = info.lastModified();
+        modifyTime = tr("%1").arg(dt.toString("yyyy/MM/dd hh:mm"));
+    }
+}
+
 //添加Item，保存到数据库
 void Widget::ukui_addItem(){
     rowNum = model->rowCount();
-    QDateTime dateTime = QDateTime::currentDateTime();//获取当前系统时间
+    int flag = 0;
+//    QDateTime dateTime = QDateTime::currentDateTime();//获取当前系统时间
     qDebug() << "添加Item，保存到数据库";
     qDebug() << "ukui_addItem rowNum = " << rowNum;
     qDebug() << "ukui_addItem filename = " << filename;
 
-    model->insertRow(rowNum);
-    model->setData(model->index(rowNum, 0), filename);
-    //model->setData(model->index(rowNum, 1), dateTime);
-    model->submitAll();
-    model->setTable("fileInfo");
-    model->select();
+    for(int i = 0;i <= rowNum;i++)
+    {
+        if(filename == model->index(i,0).data().toString())
+        {
+            flag = 1;
+        }
+    }
+    if(flag != 1)
+    {
+        model->insertRow(rowNum);
+        model->setData(model->index(rowNum, 0), filename);
+        //model->setData(model->index(rowNum, 1), dateTime);
+        model->submitAll();
+    }
 
-    qDebug() << "model->rowNum 0 = " << model->index(rowNum, 0).data().toString();
-    //qDebug() << "model->rowNum 1 = " << model->index(rowNum, 1).data().toString();
     for(int i=0; i < rowNum; i++)
     {
         delete item[i];
         delete singleItem[i];
     }
+
     ukui_updateItem();
 }
 
@@ -199,6 +228,27 @@ void Widget::mousePressEvent(QMouseEvent *event)
 
     }
 }
+
+//void Widget::paintEvent(QPaintEvent *)
+//{
+//    QStyleOption opt;
+//    opt.init(this);
+//    QPainter p(this);
+
+//    p.setBrush(QBrush(QColor("#161617")));
+//    p.setOpacity(0.42);
+//    p.setPen(Qt::NoPen);
+
+//    p.drawRoundedRect(opt.rect,0,0);
+//    p.drawRect(opt.rect);
+//    style()->drawPrimitive(QStyle::PE_Widget,&opt,&p,this);
+
+//     QPainter p(this);
+//     p.setCompositionMode( QPainter::CompositionMode_Clear );
+//     p.fillRect( 10, 10, 300, 300, Qt::SolidPattern );
+
+//}
+
 
 
 //********************Slots************************//
@@ -249,41 +299,16 @@ void Widget::listDoubleClickSlot()
     qDebug() << "currentRow" << ui->listWidget->currentRow();
     //获取当前选中的item下标
     //打开下标对应数据库中存储的文件路径加名称
-    currentFileName = model->index(ui->listWidget->currentRow(), 0).data().toString();
-    QFile currentFile(currentFileName);
-    qDebug() << "listDoubleclick currentFileName = " << currentFileName;
+    ukui_notebook->fileName = model->index(ui->listWidget->currentRow(), 0).data().toString();
+    QFile currentFile(ukui_notebook->fileName);
+    qDebug() << "listDoubleclick currentFileName = " << ukui_notebook->fileName;
     if(!currentFile.open(QIODevice::ReadOnly | QIODevice::Text))
         qDebug() << "open file failed";
     QTextStream aStream(&currentFile);//用文本流读取文件
     aStream.setAutoDetectUnicode(true);//自动检测unicode,才能显示汉字
-    ukui_notebookOpen->ui->textEdit->setPlainText(aStream.readAll());
+    ukui_notebook->ui->textEdit->setPlainText(aStream.readAll());
     currentFile.close();
-    ukui_notebookOpen->show();
-//    //得到路径不为空
-//    if(!currentFileName.isEmpty()){
-//        QFile *file = new QFile;
-//        file->setFileName(currentFileName);
-//        qDebug() << "!!!!!!!!!";
-//        bool isOpen = file->open(QIODevice::ReadOnly);
-//        qDebug() << "isopen = "<< isOpen;
-//        if(isOpen){
-//            qDebug() << "adsqweqdqwd";
-//            ukui_notebook->textEdit->clear();
-//            qDebug() << "adsqwe1111111111";
-//            QTextStream in(file);
-//            qDebug() << "adsqwe";
-
-//            while (!in.atEnd()) {
-//                ukui_notebook->textEdit->append(in.readLine());
-//                //光标移动到开始位置
-//                ukui_notebook->textEdit->moveCursor(QTextCursor::Start);
-//            }
-//            //已读完
-//            fileContent = ukui_notebook->textEdit->document()->toPlainText();
-//            qDebug() << "adsqwe!!!!!!!!!!!1";
-//            file->close();
-//        }
-//    }
+    ukui_notebook->show();
 }
 
 void Widget::listDelSingleSlot(){
@@ -319,7 +344,6 @@ void Widget::fileSavedSlot(QString data)
 {
     qDebug() << "fileSavedSlot";
     filename = data;
-    qDebug() << "fileSavedSlot filename = " << data;
     //ukui_addItem();
 }
 

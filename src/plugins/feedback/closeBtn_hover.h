@@ -15,39 +15,25 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#ifndef SUBMIT_SUCCESS_H
-#define SUBMIT_SUCCESS_H
+#ifndef CLOSEBTN_HOVER_H
+#define CLOSEBTN_HOVER_H
+#include<QPushButton>
+#include<QEvent>
+#include <QToolButton>
 
-#include <QDialog>
-#include <QPushButton>
-#include <QLabel>
-
-class feedback;
-
-
-class submit_success : public QDialog
+class closeBtn_hover :public QPushButton
 {
-    Q_OBJECT
+Q_OBJECT;
+public:
+    closeBtn_hover(QWidget *parent = 0);
+    ~closeBtn_hover();
 
 public:
-    explicit submit_success(QWidget *parent = nullptr);
-    ~submit_success();
+    void enterEvent(QEvent *e); //鼠标进入事件
+    void leaveEvent(QEvent *e);//鼠标离开事件
 
-private slots:
-    void on_pushButton_2_clicked();
-
-    void on_pushButton_clicked();
-
-private:
-    feedback *parentWnd;
-
-    void UI_init();
-
-    QLabel *label;
-    QPushButton *pushButton;
-    QPushButton *pushButton_2;
-    QLabel *label_2;
 
 };
 
-#endif // SUBMIT_SUCCESS_H
+
+#endif // CLOSEBTN_HOVER_H

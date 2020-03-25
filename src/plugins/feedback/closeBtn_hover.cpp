@@ -15,39 +15,29 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#ifndef SUBMIT_SUCCESS_H
-#define SUBMIT_SUCCESS_H
-
-#include <QDialog>
-#include <QPushButton>
-#include <QLabel>
-
-class feedback;
-
-
-class submit_success : public QDialog
+#include"closeBtn_hover.h"
+#include <QStyleOption>
+#include <QPainter>
+#include <QDebug>
+closeBtn_hover::closeBtn_hover(QWidget* parent) :QPushButton(parent)
 {
-    Q_OBJECT
 
-public:
-    explicit submit_success(QWidget *parent = nullptr);
-    ~submit_success();
+}
+closeBtn_hover::~closeBtn_hover()
+{
 
-private slots:
-    void on_pushButton_2_clicked();
+}
+void closeBtn_hover::enterEvent(QEvent *e)
+{
+    setStyleSheet("background-color:rgb(248,100,87);");
+    setIcon(QIcon("://image/close_hover.png"));
 
-    void on_pushButton_clicked();
+}
+void closeBtn_hover::leaveEvent(QEvent *e)
+{
+    setStyleSheet("background-color:rgb(255,255,255);");
+    setIcon(QIcon("://image/close_default.png"));
 
-private:
-    feedback *parentWnd;
+}
 
-    void UI_init();
 
-    QLabel *label;
-    QPushButton *pushButton;
-    QPushButton *pushButton_2;
-    QLabel *label_2;
-
-};
-
-#endif // SUBMIT_SUCCESS_H

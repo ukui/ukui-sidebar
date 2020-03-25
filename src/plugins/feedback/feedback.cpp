@@ -16,7 +16,6 @@
 *
 */
 #include "feedback.h"
-#include "ui_feedback.h"
 #include "submit_fail.h"
 #include "submit_success.h"
 #include <QFileDialog>
@@ -24,12 +23,10 @@
 #include <QDebug>
 #include <QFileInfo>
 #include <QFile>
-#include <QSqlTableModel>
 #include <QModelIndex>
 #include <QLabel>
 #include <QLocale>
 #include <QPushButton>
-#include <QSqlRecord>
 #include <QMessageBox>
 #include <QStandardItemModel>
 #include <QEventLoop>
@@ -39,104 +36,393 @@
 #include <QtNetwork/QNetworkRequest>
 #include <QHttpPart>
 #include <QGraphicsDropShadowEffect>
-#include "database.h"
 #include <QTranslator>
 #include <QLocale>
 #include <QStandardPaths>
+#include "fileitem_init.h"
+#include <QTimer>
 feedback::feedback(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::feedback)
 {
-    ui->setupUi(this);
-    createConnection();
-    window_ui_init();
 
     QString locale = QLocale::system().name();
     QTranslator *translator_feedback;
     translator_feedback = new QTranslator();
     //英文环境加载en.qm
     if(locale == "en_US"){
-        qDebug()<<"222";
-        translator_feedback->load(QString(":/Resource/feedback_en.qm"));  //选择翻译文件
+        translator_feedback->load(QString("://translation/feedback_en_US.qm"));  //选择翻译文件
         QApplication::installTranslator(translator_feedback);
     }
+
+    UI_init();
+    feedback_init();
 }
 
 feedback::~feedback()
 {
     //程序结束时删除所有数据------
-    int rowNum =model->rowCount();
-    model->removeRows(0,rowNum);
-    model->submitAll();
+
     //---------------------------
 
-
-    delete ui;
 }
-void feedback::window_ui_init()
+void feedback::UI_init()
 {
-    //http客户端初始化
-    httpclient_init();
-    setWindowTitle(tr("用户反馈"));
-    setFixedSize(600,695);
-    setWindowIcon(QIcon(":/image/kylin-feedback.png"));
-    ui->lineEdit->setReadOnly(true);
-    ui->pushButton_3->setFeedBack(this);
-    ui->pushButton_3->setFlat(true);    //隐藏按钮边框
-    //ui->pushButton_3->setCursor(QCursor(Qt::PointingHandCursor));   //设置鼠标接触按钮变为手形
-    ui->verticalWidget->hide();
-    ui->verticalWidget->setStyleSheet(QString::fromUtf8("border:0.5px solid black"));
 
-    ui->label_13->hide();
-    add_systeminfo();//将系统信息添加到信息框
+    if (this->objectName().isEmpty())
+        this->setObjectName(QString::fromUtf8("feedback"));
+    this->resize(600, 917);
+    QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    sizePolicy.setHorizontalStretch(0);
+    sizePolicy.setVerticalStretch(0);
+    sizePolicy.setHeightForWidth(this->sizePolicy().hasHeightForWidth());
+    this->setSizePolicy(sizePolicy);
+    this->setSizeIncrement(QSize(0, 0));
+    this->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
+    this->setWindowTitle(tr("用户反馈"));
+    this->setFixedSize(600,550);
+    this->setWindowIcon(QIcon(":/image/kylin-feedback.png"));
+    this->setWindowFlags(Qt::FramelessWindowHint);//设置窗口无边框
 
-    ui->pushButton_2->setEnabled(false);
+    centralwidget = new QWidget(this);
+    centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
 
-    //-----
-    ui->verticalWidget->setAttribute(Qt::WA_TranslucentBackground);//设置窗口透明
+    label = new QLabel(centralwidget);
+    label->setText(tr("问题反馈"));
+    label->setObjectName(QString::fromUtf8("label"));
+    label->setGeometry(QRect(35, 40, 160, 41));
+    label->setStyleSheet(QString::fromUtf8("font: 24px \"Sans Serif\";\n"
+                                           "color: rgb(68, 68, 68);"));
+
+    label_2 = new QLabel(centralwidget);
+    label_2->setText(tr("问题类型"));
+    label_2->setObjectName(QString::fromUtf8("label_2"));
+    label_2->setGeometry(QRect(35, 105, 61, 20));
+    label_2->setStyleSheet(QString::fromUtf8("font: 14px;\n"
+                                             "color: rgb(68, 68, 68);\n"
+                                             ""));
+    comboBox = new QComboBox(centralwidget);
+    comboBox->addItem(QString(tr("系统问题")));
+    comboBox->addItem(QString(tr("意见建议")));
+    comboBox->addItem(QString(tr("商务合作")));
+    comboBox->addItem(QString(tr("其他")));
+    comboBox->setObjectName(QString::fromUtf8("comboBox"));
+    comboBox->setGeometry(QRect(140, 105, 320, 20));
+    comboBox->setStyleSheet(QString::fromUtf8("min-height: 30px;background-color: rgb(244, 244, 244);"
+                                              "color: rgb(68, 68, 68);font: 14px ;"));
+    label_3 = new QLabel(centralwidget);
+    label_3->setText(tr("问题描述"));
+    label_3->setObjectName(QString::fromUtf8("label_3"));
+    label_3->setGeometry(QRect(35, 145, 61, 20));
+    label_3->setStyleSheet(QString::fromUtf8("font: 14px ;\n"
+                                             "color: rgb(68, 68, 68);\n"
+                                             ""));
+    frame = new QFrame(centralwidget);
+    frame->setObjectName(QString::fromUtf8("frame"));
+    frame->setGeometry(QRect(140, 145, 320, 120));
+    frame->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);"));
+    frame->setFrameShape(QFrame::StyledPanel);
+    frame->setFrameShadow(QFrame::Raised);
+    textEdit = new QTextEdit(frame);
+    textEdit->setObjectName(QString::fromUtf8("textEdit"));
+    textEdit->setGeometry(QRect(10, 10, 300, 100));
+    textEdit->setPlaceholderText(tr("请输入内容"));//设置详细输入框的提示信息
+    textEdit->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);\n"
+                                              ""));
+    textEdit->setFrameShape(QFrame::NoFrame);
+    label_4 = new QLabel(centralwidget);
+    label_4->setText(tr("邮箱"));
+    label_4->setObjectName(QString::fromUtf8("label_4"));
+    label_4->setGeometry(QRect(35, 275, 32, 23));
+    label_4->setStyleSheet(QString::fromUtf8("font: 14px;\n"
+                                             "color: rgb(68, 68, 68);\n"
+                                             ""));
+
+    email_err_msg_label = new QLabel(centralwidget);
+    email_err_msg_label->setText(tr("邮箱格式输入不正确"));
+    email_err_msg_label->setGeometry(QRect(140,305,240,15));
+    email_err_msg_label->setStyleSheet(QString::fromUtf8("color: rgb(255, 0, 0);"));
+    email_err_msg_label->hide();
+
+    label_5 = new QLabel(centralwidget);
+    label_5->setText(tr("*"));
+    label_5->setObjectName(QString::fromUtf8("label_5"));
+    label_5->setGeometry(QRect(93, 142, 16, 16));
+    label_5->setStyleSheet(QString::fromUtf8("font: 11pt \"Sans Serif\";\n"
+                                             "color: rgb(255, 0, 0);"));
+    label_6 = new QLabel(centralwidget);
+    label_6->setText(tr("*"));
+    label_6->setObjectName(QString::fromUtf8("label_6"));
+    label_6->setGeometry(QRect(68, 277, 16, 16));
+    label_6->setStyleSheet(QString::fromUtf8("font: 11pt \"Sans Serif\";\n"
+                                             "color: rgb(255, 0, 0);"));
+    textEdit_2 = new QTextEdit(centralwidget);
+    textEdit_2->setObjectName(QString::fromUtf8("textEdit_2"));
+    textEdit_2->setGeometry(QRect(140, 275, 320, 30));
+    textEdit_2->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);"));
+
+
+    label_7 = new QLabel(centralwidget);
+    label_7->setText(tr("上传附件"));
+    label_7->setObjectName(QString::fromUtf8("label_7"));
+    label_7->setGeometry(QRect(35,365, 61, 30));
+    label_7->setStyleSheet(QString::fromUtf8("font: 14px ;\n"
+                                             "color: rgb(68, 68, 68);\n"
+                                             ""));
+    lineEdit = new QLineEdit(centralwidget);
+    lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
+    lineEdit->setGeometry(QRect(140, 367, 320, 30));
+    lineEdit->setReadOnly(true);
+    lineEdit->setFrame(true);
+    lineEdit->setPlaceholderText(tr("文件大小不能超过10MB"));
+    lineEdit->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);\ns"
+                                              ));
+
+    pushButton = new browse_button(centralwidget);
+    pushButton->setText(tr("浏览..."));
+    pushButton->setObjectName(QString::fromUtf8("pushButton"));
+    pushButton->setGeometry(QRect(470, 367, 80, 30));
+    pushButton->setStyleSheet(QString::fromUtf8("font: 14px;\n"
+                                                "background-color: rgb(233, 233, 233);\n"
+                                                "color: rgb(68, 68, 68);\n"
+                                                "border:4px ;"));
+    checkBox_4 = new QCheckBox(centralwidget);
+    checkBox_4->setText(tr("同意获取我的"));
+    checkBox_4->setObjectName(QString::fromUtf8("checkBox_4"));
+    checkBox_4->setGeometry(QRect(35, 490       , 121, 24));
+    checkBox_4->setStyleSheet(" spacing: 6px;");
+    checkBox_4->setStyleSheet(QString::fromUtf8("font: 14px;"));
+    pushButton_2 = new QPushButton(centralwidget);
+    pushButton_2->setText(tr("提交"));
+    pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
+    pushButton_2->setGeometry(QRect(440, 475, 120, 45));
+    pushButton_2->setEnabled(false);
+    pushButton_2->setStyleSheet(QString::fromUtf8("font: 18px;\n"
+                                                  "color: rgb(255, 255, 255);\n"
+                                                  "background-color: rgb(233, 233, 233);\n"
+                                                  "border:4px ;"));
+    pushButton_3 = new systeminfo_button(centralwidget);
+    pushButton_3->setText(tr("系统信息"));
+    pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
+    pushButton_3->setGeometry(QRect(140, 490, 68, 24));
+    pushButton_3->setFeedBack(this);
+    pushButton_3->setFlat(true);
+    pushButton_3->setEnabled(false);
+    pushButton_3->setStyleSheet(QString::fromUtf8("font: 14px;\n"
+                                                  "color: rgb(85, 85, 255);"));
+
+
+    verticalWidget = new QWidget();
+    verticalWidget->setObjectName(QString::fromUtf8("verticalWidget"));
+    verticalWidget->setWindowFlags(Qt::FramelessWindowHint);
+    verticalWidget->hide();
+    verticalWidget->setAttribute(Qt::WA_TranslucentBackground);//设置窗口透明
+
+    verticalWidget->setStyleSheet(QString::fromUtf8("background-color: rgba(255, 255, 255);\n"
+                                                    "border-top-left-radius:4px;\n"
+                                                    "\n"
+                                                    "border-top-right-radius:4px;\n"
+                                                    "\n"
+                                                    "border-bottom-left-radius:4px;\n"
+                                                    "\n"
+                                                    "border-bottom-right-radius:4px;\n"
+                                                    "border:0.5px solid black;\n"
+                                                    ""));
+    frame_2 = new QFrame(verticalWidget);
+    frame_2->setObjectName(QString::fromUtf8("frame_2"));
+    frame_2->setGeometry(QRect(10, 10, 220, 80));
+    frame_2->setFrameShape(QFrame::StyledPanel);
+    frame_2->setFrameShadow(QFrame::Raised);
     QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect;
     effect->setOffset(4,4);
     effect->setColor(QColor(0,0,0));
     effect->setBlurRadius(10);
-    ui->frame_2->setGraphicsEffect(effect);
-    //数据库初始化
-    model = new QSqlTableModel(this);
-    model->setTable("clock");
-    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-    model->select(); //选取整个表的所有行
-    int rowNum =model->rowCount();
-    model->removeRows(0,rowNum);
-    model->submitAll();
-    //设置描述邮箱输入框提示信息
-    ui->textEdit->setPlaceholderText(tr("请输入内容"));//设置详细输入框的提示信息
-    ui->lineEdit->setPlaceholderText(tr("文件大小不能超过3MB"));
+    frame_2->setGraphicsEffect(effect);
+    frame_2->setStyleSheet("border-color: rgba(255, 255, 255,0.1);");
+
+    label_10 = new QLabel(frame_2);
+    label_10->setObjectName(QString::fromUtf8("label_10"));
+    label_10->setGeometry(QRect(15, 10, 200, 20));
+    label_10->setStyleSheet(QString::fromUtf8("border-color: rgb(255, 255, 255);"));
+    label_12 = new QLabel(frame_2);
+    label_12->setObjectName(QString::fromUtf8("label_12"));
+    label_12->setGeometry(QRect(15, 30, 200, 20));
+    label_12->setStyleSheet(QString::fromUtf8("border-color: rgb(255, 255, 255);"));
+    label_11 = new QLabel(frame_2);
+    label_11->setObjectName(QString::fromUtf8("label_11"));
+    label_11->setGeometry(QRect(15, 50, 200, 20));
+    label_11->setStyleSheet(QString::fromUtf8("border-color: rgb(255, 255, 255);"));
+
+    label_8 = new QLabel(centralwidget);
+    label_8->setText(tr("日志文件"));
+    label_8->setObjectName(QString::fromUtf8("label_8"));
+    label_8->setGeometry(QRect(35, 325, 71, 23));
+    label_8->setStyleSheet(QString::fromUtf8("font: 14px;\n"
+                                             "color: rgb(68, 68, 68);\n"
+                                             ""));
+    label_9 = new QLabel(centralwidget);
+    label_9->setText(tr("限200字"));
+    label_9->setObjectName(QString::fromUtf8("label_9"));
+    label_9->setGeometry(QRect(470, 145, 44, 18));
+    label_9->setStyleSheet(QString::fromUtf8("color: rgb(136, 136, 136);\n"
+                                             "font: 12px;"));
 
 
-    ui->checkBox_4->setStyleSheet(" spacing: 6px;");
-    //设置反馈类型的样式
-    ui->comboBox->setStyleSheet("min-height: 30px;background-color: rgb(244, 244, 244);color: rgb(68, 68, 68);font: 14px ;");
-    ui->errorMailMessage->setVisible(false);
+    layoutWidget = new QWidget(centralwidget);
+    layoutWidget->setObjectName(QString::fromUtf8("layoutWidget"));
+    layoutWidget->setGeometry(QRect(140, 327,  320, 23));
+    horizontalLayout = new QHBoxLayout(layoutWidget);
+    horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+    horizontalLayout->setSizeConstraint(QLayout::SetMinAndMaxSize);
+    horizontalLayout->setContentsMargins(0, 0, 0, 0);
+    horizontalLayout->setGeometry(QRect(140,325, 320, 23));
+    checkBox = new QCheckBox(layoutWidget);
+    checkBox->setText(tr("syslog"));
+    checkBox->setObjectName(QString::fromUtf8("checkBox"));
+    checkBox->setStyleSheet(QString::fromUtf8("font: 14px;\n"
+                                              "spacing: 5px"
+                                               "indicator {width: 16px; height: 16px;}"));
+
+    horizontalLayout->addWidget(checkBox);
+
+    checkBox_2 = new QCheckBox(layoutWidget);
+    checkBox_2->setText(tr("apport.log"));
+    checkBox_2->setObjectName(QString::fromUtf8("checkBox_2"));
+    checkBox_2->setStyleSheet(QString::fromUtf8("font: 14px ;\n"
+                                                "spacing: 5px;"));
+
+    horizontalLayout->addWidget(checkBox_2);
+
+    checkBox_3 = new QCheckBox(layoutWidget);
+    checkBox_3->setText(tr("dpkg.log"));
+    checkBox_3->setObjectName(QString::fromUtf8("checkBox_3"));
+    checkBox_3->setStyleSheet(QString::fromUtf8("font: 14px;\n"
+                                                "spacing: 5px;\n"
+                                                ""));
+
+    horizontalLayout->addWidget(checkBox_3);
+
+
+    label_13 = new QLabel(centralwidget);
+    label_13->setText(tr("文件大小超过了10MB或文件格式不支持"));
+    label_13->setObjectName(QString::fromUtf8("label_13"));
+    label_13->setGeometry(QRect(140, 470, 241, 16));
+    label_13->hide();
+    label_13->setStyleSheet(QString::fromUtf8("color: rgb(255, 0, 0);"));
+    this->setCentralWidget(centralwidget);
+
+
+    //最小化和关闭按钮
+    pushButton_mix = new QPushButton(centralwidget);
+    pushButton_mix->setGeometry(QRect(532, 4, 30, 30));
+    pushButton_mix->setIcon(QIcon(":/image/mix_default.png"));
+    pushButton_mix->setStyleSheet("QPushButton{background-color: rgb(255,255,255)};"
+                                  "QPushButton:hover{background-color: rgb(61,107,229)};"
+                                  "QPushButton:pressed{background-color: rgb(60,87,202)};");
+
+
+    connect(pushButton_mix,SIGNAL(clicked()),this,SLOT(on_pushButton_mix_clicked()));
+
+    pushButton_close = new closeBtn_hover(centralwidget);
+    pushButton_close->setGeometry(QRect(566, 4, 30, 30));
+    pushButton_close->setIcon(QIcon(":/image/close_default.png"));
+    pushButton_close->setStyleSheet("background-color: rgb(255,255,255);");
+
+    //添加附件列表
+    file_listwidget = new QListWidget(this);
+    file_listwidget->setGeometry(QRect(140,407,320,53));
+    file_listwidget->setStyleSheet("background-color: rgb(255,255,255);selection-background-color: rgb(255,255,255);");
+    file_listwidget->setFrameShape(QListWidget::NoFrame);
+    //设置横向纵向无下拉条
+    file_listwidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    file_listwidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    //添加提交图片
+    submitting_pixmap[0] =QPixmap(":/image/conning-a/1.png");
+    submitting_pixmap[1] =QPixmap(":/image/conning-a/2.png");
+    submitting_pixmap[2] =QPixmap(":/image/conning-a/3.png");
+    submitting_pixmap[3] =QPixmap(":/image/conning-a/4.png");
+    submitting_pixmap[4] =QPixmap(":/image/conning-a/5.png");
+    submitting_pixmap[5] =QPixmap(":/image/conning-a/6.png");
+    submitting_pixmap[6] =QPixmap(":/image/conning-a/7.png");
+    submitting_pixmap[7] =QPixmap(":/image/conning-a/8.png");
+
+    connect(pushButton_close,SIGNAL(clicked()),this,SLOT(on_pushButton_close_clicked()));
+    connect(pushButton,SIGNAL(clicked()),this,SLOT(on_pushButton_clicked()));
+    connect(pushButton_2,SIGNAL(clicked()),this,SLOT(on_pushButton_2_clicked()));
+    connect(checkBox,SIGNAL(stateChanged(int)),this,SLOT(on_checkBox_stateChanged(int)));
+    connect(checkBox_2,SIGNAL(stateChanged(int)),this,SLOT(on_checkBox_2_stateChanged(int)));
+    connect(checkBox_3,SIGNAL(stateChanged(int)),this,SLOT(on_checkBox_3_stateChanged(int)));
+    connect(checkBox_4,SIGNAL(stateChanged(int)),this,SLOT(on_checkBox_4_stateChanged(int)));
+    connect(comboBox,SIGNAL(currentIndexChanged(QString)),this,SLOT(on_comboBox_currentIndexChanged(QString)));
+    connect(textEdit,SIGNAL(textChanged()),this,SLOT(on_textEdit_textChanged()));
+    connect(textEdit_2,SIGNAL(textChanged()),this,SLOT(on_textEdit_2_textChanged()));
+
+
+    add_systeminfo();//将系统信息添加到信息框
+
+
+
+}
+void feedback::feedback_init()
+{
+    //http客户端初始化
+    httpclient_init();
+
+
+
+    submitting_timer = new QTimer();
+
+    submitting_timer->setInterval(100);
+    connect(submitting_timer,SIGNAL(timeout()),this,SLOT(submit_change_load_image()));
+}
+//点击提交之后按钮更换加载图片
+void feedback::submit_change_load_image()
+{
+    pushButton_2->setText("");
+    qDebug()<<"222222";
+    pushButton_2->setIcon(submitting_pixmap[pixmap_i]);
+    pixmap_i++;
+    if(pixmap_i == 8 ){
+        pixmap_i = 0;
+    }
+
+}
+void feedback::feedback_quit()
+{
+    this->close();
+}
+//最小化窗口
+void feedback::on_pushButton_mix_clicked()
+{
+    this->showMinimized();
+}
+//关闭窗口
+void feedback::on_pushButton_close_clicked()
+{
+    this->close();
 }
 //获取图片
 void feedback::on_pushButton_clicked()
 {
-    ui->pushButton->setStyleSheet("font: 14px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(68, 68, 68)");
-    filename=QFileDialog::getOpenFileName(this,tr("select image"),"/","Image file(*.gif *.jpg *.png)",0);
+    pushButton->setStyleSheet("font: 14px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(68, 68, 68)");
+    filename=QFileDialog::getOpenFileName(this,tr("选择图片"),"/","Image file(*.gif *.jpg *.png)",0);
     //判断文件是否重复添加
-    int rowNum = model->rowCount();
-    if (rowNum ==0)
+
+    if (file_name_list.size() ==0)
     {
+        qDebug()<<"111111";
         //添加附件框改变
-        ui->lineEdit->setText(filename);
+        lineEdit->setText(filename);
         add_fileinfo_model();
-        add_file_change_window();
     }
     else{
+        qDebug()<<"000000";
         int file_diff_flags = 0;
-        for(int fileNum=0; fileNum<rowNum; fileNum++)
+        for(int fileNum=0; fileNum<file_path_list.size(); fileNum++)
         {
-            if(filename.compare(model->index(fileNum, 2).data().toString()) == 0)
+            if(filename.compare(file_path_list.at(fileNum)) == 0)
             {
+
                 //添加的文件已经添加过
                 file_diff_flags++;
             }
@@ -144,9 +430,9 @@ void feedback::on_pushButton_clicked()
         if(file_diff_flags == 0)
         {
             //添加附件框改变
-            ui->lineEdit->setText(filename);
+            lineEdit->setText(filename);
             add_fileinfo_model();
-            add_file_change_window();
+
         }
     }
 }
@@ -154,7 +440,7 @@ void feedback::on_pushButton_clicked()
 //设置详细描述框最大字符数
 void feedback::on_textEdit_textChanged()
 {
-    textContent = ui->textEdit->toPlainText();
+    textContent = textEdit->toPlainText();
     if (textContent.isEmpty()){
         describeflag = 0;
     }
@@ -162,13 +448,13 @@ void feedback::on_textEdit_textChanged()
 
         describeflag = 1;//详细描述是否填写
     if (emailflag == 1 && describeflag == 1){//邮箱和详细描述都已经填写
-        ui->pushButton_2->setEnabled(true);//设置提交按钮属性
-        ui->pushButton_2->setStyleSheet("font: 18px ;border-radius:4px;background-color:rgb(61,107,229);color: rgb(255, 255, 255)");
+        pushButton_2->setEnabled(true);//设置提交按钮属性
+        pushButton_2->setStyleSheet("font: 18px ;border-radius:4px;background-color:rgb(61,107,229);color: rgb(255, 255, 255)");
     }
     else
     {
-        ui->pushButton_2->setEnabled(false);//设置提交按钮属性
-        ui->pushButton_2->setStyleSheet("font: 18px ;border-radius:4px;background-color:rgb(233, 233, 233);color: rgb(255, 255, 255)");
+        pushButton_2->setEnabled(false);//设置提交按钮属性
+        pushButton_2->setStyleSheet("font: 18px ;border-radius:4px;background-color:rgb(233, 233, 233);color: rgb(255, 255, 255)");
     }
 
     int length = textContent.count();
@@ -176,7 +462,7 @@ void feedback::on_textEdit_textChanged()
     int maxLength = 200; // 最大字符数
 
     if(length > maxLength) {
-        QTextCursor cursor = ui->textEdit->textCursor();
+        QTextCursor cursor = textEdit->textCursor();
         cursor.movePosition(QTextCursor::End);
         if(cursor.hasSelection()) {
             cursor.clearSelection();
@@ -184,21 +470,22 @@ void feedback::on_textEdit_textChanged()
         cursor.deletePreviousChar();
         //设置当前的光标为更改后的光标ing>
 
-        ui->textEdit->setTextCursor(cursor);
+        textEdit->setTextCursor(cursor);
     }
 
-    length = ui->textEdit->toPlainText().count();
+    length = textEdit->toPlainText().count();
 
 }
 //系统信息显示
-void feedback::systeminfo_show()
+void feedback::systeminfo_show(QPointF pt)
 {
-    ui->verticalWidget->show();
+    verticalWidget->setGeometry(pt.x()+5,pt.y()+15,240,100);
+    verticalWidget->show();
 }
 //系统信息隐藏
 void feedback::systeminfo_hide()
 {
-    ui->verticalWidget->hide();
+    verticalWidget->hide();
 }
 //添加系统信息
 void feedback::add_systeminfo()
@@ -208,9 +495,9 @@ void feedback::add_systeminfo()
     string os_info = "操作系统: ";
 
     if((QLocale::system().name()) == "en_US"){
-         encoding_info = "Lang: ";
+        encoding_info = "Lang: ";
         desktop_info = "Deskenv: ";
-         os_info= "Osrelease: ";
+        os_info= "Osrelease: ";
     }
     //获取系统信息
     //1.获取系统版本
@@ -243,15 +530,15 @@ void feedback::add_systeminfo()
     }
     QString system_info = QString::fromStdString(system_info_str);//string 转QString
     system_info.remove(QChar('"'), Qt::CaseInsensitive);  //将字符串中"字符删除
-    ui->label_10->setText(system_info);
+    label_10->setText(system_info);
     //2.获取桌面环境信息
     char * desktop = getenv("DESKTOP_SESSION");
     desktop_info.append(desktop);
-    ui->label_12->setText(QString::fromStdString(desktop_info));
+    label_12->setText(QString::fromStdString(desktop_info));
     //3.获取编码格式
     char * encoding = getenv("LANG");
     encoding_info.append(encoding);
-    ui->label_11->setText(QString::fromStdString(encoding_info));
+    label_11->setText(QString::fromStdString(encoding_info));
 
     all_systeminfo.append(system_info);
     all_systeminfo.append("    ");
@@ -263,6 +550,8 @@ void feedback::add_systeminfo()
 //syslog点选
 void feedback::on_checkBox_stateChanged(int state)
 {
+
+
     if (state == Qt::Checked) // "选中"
     {
         emit syslog();
@@ -318,20 +607,25 @@ void feedback::on_checkBox_4_stateChanged(int state)
 //获取反馈类型
 void feedback::on_comboBox_currentIndexChanged(const QString &arg1)
 {
-    feedback_type = ui->comboBox->currentText();
+    feedback_type = comboBox->currentText();
 }
+
 //提交按钮
 void feedback::on_pushButton_2_clicked()
 {
-    ui->pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(255, 255, 255)");
-    //判断文件总大小是否超过3M，如果超过，提示
-    if(all_file_size_than_3M() == true)
+    pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(255, 255, 255)");
+
+    submitting_timer->start();
+
+    qDebug()<<"submitting_timer->start();";
+
+    //判断文件总大小是否超过10M，如果超过，提示
+    if(all_file_size_than_10M() == true)
     {
-        ui->label_13->show();
+        label_13->show();
         return;
     }
     //反馈信息类型
-
     QString s1("?title=");
     s1+=feedback_type;
     //详细描述
@@ -345,11 +639,9 @@ void feedback::on_pushButton_2_clicked()
         s1+="&source=";
         s1+=all_systeminfo;
     }
-
     QString url_filepath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) +"/.config/ukui/url.conf";
     QString urlstring;
     //从配置文件中读服务器地址
-
     QFile  file_url(url_filepath);
     QFileInfo url_fileinfo(url_filepath);
     if(!url_fileinfo.isFile())
@@ -361,17 +653,10 @@ void feedback::on_pushButton_2_clicked()
     else{
         file_url.open(QIODevice::ReadWrite | QIODevice::Text);
     }
-
-
-
     urlstring = file_url.readLine();
     //去掉从配置文件中读出的换行符(删除最后一个字符)
     urlstring.remove(urlstring.length()-1,1);
-
-
-
     urlstring += s1;
-
     //设置request属性
     set_request_header();
     request.setUrl(QUrl(urlstring));
@@ -417,203 +702,153 @@ void feedback::send_file_httpserver()
         m_filesArray.push_back(file_syslog);
     }
     //获取添加的附件，文件名
-    int rowNum = model->rowCount();
-    for(int filenum=0; filenum<rowNum; filenum++)
+    for(int filenum=0; filenum<file_path_list.size(); filenum++)
     {
         //发送文件
-        QFile *file_image = add_file_to_Part(model->index(filenum, 2).data().toString());
+        QFile *file_image = add_file_to_Part(file_path_list.at(filenum));
         m_filesArray.push_back(file_image);
     }
 }
 //邮箱是否填写
 void feedback::on_textEdit_2_textChanged()
 {
-    email_str = ui->textEdit_2->toPlainText();
+    email_str = textEdit_2->toPlainText();
     if (email_str.isEmpty()){
         emailflag = 0;
+        email_err_msg_label->hide();
     }
-    else{
-        //使用正则表达式来判断邮箱地址
+    //判断邮箱格式
+    else {
         QRegExp rx("^[\\w-]+(\\.[\\w-]+)*@[\\w-]+(\\.[\\w-]+)+");
         int pos=0;
         QRegExpValidator v(rx, 0);
         if(2==v.validate(email_str,pos)){
-            ui->errorMailMessage->setVisible(false);
+            email_err_msg_label->hide();
             emailflag = 1;
         }
         else{
-            ui->errorMailMessage->setVisible(true);
+            email_err_msg_label->show();
             emailflag=0;
         }
-
     }
     if (describeflag == 1 && emailflag == 1){//邮箱和详细描述都已经填写
-        ui->pushButton_2->setEnabled(true);
-        ui->pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(255, 255, 255)");
+        pushButton_2->setEnabled(true);
+        pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(255, 255, 255)");
     }
     else
     {
-        ui->pushButton_2->setEnabled(false);//设置提交按钮属性
-        ui->pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(233, 233, 233);color: rgb(255, 255, 255)");
+        pushButton_2->setEnabled(false);//设置提交按钮属性
+        pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(233, 233, 233);color: rgb(255, 255, 255)");
     }
 }
 
 //删除文件按钮槽函数
 void feedback::del_file_button_clicked()
 {
-    int rowNum = model->rowCount();
-
+    int rowNum = file_name_list.size();
     //QObject::sender()返回发送信号的对象的指针
     QPushButton *btn = qobject_cast<QPushButton*>(QObject::sender());
 
-    if( btn == deletefileBtn[0] )
+    qDebug()<<file_name_list.size()<<"before";
+
+    int listnum = file_name_list.size();
+
+    foreach(auto item,file_name_list)
     {
-        model->removeRows(0, 1);
+        qDebug()<<item<<"--";
+    }
+
+    if( btn == file_widget[0]->deletebtn0 )
+    {
+        file_name_list.removeAt(0);
+        file_size_list.removeAt(0);
+        file_path_list.removeAt(0);
         qDebug() << "delete 0";
     }
-    else if( btn == deletefileBtn[1] )
+    else if( btn == file_widget[1]->deletebtn0 )
     {
-        model->removeRows(1, 1);
+        file_name_list.removeAt(1);
+        file_size_list.removeAt(1);
+        file_path_list.removeAt(1);
 
         qDebug() << "delete 1";
     }
-    else if( btn == deletefileBtn[2] )
+    else if( btn == file_widget[2]->deletebtn0 )
     {
-        model->removeRows(2, 1);
+        file_name_list.removeAt(2);
+        file_size_list.removeAt(2);
+        file_path_list.removeAt(2);
         qDebug() << "delete 2";
     }
-    else if( btn == deletefileBtn[3] )
+    else if( btn == file_widget[3]->deletebtn0 )
     {
-        model->removeRows(3, 1);
+        file_name_list.removeAt(3);
+        file_size_list.removeAt(3);
+        file_path_list.removeAt(3);
     }
-    else if( btn == deletefileBtn[4])
+    else if( btn == file_widget[4]->deletebtn0)
     {
-        model->removeRows(4, 1);
+        file_name_list.removeAt(4);
+        file_size_list.removeAt(4);
+        file_path_list.removeAt(4);
     }
-    for(int i=0; i<rowNum; i++)
+    qDebug()<<file_name_list.size()<<"after";
+    foreach(auto item,file_name_list)
     {
-        delete filename_label[i];
-        delete filesize_label[i];
-        delete deletefileBtn[i];
+        qDebug()<<item<<"after";
+    }
+    for(int i=0; i<listnum; i++)
+    {
+        delete file_listwidget_item[i];
+        delete file_widget[i];
     }
 
-    model->submitAll();   //提交, 在数据库中删除该行
 
     update_add_file_window();
-    del_file_change_window();
 
 
     //删除文件后 把上传附件中内容更新
     update_linedit_add_or_del_file();
+
 }
-//删除附件后调整窗口
-void feedback::del_file_change_window()
-{
-    int rowNum = model->rowCount();
-    window_h -= 29;
-    pushbutton2_y -= 29;
-    pushbutton3_y -= 29;
-    checkbox4_y -= 29;
-    widget_y -= 29;
 
 
-    ui->pushButton_2->setGeometry(pushbutton2_x,pushbutton2_y,pushbutton2_w,pushbutton2_h);
-    ui->pushButton_3->setGeometry(pushbutton3_x,pushbutton3_y,pushbutton3_w,pushbutton3_h);
-    ui->checkBox_4->setGeometry(checkbox4_x,checkbox4_y,checkbox4_w,checkbox4_h);
-    ui->verticalWidget->setGeometry(widget_x,widget_y,widget_w,widget_h);
-    setFixedSize(600,window_h);
-}
-//添加附件后调整窗口
-void feedback::add_file_change_window()
-{
-    if(filename.isEmpty()){
-        return;
-    }
-
-    window_h += 29;
-    pushbutton2_y += 29;
-    pushbutton3_y += 29;
-    checkbox4_y += 29;
-    widget_y += 29;
-
-
-    ui->pushButton_2->setGeometry(pushbutton2_x,pushbutton2_y,pushbutton2_w,pushbutton2_h);
-    ui->pushButton_3->setGeometry(pushbutton3_x,pushbutton3_y,pushbutton3_w,pushbutton3_h);
-    ui->checkBox_4->setGeometry(checkbox4_x,checkbox4_y,checkbox4_w,checkbox4_h);
-    ui->verticalWidget->setGeometry(widget_x,widget_y,widget_w,widget_h);
-    setFixedSize(600,window_h);
-}
 
 //点击继续反馈信息之后 清空程序内所有信息
 void feedback::feedback_info_init(){
-    ui->comboBox->setCurrentIndex(0);
-    ui->textEdit->setText("");
-    ui->label_9->show();
-    ui->checkBox->setChecked(false);
-    ui->checkBox_2->setChecked(false);
-    ui->checkBox_3->setChecked(false);
-    ui->lineEdit->setText("");
-    ui->textEdit_2->setText("");
-    for(int i=0; i<model->rowCount(); i++)
+    comboBox->setCurrentIndex(0);
+
+    textEdit->setText("");
+
+    textEdit_2->setText("");
+
+    for(int i=0; i<file_name_list.size(); i++)
     {
-        delete filename_label[i];
-        delete filesize_label[i];
-        delete deletefileBtn[i];
+        delete file_listwidget_item[i];
+        delete file_widget[i];
     }
-    model->removeRows(0,model->rowCount());
-    model->submitAll();
-
-    ui->checkBox_4->setChecked(false);
-
-    //变量初始化
-    //控件坐标变量
-    //window size
-    window_w = 600;
-    window_h =695;
-    //checkBox_4
-    checkbox4_x = 35;
-    checkbox4_y = 570;
-    checkbox4_w = 121;
-    checkbox4_h = 24;
-    //pushButton_3
-    pushbutton3_x = 140;
-    pushbutton3_y = 570;
-    pushbutton3_w = 60;
-    pushbutton3_h = 24;
-    //verticalWidget
-    widget_x = 100;
-    widget_y = 593;
-    widget_w = 240;
-    widget_h = 130;
-    //pushButton_2
-    pushbutton2_x = 440;
-    pushbutton2_y = 600;
-    pushbutton2_w = 120;
-    pushbutton2_h = 45;
-    //文件名字宽度
-    //int filename_width;
-    //int filesize_width;
-    filename_x = 140;
-    filename_y = 480;
-    filename_w = 200;
-    filename_h = 24;
-
-    syslogflag = 0;
-    apportlogflag = 0;
-    dpkglogflag = 0;
-    describeflag = 0;
-    emailflag = 0;
-    get_systeminfoflag = 0;
-    send_fail_flags = 0;
-
-    ui->pushButton_2->setGeometry(pushbutton2_x,pushbutton2_y,pushbutton2_w,pushbutton2_h);
-    ui->pushButton_3->setGeometry(pushbutton3_x,pushbutton3_y,pushbutton3_w,pushbutton3_h);
-    ui->checkBox_4->setGeometry(checkbox4_x,checkbox4_y,checkbox4_w,checkbox4_h);
-    ui->verticalWidget->setGeometry(widget_x,widget_y,widget_w,widget_h);
-    setFixedSize(600,window_h);
+    foreach(auto item,file_name_list)
+    {
+        file_name_list.removeOne(item);
+    }
+    foreach(auto item,file_size_list)
+    {
+        file_name_list.removeOne(item);
+    }
+    foreach(auto item,file_path_list)
+    {
+        file_name_list.removeOne(item);
+    }
+    lineEdit->setText("");
+    label_13->hide();
+    email_err_msg_label->hide();
+    checkBox->setChecked(false);
+    checkBox_2->setChecked(false);
+    checkBox_3->setChecked(false);
+    checkBox_4->setChecked(false);
 
 }
-//添加文件后把文件信息加入数据库
+//添加文件后把文件信息加入qlist
 void feedback::add_fileinfo_model()
 {
     if(filename.isEmpty()){
@@ -633,80 +868,82 @@ void feedback::add_fileinfo_model()
     if((float)info.size()/(float)1000 > 1000)
         file_size = QString::number((float)info.size()/(float)1000000,'f',1) + "M";
 
-    int rowNum = model->rowCount();
-    if(rowNum < 5)
-    {
-        model->insertRow(rowNum);
-        model->setData(model->index(rowNum, 0), file_name);
-        model->setData(model->index(rowNum, 1), file_size);
-        model->setData(model->index(rowNum, 2), filename);
-        model->submitAll();
-        model->setTable("clock");
-        model->select();
 
-        for(int i=0; i<rowNum; i++)
+    //向stringlist 添加数据
+    qDebug()<<"向stringlist 添加数据"<<file_name_list.size()<<"--"<<file_size_list.size()<<"---"<<file_path_list.size();
+    //限制添加的文件最多五个
+    if(file_name_list.size() < 5){
+        file_name_list.append(file_name);
+        file_size_list.append(file_size);
+        file_path_list.append(filename);
+    }
+        for(int i=0; i<file_name_list.size()-1; i++)
         {
-            delete filename_label[i];
-            delete filesize_label[i];
-            delete deletefileBtn[i];
+            delete file_listwidget_item[i];
+            delete file_widget[i];
         }
         update_add_file_window();
-    }
 }
-//根据数据库 刷新窗口
+//根据数据列表 刷新窗口
 void feedback::update_add_file_window()
 {
     if(filename.isEmpty()){
         return;
     }
-    int rowNum = model->rowCount();
-    for(int filenum=0; filenum<rowNum; filenum++)
+
+
+    for(int filenum=0; filenum<file_name_list.size(); filenum++)
     {
-        filename_label[filenum] = new QLabel(this);
-        filename_label[filenum]->move(filename_x,filename_y+(filenum * 29));
-        filename_label[filenum]->setText(model->index(filenum, 0).data().toString().mid(model->index(filenum, 0).data().toString().lastIndexOf('/')+1));
-        filename_label[filenum]->setStyleSheet("font: 12px ;color: rgb(68,68,68);");
-        filename_label[filenum]->adjustSize();
-        filename_label[filenum]->show();
-        int filename_width = filename_label[filenum]->geometry().width();
+        file_listwidget_item[filenum] = new QListWidgetItem;
+        file_listwidget_item[filenum]->setSizeHint(QSize(320,20));
+        //file_listwidget_item[filenum]->setTextColor(QColor());
+        file_listwidget->addItem(file_listwidget_item[filenum]);
+        file_widget[filenum] = new fileitem_init(file_listwidget);
+        file_listwidget->setItemWidget(file_listwidget_item[filenum],file_widget[filenum]);
 
-        filesize_label[filenum] = new QLabel(this);
-        filesize_label[filenum]->setGeometry(filename_x+filename_width+20,filename_y+ (filenum * 29),filename_w,filename_h);
-        filesize_label[filenum]->setText(("( "+model->index(filenum, 1).data().toString()+" )"));
-        filesize_label[filenum]->setStyleSheet("font: 12px;color: rgb(179,179,179)");
-        filesize_label[filenum]->adjustSize();
-        filesize_label[filenum]->show();
-        int filesize_width = filesize_label[filenum]->geometry().width();
 
-        deletefileBtn[filenum] = new QPushButton(this);
-        deletefileBtn[filenum]->setGeometry(filename_x+filename_width+20+filesize_width+20,filename_y+ (filenum * 29),31,26);
-        deletefileBtn[filenum]->setText(tr("删除"));
-        deletefileBtn[filenum]->setStyleSheet("font: 12px ;color: rgb(61,107,229)");
-        deletefileBtn[filenum]->setFlat(true);
-        deletefileBtn[filenum]->show();
-        connect( deletefileBtn[filenum], SIGNAL(clicked()), this, SLOT(del_file_button_clicked()) );
+        file_widget[filenum]->filename_label0->move(0,0);
+        file_widget[filenum]->filename_label0->setText(file_name_list.at(filenum));
+        file_widget[filenum]->filename_label0->setStyleSheet("font: 12px ;color: rgb(68,68,68);");
+        file_widget[filenum]->filename_label0->adjustSize();
+
+        int filename_width = file_widget[filenum]->filename_label0->geometry().width();
+
+        file_widget[filenum]->filesize_label0->move(filename_width+10,0);
+        file_widget[filenum]->filesize_label0->setText(file_size_list.at(filenum));
+        file_widget[filenum]->filesize_label0->setStyleSheet("font: 12px ;color: rgb(68,68,68);");
+        file_widget[filenum]->filesize_label0->adjustSize();
+
+        int filesize_width = file_widget[filenum]->filesize_label0->geometry().width();
+
+        file_widget[filenum]->deletebtn0->setGeometry(filename_width+filesize_width+20,0,25,15);
+        file_widget[filenum]->deletebtn0->setText(tr("删除"));
+        file_widget[filenum]->deletebtn0->setStyleSheet("font: 12px ;color: rgb(61,107,229)");
+        file_widget[filenum]->deletebtn0->setFlat(true);
+
+        connect( file_widget[filenum]->deletebtn0, SIGNAL(clicked()), this, SLOT(del_file_button_clicked()) );
+
     }
 }
 //在删除文件之后更新文件信息框
 void feedback::update_linedit_add_or_del_file()
 {
-    int rowNum = model->rowCount();
+    int rowNum = file_name_list.size();
     if (rowNum == 0){
-        ui->lineEdit->setText("");
+        lineEdit->setText("");
     }
     else{
-        ui->lineEdit->setText(model->index(rowNum-1, 2).data().toString());
+        lineEdit->setText(file_path_list.at(file_path_list.size()-1));
     }
 }
-//判断总文件大小是否超过3M
-bool feedback::all_file_size_than_3M()
+//判断总文件大小是否超过10M
+bool feedback::all_file_size_than_10M()
 {
     int all_filesize = 0;
     QFileInfo file_info;
-    int rowNum = model->rowCount();
-    for(int filenum=0; filenum<rowNum; filenum++)
+    for(int filenum=0; filenum<file_path_list.size(); filenum++)
     {
-        file_info.setFile(model->index(filenum, 1).data().toString());
+        file_info.setFile(file_path_list.at(filenum));
         all_filesize += file_info.size();
     }
 
@@ -723,21 +960,32 @@ bool feedback::all_file_size_than_3M()
         all_filesize += file_info.size();
     }
     //qDebug()<<all_filesize;
-    if(all_filesize > 3*1024*1024)
+    if(all_filesize > 10*1024*1024)
     {
         return true;
     }
     else
         return false;
 }
+//http客户端初始化
 void feedback::httpclient_init()
 {
     accessManager = new QNetworkAccessManager(this);
     connect(accessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(finishedSlot(QNetworkReply* )));
 }
-
+//http请求完成
 void feedback::finishedSlot(QNetworkReply *reply)
 {
+    //定时器结束
+    submitting_timer->stop();
+    pushButton_2->setText(tr("提交"));
+    pushButton_2->setEnabled(false);
+    pushButton_2->setStyleSheet(QString::fromUtf8("font: 18px;\n"
+                                                  "color: rgb(255, 255, 255);\n"
+                                                  "background-color: rgb(233, 233, 233);\n"
+                                                  "border:4px ;"));
+    pushButton_2->setIcon(QIcon());
+
     if (reply->error() == QNetworkReply::NoError)
     {
         // 获取http状态码
@@ -777,8 +1025,7 @@ void feedback::finishedSlot(QNetworkReply *reply)
     }
     m_filesArray.clear();
 }
-
-
+//http设置请求头
 void feedback::set_request_header()
 {
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
@@ -786,4 +1033,13 @@ void feedback::set_request_header()
 }
 
 
-
+//void feedback::paintEvent(QPaintEvent *e)
+//{
+//      QStyleOption opt;
+//      opt.init(this);
+//      QPainter p(this);
+//      p.setBrush(QBrush(Qt::red));
+//      p.setPen(Qt::black);
+//      p.drawRoundedRect(opt.rect,0,0);
+//      style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+//}

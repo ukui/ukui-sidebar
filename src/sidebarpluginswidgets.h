@@ -33,6 +33,7 @@
 #include <QLabel>
 #include <QToolButton>
 #include "smallpluginsbutton.h"
+#include "smallpluginsmanage.h"
 class sidebarPluginsWidgets : public QWidget
 {
     Q_OBJECT
@@ -50,7 +51,7 @@ public:
     void setClipboardButtonBackgroundIsBlank();                   //设置侧边栏按钮背景色为空白
     void setSmallPluginsButtonBackgroudIsBlank();                 //设置小插件按钮背景色为空白
     void setClipboardWidgetSize(int ClipHight);                   //设置此窗口的大小
-    const char* setTileString();
+    void loadSmallPlugins();                                      //加载小插件，放置到sidebar界面
 
 
     QVBoxLayout *m_pWidgetOutVLayout;                             //最外层布局
@@ -77,6 +78,9 @@ public:
     QState *m_pSmallPluginsState;                                 //小插件状态
     bool    m_pBoolStates;
     int     m_statusFlag;                                         //状态机位置
+    bool    resizeFlag;
+    bool    resizeFlagTwo;
+    bool    resizeFlagOne;
 
 signals:
 

@@ -17,39 +17,50 @@
 */
 #ifndef CLOCK_PLUGIN_H
 #define CLOCK_PLUGIN_H
-
-#include "clock_interface.h"
 #include <QPushButton>
 #include <QMainWindow>
 #include <clock.h>
+#include "sidebarSmallPluginInterface.h"
 
-class clock_plugin : public QObject, public ClockInterface
+class clock_plugin : public QObject, public SidebarSmallPluginInterface
 {
 
     Q_OBJECT
     //Q_INTERFACES宏用于告诉Qt该类实现的接口
-    Q_INTERFACES(ClockInterface)
     //Q_PLUGIN_METADATA宏用于描述插件元数据
-    Q_PLUGIN_METADATA(IID ClockInterface_iid FILE "Clock.json")
-    //申明该类有D-BUS服务接口
-    //Q_CLASSINFO("D-Bus Interface", "com.scorpio.test.value")
-
+    Q_PLUGIN_METADATA(IID SidebarSmallPluginInterface_iid FILE "Clock.json")
+    Q_INTERFACES(SidebarSmallPluginInterface)
 
 public:
     bool Clockflag = false;
     clock_plugin();
     ~clock_plugin();
-    void show();
+    //plugin implement 统一接口
+    const QString name() override {return QObject::tr("Alarm-clock");}
+    PluginType pluginType() override {return PluginType::SmallPlugin;}
+    const QString description() override {return QObject::tr("Alarm-clock");}
+    const QIcon icon() override {return QIcon::fromTheme("alarm-clock", QIcon::fromTheme("alarm-clock"));}
+    void setEnable(bool enable) override {Q_UNUSED(enable)}
+    bool isEnable() override {return true;}
+
+    virtual int PluginButtonLocation_X() override {return 0;}
+    virtual int PluginButtonLocation_Y() override {return 2;}
+
+    virtual QString PluginButtonName() override {return QObject::tr("Alarm clock");}
+    virtual int     pluginsLoadingSequence() override {return 1;}
+
+    virtual QString PluginIconName() override {return QObject::tr("Alarm-clock");}
+    virtual int PluginIconSize_W() override {return 48;}
+    virtual int PluginIconSize_H()  override {return 48;}
+
+    virtual void PluginsShowInterface() override;
 
     QWidget *m_pClock;
     QWidget*  centerWidget();
     void onNotification() ;
-   // void UI_in_sidebar();
 
 signals:
     void    Clock_ification();
-
-
 };
 
 

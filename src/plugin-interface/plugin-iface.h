@@ -30,6 +30,7 @@ public:
         PushBtton1 = 1,
         PushBtton2,
         PushBtton3,
+        SmallPlugin,
         ClipBoard,
         Other
     };

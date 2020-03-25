@@ -11,49 +11,12 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>NoteBook</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgb(0, 0, 0);
 border:1px solid rgba(255, 255, 255, 0.05);</string>
   </property>
-  <widget class="QToolButton" name="ukui_NoteNew">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>10</y>
-     <width>30</width>
-     <height>30</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">image: url(:/new/prefix1/SVG/new-b.svg);
-border-width:0;
-border-style:outset</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QToolButton" name="ukui_NoteClose">
-   <property name="geometry">
-    <rect>
-     <x>350</x>
-     <y>10</y>
-     <width>30</width>
-     <height>30</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">image: url(:/new/prefix1/SVG/dark_theme/close.svg);
-border-width:0;
-border-style:outset;
-background-color: rgb(0, 0, 0);</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
   <widget class="QTextEdit" name="textEdit">
    <property name="geometry">
     <rect>
@@ -78,7 +41,7 @@ border-radius:4px;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(141, 141, 141);</string>
+    <string notr="true">background-color: rgb(165, 165, 165);</string>
    </property>
    <widget class="QToolButton" name="ukui_NoteFont">
     <property name="geometry">
@@ -184,7 +147,7 @@ border-style:outset;</string>
 border-radius:4px;</string>
     </property>
     <property name="text">
-     <string>保存</string>
+     <string>Save</string>
     </property>
    </widget>
    <widget class="QPushButton" name="ukui_NoteSaveAs">
@@ -201,9 +164,35 @@ border-radius:4px;</string>
 border-radius:4px;</string>
     </property>
     <property name="text">
-     <string>另存为</string>
+     <string>SaveAs</string>
     </property>
    </widget>
+  </widget>
+  <widget class="QPushButton" name="ukui_NoteNew">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>30</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ukui_NoteClose">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>10</y>
+     <width>30</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
   </widget>
  </widget>
  <resources/>

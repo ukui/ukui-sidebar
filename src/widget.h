@@ -24,9 +24,7 @@
 #include <QDBusInterface>
 #include <QDBusPendingCallWatcher>
 #include "clipboardpluginiface.h"
-#include "clock_interface.h"
-#include "feedback_interface.h"
-#include "ukui-noodbook_pluginiface.h"
+#include "sidebarSmallPluginInterface.h"
 
 #define  TRAY_ICON           ":/data/images/kylin-tool-box.svg"
 #define  TRAY_NULL_ICON      ":/data/images/kylin-tool-box-null.svg"
@@ -96,9 +94,9 @@ private:
     QObject*                    m_pclock_PluginObject;                          //闹钟插件第一次加载插件对象
     QObject*                    m_pfeedback_PluginObject;
     QObject*                    m_pnotebook_PluginObject;
-    ClockInterface              *m_pclock_Plugin;                               //闹钟插件全局变量
-    FeedbackInterface           *m_pPlugin_Plugin;                               //问题反馈全局变量
-    nood_bookInterface           *m_pnotebookPluginObject;
+    SidebarSmallPluginInterface *m_pclock_Plugin;                               //闹钟插件全局变量
+    SidebarSmallPluginInterface *m_pPlugin_Plugin;                               //问题反馈全局变量
+    SidebarSmallPluginInterface *m_pnotebookPluginObject;
     int                         m_nInitalXPosition;
     QTranslator                 *m_pTranslator;
 
