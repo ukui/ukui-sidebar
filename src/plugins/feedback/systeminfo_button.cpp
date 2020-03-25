@@ -17,6 +17,7 @@
 */
 #include"systeminfo_button.h"
 #include "feedback.h"
+#include <QPointF>
 
 
 systeminfo_button::systeminfo_button(QWidget* parent) :QPushButton(parent)
@@ -29,7 +30,8 @@ systeminfo_button::~systeminfo_button()
 }
 void systeminfo_button::enterEvent(QEvent *e)
 {
-    pfeedback->systeminfo_show();
+    QPointF position = QCursor::pos();
+    pfeedback->systeminfo_show(position);
 }
 void systeminfo_button::leaveEvent(QEvent *e)
 {
