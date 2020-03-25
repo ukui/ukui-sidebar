@@ -44,16 +44,6 @@
 feedback::feedback(QWidget *parent)
     : QMainWindow(parent)
 {
-
-    QString locale = QLocale::system().name();
-    QTranslator *translator_feedback;
-    translator_feedback = new QTranslator();
-    //英文环境加载en.qm
-    if(locale == "en_US"){
-        translator_feedback->load(QString("://translation/feedback_en_US.qm"));  //选择翻译文件
-        QApplication::installTranslator(translator_feedback);
-    }
-
     UI_init();
     feedback_init();
 }
@@ -213,11 +203,16 @@ void feedback::UI_init()
 
     verticalWidget = new QWidget();
     verticalWidget->setObjectName(QString::fromUtf8("verticalWidget"));
+
     verticalWidget->setWindowFlags(Qt::FramelessWindowHint);
+
+
+
     verticalWidget->hide();
     verticalWidget->setAttribute(Qt::WA_TranslucentBackground);//设置窗口透明
 
-    verticalWidget->setStyleSheet(QString::fromUtf8("background-color: rgba(255, 255, 255);\n"
+    verticalWidget->setStyleSheet(QString::fromUtf8("border:0.5px solid black"));
+    verticalWidget->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);\n"
                                                     "border-top-left-radius:4px;\n"
                                                     "\n"
                                                     "border-top-right-radius:4px;\n"
@@ -225,7 +220,6 @@ void feedback::UI_init()
                                                     "border-bottom-left-radius:4px;\n"
                                                     "\n"
                                                     "border-bottom-right-radius:4px;\n"
-                                                    "border:0.5px solid black;\n"
                                                     ""));
     frame_2 = new QFrame(verticalWidget);
     frame_2->setObjectName(QString::fromUtf8("frame_2"));
@@ -237,7 +231,7 @@ void feedback::UI_init()
     effect->setColor(QColor(0,0,0));
     effect->setBlurRadius(10);
     frame_2->setGraphicsEffect(effect);
-    frame_2->setStyleSheet("border-color: rgba(255, 255, 255,0.1);");
+    frame_2->setStyleSheet("border-color: rgb(255, 255, 255);");
 
     label_10 = new QLabel(frame_2);
     label_10->setObjectName(QString::fromUtf8("label_10"));
@@ -332,9 +326,6 @@ void feedback::UI_init()
     file_listwidget->setGeometry(QRect(140,407,320,53));
     file_listwidget->setStyleSheet("background-color: rgb(255,255,255);selection-background-color: rgb(255,255,255);");
     file_listwidget->setFrameShape(QListWidget::NoFrame);
-    //设置横向纵向无下拉条
-    file_listwidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    file_listwidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     //添加提交图片
     submitting_pixmap[0] =QPixmap(":/image/conning-a/1.png");
@@ -368,7 +359,15 @@ void feedback::feedback_init()
     //http客户端初始化
     httpclient_init();
 
-
+    QString locale = QLocale::system().name();
+    QTranslator *translator_feedback;
+    translator_feedback = new QTranslator();
+    //英文环境加载en.qm
+    if(locale == "en_US"){
+        qDebug()<<"222";
+        translator_feedback->load(QString(":/Resource/feedback_en.qm"));  //选择翻译文件
+        QApplication::installTranslator(translator_feedback);
+    }
 
     submitting_timer = new QTimer();
 
@@ -405,7 +404,7 @@ void feedback::on_pushButton_close_clicked()
 void feedback::on_pushButton_clicked()
 {
     pushButton->setStyleSheet("font: 14px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(68, 68, 68)");
-    filename=QFileDialog::getOpenFileName(this,tr("选择图片"),"/","Image file(*.gif *.jpg *.png)",0);
+    filename=QFileDialog::getOpenFileName(this,tr("select image"),"/","Image file(*.gif *.jpg *.png)",0);
     //判断文件是否重复添加
 
     if (file_name_list.size() ==0)
@@ -895,12 +894,11 @@ void feedback::update_add_file_window()
     for(int filenum=0; filenum<file_name_list.size(); filenum++)
     {
         file_listwidget_item[filenum] = new QListWidgetItem;
-        file_listwidget_item[filenum]->setSizeHint(QSize(320,20));
+        file_listwidget_item[filenum]->setSizeHint(QSize(320,25));
         //file_listwidget_item[filenum]->setTextColor(QColor());
         file_listwidget->addItem(file_listwidget_item[filenum]);
         file_widget[filenum] = new fileitem_init(file_listwidget);
         file_listwidget->setItemWidget(file_listwidget_item[filenum],file_widget[filenum]);
-
 
         file_widget[filenum]->filename_label0->move(0,0);
         file_widget[filenum]->filename_label0->setText(file_name_list.at(filenum));
@@ -916,10 +914,11 @@ void feedback::update_add_file_window()
 
         int filesize_width = file_widget[filenum]->filesize_label0->geometry().width();
 
-        file_widget[filenum]->deletebtn0->setGeometry(filename_width+filesize_width+20,0,25,15);
+        file_widget[filenum]->deletebtn0->move(filename_width+filesize_width+20,0);
         file_widget[filenum]->deletebtn0->setText(tr("删除"));
         file_widget[filenum]->deletebtn0->setStyleSheet("font: 12px ;color: rgb(61,107,229)");
         file_widget[filenum]->deletebtn0->setFlat(true);
+        file_widget[filenum]->deletebtn0->adjustSize();
 
         connect( file_widget[filenum]->deletebtn0, SIGNAL(clicked()), this, SLOT(del_file_button_clicked()) );
 
@@ -1043,3 +1042,4 @@ void feedback::set_request_header()
 //      p.drawRoundedRect(opt.rect,0,0);
 //      style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 //}
+
