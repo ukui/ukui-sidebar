@@ -22,9 +22,12 @@
 
 #include <QtWidgets>
 #include <QDBusInterface>
+#include <QPropertyAnimation>
 #include <QDBusPendingCallWatcher>
 #include "clipboardpluginiface.h"
 #include "sidebarSmallPluginInterface.h"
+#include "realtimepropertyanimation.h"
+#include "mostgrandwidget.h"
 
 #define  TRAY_ICON           ":/data/images/kylin-tool-box.svg"
 #define  TRAY_NULL_ICON      ":/data/images/kylin-tool-box-null.svg"
@@ -99,6 +102,8 @@ private:
     SidebarSmallPluginInterface *m_pnotebookPluginObject;
     int                         m_nInitalXPosition;
     QTranslator                 *m_pTranslator;
+    QPropertyAnimation          *m_pAnimationShowSidebarWidget;
+    QPropertyAnimation          *m_pAnimationHideSidebarWidget;
 
     //快捷操作面板
     ClipboardInterface*         m_pSidebarClipboard;                            //侧边栏剪贴板指针

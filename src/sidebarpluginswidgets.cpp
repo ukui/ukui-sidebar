@@ -152,6 +152,7 @@ void sidebarPluginsWidgets::AddPluginWidgetInterface()
     connect(m_pClipBoardState, &QState::propertiesAssigned, this,[=]{
         if (!m_pPluginsButtonWidget->isVisible()) {
             m_pPluginsButtonWidget->setVisible(true);
+            this->update();
             m_pSidebarPluginButton->SendSingal();
             qDebug() << "进入小插件界面";
         }
@@ -174,6 +175,7 @@ void sidebarPluginsWidgets::AddPluginWidgetInterface()
         if (m_pBoolStates) {
             m_pClipboardButton->SendSingal();
             m_pBoolStates = false;
+            this->update();
             qDebug() << "进入剪贴板界面";
         }
 //        if (resizeFlag) {

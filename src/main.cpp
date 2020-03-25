@@ -90,6 +90,6 @@ int main(int argc, char *argv[])
     mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, 854);
     mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(1200, 0);
 
-    mostGrandWidget::getInstancemostGrandWidget()->show();
+//    mostGrandWidget::getInstancemostGrandWidget()->show();
     return a.exec();
 }
