@@ -39,7 +39,6 @@ sidebarPluginsWidgets::~sidebarPluginsWidgets()
 sidebarPluginsWidgets* sidebarPluginsWidgets::getInstancePluinsWidgets()
 {
     if (global_Plugin_Widgets_instance == nullptr) {
-        qDebug() << "是否重复进入此处，重复进行new";
         global_Plugin_Widgets_instance = new sidebarPluginsWidgets();
     }
     return global_Plugin_Widgets_instance;

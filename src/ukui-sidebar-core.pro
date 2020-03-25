@@ -29,6 +29,7 @@ include(./plugin-interface/plugin-interface.pri)
 RESOURCES  += sidebar.qrc
 SOURCES += \
         main.cpp \
+        mostgrandwidget.cpp \
         realtimepropertyanimation.cpp \
         sidebarpluginswidgets.cpp \
         smallpluginsbutton.cpp \
@@ -40,6 +41,7 @@ SOURCES += \
 INCLUDEPATH += ./plugin-interface
 
 HEADERS += \
+        mostgrandwidget.h \
         realtimepropertyanimation.h \
         sidebarpluginswidgets.h \
         smallpluginsbutton.h \

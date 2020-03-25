@@ -33,7 +33,7 @@
 #include <QCommandLineOption>
 #include "sidebarpluginswidgets.h"
 #include "smallpluginsmanage.h"
-
+#include "mostgrandwidget.h"
 int main(int argc, char *argv[])
 {
     /* 如果系统中有实例在运行则退出 */
@@ -75,11 +75,21 @@ int main(int argc, char *argv[])
     QApplication::setQuitOnLastWindowClosed(false);
     SmallPluginsManage::SmallPluginsManageInit();                   /* 初始化侧边栏小插件管理容器 */
     PluginManager::init();                                          /* 初始化插件管理器 */
+//    mostGrandWidget::mostGrandWidgetInit();                         /* 初始化最里层Widget空白界面 */
 
 
-    Widget w;
-    w.setObjectName("SidebarWidget");
-    w.setAttribute(Qt::WA_TranslucentBackground);
-    w.show();
+//    Widget w;
+//    w.setObjectName("SidebarWidget");
+//    w.setAttribute(Qt::WA_TranslucentBackground);
+//    w.show();
+    Widget *w = new Widget;
+    w->setObjectName("SidebarWidget");
+    w->setAttribute(Qt::WA_TranslucentBackground);
+    mostGrandWidget::getInstancemostGrandWidget()->m_pmostGrandWidgetVLaout->addWidget(w);
+    mostGrandWidget::getInstancemostGrandWidget()->LaoutSidebarWidget();
+    mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, 854);
+    mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(1200, 0);
+
+    mostGrandWidget::getInstancemostGrandWidget()->show();
     return a.exec();
 }

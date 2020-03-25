@@ -29,9 +29,6 @@
 
 Widget::Widget(QWidget *parent) : QWidget (parent)
 {
-    m_bShowFlag = false;
-    m_bFwinkleFlag = true;
-
     m_pTranslator = new QTranslator;
     QLocale locale;
     if( locale.language() == QLocale::Chinese )  //获取系统语言环境
@@ -39,6 +36,8 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
         m_pTranslator->load(QString(":sidebartranslat/Sidebar_zh_CN.qm"));  //选择翻译文件
         QApplication::installTranslator(m_pTranslator);
     }
+    m_bShowFlag = false;
+    m_bFwinkleFlag = true;
 
     //监听屏幕分辨率是否变化
     QDesktopWidget* desk = QApplication::desktop();
@@ -79,7 +78,8 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     }
 
     m_pMainOuterWidget->setLayout(m_pMainQVBoxLayout);
-    this->setLayout(m_pMainOuterBoxLayout);
+//    this->setLayout(m_pMainOuterBoxLayout);
+    this->setLayout(m_pMainQVBoxLayout);
 
     //系统托盘栏显示
     createAction();
@@ -219,11 +219,13 @@ void Widget::iconActivated(QSystemTrayIcon::ActivationReason reason)
             if (m_bShowFlag)
             {
                 qDebug() << "Widget::iconActivated 隐藏";
-                hideAnimation();
+//                hideAnimation();
+                this->hide();
             } else
             {
                 qDebug() << "Widget::iconActivated 展开";
-                showAnimation();
+//                showAnimation();
+                this->show();
                 m_bShowFlag = true;
                 m_pTimer->stop();                               //当侧边栏展开时，停止闪烁定时器，并且设置有图标的托盘图标
                 setIcon(TRAY_ICON);
