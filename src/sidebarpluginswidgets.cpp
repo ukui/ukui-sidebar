@@ -9,9 +9,8 @@ sidebarPluginsWidgets::sidebarPluginsWidgets(QWidget *parent) : QWidget(parent)
     this->setFixedSize(400,300);
     this->setStyleSheet("QWidget{background:rgba(255, 255, 0, 0);}");
     m_pBoolStates = true;
-//    resizeFlag    = false;
-//    resizeFlagTwo = false;
-//    resizeFlagOne = false;
+    flagnumClipboardState = 0;
+    resizeFlagOne = true;
     m_pWidgetOutVLayout = new QVBoxLayout();
     m_pWidgetOutVLayout->setContentsMargins(0,0,0,0);
 
@@ -39,7 +38,6 @@ sidebarPluginsWidgets::~sidebarPluginsWidgets()
 sidebarPluginsWidgets* sidebarPluginsWidgets::getInstancePluinsWidgets()
 {
     if (global_Plugin_Widgets_instance == nullptr) {
-        qDebug() << "是否重复进入此处，重复进行new";
         global_Plugin_Widgets_instance = new sidebarPluginsWidgets();
     }
     return global_Plugin_Widgets_instance;
@@ -135,59 +133,31 @@ void sidebarPluginsWidgets::AddPluginWidgetInterface()
     QAbstractTransition *t1 = m_pClipBoardState->addTransition(m_pSidebarPluginButton, SIGNAL(enterButtonSignal()), m_pSmallPluginsState);
     t1->addAnimation(new QPropertyAnimation(m_pPluginsButtonWidget, "geometry"));
 
-//    QDesktopWidget* desk = QApplication::desktop();
-//    QAbstractTransition *t3 = m_pClipBoardState->addTransition(desk, SIGNAL(resized(int)), m_pSmallPluginsState);
-//    t3->addAnimation(new QPropertyAnimation(m_pPluginsButtonWidget, "geometry"));
-
-//    connect(desk, &QDesktopWidget::resized, this, [=]() {
-//        resizeFlag = true;
-//    });
-
     QAbstractTransition *t2 = m_pSmallPluginsState->addTransition(m_pClipboardButton, SIGNAL(enterButtonSignal()), m_pClipBoardState);
     t2->addAnimation(new QPropertyAnimation(m_pClipboardWidget, "geometry"));
 
-//    QAbstractTransition *t4 = m_pSmallPluginsState->addTransition(desk1, SIGNAL(resized(int)), m_pClipBoardState);
-//    t4->addAnimation(new QPropertyAnimation(m_pClipboardWidget, "geometry"));
-
     /* 初始化状态机时所要做的事情 */
-    connect(m_pClipBoardState, &QState::propertiesAssigned, this,[=]{
-        if (!m_pPluginsButtonWidget->isVisible()) {
+    connect(m_pClipBoardState, &QState::propertiesAssigned, this, [=]{
+        qDebug() << "初始化状态机时所要做的事情" << m_pPluginsButtonWidget->isVisible();
+        if (resizeFlagOne) {
             m_pPluginsButtonWidget->setVisible(true);
+            m_pPluginsButtonWidget->show();
+            qDebug() << "初始化状态机时所要做的事情sdasdasdsadasd" << m_pPluginsButtonWidget->isVisible();
+            resizeFlagOne = false;
+            this->update();
             m_pSidebarPluginButton->SendSingal();
             qDebug() << "进入小插件界面";
         }
-
-//        if (resizeFlag) {
-//            resizeFlag = false;
-//            resizeFlagTwo = true;
-//            m_pSidebarPluginButton->SendSingal();
-//            qDebug() << "resizeFlagOne::1";
-//        }
-
-//        if (resizeFlagOne) {
-//            m_pSidebarPluginButton->SendSingal();
-//            resizeFlagOne = false;
-//            qDebug() << "resizeFlagOne:2";
-//        }
     });
 
-    connect(m_pSmallPluginsState, &QState::propertiesAssigned, this, [=] {
+    connect(m_pSmallPluginsState, &QState::propertiesAssigned, this, [=]{
         if (m_pBoolStates) {
-            m_pClipboardButton->SendSingal();
+            m_pPluginsButtonWidget->setVisible(true);
             m_pBoolStates = false;
+            m_pClipboardButton->SendSingal();
+            this->update();
             qDebug() << "进入剪贴板界面";
         }
-//        if (resizeFlag) {
-//            resizeFlag = false;
-//            resizeFlagOne = true;
-//            m_pClipboardButton->SendSingal();
-//            qDebug() << "resizeFlagTwo::1";
-//        }
-//        if (resizeFlagTwo) {
-//            m_pClipboardButton->SendSingal();
-//            resizeFlagTwo = false;
-//            qDebug() << "resizeFlagTwo:2";
-//        }
     });
 
     /* 进入状态机一需要将小插件按钮的背景设置成空白 */
@@ -205,10 +175,9 @@ void sidebarPluginsWidgets::AddPluginWidgetInterface()
         m_pAnimationLeftRight->start();
         m_statusFlag = KYLIN_STATE_SMALL_PLUGINS;
     });
-
+    m_pPluginsButtonWidget->setVisible(false);
     m_pMachine->setInitialState(m_pClipBoardState);
     m_pMachine->start();
-    m_pPluginsButtonWidget->setVisible(false);
 }
 
 /* 移动到剪贴板按钮需要修改的界面 */
