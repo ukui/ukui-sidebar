@@ -9,3 +9,4 @@ export QT_SELECT := qt5
 override_dh_install:
 	sh translations/update-translations.sh
 	cp -a translations/notification_plugin/*.qm debian/ukui-sidebar/usr/share/ukui-sidebar-notification
+	dh_install

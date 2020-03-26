@@ -58,7 +58,11 @@ CONFIG += link_pkgconfig
 PKGCONFIG +=gio-2.0 glib-2.0 gio-unix-2.0
 LIBS += -lgio-2.0 -lgobject-2.0 -lglib-2.0
 
+desktopfile.files = data/ukui-sidebar.desktop
+desktopfile.path = /etc/xdg/autostart/
 
 # Default rules for deployment.
 target.path = /usr/bin/
 !isEmpty(target.path): INSTALLS += target
+
+INSTALLS += desktopfile
