@@ -36,16 +36,19 @@ TRANSLATIONS += \
         ukui_notebook_zh_CN.ts
 
 SOURCES += \
+    mythrow.cpp \
+    singleitemButton.cpp \
         widget.cpp \
     singleitemwidget.cpp \
     ukui_notebook.cpp \
     notebook_plugin.cpp
 
 HEADERS += \
+    mythrow.h \
+    singleitemButton.h \
         widget.h \
     singleitemwidget.h \
     ukui_notebook.h \
-    sql_create.h \
     notebook_plugin.h
 
 FORMS += \

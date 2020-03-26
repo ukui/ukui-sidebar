@@ -28,7 +28,15 @@ ukui_NoteBook::~ukui_NoteBook()
 void ukui_NoteBook::ukuiNoteBook_init()
 {
     qDebug() << "ukuiNoteBook_init";
+    //窗口属性
+    setWindowFlags(Qt::FramelessWindowHint);//开启窗口无边框
+    setWindowOpacity(0.8);//设置窗口透明度
+    ui->textEdit->setWindowOpacity(0.9);
+    //窗口弹出位置
+    QDesktopWidget *desktop = QApplication::desktop();
+    move((desktop->width() - this->width())/2, (desktop->height() - this->height())/2);
     this->setWindowTitle(tr("NoteBook"));
+    //this->setStyleSheet("background-color: rgb(0,0,0)");
     //按钮属性
     ui->ukui_NoteClose->setStyleSheet("QPushButton{image:url(:/new/prefix1/SVG/dark_theme/close.svg);}"
                                       "QPushButton:hover{image:     \
@@ -62,11 +70,7 @@ void ukui_NoteBook::ukuiNoteBook_init()
     ui->ukui_NoteClose->setFocusPolicy(Qt::NoFocus);
     //字体初始化
     setting = new QSettings("config.ini",QSettings::IniFormat);
-    setWindowFlags(Qt::FramelessWindowHint);//开启窗口无边框
-    setWindowOpacity(0.8);//设置窗口透明度
-    //窗口弹出位置
-    QDesktopWidget *desktop = QApplication::desktop();
-    move((desktop->width() - this->width())/2, (desktop->height() - this->height())/2);
+
 }
 
 void ukui_NoteBook::ukuiNoteBook_connect()
@@ -103,10 +107,10 @@ void ukui_NoteBook::saveFile()
         qDebug() << "emit filesaved";
         emit fileSaved(fileName);
     }else{
-        QMessageBox box(QMessageBox::Question,"提示","保存文件失败！");
+        QMessageBox box(QMessageBox::Question,"Tips","Failed to save file!");
         box.setIcon(QMessageBox::Warning);
         box.setStandardButtons (QMessageBox::Ok);
-        box.setButtonText (QMessageBox::Ok,QString("确定"));
+        box.setButtonText (QMessageBox::Ok,QString("OK"));
         box.exec();
     }
 //    QFileInfo info(fileName);
@@ -158,12 +162,12 @@ void ukui_NoteBook::exitFileSlot()
     qDebug() << "exitFileSlot";
     //文档已经修改
     if(ui->textEdit->document()->isModified()&& !ui->textEdit->document()->isEmpty() && fileContent != ui->textEdit->document()->toPlainText()){
-        QMessageBox box(QMessageBox::Question,"记事本","是否保存当前文本");
+        QMessageBox box(QMessageBox::Question,"NoteBook","Save current text or not");
         box.setIcon(QMessageBox::NoIcon);
         box.setStandardButtons (QMessageBox::Ok|QMessageBox::Ignore|QMessageBox::Cancel);
-        box.setButtonText (QMessageBox::Ok,QString("保存"));
-        box.setButtonText (QMessageBox::Ignore,QString("不保存"));
-        box.setButtonText (QMessageBox::Cancel,QString("取消"));
+        box.setButtonText (QMessageBox::Ok,QString("Yes"));
+        box.setButtonText (QMessageBox::Ignore,QString("No"));
+        box.setButtonText (QMessageBox::Cancel,QString("Cancel"));
         int result = box.exec();
         if(result == QMessageBox::Ok){
             if(fileName.isEmpty()){//新建
@@ -239,10 +243,10 @@ void ukui_NoteBook::saveFileSlot()
         }
         //文本内容为空
         else{
-            QMessageBox box(QMessageBox::Question,"提示","文本内容为空");
+            QMessageBox box(QMessageBox::Question,"Tips","Text content is empty");
             box.setIcon(QMessageBox::Warning);
             box.setStandardButtons (QMessageBox::Ok);
-            box.setButtonText (QMessageBox::Ok,QString("确定"));
+            box.setButtonText (QMessageBox::Ok,QString("OK"));
             box.exec();
         }
     }
@@ -250,10 +254,10 @@ void ukui_NoteBook::saveFileSlot()
     else
     {   //文本内容为空
         if(ui->textEdit->document()->isEmpty()){
-                QMessageBox box(QMessageBox::Question,"提示","文本内容为空");
+                QMessageBox box(QMessageBox::Question,"Tips","Text content is empty");
                 box.setIcon(QMessageBox::Warning);
                 box.setStandardButtons (QMessageBox::Ok);
-                box.setButtonText (QMessageBox::Ok,QString("确定"));
+                box.setButtonText (QMessageBox::Ok,QString("OK"));
                 box.exec();
         }
 //        else if(fileContent == ui->textEdit->document()->toPlainText())
@@ -267,10 +271,10 @@ void ukui_NoteBook::saveFileSlot()
 //        }
         else if(!ui->textEdit->document()->isModified())
         {
-            QMessageBox box(QMessageBox::Question,"提示","文本未修改");
+            QMessageBox box(QMessageBox::Question,"Tips","Text not modified");
             box.setIcon(QMessageBox::Warning);
             box.setStandardButtons (QMessageBox::Ok);
-            box.setButtonText (QMessageBox::Ok,QString("确定"));
+            box.setButtonText (QMessageBox::Ok,QString("OK"));
             box.exec();
         }
         else
@@ -283,23 +287,24 @@ void ukui_NoteBook::saveFileSlot()
 void ukui_NoteBook::saveFileAsSlot()
 {
     qDebug() << "saveFileAsSlot";
-
+    QString f;
     if(ui->textEdit->document()->isEmpty()){
-        QMessageBox box(QMessageBox::Question,"提示","文本内容为空");
+        QMessageBox box(QMessageBox::Question,"Tips","Text content is empty");
         box.setIcon(QMessageBox::Warning);
         box.setStandardButtons (QMessageBox::Ok);
-        box.setButtonText (QMessageBox::Ok,QString("确定"));
+        box.setButtonText (QMessageBox::Ok,QString("OK"));
         box.exec();
     }
     //如果文本不为空
     else{
         //弹出保存文件对话框
-        fileName = QFileDialog::getSaveFileName(this, tr("打开文件"),QDir::homePath(),tr("文本文件 (*.*);;"));
-        if(!fileName.isEmpty()){
+        f = QFileDialog::getSaveFileName(this, tr("Open file"),QDir::homePath(),tr("Text file (*.*);;"));
+        if(!f.isEmpty()){
             //添加文件名后缀
-            if(QFileInfo(fileName).suffix().isEmpty())
+            if(QFileInfo(f).suffix().isEmpty())
             {
-                fileName.append(".txt");
+                f.append(".txt");
+                fileName = f;
             }
             //保存文件
             this->saveFile();
@@ -315,7 +320,7 @@ void ukui_NoteBook::textStatusSlot()
 void ukui_NoteBook::exportPdfSlot()
 {
     qDebug() << "..";
-    QString file = QFileDialog::getSaveFileName(this, "导出文件", "", "pdf文件(*.pdf);;");
+    QString file = QFileDialog::getSaveFileName(this, "Export pdf", "", "Pdf file(*.pdf);;");
     if(!file.isEmpty()){
         if(QFileInfo(file).suffix().isEmpty()){
             file.append(".pdf");
@@ -339,7 +344,7 @@ void ukui_NoteBook::exportJpgSlot()
     QPixmap axisPixmap = ui->textEdit->grab(QRect(0,0,-1,-1));
     painter.drawPixmap(0,0,axisPixmap);
 
-    QString pic = QFileDialog::getSaveFileName(this,"导出图片","","Images(*.jpg)");
+    QString pic = QFileDialog::getSaveFileName(this,"Export picture","","Images(*.jpg)");
     if(!pic.isEmpty()){
         if(QFileInfo(pic).suffix().isEmpty()){
             pic.append(".jpg");
@@ -353,7 +358,7 @@ void ukui_NoteBook::fontChooseSlot()
     qDebug() << "..";
     QFont textFont=  ui->textEdit->font();
     bool ok;
-    QFont font = QFontDialog::getFont(&ok, textFont,this,tr("字体选择"));
+    QFont font = QFontDialog::getFont(&ok, textFont,this,tr("Font selection"));
     if (ok) {
         ui->textEdit->setFont(font);
 
