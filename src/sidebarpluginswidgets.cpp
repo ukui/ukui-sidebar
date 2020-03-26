@@ -138,11 +138,9 @@ void sidebarPluginsWidgets::AddPluginWidgetInterface()
 
     /* 初始化状态机时所要做的事情 */
     connect(m_pClipBoardState, &QState::propertiesAssigned, this, [=]{
-        qDebug() << "初始化状态机时所要做的事情" << m_pPluginsButtonWidget->isVisible();
         if (resizeFlagOne) {
             m_pPluginsButtonWidget->setVisible(true);
             m_pPluginsButtonWidget->show();
-            qDebug() << "初始化状态机时所要做的事情sdasdasdsadasd" << m_pPluginsButtonWidget->isVisible();
             resizeFlagOne = false;
             this->update();
             m_pSidebarPluginButton->SendSingal();
