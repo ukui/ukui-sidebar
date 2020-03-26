@@ -539,7 +539,7 @@ void Widget::MostGrandWidgetCoordinates()
         case Widget::PanelDown :
             {
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight - connectTaskBarDbus());
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(1600 + m_nScreenWidth - 400, 0);
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreenWidth - 400, 0);
             }
             break;
         case Widget::PanelUp:
