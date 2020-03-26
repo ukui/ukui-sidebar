@@ -6,6 +6,8 @@
 #include <QLabel>
 #include <QStyleOption>
 #include <QPainter>
+#include <QHBoxLayout>
+#include "singleitemButton.h"
 namespace Ui {
 class SingleItemWidget;
 }
@@ -23,13 +25,14 @@ signals:
 public:
     Ui::SingleItemWidget *ui;
 
+    singleitemButton *pushButtonDel;//自定义三态按钮
+
 private slots:
     void clickDelBtn();
 
 private:
     void SingleItem_init();
     void SingleItem_conn();
-//    void paintEvent(QPaintEvent *);
 };
 
 #endif // SINGLEITEMWIDGET_H

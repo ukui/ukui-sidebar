@@ -78,19 +78,6 @@ opacity:0.7;</string>
     <string>Note</string>
    </property>
   </widget>
-  <widget class="QListWidget" name="listWidget">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>50</y>
-     <width>568</width>
-     <height>397</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-  </widget>
   <widget class="QToolButton" name="toolButton">
    <property name="geometry">
     <rect>
@@ -107,11 +94,25 @@ opacity:0.7;</string>
     <string/>
    </property>
   </widget>
-  <zorder>pushButton_Exit</zorder>
-  <zorder>pushButton_Mini</zorder>
-  <zorder>ukui_labelTitle</zorder>
-  <zorder>toolButton</zorder>
-  <zorder>listWidget</zorder>
+  <widget class="QListWidget" name="listWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>60</y>
+     <width>568</width>
+     <height>397</height>
+    </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
+   <property name="showDropIndicator" stdset="0">
+    <bool>true</bool>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::SingleSelection</enum>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

@@ -27,7 +27,7 @@ border:1px solid rgba(255, 255, 255, 0.05);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(165, 165, 165);
+    <string notr="true">background-color: rgb(255, 255, 255);
 border-radius:4px;</string>
    </property>
   </widget>
@@ -41,7 +41,8 @@ border-radius:4px;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(165, 165, 165);</string>
+    <string notr="true">background-color: rgb(165, 165, 165);
+background-color: rgb(218, 218, 218);</string>
    </property>
    <widget class="QToolButton" name="ukui_NoteFont">
     <property name="geometry">

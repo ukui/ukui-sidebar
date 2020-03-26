@@ -9,15 +9,13 @@ Widget::Widget(QWidget *parent) :
     QLocale locale;
     //获取系统语言环境
     if ( locale.language() == QLocale::Chinese ) {
-        qDebug() << "中文环境2323232323" ;
         translator->load(QString(":/new/translation/ukui_notebook_zh_CN.qm"));  //选择翻译文件
         QApplication::installTranslator(translator);
     }
     ui->setupUi(this);
-    //createSql();
-    this->ukui_init();
-    this->ukui_conn();
-    //ukui_sql_init();
+    //sqlInit();
+    ukui_init();
+    ukui_conn();
 }
 
 Widget::~Widget()
@@ -25,18 +23,17 @@ Widget::~Widget()
     delete ui;
 }
 
-//void Widget::error_throw()
-//{
-//    try
-//    {
-//        MY_THROW(ExceptionDerived,"error throw");
-//    }
-//    catch(ExceptionDerived &e)
-//    {
-//        std::cout << e.what() << std::endl;
-//    }
-//}
-
+void Widget::error_throw()
+{
+    try
+    {
+        MY_THROW(ExceptionDerived,"error throw");
+    }
+    catch(ExceptionDerived &e)
+    {
+        std::cout << e.what() << std::endl;
+    }
+}
 
 void Widget::ukui_init()
 {
@@ -80,7 +77,6 @@ void Widget::ukui_init()
                              "QToolButton#toolButton:pressed{image:url(:/new/prefix1/SVG/new-b-click.svg);}");
     //全局new
     ukui_notebook = new ukui_NoteBook;
-    ukui_notebookOpen = new ukui_NoteBook;
     //搜索框
     //ui->ukui_SearchLine->setToolTip(tr("搜索"));
     //ui->ukui_SearchLine->setText(tr("搜索"));
@@ -88,12 +84,16 @@ void Widget::ukui_init()
     /*********ListWidget init ************/
     //ui->listWidget->setIconSize(QSize(16,16));
     //ui->listWidget->setViewMode(QListWidget::IconMode);//设置图片文本 垂直显示
-    ui->listWidget->setMovement(QListWidget::Static);
+    //ui->listWidget->setMovement(QListWidget::Static);
     //ui->listWidget->openPersistentEditor(false);//设置item可编辑
     //设置滚动条样式(使用.qss)
     //ui->listWidget->verticalScrollBar()->setCursor(Qt::PointingHandCursor);
     ui->listWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);//隐藏垂直滚动条
     ui->listWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);//隐藏水平滚动条
+
+//    ui->listWidget->setStyleSheet("QListWidget::Item:hover{background-color:rgb(0,0,0);}"
+//                                    "QlistWidget::Item:selected{background-color:rgb(0,0,0);}"
+//                                    "QListWidget::Item:selected:!active{active{background-color:red;}");
     //ui->listWidget->verticalScrollBar()->setStyleSheet("QScrollBar{width:1px;}");
 
 }
@@ -106,25 +106,49 @@ void Widget::ukui_conn()
     //connect(ui->pushButton_Func,SIGNAL(clicked()),this,SLOT(editSlot()));
     connect(ui->toolButton,SIGNAL(clicked()),this,SLOT(newSlot()));
     connect(ui->listWidget,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(listDoubleClickSlot()));
-    //接收子窗口文件已保存信号
-//    qDebug() << "filesaved";
-//    connect(ukui_notebook,SIGNAL(fileSaved(QString)),this,SLOT(fileSavedSlot(QString)));
+    connect(ui->listWidget,SIGNAL(itemPressed(QListWidgetItem*)),this,SLOT(listClickSlot()));
     qDebug() << "connect end";
 }
 
-void Widget::ukui_sql_init(){
-    qDebug() << "ukui_sql_init";
-    model = new QSqlTableModel(this);
-    model->setTable("fileInfo");
-    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-    model->select(); //选取整个表的所有行
-    ukui_updateItem();
+void Widget::sqlInit()
+{
+    sqlFilePath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) +
+                "/.config/Clock_database.db";
+    qDebug() << "db file path = " << sqlFilePath;
+    if(sqlFilePath.isEmpty())
+        return;
+    qDebug() << QSqlDatabase::drivers();
+    sqlDb = QSqlDatabase::addDatabase("QSQLITE");
+    sqlDb.setDatabaseName(sqlFilePath);
+    if(!sqlDb.open())
+    {
+        qDebug() << "sqlDb open failed";
+        QMessageBox::warning(this,"Error","open sqlDb failed",QMessageBox::Ok,QMessageBox::NoButton);
+        return;
+    }
+
+    QSqlQuery sqlQuery;
+    sqlQuery.exec(QString(
+      "create table fileInfo (fileName QString)"));
+
+    sqlModel = new QSqlTableModel(this,sqlDb);  //数据表
+    sqlModel->setTable("fileInfo");
+    sqlModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    if(!sqlModel->select())                     //查询数据
+    {
+//        qDebug() << "sqlModel select failed";
+//        QMessageBox::critical(this,"Error","open sqlModel failed,error message\n"
+//                              +sqlModel->lastError().text(),
+//                              QMessageBox::Ok,QMessageBox::NoButton);
+//        return;
+    }
+    sqlUpdateItem();
 }
 
 //读取数据库，更新Item
-void Widget::ukui_updateItem(){
-     int rowNum = model->rowCount();
-     qDebug() << "ukui_updateItem" << rowNum;
+void Widget::sqlUpdateItem(){
+     rowNum = sqlModel->rowCount();
+     qDebug() << "sqlUpdateItem" << rowNum;
 
      QString currentFileName;
      QString fileContent;
@@ -136,7 +160,7 @@ void Widget::ukui_updateItem(){
         singleItem[txtNum]= new SingleItemWidget(ui->listWidget);
         ui->listWidget->setItemWidget(item[txtNum],singleItem[txtNum]);
 
-        currentFileName = model->index(txtNum,0).data().toString();
+        currentFileName = sqlModel->index(txtNum,0).data().toString();
         QFile currentFile(currentFileName);
         qDebug() << "currentFile """ << currentFile;
         qDebug() << "currentfilename ::" << currentFileName;
@@ -148,12 +172,44 @@ void Widget::ukui_updateItem(){
         getFileModifyTime(currentFileName);
         qDebug() << "astream.readall" << aStream.readAll() << fileContent;
         singleItem[txtNum]->ui->label_Item->setText(fileContent);
-        //singleItem[txtNum]->ui->label_Item->setText("dat");
         singleItem[txtNum]->ui->label_ItemDate->setText(modifyTime);
         currentFile.close();
         //子窗口Del点击事件
         connect(singleItem[txtNum],SIGNAL(childDelEvent()),this,SLOT(listDelSingleSlot()));
      }
+}
+
+//添加Item，保存到数据库
+void Widget::sqlAddItem(){
+    rowNum = sqlModel->rowCount();
+    int flag = 0;
+//    QDateTime dateTime = QDateTime::currentDateTime();//获取当前系统时间
+    qDebug() << "添加Item，保存到数据库";
+    qDebug() << "sqlAddItem rowNum = " << rowNum;
+    qDebug() << "sqlAddItem filename = " << filename;
+
+    for(int i = 0;i <= rowNum;i++)
+    {
+        if(filename == sqlModel->index(i,0).data().toString())
+        {
+            flag = 1;
+        }
+    }
+    if(flag != 1)
+    {
+        sqlModel->insertRow(rowNum);
+        sqlModel->setData(sqlModel->index(rowNum, 0), filename);
+        //model->setData(model->index(rowNum, 1), dateTime);
+        sqlModel->submitAll();
+    }
+
+    for(int i=0; i < rowNum; i++)
+    {
+        delete item[i];
+        delete singleItem[i];
+    }
+
+    sqlUpdateItem();
 }
 
 void Widget::getFileModifyTime(QString fileInfo)
@@ -167,41 +223,6 @@ void Widget::getFileModifyTime(QString fileInfo)
         modifyTime = tr("%1").arg(dt.toString("yyyy/MM/dd hh:mm"));
     }
 }
-
-//添加Item，保存到数据库
-void Widget::ukui_addItem(){
-    rowNum = model->rowCount();
-    int flag = 0;
-//    QDateTime dateTime = QDateTime::currentDateTime();//获取当前系统时间
-    qDebug() << "添加Item，保存到数据库";
-    qDebug() << "ukui_addItem rowNum = " << rowNum;
-    qDebug() << "ukui_addItem filename = " << filename;
-
-    for(int i = 0;i <= rowNum;i++)
-    {
-        if(filename == model->index(i,0).data().toString())
-        {
-            flag = 1;
-        }
-    }
-    if(flag != 1)
-    {
-        model->insertRow(rowNum);
-        model->setData(model->index(rowNum, 0), filename);
-        //model->setData(model->index(rowNum, 1), dateTime);
-        model->submitAll();
-    }
-
-    for(int i=0; i < rowNum; i++)
-    {
-        delete item[i];
-        delete singleItem[i];
-    }
-
-    ukui_updateItem();
-}
-
-
 
 void Widget::mouseMoveEvent(QMouseEvent *event)
 {
@@ -270,18 +291,6 @@ void Widget::editSlot()
 void Widget::newSlot()
 {
     qDebug() << "widget new";
-    //aItem = new QListWidgetItem;
-    //aItem->setText("new");
-    //aItem->setIcon(QIcon(":/计时器.png"));
-    //aItem->setCheckState(Qt::Unchecked);
-    //aItem->setTextAlignment(Qt::AlignCenter);//文本居中
-
-//    aItem = new QListWidgetItem;
-//    aItem->setSizeHint(QSize(569,74));
-//    ui->listWidget->addItem(aItem);
-//    SingleItemWidget *s= new SingleItemWidget(ui->listWidget);
-//    ui->listWidget->setItemWidget(aItem,s);
-
     //新建一个笔记本
     ukui_notebook =  new ukui_NoteBook;
     ukui_notebook->show();
@@ -289,6 +298,19 @@ void Widget::newSlot()
 
     qDebug() << "子窗口向父窗口传filename参数";
     connect(ukui_notebook,SIGNAL(fileSaved(QString)),this,SLOT(fileSavedSlot(QString)));
+}
+
+void Widget::listClickSlot()
+{
+    int listnum = ui->listWidget->currentRow();
+    rowNum = sqlModel->rowCount();
+    for (int i = 0;i < rowNum; i++)
+    {
+        qDebug() << rowNum;
+        singleItem[i]->pushButtonDel->hide();
+    }
+    qDebug() << "listClickSLot  rowNum = " << listnum;
+    singleItem[listnum]->pushButtonDel->show();
 }
 
 void Widget::listDoubleClickSlot()
@@ -299,7 +321,7 @@ void Widget::listDoubleClickSlot()
     qDebug() << "currentRow" << ui->listWidget->currentRow();
     //获取当前选中的item下标
     //打开下标对应数据库中存储的文件路径加名称
-    ukui_notebook->fileName = model->index(ui->listWidget->currentRow(), 0).data().toString();
+    ukui_notebook->fileName = sqlModel->index(ui->listWidget->currentRow(), 0).data().toString();
     QFile currentFile(ukui_notebook->fileName);
     qDebug() << "listDoubleclick currentFileName = " << ukui_notebook->fileName;
     if(!currentFile.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -316,7 +338,7 @@ void Widget::listDelSingleSlot(){
     //获取列表项的指针
     //QListWidgetItem *item = ui->listWidget->takeItem(ui->listWidget->currentRow());
     int num=ui->listWidget->currentRow();
-    int rowNum = model->rowCount();
+    int rowNum = sqlModel->rowCount();
 
     qDebug() << rowNum  <<"   ======================================----";
     qDebug() << num<<"     =====================================";
@@ -324,7 +346,7 @@ void Widget::listDelSingleSlot(){
     //QPushButton *btn = qobject_cast<QPushButton*>(QObject::sender());
 
 
-    model->removeRows(num, 1);
+    sqlModel->removeRows(num, 1);
     qDebug() << "delete " <<num;
 
     for(int i=0; i<rowNum; i++)
@@ -332,18 +354,14 @@ void Widget::listDelSingleSlot(){
         delete item[i];
         delete singleItem[i];
     }
-    model->submitAll();   //提交
-    ukui_updateItem();
-    rowNum = model->rowCount();
-    qDebug() << rowNum;
-
-    //delete item;        //释放指针所指向的列表项
+    sqlModel->submitAll();   //提交
+    sqlUpdateItem();
 }
 
 void Widget::fileSavedSlot(QString data)
 {
     qDebug() << "fileSavedSlot";
     filename = data;
-    //ukui_addItem();
+    //sqlAddItem();
 }
 

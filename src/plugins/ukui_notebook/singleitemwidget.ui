@@ -63,25 +63,6 @@ opacity:0.08;</string>
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButtonDel">
-   <property name="geometry">
-    <rect>
-     <x>510</x>
-     <y>20</y>
-     <width>34</width>
-     <height>34</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="checkable">
-    <bool>false</bool>
-   </property>
-   <property name="checked">
-    <bool>false</bool>
-   </property>
-  </widget>
  </widget>
  <resources/>
  <connections/>
