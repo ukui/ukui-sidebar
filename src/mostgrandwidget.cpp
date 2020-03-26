@@ -32,7 +32,6 @@ mostGrandWidget* mostGrandWidget::getInstancemostGrandWidget()
 }
 
 /* last Laout MostGrand Widget */
-
 void mostGrandWidget::LaoutSidebarWidget()
 {
     this->setLayout(m_pmostGrandWidgetVLaout);

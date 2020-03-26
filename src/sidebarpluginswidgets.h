@@ -78,9 +78,8 @@ public:
     QState *m_pSmallPluginsState;                                 //小插件状态
     bool    m_pBoolStates;
     int     m_statusFlag;                                         //状态机位置
-    bool    resizeFlag;
-    bool    resizeFlagTwo;
     bool    resizeFlagOne;
+    int     flagnumClipboardState;
 
 signals:
 

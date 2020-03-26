@@ -76,6 +76,7 @@ public:
     bool loadfeedbackPlugin();                                                  //加载用户反馈程序
     bool loadnotebookPlugin();
     void GetsAvailableAreaScreen();                                             //获取屏幕可用区域高度
+    void MostGrandWidgetCoordinates();                                          //根据任务栏位置调整侧边栏位置
 
 
 protected:
@@ -98,12 +99,13 @@ private:
     QObject*                    m_pfeedback_PluginObject;
     QObject*                    m_pnotebook_PluginObject;
     SidebarSmallPluginInterface *m_pclock_Plugin;                               //闹钟插件全局变量
-    SidebarSmallPluginInterface *m_pPlugin_Plugin;                               //问题反馈全局变量
+    SidebarSmallPluginInterface *m_pPlugin_Plugin;                              //问题反馈全局变量
     SidebarSmallPluginInterface *m_pnotebookPluginObject;
     int                         m_nInitalXPosition;
     QTranslator                 *m_pTranslator;
     QPropertyAnimation          *m_pAnimationShowSidebarWidget;
     QPropertyAnimation          *m_pAnimationHideSidebarWidget;
+    QDesktopWidget              *m_pDeskWgt;                                    //桌面问题
 
     //快捷操作面板
     ClipboardInterface*         m_pSidebarClipboard;                            //侧边栏剪贴板指针
@@ -126,6 +128,8 @@ private slots :
     void updateAnimationPosition(int, int, int, int);                           //更新动画坐标动态
     void showAnimationFinish();                                                 //展开动画完成
     void hideAnimationFinish();                                                 //隐藏动画完成
+    void showAnimationAction(const QVariant &value);                            //展开动画开始
+    void primaryScreenChangedSLot();                                            //主屏发生变化
 };
 
 #endif // WIDGET_H
