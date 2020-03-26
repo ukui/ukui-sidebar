@@ -13,7 +13,7 @@ Widget::Widget(QWidget *parent) :
         QApplication::installTranslator(translator);
     }
     ui->setupUi(this);
-    //sqlInit();
+    sqlInit();
     ukui_init();
     ukui_conn();
 }
@@ -113,7 +113,7 @@ void Widget::ukui_conn()
 void Widget::sqlInit()
 {
     sqlFilePath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) +
-                "/.config/Clock_database.db";
+                "/.config/notebookSql.db";
     qDebug() << "db file path = " << sqlFilePath;
     if(sqlFilePath.isEmpty())
         return;
@@ -200,7 +200,8 @@ void Widget::sqlAddItem(){
         sqlModel->insertRow(rowNum);
         sqlModel->setData(sqlModel->index(rowNum, 0), filename);
         //model->setData(model->index(rowNum, 1), dateTime);
-        sqlModel->submitAll();
+        bool tttt = sqlModel->submitAll();
+        qDebug()<<tttt<<"tttt";
     }
 
     for(int i=0; i < rowNum; i++)
@@ -362,6 +363,6 @@ void Widget::fileSavedSlot(QString data)
 {
     qDebug() << "fileSavedSlot";
     filename = data;
-    //sqlAddItem();
+    sqlAddItem();
 }
 

@@ -163,15 +163,12 @@ Clock::Clock(QWidget *parent) :
     player_alarm = new QMediaPlayer(this);
     mediaList = new QMediaPlaylist(this);
 
-    model = new QSqlTableModel(this);
-    model->setTable("clock");
-    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-    model->select(); //选取整个表的所有行
+
 
     connect(ui->listWidget,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(listdoubleClickslot()));
     connect(ui->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(listClickslot()));
     connect(ui->pushButton_6, SIGNAL(clicked()), this, SLOT(deleteAlarm()) );
-    updateAlarmClock();
+
 
 }
 
@@ -180,6 +177,30 @@ Clock::~Clock()
     delete ui;
 }
 
+void Clock::createConnection()
+{
+    QString url_filepath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) +"/.config/ukui/Clock_database.db";
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName(url_filepath);
+
+    if(!db.open())
+    {
+        qDebug() << "db open failed";
+        QMessageBox::warning(this,"Error","open sqlDb failed",QMessageBox::Ok,QMessageBox::NoButton);
+        return;
+    }
+
+    QSqlQuery query;
+    query.exec(QString(
+      "create table clock (Hour int, Minute int, Music QString, onoroff int, NUM int)")); //提示：主键不能相同
+
+    model = new QSqlTableModel(this);
+    model->setTable("clock");
+    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    model->select(); //选取整个表的所有行
+
+    updateAlarmClock();
+}
 
 QPointF Clock::rotateAngle(int angle, int len)
 {
@@ -623,9 +644,10 @@ void Clock::sureAlarmClock()
         model->setData(model->index(rowNum, 3), int(0));
         model->setData(model->index(rowNum, 4), int(medel_flag++));
 
-        model->submitAll();
-        model->setTable("clock");
-        model->select();
+        bool aaa = model->submitAll();
+        qDebug()<<aaa<<"aaaa";
+//        model->setTable("clock");
+//        model->select();
 
         for(int i=0; i<rowNum; i++)
         {
@@ -769,8 +791,8 @@ void Clock::on_off_Alarm()
 
         model->setData(model->index(i, 3), int(1));
         model->submitAll();
-        model->setTable("clock");
-        model->select();
+//        model->setTable("clock");
+//        model->select();
     } else {
 
         btn->setStyleSheet("border-image: url(:/alarm_off.png);background-color: rgb();");
@@ -778,8 +800,8 @@ void Clock::on_off_Alarm()
 
         model->setData(model->index(i, 3), int(0));
         model->submitAll();
-        model->setTable("clock");
-        model->select();
+//        model->setTable("clock");
+//        model->select();
     }
 
 

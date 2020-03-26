@@ -34,7 +34,7 @@
 #include <QListWidgetItem>
 #include "stopwatch_item.h"
 #include <QPaintEvent>
-
+#include <QStandardPaths>
 
 class QSpinBox;
 class QComboBox;
@@ -79,6 +79,7 @@ public:
     }
 
     QPointF rotateAngle(int angle, int len);
+    void createConnection();
 
 protected:
     void paintEvent1(QPaintEvent *);
