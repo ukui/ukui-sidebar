@@ -34,6 +34,7 @@
 #include <QToolButton>
 #include "smallpluginsbutton.h"
 #include "smallpluginsmanage.h"
+#include "mostgrandwidget.h"
 class sidebarPluginsWidgets : public QWidget
 {
     Q_OBJECT

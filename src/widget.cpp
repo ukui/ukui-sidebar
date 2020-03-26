@@ -232,7 +232,6 @@ void Widget::iconActivated(QSystemTrayIcon::ActivationReason reason)
                 hideAnimation();
             } else {
                 mostGrandWidget::getInstancemostGrandWidget()->hide();
-//                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(1200, 0);
                 MostGrandWidgetCoordinates();
                 qDebug() << "Widget::iconActivated 展开";
                 mostGrandWidget::getInstancemostGrandWidget()->show();

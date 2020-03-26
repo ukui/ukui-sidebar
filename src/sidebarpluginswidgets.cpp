@@ -155,6 +155,7 @@ void sidebarPluginsWidgets::AddPluginWidgetInterface()
             m_pClipboardButton->SendSingal();
             this->update();
             qDebug() << "进入剪贴板界面";
+            mostGrandWidget::getInstancemostGrandWidget()->hide();
         }
     });
 
