@@ -90,7 +90,7 @@ public:
     QLabel *label_5;
     QLabel *label_6;
     QLabel *email_err_msg_label;
-    QTextEdit *textEdit_2;
+    QLineEdit *lineEdit_2;
     QLabel *label_7;
     QLineEdit *lineEdit;
     browse_button *pushButton;
@@ -167,7 +167,7 @@ private slots:
 
     void on_pushButton_2_clicked();
 
-    void on_textEdit_2_textChanged();
+    void on_lineEdit_2_textChanged();
     void del_file_button_clicked();
     void finishedSlot(QNetworkReply*);
 
