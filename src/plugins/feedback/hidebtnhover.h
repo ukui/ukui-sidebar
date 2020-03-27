@@ -15,38 +15,25 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#ifndef SUBMIT_FAIL_H
-#define SUBMIT_FAIL_H
+#ifndef HIDEBTN_HOVER_H
+#define HIDEBTN_HOVER_H
+#include<QPushButton>
+#include<QEvent>
+#include <QToolButton>
 
-#include <QDialog>
-#include <QPushButton>
-#include <QLabel>
-#include "closeBtn_hover.h"
-
-
-class submit_fail : public QDialog
+class hideBtn_hover :public QPushButton
 {
-    Q_OBJECT
+Q_OBJECT;
+public:
+    hideBtn_hover(QWidget *parent = 0);
+    ~hideBtn_hover();
 
 public:
-    explicit submit_fail(QWidget *parent = nullptr);
-    ~submit_fail();
+    void enterEvent(QEvent *e); //鼠标进入事件
+    void leaveEvent(QEvent *e);//鼠标离开事件
 
-    void show_faillinfo(int errorcode);
 
-private slots:
-    void on_pushButton_2_clicked();
-    void close_fail_window();
-
-private:
-
-    void UI_init();
-
-    QLabel *label;
-    QPushButton *pushButton_2;
-    closeBtn_hover * fail_closeBtn;
-    QLabel *label_2;
-    QLabel *label_3;
 };
 
-#endif // SUBMIT_FAIL_H
+
+#endif // HIDEBTN_HOVER_H

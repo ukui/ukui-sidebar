@@ -15,38 +15,29 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#ifndef SUBMIT_FAIL_H
-#define SUBMIT_FAIL_H
-
-#include <QDialog>
-#include <QPushButton>
-#include <QLabel>
-#include "closeBtn_hover.h"
-
-
-class submit_fail : public QDialog
+#include"hidebtnhover.h"
+#include <QStyleOption>
+#include <QPainter>
+#include <QDebug>
+hideBtn_hover::hideBtn_hover(QWidget* parent) :QPushButton(parent)
 {
-    Q_OBJECT
 
-public:
-    explicit submit_fail(QWidget *parent = nullptr);
-    ~submit_fail();
+}
+hideBtn_hover::~hideBtn_hover()
+{
 
-    void show_faillinfo(int errorcode);
+}
+void hideBtn_hover::enterEvent(QEvent *e)
+{
+    setStyleSheet("background-color:rgb(248,100,87);");
+    setIcon(QIcon("://image/mix_hover.png"));
 
-private slots:
-    void on_pushButton_2_clicked();
-    void close_fail_window();
+}
+void hideBtn_hover::leaveEvent(QEvent *e)
+{
+    setStyleSheet("background-color:rgb(255,255,255);");
+    setIcon(QIcon("://image/mix_default.png"));
 
-private:
+}
 
-    void UI_init();
 
-    QLabel *label;
-    QPushButton *pushButton_2;
-    closeBtn_hover * fail_closeBtn;
-    QLabel *label_2;
-    QLabel *label_3;
-};
-
-#endif // SUBMIT_FAIL_H

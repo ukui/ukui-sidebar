@@ -61,7 +61,7 @@ feedback::feedback(QWidget *parent)
 feedback::~feedback()
 {
     //程序结束时删除所有数据------
-    qDebug()<<"2222";
+
     //---------------------------
 }
 void feedback::UI_init()
@@ -106,7 +106,7 @@ void feedback::UI_init()
     comboBox->addItem(QString(tr("其他")));
     comboBox->setObjectName(QString::fromUtf8("comboBox"));
     comboBox->setGeometry(QRect(140, 105, 320, 20));
-    comboBox->setStyleSheet(QString::fromUtf8("min-height: 30px;background-color: rgb(244, 244, 244);"
+    comboBox->setStyleSheet(QString::fromUtf8("min-height: 30px;background-color: rgb(255, 255, 255);"
                                               "color: rgb(68, 68, 68);font: 14px ;"));
     label_3 = new QLabel(centralwidget);
     label_3->setText(tr("问题描述"));
@@ -312,7 +312,7 @@ void feedback::UI_init()
 
 
     //最小化和关闭按钮
-    pushButton_mix = new QPushButton(centralwidget);
+    pushButton_mix = new hideBtn_hover(centralwidget);
     pushButton_mix->setGeometry(QRect(532, 4, 30, 30));
     pushButton_mix->setIcon(QIcon(":/image/mix_default.png"));
     pushButton_mix->setStyleSheet("QPushButton{background-color: rgb(255,255,255)};"
@@ -409,12 +409,16 @@ void feedback::on_pushButton_clicked()
     pushButton->setStyleSheet("font: 14px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(68, 68, 68)");
     filename=QFileDialog::getOpenFileName(this,tr("选择图片"),"/","Image file(*.gif *.jpg *.png)",0);
     //判断文件是否重复添加
-
     if (file_name_list.size() ==0)
     {
         //添加附件框改变
         lineEdit->setText(filename);
         add_fileinfo_model();
+    }
+    //最多传五个附件
+    else if(file_name_list.size() >= 5)
+    {
+        return ;
     }
     else{
         int file_diff_flags = 0;
@@ -422,7 +426,6 @@ void feedback::on_pushButton_clicked()
         {
             if(filename.compare(file_path_list.at(fileNum)) == 0)
             {
-
                 //添加的文件已经添加过
                 file_diff_flags++;
             }
