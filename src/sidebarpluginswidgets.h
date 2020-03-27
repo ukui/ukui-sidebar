@@ -24,6 +24,7 @@
 #define  KYLIN_SIDEBAR_SMALL_PLUGINS ":/data/qss/SidebarSmallPlugins.css"
 #define  KYLIN_STATE_CLIPBOARD       1
 #define  KYLIN_STATE_SMALL_PLUGINS   2
+#define  KYLIN_PLUGINS_NUM           8
 #include <QtWidgets>
 #include <QPushButton>
 #include <QVBoxLayout>
@@ -77,9 +78,11 @@ public:
     QStateMachine *m_pMachine;                                    //状态机
     QState *m_pClipBoardState;                                    //剪贴板状态
     QState *m_pSmallPluginsState;                                 //小插件状态
-    bool    m_pBoolStates;
+    bool    m_pBoolStates;                                        //第一次初始化状态机bool值
+    bool    resizeFlagOne;                                        //第一次初始化状态机bool值
+    bool    ClipBoardBool;                                        //剪贴板修改屏幕分辨率bool值
+    bool    SmallPluginsBool;                                     //插件按钮修改屏幕分辨率bool值
     int     m_statusFlag;                                         //状态机位置
-    bool    resizeFlagOne;
     int     flagnumClipboardState;
 
 signals:

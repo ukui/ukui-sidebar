@@ -226,8 +226,8 @@ QWidget#SearhWidget>QLineEdit#SearchLabel:focus {
 
 /* 显示所有剪贴内容的WidgetList大小 */
 QListWidget#ShortcutOperationList {
-/*    width:400px;
-    height:760px;*/
+    width:400px;
+    height:760px;
 
     margin-right: 0px;
     margin-bottom: 0px;
@@ -333,7 +333,7 @@ QLabel#SideBarClipboardLable{
     height:14px;
     margin-top:50px;
     margin-left:165px;
-    margin-bottom:150px;
+    margin-bottom:100px;
     margin-right:132px;
     font-size:14px;
     font-family:Noto Sans CJK SC;

@@ -83,7 +83,7 @@ void EditorWidget::paintEvent(QPaintEvent *)
     QPainter p(this);
 
     p.setBrush(QBrush(QColor("#131314")));
-    p.setOpacity(0.4);
+    p.setOpacity(0.7);
     p.setPen(Qt::NoPen);
 
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;

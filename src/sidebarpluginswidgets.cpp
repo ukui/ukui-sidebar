@@ -8,9 +8,15 @@ sidebarPluginsWidgets::sidebarPluginsWidgets(QWidget *parent) : QWidget(parent)
     this->setContentsMargins(0,0,0,0);
     this->setFixedSize(400,300);
     this->setStyleSheet("QWidget{background:rgba(255, 255, 0, 0);}");
-    m_pBoolStates = true;
+
     flagnumClipboardState = 0;
+
+    m_pBoolStates = true;
     resizeFlagOne = true;
+
+    ClipBoardBool = false;
+    SmallPluginsBool = false;
+
     m_pWidgetOutVLayout = new QVBoxLayout();
     m_pWidgetOutVLayout->setContentsMargins(0,0,0,0);
 
@@ -142,9 +148,14 @@ void sidebarPluginsWidgets::AddPluginWidgetInterface()
             m_pPluginsButtonWidget->setVisible(true);
             m_pPluginsButtonWidget->show();
             resizeFlagOne = false;
-            this->update();
             m_pSidebarPluginButton->SendSingal();
-            qDebug() << "进入小插件界面";
+            qDebug() << "剪贴板界面 --> 进入小插件界面";
+        }
+
+        if (ClipBoardBool) {
+            qDebug() << "修改分辨率后状态已转换完成，当前状态在剪贴板界面";
+            mostGrandWidget::getInstancemostGrandWidget()->hide();
+            ClipBoardBool = false;
         }
     });
 
@@ -153,9 +164,14 @@ void sidebarPluginsWidgets::AddPluginWidgetInterface()
             m_pPluginsButtonWidget->setVisible(true);
             m_pBoolStates = false;
             m_pClipboardButton->SendSingal();
-            this->update();
-            qDebug() << "进入剪贴板界面";
+            qDebug() << "小插件界面 --> 进入剪贴板界面";
             mostGrandWidget::getInstancemostGrandWidget()->hide();
+        }
+
+        if (SmallPluginsBool) {
+            qDebug() << "修改分辨率后状态已转换完成，当前状态在小插件界面";
+            mostGrandWidget::getInstancemostGrandWidget()->hide();
+            SmallPluginsBool = false;
         }
     });
 
@@ -174,6 +190,7 @@ void sidebarPluginsWidgets::AddPluginWidgetInterface()
         m_pAnimationLeftRight->start();
         m_statusFlag = KYLIN_STATE_SMALL_PLUGINS;
     });
+
     m_pPluginsButtonWidget->setVisible(false);
     m_pMachine->setInitialState(m_pClipBoardState);
     m_pMachine->start();
@@ -266,7 +283,10 @@ void sidebarPluginsWidgets::setSmallPluginsButtonBackgroudIsBlank()
 void sidebarPluginsWidgets::setClipboardWidgetSize(int ClipHight)
 {
     qDebug() << "设置小剪贴板的界面大小---->" << ClipHight;
-    m_pClipboardWidget->setFixedSize(400, ClipHight);
+
+    this->setFixedSize(400, ClipHight);
+    m_pClipboardWidget->setFixedSize(400, ClipHight - 60);
+
     return;
 }
 
@@ -324,6 +344,9 @@ void sidebarPluginsWidgets::loadSmallPlugins()
                 ++iter1;
         }
         Sequence++;
+        if (Sequence > KYLIN_PLUGINS_NUM) {
+            break;
+        }
     }
     qDebug() << "x -->" << add_x << "y -->" << add_y;
     QSpacerItem *item2 = new QSpacerItem(400 - 100*(add_y/2), 20);

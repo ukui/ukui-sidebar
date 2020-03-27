@@ -2,7 +2,7 @@
 QWidget#EditorWidget {
     width:400px;
     height:338px;
-    border:1px solid rgba(255, 255, 255, 75%);
+    border:0px solid rgba(255, 255, 255, 75%);
     border-radius:6px;
 }
 

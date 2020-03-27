@@ -195,11 +195,11 @@ void Widget::createSystray()
         qWarning() << "分配空间trayIconMenu失败";
         return ;
     }
-    trayIconMenu->addAction(minimizeAction);
-    trayIconMenu->addAction(maximizeAction);
-    trayIconMenu->addAction(restoreAction);
-    trayIconMenu->addSeparator();
-    trayIconMenu->addAction(quitAction);
+//    trayIconMenu->addAction(minimizeAction);
+//    trayIconMenu->addAction(maximizeAction);
+//    trayIconMenu->addAction(restoreAction);
+//    trayIconMenu->addSeparator();
+//    trayIconMenu->addAction(quitAction);
 
     trayIcon = new QSystemTrayIcon(this);
 
@@ -242,15 +242,18 @@ void Widget::iconActivated(QSystemTrayIcon::ActivationReason reason)
             }
             break;
         }
-        case QSystemTrayIcon::DoubleClick:
-        {
-            mostGrandWidget::getInstancemostGrandWidget()->show();
-            showAnimation();
-            m_bShowFlag = true;
-            m_pTimer->stop();                                   //当侧边栏展开时，停止闪烁定时器，并且设置有图标的托盘图标
-            setIcon(TRAY_ICON);
-            break;
-        }
+//        case QSystemTrayIcon::DoubleClick:
+//        {
+//            mostGrandWidget::getInstancemostGrandWidget()->hide();
+//            MostGrandWidgetCoordinates();
+//            qDebug() << "Widget::iconActivated 展开";
+//            mostGrandWidget::getInstancemostGrandWidget()->show();
+//            showAnimation();
+//            m_bShowFlag = true;
+//            m_pTimer->stop();                                   //当侧边栏展开时，停止闪烁定时器，并且设置有图标的托盘图标
+//            setIcon(TRAY_ICON);
+//            break;
+//        }
         default:
             break;
     }
@@ -511,12 +514,18 @@ void Widget::onResolutionChanged(int argc)
     qDebug() << "剪贴板高度" << clipboardhight;
     sidebarPluginsWidgets::getInstancePluinsWidgets()->setClipboardWidgetSize(clipboardhight); //设定剪贴板高度
 
+    /* 先将侧边栏show出来，改变一次状态机，将修改分辨率后，对布局的影响去掉 */
+    mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(-500, 0);
+    mostGrandWidget::getInstancemostGrandWidget()->setVisible(true);
+
     if (sidebarPluginsWidgets::getInstancePluinsWidgets()->m_statusFlag == KYLIN_STATE_CLIPBOARD) {
         sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pSidebarPluginButton->SendSingal();
         sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pClipboardButton->SendSingal();
+        sidebarPluginsWidgets::getInstancePluinsWidgets()->ClipBoardBool = true;
     } else if (sidebarPluginsWidgets::getInstancePluinsWidgets()->m_statusFlag == KYLIN_STATE_SMALL_PLUGINS) {
         sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pClipboardButton->SendSingal();
         sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pSidebarPluginButton->SendSingal();
+        sidebarPluginsWidgets::getInstancePluinsWidgets()->SmallPluginsBool = true;
     }
 
     return;

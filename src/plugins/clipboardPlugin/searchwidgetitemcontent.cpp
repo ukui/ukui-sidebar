@@ -29,7 +29,7 @@ SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
     m_pClearListWidgetButton = new QPushButton(tr("Clear"));
     m_pClearListWidgetButton->setObjectName("CleanList");
     m_pClearTextButton = new QPushButton;
-    m_pClearTextButton->setFixedSize(21, 21);
+    m_pClearTextButton->setFixedSize(19, 21);
     m_pClearTextButton->setIconSize(QSize(9, 9));
     m_pClearTextButton->setObjectName("ClearTextButton");
     m_pClearTextButton->setStyleSheet("QPushButton:pressed{border-image:url(:/image/button-close-hover-click-add-background-one.svg)}");
@@ -42,7 +42,7 @@ SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
     m_pHBoxLayout = new QHBoxLayout;
     m_pHBoxLayout->setContentsMargins(0,0,0,0);
     m_pLineEditArea = new QLineEdit;
-    m_pLineEditArea->setFixedSize(290, 30);
+    m_pLineEditArea->setFixedSize(290, 32);
     m_pLineEditArea->setObjectName("SearchLabel");
     m_pLineEditArea->setContentsMargins(0,0,0,0);
     m_pLineEditArea->setPlaceholderText(tr("search..."));
