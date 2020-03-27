@@ -26,7 +26,7 @@
 
 clock_plugin::clock_plugin()
 {
-    m_pClock = new Clock;
+//    m_pClock = new Clock;
 }
 
 void clock_plugin::onNotification() {
@@ -34,13 +34,13 @@ void clock_plugin::onNotification() {
 }
 
 void clock_plugin::PluginsShowInterface() {
-    if(Clockflag)
+//    if(Clockflag)
         m_pClock = new Clock;
     QDesktopWidget *desk = QApplication::desktop();
     QRect deskRect = desk->availableGeometry();
     m_pClock->show();
     m_pClock->move((deskRect.width()-m_pClock->width())/2, (deskRect.height()-m_pClock->height())/2);
-    Clockflag = true;
+//    Clockflag = true;
 }
 
 clock_plugin::~clock_plugin() {

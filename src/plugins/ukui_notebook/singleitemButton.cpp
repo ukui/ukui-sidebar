@@ -44,6 +44,7 @@ void singleitemButton::mouseReleaseEvent(QMouseEvent *event)
     this->setIconSize(QSize(16,16));
     pushdelIcon.addFile(":/new/prefix1/SVG/delete-b-hover.svg");
     this->setIcon(pushdelIcon);
+    emit buttonclick();
 }
 
 void singleitemButton::leaveEvent(QEvent *event)
@@ -56,17 +57,17 @@ void singleitemButton::leaveEvent(QEvent *event)
     this->setIcon(pushdelIcon);
 }
 
-bool singleitemButton::eventFilter(QObject *obj, QEvent *e)
-{
-    //qDebug() << e->type();
-    if(obj == this)
-    {
-        if(e->type() == QEvent::MouseButtonPress)
-        {
-            emit buttonclick();
-            return true;
-        }
-    }
-}
+//bool singleitemButton::eventFilter(QObject *obj, QEvent *e)
+//{
+//    //qDebug() << e->type();
+//    if(obj == this)
+//    {
+//        if(e->type() == QEvent::MouseButtonPress)
+//        {
+//            emit buttonclick();
+//            return true;
+//        }
+//    }
+//}
 
 

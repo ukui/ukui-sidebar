@@ -27,6 +27,7 @@ SOURCES += \
     closeBtn_hover.cpp \
     feedback.cpp \
     fileitem_init.cpp \
+    hidebtnhover.cpp \
     submit_fail.cpp \
     submit_success.cpp \
     systeminfo_button.cpp \
@@ -38,6 +39,7 @@ HEADERS += \
     closeBtn_hover.h \
     feedback.h \
     fileitem_init.h \
+    hidebtnhover.h \
     submit_fail.h \
     submit_success.h \
     systeminfo_button.h \

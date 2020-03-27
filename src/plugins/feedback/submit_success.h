@@ -21,6 +21,7 @@
 #include <QDialog>
 #include <QPushButton>
 #include <QLabel>
+#include "closeBtn_hover.h"
 
 class feedback;
 
@@ -37,6 +38,7 @@ private slots:
     void on_pushButton_2_clicked();
 
     void on_pushButton_clicked();
+    void succ_close_window();
 
 private:
     feedback *parentWnd;
@@ -44,6 +46,7 @@ private:
     void UI_init();
 
     QLabel *label;
+    closeBtn_hover * succ_closeBtn;
     QPushButton *pushButton;
     QPushButton *pushButton_2;
     QLabel *label_2;

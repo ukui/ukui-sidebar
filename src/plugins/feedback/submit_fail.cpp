@@ -35,7 +35,7 @@ void submit_fail::UI_init()
         this->setObjectName(QString::fromUtf8("submit_fail"));
     setWindowTitle(tr("提交失败"));
 
-    //this->resize(430, 260);
+    this->resize(430, 260);
     this->setStyleSheet(QString::fromUtf8("border:2px;"));
     this->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);//设置窗口无边框
     label = new QLabel(this);
@@ -44,6 +44,15 @@ void submit_fail::UI_init()
     label->setGeometry(QRect(130, 85, 281, 60));
     label->setStyleSheet(QString::fromUtf8("font: 30px;\n"
                                            "color: rgb(68, 68, 68);"));
+
+
+    fail_closeBtn = new closeBtn_hover(this);
+    fail_closeBtn->setGeometry(QRect(396, 4, 30, 30));
+    fail_closeBtn->setIcon(QIcon(":/image/close_default.png"));
+    fail_closeBtn->setStyleSheet("background-color: rgb(255,255,255);");
+
+    connect(fail_closeBtn,SIGNAL(clicked()),this,SLOT(close_fail_window));
+
     pushButton_2 = new QPushButton(this);
     pushButton_2->setText(tr("退出"));
     pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
@@ -87,6 +96,10 @@ submit_fail::~submit_fail()
 }
 
 void submit_fail::on_pushButton_2_clicked()
+{
+    this->close();
+}
+void submit_fail::close_fail_window()
 {
     this->close();
 }

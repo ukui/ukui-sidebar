@@ -12,30 +12,46 @@ TARGET = Clock_deamon
 TEMPLATE = lib
 CONFIG += plugin
 
-
-SOURCES += clock.cpp \
-    item_new.cpp \
+SOURCES +=\
+        clock.cpp \
     clock_plugin.cpp \
-    stopwatch_item.cpp
+    item_new.cpp \
+    stopwatch_item.cpp \
+    verticalscroll_24.cpp \
+    verticalscroll_60.cpp \
+    verticalscroll_99.cpp \
+    clickablelabel.cpp \
+    DotLineDemo.cpp \
+    set_alarm_repeat_dialog.cpp \
+    countdown_animation.cpp \
+    QRoundProgressBar.cpp
+TRANSLATIONS = Clock.ts
 
-
-HEADERS  += clock.h \
-    connection.h \
-    debug.h \
-    item_new.h \
-    clock_plugin.h \
-    stopwatch_item.h
-
-DESTDIR = ../sidebarSmallPlugins
 
 INCLUDEPATH    += ../../plugin-interface
 
-DISTFILES += Clock.json
+DESTDIR = ../sidebarSmallPlugins
+
+DISTFILES += clock.json
+
+HEADERS  += clock.h \
+    clock_plugin.h \
+    connection.h \
+    debug.h \
+    item_new.h \
+    stopwatch_item.h \
+    verticalscroll_24.h \
+    verticalscroll_60.h \
+    verticalscroll_99.h \
+    ui_verticalscroll_99.h \
+    clickablelabel.h \
+    DotLineDemo.h \
+    set_alarm_repeat_dialog.h \
+    countdown_animation.h \
+    QRoundProgressBar.h
 
 
-FORMS    += clock.ui \
-    item_new.ui \
-    stopwatch_item.ui
+FORMS    += clock.ui
 
 
 RESOURCES += \
