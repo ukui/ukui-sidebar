@@ -18,5 +18,7 @@
         <file>start_2.png</file>
         <file>continu.png</file>
         <file>sax.mp3</file>
+        <file>object-select-symbolic.png</file>
+        <file>go-bottom-symbolic.png</file>
     </qresource>
 </RCC>
