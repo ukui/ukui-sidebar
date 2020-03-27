@@ -42,7 +42,7 @@ SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
     m_pHBoxLayout = new QHBoxLayout;
     m_pHBoxLayout->setContentsMargins(0,0,0,0);
     m_pLineEditArea = new QLineEdit;
-    m_pLineEditArea->setFixedSize(290, 32);
+    m_pLineEditArea->setFixedSize(290, 30);
     m_pLineEditArea->setObjectName("SearchLabel");
     m_pLineEditArea->setContentsMargins(0,0,0,0);
     m_pLineEditArea->setPlaceholderText(tr("search..."));

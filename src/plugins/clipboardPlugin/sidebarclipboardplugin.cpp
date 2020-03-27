@@ -51,7 +51,6 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
     connect(this, &SidebarClipboardPlugin::Itemchange, this, &SidebarClipboardPlugin::ItemNumchagedSlots);
 
     m_pSearchWidgetListWidget->setFixedSize(400, 42);
-    m_pShortcutOperationListWidget->setFixedSize(400, 200);
     m_pShortcutOperationListWidget->setContentsMargins(0,0,0,0);
     m_pSearchWidgetListWidget->setContentsMargins(0,0,0,0);
 
