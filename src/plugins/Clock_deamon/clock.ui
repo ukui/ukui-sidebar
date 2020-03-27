@@ -15,34 +15,15 @@
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgb(14, 19, 22);
+
 color: rgb(255, 255, 255);
-border-radius:12px;
-opacity:0.95;
-border-radius:6px 6px 0px 0px;</string>
-  </property>
-  <widget class="Line" name="line">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>110</y>
-     <width>660</width>
-     <height>1</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(102, 102, 102);
 </string>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-  </widget>
+  </property>
   <widget class="QStackedWidget" name="stackedWidget">
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>120</y>
+     <y>110</y>
      <width>454</width>
      <height>541</height>
     </rect>
@@ -65,7 +46,8 @@ background-color: rgb(102, 102, 102);
      </property>
      <property name="styleSheet">
       <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(37, 200, 124);
+background-color: rgba(39,207,129,0.9);
+ border-radius:4px;
 font: 11pt &quot;Sans Serif&quot;;
 
 </string>
@@ -114,6 +96,7 @@ font: 11pt &quot;Sans Serif&quot;;
        </property>
        <property name="styleSheet">
         <string notr="true">width:56px;
+font: 11pt &quot;Sans Serif&quot;;
 height:36px;
 background:rgba(46,46,46,1);
 border-radius:4px;
@@ -137,6 +120,7 @@ border-radius:4px;
 height:36px;
 background:rgba(46,46,46,1);
 border-radius:4px;
+font: 11pt &quot;Sans Serif&quot;;
 </string>
        </property>
        <property name="text">
@@ -157,7 +141,7 @@ border-radius:4px;
 height:36px;
 background:rgba(46,46,46,1);
 border-radius:4px;
-</string>
+font: 11pt &quot;Sans Serif&quot;;</string>
        </property>
        <property name="text">
         <string>20分钟</string>
@@ -177,7 +161,7 @@ border-radius:4px;
 height:36px;
 background:rgba(46,46,46,1);
 border-radius:4px;
-</string>
+font: 11pt &quot;Sans Serif&quot;;</string>
        </property>
        <property name="text">
         <string>30分钟</string>
@@ -194,6 +178,7 @@ border-radius:4px;
        </property>
        <property name="styleSheet">
         <string notr="true">width:56px;
+font: 11pt &quot;Sans Serif&quot;;
 height:36px;
 background:rgba(46,46,46,1);
 border-radius:4px;
@@ -203,8 +188,25 @@ border-radius:4px;
         <string>60分钟</string>
        </property>
       </widget>
+      <widget class="Line" name="line">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>545</width>
+         <height>1</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(76, 76, 76);</string>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
      </widget>
-     <widget class="QWidget" name="page_5">
+     <widget class="Countdown_Animation" name="page_5">
       <widget class="QLabel" name="label_9">
        <property name="geometry">
         <rect>
@@ -235,7 +237,7 @@ border-radius:4px;
 
 height:36px;
 background:rgba(72,72,76,1);
-border-radius:4px;
+
 </string>
        </property>
        <item>
@@ -305,6 +307,23 @@ background-color: rgb(255, 255, 255);</string>
         <string/>
        </property>
       </widget>
+      <widget class="Line" name="line_3">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>545</width>
+         <height>1</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(76, 76, 76);</string>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
      </widget>
     </widget>
    </widget>
@@ -313,7 +332,7 @@ background-color: rgb(255, 255, 255);</string>
      <property name="geometry">
       <rect>
        <x>128</x>
-       <y>42</y>
+       <y>35</y>
        <width>197</width>
        <height>45</height>
       </rect>
@@ -321,7 +340,7 @@ background-color: rgb(255, 255, 255);</string>
      <property name="styleSheet">
       <string notr="true">color: rgb(255, 255, 255);
 font: 36pt &quot;Sans Serif&quot;;
-</string>
+font-family:Source Han Sans CN;</string>
      </property>
      <property name="text">
       <string>00:00:00</string>
@@ -337,12 +356,11 @@ font: 36pt &quot;Sans Serif&quot;;
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(37, 200, 124);
-font: 11pt &quot;Sans Serif&quot;;
-
-
-
+      <string notr="true">width:100px;
+height:32px;
+background: rgba(39,207,129,0.9) ;
+border-radius:4px;
+font: 12pt &quot;Sans Serif&quot;;
 </string>
      </property>
      <property name="text">
@@ -353,7 +371,7 @@ font: 11pt &quot;Sans Serif&quot;;
      <property name="geometry">
       <rect>
        <x>142</x>
-       <y>110</y>
+       <y>96</y>
        <width>173</width>
        <height>18</height>
       </rect>
@@ -372,14 +390,32 @@ opacity:0.45;</string>
      <property name="geometry">
       <rect>
        <x>39</x>
-       <y>140</y>
+       <y>130</y>
        <width>376</width>
-       <height>280</height>
+       <height>294</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">selection-background-color: rgb(162, 162, 162);
-border-radius:0px 0px 6px 6px;</string>
+      <string notr="true">selection-background-color:rgba(72,72,76,1);
+border-radius:0px 0px 6px 6px;
+border-radius:4px;</string>
+     </property>
+    </widget>
+    <widget class="Line" name="line_4">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>545</width>
+       <height>1</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(76, 76, 76);</string>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </widget>
@@ -493,6 +529,24 @@ border-radius:4px;
 border-radius:0px 0px 6px 6px;</string>
      </property>
     </widget>
+    <widget class="Line" name="line_5">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>545</width>
+       <height>1</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(76, 76, 76);
+</string>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QPushButton" name="pushButton_5">
@@ -500,8 +554,8 @@ border-radius:0px 0px 6px 6px;</string>
     <rect>
      <x>437</x>
      <y>8</y>
-     <width>9</width>
-     <height>10</height>
+     <width>15</width>
+     <height>15</height>
     </rect>
    </property>
    <property name="text">
@@ -513,68 +567,13 @@ border-radius:0px 0px 6px 6px;</string>
     <rect>
      <x>415</x>
      <y>8</y>
-     <width>10</width>
-     <height>9</height>
+     <width>15</width>
+     <height>15</height>
     </rect>
    </property>
    <property name="text">
     <string/>
    </property>
-  </widget>
-  <widget class="QStackedWidget" name="stackedWidget_2">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>30</y>
-     <width>454</width>
-     <height>633</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <widget class="QWidget" name="page_6">
-    <widget class="QPushButton" name="pushButton_6">
-     <property name="geometry">
-      <rect>
-       <x>62</x>
-       <y>557</y>
-       <width>100</width>
-       <height>32</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">width:100px;
-height:32px;
-background:rgba(44,44,46,1);
-border:1px solid rgba(68,68,71,1);
-border-radius:4p</string>
-     </property>
-     <property name="text">
-      <string>删除闹铃</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_7">
-     <property name="geometry">
-      <rect>
-       <x>292</x>
-       <y>557</y>
-       <width>100</width>
-       <height>32</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">width:100px;
-height:32px;
-background: rgb(37, 200, 124);
-border:1px solid rgba(68,68,71,1);
-border-radius:4p</string>
-     </property>
-     <property name="text">
-      <string>保存</string>
-     </property>
-    </widget>
-   </widget>
   </widget>
   <widget class="QStackedWidget" name="stackedWidget_3">
    <property name="geometry">
@@ -602,13 +601,13 @@ border-radius:4p</string>
       <string/>
      </property>
     </widget>
-    <widget class="QLabel" name="label">
+    <widget class="ClickableLabel" name="label">
      <property name="geometry">
       <rect>
-       <x>75</x>
-       <y>43</y>
-       <width>42</width>
-       <height>15</height>
+       <x>56</x>
+       <y>40</y>
+       <width>71</width>
+       <height>23</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -616,16 +615,16 @@ border-radius:4p</string>
 font: 10pt &quot;Sans Serif&quot;;</string>
      </property>
      <property name="text">
-      <string>倒计时</string>
+      <string>     倒计时</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_2">
+    <widget class="ClickableLabel" name="label_2">
      <property name="geometry">
       <rect>
-       <x>215</x>
-       <y>43</y>
-       <width>42</width>
-       <height>15</height>
+       <x>196</x>
+       <y>40</y>
+       <width>61</width>
+       <height>23</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -633,16 +632,16 @@ font: 10pt &quot;Sans Serif&quot;;</string>
 font: 10pt &quot;Sans Serif&quot;;</string>
      </property>
      <property name="text">
-      <string>闹钟</string>
+      <string>     闹钟</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_3">
+    <widget class="ClickableLabel" name="label_3">
      <property name="geometry">
       <rect>
-       <x>350</x>
-       <y>43</y>
-       <width>42</width>
-       <height>15</height>
+       <x>331</x>
+       <y>40</y>
+       <width>61</width>
+       <height>23</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -650,7 +649,7 @@ font: 10pt &quot;Sans Serif&quot;;</string>
 font: 10pt &quot;Sans Serif&quot;;</string>
      </property>
      <property name="text">
-      <string>秒表</string>
+      <string>     秒表</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton">
@@ -699,6 +698,431 @@ background-color: rgb(102, 102, 102);
     </widget>
    </widget>
   </widget>
+  <widget class="QWidget" name="set_page" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>30</y>
+     <width>454</width>
+     <height>633</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <widget class="QPushButton" name="pushButton_8">
+    <property name="geometry">
+     <rect>
+      <x>62</x>
+      <y>557</y>
+      <width>100</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">width:100px;
+height:32px;
+background:rgba(44,44,46,1);
+border:1px solid rgba(68,68,71,1);
+border-radius:4p</string>
+    </property>
+    <property name="text">
+     <string>删除闹铃</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_9">
+    <property name="geometry">
+     <rect>
+      <x>292</x>
+      <y>557</y>
+      <width>100</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">width:100px;
+height:32px;
+background: rgb(37, 200, 124);
+border:1px solid rgba(68,68,71,1);
+border-radius:4p</string>
+    </property>
+    <property name="text">
+     <string>保存</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_12">
+    <property name="geometry">
+     <rect>
+      <x>141</x>
+      <y>284</y>
+      <width>173</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">width:173px;
+height:18px;
+font-size:18px;
+font-family:Source Han Sans CN;
+font-weight:400;
+color:rgba(148, 148, 148,1);
+opacity:0.45;
+</string>
+    </property>
+    <property name="text">
+     <string>12小时43分后铃声响</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="set_alarm_cancelbtn">
+    <property name="geometry">
+     <rect>
+      <x>62</x>
+      <y>557</y>
+      <width>100</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">width:100px;
+height:32px;
+background:rgba(44,44,46,1);
+border:1px solid rgba(68,68,71,1);
+border-radius:4p</string>
+    </property>
+    <property name="text">
+     <string>取消</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="set_alarm_savebtn">
+    <property name="geometry">
+     <rect>
+      <x>292</x>
+      <y>557</y>
+      <width>100</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">width:100px;
+height:32px;
+background: rgb(37, 200, 124);
+border:1px solid rgba(68,68,71,1);
+border-radius:4p</string>
+    </property>
+    <property name="text">
+     <string>保存</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_13">
+    <property name="geometry">
+     <rect>
+      <x>189</x>
+      <y>33</y>
+      <width>74</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">width:74px;
+height:18px;
+font-size:18px;
+font-family:Source Han Sans CN;
+font-weight:400;
+color:rgba(255,255,255,1);
+</string>
+    </property>
+    <property name="text">
+     <string>新建闹钟</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>87</x>
+      <y>328</y>
+      <width>280</width>
+      <height>36</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">width:280px;
+height:36px;
+background:rgba(48,48,51,1);
+border-radius:4px;
+</string>
+    </property>
+    <widget class="QLabel" name="label_14">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>61</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">width:39px;
+height:14px;
+font-size:14px;
+font-family:Source Han Sans CN;
+font-weight:400;
+color:rgba(255,255,255,1);
+</string>
+     </property>
+     <property name="text">
+      <string>  闹钟名</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_18">
+     <property name="geometry">
+      <rect>
+       <x>58</x>
+       <y>0</y>
+       <width>181</width>
+       <height>36</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">width:67px;
+height:14px;
+font-size:14px;
+font-family:Source Han Sans CN;
+font-weight:400;
+color:rgba(148, 148, 148,1);
+opacity:0.35;
+text-align: right</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="widget_2" native="true">
+    <property name="geometry">
+     <rect>
+      <x>87</x>
+      <y>378</y>
+      <width>280</width>
+      <height>36</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">width:280px;
+height:36px;
+background:rgba(48,48,51,1);
+border-radius:4px;
+</string>
+    </property>
+    <widget class="QLabel" name="label_18">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>61</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">width:39px;
+height:14px;
+font-size:14px;
+font-family:Source Han Sans CN;
+font-weight:400;
+color:rgba(255,255,255,1);
+</string>
+     </property>
+     <property name="text">
+      <string>  重复</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_10">
+     <property name="geometry">
+      <rect>
+       <x>244</x>
+       <y>0</y>
+       <width>36</width>
+       <height>36</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_6">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>0</y>
+       <width>191</width>
+       <height>36</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">width:67px;
+height:14px;
+font-size:14px;
+font-family:Source Han Sans CN;
+font-weight:400;
+color:rgba(148, 148, 148,1);
+opacity:0.35;
+text-align: right</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="widget_3" native="true">
+    <property name="geometry">
+     <rect>
+      <x>87</x>
+      <y>428</y>
+      <width>280</width>
+      <height>36</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">width:280px;
+height:36px;
+background:rgba(48,48,51,1);
+border-radius:4px;
+</string>
+    </property>
+    <widget class="QLabel" name="label_19">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>71</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">width:39px;
+height:14px;
+font-size:14px;
+font-family:Source Han Sans CN;
+font-weight:400;
+color:rgba(255,255,255,1);
+</string>
+     </property>
+     <property name="text">
+      <string>  提醒铃声</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_7">
+     <property name="geometry">
+      <rect>
+       <x>244</x>
+       <y>0</y>
+       <width>36</width>
+       <height>36</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_11">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>0</y>
+       <width>171</width>
+       <height>36</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">width:67px;
+height:14px;
+font-size:14px;
+font-family:Source Han Sans CN;
+font-weight:400;
+color:rgba(148, 148, 148,1);
+opacity:0.35;
+text-align: right</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="widget_4" native="true">
+    <property name="geometry">
+     <rect>
+      <x>87</x>
+      <y>478</y>
+      <width>280</width>
+      <height>36</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">width:280px;
+height:36px;
+background:rgba(48,48,51,1);
+border-radius:4px;
+</string>
+    </property>
+    <widget class="QLabel" name="label_22">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>61</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">width:39px;
+height:14px;
+font-size:14px;
+font-family:Source Han Sans CN;
+font-weight:400;
+color:rgba(255,255,255,1);
+</string>
+     </property>
+     <property name="text">
+      <string>  提醒铃声</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_16">
+     <property name="geometry">
+      <rect>
+       <x>244</x>
+       <y>0</y>
+       <width>36</width>
+       <height>36</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_17">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>0</y>
+       <width>171</width>
+       <height>36</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">width:67px;
+height:14px;
+font-size:14px;
+font-family:Source Han Sans CN;
+font-weight:400;
+color:rgba(148, 148, 148,1);
+opacity:0.35;
+text-align: right</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </widget>
+  </widget>
   <action name="actionOn">
    <property name="checkable">
     <bool>true</bool>
@@ -711,14 +1135,26 @@ background-color: rgb(102, 102, 102);
     <string>On</string>
    </property>
   </action>
-  <zorder>stackedWidget_2</zorder>
-  <zorder>line</zorder>
+  <zorder>set_page</zorder>
   <zorder>pushButton_5</zorder>
   <zorder>pushButton_4</zorder>
   <zorder>stackedWidget_3</zorder>
   <zorder>stackedWidget</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>ClickableLabel</class>
+   <extends>QLabel</extends>
+   <header>clickablelabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Countdown_Animation</class>
+   <extends>QWidget</extends>
+   <header>countdown_animation.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
