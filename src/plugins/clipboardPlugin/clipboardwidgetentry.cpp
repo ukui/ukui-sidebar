@@ -34,14 +34,17 @@ ClipboardWidgetEntry::ClipboardWidgetEntry(QWidget *parent)
     QSpacerItem *item = new QSpacerItem(10,20);
     QSpacerItem *item1 = new QSpacerItem(10,20);
     m_pPopButton     = new QPushButton();
+//    m_pPopButton->setToolTip(tr("Pop"));
     m_pPopButton->setFixedSize(34, 34);
     m_pPopButton->setIcon(PopIcon);
     m_pPopButton->setObjectName("PopButton");
     m_pEditButon     = new QPushButton();
+//    m_pEditButon->setToolTip(tr("EditButton"));
     m_pEditButon->setFixedSize(34, 34);
     m_pEditButon->setIcon(EditIcon);
     m_pEditButon->setObjectName("EditButon");
     m_pRemoveButton  = new QPushButton();
+//    m_pRemoveButton->setToolTip(tr("Remove"));
     m_pRemoveButton->setFixedSize(34, 34);
     m_pRemoveButton->setIcon(RemoveIcon);
     m_pRemoveButton->setObjectName("RemoveButton");

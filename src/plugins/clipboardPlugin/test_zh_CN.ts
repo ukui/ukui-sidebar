@@ -2,6 +2,24 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN">
 <context>
+    <name>ClipboardWidgetEntry</name>
+    <message>
+        <location filename="clipboardwidgetentry.cpp" line="37"/>
+        <source>Pop</source>
+        <translation>置顶</translation>
+    </message>
+    <message>
+        <location filename="clipboardwidgetentry.cpp" line="42"/>
+        <source>EditButton</source>
+        <translation>编辑</translation>
+    </message>
+    <message>
+        <location filename="clipboardwidgetentry.cpp" line="47"/>
+        <source>Remove</source>
+        <translation>移除</translation>
+    </message>
+</context>
+<context>
     <name>EditorWidget</name>
     <message>
         <location filename="editorwidget.cpp" line="63"/>

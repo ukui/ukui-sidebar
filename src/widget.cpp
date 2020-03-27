@@ -157,6 +157,7 @@ int Widget::ListenClipboardSignal()
     m_pSidebarSignal = m_pSidebarClipboard->createClipSignal();                                     //获取剪贴板的信号类指针
     /* 点击剪贴板空白区域时，隐藏侧边栏 */
     connect(m_pSidebarSignal, &SidebarClipBoardSignal::ClipboardHideSignal, this, [=]() {
+        mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
         hideAnimation();
     });
 

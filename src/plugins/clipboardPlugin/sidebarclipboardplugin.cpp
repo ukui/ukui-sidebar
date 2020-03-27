@@ -577,10 +577,18 @@ void SidebarClipboardPlugin::removeAllWidgetItem()
     for (int i = 0; i < tmp; i++) {
         ClipboardWidgetEntry *w = (ClipboardWidgetEntry*)m_pShortcutOperationListWidget->itemWidget(m_pShortcutOperationListWidget->item(0));
         qDebug() << w;
+        if (w == nullptr) {
+            qDebug() << "dasdasdasdasdas";
+            continue;
+        }
         m_pShortcutOperationListWidget->takeItem(0);
         removeWidgetItem(w);
         removeMimeData(w);
         removeLabelText(w);
+        if (w == nullptr) {
+            qDebug() << "ljkjfgjhgkjshgjahkjgsahg";
+            continue;
+        }
         w->deleteLater();
     }
     emit Itemchange();
