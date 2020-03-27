@@ -36,10 +36,6 @@ public:
     explicit Widget(QWidget *parent = nullptr);
     ~Widget();
 
-signals:
-    void listItemClicked(int);
-
-
 public:
     QTranslator *translator;                        //国际化
     void error_throw();                             //异常处理抛出
@@ -53,7 +49,6 @@ private:
     QPoint m_lastPoint;                             //记录鼠标位置
     SingleItemWidget *s;                            //item listwidget窗体组合
     QListWidgetItem *aItem;                         //item指针
-    int index;                                      //鼠标位置标记
     int txtNum;
     int rowNum;
     QString ukui_textEdit;                          //文本编辑区内容
@@ -72,10 +67,6 @@ private:
     void sqlUpdateItem();                           //同步数据库，同步更新item
 
     void getFileModifyTime(QString fileInfo);       //获取文件创建时间、修改时间
-    void mouseMoveEvent(QMouseEvent *event);        //重写鼠标移动事件
-    void mousePressEvent(QMouseEvent *event);       //重写鼠标按下事件
-    //void paintEvent(QPaintEvent *);
-
 
 private slots:
     void exitSlot();                                //关闭按钮槽函数

@@ -130,26 +130,6 @@ void ukui_NoteBook::ukui_setShortCut()
     qDebug() << "..";
 }
 
-void ukui_NoteBook::mousePressEvent(QMouseEvent *event)
-{
-    if(event->button() == Qt::LeftButton)
-    {
-        emit this->listItemClicked(index);
-    }
-    if (event->button() == Qt::LeftButton) {
-        m_lastPoint = event->globalPos() - frameGeometry().topLeft();
-        event->accept();
-    }
-}
-
-void ukui_NoteBook::mouseMoveEvent(QMouseEvent *event)
-{
-    if (event->buttons() & Qt::LeftButton) {
-        move(event->globalPos() - m_lastPoint);
-        event->accept();
-    }
-}
-
 
 /***************Slots**************/
 void ukui_NoteBook::newFileSlot()

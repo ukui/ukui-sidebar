@@ -224,53 +224,6 @@ void Widget::getFileModifyTime(QString fileInfo)
     }
 }
 
-void Widget::mouseMoveEvent(QMouseEvent *event)
-{
-    if (event->buttons() & Qt::LeftButton) {
-
-            move(event->globalPos() - m_lastPoint);
-
-            event->accept();
-
-        }
-}
-
-void Widget::mousePressEvent(QMouseEvent *event)
-{
-    if(event->button() == Qt::LeftButton)
-    {
-        emit this->listItemClicked(index);
-    }
-    if (event->button() == Qt::LeftButton) {
-
-            m_lastPoint = event->globalPos() - frameGeometry().topLeft();
-
-            event->accept();
-
-    }
-}
-
-//void Widget::paintEvent(QPaintEvent *)
-//{
-//    QStyleOption opt;
-//    opt.init(this);
-//    QPainter p(this);
-
-//    p.setBrush(QBrush(QColor("#161617")));
-//    p.setOpacity(0.42);
-//    p.setPen(Qt::NoPen);
-
-//    p.drawRoundedRect(opt.rect,0,0);
-//    p.drawRect(opt.rect);
-//    style()->drawPrimitive(QStyle::PE_Widget,&opt,&p,this);
-
-//     QPainter p(this);
-//     p.setCompositionMode( QPainter::CompositionMode_Clear );
-//     p.fillRect( 10, 10, 300, 300, Qt::SolidPattern );
-
-//}
-
-
 
 //********************Slots************************//
 

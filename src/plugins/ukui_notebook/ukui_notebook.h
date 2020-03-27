@@ -28,7 +28,6 @@ public:
     ~ukui_NoteBook();
 
 signals:
-    void listItemClicked(int);
     void fileSaved(QString);
 
 public:
@@ -66,7 +65,6 @@ private:
 
     QString fileContent;//读到的文件内容
     QSettings *setting;
-    int index;
     QPoint m_lastPoint;//记录鼠标位置
     //保存文本到文件
     void saveTextToFile();
@@ -80,8 +78,6 @@ private:
     void saveFile();
     //设置快捷键
     void ukui_setShortCut();
-    void mouseMoveEvent(QMouseEvent *event);
-    void mousePressEvent(QMouseEvent *event);
 };
 
 #endif // UKUI_NOTEBOOK_H
