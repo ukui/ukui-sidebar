@@ -38,6 +38,15 @@ void submit_success::UI_init()
     label->setGeometry(QRect(130, 85, 291, 60));
     label->setStyleSheet(QString::fromUtf8("font: 30px;\n"
                                            "color: rgb(68, 68, 68);"));
+
+
+
+    succ_closeBtn = new closeBtn_hover(this);
+    succ_closeBtn->setGeometry(QRect(396, 4, 30, 30));
+    succ_closeBtn->setIcon(QIcon(":/image/close_default.png"));
+    succ_closeBtn->setStyleSheet("background-color: rgb(255,255,255);");
+    connect(succ_closeBtn,SIGNAL(clicked()),this,SLOT(succ_close_window()));
+
     pushButton = new QPushButton(this);
     pushButton->setText(tr("继续反馈问题"));
     pushButton->setObjectName(QString::fromUtf8("pushButton"));
@@ -74,4 +83,8 @@ void submit_success::on_pushButton_clicked()
 {
     parentWnd ->feedback_info_init();
     close();
+}
+void submit_success::succ_close_window()
+{
+    this->close();
 }

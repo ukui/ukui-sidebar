@@ -62,6 +62,7 @@
 #include <QPixmap>
 #include "fileitem_init.h"
 #include <QTimer>
+#include"hidebtnhover.h"
 
 class QSqlTableModel;
 class QPushButton;
@@ -111,7 +112,7 @@ public:
     QLabel *label_8;
     QLabel *label_9;
     QLabel *label_13;
-    QPushButton *pushButton_mix;
+    hideBtn_hover *pushButton_mix;
     closeBtn_hover *pushButton_close;
     QListWidget * file_listwidget;
     QListWidgetItem * file_listwidget_item[5];
