@@ -13,7 +13,7 @@ Widget::Widget(QWidget *parent) :
         QApplication::installTranslator(translator);
     }
     ui->setupUi(this);
-    //sqlInit();
+    sqlInit();
     ukui_init();
     ukui_conn();
 }
@@ -103,17 +103,17 @@ void Widget::ukui_conn()
     qDebug() << "conn";
     connect(ui->pushButton_Exit,SIGNAL(clicked()),this,SLOT(exitSlot()));
     connect(ui->pushButton_Mini,SIGNAL(clicked()),this,SLOT(miniSlot()));
-    //connect(ui->pushButton_Func,SIGNAL(clicked()),this,SLOT(editSlot()));
     connect(ui->toolButton,SIGNAL(clicked()),this,SLOT(newSlot()));
     connect(ui->listWidget,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(listDoubleClickSlot()));
     connect(ui->listWidget,SIGNAL(itemPressed(QListWidgetItem*)),this,SLOT(listClickSlot()));
+    //connect(singleItem[txtNum]->pushButtonDel,SIGNAL(clicked()),this,SLOT(listDelSingleSlot()));      //子窗口Del点击事件
     qDebug() << "connect end";
 }
 
 void Widget::sqlInit()
 {
     sqlFilePath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) +
-                "/.config/Clock_database.db";
+                "/.config/notebookSql.db";
     qDebug() << "db file path = " << sqlFilePath;
     if(sqlFilePath.isEmpty())
         return;
@@ -200,7 +200,8 @@ void Widget::sqlAddItem(){
         sqlModel->insertRow(rowNum);
         sqlModel->setData(sqlModel->index(rowNum, 0), filename);
         //model->setData(model->index(rowNum, 1), dateTime);
-        sqlModel->submitAll();
+        bool tttt = sqlModel->submitAll();
+        qDebug()<<tttt<<"tttt";
     }
 
     for(int i=0; i < rowNum; i++)
@@ -218,7 +219,6 @@ void Widget::getFileModifyTime(QString fileInfo)
     if(info.exists())
     {
         //QDateTime dt = info.created();
-        //createTime = tr("%1").arg(dt.toString("yyyy/MM/dd hh:mm"));
         QDateTime dt = info.lastModified();
         modifyTime = tr("%1").arg(dt.toString("yyyy/MM/dd hh:mm"));
     }
@@ -304,12 +304,12 @@ void Widget::listClickSlot()
 {
     int listnum = ui->listWidget->currentRow();
     rowNum = sqlModel->rowCount();
+    qDebug() << rowNum;
     for (int i = 0;i < rowNum; i++)
     {
-        qDebug() << rowNum;
         singleItem[i]->pushButtonDel->hide();
     }
-    qDebug() << "listClickSLot  rowNum = " << listnum;
+    qDebug() << "listClickSLot  listnum = " << listnum;
     singleItem[listnum]->pushButtonDel->show();
 }
 
@@ -335,23 +335,18 @@ void Widget::listDoubleClickSlot()
 
 void Widget::listDelSingleSlot(){
     qDebug() << "del list";
-    //获取列表项的指针
-    //QListWidgetItem *item = ui->listWidget->takeItem(ui->listWidget->currentRow());
     int num=ui->listWidget->currentRow();
     int rowNum = sqlModel->rowCount();
 
-    qDebug() << rowNum  <<"   ======================================----";
-    qDebug() << num<<"     =====================================";
-    //QObject::sender()返回发送信号的对象的指针
-    //QPushButton *btn = qobject_cast<QPushButton*>(QObject::sender());
-
+    qDebug() << "数据库行号"  << rowNum <<"   ======================================";
+    qDebug() << "item计数"   << num    <<"     =====================================";
 
     sqlModel->removeRows(num, 1);
     qDebug() << "delete " <<num;
 
     for(int i=0; i<rowNum; i++)
     {
-        delete item[i];
+        delete item[i]; 
         delete singleItem[i];
     }
     sqlModel->submitAll();   //提交
@@ -362,6 +357,6 @@ void Widget::fileSavedSlot(QString data)
 {
     qDebug() << "fileSavedSlot";
     filename = data;
-    //sqlAddItem();
+    sqlAddItem();
 }
 
