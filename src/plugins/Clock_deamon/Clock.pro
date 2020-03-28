@@ -24,7 +24,8 @@ SOURCES +=\
     DotLineDemo.cpp \
     set_alarm_repeat_dialog.cpp \
     countdown_animation.cpp \
-    QRoundProgressBar.cpp
+    QRoundProgressBar.cpp \
+    messagebox.cpp
 TRANSLATIONS = Clock.ts
 
 
@@ -48,7 +49,8 @@ HEADERS  += clock.h \
     DotLineDemo.h \
     set_alarm_repeat_dialog.h \
     countdown_animation.h \
-    QRoundProgressBar.h
+    QRoundProgressBar.h \
+    messagebox.h
 
 
 FORMS    += clock.ui

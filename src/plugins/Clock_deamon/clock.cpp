@@ -28,7 +28,6 @@
 #include <QDebug>
 #include "debug.h"
 #include <unistd.h>
-#include <QDebug>
 #include <QTimer>
 #include <QTime>
 #include "connection.h"
@@ -36,6 +35,7 @@
 #include "item_new.h"
 #include "set_clock.h"
 #include "stopwatch_item.h"
+#include "messagebox.h"
 
 const double PI=3.141592;
 
@@ -44,13 +44,9 @@ Clock::Clock(QWidget *parent) :
     ui(new Ui::Clock)
 {
     ui->setupUi(this);
-
     createConnection();
     this->setWindowTitle(tr("闹钟"));
     setWindowFlags(Qt::FramelessWindowHint);   /* 开启窗口无边框 */
-    //setAttribute(Qt::WA_TranslucentBackground);/* 开启窗口透明层 */
-   // this->hide();
-
     ui->set_page->setStyleSheet("QWidget{background-color: rgba(14, 19, 22, 0.9);}");
 
     pixmap1 = QPixmap(":/icon-1.png");
@@ -64,16 +60,12 @@ Clock::Clock(QWidget *parent) :
     pixmap9 = QPixmap(":/start_2.png");
     pixmap10 = QPixmap(":/push_1.png");
     pixmap11 = QPixmap(":/push_2.png");
-
-
     bgPixmap = QPixmap(":/go-bottom-symbolic.png");
     repeat_on_Pixmap = QPixmap(":/object-select-symbolic.png");
     repeat_off_Pixmap = QPixmap("");
     delBtnPixmap = QPixmap(":/deleteBtn.png");
     on_pixmap = QPixmap(":/alarm_on.png");
     off_pixmap = QPixmap(":/alarm_off.png");
-
-
 
     ui->pushButton->setIcon(pixmap1);
     ui->pushButton_2->setIcon(pixmap4);
@@ -89,7 +81,6 @@ Clock::Clock(QWidget *parent) :
     ui->pushButton_5->setVisible(true);
     ui->pushButton_5->setFocusPolicy(Qt::NoFocus);
     //---------------倒计时-------------------------------------------------------------------------
-
     //初始化定时器
     countdown_timer = new QTimer();
     //信号和槽
@@ -103,21 +94,18 @@ Clock::Clock(QWidget *parent) :
     countdown_second = 9;
     countdown_pushflag = 0;
     countdown_isStarted = 0;
-
     //------------秒表-----------------------------------------------------------------------------------
     //  ui->pushButton_Start->setIcon(pixmap8);
     ui->pushButton_Start->setFlat(true);
     ui->pushButton_Start->setVisible(true);
     ui->pushButton_Start->setFocusPolicy(Qt::NoFocus);
     ui->pushButton_Start->setStyleSheet("border-image: url(:/start_1.png);");
-
     //初始化定时器
     timer = new QTimer();
     //信号和槽
     connect(timer, SIGNAL(timeout()), this, SLOT(Count_down()));
     //设置定时器每个多少毫秒发送一个timeout()信号
     timer->setInterval(10);
-
     ui->label_4->setText("00:00.00");
     isStarted = 0;
     hour=0;
@@ -125,7 +113,6 @@ Clock::Clock(QWidget *parent) :
     second=0;
     pushflag=0 ;
     on_pushButton_2_clicked();//初始显示闹钟界面
-
     //时间间隔定时器
     timer_2 = new QTimer();
     connect(timer_2, SIGNAL(timeout()), this, SLOT(stopwatch_jg()));
@@ -145,10 +132,7 @@ Clock::Clock(QWidget *parent) :
     QTime time = QTime::currentTime();
     ui->label_6->setText(time.toString("hh")+":"+time.toString("mm")+":"+time.toString("ss"));
     timer_clock->start(1000);
-
     connect( ui->addAlarmBtn, SIGNAL(clicked()), this, SLOT(set_Alarm_Clock()) );//添加闹钟
-
-
     player_alarm = new QMediaPlayer(this);
     mediaList = new QMediaPlaylist(this);
 
@@ -157,10 +141,8 @@ Clock::Clock(QWidget *parent) :
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
     model->select(); //选取整个表的所有行
 
-
     connect(ui->listWidget,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(listdoubleClickslot()));
     connect(ui->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(listClickslot()));
-
     connect(ui->pushButton_8, SIGNAL(clicked()), this, SLOT(deleteAlarm()) );
     connect(ui->set_alarm_savebtn, SIGNAL(clicked()), this, SLOT(set_alarm_save()) );
     connect(ui->set_alarm_cancelbtn, SIGNAL(clicked()), this, SLOT(alarm_Cancel_save()) );
@@ -171,97 +153,30 @@ Clock::Clock(QWidget *parent) :
     connect(ui->pushButton_16, SIGNAL(clicked()), this, SLOT(time_Music()) );
     connect(ui->pushButton_17, SIGNAL(clicked()), this, SLOT(time_Music()) );
     connect(ui->pushButton_18, SIGNAL(clicked()), this, SLOT(clack_rename()) );
-
     //单击时间提示计时器
-    timer_21111 = new QTimer();
-    connect(timer_21111, SIGNAL(timeout()), this, SLOT(listClickslot()));
-    timer_21111->setInterval(1000);
-
+    timer_Surplus = new QTimer();
+    connect(timer_Surplus, SIGNAL(timeout()), this, SLOT(listClickslot()));
+    timer_Surplus->setInterval(1000);
     //闹钟设置界面时间提示计时器
     timer_set_page = new QTimer();
     connect(timer_set_page, SIGNAL(timeout()), this, SLOT(verticalscroll_ring_time()));
     timer_set_page->setInterval(100);
-
     updateAlarmClock();
-//-----------------------------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------------------------
     countdown_set_start_time();//倒计时初始化数字转盘
     ui->label_8->hide();
-
     connect(ui->label, SIGNAL(clicked()), this, SLOT(on_pushButton_clicked()) );//扩大页面切换反映区
     connect(ui->label_2, SIGNAL(clicked()), this, SLOT(on_pushButton_2_clicked()) );
     connect(ui->label_3, SIGNAL(clicked()), this, SLOT(on_pushButton_3_clicked()) );
-
-
     alarm_set_start_time();//闹钟初始化数字转盘
-
     for (int i=0; i<9; i++) {
         repeat_day[i] = 0;
-        qDebug() << repeat_day[i];
     }
 }
 
 Clock::~Clock()
 {
     delete ui;
-}
-
-
-QPointF Clock::rotateAngle(int angle, int len)
-{
-    int x, y;
-
-    x = 150+len*sin(angle*PI/180);
-    y = 150-len*cos(angle*PI/180);
-
-    return QPointF(x, y);
-}
-
-//绘制时钟界面
-void Clock::paintEvent1(QPaintEvent *)
-{
-    QTime time = QTime::currentTime();
-    int timeH = time.hour();
-    int timeM = time.minute();
-    int timeS = time.second();
-
-    QDateTime dateTime = QDateTime::currentDateTime();
-    // cTimeLabe->setText(dateTime.toString("yyyy-MM-dd hh:mm:ss ddd"));
-
-    QPainter painter(ui->page_4);
-    QPen pen;
-
-    //painter.drawPixmap(this->rect(), bgPixmap);
-    //绘制钟面
-    pen.setWidth(1);
-    pen.setColor(Qt::blue);
-    painter.setPen(pen);
-    for(int i=0; i<60; i++)
-    {
-        painter.drawLine(rotateAngle(6*i, 100), rotateAngle(6*i, 95));
-    }
-    pen.setWidth(5);
-    painter.setPen(pen);
-    painter.drawEllipse(QPoint(150, 150), 100, 100);
-    pen.setWidth(3);
-    painter.setPen(pen);
-    for(int i=0; i<12; i++)
-    {
-        painter.drawLine(rotateAngle(30*i, 100), rotateAngle(30*i, 90));
-    }
-
-    //绘制指针
-    pen.setWidth(2);
-    pen.setColor(Qt::black);//pen.setColor(Qt::red);
-    painter.setPen(pen);
-    painter.drawLine(QPointF(150, 150), rotateAngle(6*timeS, 80));
-    pen.setWidth(6);
-    pen.setColor(Qt::black);//pen.setColor(Qt::blue);
-    painter.setPen(pen);
-    painter.drawLine(QPointF(150, 150), rotateAngle(6*timeM, 60));
-    pen.setWidth(8);
-    pen.setColor(Qt::black);//pen.setColor(Qt::green);
-    painter.setPen(pen);
-    painter.drawLine(QPointF(150, 150), rotateAngle(0.5*(timeH*60+timeM), 40));
 }
 
 //时间间隔执行
@@ -472,7 +387,6 @@ void Clock::on_pushButton_3_clicked()
     ui->pushButton_3->setFlat(0);
 }
 
-
 //------------------------------------------------------------闹钟----------------------------------
 
 //闹钟上方电子表
@@ -486,9 +400,6 @@ void Clock::text_timerUpdate()
 //动态监控闹钟与本地时间
 void Clock::timerUpdate()
 {
-
-    //qDebug() << "timerupdate" << n++;
-
     QTime time = QTime::currentTime();
     int timeH = time.hour();
     int timeM = time.minute();
@@ -499,9 +410,26 @@ void Clock::timerUpdate()
     int rowNum = model->rowCount();
     for(int i=0; i<rowNum; i++)
     {
+        //判断星期
+        QDateTime current_date_time = QDateTime::currentDateTime();
 
+        if(current_date_time.toString("ddd").compare(tr("周一"))==0 &&  model->index(i, 6).data().toInt() == 0)
+            continue;
+        if(current_date_time.toString("ddd").compare(tr("周二"))==0 &&  model->index(i, 7).data().toInt() == 0)
+            continue;
+        if(current_date_time.toString("ddd").compare(tr("周三"))==0 &&  model->index(i, 8).data().toInt() == 0)
+            continue;
+        if(current_date_time.toString("ddd").compare(tr("周四"))==0 &&  model->index(i, 9).data().toInt() == 0)
+            continue;
+        if(current_date_time.toString("ddd").compare(tr("周五"))==0 &&  model->index(i, 10).data().toInt() == 0)
+            continue;
+        if(current_date_time.toString("ddd").compare(tr("周六"))==0 &&  model->index(i, 11).data().toInt() == 0)
+            continue;
+        if(current_date_time.toString("ddd").compare(tr("周日"))==0 &&  model->index(i, 12).data().toInt() == 0)
+            continue;
+
+        //判断开关
         if( model->index(i, 3).data().toInt() == 1){
-            //qDebug() << "---------------continut--"<<"--"<< i<<"--"<<model->index(i, 3).data().toInt();
             continue;
 
         }
@@ -512,12 +440,26 @@ void Clock::timerUpdate()
             mediaList->addMedia(QUrl::fromLocalFile(model->index(i, 2).data().toString()));
             mediaList->setCurrentIndex(i);
             player->setPlaylist(mediaList);
-            qDebug() << mediaList;
-            player->setVolume(99);
-            player->setMedia(QUrl::fromLocalFile("/home/hyd/桌面/sax.mp3"));
-            player->play();
-
-            QMessageBox::warning(this, "警告", "时间到！", QMessageBox::Yes);
+            QString music_type = ui->comboBox->currentText();
+            QMediaPlayer  *music = new QMediaPlayer(this);//初始化音乐
+            QMediaPlaylist *playlist = new QMediaPlaylist(this);//初始化播放列表
+            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/bark.ogg"));
+            playlist->setPlaybackMode(QMediaPlaylist::Loop);//设置播放模式(顺序播放，单曲循环，随机播放等)
+            music->setPlaylist(playlist);  //设置播放列表
+            music->play();
+            //QMessageBox::warning(this, "警告", "时间到！", QMessageBox::Yes);
+            double music_time = 30;
+            if(model->index(i, 13).data().toString().compare(tr("2分钟"))==0){
+                music_time = 2*60;
+            }else if (model->index(i, 13).data().toString().compare(tr("3分钟"))==0) {
+                music_time = 3*60;
+            }else if (model->index(i, 13).data().toString().compare(tr("4分钟"))) {
+                music_time = 4*60;
+            }else {
+                music_time = 60;
+            }
+            MessageBox *messagebox = new MessageBox(this, music_time);
+            music->stop();
         }
     }
     update();
@@ -644,20 +586,13 @@ void Clock::set_alarm_save()
         model->setData(model->index(rowNum, 2), music_str_model);
         model->setData(model->index(rowNum, 3), int(0));
         model->setData(model->index(rowNum, 4), int(model->index(rowNum-1, 4).data().toInt()+1));
-        qDebug()<<repeat_str_model<<"r111111111111111";
         model->setData(model->index(rowNum, 5), repeat_str_model);
         model->setData(model->index(rowNum, 13), time_music_str_model);
         model->setData(model->index(rowNum, 14), clock_name);
         qDebug() << repeat_str;
 
         for (int i=0; i<7; i++) {
-            if(repeat_day[i])
-            {
-                model->setData(model->index(rowNum, i+6), 1);
-            }
-            else {
-                model->setData(model->index(rowNum, i+6), 0);
-            }
+            model->setData(model->index(rowNum, i+6), repeat_day[i]);
         }
 
         model->submitAll();
@@ -806,11 +741,11 @@ void Clock::on_pushButton_9_clicked()
 void Clock::listClickslot()
 {
 
-    timer_21111->start();
+    timer_Surplus->start();
 
     int x_h, x_m ;
     int num=ui->listWidget->currentRow();
-   // qDebug() <<num;
+    // qDebug() <<num;
 
     QTime time = QTime::currentTime();
     int timeH = time.hour();
@@ -843,7 +778,6 @@ void Clock::deleteAlarm()
 {
     int num=ui->listWidget->currentRow();
     int rowNum = model->rowCount();
-
     model->removeRows(num, 1);
     qDebug() << "delete " <<num;
 
@@ -852,7 +786,7 @@ void Clock::deleteAlarm()
                                   QMessageBox::Yes, QMessageBox::No);
     if(ok == QMessageBox::No)
     {
-        model->revertAll();
+        model->revertAll();//如果不删除, 则撤销
         qDebug() << rowNum;
     }
     else
@@ -862,15 +796,10 @@ void Clock::deleteAlarm()
             delete aItem[i];
             delete w1[i];
         }
-
         model->submitAll();   //否则提交, 在数据库中删除该行
-
         updateAlarmClock();
-
         rowNum = model->rowCount();
-
         qDebug() << rowNum;
-
         ui->stackedWidget_3->raise();
         this->raise();
         ui->stackedWidget->raise();//将页面放置最前方
@@ -900,8 +829,6 @@ void Clock::On_Off_Alarm()
         model->setData(model->index(i, 3), int(0));
         model->submitAll();
     }
-
-
     int rowNum = model->rowCount();
     for(int i=0; i<rowNum; i++)
     {
@@ -941,10 +868,19 @@ void Clock::stat_countdown(){
     ui->label_9->setText(h+":"+m+":"+s);
 
     if(countdown_hour==0 && countdown_minute==0 && countdown_second==0){
-        player->setMedia(QUrl::fromLocalFile("/home/hyd/桌面/sax.mp3"));
-        player->play();
-        QMessageBox::warning(this, "Warning", "该休息了");
-        player->stop();
+
+        QString music_type = ui->comboBox->currentText();
+        QMediaPlayer  *music = new QMediaPlayer(this);//初始化音乐
+        QMediaPlaylist *playlist = new QMediaPlaylist(this);//初始化播放列表
+        if(music_type.compare(tr("玻璃"))==0)
+            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/glass.ogg"));
+        if(music_type.compare(tr("犬吠"))==0)
+            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/bark.ogg"));
+        playlist->setPlaybackMode(QMediaPlaylist::Loop);//设置播放模式(顺序播放，单曲循环，随机播放等)
+        music->setPlaylist(playlist);  //设置播放列表
+        music->play();
+        QMessageBox::warning(this, "时间到", "该休息了");
+        music->stop();
         countdown_timer->stop();
         startbtn_countdown();
     }
@@ -967,30 +903,28 @@ void Clock::startbtn_countdown(){
         if(timer_ring99->m_currentValue==0 && timer_ring60->m_currentValue==0 && timer_ring60_2->m_currentValue==0){
             return;
         }
-        //int ringmax = timer_ring99->m_currentValue*3600 + timer_ring60->m_currentValue*60 + timer_ring60_2->m_currentValue;
-        ui->page_5->RoundBar3->ring_max = 1002;
-
+        ui->page_5->RoundBar3->ring_max = 1002;//初始化倒计时进度圈
         ui->count_stat->setStyleSheet("width:100px;\
                                       height:32px;\
-                        background:rgba(44,44,46,1);\
-                        border:1px solid rgba(68,68,71,1);\
-                        border-radius:4px;\
-                        font: 11pt 'Sans Serif'");
+                background:rgba(44,44,46,1);\
+border:1px solid rgba(68,68,71,1);\
+        border-radius:4px;\
+font: 11pt 'Sans Serif'");
 
-        countdown_timer->start();
-        ui->page_5->timer->start();
+
         countdown_isStarted=1;
         ui->count_stat->setText("结束");
         ui->stackedWidget_4->setCurrentIndex(1);
 
         setcoutdown_number(timer_ring99->m_currentValue, timer_ring60->m_currentValue, timer_ring60_2->m_currentValue);//获取转轮当前值
-
+        countdown_timer->start();
+        ui->page_5->timer->start();
     } else {
         ui->count_stat->setStyleSheet("color: rgb(255, 255, 255);\
                                       background-color: rgba(39,207,129,0.9);\
-                                       border-radius:4px;\
-                                      font: 11pt 'Sans Serif';\
-;");
+                border-radius:4px;\
+font: 11pt 'Sans Serif';\
+        ;");
 
         countdown_timer->stop();
         ui->page_5->timer->stop();
@@ -1064,7 +998,6 @@ void Clock::on_min_30btn_clicked()
 {
     timer_ring99->m_currentValue = 0;
     timer_ring60->m_currentValue = 30;
-    qDebug() << timer_ring60->m_currentValue <<"---timer_ring60->m_currentValue";
     timer_ring60_2->m_currentValue = 0;
     setcoutdown_number(0, 30, 0);
 }
@@ -1242,62 +1175,62 @@ void Clock::repeat_listClickslot()
 {
     int num=dialog_repeat->listWidget->currentRow();
     QString day[7] ;
-     day[0]= tr("周一");
-     day[1] = tr("周二");
-     day[2] = tr("周三");
-     day[3] = tr("周四");
-     day[4] = tr("周五");
-     day[5] = tr("周六");
-     day[6] = tr("周日");
+    day[0]= tr("周一");
+    day[1] = tr("周二");
+    day[2] = tr("周三");
+    day[3] = tr("周四");
+    day[4] = tr("周五");
+    day[5] = tr("周六");
+    day[6] = tr("周日");
 
-     switch (num)
-     {
-     case 0:
-         ui->pushButton_6->setText(tr("不重复"));
-         repeat_str_model = "不重复";
-         for (int i=0; i<7; i++) {
-             repeat_day[i] = 0;
-             qDebug() << repeat_day[i];
-             dialog_repeat->widget[i+2]->alarmLabel1->setIcon(repeat_off_Pixmap);
-         }
-         dialog_repeat->close();
-         dialog_repeat = nullptr;
-         return;
-         break;
-     case 1:
-         ui->pushButton_6->setText(tr("工作日"));
-         repeat_str_model = "工作日";
-         for (int i=0; i<5; i++) {
-             repeat_day[i] = 1;
-             qDebug() << repeat_day[i];
-             dialog_repeat->widget[i+2]->alarmLabel1->setIcon(repeat_on_Pixmap);
-         }
-         dialog_repeat->widget[7]->alarmLabel1->setIcon(repeat_on_Pixmap);
-         dialog_repeat->widget[8]->alarmLabel1->setIcon(repeat_on_Pixmap);
-         dialog_repeat->close();
-         dialog_repeat = nullptr;
-         return;
-         break;
-     case 2:
-         if(repeat_day[0] == 0 )
-         {
-             repeat_day[0] = 1;
-             dialog_repeat->widget[2]->alarmLabel1->setIcon(repeat_on_Pixmap);
-         }else {
-             repeat_day[0] = 0;
-             dialog_repeat->widget[2]->alarmLabel1->setIcon(repeat_off_Pixmap);
-         }
-         break;
-     case 3:
-         if(repeat_day[1] == 0 )
-         {
-             repeat_day[1] = 1;
-             dialog_repeat->widget[3]->alarmLabel1->setIcon(repeat_on_Pixmap);
-         }else {
-             repeat_day[1] = 0;
-             dialog_repeat->widget[3]->alarmLabel1->setIcon(repeat_off_Pixmap);
-         }
-         break;
+    switch (num)
+    {
+    case 0:
+        ui->pushButton_6->setText(tr("不重复"));
+        repeat_str_model = "不重复";
+        for (int i=0; i<7; i++) {
+            repeat_day[i] = 0;
+            qDebug() << repeat_day[i];
+            dialog_repeat->widget[i+2]->alarmLabel1->setIcon(repeat_off_Pixmap);
+        }
+        dialog_repeat->close();
+        dialog_repeat = nullptr;
+        return;
+        break;
+    case 1:
+        ui->pushButton_6->setText(tr("工作日"));
+        repeat_str_model = "工作日";
+        for (int i=0; i<5; i++) {
+            repeat_day[i] = 1;
+            qDebug() << repeat_day[i];
+            dialog_repeat->widget[i+2]->alarmLabel1->setIcon(repeat_on_Pixmap);
+        }
+        dialog_repeat->widget[7]->alarmLabel1->setIcon(repeat_on_Pixmap);
+        dialog_repeat->widget[8]->alarmLabel1->setIcon(repeat_on_Pixmap);
+        dialog_repeat->close();
+        dialog_repeat = nullptr;
+        return;
+        break;
+    case 2:
+        if(repeat_day[0] == 0 )
+        {
+            repeat_day[0] = 1;
+            dialog_repeat->widget[2]->alarmLabel1->setIcon(repeat_on_Pixmap);
+        }else {
+            repeat_day[0] = 0;
+            dialog_repeat->widget[2]->alarmLabel1->setIcon(repeat_off_Pixmap);
+        }
+        break;
+    case 3:
+        if(repeat_day[1] == 0 )
+        {
+            repeat_day[1] = 1;
+            dialog_repeat->widget[3]->alarmLabel1->setIcon(repeat_on_Pixmap);
+        }else {
+            repeat_day[1] = 0;
+            dialog_repeat->widget[3]->alarmLabel1->setIcon(repeat_off_Pixmap);
+        }
+        break;
     case 4:
         if(repeat_day[2] == 0 )
         {
@@ -1507,20 +1440,20 @@ void Clock::clack_rename()
         lineEdit = nullptr;
     }
     else {
-    lineEdit = new QLineEdit(ui->set_page);
-    lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
-    lineEdit->setGeometry(QRect(60, 220, 280, 36));
-    lineEdit->move(87,365);
-    lineEdit->setStyleSheet(QString::fromUtf8("width:280px;\n"
-"height:36px;\n"
-"background:rgba(72,72,76,1);\n"
-"border:1px solid;\n"
-"font-size:14px;"
-"border-image:linear-gradient(0deg, rgba(39,207,129,1), rgba(39,207,129,1)) 10 10;\n"
-"border-radius:4px;\n"
-"\n"
-""));
-    lineEdit->show();
-    lineEdit->setText("闹钟");
+        lineEdit = new QLineEdit(ui->set_page);
+        lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
+        lineEdit->setGeometry(QRect(60, 220, 280, 36));
+        lineEdit->move(87,365);
+        lineEdit->setStyleSheet(QString::fromUtf8("width:280px;\n"
+                                                  "height:36px;\n"
+                                                  "background:rgba(72,72,76,1);\n"
+                                                  "border:1px solid;\n"
+                                                  "font-size:14px;"
+                                                  "border-image:linear-gradient(0deg, rgba(39,207,129,1), rgba(39,207,129,1)) 10 10;\n"
+                                                  "border-radius:4px;\n"
+                                                  "\n"
+                                                  ""));
+        lineEdit->show();
+        lineEdit->setText("闹钟");
     }
 }

@@ -32,7 +32,7 @@ color: rgb(255, 255, 255);
     <string notr="true"/>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="page">
     <widget class="QPushButton" name="count_stat">
@@ -242,12 +242,12 @@ background:rgba(72,72,76,1);
        </property>
        <item>
         <property name="text">
-         <string>默认铃声</string>
+         <string>玻璃</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>...</string>
+         <string>犬吠</string>
         </property>
        </item>
       </widget>
@@ -615,7 +615,7 @@ background-color: rgb(76, 76, 76);
 font: 10pt &quot;Sans Serif&quot;;</string>
      </property>
      <property name="text">
-      <string>     倒计时</string>
+      <string>       倒计时</string>
      </property>
     </widget>
     <widget class="ClickableLabel" name="label_2">
@@ -632,7 +632,7 @@ font: 10pt &quot;Sans Serif&quot;;</string>
 font: 10pt &quot;Sans Serif&quot;;</string>
      </property>
      <property name="text">
-      <string>     闹钟</string>
+      <string>       闹钟</string>
      </property>
     </widget>
     <widget class="ClickableLabel" name="label_3">
@@ -649,7 +649,7 @@ font: 10pt &quot;Sans Serif&quot;;</string>
 font: 10pt &quot;Sans Serif&quot;;</string>
      </property>
      <property name="text">
-      <string>     秒表</string>
+      <string>       秒表</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton">

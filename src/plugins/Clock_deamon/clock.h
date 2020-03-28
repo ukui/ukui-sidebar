@@ -1,18 +1,6 @@
 #ifndef CLOCK_H
 #define CLOCK_H
 
-
-//border-radius:12px;
-//opacity:0.95;
-//border-radius:6px 6px 0px 0px;
-
-
-//model_repeat->setData(model_repeat->index(0, 0),1);
-//model_repeat->submitAll();
-//model_repeat->setTable("clockrepeat");
-//model_repeat->select();
-
-
 #include <QWidget>
 #include <QTimer>
 #include <QQueue>
@@ -247,13 +235,12 @@ private:
     int on_off_flag = 0;
     int add_change_flag = 0;
     int change_alarm_line = 0;
-    int n = 0;
     int medel_flag = 0;
     int continu_flag = 0;
     int alarm_repeat_flag = 0;
 
 
-    QTimer *timer_21111;
+    QTimer *timer_Surplus;
     QTimer *timer_set_page;
     VerticalScroll_99 * timer_ring99;
     VerticalScroll_60 * timer_ring60;
