@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Note</string>
+   <string>Widget</string>
   </property>
   <property name="styleSheet">
    <string notr="true">width:568px;
@@ -30,7 +30,9 @@ opacity:0.7;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true"/>
+    <string notr="true">background-color: rgb(0, 0, 0);
+border-width:0;
+</string>
    </property>
    <property name="text">
     <string/>
@@ -46,7 +48,11 @@ opacity:0.7;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true"/>
+    <string notr="true">background-color: rgb(0, 0, 0);
+border-width:0;
+color: rgb(255, 255, 255);
+hover:color(0,0,255);
+</string>
    </property>
    <property name="text">
     <string/>
@@ -64,18 +70,37 @@ opacity:0.7;</string>
    <property name="font">
     <font>
      <family>Noto Sans CJK SC</family>
+     <pointsize>-1</pointsize>
      <weight>50</weight>
      <bold>false</bold>
     </font>
    </property>
-   <property name="autoFillBackground">
-    <bool>false</bool>
-   </property>
    <property name="styleSheet">
-    <string notr="true"/>
+    <string notr="true">width:47px;
+height:23px;
+font-size:20px;
+font-family:Noto Sans CJK SC;
+font-weight:400;
+line-height:40px;
+background-color: rgb(0, 0, 0);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
-    <string>Note</string>
+    <string>笔记</string>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="listWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>50</y>
+     <width>568</width>
+     <height>397</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:rgb(0,0,0);
+</string>
    </property>
   </widget>
   <widget class="QToolButton" name="toolButton">
@@ -88,29 +113,12 @@ opacity:0.7;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true"/>
+    <string notr="true">background-color: rgb(0, 0, 0);
+border-width:0;
+border-style:outset;</string>
    </property>
    <property name="text">
     <string/>
-   </property>
-  </widget>
-  <widget class="QListWidget" name="listWidget">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>60</y>
-     <width>568</width>
-     <height>397</height>
-    </rect>
-   </property>
-   <property name="focusPolicy">
-    <enum>Qt::NoFocus</enum>
-   </property>
-   <property name="showDropIndicator" stdset="0">
-    <bool>true</bool>
-   </property>
-   <property name="selectionMode">
-    <enum>QAbstractItemView::SingleSelection</enum>
    </property>
   </widget>
  </widget>
