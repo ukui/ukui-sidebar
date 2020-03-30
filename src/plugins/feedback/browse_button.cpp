@@ -27,9 +27,7 @@ browse_button::~browse_button()
 }
 void browse_button::enterEvent(QEvent *e)
 {
-    setStyleSheet("font: 14px;background-color:rgb(107,142,235);color: rgb(68, 68, 68);border-radius:4px");
 }
 void browse_button::leaveEvent(QEvent *e)
 {
-    setStyleSheet("font: 14px;background-color:rgb(233,233,233);color: rgb(68, 68, 68);border-radius:4px");
 }

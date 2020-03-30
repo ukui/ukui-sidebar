@@ -103,11 +103,31 @@ void feedback::window_ui_init()
     //设置反馈类型的样式
     ui->comboBox->setStyleSheet("min-height: 30px;background-color: rgb(244, 244, 244);color: rgb(68, 68, 68);font: 14px ;");
     ui->errorMailMessage->setVisible(false);
+
+
+    this->setStyleSheet("background-color:rgb();");
+    ui->label->setStyleSheet("font: 24px;color: rgb()");
+    ui->label_2->setStyleSheet("font: 14px;color: rgb()");
+    ui->label_3->setStyleSheet("font: 14px;color: rgb()");
+    ui->label_4->setStyleSheet("font: 14px;color: rgb()");
+    ui->label_8->setStyleSheet("font: 14px;color: rgb()");
+    ui->label_9->setStyleSheet("font: 12px;color: rgb()");
+    ui->label_7->setStyleSheet("font: 14px;color: rgb()");
+    ui->label_10->setStyleSheet("font: 14px;color: rgb()");
+    ui->label_11->setStyleSheet("font: 14px;color: rgb()");
+    ui->label_12->setStyleSheet("font: 14px;color: rgb()");
+    ui->checkBox_4->setStyleSheet("font: 14px;color: rgb()");
+    ui->verticalWidget->setStyleSheet("");
+    ui->pushButton_2->setStyleSheet("");
+    ui->pushButton->setStyleSheet("");
+    ui->lineEdit->setStyleSheet("");
+    ui->textEdit->setStyleSheet("");
+    ui->textEdit_2->setStyleSheet("");
+    ui->frame->setStyleSheet("");
 }
 //获取图片
 void feedback::on_pushButton_clicked()
 {
-    ui->pushButton->setStyleSheet("font: 14px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(68, 68, 68)");
     filename=QFileDialog::getOpenFileName(this,tr("select image"),"/","Image file(*.gif *.jpg *.png)",0);
     //判断文件是否重复添加
     if (file_name_list.size() ==0)
@@ -158,7 +178,6 @@ void feedback::on_textEdit_textChanged()
     else
     {
         ui->pushButton_2->setEnabled(false);//设置提交按钮属性
-        ui->pushButton_2->setStyleSheet("font: 18px ;border-radius:4px;background-color:rgb(233, 233, 233);color: rgb(255, 255, 255)");
     }
 
     int length = textContent.count();
@@ -439,7 +458,6 @@ void feedback::on_textEdit_2_textChanged()
     }
     if (describeflag == 1 && emailflag == 1){//邮箱和详细描述都已经填写
         ui->pushButton_2->setEnabled(true);
-        ui->pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(255, 255, 255)");
     }
     else
     {
