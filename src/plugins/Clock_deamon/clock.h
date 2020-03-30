@@ -168,6 +168,7 @@ private:
     int countdown_hour, countdown_minute, countdown_second, countdown_pushflag ;
     bool isStarted;
     bool countdown_isStarted;
+    bool countdown_isStarted_2;
     bool stopwatch_isStarted;
     QMediaPlayer *player = new QMediaPlayer;
     QString ring;//铃声名字
