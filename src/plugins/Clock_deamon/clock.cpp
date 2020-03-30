@@ -543,6 +543,25 @@ void Clock::setAlarmClock()
     //模态对话框
     dialog->exec();
 }
+
+
+//修改时间单数 为两位数
+void Clock::change_time_NUM(int alarmHour, int alarmMinute)
+{
+    if(alarmHour < 10){
+        QString hours_str = QString::number(alarmHour);
+        alarmHour_str = "0"+hours_str;
+    }else {
+        alarmHour_str = QString::number(alarmHour);
+    }
+
+    if(alarmMinute < 10){
+        QString minute_str = QString::number(alarmMinute);
+        alarmMinute_str = "0"+minute_str;
+    }else {
+        alarmMinute_str = QString::number(alarmMinute);
+    }
+}
 //重绘窗口，更新闹钟
 void Clock::updateAlarmClock()
 {
@@ -559,9 +578,9 @@ void Clock::updateAlarmClock()
         w1[alarmNum] = new item_new(ui->listWidget);
         ui->listWidget->setItemWidget(aItem[alarmNum],w1[alarmNum]);
 
-        w1[alarmNum]->alarmLabel0->setText(model->index(alarmNum, 0).data().toString()
-                                           + " : "
-                                           + model->index(alarmNum, 1).data().toString());
+        change_time_NUM(model->index(alarmNum, 0).data().toInt(),model->index(alarmNum, 1).data().toInt());//转换int为QString
+        w1[alarmNum]->alarmLabel0->setText(alarmHour_str+" : "+alarmMinute_str);
+
         //闹钟开关
         if(model->index(alarmNum, 3).data().toInt() == 1){
             w1[alarmNum]->alarm_on_off0->setStyleSheet("border-image: url(:/alarm_off.png);background-color: rgb();");
