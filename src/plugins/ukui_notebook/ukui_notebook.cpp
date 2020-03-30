@@ -48,6 +48,7 @@ void ukui_NoteBook::ukuiNoteBook_init()
     //字体初始化
     setting = new QSettings("config.ini",QSettings::IniFormat);
     setWindowFlags(Qt::FramelessWindowHint);//开启窗口无边框
+    this->setWindowTitle(tr("笔记本"));
 }
 
 void ukui_NoteBook::ukuiNoteBook_connect()

@@ -41,6 +41,7 @@ void Widget::ukui_init()
     //窗口属性
     setWindowFlags(Qt::FramelessWindowHint);//开启窗口无边框
     setWindowOpacity(0.8);//窗口透明度
+    this->setWindowTitle(tr("笔记"));
     //组件属性
     //ui->listWidget->setAttribute(Qt::WA_TranslucentBackground);//设置透明度
     //ui->toolButton->setAttribute(Qt::WA_TranslucentBackground);
