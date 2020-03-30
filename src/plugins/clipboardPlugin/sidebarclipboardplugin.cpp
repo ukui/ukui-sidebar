@@ -543,11 +543,12 @@ void SidebarClipboardPlugin::editButtonSlots(ClipboardWidgetEntry *w)
 void SidebarClipboardPlugin::removeLastWidgetItem()
 {
     ClipboardWidgetEntry *w = (ClipboardWidgetEntry*)m_pShortcutOperationListWidget->itemWidget(m_pShortcutOperationListWidget->item(m_pShortcutOperationListWidget->count()-1));
-    qDebug() << "当前条目数目" << m_pShortcutOperationListWidget->count();
+//    qDebug() << "当前条目数目" << m_pShortcutOperationListWidget->count();
     delete m_pShortcutOperationListWidget->item(m_pShortcutOperationListWidget->count()-1);
     removeWidgetItem(w);
     removeMimeData(w);
-    qDebug() << "当前条目数目sadasdsad" << m_pShortcutOperationListWidget->count();
+    removeLabelText(w);
+//    qDebug() << "当前条目数目sadasdsad" << m_pShortcutOperationListWidget->count();
     w->deleteLater();
 }
 
@@ -597,15 +598,20 @@ void SidebarClipboardPlugin::removeAllWidgetItem()
 /* 搜索 槽函数 */
 void SidebarClipboardPlugin::searchClipboardLableTextSlots(QString Text)
 {
+    if (Text == "") {
+        return;
+    }
     qDebug() << "Text" << Text;
-    QHash<ClipboardWidgetEntry*, QString>::const_iterator iter1 = m_pLabelText.constBegin(); //遍历hash，方法1
+    int tmp = 0;
+    QHash<ClipboardWidgetEntry*, QString>::const_iterator iter1 = m_pLabelText.constBegin();
     while (iter1 != m_pLabelText.constEnd()) {
+        tmp++;
         if (iter1.value().contains(Text, Qt::CaseSensitive)) {
             ClipboardWidgetEntry *p = iter1.key();
             ++iter1;
             popButtonSlots(p);
         } else {
-            iter1.key()->hide();
+//            iter1.key()->hide();
             ++iter1;
         }
     }
