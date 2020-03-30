@@ -19,10 +19,10 @@
 #define SUBMIT_FAIL_H
 
 #include <QDialog>
-#include <QPushButton>
-#include <QLabel>
-#include "closeBtn_hover.h"
 
+namespace Ui {
+class submit_fail;
+}
 
 class submit_fail : public QDialog
 {
@@ -36,17 +36,9 @@ public:
 
 private slots:
     void on_pushButton_2_clicked();
-    void close_fail_window();
 
 private:
-
-    void UI_init();
-
-    QLabel *label;
-    QPushButton *pushButton_2;
-    closeBtn_hover * fail_closeBtn;
-    QLabel *label_2;
-    QLabel *label_3;
+    Ui::submit_fail *ui;
 };
 
 #endif // SUBMIT_FAIL_H
