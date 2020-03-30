@@ -6,7 +6,7 @@ CONFIG += c++11
 TARGET = feedback
 TEMPLATE = lib
 CONFIG += plugin
-QT += core gui sql network
+QT += core gui network
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -34,14 +34,13 @@ SOURCES += \
 INCLUDEPATH    += ../../plugin-interface
 HEADERS += \
     browse_button.h \
-    database.h \
     feedback.h \
     submit_fail.h \
     submit_success.h \
     systeminfo_button.h \
     feedback_plugin.h
 
-DESTDIR = ../feedback_plugins
+DESTDIR = ../sidebarSmallPlugins
 
 DISTFILES += feedback.json
 
@@ -56,6 +55,6 @@ RESOURCES += \
 DISTFILES +=
 
 unix {
-    target.path = /usr/lib/ukui-sidebar/sidebar_feedbackPlugin_plugins
+    target.path = /usr/lib/ukui-sidebar/sidebarSmallPlugins
     INSTALLS += target
 }

@@ -35,14 +35,11 @@
 #include <fstream>
 #include <iostream>
 #include <cstring>
-#include <QSqlDatabase>
-#include <QSqlQuery>
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkRequest>
 #include <vector>
 
-class QSqlTableModel;
 class QPushButton;
 class QLabel;
 
@@ -70,7 +67,7 @@ public:
     void add_fileinfo_model();
     void update_add_file_window();
     void update_linedit_add_or_del_file();
-    bool all_file_size_than_3M();
+    bool all_file_size_than_10M();
     void httpclient_init();
     void set_request_header();
     void send_file_httpserver();
@@ -161,7 +158,6 @@ private:
     int filename_h = 24;
 
 
-    QSqlTableModel * model;
 
     QPushButton *deletefileBtn[5];
     QLabel *filename_label[5];
@@ -174,6 +170,11 @@ private:
     int send_fail_flags = 0;
 
     QHttpMultiPart *multiPart;
+
+
+    QList<QString> file_name_list;
+    QList<QString> file_size_list;
+    QList<QString> file_path_list;
 
 
 

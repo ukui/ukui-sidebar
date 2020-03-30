@@ -24,12 +24,10 @@
 #include <QDebug>
 #include <QFileInfo>
 #include <QFile>
-#include <QSqlTableModel>
 #include <QModelIndex>
 #include <QLabel>
 #include <QLocale>
 #include <QPushButton>
-#include <QSqlRecord>
 #include <QMessageBox>
 #include <QStandardItemModel>
 #include <QEventLoop>
@@ -39,7 +37,6 @@
 #include <QtNetwork/QNetworkRequest>
 #include <QHttpPart>
 #include <QGraphicsDropShadowEffect>
-#include "database.h"
 #include <QTranslator>
 #include <QLocale>
 #include <QStandardPaths>
@@ -48,7 +45,6 @@ feedback::feedback(QWidget *parent)
     , ui(new Ui::feedback)
 {
     ui->setupUi(this);
-    createConnection();
     window_ui_init();
 
     QString locale = QLocale::system().name();
@@ -65,11 +61,7 @@ feedback::feedback(QWidget *parent)
 feedback::~feedback()
 {
     //程序结束时删除所有数据------
-    int rowNum =model->rowCount();
-    model->removeRows(0,rowNum);
-    model->submitAll();
     //---------------------------
-
 
     delete ui;
 }
@@ -100,13 +92,6 @@ void feedback::window_ui_init()
     effect->setBlurRadius(10);
     ui->frame_2->setGraphicsEffect(effect);
     //数据库初始化
-    model = new QSqlTableModel(this);
-    model->setTable("clock");
-    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-    model->select(); //选取整个表的所有行
-    int rowNum =model->rowCount();
-    model->removeRows(0,rowNum);
-    model->submitAll();
     //设置描述邮箱输入框提示信息
     ui->textEdit->setPlaceholderText(tr("请输入内容"));//设置详细输入框的提示信息
     ui->lineEdit->setPlaceholderText(tr("文件大小不能超过3MB"));
@@ -123,19 +108,22 @@ void feedback::on_pushButton_clicked()
     ui->pushButton->setStyleSheet("font: 14px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(68, 68, 68)");
     filename=QFileDialog::getOpenFileName(this,tr("select image"),"/","Image file(*.gif *.jpg *.png)",0);
     //判断文件是否重复添加
-    int rowNum = model->rowCount();
-    if (rowNum ==0)
+    if (file_name_list.size() ==0)
     {
         //添加附件框改变
         ui->lineEdit->setText(filename);
         add_fileinfo_model();
-        add_file_change_window();
+    }
+    //最多传五个附件
+    else if(file_name_list.size() >= 5)
+    {
+        return ;
     }
     else{
         int file_diff_flags = 0;
-        for(int fileNum=0; fileNum<rowNum; fileNum++)
+        for(int fileNum=0; fileNum<file_path_list.size(); fileNum++)
         {
-            if(filename.compare(model->index(fileNum, 2).data().toString()) == 0)
+            if(filename.compare(file_path_list.at(fileNum)) == 0)
             {
                 //添加的文件已经添加过
                 file_diff_flags++;
@@ -146,7 +134,7 @@ void feedback::on_pushButton_clicked()
             //添加附件框改变
             ui->lineEdit->setText(filename);
             add_fileinfo_model();
-            add_file_change_window();
+
         }
     }
 }
@@ -208,9 +196,9 @@ void feedback::add_systeminfo()
     string os_info = "操作系统: ";
 
     if((QLocale::system().name()) == "en_US"){
-         encoding_info = "Lang: ";
+        encoding_info = "Lang: ";
         desktop_info = "Deskenv: ";
-         os_info= "Osrelease: ";
+        os_info= "Osrelease: ";
     }
     //获取系统信息
     //1.获取系统版本
@@ -325,7 +313,7 @@ void feedback::on_pushButton_2_clicked()
 {
     ui->pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(255, 255, 255)");
     //判断文件总大小是否超过3M，如果超过，提示
-    if(all_file_size_than_3M() == true)
+    if(all_file_size_than_10M() == true)
     {
         ui->label_13->show();
         return;
@@ -417,11 +405,10 @@ void feedback::send_file_httpserver()
         m_filesArray.push_back(file_syslog);
     }
     //获取添加的附件，文件名
-    int rowNum = model->rowCount();
-    for(int filenum=0; filenum<rowNum; filenum++)
+    for(int filenum=0; filenum<file_path_list.size(); filenum++)
     {
         //发送文件
-        QFile *file_image = add_file_to_Part(model->index(filenum, 2).data().toString());
+        QFile *file_image = add_file_to_Part(file_path_list.at(filenum));
         m_filesArray.push_back(file_image);
     }
 }
@@ -461,34 +448,44 @@ void feedback::on_textEdit_2_textChanged()
 //删除文件按钮槽函数
 void feedback::del_file_button_clicked()
 {
-    int rowNum = model->rowCount();
+    int rowNum =file_name_list.size();
 
     //QObject::sender()返回发送信号的对象的指针
     QPushButton *btn = qobject_cast<QPushButton*>(QObject::sender());
 
     if( btn == deletefileBtn[0] )
     {
-        model->removeRows(0, 1);
+        file_name_list.removeAt(0);
+        file_size_list.removeAt(0);
+        file_path_list.removeAt(0);
         qDebug() << "delete 0";
     }
     else if( btn == deletefileBtn[1] )
     {
-        model->removeRows(1, 1);
+        file_name_list.removeAt(1);
+        file_size_list.removeAt(1);
+        file_path_list.removeAt(1);
 
         qDebug() << "delete 1";
     }
     else if( btn == deletefileBtn[2] )
     {
-        model->removeRows(2, 1);
+        file_name_list.removeAt(2);
+        file_size_list.removeAt(2);
+        file_path_list.removeAt(2);
         qDebug() << "delete 2";
     }
     else if( btn == deletefileBtn[3] )
     {
-        model->removeRows(3, 1);
+        file_name_list.removeAt(3);
+        file_size_list.removeAt(3);
+        file_path_list.removeAt(3);
     }
     else if( btn == deletefileBtn[4])
     {
-        model->removeRows(4, 1);
+        file_name_list.removeAt(4);
+        file_size_list.removeAt(4);
+        file_path_list.removeAt(4);
     }
     for(int i=0; i<rowNum; i++)
     {
@@ -497,7 +494,6 @@ void feedback::del_file_button_clicked()
         delete deletefileBtn[i];
     }
 
-    model->submitAll();   //提交, 在数据库中删除该行
 
     update_add_file_window();
     del_file_change_window();
@@ -509,7 +505,7 @@ void feedback::del_file_button_clicked()
 //删除附件后调整窗口
 void feedback::del_file_change_window()
 {
-    int rowNum = model->rowCount();
+    int rowNum = file_name_list.size();
     window_h -= 29;
     pushbutton2_y -= 29;
     pushbutton3_y -= 29;
@@ -554,14 +550,24 @@ void feedback::feedback_info_init(){
     ui->checkBox_3->setChecked(false);
     ui->lineEdit->setText("");
     ui->textEdit_2->setText("");
-    for(int i=0; i<model->rowCount(); i++)
+    for(int i=0; i<file_name_list.size(); i++)
     {
         delete filename_label[i];
         delete filesize_label[i];
         delete deletefileBtn[i];
     }
-    model->removeRows(0,model->rowCount());
-    model->submitAll();
+    foreach(auto item,file_name_list)
+    {
+        file_name_list.removeOne(item);
+    }
+    foreach(auto item,file_size_list)
+    {
+        file_name_list.removeOne(item);
+    }
+    foreach(auto item,file_path_list)
+    {
+        file_name_list.removeOne(item);
+    }
 
     ui->checkBox_4->setChecked(false);
 
@@ -632,39 +638,33 @@ void feedback::add_fileinfo_model()
 
     if((float)info.size()/(float)1000 > 1000)
         file_size = QString::number((float)info.size()/(float)1000000,'f',1) + "M";
-
-    int rowNum = model->rowCount();
-    if(rowNum < 5)
-    {
-        model->insertRow(rowNum);
-        model->setData(model->index(rowNum, 0), file_name);
-        model->setData(model->index(rowNum, 1), file_size);
-        model->setData(model->index(rowNum, 2), filename);
-        model->submitAll();
-        model->setTable("clock");
-        model->select();
-
-        for(int i=0; i<rowNum; i++)
-        {
-            delete filename_label[i];
-            delete filesize_label[i];
-            delete deletefileBtn[i];
-        }
-        update_add_file_window();
+    if(file_name_list.size() < 5){
+        file_name_list.append(file_name);
+        file_size_list.append(file_size);
+        file_path_list.append(filename);
     }
+    for(int i=0; i<file_name_list.size()-1; i++)
+    {
+        delete filename_label[i];
+        delete filesize_label[i];
+        delete deletefileBtn[i];
+    }
+    update_add_file_window();
+    add_file_change_window();
 }
+
 //根据数据库 刷新窗口
 void feedback::update_add_file_window()
 {
     if(filename.isEmpty()){
         return;
     }
-    int rowNum = model->rowCount();
+    int rowNum = file_name_list.size();
     for(int filenum=0; filenum<rowNum; filenum++)
     {
         filename_label[filenum] = new QLabel(this);
         filename_label[filenum]->move(filename_x,filename_y+(filenum * 29));
-        filename_label[filenum]->setText(model->index(filenum, 0).data().toString().mid(model->index(filenum, 0).data().toString().lastIndexOf('/')+1));
+        filename_label[filenum]->setText(file_name_list.at(filenum));
         filename_label[filenum]->setStyleSheet("font: 12px ;color: rgb(68,68,68);");
         filename_label[filenum]->adjustSize();
         filename_label[filenum]->show();
@@ -672,7 +672,7 @@ void feedback::update_add_file_window()
 
         filesize_label[filenum] = new QLabel(this);
         filesize_label[filenum]->setGeometry(filename_x+filename_width+20,filename_y+ (filenum * 29),filename_w,filename_h);
-        filesize_label[filenum]->setText(("( "+model->index(filenum, 1).data().toString()+" )"));
+        filesize_label[filenum]->setText(("( "+file_size_list.at(filenum)+" )"));
         filesize_label[filenum]->setStyleSheet("font: 12px;color: rgb(179,179,179)");
         filesize_label[filenum]->adjustSize();
         filesize_label[filenum]->show();
@@ -690,23 +690,23 @@ void feedback::update_add_file_window()
 //在删除文件之后更新文件信息框
 void feedback::update_linedit_add_or_del_file()
 {
-    int rowNum = model->rowCount();
+    int rowNum = file_name_list.size();
     if (rowNum == 0){
         ui->lineEdit->setText("");
     }
     else{
-        ui->lineEdit->setText(model->index(rowNum-1, 2).data().toString());
+        ui->lineEdit->setText(file_name_list.at(rowNum -1));
     }
 }
 //判断总文件大小是否超过3M
-bool feedback::all_file_size_than_3M()
+bool feedback::all_file_size_than_10M()
 {
     int all_filesize = 0;
     QFileInfo file_info;
-    int rowNum = model->rowCount();
+    int rowNum = file_name_list.size();
     for(int filenum=0; filenum<rowNum; filenum++)
     {
-        file_info.setFile(model->index(filenum, 1).data().toString());
+        file_info.setFile(file_path_list.at(filenum));
         all_filesize += file_info.size();
     }
 
@@ -723,7 +723,7 @@ bool feedback::all_file_size_than_3M()
         all_filesize += file_info.size();
     }
     //qDebug()<<all_filesize;
-    if(all_filesize > 3*1024*1024)
+    if(all_filesize > 10*1024*1024)
     {
         return true;
     }
