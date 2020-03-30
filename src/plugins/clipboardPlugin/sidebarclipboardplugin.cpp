@@ -595,8 +595,11 @@ void SidebarClipboardPlugin::removeAllWidgetItem()
 /* 搜索 槽函数 */
 void SidebarClipboardPlugin::searchClipboardLableTextSlots(QString Text)
 {
+    if (Text == "") {
+        return;
+    }
     qDebug() << "Text" << Text;
-    QHash<ClipboardWidgetEntry*, QString>::const_iterator iter1 = m_pLabelText.constBegin(); //遍历hash，方法1
+    QHash<ClipboardWidgetEntry*, QString>::const_iterator iter1 = m_pLabelText.constBegin();
     while (iter1 != m_pLabelText.constEnd()) {
         if (iter1.value().contains(Text, Qt::CaseSensitive)) {
             ClipboardWidgetEntry *p = iter1.key();

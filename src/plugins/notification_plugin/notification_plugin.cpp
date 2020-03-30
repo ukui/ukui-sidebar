@@ -30,8 +30,10 @@ NotificationPlugin::NotificationPlugin()
     m_bShowTakeIn = false;
     m_pMainWidget = new QWidget;
     m_pMainWidget->setObjectName("NotificationCenter");
+
+    //获取系统语言环境,加载语言翻译
     QLocale locale;
-    if ( locale.language() == QLocale::Chinese )  //获取系统语言环境
+    if (locale.language() == QLocale::Chinese)
     {
         QTranslator *qtTranslator = new QTranslator(this);
         qtTranslator->load("/usr/share/ukui-sidebar-notification/language.qm");
@@ -144,9 +146,9 @@ NotificationPlugin::NotificationPlugin()
     m_pMessageCenterLabel = new QLabel(QObject::tr("No new notifications"));
     m_pMessageCenterLabel->setStyleSheet("QLabel{color:rgba(255,255,255,0.91);padding:119px 0px 0px 0px;font-size:14px;}");
     m_pScrollAreaNotifyVBoxLayout->addWidget(m_pMessageCenterLabel, 0, Qt::AlignHCenter);
+
     QSpacerItem* pVSpacer = new QSpacerItem(10, 1, QSizePolicy::Fixed, QSizePolicy::Expanding);
     m_pScrollAreaNotifyVBoxLayout->addSpacerItem(pVSpacer);
-
     pNotificationVBoxLayout->addWidget(m_pQScrollAreaNotify, 0);
 
     //收纳列表
@@ -163,6 +165,10 @@ NotificationPlugin::NotificationPlugin()
     pTakeInQWidget->setLayout(m_pScrollAreaTakeInVBoxLayout);
     m_pQScrollAreaTakeIn->setWidget(pTakeInQWidget);
     m_pQScrollAreaTakeIn->setVisible(false);
+
+    m_pTakeinMessageCenterLabel = new QLabel(QObject::tr("No unimportant notice"));
+    m_pTakeinMessageCenterLabel->setStyleSheet("QLabel{color:rgba(255,255,255,0.91);padding:119px 0px 0px 0px;font-size:14px;}");
+    m_pScrollAreaTakeInVBoxLayout->addWidget(m_pTakeinMessageCenterLabel, 0, Qt::AlignHCenter);
 
     QSpacerItem* pVSpacer2 = new QSpacerItem(10, 1, QSizePolicy::Fixed, QSizePolicy::Expanding);
     m_pScrollAreaTakeInVBoxLayout->addSpacerItem(pVSpacer2);
@@ -387,6 +393,12 @@ void NotificationPlugin::onClearAllMessage()
             pSingleMsg->deleteLater();
             m_listTakeInAppMsg.removeAt(0);
         }
+
+        if(1 == m_pScrollAreaTakeInVBoxLayout->count())
+        {
+            m_pTakeinMessageCenterLabel->setVisible(true);
+            m_pScrollAreaTakeInVBoxLayout->insertWidget(0, m_pTakeinMessageCenterLabel, 0, Qt::AlignHCenter);
+        }
         onCountTakeInBitAndUpate();
         m_pTakeInCoutLabel->setVisible(false);
     }
@@ -412,6 +424,13 @@ AppMsg* NotificationPlugin::getTakeinAppMsgAndIndexByName(QString strAppName, in
 
 void NotificationPlugin::onTakeInSingleNotify(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime)
 {
+    //当列表信息为空表明第一次来通知，列表个数为2，一个表面是“没有新通知标签”，一个是底部弹簧
+    if(0 == m_listTakeInAppMsg.count() && 2 == m_pScrollAreaTakeInVBoxLayout->count())
+    {
+        m_pScrollAreaTakeInVBoxLayout->removeWidget(m_pTakeinMessageCenterLabel);
+        m_pTakeinMessageCenterLabel->setVisible(false);
+    }
+
     int nIndex = -1;
     //通过查找m_listTakeInAppMsg列表看该app是否已存在
     AppMsg* pAppMsg = getTakeinAppMsgAndIndexByName(strAppName, nIndex);
@@ -470,6 +489,12 @@ void NotificationPlugin::onClearTakeInAppMsg(AppMsg* pAppMsg)
     pAppMsg->deleteLater();
 
     onCountTakeInBitAndUpate();
+
+    if(0 == m_listTakeInAppMsg.count() && 1 == m_pScrollAreaTakeInVBoxLayout->count())
+    {
+        m_pTakeinMessageCenterLabel->setVisible(true);
+        m_pScrollAreaTakeInVBoxLayout->insertWidget(0, m_pTakeinMessageCenterLabel, 0, Qt::AlignHCenter);
+    }
     return;
 }
 

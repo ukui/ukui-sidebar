@@ -1,3 +1,20 @@
+/*
+* Copyright (C) 2019 Tianjin KYLIN Information Technology Co., Ltd.
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 3, or (at your option)
+* any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
+*
+*/
 #ifndef WIDGET_H
 #define WIDGET_H
 
@@ -10,20 +27,10 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlTableModel>
-#include <QSqlError>
 #include <QListWidgetItem>
-#include <QDesktopWidget>
-#include <iostream>
-#include <QTranslator>
-#include <QStandardPaths>
 #include "ui_ukui_notebook.h"
 #include "ui_singleitemwidget.h"
-#include "mythrow.h"
-
-#define     Button_tristate(className,imageUrl)     (#className"{border-image:url("#imageUrl")}"  \
-                                              #className":houver{border-image:url("#imageUrl"-houver)}"  \
-                                              #className":pressed{border-image:url("#imageUrl"-pressed)}")
-
+#include "sql_create.h"
 namespace Ui {
 class Widget;
 }
@@ -39,53 +46,47 @@ public:
 signals:
     void listItemClicked(int);
 
-
 public:
-    QTranslator *translator;                        //国际化
-    void error_throw();                             //异常处理抛出
+    static bool ukui_sql_load();
+
 
 private:
-    Ui::Widget *ui;                                 //主ui
-    ukui_NoteBook *ukui_notebook;                   //笔记本类指针
-    QString sqlFilePath;                            //数据库文件存储地址
-    QSqlDatabase sqlDb;                             //数据库连接
-    QSqlTableModel *sqlModel;                       //数据库模型
-    QPoint m_lastPoint;                             //记录鼠标位置
-    SingleItemWidget *s;                            //item listwidget窗体组合
-    QListWidgetItem *aItem;                         //item指针
-    int index;                                      //鼠标位置标记
+    Ui::Widget *ui;
+    ukui_NoteBook *ukui_notebook;
+    ukui_NoteBook *ukui_notebookOpen;
+    QSqlTableModel *model;  //数据库
+    QPoint m_lastPoint;//记录鼠标位置
+    SingleItemWidget *s;
+    QListWidgetItem *aItem;
+    int index;
     int txtNum;
     int rowNum;
-    QString ukui_textEdit;                          //文本编辑区内容
-    QString filename;                               //获取到的保存文件的 路径+文件名
-    QString modifyTime;                             //文件最后修改时间
-
+    QString ukui_textEdit;
+    QString filename;
     QListWidgetItem *item[100];
     SingleItemWidget *singleItem[100];
     //QString fileContent;//读到的文件内容
+    //QDateTime dateTime;
 
-    void ukui_init();                               //加载界面组件
-    void ukui_conn();                               //绑定槽函数
+    void ukui_init();
+    void ukui_conn();
 
-    void sqlInit();                                 //加载数据库
-    void sqlAddItem();                              //插入数据库，同步插入item
-    void sqlUpdateItem();                           //同步数据库，同步更新item
+    void ukui_sql_init();
+    void ukui_addItem();
+    //更新Item列表
+    void ukui_updateItem();
 
-    void getFileModifyTime(QString fileInfo);       //获取文件创建时间、修改时间
-    void mouseMoveEvent(QMouseEvent *event);        //重写鼠标移动事件
-    void mousePressEvent(QMouseEvent *event);       //重写鼠标按下事件
-    //void paintEvent(QPaintEvent *);
-
+    void mouseMoveEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event);
 
 private slots:
-    void exitSlot();                                //关闭按钮槽函数
-    void miniSlot();                                //最小化按钮槽函数
-    void editSlot();                                //编辑按钮槽函数
-    void newSlot();                                 //新建按钮槽函数
-    void listClickSlot();                           //item点击事件槽函数
-    void listDoubleClickSlot();                     //item双击事件槽函数
-    void listDelSingleSlot();                       //item删除按钮槽函数
-    void fileSavedSlot(QString data);               //文件已保存槽函数
+    void exitSlot();
+    void miniSlot();
+    void editSlot();
+    void newSlot();
+    void listDoubleClickSlot();
+    void listDelSingleSlot();
+    void fileSavedSlot(QString data);
 };
 
 #endif // WIDGET_H
