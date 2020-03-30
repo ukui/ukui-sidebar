@@ -44,18 +44,20 @@ feedback::feedback(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::feedback)
 {
-    ui->setupUi(this);
-    window_ui_init();
 
     QString locale = QLocale::system().name();
     QTranslator *translator_feedback;
     translator_feedback = new QTranslator();
     //英文环境加载en.qm
     if(locale == "en_US"){
-        qDebug()<<"222";
         translator_feedback->load(QString(":/Resource/feedback_en.qm"));  //选择翻译文件
         QApplication::installTranslator(translator_feedback);
     }
+
+    ui->setupUi(this);
+    window_ui_init();
+
+
 }
 
 feedback::~feedback()
@@ -311,6 +313,7 @@ void feedback::on_comboBox_currentIndexChanged(const QString &arg1)
 //提交按钮
 void feedback::on_pushButton_2_clicked()
 {
+    ui->pushButton_2->setEnabled(false);
     ui->pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(255, 255, 255)");
     //判断文件总大小是否超过3M，如果超过，提示
     if(all_file_size_than_10M() == true)
@@ -698,7 +701,7 @@ void feedback::update_linedit_add_or_del_file()
         ui->lineEdit->setText(file_name_list.at(rowNum -1));
     }
 }
-//判断总文件大小是否超过3M
+//判断总文件大小是否超过10M
 bool feedback::all_file_size_than_10M()
 {
     int all_filesize = 0;
