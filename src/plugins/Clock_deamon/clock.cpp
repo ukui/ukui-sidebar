@@ -385,6 +385,8 @@ void Clock::on_pushButton_timeselect_clicked()
             delete stopwatch_aItem[i];
         }
         stopwatch_item_flag = 0;
+        hour = 0; minute = 0; second = 0;
+        stopwatch_hour = 0; stopwatch_minute = 0; stopwatch_second = 0;
     }
 }
 
@@ -901,7 +903,7 @@ void Clock::startbtn_countdown(){
 
         countdown_timer->stop();
         countdown_isStarted = 0;
-        countdown_isStarted_2 = 1;
+        countdown_isStarted_2 = 0;
         ui->count_stat->setText(tr("开始"));
         ui->label_9->setText("00:00:00");
         ui->label_8->setText("00:00:00");
