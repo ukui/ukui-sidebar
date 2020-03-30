@@ -15,21 +15,31 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include "fileitem_init.h"
-#include <QWidget>
+#ifndef DATABASE_H
+#define DATABASE_H
 
-fileitem_init::fileitem_init(QWidget *parent) :
-    QWidget(parent)
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QObject>
+#include <QStandardPaths>
+#include "feedback.h"
+
+
+static bool createConnection()
 {
-    if (this->objectName().isEmpty())
-        this->setObjectName(QString::fromUtf8("fileitem_init"));
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+    QString db_filepath;
+    db_filepath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) +"/.config/ukui/.database_feedback.db";
+    db.setDatabaseName(db_filepath);
 
+    if(!db.open()) return false;
 
-    deletebtn0 = new QPushButton(this);
-    filename_label0 = new QLabel(this);
-    filesize_label0 = new QLabel(this);
+    QSqlQuery query;
+    query.exec(QString(
+                    "create table clock (Hour QString, Music QString,Filename Qstring)")); //提示：主键不能相同
+
+    return true;
 }
 
-fileitem_init::~fileitem_init()
-{
-}
+\
+#endif // DATABASE_H

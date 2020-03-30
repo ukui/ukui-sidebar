@@ -20,14 +20,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 
-TRANSLATIONS += translation/feedback_en_US.ts
+TRANSLATIONS += Resource/feedback_zh.ts \
+               Resource/feedback_en.ts
 
 SOURCES += \
     browse_button.cpp \
-    closeBtn_hover.cpp \
     feedback.cpp \
-    fileitem_init.cpp \
-    hidebtnhover.cpp \
     submit_fail.cpp \
     submit_success.cpp \
     systeminfo_button.cpp \
@@ -36,20 +34,21 @@ SOURCES += \
 INCLUDEPATH    += ../../plugin-interface
 HEADERS += \
     browse_button.h \
-    closeBtn_hover.h \
+    database.h \
     feedback.h \
-    fileitem_init.h \
-    hidebtnhover.h \
     submit_fail.h \
     submit_success.h \
     systeminfo_button.h \
     feedback_plugin.h
 
-DESTDIR = ../sidebarSmallPlugins
+DESTDIR = ../feedback_plugins
 
 DISTFILES += feedback.json
 
-FORMS +=
+FORMS += \
+    feedback.ui \
+    submit_fail.ui \
+    submit_success.ui
 
 RESOURCES += \
     feedback.qrc
@@ -57,6 +56,6 @@ RESOURCES += \
 DISTFILES +=
 
 unix {
-    target.path = /usr/lib/ukui-sidebar/sidebarSmallPlugins
+    target.path = /usr/lib/ukui-sidebar/sidebar_feedbackPlugin_plugins
     INSTALLS += target
 }
