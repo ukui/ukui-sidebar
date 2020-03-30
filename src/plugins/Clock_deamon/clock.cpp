@@ -482,15 +482,14 @@ void Clock::timerUpdate()
                 && timeM == model->index(i, 1).data().toInt()
                 && timeS == 0)
         {
-            mediaList->addMedia(QUrl::fromLocalFile(model->index(i, 2).data().toString()));
-            mediaList->setCurrentIndex(i);
-            player->setPlaylist(mediaList);
-            qDebug() << mediaList;
-            player->setVolume(99);
-            player->setMedia(QUrl::fromLocalFile(":/sax.mp3"));
-            player->play();
-
+            QMediaPlayer  *music = new QMediaPlayer(this);//初始化音乐
+            QMediaPlaylist *playlist = new QMediaPlaylist(this);//初始化播放列表
+            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/glass.ogg"));
+            playlist->setPlaybackMode(QMediaPlaylist::Loop);//设置播放模式(顺序播放，单曲循环，随机播放等)
+            music->setPlaylist(playlist);  //设置播放列表
+            music->play();
             QMessageBox::warning(this, tr("提示"), tr("时间到！"), QMessageBox::Yes);
+            music->stop();
         }
     }
     update();
@@ -855,10 +854,14 @@ void Clock::stat_countdown(){
     ui->label_9->setText(h+":"+m+":"+s);
 
     if(countdown_hour==0 && countdown_minute==0 && countdown_second==0){
-        player->setMedia(QUrl::fromLocalFile(":/sax.mp3"));
-        player->play();
-        QMessageBox::warning(this, "时间到", tr("该休息了"));
-        player->stop();
+        QMediaPlayer  *music = new QMediaPlayer(this);//初始化音乐
+        QMediaPlaylist *playlist = new QMediaPlaylist(this);//初始化播放列表
+        playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/glass.ogg"));
+        playlist->setPlaybackMode(QMediaPlaylist::Loop);//设置播放模式(顺序播放，单曲循环，随机播放等)
+        music->setPlaylist(playlist);  //设置播放列表
+        music->play();
+        QMessageBox::warning(this, tr("时间到"), tr("该休息了"));
+        music->stop();
         countdown_timer->stop();
         startbtn_countdown();
     }
@@ -897,11 +900,14 @@ void Clock::startbtn_countdown(){
                                       font: 11pt 'Sans Serif';");
 
         countdown_timer->stop();
-        countdown_isStarted=0;
+        countdown_isStarted = 0;
+        countdown_isStarted_2 = 1;
         ui->count_stat->setText(tr("开始"));
         ui->label_9->setText("00:00:00");
         ui->label_8->setText("00:00:00");
         ui->stackedWidget_4->setCurrentIndex(0);
+        countdown_hour = 0 ; countdown_second = 0; countdown_second = 0;
+        ui->count_push->setStyleSheet("border-image: url(:/push_1.png);");
     }
     return;
 }
@@ -991,15 +997,15 @@ void Clock::get_countdown_over_time()
 void Clock::on_count_push_clicked()
 {
 
-    if (!countdown_isStarted){
+    if (countdown_isStarted_2){
         ui->count_push->setStyleSheet("border-image: url(:/push_1.png);");
         countdown_timer->start();
-        countdown_isStarted=1;
+        countdown_isStarted_2=0;
 
     } else {
         ui->count_push->setStyleSheet("border-image: url(:/continu.png);");
         countdown_timer->stop();
-        countdown_isStarted=0;
+        countdown_isStarted_2=1;
     }
     return;
 }
