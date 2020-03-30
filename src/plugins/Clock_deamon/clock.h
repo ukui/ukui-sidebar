@@ -156,6 +156,7 @@ private slots:
 
     void change_time_NUM(int alarmHour, int alarmMinute);
 
+
 private:
     QPoint m_startPoint;
     Ui::Clock *ui;
@@ -171,6 +172,7 @@ private:
     QMediaPlayer *player = new QMediaPlayer;
     QString ring;//铃声名字
     QString alarmHour_str; QString alarmMinute_str;
+    QTimer *timer_Surplus;
 
     int alarmHour;
     int alarmMinute;

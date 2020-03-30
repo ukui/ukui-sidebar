@@ -157,8 +157,12 @@ Clock::Clock(QWidget *parent) :
     ui->label_6->setText(time.toString("hh")+":"+time.toString("mm")+":"+time.toString("ss"));
     timer_clock->start(1000);
 
-    connect( ui->addAlarmBtn, SIGNAL(clicked()), this, SLOT(setAlarmClock()) );//添加闹钟
+    //单击时间提示计时器
+    timer_Surplus = new QTimer();
+    connect(timer_Surplus, SIGNAL(timeout()), this, SLOT(listClickslot()));
+    timer_Surplus->setInterval(1000);
 
+    connect( ui->addAlarmBtn, SIGNAL(clicked()), this, SLOT(setAlarmClock()) );//添加闹钟
 
     player_alarm = new QMediaPlayer(this);
     mediaList = new QMediaPlaylist(this);
@@ -709,8 +713,12 @@ void Clock::listdoubleClickslot()
 //单击闹钟显示铃声剩余时间
 void Clock::listClickslot()
 {
+
+    timer_Surplus->start();
+
     int x_h, x_m ;
     int num=ui->listWidget->currentRow();
+    // qDebug() <<num;
 
     QTime time = QTime::currentTime();
     int timeH = time.hour();
@@ -731,10 +739,12 @@ void Clock::listClickslot()
         x_m = minute_time + 60 - timeM;
         x_h --;
     }
-
-    ui->label_7->setText(QString::number(x_h)+tr("小时")+QString::number(x_m)+tr("分钟后铃响"));
+    if(num < 0){
+        ui->label_7->setText(QApplication::translate("Clock", "\347\202\271\345\207\273\351\227\271\351\222\237\346\230\276\347\244\272\345\211\251\344\275\231\346\227\266\351\227\264", nullptr));
+    }else{
+        ui->label_7->setText(QString::number(x_h)+"小时"+QString::number(x_m)+"分钟后铃响");
+    }
 }
-
 void Clock::deleteAlarm()
 {
     int num=ui->listWidget->currentRow();
