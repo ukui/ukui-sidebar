@@ -44,6 +44,6 @@ RESOURCES += \
 RC_FILE = clock.rc
 
 unix {
-    target.path = /usr/lib/ukui-sidebar/sidebaralarm
+    target.path = /usr/lib/ukui-sidebar/sidebarSmallPlugins
     INSTALLS += target
 }
