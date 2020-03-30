@@ -19,12 +19,12 @@
 #define SUBMIT_SUCCESS_H
 
 #include <QDialog>
-#include <QPushButton>
-#include <QLabel>
-#include "closeBtn_hover.h"
 
 class feedback;
 
+namespace Ui {
+class submit_success;
+}
 
 class submit_success : public QDialog
 {
@@ -38,19 +38,10 @@ private slots:
     void on_pushButton_2_clicked();
 
     void on_pushButton_clicked();
-    void succ_close_window();
 
 private:
+    Ui::submit_success *ui;
     feedback *parentWnd;
-
-    void UI_init();
-
-    QLabel *label;
-    closeBtn_hover * succ_closeBtn;
-    QPushButton *pushButton;
-    QPushButton *pushButton_2;
-    QLabel *label_2;
-
 };
 
 #endif // SUBMIT_SUCCESS_H

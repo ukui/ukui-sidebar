@@ -48,7 +48,6 @@ feedback_plugin::~feedback_plugin() {
         delete mp_feedback;
     }
     mp_feedback = nullptr;
-
 }
 
 QWidget* feedback_plugin::centerWidget()
