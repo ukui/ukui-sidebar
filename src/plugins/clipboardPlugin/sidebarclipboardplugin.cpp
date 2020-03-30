@@ -547,7 +547,7 @@ void SidebarClipboardPlugin::removeLastWidgetItem()
     delete m_pShortcutOperationListWidget->item(m_pShortcutOperationListWidget->count()-1);
     removeWidgetItem(w);
     removeMimeData(w);
-    qDebug() << "当前条目数目sadasdsad" << m_pShortcutOperationListWidget->count();
+    removeLabelText(w);
     w->deleteLater();
 }
 
@@ -578,7 +578,6 @@ void SidebarClipboardPlugin::removeAllWidgetItem()
         ClipboardWidgetEntry *w = (ClipboardWidgetEntry*)m_pShortcutOperationListWidget->itemWidget(m_pShortcutOperationListWidget->item(0));
         qDebug() << w;
         if (w == nullptr) {
-            qDebug() << "dasdasdasdasdas";
             continue;
         }
         m_pShortcutOperationListWidget->takeItem(0);
@@ -586,7 +585,6 @@ void SidebarClipboardPlugin::removeAllWidgetItem()
         removeMimeData(w);
         removeLabelText(w);
         if (w == nullptr) {
-            qDebug() << "ljkjfgjhgkjshgjahkjgsahg";
             continue;
         }
         w->deleteLater();
@@ -605,7 +603,7 @@ void SidebarClipboardPlugin::searchClipboardLableTextSlots(QString Text)
             ++iter1;
             popButtonSlots(p);
         } else {
-            iter1.key()->hide();
+//            iter1.key()->hide();
             ++iter1;
         }
     }
