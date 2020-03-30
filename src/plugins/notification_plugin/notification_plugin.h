@@ -56,6 +56,7 @@ private:
     ScrollAreaWidget*       m_pQScrollAreaTakeIn;               //收纳列表ScrollAreaWidget
     QVBoxLayout*            m_pScrollAreaTakeInVBoxLayout;
     QLabel*                 m_pMessageCenterLabel;
+    QLabel*                 m_pTakeinMessageCenterLabel;
     bool                    m_bShowTakeIn;
     QLabel*                 m_pNotificationLabel;               //重要的通知和不重要的通知标签
     QSvgRenderer*           m_pSvgRender;

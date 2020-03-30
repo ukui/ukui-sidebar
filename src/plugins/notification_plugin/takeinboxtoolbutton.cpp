@@ -29,7 +29,7 @@ void TakeInBoxToolButton::enterEvent(QEvent *event)
     Q_UNUSED(event);
 
     //设置边框, 边框色, 背景色, 字体色, 字号
-    setStyleSheet("QToolTip{border:1px solid rgba(255, 255, 255, 0.2); background-color: #1A1A1A; color:#FFFFFF; padding:1px; border-radius:4px; font-size:12px;}");
+    setStyleSheet("QToolTip{border:1px solid rgba(255, 255, 255, 0.2); background-color: #1A1A1A; color:#FFFFFF; padding:4px; border-radius:6px; font-size:12px;}");
 
     if(false == m_bEnterTakeInBox)
     {

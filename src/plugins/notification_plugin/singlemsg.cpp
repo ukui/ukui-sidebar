@@ -353,7 +353,16 @@ void SingleMsg::setSingleMsgContentsMargins(int left, int top, int right, int bo
 void SingleMsg::enterEvent(QEvent *event)
 {
     Q_UNUSED(event);
-    setStyleSheet("background-color:rgba(255,255,255,0.2);");
+
+    if((true == m_bMain) && (false == m_bFold) && (m_nShowLeftCount > 0))
+    {
+        setStyleSheet("background-color:rgba(255,255,255,0.28);");
+    }
+    else
+    {
+        setStyleSheet("background-color:rgba(255,255,255,0.2);");
+    }
+
     m_pSingleTakeinButton->setVisible(true);
     m_pSingleDeleteButton->setVisible(true);
     m_pTimeLabel->setVisible(false);
@@ -369,7 +378,15 @@ void SingleMsg::enterEvent(QEvent *event)
 void SingleMsg::leaveEvent(QEvent *event)
 {
     Q_UNUSED(event);
-    setStyleSheet("background-color:rgba(255,255,255,0.12);");
+
+    if((true == m_bMain) && (false == m_bFold) && (m_nShowLeftCount > 0))
+    {
+        setStyleSheet("background-color:rgba(255,255,255,0.2);");
+    }
+    else
+    {
+        setStyleSheet("background-color:rgba(255,255,255,0.12);");
+    }
     m_pSingleTakeinButton->setVisible(false);
     m_pSingleDeleteButton->setVisible(false);
     m_pTimeLabel->setVisible(true);
@@ -397,6 +414,16 @@ void SingleMsg::mousePressEvent(QMouseEvent *event)
             m_bFold = true;                                 //置为true,表示折叠
             setBodyLabelWordWrap(false);
         }
+
+        if((true == m_bMain) && (false == m_bFold) && (m_nShowLeftCount > 0))
+        {
+            setStyleSheet("background-color:rgba(255,255,255,0.28);");
+        }
+        else
+        {
+            setStyleSheet("background-color:rgba(255,255,255,0.2);");
+        }
+
         //当消息为主窗口时,发送折叠信息给App
         if(true == m_bMain)
         {

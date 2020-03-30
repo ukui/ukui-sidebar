@@ -64,6 +64,11 @@ void MonitorThread::extractData(QString strOutput)
     QString strIcon = strOutputTmp.mid(0, nIndex);
     strOutputTmp = strOutputTmp.mid(nIndex + 1);
 
+    if("" == strIcon)
+    {
+        strIcon = "/usr/share/icons/ukui-icon-theme/24x24/mimetypes/application-x-desktop.png";
+    }
+
     //主题的获取
     nIndex = strOutputTmp.indexOf("\"");
     if(-1 == nIndex)
