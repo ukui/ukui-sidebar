@@ -63,7 +63,7 @@ Clock::Clock(QWidget *parent) :
     ui->setupUi(this);
     //this->setFixedSize(400, 660);
     createConnection();
-
+    this->setWindowTitle(tr("闹钟"));
     setWindowFlags(Qt::FramelessWindowHint);   /* 开启窗口无边框 */
     //setAttribute(Qt::WA_TranslucentBackground);/* 开启窗口透明层 */
 
@@ -490,7 +490,7 @@ void Clock::timerUpdate()
             player->setMedia(QUrl::fromLocalFile(":/sax.mp3"));
             player->play();
 
-            QMessageBox::warning(this, tr("警告"), tr("时间到！"), QMessageBox::Yes);
+            QMessageBox::warning(this, tr("提示"), tr("时间到！"), QMessageBox::Yes);
         }
     }
     update();
@@ -857,7 +857,7 @@ void Clock::stat_countdown(){
     if(countdown_hour==0 && countdown_minute==0 && countdown_second==0){
         player->setMedia(QUrl::fromLocalFile(":/sax.mp3"));
         player->play();
-        QMessageBox::warning(this, "Warning", tr("该休息了"));
+        QMessageBox::warning(this, "时间到", tr("该休息了"));
         player->stop();
         countdown_timer->stop();
         startbtn_countdown();
