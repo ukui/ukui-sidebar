@@ -30,21 +30,18 @@ ClipboardWidgetEntry::ClipboardWidgetEntry(QWidget *parent)
     PopIcon.addFile(COPY_SVG_PATH);
     QIcon RemoveIcon;
     RemoveIcon.addFile(REMOVE_SVG_PATH);
-    m_pHideButtonItem = new QSpacerItem(120, 20);
-    QSpacerItem *item = new QSpacerItem(10,20);
-    QSpacerItem *item1 = new QSpacerItem(10,20);
     m_pPopButton     = new QPushButton();
-//    m_pPopButton->setToolTip(tr("Pop"));
+    m_pPopButton->setToolTip(tr("Pop"));
     m_pPopButton->setFixedSize(34, 34);
     m_pPopButton->setIcon(PopIcon);
     m_pPopButton->setObjectName("PopButton");
     m_pEditButon     = new QPushButton();
-//    m_pEditButon->setToolTip(tr("EditButton"));
+    m_pEditButon->setToolTip(tr("EditButton"));
     m_pEditButon->setFixedSize(34, 34);
     m_pEditButon->setIcon(EditIcon);
     m_pEditButon->setObjectName("EditButon");
     m_pRemoveButton  = new QPushButton();
-//    m_pRemoveButton->setToolTip(tr("Remove"));
+    m_pRemoveButton->setToolTip(tr("Remove"));
     m_pRemoveButton->setFixedSize(34, 34);
     m_pRemoveButton->setIcon(RemoveIcon);
     m_pRemoveButton->setObjectName("RemoveButton");
@@ -53,17 +50,17 @@ ClipboardWidgetEntry::ClipboardWidgetEntry(QWidget *parent)
     m_pCopyDataLabal->setFixedSize(260, 34);
     m_pHLayout       = new QHBoxLayout();
     m_pHLayout->setContentsMargins(0,0,0,0);
-    m_pHLayout->addItem(item1);
+    m_pHLayout->addItem(new QSpacerItem(10,20));
     m_pHLayout->addWidget(m_pCopyDataLabal);
+    m_pHLayout->addItem(new QSpacerItem(118, 20));
     m_pHLayout->addWidget(m_pPopButton);
     m_pHLayout->addWidget(m_pEditButon);
     m_pHLayout->addWidget(m_pRemoveButton);
-    m_pHLayout->addItem(item);
+    m_pHLayout->addItem(new QSpacerItem(10,20));
     m_pHLayout->setSpacing(5);
     m_pPopButton->setVisible(false);
     m_pEditButon->setVisible(false);
     m_pRemoveButton->setVisible(false);
-    m_pHLayout->addItem(m_pHideButtonItem);
     this->setLayout(m_pHLayout);
 }
 
@@ -72,7 +69,6 @@ void ClipboardWidgetEntry::enterEvent(QEvent *e)
     if(e == nullptr) {
         return;
     }
-    m_pHLayout->removeItem(m_pHideButtonItem);
     m_pPopButton->setVisible(true);
     m_pEditButon->setVisible(true);
     m_pRemoveButton->setVisible(true);
@@ -86,5 +82,4 @@ void ClipboardWidgetEntry::leaveEvent(QEvent *e)
     m_pPopButton->setVisible(false);
     m_pEditButon->setVisible(false);
     m_pRemoveButton->setVisible(false);
-    m_pHLayout->addItem(m_pHideButtonItem);
 }

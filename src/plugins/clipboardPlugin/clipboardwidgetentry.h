@@ -39,19 +39,12 @@ class ClipboardWidgetEntry : public QWidget
 {
 public:
     ClipboardWidgetEntry(QWidget *parent = nullptr);
-    void WidgetEntry();
-    void WidgetEntryLine();
     QPushButton *m_pPopButton;
     QPushButton *m_pEditButon;
     QPushButton *m_pRemoveButton;
     QLabel      *m_pCopyDataLabal;
     QHBoxLayout *m_pHLayout;
-    QHBoxLayout *m_pHorizontalLineLayout;
-    QLine       *m_pLine;
-    QGroupBox   *m_pMainWidgetEntryBox;
-    QGroupBox   *m_pEntryLineBox;
-    QVBoxLayout *m_pMainLayout;
-    QSpacerItem *m_pHideButtonItem;
+
 protected:
     void enterEvent(QEvent *);                      //进入QWidget瞬间事件
     void leaveEvent(QEvent *);                      //离开QWidget瞬间事件
