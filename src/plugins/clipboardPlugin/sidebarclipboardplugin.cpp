@@ -437,8 +437,12 @@ void SidebarClipboardPlugin::popButtonSlots(ClipboardWidgetEntry *w)
     removeWidgetItem(w); //移除hash表中保存的Widget和Item键值对
     removeMimeData(w);
     removeLabelText(w);
-    m_pShortcutOperationListWidget->takeItem(m_pShortcutOperationListWidget->row(p)); //删除Item;
-    w->deleteLater(); //释放掉ClipboardWidgetEntry;
+
+    delete w;
+    w = nullptr;
+    QListWidgetItem *Item = m_pShortcutOperationListWidget->takeItem(m_pShortcutOperationListWidget->row(p)); //删除Item;
+    delete Item;
+
     m_pSidebarClipboard->setMimeData((QMimeData*)pMimeData, QClipboard::Clipboard);
     m_pSidebarClipboard->setMimeData((QMimeData*)pMimeData, QClipboard::Selection);
     return;
@@ -457,10 +461,10 @@ void SidebarClipboardPlugin::removeButtonSlots(ClipboardWidgetEntry *w)
     removeWidgetItem(w); //移除hash表中保存的Widget和Item键值对
     removeMimeData(w);
     removeLabelText(w);
-    m_pShortcutOperationListWidget->takeItem(tmp); //删除Item;
-    w->deleteLater(); //释放掉ClipboardWidgetEntry;
+    delete w; //释放掉ClipboardWidgetEntry;
     w = nullptr;
-
+    QListWidgetItem *item =  m_pShortcutOperationListWidget->takeItem(tmp); //删除Item;
+    delete item;
     /* 判断当前删除的是不是第一个条目 */
     if (0 == tmp) {
         qDebug() << "删除当前的条目为第一个条目";
@@ -526,6 +530,7 @@ void SidebarClipboardPlugin::editButtonSlots(ClipboardWidgetEntry *w)
             removeLabelText(w);
             registerLabelText(w, EditWidget.m_pEditingArea->toPlainText());
         }
+
         //获取当前条目所在位置，是不是在第一
         int row_num = m_pShortcutOperationListWidget->row(p_wItem);
         if (row_num == 0) {
@@ -544,11 +549,14 @@ void SidebarClipboardPlugin::removeLastWidgetItem()
 {
     ClipboardWidgetEntry *w = (ClipboardWidgetEntry*)m_pShortcutOperationListWidget->itemWidget(m_pShortcutOperationListWidget->item(m_pShortcutOperationListWidget->count()-1));
     qDebug() << "当前条目数目" << m_pShortcutOperationListWidget->count();
-    delete m_pShortcutOperationListWidget->item(m_pShortcutOperationListWidget->count()-1);
+
     removeWidgetItem(w);
     removeMimeData(w);
     removeLabelText(w);
-    w->deleteLater();
+    delete w;
+    w = nullptr;
+    QListWidgetItem *tmp = m_pShortcutOperationListWidget->takeItem(m_pShortcutOperationListWidget->count()-1);
+    delete tmp;
 }
 
 /* 判断在ListWidget是否存在，如果不存在则返回fasle，创建，返回true，不创建 */
@@ -574,20 +582,16 @@ bool SidebarClipboardPlugin::booleanExistWidgetItem(QString Text)
 void SidebarClipboardPlugin::removeAllWidgetItem()
 {
     int tmp = m_pShortcutOperationListWidget->count();
+    qDebug() << "m_pShortcutOperationListWidget->count()" << tmp;
     for (int i = 0; i < tmp; i++) {
         ClipboardWidgetEntry *w = (ClipboardWidgetEntry*)m_pShortcutOperationListWidget->itemWidget(m_pShortcutOperationListWidget->item(0));
-        qDebug() << w;
-        if (w == nullptr) {
-            continue;
-        }
-        m_pShortcutOperationListWidget->takeItem(0);
+        qDebug() << "w-->  " << w;
         removeWidgetItem(w);
         removeMimeData(w);
         removeLabelText(w);
-        if (w == nullptr) {
-            continue;
-        }
-        w->deleteLater();
+        delete w;
+        QListWidgetItem *tmp = m_pShortcutOperationListWidget->takeItem(0);
+        delete tmp;
     }
     emit Itemchange();
 }
