@@ -1,17 +1,22 @@
+/*
+* Copyright (C) 2019 Tianjin KYLIN Information Technology Co., Ltd.
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 3, or (at your option)
+* any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
+*
+*/
 #ifndef CLOCK_H
 #define CLOCK_H
-
-
-//border-radius:12px;
-//opacity:0.95;
-//border-radius:6px 6px 0px 0px;
-
-
-//model_repeat->setData(model_repeat->index(0, 0),1);
-//model_repeat->submitAll();
-//model_repeat->setTable("clockrepeat");
-//model_repeat->select();
-
 
 #include <QWidget>
 #include <QTimer>
@@ -29,13 +34,6 @@
 #include <QListWidgetItem>
 #include "stopwatch_item.h"
 #include <QPaintEvent>
-#include "verticalscroll_24.h"
-#include "verticalscroll_60.h"
-#include "verticalscroll_99.h"
-#include "DotLineDemo.h"
-#include "set_alarm_repeat_dialog.h"
-#include <QPointF>
-#include <QLineEdit>
 
 
 class QSpinBox;
@@ -108,13 +106,15 @@ private slots:
 
     void text_timerUpdate();
 
-    void set_Alarm_Clock();                                                          //新建闹钟按钮回调
+    void setAlarmClock();
 
     void cancelAlarmClock();                                                         //添加闹钟dialog关闭
 
+    void sureAlarmClock();
+
     void updateAlarmClock();
 
-    void On_Off_Alarm();                                                             //闹钟开关
+    void on_off_Alarm();                                                                //闹钟开关
 
     void deleteAlarm();
 
@@ -126,11 +126,11 @@ private slots:
 
     void aItem_new();
 
-    void listdoubleClickslot();                                                          //双击闹钟打开重编辑页面
+    void listdoubleClickslot();
 
     void listClickslot();
 
-    void on_pushButton_9_clicked();
+    void on_pushButton_7_clicked();
 
     void stat_countdown();
 
@@ -154,45 +154,26 @@ private slots:
 
     void stopwatch_jg();
 
-    void change_time_NUM(int Hour,int Minute);
+    void change_time_NUM(int alarmHour, int alarmMinute);
 
-    void countdown_set_start_time();
 
-    void alarm_set_start_time();
-
-    void alarm_Cancel_save();
-
-    void set_alarm_save();
-
-    void verticalscroll_ring_time();
-
-    void alarm_repeat();
-
-    void repeat_listClickslot();
-
-    void select_Music();                                                                  //闹钟初始化音乐选择界面回调
-
-    void music_listClickslot();                                                           //闹钟初始化单击选择音乐
-
-    void time_Music();                                                                   //闹钟初始化单击选择音乐播放时长
-
-    void time_music_listClickslot();
-
-    void clack_rename();                                                           //闹钟命名
 private:
     QPoint m_startPoint;
     Ui::Clock *ui;
-    QTimer *timer = nullptr;
-    QTimer *countdown_timer = nullptr;
-    QTimer *timer_2 = nullptr;
+    QTimer *timer = NULL;
+    QTimer *countdown_timer = NULL;
+    QTimer *timer_2 = NULL;
     int hour, minute, second, pushflag ;
     int stopwatch_hour, stopwatch_minute, stopwatch_second ;
     int countdown_hour, countdown_minute, countdown_second, countdown_pushflag ;
     bool isStarted;
     bool countdown_isStarted;
+    bool countdown_isStarted_2;
     bool stopwatch_isStarted;
     QMediaPlayer *player = new QMediaPlayer;
     QString ring;//铃声名字
+    QString alarmHour_str; QString alarmMinute_str;
+    QTimer *timer_Surplus;
 
     int alarmHour;
     int alarmMinute;
@@ -211,8 +192,7 @@ private:
     QPixmap pixmap11;
 
     QPixmap bgPixmap;
-    QPixmap repeat_on_Pixmap;
-    QPixmap repeat_off_Pixmap;
+    QPixmap clockPixmap;
     QPixmap hourPixmap;
     QPixmap minutePixmap;
     QPixmap secondPixmap;
@@ -231,7 +211,6 @@ private:
     QMediaPlayer *player_alarm;
     QMediaPlaylist *mediaList; //播放列表
     QSqlTableModel *model;  //数据库
-    QSqlTableModel *model_repeat;
     QString musicPath;
 
     item_new *w1[20];
@@ -240,7 +219,6 @@ private:
     QListWidgetItem *stopwatch_aItem[100];
     QString stopwatch_h;QString stopwatch_m;QString stopwatch_s;
     QString stopwatch_jg_h ="00";QString stopwatch_jg_m= "00";QString stopwatch_jg_s= "00";
-    QString alarmHour_str; QString alarmMinute_str;
 
     int stopwatch_item_flag = 0;
     int clock_num = 0;
@@ -250,29 +228,6 @@ private:
     int n = 0;
     int medel_flag = 0;
     int continu_flag = 0;
-    int alarm_repeat_flag = 0;
-
-
-    QTimer *timer_21111;
-    QTimer *timer_set_page;
-    VerticalScroll_99 * timer_ring99;
-    VerticalScroll_60 * timer_ring60;
-    VerticalScroll_60 * timer_ring60_2;
-    VerticalScroll_24 * timer_alarm_start24;
-    VerticalScroll_60 * timer_alarm_start60;
-
-    set_alarm_repeat_Dialog *dialog_repeat = nullptr;
-    set_alarm_repeat_Dialog *dialog_music = nullptr;
-    set_alarm_repeat_Dialog *time_music = nullptr;
-    QString repeat_str;
-    QString repeat_str_model;
-    QString music_str_model;
-    QString time_music_str_model;
-    QString clock_name;
-    QLineEdit *lineEdit= nullptr ;
-
-    int repeat_day[9];   //重复日选择保存中介
-    int repeat_new_or_edit_flag;  //重复日判断 是新建,还是重编辑,两者获取数据库号不同;
 };
 
 
