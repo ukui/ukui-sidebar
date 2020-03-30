@@ -35,41 +35,18 @@
 #include <fstream>
 #include <iostream>
 #include <cstring>
-
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkRequest>
 #include <vector>
 
-#include <QtCore/QVariant>
-#include <QtWidgets/QApplication>
-#include <QtWidgets/QCheckBox>
-#include <QtWidgets/QComboBox>
-#include <QtWidgets/QFrame>
-#include <QtWidgets/QHBoxLayout>
-#include <QtWidgets/QLabel>
-#include <QtWidgets/QLineEdit>
-#include <QtWidgets/QMainWindow>
-#include <QtWidgets/QPushButton>
-#include <QtWidgets/QTextEdit>
-#include <QtWidgets/QWidget>
-#include <browse_button.h>
-#include <systeminfo_button.h>
-#include "closeBtn_hover.h"
-#include  <QListWidget>
-#include <QStyleOption>
-#include <QPainter>
-#include <QPixmap>
-#include "fileitem_init.h"
-#include <QTimer>
-#include"hidebtnhover.h"
-
-class QSqlTableModel;
 class QPushButton;
 class QLabel;
 
 using namespace std;
-
+QT_BEGIN_NAMESPACE
+namespace Ui { class feedback; }
+QT_END_NAMESPACE
 
 class feedback : public QMainWindow
 {
@@ -79,54 +56,12 @@ public:
     feedback(QWidget *parent = nullptr);
     ~feedback();
 
-
-    //ui***********************
-    QWidget *centralwidget;
-    QLabel *label;
-    QComboBox *comboBox;
-    QLabel *label_3;
-    QFrame *frame;
-    QTextEdit *textEdit;
-    QLabel *label_4;
-    QLabel *label_5;
-    QLabel *label_6;
-    QLabel *email_err_msg_label;
-    QLineEdit *lineEdit_2;
-    QLabel *label_7;
-    QLineEdit *lineEdit;
-    browse_button *pushButton;
-    QCheckBox *checkBox_4;
-    QPushButton *pushButton_2;
-    systeminfo_button *pushButton_3;
-    QLabel *label_2;
-    QWidget *verticalWidget;
-    QFrame *frame_2;
-    QLabel *label_10;
-    QLabel *label_12;
-    QLabel *label_11;
-    QWidget *layoutWidget;
-    QHBoxLayout *horizontalLayout;
-    QCheckBox *checkBox;
-    QCheckBox *checkBox_2;
-    QCheckBox *checkBox_3;
-    QLabel *label_8;
-    QLabel *label_9;
-    QLabel *label_13;
-    hideBtn_hover *pushButton_mix;
-    closeBtn_hover *pushButton_close;
-    QListWidget * file_listwidget;
-    QListWidgetItem * file_listwidget_item[5];
-    fileitem_init* file_widget[5];
-    QPixmap submitting_pixmap[8];
-    //*************************
-
-    void UI_init();
-
-    void feedback_init();
-    void systeminfo_show(QPointF pt);
+    void window_ui_init();
+    void systeminfo_show();
     void systeminfo_hide();
     void add_systeminfo();
-
+    void add_file_change_window();
+    void del_file_change_window();
     void feedback_info_init();
 
     void add_fileinfo_model();
@@ -139,11 +74,6 @@ public:
     QFile* add_file_to_Part(QString filepath);
     vector<QFile*> m_filesArray;
 
-    void feedback_quit();
-
-//protected:
-//    void paintEvent(QPaintEvent*);
-
 
 signals:
     void syslog();
@@ -153,8 +83,8 @@ private slots:
 
 
     void on_textEdit_textChanged();
-    void on_pushButton_mix_clicked();
-    void on_pushButton_close_clicked();
+
+
 
     void on_checkBox_stateChanged(int state);
 
@@ -168,15 +98,14 @@ private slots:
 
     void on_pushButton_2_clicked();
 
-    void on_lineEdit_2_textChanged();
+    void on_textEdit_2_textChanged();
     void del_file_button_clicked();
     void finishedSlot(QNetworkReply*);
 
-    void submit_change_load_image();
-
 private:
+    Ui::feedback *ui;
 
-    submit_fail *fail_dialog;
+    submit_fail * fail_dialog;
     submit_success * success_dialog;
 
 
@@ -194,8 +123,6 @@ private:
     QString textContent;// 详细描述
 
     QString all_systeminfo;
-
-    QTimer *submitting_timer;
 
     //控件坐标变量
     //window size
@@ -244,11 +171,13 @@ private:
 
     QHttpMultiPart *multiPart;
 
+
     QList<QString> file_name_list;
     QList<QString> file_size_list;
     QList<QString> file_path_list;
 
-    int pixmap_i = 0;
+
+
 
 };
 #endif // FEEDBACK_H

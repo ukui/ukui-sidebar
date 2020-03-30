@@ -15,8 +15,8 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#ifndef SYSTEMINFO_BUTTON_H
-#define SYSTEMINFO_BUTTON_H
+#ifndef MOUSE_BUTTON_H
+#define systeminfo_button_H
 #include<QPushButton>
 #include<QEvent>
 
