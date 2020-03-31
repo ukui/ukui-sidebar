@@ -183,6 +183,11 @@ void SidebarClipboardPlugin::createWidgetEntry(const QMimeData *mimeData)
         return;
     }
     /* hash插入QMimeData，保留原数据 */
+    OriginalDataHashValue *s_pDataHashValue = new OriginalDataHashValue;
+    s_pDataHashValue->Item     = pListWidgetItem;
+    s_pDataHashValue->MimeData = copyMinedata(mimeData);
+    s_pDataHashValue->text     = text;
+
     registerMimeData(w, copyMinedata(mimeData));
     registerLabelText(w, text);
 

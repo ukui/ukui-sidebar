@@ -77,6 +77,7 @@ public:
     bool loadClockPlugin();                                                     //加载闹钟插件
     bool loadfeedbackPlugin();                                                  //加载用户反馈程序
     bool loadnotebookPlugin();
+    void ModifyScreenNeeds();                                                   //修改屏幕分辨率或者主屏需要做的事情
     void GetsAvailableAreaScreen();                                             //获取屏幕可用区域高度
     void MostGrandWidgetCoordinates();                                          //根据任务栏位置调整侧边栏位置
     void InitializeHomeScreenGeometry();                                        //初始化主屏的X坐标

@@ -496,6 +496,22 @@ void Widget::onResolutionChanged(int argc)
 {
     Q_UNUSED(argc);
     GetsAvailableAreaScreen();                               //获取屏幕可用高度区域
+    ModifyScreenNeeds();                                     //修改屏幕分辨率或者主屏需要做的事情
+    return;
+}
+
+/* 主屏发生变化槽函数 */
+void Widget::primaryScreenChangedSLot()
+{
+    qDebug() << "主屏发生变化";
+    GetsAvailableAreaScreen();
+    ModifyScreenNeeds();
+    InitializeHomeScreenGeometry();
+}
+
+/* 修改屏幕分辨率或者主屏需要做的事情 */
+void Widget::ModifyScreenNeeds()
+{
     int clipboardhight = setClipBoardWidgetScaleFactor();
 
     qDebug() << "剪贴板高度" << clipboardhight;
@@ -514,23 +530,15 @@ void Widget::onResolutionChanged(int argc)
         sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pSidebarPluginButton->SendSingal();
         sidebarPluginsWidgets::getInstancePluinsWidgets()->SmallPluginsBool = true;
     }
-
-    return;
 }
 
-/* 主屏发生变化槽函数 */
-void Widget::primaryScreenChangedSLot()
-{
-    GetsAvailableAreaScreen();
-    qDebug() << "主屏发生变化";
-    InitializeHomeScreenGeometry();
-}
-
+/* 初始化主屏的X坐标 */
 void Widget::InitializeHomeScreenGeometry()
 {
     QList<QScreen*> screen = QGuiApplication::screens();
     m_nScreen_x = screen[0]->availableGeometry().x();
 }
+
 /* 根据任务栏位置调整侧边栏位置 */
 void Widget::MostGrandWidgetCoordinates()
 {

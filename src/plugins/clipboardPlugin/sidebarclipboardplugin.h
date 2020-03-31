@@ -46,6 +46,12 @@
 #define  WIDGET_ENTRY_COUNT 5
 #define  SIDEBAR_CLIPBOARD_QSS_PATH  ":/qss/sidebarClipboard.css"
 
+typedef struct  clipboardOriginalDataHash {
+    QListWidgetItem* Item;
+    const QMimeData* MimeData;
+    QString          text;
+} OriginalDataHashValue;
+
 //static SidebarClipboardPlugin *global_instance = nullptr;
 class SidebarClipboardPlugin:public QObject, public ClipboardInterface
 {
