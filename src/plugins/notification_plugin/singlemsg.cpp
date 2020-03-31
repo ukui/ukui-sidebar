@@ -43,6 +43,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
     this->adjustSize();
 
+    qDebug() << "single message-------------";
     connect(this, SIGNAL(Sig_setAppFoldFlag(bool)), pParent, SLOT(setAppFoldFlag(bool)));
     connect(this, SIGNAL(Sig_onDeleSingleMsg(SingleMsg*)), pParent, SLOT(onDeleSingleMsg(SingleMsg*)));
     connect(this, SIGNAL(Sig_onDeleteAppMsg()), pParent, SLOT(onDeleteAppMsg()));
@@ -97,7 +98,6 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     QString formatAppName = fontMetrics1.elidedText(strAppName, Qt::ElideRight, pAppNameLabel->width());
     pAppNameLabel->setText(formatAppName);
 
-
     //设置通知消息中的弹簧，水平任意伸缩使主题和时间分开
     QSpacerItem* pHExpandSpacer = new QSpacerItem(400, 10, QSizePolicy::Expanding, QSizePolicy::Fixed);
 
@@ -107,13 +107,17 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pTimeLabel->setText("现在");
     m_pTimeLabel->setStyleSheet("background-color:transparent;");
 
+    //收纳删除按钮图标的大小
+    QSize normalIconSize(16,16);
+    QSize pressedIconSize(14,14);
+
     //单独收纳按钮
     if(false == m_bTakeInFlag)
     {
         QString strIcon = ":/images/box-16-translucent.svg";
         QString strHoverIcon = ":/images/box-16.svg";
         QString strPressIcon = ":/images/box-14-translucent.svg";
-        m_pSingleTakeinButton = new ButtonWidget(strIcon, strHoverIcon, strPressIcon);
+        m_pSingleTakeinButton = new ButtonWidget(strIcon, strHoverIcon, strPressIcon,normalIconSize,pressedIconSize);
         connect(m_pSingleTakeinButton, SIGNAL(Sig_clicked()), this, SLOT(onTakeIn()));
     }
     else
@@ -121,7 +125,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
         QString strIcon = ":/images/exitbox-16-translucent.svg";
         QString strHoverIcon = ":/images/exitbox-16.svg";
         QString strPressIcon = ":/images/exitbox-14-translucent.svg";
-        m_pSingleTakeinButton = new ButtonWidget(strIcon, strHoverIcon, strPressIcon);
+        m_pSingleTakeinButton = new ButtonWidget(strIcon, strHoverIcon, strPressIcon,normalIconSize,pressedIconSize);
         connect(m_pSingleTakeinButton, SIGNAL(Sig_clicked()), this, SLOT(onRecover()));
     }
     m_pSingleTakeinButton->setVisible(false);
@@ -129,20 +133,32 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     //单独删除按钮
     QString strIcon = ":/images/hover-translucent.svg";
     QString strHoverIcon = ":/images/hover.svg";
-    m_pSingleDeleteButton = new ButtonWidget(strIcon, strHoverIcon, strIcon);
+
+    QSize deleteNormalIconSize(14,14);
+    QSize deletePressedIconSize(12,12);
+    m_pSingleDeleteButton = new ButtonWidget(strIcon, strHoverIcon, strIcon,deleteNormalIconSize,deletePressedIconSize);
     connect(m_pSingleDeleteButton, SIGNAL(Sig_clicked()), this, SLOT(onDele()));
     m_pSingleDeleteButton->setVisible(false);
 
     pIconHLayout->addWidget(pIconToolButton, 0, Qt::AlignLeft);
+//    pIconHLayout->addItem(new QSpacerItem(8,20,QSizePolicy::Fixed));
     pIconHLayout->addWidget(pAppNameLabel, 0, Qt::AlignLeft|Qt::AlignVCenter);
     pIconHLayout->addSpacerItem(pHExpandSpacer);
     pIconHLayout->addWidget(m_pTimeLabel, 0, Qt::AlignRight);
     pIconHLayout->addWidget(m_pSingleTakeinButton, 0, Qt::AlignRight);
+//    pIconHLayout->addItem(new QSpacerItem(16,20,QSizePolicy::Fixed));
     pIconHLayout->addWidget(m_pSingleDeleteButton, 0, Qt::AlignRight);
 
+//    pIconHLayout->addWidget(pIconToolButton);
+////    pIconHLayout->addItem(new QSpacerItem(8,20,QSizePolicy::Fixed));
+//    pIconHLayout->addWidget(pAppNameLabel);
+//    pIconHLayout->addSpacerItem(pHExpandSpacer);
+//    pIconHLayout->addWidget(m_pTimeLabel);
+//    pIconHLayout->addWidget(m_pSingleTakeinButton, 0, Qt::AlignRight);
+//    pIconHLayout->addItem(new QSpacerItem(16,20,QSizePolicy::Fixed));
+//    pIconHLayout->addWidget(m_pSingleDeleteButton, 0, Qt::AlignRight);
     m_pIconWidget->setLayout(pIconHLayout);
     pMainVLaout->addWidget(m_pIconWidget, 0);
-
 
     //内容部件,将主题正文以及剩余条数显示装入内容部件
     QWidget* pContextWidget = new QWidget;
@@ -154,7 +170,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     //设置通知消息中的主题，采用省略模式
     m_pSummaryLabel = new QLabel();
     m_pSummaryLabel->setFixedWidth(314);
-    m_pSummaryLabel->setStyleSheet("color:rgba(255,255,255,0.97);font-weight:400;font-size:16px;background-color:transparent;line-height:26px;padding:0px;");
+    m_pSummaryLabel->setStyleSheet("color:rgba(255,255,255,0.97);font-size:16px;background-color:transparent;line-height:26px;padding:0px;");
     QFont font16;
     font16.setPixelSize(16);
     m_pSummaryLabel->setFont(font16);

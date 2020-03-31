@@ -22,7 +22,7 @@
 #include "takeinboxtoolbutton.h"
 #include "monitorthread.h"
 #include <QSvgRenderer>
-
+#include <QDebug>
 
 
 NotificationPlugin::NotificationPlugin()
@@ -65,7 +65,6 @@ NotificationPlugin::NotificationPlugin()
 
     QLabel* pLabel = new QLabel(QObject::tr("Notification center"));
     pLabel->setObjectName("notificationcentername");
-
     //收纳按钮
     m_pTakeInBoxToolButton = new TakeInBoxToolButton();
     m_pTakeInBoxToolButton->setObjectName("takein");

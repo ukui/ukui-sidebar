@@ -30,7 +30,7 @@ class ButtonWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ButtonWidget(QString strIcon, QString strHoverIcon, QString strPressIcon);
+    explicit ButtonWidget(QString strIcon, QString strHoverIcon, QString strPressIcon,QSize nomalIconSize,QSize pressIconSize);
 
 protected:
     virtual void enterEvent(QEvent *event) override;

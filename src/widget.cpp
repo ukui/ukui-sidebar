@@ -118,7 +118,7 @@ Widget::~Widget()
 //加载通知中心插件
 bool Widget::loadNotificationPlugin()
 {
-    QDir pluginsDir("/usr/lib/ukui-sidebar/notification");
+    QDir pluginsDir("./plugins/notification_plugins");
     QPluginLoader pluginLoader(pluginsDir.absoluteFilePath("libnotification_plugin.so"));
 
     m_pNotificationPluginObject = pluginLoader.instance();
@@ -142,7 +142,7 @@ bool Widget::loadNotificationPlugin()
 //加载剪贴板插件
 int Widget::ListenClipboardSignal()
 {
-    QDir pluginsDir("/usr/lib/ukui-sidebar/sidebar_clipboardPlugin_plugins");
+    QDir pluginsDir("./plugins/sidebar_clipboardPlugin_plugins");
     pluginsDir.setFilter(QDir::Files);
 
     QPluginLoader pluginLoader(pluginsDir.absoluteFilePath("libclipboardPlugin.so"));
@@ -603,12 +603,11 @@ void Widget::twinkle()
 /* 事件过滤器 */
 bool Widget::eventFilter(QObject *obj, QEvent *event)
 {
-    Q_UNUSED(obj);
-    Q_UNUSED(event);
+//    Q_UNUSED(obj);
+//    Q_UNUSED(event);
     if (obj == this)
     {
-        if (event->type() == QEvent::WindowDeactivate && true == m_bShowFlag)
-        {
+        if (event->type() == QEvent::WindowDeactivate && true == m_bShowFlag) {
             qDebug() << "事件类型" << event->type();
             qDebug() << "Widget::eventFilter 消失";
             mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
