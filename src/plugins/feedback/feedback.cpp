@@ -118,7 +118,7 @@ void feedback::UI_init()
     frame = new QFrame(centralwidget);
     frame->setObjectName(QString::fromUtf8("frame"));
     frame->setGeometry(QRect(140, 145, 320, 120));
-    frame->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);"));
+    frame->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);color:rgb(0,0,0)"));
     frame->setFrameShape(QFrame::StyledPanel);
     frame->setFrameShadow(QFrame::Raised);
     textEdit = new QTextEdit(frame);
@@ -126,6 +126,7 @@ void feedback::UI_init()
     textEdit->setGeometry(QRect(10, 10, 300, 100));
     textEdit->setPlaceholderText(tr("请输入内容"));//设置详细输入框的提示信息
     textEdit->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);\n"
+                                              "color:rgb(0,0,0);\n"
                                               ""));
     textEdit->setFrameShape(QFrame::NoFrame);
     label_4 = new QLabel(centralwidget);
@@ -158,7 +159,9 @@ void feedback::UI_init()
     lineEdit_2->setObjectName(QString::fromUtf8("lineEdit_2"));
     lineEdit_2->setGeometry(QRect(140, 275, 320, 30));
     lineEdit_2->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);\n"
-                                                "border: 1px solid rgb(240, 240, 240);"));
+                                                "border: 1px solid rgb(240, 240, 240);\n"
+                                                "color:rgb(0,0,0);\n"
+                                                ""));
 
 
     label_7 = new QLabel(centralwidget);
@@ -188,9 +191,9 @@ void feedback::UI_init()
     checkBox_4 = new QCheckBox(centralwidget);
     checkBox_4->setText(tr("同意获取我的"));
     checkBox_4->setObjectName(QString::fromUtf8("checkBox_4"));
-    checkBox_4->setGeometry(QRect(35, 490       , 121, 24));
+    checkBox_4->setGeometry(QRect(35, 490, 121, 24));
     checkBox_4->setStyleSheet(" spacing: 6px;");
-    checkBox_4->setStyleSheet(QString::fromUtf8("font: 14px;"));
+    checkBox_4->setStyleSheet(QString::fromUtf8("font: 14px;color:rgb(0,0,0)"));
     pushButton_2 = new QPushButton(centralwidget);
     pushButton_2->setText(tr("提交"));
     pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
@@ -242,15 +245,15 @@ void feedback::UI_init()
     label_10 = new QLabel(frame_2);
     label_10->setObjectName(QString::fromUtf8("label_10"));
     label_10->setGeometry(QRect(15, 10, 200, 20));
-    label_10->setStyleSheet(QString::fromUtf8("border-color: rgb(255, 255, 255);"));
+    label_10->setStyleSheet(QString::fromUtf8("border-color: rgb(255, 255, 255);color:rgb(0,0,0)"));
     label_12 = new QLabel(frame_2);
     label_12->setObjectName(QString::fromUtf8("label_12"));
     label_12->setGeometry(QRect(15, 30, 200, 20));
-    label_12->setStyleSheet(QString::fromUtf8("border-color: rgb(255, 255, 255);"));
+    label_12->setStyleSheet(QString::fromUtf8("border-color: rgb(255, 255, 255);color:rgb(0,0,0)"));
     label_11 = new QLabel(frame_2);
     label_11->setObjectName(QString::fromUtf8("label_11"));
     label_11->setGeometry(QRect(15, 50, 200, 20));
-    label_11->setStyleSheet(QString::fromUtf8("border-color: rgb(255, 255, 255);"));
+    label_11->setStyleSheet(QString::fromUtf8("border-color: rgb(255, 255, 255);color:rgb(0,0,0)"));
 
     label_8 = new QLabel(centralwidget);
     label_8->setText(tr("日志文件"));
@@ -279,8 +282,8 @@ void feedback::UI_init()
     checkBox->setText(tr("syslog"));
     checkBox->setObjectName(QString::fromUtf8("checkBox"));
     checkBox->setStyleSheet(QString::fromUtf8("font: 14px;\n"
-                                              "spacing: 5px"
-                                               "indicator {width: 16px; height: 16px;}"));
+                                              "color:rgb(0,0,0);\n"
+                                              ""));
 
     horizontalLayout->addWidget(checkBox);
 
@@ -288,7 +291,9 @@ void feedback::UI_init()
     checkBox_2->setText(tr("apport.log"));
     checkBox_2->setObjectName(QString::fromUtf8("checkBox_2"));
     checkBox_2->setStyleSheet(QString::fromUtf8("font: 14px ;\n"
-                                                "spacing: 5px;"));
+                                                "spacing: 5px;"
+                                                "color:rgb(0,0,0);\n"
+                                                ""));
 
     horizontalLayout->addWidget(checkBox_2);
 
@@ -297,6 +302,7 @@ void feedback::UI_init()
     checkBox_3->setObjectName(QString::fromUtf8("checkBox_3"));
     checkBox_3->setStyleSheet(QString::fromUtf8("font: 14px;\n"
                                                 "spacing: 5px;\n"
+                                                "color:rgb(0,0,0);\n"
                                                 ""));
 
     horizontalLayout->addWidget(checkBox_3);
@@ -408,6 +414,7 @@ void feedback::on_pushButton_clicked()
 {
     pushButton->setStyleSheet("font: 14px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(68, 68, 68)");
     filename=QFileDialog::getOpenFileName(this,tr("选择图片"),"/","Image file(*.gif *.jpg *.png)",0);
+
     //判断文件是否重复添加
     if (file_name_list.size() ==0)
     {
