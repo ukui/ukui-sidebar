@@ -24,6 +24,8 @@
 #include <QDBusInterface>
 #include <QPropertyAnimation>
 #include <QDBusPendingCallWatcher>
+#include <QScreen>
+#include <QGuiApplication>
 #include "clipboardpluginiface.h"
 #include "sidebarSmallPluginInterface.h"
 #include "realtimepropertyanimation.h"
@@ -77,6 +79,7 @@ public:
     bool loadnotebookPlugin();
     void GetsAvailableAreaScreen();                                             //获取屏幕可用区域高度
     void MostGrandWidgetCoordinates();                                          //根据任务栏位置调整侧边栏位置
+    void InitializeHomeScreenGeometry();                                        //初始化主屏的X坐标
 
 
 protected:
@@ -86,18 +89,17 @@ protected:
 private:
     //主界面
     QVBoxLayout*                m_pMainOuterBoxLayout;                          //主界面最外框布局器
-    QWidget*                    m_pMainOuterWidget;                             //主界面最外框架部件
-    QWidget*                    m_pMainOuterReplaceWidget;                      //主界面最外框架动画时替代部件
 
     QVBoxLayout*                m_pMainQVBoxLayout;                             //主界面垂直布局器
     QDBusInterface*             m_pServiceInterface;                            //获取任务栏的高度
     bool                        m_bShowFlag;                                    //控制托盘栏点击事件的标志位
     int                         m_nScreenWidth;                                 //屏幕分辨率的宽
     int                         m_nScreenHeight;                                //屏幕分辨率的高
+    int                         m_nScreen_x;                                    //主屏的起始坐标X
+    int                         m_nScreen_y;                                    //主屏的起始坐标Y
+
     QObject*                    m_pNotificationPluginObject;                    //通知中心插件对象
-    QObject*                    m_pclock_PluginObject;                          //闹钟插件第一次加载插件对象
-    QObject*                    m_pfeedback_PluginObject;
-    QObject*                    m_pnotebook_PluginObject;
+
     SidebarSmallPluginInterface *m_pclock_Plugin;                               //闹钟插件全局变量
     SidebarSmallPluginInterface *m_pPlugin_Plugin;                              //问题反馈全局变量
     SidebarSmallPluginInterface *m_pnotebookPluginObject;

@@ -31,37 +31,30 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
 {
     m_pTranslator = new QTranslator;
     QLocale locale;
-    if( locale.language() == QLocale::Chinese )  //获取系统语言环境
+    if( locale.language() == QLocale::Chinese )                             /* 获取系统语言环境 */
     {
-        m_pTranslator->load(QString(":sidebartranslat/Sidebar_zh_CN.qm"));  //选择翻译文件
+        m_pTranslator->load(QString(":sidebartranslat/Sidebar_zh_CN.qm"));  /* 选择翻译文件 */
         QApplication::installTranslator(m_pTranslator);
     }
     m_bShowFlag = false;
     m_bFwinkleFlag = true;
 
-    //监听屏幕分辨率是否变化
-    m_pDeskWgt = QApplication::desktop();
-//    qDebug() << "dasdasdas" << m_pDeskWgt->width();
-//    qDebug() << "dasdasdas" << m_pDeskWgt->height();
-    connect(m_pDeskWgt, SIGNAL(resized(int)), this, SLOT(onResolutionChanged(int)));
-    connect(m_pDeskWgt, &QDesktopWidget::primaryScreenChanged, this, &Widget::primaryScreenChangedSLot);
-
     m_pServiceInterface = new QDBusInterface(PANEL_DBUS_SERVICE, PANEL_DBUS_PATH, PANEL_DBUS_INTERFACE, QDBusConnection::sessionBus());
     m_pServiceInterface->setTimeout(2147483647);
 
-    //主界面最外框布局器
+    /* 监听屏幕分辨率是否变化 主频是否有变化 初始化屏幕宽高 和主屏起始X坐标值 */
+    m_pDeskWgt = QApplication::desktop();
+    connect(m_pDeskWgt, SIGNAL(resized(int)), this, SLOT(onResolutionChanged(int)));
+    connect(m_pDeskWgt, &QDesktopWidget::primaryScreenChanged, this, &Widget::primaryScreenChangedSLot);
+    InitializeHomeScreenGeometry();  /* 初始化主屏的X坐标 */
+    GetsAvailableAreaScreen();       /* 获取屏幕可用高度区域 */
+
+    /* 主界面最外框布局器 */
     m_pMainOuterBoxLayout = new QVBoxLayout;
     m_pMainOuterBoxLayout->setContentsMargins(0,0,0,0);
     m_pMainOuterBoxLayout->setSpacing(0);
 
-    //主界面最外框架部件
-    m_pMainOuterWidget = new QWidget(this);
-    m_pMainOuterWidget->setStyleSheet("QWidget#MainOuterWidget{background:rgba(255, 255, 0, 0);}");
-    m_pMainOuterReplaceWidget = new QWidget(this);
-    m_pMainOuterReplaceWidget->setStyleSheet("background:transparent;");
-    m_pMainOuterReplaceWidget->setVisible(false);
-
-    //主界面显示
+    /* 主界面显示 */
     m_pMainQVBoxLayout = new QVBoxLayout;
     m_pMainQVBoxLayout->setContentsMargins(0,0,0,0);
     m_pMainQVBoxLayout->setSpacing(0);
@@ -70,26 +63,24 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     sidebarPluginsWidgets::initPluginsWidgets();
     sidebarPluginsWidgets::getInstancePluinsWidgets()->loadSmallPlugins();
 
-    //加载通知中心插件
+    /* 加载通知中心插件 */
     if (false == loadNotificationPlugin()) {
         qDebug() << "通知中心插件加载失败";
     }
 
-    //加载剪贴板插件, 将剪贴板插件加入到sidebarPluginsWidgets的GroupBox中
+    /* 加载剪贴板插件, 将剪贴板插件加入到sidebarPluginsWidgets的GroupBox中 */
     if (ListenClipboardSignal()) {
         qDebug() << "剪贴板插件加载失败";
     }
 
-    m_pMainOuterWidget->setLayout(m_pMainQVBoxLayout);
-//    this->setLayout(m_pMainOuterBoxLayout);
     this->setLayout(m_pMainQVBoxLayout);
 
-    //系统托盘栏显示
+    /* 系统托盘栏显示 */
     createAction();
     createSystray();
     setIcon(TRAY_ICON);
 
-    //安装事件过滤器
+    /* 安装事件过滤器 */
     installEventFilter(this);
 
     m_pAnimationShowSidebarWidget = new QPropertyAnimation(this, "geometry");
@@ -99,7 +90,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     connect(m_pAnimationShowSidebarWidget, &QPropertyAnimation::finished, this, &Widget::showAnimationFinish);
     connect(m_pAnimationShowSidebarWidget, &QPropertyAnimation::valueChanged, this, &Widget::showAnimationAction);
 
-    //将托盘栏图标和widget联系起来
+    /* 将托盘栏图标和widget联系起来 */
     connect(trayIcon, &QSystemTrayIcon::activated, this, &Widget::iconActivated);
     trayIcon->setVisible(true);
 
@@ -148,25 +139,24 @@ int Widget::ListenClipboardSignal()
     QPluginLoader pluginLoader(pluginsDir.absoluteFilePath("libclipboardPlugin.so"));
     QObject *pClipPlugin = pluginLoader.instance();
 
-    m_pSidebarClipboard = dynamic_cast<ClipboardInterface *>(pClipPlugin);                     //获取剪贴版插件指针;
+    m_pSidebarClipboard = dynamic_cast<ClipboardInterface *>(pClipPlugin);                          /* 获取剪贴版插件指针; */
 
     if (nullptr == m_pSidebarClipboard) {
         qWarning() << "剪贴板插件插件加载失败";
         return 1;
     }
-    m_pSidebarSignal = m_pSidebarClipboard->createClipSignal();                                     //获取剪贴板的信号类指针
+    m_pSidebarSignal = m_pSidebarClipboard->createClipSignal();                                     /* 获取剪贴板的信号类指针 */
     /* 点击剪贴板空白区域时，隐藏侧边栏 */
     connect(m_pSidebarSignal, &SidebarClipBoardSignal::ClipboardHideSignal, this, [=]() {
         mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
         hideAnimation();
     });
 
-    sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pClipboardWidget = m_pSidebarClipboard->getClipbaordGroupBox();   //获取剪贴板的Groubox指针;
-    GetsAvailableAreaScreen();                                                                     //获取屏幕可用高度区域
+    sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pClipboardWidget = m_pSidebarClipboard->getClipbaordGroupBox();   /* 获取剪贴板的Groubox指针; */
     int clipboardhight = setClipBoardWidgetScaleFactor();
     qDebug() << "剪贴板高度" << clipboardhight;
-    sidebarPluginsWidgets::getInstancePluinsWidgets()->setClipboardWidgetSize(clipboardhight); //设定剪贴板高度
-    sidebarPluginsWidgets::getInstancePluinsWidgets()->AddPluginWidgetInterface();       //将下半部分所有控件加入到sidebarPluginsWidgets中
+    sidebarPluginsWidgets::getInstancePluinsWidgets()->setClipboardWidgetSize(clipboardhight);      /* 设定剪贴板高度 */
+    sidebarPluginsWidgets::getInstancePluinsWidgets()->AddPluginWidgetInterface();                  /* 将下半部分所有控件加入到sidebarPluginsWidgets中 */
     m_pMainQVBoxLayout->addWidget(sidebarPluginsWidgets::getInstancePluinsWidgets(), 0);
     return 0;
 }
@@ -309,16 +299,13 @@ void Widget::GetsAvailableAreaScreen()
 /* 设定剪贴板高度 */
 int Widget::setClipBoardWidgetScaleFactor()
 {
-    int x , y;
-    x = m_nScreenWidth;
-    y = m_nScreenHeight;
-    if ((x >= 800 && x <= 1280)&&(y >= 600 && y <= 768)) {
+    if ((m_nScreenWidth >= 800 && m_nScreenWidth <= 1280)&&(m_nScreenHeight >= 600 && m_nScreenHeight <= 768)) {
         qDebug() << "800 <= x <= 1280 && 600 <= y <= 720 ";
         return m_nScreenHeight/2 - connectTaskBarDbus();
-    } else if ((x >= 1280 && x <= 2048)&&(y >= 900 && y <= 1080)) {
+    } else if ((m_nScreenWidth >= 1280 && m_nScreenWidth <= 2048)&&(m_nScreenHeight >= 900 && m_nScreenHeight <= 1080)) {
         qDebug() << "1280 <= x <= 2048 && 900 <= y <= 1080";
         return m_nScreenHeight/3;
-    } else if ((x >= 1920 && x <= 3840)&&(y >= 1200 && y <= 2160)) {
+    } else if ((m_nScreenWidth >= 1920 && m_nScreenWidth <= 3840)&&(m_nScreenHeight >= 1200 && m_nScreenHeight <= 2160)) {
         qDebug() << "1920 <= x 3840 && y >= 1200 && y <= 2160";
         return m_nScreenHeight/4;
     } else {
@@ -408,7 +395,6 @@ void Widget::showAnimation()
 void Widget::updateAnimationPosition(int x1, int y1, int x2, int y2)
 {
     this->setGeometry(x1, y1, m_nInitalXPosition - x1, y2);
-    m_pMainOuterReplaceWidget->setFixedSize(m_nInitalXPosition - x1, y2);
 }
 
 void Widget::showAnimationFinish()
@@ -537,10 +523,14 @@ void Widget::primaryScreenChangedSLot()
 {
     GetsAvailableAreaScreen();
     qDebug() << "主屏发生变化";
-    qDebug() << "m_nScreenWidth" << m_nScreenWidth;
-    qDebug() << "m_nScreenHeight" << m_nScreenHeight;
+    InitializeHomeScreenGeometry();
 }
 
+void Widget::InitializeHomeScreenGeometry()
+{
+    QList<QScreen*> screen = QGuiApplication::screens();
+    m_nScreen_x = screen[0]->availableGeometry().x();
+}
 /* 根据任务栏位置调整侧边栏位置 */
 void Widget::MostGrandWidgetCoordinates()
 {
@@ -548,25 +538,25 @@ void Widget::MostGrandWidgetCoordinates()
         case Widget::PanelDown :
             {
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight - connectTaskBarDbus());
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreenWidth - 400, 0);
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400, 0);
             }
             break;
         case Widget::PanelUp:
             {
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight - connectTaskBarDbus());
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreenWidth - 400, connectTaskBarDbus());
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400, connectTaskBarDbus());
             }
             break;
         case Widget::PanelLeft:
             {
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight);
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreenWidth - 400, 0);
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400, 0);
             }
             break;
         case Widget::PanelRight:
             {
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight);
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreenWidth - 400 - connectTaskBarDbus(), 0);
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400 - connectTaskBarDbus(), 0);
             }
             break;
         default:
