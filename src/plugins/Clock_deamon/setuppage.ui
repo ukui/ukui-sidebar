@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>setuppage</class>
+ <widget class="QWidget" name="setuppage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>380</width>
+    <height>450</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+border-radius:4px;
+</string>
+  </property>
+  <widget class="QWidget" name="widget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>380</width>
+     <height>450</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgba(36,36,37, 0.9);
+border-radius:4px;
+</string>
+   </property>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>53</x>
+      <y>58</y>
+      <width>63</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">width:56px;
+height:14px;
+font-size:14px;
+font-family:Source Han Sans CN;
+font-weight:400;
+color:rgba(255,255,255,1)</string>
+    </property>
+    <property name="text">
+     <string>开机启动</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>275</x>
+      <y>53</y>
+      <width>50</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">width:50px;
+border-image: url(:/alarm_on.png);
+height:24px;
+background:linear-gradient(0deg,rgba(39,207,129,1) 0%,rgba(39,207,129,0.9) 100%);
+border-radius:6px;
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QWidget" name="widget_2" native="true">
+    <property name="geometry">
+     <rect>
+      <x>45</x>
+      <y>97</y>
+      <width>280</width>
+      <height>36</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">width:280px;
+height:36px;
+background:rgba(48,48,51,1);
+border-radius:4px;
+</string>
+    </property>
+    <widget class="QLabel" name="label_18">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>61</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">width:39px;
+height:14px;
+font-size:14px;
+font-family:Source Han Sans CN;
+font-weight:400;
+color:rgba(255,255,255,1);
+</string>
+     </property>
+     <property name="text">
+      <string>工作日</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_10">
+     <property name="geometry">
+      <rect>
+       <x>244</x>
+       <y>0</y>
+       <width>36</width>
+       <height>36</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_6">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>0</y>
+       <width>191</width>
+       <height>36</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">width:67px;
+height:14px;
+font-size:14px;
+font-family:Source Han Sans CN;
+font-weight:400;
+color:rgba(148, 148, 148,1);
+opacity:0.35;
+text-align: right</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="widget_3" native="true">
+    <property name="geometry">
+     <rect>
+      <x>45</x>
+      <y>147</y>
+      <width>280</width>
+      <height>36</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">width:280px;
+height:36px;
+background:rgba(48,48,51,1);
+border-radius:4px;
+</string>
+    </property>
+    <widget class="QLabel" name="label_19">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>71</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">width:39px;
+height:14px;
+font-size:14px;
+font-family:Source Han Sans CN;
+font-weight:400;
+color:rgba(255,255,255,1);
+</string>
+     </property>
+     <property name="text">
+      <string>时间格式</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_11">
+     <property name="geometry">
+      <rect>
+       <x>244</x>
+       <y>0</y>
+       <width>36</width>
+       <height>36</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_7">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>0</y>
+       <width>181</width>
+       <height>36</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">width:67px;
+height:14px;
+font-size:14px;
+font-family:Source Han Sans CN;
+font-weight:400;
+color:rgba(148, 148, 148,1);
+opacity:0.35;
+text-align: right</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="widget_4" native="true">
+    <property name="geometry">
+     <rect>
+      <x>45</x>
+      <y>197</y>
+      <width>280</width>
+      <height>36</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">width:280px;
+height:36px;
+background:rgba(48,48,51,1);
+border-radius:4px;
+</string>
+    </property>
+    <widget class="QLabel" name="label_20">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>61</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">width:39px;
+height:14px;
+font-size:14px;
+font-family:Source Han Sans CN;
+font-weight:400;
+color:rgba(255,255,255,1);
+</string>
+     </property>
+     <property name="text">
+      <string>弹窗方式</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_12">
+     <property name="geometry">
+      <rect>
+       <x>244</x>
+       <y>0</y>
+       <width>36</width>
+       <height>36</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_8">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>0</y>
+       <width>181</width>
+       <height>36</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">width:67px;
+height:14px;
+font-size:14px;
+font-family:Source Han Sans CN;
+font-weight:400;
+color:rgba(148, 148, 148,1);
+opacity:0.35;
+text-align: right</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="widget_5" native="true">
+    <property name="geometry">
+     <rect>
+      <x>45</x>
+      <y>247</y>
+      <width>280</width>
+      <height>36</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">width:280px;
+height:36px;
+background:rgba(48,48,51,1);
+border-radius:4px;
+</string>
+    </property>
+    <widget class="QLabel" name="label_21">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>61</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">width:39px;
+height:14px;
+font-size:14px;
+font-family:Source Han Sans CN;
+font-weight:400;
+color:rgba(255,255,255,1);
+</string>
+     </property>
+     <property name="text">
+      <string>提醒关闭</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_13">
+     <property name="geometry">
+      <rect>
+       <x>244</x>
+       <y>0</y>
+       <width>36</width>
+       <height>36</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_9">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>0</y>
+       <width>181</width>
+       <height>36</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">width:67px;
+height:14px;
+font-size:14px;
+font-family:Source Han Sans CN;
+font-weight:400;
+color:rgba(148, 148, 148,1);
+opacity:0.35;
+text-align: right</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="widget_6" native="true">
+    <property name="geometry">
+     <rect>
+      <x>45</x>
+      <y>297</y>
+      <width>280</width>
+      <height>36</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">width:280px;
+height:36px;
+background:rgba(48,48,51,1);
+border-radius:4px;
+</string>
+    </property>
+    <widget class="QLabel" name="label_22">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>61</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">width:39px;
+height:14px;
+font-size:14px;
+font-family:Source Han Sans CN;
+font-weight:400;
+color:rgba(255,255,255,1);
+</string>
+     </property>
+     <property name="text">
+      <string>默认铃声</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_14">
+     <property name="geometry">
+      <rect>
+       <x>244</x>
+       <y>0</y>
+       <width>36</width>
+       <height>36</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_15">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>0</y>
+       <width>181</width>
+       <height>36</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">width:67px;
+height:14px;
+font-size:14px;
+font-family:Source Han Sans CN;
+font-weight:400;
+color:rgba(148, 148, 148,1);
+opacity:0.35;
+text-align: right</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>53</x>
+      <y>358</y>
+      <width>32</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">width:28px;
+height:14px;
+font-size:14px;
+font-family:Source Han Sans CN;
+font-weight:400;
+color:rgba(255,255,255,1)</string>
+    </property>
+    <property name="text">
+     <string>静音</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_2">
+    <property name="geometry">
+     <rect>
+      <x>275</x>
+      <y>353</y>
+      <width>50</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">width:50px;
+border-image: url(:/alarm_off.png);
+height:24px;
+background:linear-gradient(0deg,rgba(39,207,129,1) 0%,rgba(39,207,129,0.9) 100%);
+border-radius:6px;
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>53</x>
+      <y>408</y>
+      <width>63</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size:14px;
+font-family:Source Han Sans CN;
+font-weight:300;
+color:rgba(255,255,255,1)</string>
+    </property>
+    <property name="text">
+     <string>铃声音量</string>
+    </property>
+   </widget>
+   <widget class="QSlider" name="horizontalSlider">
+    <property name="geometry">
+     <rect>
+      <x>128</x>
+      <y>406</y>
+      <width>197</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(36,36,37);
+border-left-color: rgb(85, 255, 0);
+border-bottom-color: rgb(85, 170, 0);
+border-radius:50%;
+
+
+</string>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

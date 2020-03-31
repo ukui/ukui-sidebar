@@ -244,7 +244,7 @@ void VerticalScroll_24::setupUi(QWidget *VerticalScroll_24)
 {
     if (VerticalScroll_24->objectName().isEmpty())
         VerticalScroll_24->setObjectName(QString::fromUtf8("VerticalScroll_24"));
-    VerticalScroll_24->resize(57, 200);
+    VerticalScroll_24->resize(50, 200);
 
     retranslateUi(VerticalScroll_24);
 

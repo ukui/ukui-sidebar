@@ -71,7 +71,6 @@ item_new::~item_new()
 
 }
 
-
 void item_new::setupUi(QWidget *item_new)
 {
     if (item_new->objectName().isEmpty())
