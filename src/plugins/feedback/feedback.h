@@ -63,6 +63,8 @@
 #include "fileitem_init.h"
 #include <QTimer>
 #include"hidebtnhover.h"
+#include <QJsonObject>
+#include <QJsonDocument>
 
 class QSqlTableModel;
 class QPushButton;
@@ -135,8 +137,8 @@ public:
     bool all_file_size_than_10M();
     void httpclient_init();
     void set_request_header();
-    void send_file_httpserver();
-    QFile* add_file_to_Part(QString filepath);
+    void send_file_httpserver(QString uid);
+    QFile* add_file_to_Part(QString filepath,QString file_type,QString file_name);
     vector<QFile*> m_filesArray;
 
     void feedback_quit();
@@ -171,6 +173,7 @@ private slots:
     void on_lineEdit_2_textChanged();
     void del_file_button_clicked();
     void finishedSlot(QNetworkReply*);
+    void sendfile_finished(QNetworkReply* );
 
     void submit_change_load_image();
 
@@ -193,42 +196,11 @@ private:
     QString filename;
     QString textContent;// 详细描述
 
-    QString all_systeminfo;
+    QString system_info_str; //系统版本信息
+    QString encoding_info_str; //系统编码格式
+    QString desktop_info_str;  //系统桌面环境
 
     QTimer *submitting_timer;
-
-    //控件坐标变量
-    //window size
-    int window_w = 600;
-    int window_h =695;
-    //checkBox_4
-    int checkbox4_x = 35;
-    int checkbox4_y = 570;
-    int checkbox4_w = 121;
-    int checkbox4_h = 24;
-    //pushButton_3
-    int pushbutton3_x = 140;
-    int pushbutton3_y = 570;
-    int pushbutton3_w = 70;
-    int pushbutton3_h = 24;
-    //verticalWidget
-    int widget_x = 100;
-    int widget_y = 593;
-    int widget_w = 240;
-    int widget_h = 130;
-    //pushButton_2
-    int pushbutton2_x = 440;
-    int pushbutton2_y = 600;
-    int pushbutton2_w = 120;
-    int pushbutton2_h = 45;
-
-    //文件名字宽度
-    //int filename_width;
-    //int filesize_width;
-    int filename_x = 140;
-    int filename_y = 480;
-    int filename_w = 200;
-    int filename_h = 24;
 
 
 
@@ -238,7 +210,10 @@ private:
 
     //httpclient
     QNetworkAccessManager *accessManager;
+    QNetworkAccessManager *accessManager_file;
     QNetworkRequest request;
+    QNetworkRequest request_file;
+    QString urlstring;//服务器地址
 
     int send_fail_flags = 0;
 
@@ -249,6 +224,7 @@ private:
     QList<QString> file_path_list;
 
     int pixmap_i = 0;
+
 
 };
 #endif // FEEDBACK_H
