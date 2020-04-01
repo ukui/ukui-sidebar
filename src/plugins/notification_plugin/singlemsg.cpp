@@ -76,7 +76,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pIconWidget->setStyleSheet("background:transparent;");
 
     //图标和时间行的水平布局器
-    QHBoxLayout* pIconHLayout = new QHBoxLayout();
+    pIconHLayout = new QHBoxLayout();
     pIconHLayout->setContentsMargins(12,11,26,0);
     pIconHLayout->setSpacing(0);
 
@@ -141,22 +141,11 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pSingleDeleteButton->setVisible(false);
 
     pIconHLayout->addWidget(pIconToolButton, 0, Qt::AlignLeft);
-//    pIconHLayout->addItem(new QSpacerItem(8,20,QSizePolicy::Fixed));
     pIconHLayout->addWidget(pAppNameLabel, 0, Qt::AlignLeft|Qt::AlignVCenter);
     pIconHLayout->addSpacerItem(pHExpandSpacer);
     pIconHLayout->addWidget(m_pTimeLabel, 0, Qt::AlignRight);
     pIconHLayout->addWidget(m_pSingleTakeinButton, 0, Qt::AlignRight);
-//    pIconHLayout->addItem(new QSpacerItem(16,20,QSizePolicy::Fixed));
     pIconHLayout->addWidget(m_pSingleDeleteButton, 0, Qt::AlignRight);
-
-//    pIconHLayout->addWidget(pIconToolButton);
-////    pIconHLayout->addItem(new QSpacerItem(8,20,QSizePolicy::Fixed));
-//    pIconHLayout->addWidget(pAppNameLabel);
-//    pIconHLayout->addSpacerItem(pHExpandSpacer);
-//    pIconHLayout->addWidget(m_pTimeLabel);
-//    pIconHLayout->addWidget(m_pSingleTakeinButton, 0, Qt::AlignRight);
-//    pIconHLayout->addItem(new QSpacerItem(16,20,QSizePolicy::Fixed));
-//    pIconHLayout->addWidget(m_pSingleDeleteButton, 0, Qt::AlignRight);
     m_pIconWidget->setLayout(pIconHLayout);
     pMainVLaout->addWidget(m_pIconWidget, 0);
 
@@ -382,7 +371,7 @@ void SingleMsg::enterEvent(QEvent *event)
     m_pSingleTakeinButton->setVisible(true);
     m_pSingleDeleteButton->setVisible(true);
     m_pTimeLabel->setVisible(false);
-
+    pIconHLayout->setContentsMargins(12,11,15,0);
     if((true == m_bMain) && (true == m_bFold) && (m_nShowLeftCount > 0))
     {
         emit Sig_onMainEnter();
@@ -406,7 +395,7 @@ void SingleMsg::leaveEvent(QEvent *event)
     m_pSingleTakeinButton->setVisible(false);
     m_pSingleDeleteButton->setVisible(false);
     m_pTimeLabel->setVisible(true);
-
+    pIconHLayout->setContentsMargins(12,11,26,0);
     if((true == m_bMain) && (true == m_bFold) && (m_nShowLeftCount > 0))
     {
         emit Sig_onMainLeave();

@@ -23,7 +23,9 @@
 MonitorThread::MonitorThread(NotificationPlugin *parent)
 {
     m_parent = parent;
+    m_pSettings = new QGSettings("org.ukui.control-center.noticeorigin");
     this->moveToThread(this);
+
 }
 
 void MonitorThread::extractData(QString strOutput)
@@ -101,7 +103,32 @@ void MonitorThread::extractData(QString strOutput)
 
     QDateTime dateTime(QDateTime::currentDateTime());
     emit Sig_Notify(strAppName, strIcon, strSummary, strBody, dateTime, true);
+    emit Sig_Takein(strAppName, strIcon, strSummary, strBody, dateTime);
     return;
+}
+
+void MonitorThread::listeningAppNotificationStatus()
+{
+//    bool status = m_pSettings->get("kylin-assistant").toBool();
+    qDebug() << "监听通知消息";
+    connect(m_pSettings,SIGNAL(changed(const QString &)),this,SLOT(appNotifySettingChangedSlot(const QString &)));
+}
+
+void MonitorThread::appNotifySettingChangedSlot(const QString &key)
+{
+    bool status = false;
+    if (key == "vide0") {
+        status = m_pSettings->get("kylinVideo").toBool();
+        qDebug() << "kylin vide0 status" << status;
+    }
+    if (key == "kylinAssistant") {
+        status = m_pSettings->get("kylinAssistant").toBool();
+        qDebug() << "kylin assistant status" << status;
+    }
+    if (key == "ubuntuKylinSoftwareCenter") {
+        status = m_pSettings->get("ubuntuKylinSoftwareCenter").toBool();
+        qDebug() << "ubuntu kylin software center status" << status;
+    }
 }
 
 
@@ -140,7 +167,11 @@ void MonitorThread::run()
     connect(pTimer, SIGNAL(timeout()), this, SLOT(readOutputData()));
     pTimer->start(1000);
 
+    //将消息添加到通知中心或收纳盒
+    qDebug() << "将消息添加到通知中心或收纳盒**********&&&&&&&&&&&" ;
+    listeningAppNotificationStatus();
     connect(this, SIGNAL(Sig_Notify(QString, QString, QString, QString, QDateTime, bool)), m_parent, SLOT(onAddSingleNotify(QString, QString, QString, QString, QDateTime, bool)));
+//    connect(this, SIGNAL(Sig_Takein(QString, QString, QString, QString, QDateTime)), m_parent, SLOT(onTakeInSingleNotify(QString, QString, QString, QString, QDateTime)));
     exec();
 
 }

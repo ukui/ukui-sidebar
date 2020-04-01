@@ -21,6 +21,7 @@
 
 #include <QThread>
 #include <QDateTime>
+#include <QGSettings>
 class NotificationPlugin;
 class QProcess;
 class QTimer;
@@ -32,16 +33,18 @@ public:
     MonitorThread(NotificationPlugin *parent);
     void run();                                 //线程入口函数（工作线程的主函数）
     void extractData(QString strOutput);
-
+    void listeningAppNotificationStatus();
 private:
     NotificationPlugin*     m_parent;           //传一个插件对象指针，用来回传槽函数
     QProcess*               m_pProcess;
+    QGSettings*             m_pSettings;
 
 signals:
     void Sig_Notify(QString, QString, QString, QString, QDateTime, bool);
-
+    void Sig_Takein(QString,QString,QString,QString,QDateTime);
 public slots:
     void readOutputData();
+    void appNotifySettingChangedSlot(const QString &key);
 };
 
 #endif // MONITORTHREAD_H
