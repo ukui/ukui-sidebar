@@ -256,7 +256,7 @@ void VerticalScroll_99::setupUi(QWidget *VerticalScroll_99)
 {
     if (VerticalScroll_99->objectName().isEmpty())
         VerticalScroll_99->setObjectName(QString::fromUtf8("VerticalScroll_99"));
-    VerticalScroll_99->resize(57, 200);
+    VerticalScroll_99->resize(50, 200);
 
     retranslateUi(VerticalScroll_99);
 

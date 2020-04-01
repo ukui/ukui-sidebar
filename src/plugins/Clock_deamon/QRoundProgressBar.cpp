@@ -84,7 +84,7 @@ void QRoundProgressBar::setValue(double val)
 
 void QRoundProgressBar::setValue()
 {
-    ring_max = ring_max - 1000/(time_max*10);
+    ring_max = ring_max - 1000/(time_max);
     setValue(double(ring_max));
 }
 

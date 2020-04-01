@@ -12,10 +12,12 @@ TARGET = Clock_deamon
 TEMPLATE = lib
 CONFIG += plugin
 
+
 SOURCES +=\
         clock.cpp \
     clock_plugin.cpp \
     item_new.cpp \
+    setuppage.cpp \
     stopwatch_item.cpp \
     verticalscroll_24.cpp \
     verticalscroll_60.cpp \
@@ -24,7 +26,8 @@ SOURCES +=\
     DotLineDemo.cpp \
     set_alarm_repeat_dialog.cpp \
     countdown_animation.cpp \
-    QRoundProgressBar.cpp
+    QRoundProgressBar.cpp \
+    messagebox.cpp
 TRANSLATIONS = Clock.ts
 
 
@@ -32,26 +35,30 @@ INCLUDEPATH    += ../../plugin-interface
 
 DESTDIR = ../sidebarSmallPlugins
 
-DISTFILES += clock.json
+DISTFILES += Clock.json
+
+
 
 HEADERS  += clock.h \
     clock_plugin.h \
     connection.h \
     debug.h \
     item_new.h \
+    setuppage.h \
     stopwatch_item.h \
     verticalscroll_24.h \
     verticalscroll_60.h \
     verticalscroll_99.h \
-    ui_verticalscroll_99.h \
     clickablelabel.h \
     DotLineDemo.h \
     set_alarm_repeat_dialog.h \
     countdown_animation.h \
-    QRoundProgressBar.h
+    QRoundProgressBar.h \
+    messagebox.h
 
 
-FORMS    += clock.ui
+FORMS    += clock.ui \
+    setuppage.ui
 
 
 RESOURCES += \
@@ -63,3 +70,4 @@ unix {
     target.path = /usr/lib/ukui-sidebar/sidebarSmallPlugins
     INSTALLS += target
 }
+

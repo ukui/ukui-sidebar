@@ -27,7 +27,7 @@ class clock_plugin : public QObject, public SidebarSmallPluginInterface
     Q_OBJECT
     //Q_INTERFACES宏用于告诉Qt该类实现的接口
     //Q_PLUGIN_METADATA宏用于描述插件元数据
-    Q_PLUGIN_METADATA(IID SidebarSmallPluginInterface_iid FILE "clock.json")
+    Q_PLUGIN_METADATA(IID SidebarSmallPluginInterface_iid FILE "Clock.json")
     Q_INTERFACES(SidebarSmallPluginInterface)
 
 public:

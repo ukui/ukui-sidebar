@@ -29,7 +29,7 @@ Countdown_Animation::~Countdown_Animation()
 void Countdown_Animation::connectToSlider(QRoundProgressBar *bar)
 {
     timer = new QTimer();
-    timer->setInterval(100);
+    timer->setInterval(1000);
 
     bar->setRange(0, 1000);
     bar->setValue(1000);

@@ -16,10 +16,11 @@ static bool createConnection()
 
     QSqlQuery query;
     query.exec(QString(
-      "create table clock (Hour int, Minute int, Music QString, onoroff int, NUM int, repeat Qstring, \
-                           Monday int, Tuesday int, Wednesday int, Thursday int, Friday int, Saturday int ,Sunday int, \
-                            Musictime QString, Name Qstring)"));
-    return true;
+                   "create table clock (Hour int, Minute int, Music QString, onoroff int, NUM int, repeat Qstring,Monday int, Tuesday int, Wednesday int, Thursday int, Friday int, Saturday int , Sunday int, Musictime QString, Name Qstring)"));
+               QSqlQuery query_setup;
+            query_setup.exec(QString(
+                                 "create table setup (selfstart int, Mutestart int, Timeformat int,Popupwindow int, Reminderoff int, Defaultringtone string, volume int, Monday int, Tuesday int, Wednesday int, Thursday int, Friday int, Saturday int ,Sunday int, repeat Qstring, Time Qstring, window Qstring, Reminder Qstring)"));
+                             return true;
 }
 
 #endif // CONNECTION_H

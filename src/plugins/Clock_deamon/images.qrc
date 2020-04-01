@@ -1,8 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>background.png</file>
-        <file>clock.png</file>
-        <file>deleteBtn.png</file>
         <file>alarm_off.png</file>
         <file>alarm_on.png</file>
         <file>icon-4-16x16.png</file>
