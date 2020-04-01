@@ -39,6 +39,8 @@
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkRequest>
 #include <vector>
+#include <QJsonObject>
+#include <QJsonDocument>
 
 class QPushButton;
 class QLabel;
@@ -70,8 +72,8 @@ public:
     bool all_file_size_than_10M();
     void httpclient_init();
     void set_request_header();
-    void send_file_httpserver();
-    QFile* add_file_to_Part(QString filepath);
+    void send_file_httpserver(QString uid);
+    QFile* add_file_to_Part(QString filepath,QString file_type,QString file_name);
     vector<QFile*> m_filesArray;
 
 
@@ -156,7 +158,9 @@ private:
     int filename_y = 480;
     int filename_w = 200;
     int filename_h = 24;
-
+    QString system_info_str; //系统版本信息
+    QString encoding_info_str; //系统编码格式
+    QString desktop_info_str;  //系统桌面环境
 
 
     QPushButton *deletefileBtn[5];
@@ -165,7 +169,11 @@ private:
 
     //httpclient
     QNetworkAccessManager *accessManager;
+    QNetworkAccessManager *accessManager_file;
     QNetworkRequest request;
+    QNetworkRequest request_file;
+
+    QString urlstring;
 
     int send_fail_flags = 0;
 

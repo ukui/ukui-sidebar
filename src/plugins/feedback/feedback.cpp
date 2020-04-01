@@ -223,13 +223,13 @@ void feedback::add_systeminfo()
     }
     //获取系统信息
     //1.获取系统版本
-    string system_info_str;
+    string system_info;
     string system_name;
     string system_version_id;
     string s;
     ifstream fp("/etc/os-release");
     if(!fp){
-        system_info_str = "None";
+        system_info = "None";
     }
     else{
         while (getline(fp,s)){
@@ -248,25 +248,21 @@ void feedback::add_systeminfo()
             }
         }
 
-        system_info_str = os_info +system_name +" " + system_version_id;
+        system_info = os_info +system_name +" " + system_version_id;
     }
-    QString system_info = QString::fromStdString(system_info_str);//string 转QString
-    system_info.remove(QChar('"'), Qt::CaseInsensitive);  //将字符串中"字符删除
-    ui->label_10->setText(system_info);
+    system_info_str = QString::fromStdString(system_info);//string 转QString
+    system_info_str.remove(QChar('"'), Qt::CaseInsensitive);  //将字符串中"字符删除
+    ui->label_10->setText(system_info_str);
     //2.获取桌面环境信息
     char * desktop = getenv("DESKTOP_SESSION");
     desktop_info.append(desktop);
-    ui->label_12->setText(QString::fromStdString(desktop_info));
+    desktop_info_str = QString::fromStdString(desktop_info);
+    ui->label_12->setText(desktop_info_str);
     //3.获取编码格式
     char * encoding = getenv("LANG");
     encoding_info.append(encoding);
-    ui->label_11->setText(QString::fromStdString(encoding_info));
-
-    all_systeminfo.append(system_info);
-    all_systeminfo.append("    ");
-    all_systeminfo.append(QString::fromStdString(desktop_info));
-    all_systeminfo.append("    ");
-    all_systeminfo.append(QString::fromStdString(encoding_info));
+    encoding_info_str = QString::fromStdString(encoding_info);
+    ui->label_11->setText(encoding_info_str);
 }
 
 //syslog点选
@@ -334,30 +330,27 @@ void feedback::on_pushButton_2_clicked()
 {
     ui->pushButton_2->setEnabled(false);
     ui->pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(255, 255, 255)");
-    //判断文件总大小是否超过3M，如果超过，提示
+    //判断文件总大小是否超过10M，如果超过，提示
     if(all_file_size_than_10M() == true)
     {
         ui->label_13->show();
         return;
     }
+    QJsonObject feedback_info_json;
     //反馈信息类型
-
-    QString s1("?title=");
-    s1+=feedback_type;
+    feedback_info_json.insert("subject",feedback_type);
     //详细描述
-    s1+="&description=";
-    s1+=textContent;
+    feedback_info_json.insert("description",textContent);
     //邮箱
-    s1+="&mail=";
-    s1+=email_str;
+    feedback_info_json.insert("email",email_str);
     //系统信息发送
     if(get_systeminfoflag == 1){
-        s1+="&source=";
-        s1+=all_systeminfo;
+        feedback_info_json.insert("version",system_info_str);
+        feedback_info_json.insert("desktop",desktop_info_str);
+        feedback_info_json.insert("language",encoding_info_str);
     }
 
     QString url_filepath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) +"/.config/ukui/url.conf";
-    QString urlstring;
     //从配置文件中读服务器地址
 
     QFile  file_url(url_filepath);
@@ -365,74 +358,99 @@ void feedback::on_pushButton_2_clicked()
     if(!url_fileinfo.isFile())
     {
         file_url.open(QIODevice::ReadWrite | QIODevice::Text);
-        file_url.write("http://ubuntukylin.com:10080");
-        file_url.close();
+        file_url.write("http://feedback.ubuntukylin.com/v1/issue/");
     }
     else{
         file_url.open(QIODevice::ReadWrite | QIODevice::Text);
     }
 
-
-
     urlstring = file_url.readLine();
+    file_url.close();
     //去掉从配置文件中读出的换行符(删除最后一个字符)
-    urlstring.remove(urlstring.length()-1,1);
+    //urlstring.remove(urlstring.length()-1,1);
 
-
-
-    urlstring += s1;
 
     //设置request属性
     set_request_header();
     request.setUrl(QUrl(urlstring));
-    //accessManager->post(request,s1.toUtf8());
+    //发送JSON表单
+    QJsonDocument json_doc;
+    json_doc.setObject(feedback_info_json);
+    QByteArray post_feedback_info_array = json_doc.toJson(QJsonDocument::Compact);
 
-    //發送log和截圖文件到服務器 FIXME RENAME!
-    send_file_httpserver();
-    accessManager->post(request,multiPart);
+    qDebug()<<post_feedback_info_array;
+
+    accessManager->post(request,post_feedback_info_array);
 
 }
-QFile* feedback::add_file_to_Part(QString filepath)
+QFile* feedback::add_file_to_Part(QString filepath,QString file_type,QString file_name)
 {
+    qDebug()<<"this is add_file_to_Part";
     QHttpPart upload_part;
-    upload_part.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"text\""));
+    upload_part.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant(QString("form-data; name=\"%1\";filename=\"%2\"").arg(file_type).arg(file_name)));
     QFile *upload_file =  new QFile(filepath);
-    if(!upload_file->open(QIODevice::ReadOnly| QIODevice::Text))
-    {
-        return nullptr;
+    if(!(upload_file->open(QIODevice::ReadOnly))){
+        qDebug()<<"file open fail";
     }
-    upload_part.setBodyDevice(upload_file);
-    upload_file->setParent(multiPart);
+    upload_part.setBody(upload_file->readAll());
     multiPart->append(upload_part);
     return upload_file;
 }
-void feedback::send_file_httpserver()
+void feedback::send_file_httpserver(QString uid)
 {
+    //初始化http发送文件请求
+    accessManager_file = new QNetworkAccessManager(this);
+    connect(accessManager_file, SIGNAL(finished(QNetworkReply*)), this, SLOT(sendfile_finished(QNetworkReply* )));
+
+    //设置请求头
+    request_file.setHeader(QNetworkRequest::ContentTypeHeader,"multipart/form-data");
+    //设置url
+    QString urlstring_file =   urlstring + "annex/";
+    request_file.setUrl(QUrl(urlstring_file));
+
+    qDebug()<<urlstring_file<<"---";
+    //构建发送信息
     multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
+
+    //**************自我添加部分****************************
+    QString bd = "X-INSOMNIA-BOUNDARY";
+    multiPart->setBoundary(bd.toLatin1());
+    request_file.setHeader(QNetworkRequest::ContentTypeHeader,"multipart/form-data;boundary="+bd);
+
+    //把发送反馈信息服务器返回的uid 加入此次发送中
+    QHttpPart uid_part;
+
+    uid_part.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"issue_uid\""));
+    uid_part.setBody(uid.toUtf8());
+    multiPart->append(uid_part);
+
 
     //判断三个log文件哪个点选了
     if(dpkglogflag ==1){
         //var/log/dpkg.log
-        QFile *file_dpkglog = add_file_to_Part("/var/log/dpkg.log");
+        QFile *file_dpkglog = add_file_to_Part("/var/log/dpkg.log","dpkg","dpkg.log");
         m_filesArray.push_back(file_dpkglog);
     }
     if(apportlogflag == 1){
         //var/log/apport.log
-        QFile *file_apportlog = add_file_to_Part("/var/log/apport.log");
+        QFile *file_apportlog = add_file_to_Part("/var/log/apport.log","apport","apport.log");
         m_filesArray.push_back(file_apportlog);
     }
     if(syslogflag== 1){
         //var/log/syslog.log
-        QFile *file_syslog = add_file_to_Part("/var/log/syslog");
+        QFile *file_syslog = add_file_to_Part("/var/log/syslog","syslog","syslog");
         m_filesArray.push_back(file_syslog);
     }
     //获取添加的附件，文件名
     for(int filenum=0; filenum<file_path_list.size(); filenum++)
     {
         //发送文件
-        QFile *file_image = add_file_to_Part(file_path_list.at(filenum));
+        QFile *file_image = add_file_to_Part(file_path_list.at(filenum),"img"+QString::number(filenum+1),file_name_list.at(filenum));
         m_filesArray.push_back(file_image);
     }
+
+
+    accessManager_file->post(request_file,multiPart);
 }
 //邮箱是否填写
 void feedback::on_textEdit_2_textChanged()
@@ -759,13 +777,11 @@ void feedback::httpclient_init()
 
 void feedback::finishedSlot(QNetworkReply *reply)
 {
-    if (reply->error() == QNetworkReply::NoError)
-    {
-        // 获取http状态码
-        QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
-        if(statusCode.isValid())
-            qDebug() << "status code=" << statusCode.toInt();
-
+    // 获取http状态码
+    QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+    if(statusCode.isValid())
+        qDebug() << "status code=" << statusCode.toInt();
+    if(statusCode.toInt() == 201){
         QVariant reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
         if(reason.isValid())
             qDebug() << "reason=" << reason.toString();
@@ -777,6 +793,22 @@ void feedback::finishedSlot(QNetworkReply *reply)
         success_dialog = new submit_success(this);
         success_dialog->setModal(true);
         success_dialog->show();
+
+        //解析JSON 获取uid annex_uid
+        QString uid_value;
+        QJsonParseError jsonerror;
+        QJsonDocument document = QJsonDocument::fromJson(bytes,&jsonerror);
+
+
+        if(!document.isNull() &&(jsonerror.error == QJsonParseError::NoError))
+        {
+            if(document.isObject()){
+                QJsonObject object = document.object();
+                uid_value = object["uid"].toString();
+            }
+        }
+        //发送文件
+        send_file_httpserver(uid_value);
     }
     else
     {
@@ -802,8 +834,7 @@ void feedback::finishedSlot(QNetworkReply *reply)
 
 void feedback::set_request_header()
 {
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "Accept-Charset=utf-8");
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 }
 
 
