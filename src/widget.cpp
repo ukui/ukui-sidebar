@@ -228,7 +228,7 @@ void Widget::iconActivated(QSystemTrayIcon::ActivationReason reason)
                 mostGrandWidget::getInstancemostGrandWidget()->show();
                 showAnimation();
                 m_bShowFlag = true;
-                m_pTimer->stop();                               //当侧边栏展开时，停止闪烁定时器，并且设置有图标的托盘图标
+//                m_pTimer->stop();                               //当侧边栏展开时，停止闪烁定时器，并且设置有图标的托盘图标
                 setIcon(TRAY_ICON);
             }
             break;
@@ -590,6 +590,7 @@ void Widget::twinkle()
     {
         m_bFwinkleFlag = false;
         setIcon(TRAY_NULL_ICON);
+        m_pTimer->stop();
     }
     else
     {
