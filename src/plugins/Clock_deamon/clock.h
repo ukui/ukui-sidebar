@@ -190,6 +190,7 @@ private:
     QPixmap pixmap9;
     QPixmap pixmap10;
     QPixmap pixmap11;
+    QPixmap pixmap12;
 
     QPixmap bgPixmap;
     QPixmap clockPixmap;

@@ -79,7 +79,9 @@ Clock::Clock(QWidget *parent) :
     pixmap8 = QPixmap(":/start_1.png");
     pixmap9 = QPixmap(":/start_2.png");
     pixmap10 = QPixmap(":/push_1.png");
-    pixmap11 = QPixmap(":/push_2.png");
+    pixmap11 = QPixmap(":/kylin-alarm-clock.svg");
+
+    this->setWindowIcon(pixmap11);
 
 
     bgPixmap = QPixmap(":/background.png").scaled(size());
@@ -726,7 +728,7 @@ void Clock::listClickslot()
     int timeM = time.minute();
 
     int hour_time = model->index(num, 0).data().toInt();
-    int minute_time= model->index(num, 0).data().toInt();
+    int minute_time= model->index(num, 1).data().toInt();
 
     if(hour_time > timeH){
         x_h = hour_time - timeH;
@@ -740,6 +742,17 @@ void Clock::listClickslot()
         x_m = minute_time + 60 - timeM;
         x_h --;
     }
+
+    if(x_m == 60)
+    {
+        x_m = 0;
+        x_h++;
+    }
+    if(x_h ==24)
+    {
+        x_h = 0;
+    }
+
     if(num < 0){
         ui->label_7->setText(QApplication::translate("Clock", "\347\202\271\345\207\273\351\227\271\351\222\237\346\230\276\347\244\272\345\211\251\344\275\231\346\227\266\351\227\264", nullptr));
     }else{
