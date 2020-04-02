@@ -29,15 +29,12 @@ closeBtn_hover::~closeBtn_hover()
 }
 void closeBtn_hover::enterEvent(QEvent *e)
 {
-    setStyleSheet("background-color:rgb(248,100,87);");
-    setIcon(QIcon("://image/close_hover.png"));
+    setStyleSheet("background-color:rgb(248,100,87);border-image:url(:/image/close_hover.png);border-radius:4px;");
 
 }
 void closeBtn_hover::leaveEvent(QEvent *e)
 {
-    setStyleSheet("background-color:rgb(255,255,255);");
-    setIcon(QIcon("://image/close_default.png"));
-
+    setStyleSheet("background-color:rgb(255,255,255);border-image:url(:/image/close_default.png);border-radius:4px;");
 }
 
 
