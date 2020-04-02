@@ -57,6 +57,8 @@ protected:
     void paintEvent1(QPaintEvent *);
 
 private slots:
+    void notice_dialog_show(int,int);
+
     void model_setup_set();                                                    //全局设置数据库初始化
 
     void Count_down();//int Hour,int minute ,int second);
@@ -159,16 +161,6 @@ private slots:
 
     void Mute_starting();                                                                //静音开关回调
 
-    void werk_day_set();                                                                 //默认工作日日期设置回调
-
-    void Time_format_set();                                                              //时间格式设置回调
-
-    void Pop_up_window_set();                                                            //弹窗方式设置回调
-
-    void Reminder_off_set();                                                             //提醒关闭回调
-
-    void Default_ringtone_set();                                                         //默认铃声设置回调
-
     void set_volume_Value(int value);                                                    //设置音量回调
 
 
@@ -213,6 +205,7 @@ private:
     QPixmap delBtnPixmap;
     QPixmap on_pixmap;
     QPixmap off_pixmap;
+    QPixmap clock_icon;
 
     QLabel *cTimeLabe;
 

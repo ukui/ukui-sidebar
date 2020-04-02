@@ -36,6 +36,7 @@
 #include "set_clock.h"
 #include "stopwatch_item.h"
 #include "messagebox.h"
+#include "notice_dialog.h"
 
 const double PI=3.141592;
 
@@ -66,6 +67,9 @@ Clock::Clock(QWidget *parent) :
     delBtnPixmap = QPixmap(":/deleteBtn.png");
     on_pixmap = QPixmap(":/alarm_on.png");
     off_pixmap = QPixmap(":/alarm_off.png");
+    clock_icon = QPixmap(":/kylin-alarm-clock.svg");
+
+    this->setWindowIcon(clock_icon);
 
     ui->pushButton->setIcon(pixmap1);
     ui->pushButton_2->setIcon(pixmap4);
@@ -141,7 +145,11 @@ Clock::Clock(QWidget *parent) :
     connect( ui->addAlarmBtn, SIGNAL(clicked()), this, SLOT(set_Alarm_Clock()) );//添加闹钟
     player_alarm = new QMediaPlayer(this);
     mediaList = new QMediaPlaylist(this);
-
+    ui->label_7->setAlignment(Qt::AlignHCenter);
+    ui->label_12->setAlignment(Qt::AlignHCenter);
+    ui->label->setAlignment(Qt::AlignHCenter);
+    ui->label_2->setAlignment(Qt::AlignHCenter);
+    ui->label_3->setAlignment(Qt::AlignHCenter);
     model = new QSqlTableModel(this);
     model->setTable("clock");
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
@@ -455,34 +463,52 @@ void Clock::timerUpdate()
                 && timeM == model->index(i, 1).data().toInt()
                 && timeS == 0)
         {
-            mediaList->addMedia(QUrl::fromLocalFile(model->index(i, 2).data().toString()));
-            mediaList->setCurrentIndex(i);
-            player->setPlaylist(mediaList);
-            QString music_type = ui->comboBox->currentText();
             QMediaPlayer  *music = new QMediaPlayer(this);//初始化音乐
             QMediaPlaylist *playlist = new QMediaPlaylist(this);//初始化播放列表
-            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/bark.ogg"));
+
+            if(model->index(i, 2).data().toString().compare(tr("玻璃"))==0){
+                playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/glass.ogg"));
+            }else if (model->index(i, 2).data().toString().compare(tr("犬吠"))==0) {
+                playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/bark.ogg"));
+            }else if (model->index(i, 2).data().toString().compare(tr("声呐"))==0) {
+                playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/sonar.ogg"));
+            }else if (model->index(i, 2).data().toString().compare(tr("雨滴"))==0){
+                playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/drip.ogg"));
+            }
+
             playlist->setPlaybackMode(QMediaPlaylist::Loop);//设置播放模式(顺序播放，单曲循环，随机播放等)
             music->setPlaylist(playlist);  //设置播放列表
             music->play();
-            //QMessageBox::warning(this, "警告", "时间到！", QMessageBox::Yes);
+
             double music_time = 30;
             if(model->index(i, 13).data().toString().compare(tr("2分钟"))==0){
                 music_time = 2*60;
             }else if (model->index(i, 13).data().toString().compare(tr("3分钟"))==0) {
                 music_time = 3*60;
-            }else if (model->index(i, 13).data().toString().compare(tr("4分钟"))) {
+            }else if (model->index(i, 13).data().toString().compare(tr("4分钟"))==0) {
                 music_time = 4*60;
-            }else if (model->index(i, 13).data().toString().compare(tr("6分钟"))){
+            }else if (model->index(i, 13).data().toString().compare(tr("6分钟"))==0){
                 music_time = 6*60;
             }else {
                 music_time = 60;
             }
-            MessageBox *messagebox = new MessageBox(this, music_time);
+            notice_dialog_show(music_time, i );
             music->stop();
         }
     }
     update();
+}
+
+void Clock::notice_dialog_show(int close_time, int alarm_num)
+{
+    model_setup->select();
+    Notice_Dialog *dialog1 = new Notice_Dialog(nullptr,close_time,alarm_num);
+    dialog1->label_4->setText(model->index(alarm_num, 14).data().toString());
+    if(model_setup->index(0, 3).data().toInt())
+    {
+        dialog1->showFullScreen();
+    }
+    dialog1->show();
 }
 
 //重绘窗口，更新闹钟
@@ -578,16 +604,29 @@ void Clock::set_Alarm_Clock()
     ui->set_alarm_savebtn->show();
     ui->set_alarm_cancelbtn->show();
     timer_set_page->start();
-    ui->label_13->setText("新建闹钟");
+    ui->label_13->setText(tr("新建闹钟"));
     repeat_new_or_edit_flag = 0;
 
     repeat_str_model = tr("不重复");
     ui->pushButton_6->setText(repeat_str_model);
-    time_music_str_model = tr("1分钟(默认)");
-    ui->pushButton_17->setText(time_music_str_model);
-    music_str_model = tr("鸟鸣(默认)");
-    ui->pushButton_11->setText(music_str_model);
-    clock_name = "闹钟";
+
+    model_setup->select();
+
+    if(model_setup->index(0, 4).data().toInt() == 0){
+        time_music_str_model = tr("1分钟");
+    }else if (model_setup->index(0, 4).data().toInt() == 1) {
+        time_music_str_model = tr("2分钟");
+    }else if (model_setup->index(0, 4).data().toInt() == 2) {
+        time_music_str_model = tr("3分钟");
+    }else if (model_setup->index(0, 4).data().toInt() == 3){
+        time_music_str_model = tr("4分钟");
+    }else if (model_setup->index(0, 4).data().toInt() == 4){
+        time_music_str_model = tr("6分钟");
+    }
+    ui->pushButton_17->setText(time_music_str_model+tr("(默认)"));
+    music_str_model = model_setup->index(0, 5).data().toString();//调用全局设置
+    ui->pushButton_11->setText(music_str_model+tr("(默认)"));
+    clock_name = tr("闹钟");
     ui->pushButton_18->setText(clock_name);
 }
 
@@ -636,6 +675,22 @@ void Clock::set_alarm_save()
     this->raise();
     ui->stackedWidget->raise();//将页面放置最前方
     timer_set_page->stop();
+
+    if(dialog_repeat)
+    {
+        dialog_repeat->close();
+        dialog_repeat = nullptr;
+    }
+    if(dialog_music)
+    {
+        dialog_music->close();
+        dialog_music = nullptr;
+    }
+    if(time_music)
+    {
+        time_music->close();
+        time_music = nullptr;
+    }
 }
 
 //闹钟新建与重编辑界面剩余时间显示
@@ -667,6 +722,10 @@ void Clock::verticalscroll_ring_time()
         x_m = 0;
         x_h++;
     }
+    if(x_h ==24)
+    {
+        x_h = 0;
+    }
     ui->label_12->setText(QString::number(x_h)+"小时"+QString::number(x_m)+"分钟后铃响");
 }
 
@@ -690,7 +749,7 @@ void Clock::listdoubleClickslot()
     timer_alarm_start60->m_currentValue=model->index(ui->listWidget->currentRow(), 1).data().toInt();
     ui->set_page->raise();
     timer_set_page->start();
-    ui->label_13->setText("编辑闹钟");
+    ui->label_13->setText(tr("编辑闹钟"));
     repeat_new_or_edit_flag = 1;
 
     int num = ui->listWidget->currentRow();
@@ -706,6 +765,16 @@ void Clock::listdoubleClickslot()
     time_music_str_model = model->index(num, 13).data().toString();
     clock_name = model->index(num, 14).data().toString();
     ui->pushButton_18->setText(clock_name);
+
+    for (int i=0; i<7; i++) {
+        if(model->index(num, 6+i).data().toInt())
+        {
+            repeat_day[i] = 1;
+        }
+        else {
+            repeat_day[i] = 0;
+        }
+    }
 }
 
 
@@ -753,25 +822,39 @@ void Clock::on_pushButton_9_clicked()
     this->raise();
     ui->stackedWidget->raise();//将页面放置最前方
     timer_set_page->stop();
+
+    if(dialog_repeat)
+    {
+        dialog_repeat->close();
+        dialog_repeat = nullptr;
+    }
+    if(dialog_music)
+    {
+        dialog_music->close();
+        dialog_music = nullptr;
+    }
+    if(time_music)
+    {
+        time_music->close();
+        time_music = nullptr;
+    }
 }
 
 
 //单击闹钟显示铃声剩余时间
 void Clock::listClickslot()
 {
-
     timer_Surplus->start();
 
     int x_h, x_m ;
     int num=ui->listWidget->currentRow();
-    // qDebug() <<num;
 
     QTime time = QTime::currentTime();
     int timeH = time.hour();
     int timeM = time.minute();
 
     int hour_time = model->index(num, 0).data().toInt();
-    int minute_time= model->index(num, 0).data().toInt();
+    int minute_time= model->index(num, 1).data().toInt();
 
     if(hour_time > timeH){
         x_h = hour_time - timeH;
@@ -785,6 +868,17 @@ void Clock::listClickslot()
         x_m = minute_time + 60 - timeM;
         x_h --;
     }
+
+    if(x_m == 60)
+    {
+        x_m = 0;
+        x_h++;
+    }
+    if(x_h ==24)
+    {
+        x_h = 0;
+    }
+
     if(num < 0){
         ui->label_7->setText(QApplication::translate("Clock", "\347\202\271\345\207\273\351\227\271\351\222\237\346\230\276\347\244\272\345\211\251\344\275\231\346\227\266\351\227\264", nullptr));
     }else{
@@ -1176,14 +1270,12 @@ void Clock::alarm_repeat()
         dialog_repeat->widget[7]->alarmLabel0->setText(tr("周六"));
         dialog_repeat->widget[8]->alarmLabel0->setText(tr("周日"));
         for (int i=0; i<7; i++) {
-            if(model->index(num, 6+i).data().toInt())
+            if(repeat_day[i])
             {
                 dialog_repeat->widget[i+2]->alarmLabel1->setIcon(repeat_on_Pixmap);
-                repeat_day[i] = 1;
             }
             else {
                 dialog_repeat->widget[i+2]->alarmLabel1->setIcon(repeat_off_Pixmap);
-                repeat_day[i] = 0;
             }
         }
         dialog_repeat->show();
@@ -1220,10 +1312,16 @@ void Clock::repeat_listClickslot()
     case 1:
         ui->pushButton_6->setText(tr("工作日"));
         repeat_str_model = "工作日";
-        for (int i=0; i<5; i++) {
-            repeat_day[i] = 1;
-            qDebug() << repeat_day[i];
-            dialog_repeat->widget[i+2]->alarmLabel1->setIcon(repeat_on_Pixmap);
+        for (int i=0; i<7; i++) {
+            if(model_setup->index(0, i+7).data().toInt())
+            {
+                repeat_day[i] = 1;
+                qDebug() << repeat_day[i];
+                dialog_repeat->widget[i+2]->alarmLabel1->setIcon(repeat_on_Pixmap);
+            }else{
+                repeat_day[i] = 0;
+                dialog_repeat->widget[i+2]->alarmLabel1->setIcon(repeat_off_Pixmap);
+            }
         }
         dialog_repeat->widget[7]->alarmLabel1->setIcon(repeat_on_Pixmap);
         dialog_repeat->widget[8]->alarmLabel1->setIcon(repeat_on_Pixmap);
@@ -1335,15 +1433,25 @@ void Clock::select_Music()
         dialog_music = nullptr;
     }
     else {
-        dialog_music = new  set_alarm_repeat_Dialog(ui->set_page, 6);
+        dialog_music = new  set_alarm_repeat_Dialog(ui->set_page, 4);
         dialog_music->setWindowFlags(Qt::FramelessWindowHint);
         dialog_music->move(87,465);
-        dialog_music->widget[0]->alarmLabel0->setText(tr("鸟鸣(默认)"));
-        dialog_music->widget[1]->alarmLabel0->setText(tr("雨声"));
-        dialog_music->widget[2]->alarmLabel0->setText(tr("滴滴提示声"));
-        dialog_music->widget[3]->alarmLabel0->setText(tr("轰鸣声"));
-        dialog_music->widget[4]->alarmLabel0->setText(tr("歌曲1"));
-        dialog_music->widget[5]->alarmLabel0->setText(tr("歌曲2"));
+        dialog_music->resize(280,130);
+        dialog_music->listWidget->setFixedSize(280,130);
+        dialog_music->widget[0]->alarmLabel0->setText(tr("玻璃"));
+        dialog_music->widget[1]->alarmLabel0->setText(tr("犬吠"));
+        dialog_music->widget[2]->alarmLabel0->setText(tr("声呐"));
+        dialog_music->widget[3]->alarmLabel0->setText(tr("雨滴"));
+
+        if(model_setup->index(0, 5).data().toString().compare(tr("玻璃"))==0){
+            dialog_music->widget[0]->alarmLabel0->setText(tr("玻璃(默认)"));
+        }else if (model_setup->index(0, 5).data().toString().compare(tr("犬吠"))==0) {
+            dialog_music->widget[1]->alarmLabel0->setText(tr("犬吠(默认)"));
+        }else if (model_setup->index(0, 5).data().toString().compare(tr("声呐"))==0) {
+            dialog_music->widget[2]->alarmLabel0->setText(tr("声呐(默认)"));
+        }else if (model_setup->index(0, 5).data().toString().compare(tr("雨滴"))==0){
+            dialog_music->widget[3]->alarmLabel0->setText(tr("雨滴(默认)"));
+        }
 
         dialog_music->show();
         connect(dialog_music->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(music_listClickslot()));
@@ -1357,32 +1465,21 @@ void Clock::music_listClickslot()
     switch (num)
     {
     case 0:
-        music_str_model=tr("鸟鸣(默认)");
-        ui->pushButton_11->setText(music_str_model);
+        music_str_model=tr("玻璃");
         break;
     case 1:
-        music_str_model=tr("雨声");
-        ui->pushButton_11->setText(music_str_model);
+        music_str_model=tr("犬吠");
         break;
     case 2:
-        music_str_model=tr("滴滴提示声");
-        ui->pushButton_11->setText(music_str_model);
+        music_str_model=tr("声呐");
         break;
     case 3:
-        music_str_model=tr("轰鸣声");
-        ui->pushButton_11->setText(music_str_model);
-        break;
-    case 4:
-        music_str_model=tr("歌曲1");
-        ui->pushButton_11->setText(music_str_model);
-        break;
-    case 5:
-        music_str_model=tr("歌曲2");
-        ui->pushButton_11->setText(music_str_model);
+        music_str_model=tr("雨滴");
         break;
     default:
         break;
     }
+    ui->pushButton_11->setText(music_str_model);
     dialog_music->close();
     dialog_music = nullptr;
 }
@@ -1403,17 +1500,28 @@ void Clock::time_Music()
         time_music = nullptr;
     }
     else {
-        time_music = new  set_alarm_repeat_Dialog(ui->set_page, 6);
+        time_music = new  set_alarm_repeat_Dialog(ui->set_page, 5);
         time_music->setWindowFlags(Qt::FramelessWindowHint);
         time_music->move(87,515);
-        time_music->widget[0]->alarmLabel0->setText(tr("1分钟(默认)"));
+        time_music->resize(280, 120);
+        time_music->listWidget->setFixedSize(280,120);
+        time_music->widget[0]->alarmLabel0->setText(tr("1分钟"));
         time_music->widget[1]->alarmLabel0->setText(tr("2分钟"));
         time_music->widget[2]->alarmLabel0->setText(tr("3分钟"));
         time_music->widget[3]->alarmLabel0->setText(tr("4分钟"));
         time_music->widget[4]->alarmLabel0->setText(tr("6分钟"));
-        time_music->widget[5]->alarmLabel0->setText(tr(""));
 
-
+        if(model_setup->index(0, 4).data().toInt() == 0){
+            time_music->widget[0]->alarmLabel0->setText(tr("1分钟(默认)"));
+        }else if (model_setup->index(0, 4).data().toInt() == 1) {
+            time_music->widget[1]->alarmLabel0->setText(tr("2分钟(默认)"));
+        }else if (model_setup->index(0, 4).data().toInt() == 2) {
+            time_music->widget[2]->alarmLabel0->setText(tr("3分钟(默认)"));
+        }else if (model_setup->index(0, 4).data().toInt() == 3){
+            time_music->widget[3]->alarmLabel0->setText(tr("4分钟(默认)"));
+        }else if (model_setup->index(0, 4).data().toInt() == 4){
+            time_music->widget[4]->alarmLabel0->setText(tr("6分钟(默认)"));
+        }
 
         time_music->show();
         connect(time_music->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(time_music_listClickslot()));
@@ -1426,28 +1534,24 @@ void Clock::time_music_listClickslot()
     switch (num)
     {
     case 0:
-        time_music_str_model=tr("1分钟(默认)");
-        ui->pushButton_17->setText(time_music_str_model);
+        time_music_str_model=tr("1分钟");
         break;
     case 1:
         time_music_str_model=tr("2分钟");
-        ui->pushButton_17->setText(time_music_str_model);
         break;
     case 2:
         time_music_str_model=tr("3分钟");
-        ui->pushButton_17->setText(time_music_str_model);
         break;
     case 3:
         time_music_str_model=tr("4分钟");
-        ui->pushButton_17->setText(time_music_str_model);
         break;
     case 4:
         time_music_str_model=tr("6分钟");
-        ui->pushButton_17->setText(time_music_str_model);
         break;
     default:
         break;
     }
+    ui->pushButton_17->setText(time_music_str_model);
     time_music->close();
     time_music = nullptr;
 }
@@ -1481,7 +1585,7 @@ void Clock::clack_rename()
 }
 
 
-//------------------------------------------全局设置---------------------------------
+//------------------------------------------全局设置----------------------------------
 
 
 void Clock::model_setup_set()
@@ -1545,6 +1649,14 @@ void Clock::set_up_page()
             setup_page->ui->pushButton_2->setStyleSheet("border-image: url(:/alarm_off.png);");
         }
         setup_page->ui->horizontalSlider->setValue(model_setup->index(0, 6).data().toInt());
+
+        if(model_setup->index(0, 1).data().toInt()){
+            grand = new QWidget(setup_page->ui->widget);
+            grand->resize(197,24);
+            grand->move(128,406);
+            grand->setStyleSheet("QWidget{background-color: rgba(14, 19, 22, 0);}");
+            grand->show();
+        }
     }
 }
 
@@ -1562,15 +1674,31 @@ void Clock::alarm_clcok_Self_starting()
     model_setup->submitAll();
 }
 
-//静音开关回调
+//静音开关回调  静音不可调节音量
 void Clock::Mute_starting()
 {
     if(model_setup->index(0, 1).data().toInt()){
         setup_page->ui->pushButton_2->setStyleSheet("border-image: url(:/alarm_off.png);");
         model_setup->setData(model_setup->index(0, 1), 0);
+        if(grand){
+            grand->close();
+            grand = nullptr;
+            model_setup->setData(model_setup->index(0, 6),model_setup->index(0, 18).data().toInt());//滑动条记忆回复
+            setup_page->ui->horizontalSlider->setValue(model_setup->index(0, 6).data().toInt());
+        }
     }else {
         setup_page->ui->pushButton_2->setStyleSheet("border-image: url(:/alarm_on.png);");
         model_setup->setData(model_setup->index(0, 1), 1);
+
+        model_setup->setData(model_setup->index(0, 18),model_setup->index(0, 6).data().toInt());//记忆滑动条
+        model_setup->setData(model_setup->index(0, 6),0 );
+        setup_page->ui->horizontalSlider->setValue(0);
+
+        grand = new QWidget(setup_page->ui->widget);
+        grand->resize(197,24);
+        grand->move(128,406);
+        grand->setStyleSheet("QWidget{background-color: rgba(14, 19, 22, 0);}");
+        grand->show();
     }
 
     model_setup->submitAll();
@@ -1582,36 +1710,5 @@ void Clock::set_volume_Value(int value)
     qDebug()<< value ;
     model_setup->setData(model_setup->index(0, 6),value );
     model_setup->submitAll();
-}
-
-//默认工作日日期设置回调
-void Clock::werk_day_set()
-{
-
-
-}
-
-//时间格式设置回调
-void Clock::Time_format_set()
-{
-
-}
-
-//弹窗方式设置回调
-void Clock::Pop_up_window_set()
-{
-
-}
-
-//提醒关闭回调
-void Clock::Reminder_off_set()
-{
-
-}
-
-//默认铃声设置回调
-void Clock::Default_ringtone_set()
-{
-
 }
 
