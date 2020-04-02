@@ -109,7 +109,7 @@ color:rgba(255,255,255,1);
 </string>
      </property>
      <property name="text">
-      <string>工作日</string>
+      <string>  工作日</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_10">
@@ -184,7 +184,7 @@ color:rgba(255,255,255,1);
 </string>
      </property>
      <property name="text">
-      <string>时间格式</string>
+      <string>  时间格式</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_11">
@@ -203,9 +203,9 @@ color:rgba(255,255,255,1);
     <widget class="QPushButton" name="pushButton_7">
      <property name="geometry">
       <rect>
-       <x>60</x>
+       <x>70</x>
        <y>0</y>
-       <width>181</width>
+       <width>171</width>
        <height>36</height>
       </rect>
      </property>
@@ -245,7 +245,7 @@ border-radius:4px;
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>61</width>
+       <width>62</width>
        <height>31</height>
       </rect>
      </property>
@@ -259,7 +259,7 @@ color:rgba(255,255,255,1);
 </string>
      </property>
      <property name="text">
-      <string>弹窗方式</string>
+      <string>  弹窗方式</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_12">
@@ -278,9 +278,9 @@ color:rgba(255,255,255,1);
     <widget class="QPushButton" name="pushButton_8">
      <property name="geometry">
       <rect>
-       <x>60</x>
+       <x>70</x>
        <y>0</y>
-       <width>181</width>
+       <width>171</width>
        <height>36</height>
       </rect>
      </property>
@@ -320,7 +320,7 @@ border-radius:4px;
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>61</width>
+       <width>68</width>
        <height>31</height>
       </rect>
      </property>
@@ -334,7 +334,7 @@ color:rgba(255,255,255,1);
 </string>
      </property>
      <property name="text">
-      <string>提醒关闭</string>
+      <string>  铃声时长</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_13">
@@ -353,9 +353,9 @@ color:rgba(255,255,255,1);
     <widget class="QPushButton" name="pushButton_9">
      <property name="geometry">
       <rect>
-       <x>60</x>
+       <x>70</x>
        <y>0</y>
-       <width>181</width>
+       <width>171</width>
        <height>36</height>
       </rect>
      </property>
@@ -409,7 +409,7 @@ color:rgba(255,255,255,1);
 </string>
      </property>
      <property name="text">
-      <string>默认铃声</string>
+      <string>  默认铃声</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_14">
@@ -428,9 +428,9 @@ color:rgba(255,255,255,1);
     <widget class="QPushButton" name="pushButton_15">
      <property name="geometry">
       <rect>
-       <x>60</x>
+       <x>70</x>
        <y>0</y>
-       <width>181</width>
+       <width>171</width>
        <height>36</height>
       </rect>
      </property>
@@ -530,6 +530,23 @@ border-radius:50%;
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>30</y>
+      <width>121</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 25 22pt &quot;Noto Sans CJK SC&quot;;
+color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>默认设置</string>
     </property>
    </widget>
   </widget>

@@ -12,11 +12,11 @@ TARGET = Clock_deamon
 TEMPLATE = lib
 CONFIG += plugin
 
-
-SOURCES +=\
+SOURCES += \
         clock.cpp \
     clock_plugin.cpp \
     item_new.cpp \
+    notice_dialog.cpp \
     setuppage.cpp \
     stopwatch_item.cpp \
     verticalscroll_24.cpp \
@@ -30,7 +30,6 @@ SOURCES +=\
     messagebox.cpp
 TRANSLATIONS = Clock.ts
 
-
 INCLUDEPATH    += ../../plugin-interface
 
 DESTDIR = ../sidebarSmallPlugins
@@ -38,12 +37,12 @@ DESTDIR = ../sidebarSmallPlugins
 DISTFILES += Clock.json
 
 
-
 HEADERS  += clock.h \
     clock_plugin.h \
     connection.h \
     debug.h \
     item_new.h \
+    notice_dialog.h \
     setuppage.h \
     stopwatch_item.h \
     verticalscroll_24.h \
@@ -70,4 +69,3 @@ unix {
     target.path = /usr/lib/ukui-sidebar/sidebarSmallPlugins
     INSTALLS += target
 }
-

@@ -33,7 +33,6 @@ void Countdown_Animation::connectToSlider(QRoundProgressBar *bar)
 
     bar->setRange(0, 1000);
     bar->setValue(1000);
-   // qDebug()<<value_max<<"----------------------------------------------------------";
 
     connect(timer, SIGNAL(timeout()), bar, SLOT(setValue()));
     timer->start();

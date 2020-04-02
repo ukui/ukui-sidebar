@@ -5,13 +5,15 @@
 #include "set_alarm_repeat_dialog.h"
 #include <QDebug>
 
-
 setuppage::setuppage(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::setuppage)
 {
     ui->setupUi(this);
     this->setWindowOpacity(0.9);
+
+    ui->pushButton->hide();
+    ui->label->hide();
 
     QPixmap bgPixmap = QPixmap(":/go-bottom-symbolic.png");
     ui->pushButton_10->setIcon(bgPixmap);
@@ -195,7 +197,8 @@ void setuppage::werk_day_listClickslot()
     ui->pushButton_6->setText(repeat_str);
     model_setup->setData(model_setup->index(0, 14), repeat_str);
 
-    repeat_str="";model_setup->submitAll();
+    repeat_str="";
+    model_setup->submitAll();
 }
 
 //时间格式设置回调
@@ -248,6 +251,7 @@ void setuppage::Time_format_listClickslot()
     ui->pushButton_7->setText(model_setup->index(0, 15).data().toString());
     dialog_werk_day->close();
     dialog_werk_day = nullptr;
+    model_setup->submitAll();
 }
 
 
@@ -296,6 +300,7 @@ void setuppage::Pop_up_window_listClickslot()
     ui->pushButton_8->setText(model_setup->index(0, 16).data().toString());
     dialog_werk_day->close();
     dialog_werk_day = nullptr;
+    model_setup->submitAll();
 }
 
 
@@ -316,11 +321,11 @@ void setuppage::Reminder_off_set()
         dialog_werk_day->widget[2]->alarmLabel0->setFixedSize(200,17);
         dialog_werk_day->widget[3]->alarmLabel0->setFixedSize(200,17);
         dialog_werk_day->widget[4]->alarmLabel0->setFixedSize(200,17);
-        dialog_werk_day->widget[0]->alarmLabel0->setText(tr("手动关闭"));
+        dialog_werk_day->widget[0]->alarmLabel0->setText(tr("1分钟后自动关闭"));
         dialog_werk_day->widget[1]->alarmLabel0->setText(tr("2分钟后自动关闭"));
-        dialog_werk_day->widget[2]->alarmLabel0->setText(tr("5分钟后自动关闭"));
-        dialog_werk_day->widget[3]->alarmLabel0->setText(tr("10分钟后自动关闭"));
-        dialog_werk_day->widget[4]->alarmLabel0->setText(tr("30分钟后自动关闭"));
+        dialog_werk_day->widget[2]->alarmLabel0->setText(tr("3分钟后自动关闭"));
+        dialog_werk_day->widget[3]->alarmLabel0->setText(tr("4分钟后自动关闭"));
+        dialog_werk_day->widget[4]->alarmLabel0->setText(tr("6分钟后自动关闭"));
         dialog_werk_day->show();
         connect(dialog_werk_day->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(Reminder_off_listClickslot()));
     }
@@ -335,7 +340,7 @@ void setuppage::Reminder_off_listClickslot()
     switch (num)
     {
     case 0:
-            model_setup->setData(model_setup->index(0, 17), tr("手动关闭"));
+            model_setup->setData(model_setup->index(0, 17), tr("1分钟后自动关闭"));
         break;
 
     case 1:
@@ -343,15 +348,15 @@ void setuppage::Reminder_off_listClickslot()
         break;
 
     case 2:
-            model_setup->setData(model_setup->index(0, 17), tr("5分钟后自动关闭"));
+            model_setup->setData(model_setup->index(0, 17), tr("3分钟后自动关闭"));
         break;
 
     case 3:
-            model_setup->setData(model_setup->index(0, 17), tr("10分钟后自动关闭"));
+            model_setup->setData(model_setup->index(0, 17), tr("4分钟后自动关闭"));
         break;
 
     case 4:
-            model_setup->setData(model_setup->index(0, 17), tr("30分钟后自动关闭"));
+            model_setup->setData(model_setup->index(0, 17), tr("6分钟后自动关闭"));
         break;
     default:
         break;
@@ -360,6 +365,7 @@ void setuppage::Reminder_off_listClickslot()
     ui->pushButton_9->setText(model_setup->index(0, 17).data().toString());
     dialog_werk_day->close();
     dialog_werk_day = nullptr;
+    model_setup->submitAll();
 }
 
 void setuppage::Default_ringtone_set()
@@ -414,5 +420,6 @@ void setuppage::Default_ringtone_listClickslot()
     ui->pushButton_15->setText(model_setup->index(0, 5).data().toString());
     dialog_werk_day->close();
     dialog_werk_day = nullptr;
+    model_setup->submitAll();
 }
 

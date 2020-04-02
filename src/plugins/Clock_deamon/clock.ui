@@ -370,10 +370,10 @@ font: 12pt &quot;Sans Serif&quot;;
     <widget class="QLabel" name="label_7">
      <property name="geometry">
       <rect>
-       <x>142</x>
-       <y>96</y>
-       <width>173</width>
-       <height>18</height>
+       <x>128</x>
+       <y>93</y>
+       <width>191</width>
+       <height>25</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -615,7 +615,7 @@ background-color: rgb(76, 76, 76);
 font: 10pt &quot;Sans Serif&quot;;</string>
      </property>
      <property name="text">
-      <string>   倒计时</string>
+      <string>倒计时</string>
      </property>
     </widget>
     <widget class="ClickableLabel" name="label_2">
@@ -632,7 +632,7 @@ font: 10pt &quot;Sans Serif&quot;;</string>
 font: 10pt &quot;Sans Serif&quot;;</string>
      </property>
      <property name="text">
-      <string>     闹钟</string>
+      <string>闹钟</string>
      </property>
     </widget>
     <widget class="ClickableLabel" name="label_3">
@@ -649,7 +649,7 @@ font: 10pt &quot;Sans Serif&quot;;</string>
 font: 10pt &quot;Sans Serif&quot;;</string>
      </property>
      <property name="text">
-      <string>     秒表</string>
+      <string>秒表</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton">
@@ -756,7 +756,7 @@ border-radius:4p</string>
       <x>141</x>
       <y>284</y>
       <width>173</width>
-      <height>18</height>
+      <height>25</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -1082,7 +1082,7 @@ color:rgba(255,255,255,1);
 </string>
      </property>
      <property name="text">
-      <string>  提醒铃声</string>
+      <string>  铃声时长</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_16">
