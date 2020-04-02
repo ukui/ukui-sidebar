@@ -538,19 +538,23 @@ void feedback::add_systeminfo()
 
         system_info = os_info +system_name +" " + system_version_id;
     }
+    send_os_info = QString::fromStdString(system_name +" " + system_version_id);
     system_info_str = QString::fromStdString(system_info);//string 转QString
     system_info_str.remove(QChar('"'), Qt::CaseInsensitive);  //将字符串中"字符删除
     label_10->setText(system_info_str);
     //2.获取桌面环境信息
     char * desktop = getenv("DESKTOP_SESSION");
     desktop_info.append(desktop);
+    send_dekstop_info.append(desktop);
     desktop_info_str = QString::fromStdString(desktop_info);
     label_12->setText(desktop_info_str);
     //3.获取编码格式
-    char * encoding = getenv("LANG");
+    char * encoding = getenv("GDM_LANG");
     encoding_info.append(encoding);
+    send_encoding_info.append(encoding);
     encoding_info_str = QString::fromStdString(encoding_info);
     label_11->setText(encoding_info_str);
+
 
 }
 
@@ -641,9 +645,14 @@ void feedback::on_pushButton_2_clicked()
     feedback_info_json.insert("email",email_str);
     //系统信息发送
     if(get_systeminfoflag == 1){
-        feedback_info_json.insert("version",system_info_str);
-        feedback_info_json.insert("desktop",desktop_info_str);
-        feedback_info_json.insert("language",encoding_info_str);
+        feedback_info_json.insert("version",send_os_info);
+        feedback_info_json.insert("desktop",send_dekstop_info);
+        feedback_info_json.insert("language",send_encoding_info);
+    }
+    else{
+        feedback_info_json.insert("version","");
+        feedback_info_json.insert("desktop","");
+        feedback_info_json.insert("language","");
     }
     QString url_filepath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) +"/.config/ukui/url.conf";
     //从配置文件中读服务器地址
@@ -652,15 +661,16 @@ void feedback::on_pushButton_2_clicked()
     if(!url_fileinfo.isFile())
     {
         file_url.open(QIODevice::ReadWrite | QIODevice::Text);
-        file_url.write("http://ubuntukylin.com:10080");
-        file_url.close();
+        file_url.write("http://feedback.ubuntukylin.com/v1/issue/");
+
     }
     else{
         file_url.open(QIODevice::ReadWrite | QIODevice::Text);
     }
     urlstring = file_url.readLine();
+    file_url.close();
     //去掉从配置文件中读出的换行符(删除最后一个字符)
-    urlstring.remove(urlstring.length()-1,1);
+    // urlstring.remove(urlstring.length()-1,1);
     //设置request属性
     set_request_header();
     request.setUrl(QUrl(urlstring));
@@ -931,12 +941,12 @@ void feedback::add_fileinfo_model()
         file_size_list.append(file_size);
         file_path_list.append(filename);
     }
-        for(int i=0; i<file_name_list.size()-1; i++)
-        {
-            delete file_listwidget_item[i];
-            delete file_widget[i];
-        }
-        update_add_file_window();
+    for(int i=0; i<file_name_list.size()-1; i++)
+    {
+        delete file_listwidget_item[i];
+        delete file_widget[i];
+    }
+    update_add_file_window();
 }
 //根据数据列表 刷新窗口
 void feedback::update_add_file_window()
