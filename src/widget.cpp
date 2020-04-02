@@ -37,6 +37,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
         QApplication::installTranslator(m_pTranslator);
     }
     m_bShowFlag = false;
+    m_bClipboardFlag = true;
     m_bFwinkleFlag = true;
 
     m_pServiceInterface = new QDBusInterface(PANEL_DBUS_SERVICE, PANEL_DBUS_PATH, PANEL_DBUS_INTERFACE, QDBusConnection::sessionBus());
@@ -151,6 +152,10 @@ int Widget::ListenClipboardSignal()
         mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
         hideAnimation();
     });
+
+    connect(m_pSidebarSignal, &SidebarClipBoardSignal::CLipBoardEditConfirmButtonSignal, this, &Widget::ClipboardHideSlots);
+
+    connect(m_pSidebarSignal, &SidebarClipBoardSignal::ClipBoardWidgetEntryEditButtonSignal, this, &Widget::ClipboardShowSlots);
 
     sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pClipboardWidget = m_pSidebarClipboard->getClipbaordGroupBox();   /* 获取剪贴板的Groubox指针; */
     int clipboardhight = setClipBoardWidgetScaleFactor();
@@ -509,6 +514,17 @@ void Widget::primaryScreenChangedSLot()
     InitializeHomeScreenGeometry();
 }
 
+void Widget::ClipboardShowSlots()
+{
+    m_bClipboardFlag = false;
+}
+
+
+void Widget::ClipboardHideSlots()
+{
+    m_bClipboardFlag = true;
+}
+
 /* 修改屏幕分辨率或者主屏需要做的事情 */
 void Widget::ModifyScreenNeeds()
 {
@@ -606,7 +622,7 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
     Q_UNUSED(event);
     if (obj == this)
     {
-        if (event->type() == QEvent::WindowDeactivate && true == m_bShowFlag)
+        if (event->type() == QEvent::WindowDeactivate && true == m_bShowFlag && true == m_bClipboardFlag)
         {
             qDebug() << "事件类型" << event->type();
             qDebug() << "Widget::eventFilter 消失";

@@ -30,11 +30,13 @@
 #include <QEvent>
 #include <QDebug>
 #include <QSpacerItem>
+#include "clipboardsignal.h"
 #define  EDIT_SVG_PATH  ":/image/editor.svg"
 #define  COPY_SVG_PATH  ":/image/copy.svg"
 #define  REMOVE_SVG_PATH  ":/image/delete.svg"
 #define  SEARCH_SVG_CLEAN ":/image/button-close-hover-click-two.svg"
 #define  SEARCH_SVG_CLEAN_BACK ":/image/button-close-hover-click-add-background-one.svg"
+extern ClipboardSignal *globalClipboardSignal;
 class ClipboardWidgetEntry : public QWidget
 {
 public:

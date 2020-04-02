@@ -94,6 +94,7 @@ private:
     QVBoxLayout*                m_pMainQVBoxLayout;                             //主界面垂直布局器
     QDBusInterface*             m_pServiceInterface;                            //获取任务栏的高度
     bool                        m_bShowFlag;                                    //控制托盘栏点击事件的标志位
+    bool                        m_bClipboardFlag;                               //剪贴板编辑框打开和关闭时控制侧边栏是否关闭
     int                         m_nScreenWidth;                                 //屏幕分辨率的宽
     int                         m_nScreenHeight;                                //屏幕分辨率的高
     int                         m_nScreen_x;                                    //主屏的起始坐标X
@@ -133,6 +134,8 @@ private slots :
     void hideAnimationFinish();                                                 //隐藏动画完成
     void showAnimationAction(const QVariant &value);                            //展开动画开始
     void primaryScreenChangedSLot();                                            //主屏发生变化
+    void ClipboardShowSlots();                                                  //接受剪贴板信号，将boll值m_bClipboardFlag置为false;
+    void ClipboardHideSlots();                                                  //接受剪贴板信号，将boll值m_bClipboardFlag置为true;
 };
 
 #endif // WIDGET_H

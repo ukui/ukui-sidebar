@@ -414,7 +414,6 @@ void SidebarClipboardPlugin::editButtonSlots(ClipboardWidgetEntry *w)
             pMimeData->setText(EditWidget.m_pEditingArea->toPlainText());
             GetOriginalDataValue(Item)->text = EditWidget.m_pEditingArea->toPlainText();
         }
-
         //获取当前条目所在位置，是不是在第一
         int row_num = m_pShortcutOperationListWidget->row(Item);
         if (row_num == 0) {

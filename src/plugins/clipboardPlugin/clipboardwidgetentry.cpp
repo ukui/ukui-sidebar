@@ -36,6 +36,7 @@ ClipboardWidgetEntry::ClipboardWidgetEntry(QWidget *parent)
     m_pPopButton->setIcon(PopIcon);
     m_pPopButton->setObjectName("PopButton");
     m_pEditButon     = new QPushButton();
+    connect(m_pEditButon, &QPushButton::clicked, globalClipboardSignal, &ClipboardSignal::ClipBoardWidgetEntryEditButtonSignal);
     m_pEditButon->setToolTip(tr("EditButton"));
     m_pEditButon->setFixedSize(34, 34);
     m_pEditButon->setIcon(EditIcon);
