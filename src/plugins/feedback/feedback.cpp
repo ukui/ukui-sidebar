@@ -405,6 +405,15 @@ void feedback::on_pushButton_close_clicked()
     delete accessManager;
     submitting_timer->stop();
 }
+void feedback::window_close()
+{
+    this->close();
+}
+//发送失败后 重新发送
+void feedback::resend_info_when_sendfail()
+{
+    this->on_pushButton_2_clicked();
+}
 //获取图片
 void feedback::on_pushButton_clicked()
 {

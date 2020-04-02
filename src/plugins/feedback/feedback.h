@@ -138,6 +138,8 @@ public:
     void httpclient_init();
     void set_request_header();
     void send_file_httpserver(QString uid);
+    void window_close();
+    void resend_info_when_sendfail();
     QFile* add_file_to_Part(QString filepath,QString file_type,QString file_name);
     vector<QFile*> m_filesArray;
 
