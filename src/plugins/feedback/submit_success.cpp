@@ -43,7 +43,7 @@ void submit_success::UI_init()
 
     succ_closeBtn = new closeBtn_hover(this);
     succ_closeBtn->setGeometry(QRect(396, 4, 30, 30));
-    succ_closeBtn->setStyleSheet("background-color: rgb(255,255,255);border-image:url(:/image/close_hover.png);border-radius:4px;");
+    succ_closeBtn->setStyleSheet("background-color: rgb(255,255,255);border-image:url(:/image/close_default.png);border-radius:4px;");
     connect(succ_closeBtn,SIGNAL(clicked()),this,SLOT(succ_close_window()));
 
     pushButton = new QPushButton(this);
