@@ -26,6 +26,8 @@ class NotificationPlugin;
 class QProcess;
 class QTimer;
 
+#define UKUI_CONTROL_CENTER_NOTIFY "org.ukui.control-center.noticeorigin"
+
 class MonitorThread : public QThread
 {
     Q_OBJECT
@@ -38,13 +40,14 @@ private:
     NotificationPlugin*     m_parent;           //传一个插件对象指针，用来回传槽函数
     QProcess*               m_pProcess;
     QGSettings*             m_pSettings;
+    QStringList             m_pStorageAppList;
 
 signals:
     void Sig_Notify(QString, QString, QString, QString, QDateTime, bool);
     void Sig_Takein(QString,QString,QString,QString,QDateTime);
 public slots:
     void readOutputData();
-    void appNotifySettingChangedSlot(const QString &key);
+    void appNotifySettingChangedSlot();
 };
 
 #endif // MONITORTHREAD_H

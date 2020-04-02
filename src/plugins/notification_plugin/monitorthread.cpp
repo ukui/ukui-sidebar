@@ -23,9 +23,10 @@
 MonitorThread::MonitorThread(NotificationPlugin *parent)
 {
     m_parent = parent;
-    m_pSettings = new QGSettings("org.ukui.control-center.noticeorigin");
+    if(QGSettings::isSchemaInstalled(UKUI_CONTROL_CENTER_NOTIFY)) {
+        m_pSettings = new QGSettings(UKUI_CONTROL_CENTER_NOTIFY);
+    }
     this->moveToThread(this);
-
 }
 
 void MonitorThread::extractData(QString strOutput)
@@ -101,33 +102,92 @@ void MonitorThread::extractData(QString strOutput)
     QString strBody = strOutputTmp.mid(0, nIndex);
     strOutputTmp = strOutputTmp.mid(nIndex + 1);
 
+    //如果
+    bool status = true;
+    if (m_pStorageAppList.contains(strAppName)) {
+         for (int i=0;i<m_pStorageAppList.count();i++) {
+            QStringList keys = m_pSettings->keys();
+            if (keys.contains("ukuiPowerStatistics"))
+            {
+                status = m_pSettings->get("ukuiPowerStatistics").toBool();
+            }
+        }
+    }
+
     QDateTime dateTime(QDateTime::currentDateTime());
-    emit Sig_Notify(strAppName, strIcon, strSummary, strBody, dateTime, true);
-    emit Sig_Takein(strAppName, strIcon, strSummary, strBody, dateTime);
+    if (status)
+        emit Sig_Notify(strAppName, strIcon, strSummary, strBody, dateTime, true);
+    else
+        emit Sig_Takein(strAppName, strIcon, strSummary, strBody, dateTime);
     return;
 }
 
 void MonitorThread::listeningAppNotificationStatus()
 {
-//    bool status = m_pSettings->get("kylin-assistant").toBool();
-    qDebug() << "监听通知消息";
-    connect(m_pSettings,SIGNAL(changed(const QString &)),this,SLOT(appNotifySettingChangedSlot(const QString &)));
+    QStringList keys = m_pSettings->keys();
+    QString appNotifyName = "";
+    if (keys.contains("ukuiPowerStatistics"))
+    {
+        if (keys.contains("ukuiPowerStatisticsname"))
+        {
+            appNotifyName = m_pSettings->get("ukuiPowerStatisticsname").toString();
+        }
+        bool status = m_pSettings->get("ukuiPowerStatistics").toBool();
+        if (status) {
+            int index = m_pStorageAppList.indexOf(appNotifyName);
+            if (-1 == index)
+                return;
+            else {
+                m_pStorageAppList.removeAt(index);
+            }
+        }
+        else {
+            m_pStorageAppList.append(appNotifyName);
+        }
+    }
+    connect(m_pSettings,SIGNAL(changed(const QString &)),this,SLOT(appNotifySettingChangedSlot()));
 }
 
-void MonitorThread::appNotifySettingChangedSlot(const QString &key)
+void MonitorThread::appNotifySettingChangedSlot()
 {
     bool status = false;
-    if (key == "vide0") {
+    QString appNotifyName;
+    QStringList keys = m_pSettings->keys();
+    if (keys.contains("ukuiPowerStatistics"))
+    {
+        status = m_pSettings->get("ukuiPowerStatistics").toBool();
+        if (keys.contains("ukuiPowerStatisticsname"))
+        {
+            appNotifyName = m_pSettings->get("ukuiPowerStatisticsname").toString();
+        }
+        if (status)
+        {
+            int index = m_pStorageAppList.indexOf(appNotifyName);
+            if (-1 == index)
+            {
+                return;
+            }
+            else
+            {
+                m_pStorageAppList.removeAt(index);
+            }
+        }
+        else
+        {
+            m_pStorageAppList.append(appNotifyName);
+        }
+    }
+    if (keys.contains("kylinVideo"))
+    {
         status = m_pSettings->get("kylinVideo").toBool();
-        qDebug() << "kylin vide0 status" << status;
     }
-    if (key == "kylinAssistant") {
+    if (keys.contains("kylinAssistant"))
+    {
         status = m_pSettings->get("kylinAssistant").toBool();
-        qDebug() << "kylin assistant status" << status;
     }
-    if (key == "ubuntuKylinSoftwareCenter") {
+    if (keys.contains("ubuntuKylinSoftwareCenter"))
+    {
         status = m_pSettings->get("ubuntuKylinSoftwareCenter").toBool();
-        qDebug() << "ubuntu kylin software center status" << status;
     }
 }
 
@@ -168,10 +228,12 @@ void MonitorThread::run()
     pTimer->start(1000);
 
     //将消息添加到通知中心或收纳盒
-    qDebug() << "将消息添加到通知中心或收纳盒**********&&&&&&&&&&&" ;
     listeningAppNotificationStatus();
+
     connect(this, SIGNAL(Sig_Notify(QString, QString, QString, QString, QDateTime, bool)), m_parent, SLOT(onAddSingleNotify(QString, QString, QString, QString, QDateTime, bool)));
-//    connect(this, SIGNAL(Sig_Takein(QString, QString, QString, QString, QDateTime)), m_parent, SLOT(onTakeInSingleNotify(QString, QString, QString, QString, QDateTime)));
+
+    connect(this, SIGNAL(Sig_Takein(QString, QString, QString, QString, QDateTime)), m_parent, SLOT(onTakeInSingleNotify(QString, QString, QString, QString, QDateTime)));
+
     exec();
 
 }
