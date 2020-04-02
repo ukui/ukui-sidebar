@@ -16,7 +16,7 @@
 *
 */
 #include "submit_fail.h"
-
+#include "feedback.h"
 
 
 
@@ -26,6 +26,7 @@ submit_fail::submit_fail(QWidget *parent) :
 {
 
     UI_init();
+    parentWnd = (feedback *)parent;
 
 }
 
@@ -48,15 +49,21 @@ void submit_fail::UI_init()
 
     fail_closeBtn = new closeBtn_hover(this);
     fail_closeBtn->setGeometry(QRect(396, 4, 30, 30));
-    fail_closeBtn->setIcon(QIcon(":/image/close_default.png"));
-    fail_closeBtn->setStyleSheet("background-color: rgb(255,255,255);");
+    fail_closeBtn->setStyleSheet("background-color: rgb(255,255,255);border-image:url(:/image/close_hover.png);border-radius:4px;");
 
-    connect(fail_closeBtn,SIGNAL(clicked()),this,SLOT(close_fail_window));
+    connect(fail_closeBtn,SIGNAL(clicked()),this,SLOT(close_fail_window()));
+
+    resendBtn = new QPushButton(this);
+    resendBtn->setGeometry(QRect(130, 160, 60, 26));
+    resendBtn->setText(tr("重新发送"));
+    resendBtn->setFlat(true);
+    resendBtn->setStyleSheet(QString::fromUtf8("color: rgb(61, 107, 229);"));
+    connect(resendBtn,SIGNAL(clicked()),this,SLOT(resend_feedbackinfo()));
 
     pushButton_2 = new QPushButton(this);
     pushButton_2->setText(tr("退出"));
     pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
-    pushButton_2->setGeometry(QRect(130, 160, 40, 26));
+    pushButton_2->setGeometry(QRect(220, 160, 40, 26));
     pushButton_2->setStyleSheet(QString::fromUtf8("color: rgb(61, 107, 229);"));
     pushButton_2->setFlat(true);
     label_2 = new QLabel(this);
@@ -98,8 +105,14 @@ submit_fail::~submit_fail()
 void submit_fail::on_pushButton_2_clicked()
 {
     this->close();
+    parentWnd->window_close();
 }
 void submit_fail::close_fail_window()
 {
+    this->close();
+}
+void submit_fail::resend_feedbackinfo()
+{
+    parentWnd->resend_info_when_sendfail();
     this->close();
 }

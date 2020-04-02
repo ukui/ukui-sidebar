@@ -22,7 +22,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include "closeBtn_hover.h"
-
+class feedback;
 
 class submit_fail : public QDialog
 {
@@ -37,14 +37,16 @@ public:
 private slots:
     void on_pushButton_2_clicked();
     void close_fail_window();
+    void resend_feedbackinfo();
 
 private:
 
     void UI_init();
-
+    feedback *parentWnd;
     QLabel *label;
     QPushButton *pushButton_2;
     closeBtn_hover * fail_closeBtn;
+    QPushButton * resendBtn;
     QLabel *label_2;
     QLabel *label_3;
 };
