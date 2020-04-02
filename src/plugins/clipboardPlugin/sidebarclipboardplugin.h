@@ -47,7 +47,7 @@
 #define  SIDEBAR_CLIPBOARD_QSS_PATH  ":/qss/sidebarClipboard.css"
 
 typedef struct  clipboardOriginalDataHash {
-    QListWidgetItem* Item;
+    ClipboardWidgetEntry* WidgetEntry;
     const QMimeData* MimeData;
     QString          text;
 } OriginalDataHashValue;
@@ -76,9 +76,7 @@ public:
     //    static SidebarClipboardPlugin *getInstance();
 
     /* 剪贴板成员和成员函数 */
-    QHash<ClipboardWidgetEntry*, QListWidgetItem*> m_pclipboardEntryItem;
-    QHash<ClipboardWidgetEntry*, const QMimeData*> m_pclipbordMimeData; //保留从剪贴板拿到原数据
-    QHash<ClipboardWidgetEntry*, QString> m_pLabelText; //条目中Label与label中的text对应关系
+    QHash<QListWidgetItem*, OriginalDataHashValue*> m_pClipboardDataHash;
     QListWidget *m_pShortcutOperationListWidget;
     QListWidget *m_pSearchWidgetListWidget;
     QGroupBox   *m_pSidebarClipboardBox;
@@ -93,29 +91,19 @@ public:
 
     QTranslator *translator;
 
-    /* 注册Widget条目界面和Item的hash表 */
-    void registerWidgetItem(ClipboardWidgetEntry *key, QListWidgetItem *value);
-    QListWidgetItem* getWidgetItem(ClipboardWidgetEntry *key);
-    void removeWidgetItem(ClipboardWidgetEntry *key);
-    void removeHashAllWidgetItem();
+    /* 注册Widget界面和Item/lable/剪贴板数据/的关系 */
+    void registerWidgetOriginalDataHash(QListWidgetItem *key, OriginalDataHashValue *value);
+    OriginalDataHashValue *GetOriginalDataValue(QListWidgetItem *key);
+    void removeOriginalDataHash(QListWidgetItem *key);
 
-    /* 注册Widget条目和剪贴板数据的关系 */
-    void registerMimeData(ClipboardWidgetEntry *key, const QMimeData *value);
-    const QMimeData* getMimeData(ClipboardWidgetEntry *key);
-    void removeMimeData(ClipboardWidgetEntry *key);
-    void removeHashAllMimeData();
-
-    /* 注册Widget界面和lable中的文本的关系 */
-    void registerLabelText(ClipboardWidgetEntry *key, QString value);  //注册条目中的lable与条目中的原始字符串文本相对应关系
-    QString getLabelText(ClipboardWidgetEntry *key);
-    void removeLabelText(ClipboardWidgetEntry *key);
-    void removeHashAllLabelText();
-
-    void removeLastWidgetItem(); //限制复制条数
-    bool booleanExistWidgetItem(QString Text);
-    void createFindClipboardWidgetItem(); /* 创建查找条目 */
-    void WhetherTopFirst(); /* 设置新置顶的条目写入到剪贴版中去 */
-    QMimeData *copyMinedata(const QMimeData* mimeReference);
+    void removeLastWidgetItem();                                            /* 限制复制条数 */
+    bool booleanExistWidgetItem(QString Text);                              /* 判断在ListWidget是否存在，如果不存在则返回fasle，创建，返回true，不创建 */
+    void createFindClipboardWidgetItem();                                   /* 创建查找条目 */
+    void WhetherTopFirst();                                                 /* 设置新置顶的条目写入到剪贴版中去 */
+    void connectWidgetEntryButton(ClipboardWidgetEntry * w);                /* 连接WIdgetEntry条目中三个按钮的槽函数 */
+    QString SetFormatBody(QString text, ClipboardWidgetEntry *w);           /* 设置... */
+    QListWidgetItem* iterationClipboardDataHash(ClipboardWidgetEntry *w);   /* 迭代Hash表m_pClipboardDataHash */
+    QMimeData *copyMinedata(const QMimeData* mimeReference);                /* 拷贝QMimeData拷贝数据类型 */
 
 signals:
     void Itemchange();

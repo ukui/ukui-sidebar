@@ -47,12 +47,12 @@ ClipboardWidgetEntry::ClipboardWidgetEntry(QWidget *parent)
     m_pRemoveButton->setObjectName("RemoveButton");
     m_pCopyDataLabal = new QLabel();
     m_pCopyDataLabal->setObjectName("EntryLable");
-    m_pCopyDataLabal->setFixedSize(260, 34);
+    m_pCopyDataLabal->setFixedSize(386, 34);
     m_pHLayout       = new QHBoxLayout();
     m_pHLayout->setContentsMargins(0,0,0,0);
     m_pHLayout->addItem(new QSpacerItem(10,20));
     m_pHLayout->addWidget(m_pCopyDataLabal);
-    m_pHLayout->addItem(new QSpacerItem(118, 20));
+//    m_pHLayout->addItem(new QSpacerItem(116, 20));
     m_pHLayout->addWidget(m_pPopButton);
     m_pHLayout->addWidget(m_pEditButon);
     m_pHLayout->addWidget(m_pRemoveButton);
@@ -69,9 +69,13 @@ void ClipboardWidgetEntry::enterEvent(QEvent *e)
     if(e == nullptr) {
         return;
     }
+    m_pCopyDataLabal->setFixedSize(260, 34);
     m_pPopButton->setVisible(true);
     m_pEditButon->setVisible(true);
     m_pRemoveButton->setVisible(true);
+    m_ptext = this->m_pCopyDataLabal->text();
+    QString format = SetFormatBody(m_ptext);
+    m_pCopyDataLabal->setText(format);
 }
 
 void ClipboardWidgetEntry::leaveEvent(QEvent *e)
@@ -82,4 +86,42 @@ void ClipboardWidgetEntry::leaveEvent(QEvent *e)
     m_pPopButton->setVisible(false);
     m_pEditButon->setVisible(false);
     m_pRemoveButton->setVisible(false);
+    m_pCopyDataLabal->setFixedSize(386, 34);
+    this->m_pCopyDataLabal->setText(m_ptext);
+}
+
+QString ClipboardWidgetEntry::SetFormatBody(QString text)
+{
+    QFontMetrics fontMetrics(this->m_pCopyDataLabal->font());
+    int LableWidth = this->m_pCopyDataLabal->width();
+    int fontSize = fontMetrics.width(text);
+    QString formatBody = text;
+    qDebug() << "fontSize > (LableWidth - 10)" << LableWidth << "&&jiantieban---->" << fontSize;
+    if(fontSize > (LableWidth - 10))
+    {
+        QStringList list = formatBody.split("\n");
+        if (list.size() >= 2) {
+            //当有几行时，只需要截取第一行就行，在第一行后面加...
+            formatBody = list.at(0);
+            int oneFontSize = fontMetrics.width(formatBody);
+            if (oneFontSize > (LableWidth - 10)) {
+                formatBody = fontMetrics.elidedText(formatBody, Qt::ElideRight, LableWidth - 10);
+            }
+            formatBody = fontMetrics.elidedText(formatBody, Qt::ElideRight, oneFontSize);
+        } else {
+            //说明只存在一行，在最后面加...就行
+            qDebug() << "fontSize > (LableWidth - 10)" << LableWidth << "&&jiantieban---->" << fontSize;
+            formatBody = fontMetrics.elidedText(formatBody, Qt::ElideRight, LableWidth - 10);
+        }
+    } else {
+        QStringList list = formatBody.split("\n");
+        if (list.size() >= 2) {
+            formatBody = list.at(0);
+            qDebug() << "第一端" << formatBody;
+            int oneFontSize = fontMetrics.width(formatBody);
+            qDebug () << "oneFontSize = fontMetrics.width(formatBody);" << oneFontSize;
+            formatBody = fontMetrics.elidedText(formatBody, Qt::ElideRight, oneFontSize - 1);
+        }
+    }
+    return formatBody;
 }
