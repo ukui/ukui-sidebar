@@ -44,10 +44,13 @@ public:
     QPushButton *m_pRemoveButton;
     QLabel      *m_pCopyDataLabal;
     QHBoxLayout *m_pHLayout;
+    QString      m_ptext;
+    QString SetFormatBody(QString text);
 
 protected:
     void enterEvent(QEvent *);                      //进入QWidget瞬间事件
     void leaveEvent(QEvent *);                      //离开QWidget瞬间事件
+
 };
 
 #endif // CLIPBOARDWIDGETENTRY_H

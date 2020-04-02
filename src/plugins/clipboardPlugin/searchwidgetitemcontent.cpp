@@ -50,6 +50,10 @@ SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
     /* Sets the font color of the placeholder */
     QBrush LineEditBrush;
     QPalette paletteLineEdit;
+    QFont SearchLine;
+    SearchLine = m_pLineEditArea->font();
+    SearchLine.setPointSize(14);
+    m_pLineEditArea->setFont(SearchLine);
     QColor ColorPlaceholderText(255,255,255,89);
     LineEditBrush = paletteLineEdit.placeholderText();
     LineEditBrush.setColor(ColorPlaceholderText);
