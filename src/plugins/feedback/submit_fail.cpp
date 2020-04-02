@@ -49,7 +49,7 @@ void submit_fail::UI_init()
 
     fail_closeBtn = new closeBtn_hover(this);
     fail_closeBtn->setGeometry(QRect(396, 4, 30, 30));
-    fail_closeBtn->setStyleSheet("background-color: rgb(255,255,255);border-image:url(:/image/close_hover.png);border-radius:4px;");
+    fail_closeBtn->setStyleSheet("background-color: rgb(255,255,255);border-image:url(:/image/close_default.png);border-radius:4px;");
 
     connect(fail_closeBtn,SIGNAL(clicked()),this,SLOT(close_fail_window()));
 
