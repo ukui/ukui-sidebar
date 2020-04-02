@@ -320,18 +320,14 @@ void feedback::UI_init()
     //最小化和关闭按钮
     pushButton_mix = new hideBtn_hover(centralwidget);
     pushButton_mix->setGeometry(QRect(532, 4, 30, 30));
-    pushButton_mix->setIcon(QIcon(":/image/mix_default.png"));
-    pushButton_mix->setStyleSheet("QPushButton{background-color: rgb(255,255,255)};"
-                                  "QPushButton:hover{background-color: rgb(61,107,229)};"
-                                  "QPushButton:pressed{background-color: rgb(60,87,202)};");
+    pushButton_mix->setStyleSheet("background-color: rgb(255,255,255);border-image:url(:/image/mix_default.png);border-radius:4px;");
 
 
     connect(pushButton_mix,SIGNAL(clicked()),this,SLOT(on_pushButton_mix_clicked()));
 
     pushButton_close = new closeBtn_hover(centralwidget);
     pushButton_close->setGeometry(QRect(566, 4, 30, 30));
-    pushButton_close->setIcon(QIcon(":/image/close_default.png"));
-    pushButton_close->setStyleSheet("background-color: rgb(255,255,255);");
+    pushButton_close->setStyleSheet("background-color: rgb(255,255,255);border-image:url(:/image/close_default.png);border-radius:4px;");
 
     //添加附件列表
     file_listwidget = new QListWidget(this);
@@ -624,6 +620,7 @@ void feedback::on_comboBox_currentIndexChanged(const QString &arg1)
 //提交按钮
 void feedback::on_pushButton_2_clicked()
 {
+    pushButton_2->setEnabled(false);
     pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(255, 255, 255)");
 
     submitting_timer->start();
@@ -662,15 +659,16 @@ void feedback::on_pushButton_2_clicked()
     {
         file_url.open(QIODevice::ReadWrite | QIODevice::Text);
         file_url.write("http://feedback.ubuntukylin.com/v1/issue/");
+        urlstring.append("http://feedback.ubuntukylin.com/v1/issue/");
 
     }
     else{
         file_url.open(QIODevice::ReadWrite | QIODevice::Text);
+        urlstring = file_url.readLine();
     }
-    urlstring = file_url.readLine();
     file_url.close();
     //去掉从配置文件中读出的换行符(删除最后一个字符)
-    // urlstring.remove(urlstring.length()-1,1);
+    //urlstring.remove(urlstring.length()-1,1);
     //设置request属性
     set_request_header();
     request.setUrl(QUrl(urlstring));
