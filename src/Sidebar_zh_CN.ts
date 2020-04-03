@@ -4,7 +4,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="main.cpp" line="56"/>
+        <location filename="main.cpp" line="60"/>
         <source>Display debug information</source>
         <translation type="unfinished"></translation>
     </message>
@@ -12,32 +12,31 @@
 <context>
     <name>Widget</name>
     <message>
-        <location filename="widget.cpp" line="221"/>
         <source>ClipBoard</source>
-        <translation>剪贴板</translation>
+        <translation type="vanished">剪贴板</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="246"/>
+        <location filename="widget.cpp" line="172"/>
         <source>Mi&amp;nimize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="249"/>
+        <location filename="widget.cpp" line="175"/>
         <source>Ma&amp;ximize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="252"/>
+        <location filename="widget.cpp" line="178"/>
         <source>normal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="255"/>
+        <location filename="widget.cpp" line="181"/>
         <source>&amp;Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="291"/>
+        <location filename="widget.cpp" line="216"/>
         <source>Sidebar</source>
         <translation>侧边栏</translation>
     </message>
@@ -45,29 +44,26 @@
 <context>
     <name>sidebarPluginsWidgets</name>
     <message>
-        <location filename="sidebarpluginswidgets.cpp" line="71"/>
+        <location filename="sidebarpluginswidgets.cpp" line="69"/>
         <source>Clipboard</source>
         <translation>剪贴板</translation>
     </message>
     <message>
-        <location filename="sidebarpluginswidgets.cpp" line="77"/>
+        <location filename="sidebarpluginswidgets.cpp" line="75"/>
         <source>Plugins</source>
         <translation>小插件</translation>
     </message>
     <message>
-        <location filename="sidebarpluginswidgets.cpp" line="134"/>
         <source>Notebook</source>
-        <translation>笔记本</translation>
+        <translation type="vanished">笔记本</translation>
     </message>
     <message>
-        <location filename="sidebarpluginswidgets.cpp" line="140"/>
         <source>Alarm clock</source>
-        <translation>闹钟</translation>
+        <translation type="vanished">闹钟</translation>
     </message>
     <message>
-        <location filename="sidebarpluginswidgets.cpp" line="146"/>
         <source>Feedback</source>
-        <translation>用户反馈</translation>
+        <translation type="vanished">用户反馈</translation>
     </message>
 </context>
 </TS>

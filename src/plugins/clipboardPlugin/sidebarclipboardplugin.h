@@ -43,6 +43,7 @@
 #include "editorwidget.h"
 #include "clipboardsignal.h"
 #include "clipboardlisetwidget.h"
+#include "cleanpromptbox.h"
 #define  WIDGET_ENTRY_COUNT 5
 #define  SIDEBAR_CLIPBOARD_QSS_PATH  ":/qss/sidebarClipboard.css"
 

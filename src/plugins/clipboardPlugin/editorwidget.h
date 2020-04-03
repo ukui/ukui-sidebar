@@ -39,9 +39,8 @@
 #include "clipboardsignal.h"
 #define  SIDEBAR_EDITAREA_QSS_PATH  ":/qss/sideBarEditArea.css"
 extern ClipboardSignal *globalClipboardSignal;
-class EditorWidget : public QDialog
+class EditorWidget :public QDialog
 {
-    Q_OBJECT
 public:
     explicit EditorWidget();
     QPushButton  *m_pConfirmButton;

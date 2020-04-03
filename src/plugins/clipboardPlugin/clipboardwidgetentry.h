@@ -20,6 +20,7 @@
 #ifndef CLIPBOARDWIDGETENTRY_H
 #define CLIPBOARDWIDGETENTRY_H
 #include <QWidget>
+#include <QObject>
 #include <QPushButton>
 #include <QLineEdit>
 #include <QLabel>
@@ -52,7 +53,6 @@ public:
 protected:
     void enterEvent(QEvent *);                      //进入QWidget瞬间事件
     void leaveEvent(QEvent *);                      //离开QWidget瞬间事件
-
 };
 
 #endif // CLIPBOARDWIDGETENTRY_H
