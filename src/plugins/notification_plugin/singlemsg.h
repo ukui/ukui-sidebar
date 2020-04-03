@@ -66,6 +66,10 @@ private:
     QWidget*        m_pSingleWidget;                //除去底部6px的空白之外的一个内框部件
     QWidget*        m_pAnimationBaseMapWidget;      //动画底图动态模拟大小替身部件
     QWidget*        m_pIconWidget;                  //在动画中暂定高38px
+
+    QWidget*        m_pTimeLabelWidget;
+    QWidget*        m_pStorageDeleteButtonWidget;
+
     QLabel*         m_pTimeLabel;                   //时间标签
     ButtonWidget*   m_pSingleTakeinButton;          //单条消息中的收纳按钮
     ButtonWidget*   m_pSingleDeleteButton;          //单条消息中的删除按钮
