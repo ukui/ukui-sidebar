@@ -19,6 +19,7 @@
 
 #include "editorwidget.h"
 #include <QFile>
+
 EditorWidget::EditorWidget()
 {
     installEventFilter(this);
@@ -30,6 +31,8 @@ EditorWidget::EditorWidget()
     m_pCancelButton->setObjectName("CancelButton");
     connect(m_pConfirmButton, &QPushButton::clicked, this, &EditorWidget::accept);
     connect(m_pCancelButton, &QPushButton::clicked, this, &EditorWidget::reject);
+    connect(m_pConfirmButton, &QPushButton::clicked, globalClipboardSignal, &ClipboardSignal::CLipBoardEditConfirmButtonSignal);
+    connect(m_pCancelButton, &QPushButton::clicked, globalClipboardSignal, &ClipboardSignal::CLipBoardEditConfirmButtonSignal);
     m_pEditingArea->setObjectName("EditingArea");
     m_pEditBox->setObjectName("EditBox");
     m_pOperationBox->setObjectName("OperationBox");
@@ -89,4 +92,10 @@ void EditorWidget::paintEvent(QPaintEvent *)
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     p.drawRoundedRect(opt.rect,6,6);
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+}
+
+void EditorWidget::closeEvent(QCloseEvent *event)
+{
+    Q_UNUSED(event);
+    qDebug() << "123123123123123123123123123123123";
 }

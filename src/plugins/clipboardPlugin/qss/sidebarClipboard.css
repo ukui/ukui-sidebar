@@ -280,14 +280,12 @@ QGroupBox {
     background:rgba(19, 19, 20, 0);
     opacity:0.05;
 
-    width:59px;
-    height:19px;
-    font-size:20px;
+    font-size:14px;
     font-family:Noto Sans CJK SC;
     font-weight:400;
     color:rgba(255,255,255,1);
-    line-height:34px;
-    opacity:0.97;
+    line-height:40px;
+    opacity:0.91;
 }
 
 /* widget条目的Lable */
@@ -306,11 +304,12 @@ QWidget#WidgetEntry>QLabel#EntryLable{
     padding-top: 0px;
     padding-bottom:0px;
     padding-left:3px;
+    font-size:14px;
     font-family:Noto Sans CJK SC;
+    font-weight:400;
     color:rgba(255,255,255,1);
-    line-height:10px;
+    line-height:40px;
     opacity:0.91;
-    border: 0px solid rgba(255,255,0,1);
 }
 
 QListWidget:Item{

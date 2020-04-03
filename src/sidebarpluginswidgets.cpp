@@ -322,6 +322,12 @@ void sidebarPluginsWidgets::loadSmallPlugins()
                 qDebug() << "iter1.value()->pluginsLoadingSequence() --> " << iter1.value()->pluginsLoadingSequence();
                 if (iter1.value()->pluginsLoadingSequence() == Sequence) {
                     QToolButton *p_ToolButton = new QToolButton();
+                    QPalette palette = p_ToolButton->palette();
+                    QColor ColorPlaceholderText(255,255,255,0);
+                    QBrush brush;
+                    brush.setColor(ColorPlaceholderText);
+                    palette.setBrush(QPalette::Button, brush);
+                    p_ToolButton->setPalette(palette);
                     p_ToolButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     p_ToolButton->setFixedSize(90,90);
                     p_ToolButton->setIcon(iter1.value()->icon());

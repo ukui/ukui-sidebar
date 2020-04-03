@@ -26,6 +26,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 RESOURCES  += clipboardPlugin.qrc
 SOURCES += \
+    cleanpromptbox.cpp \
+    clipBoardInternalSignal.cpp \
+    customstyle.cpp \
+    customstyle_pushbutton_2.cpp \
         sidebarclipboardplugin.cpp \
     clipboardwidgetentry.cpp \
     editorwidget.cpp \
@@ -35,6 +39,10 @@ SOURCES += \
 INCLUDEPATH    += ../../plugin-interface ../../plugin-signals
 
 HEADERS += \
+    cleanpromptbox.h \
+    clipBoardInternalSignal.h \
+    customstyle.h \
+    customstyle_pushbutton_2.h \
         sidebarclipboardplugin.h \
     clipboardwidgetentry.h \
     clipboardsignal.h \

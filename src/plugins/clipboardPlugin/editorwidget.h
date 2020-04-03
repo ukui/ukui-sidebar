@@ -36,10 +36,11 @@
 #include <QStyleOption>
 #include <QPainter>
 #include <QDialog>
+#include "clipboardsignal.h"
 #define  SIDEBAR_EDITAREA_QSS_PATH  ":/qss/sideBarEditArea.css"
-class EditorWidget : public QDialog
+extern ClipboardSignal *globalClipboardSignal;
+class EditorWidget :public QDialog
 {
-    Q_OBJECT
 public:
     explicit EditorWidget();
     QPushButton  *m_pConfirmButton;
@@ -60,6 +61,7 @@ public:
 
 protected:
     void paintEvent(QPaintEvent *);
+    void closeEvent(QCloseEvent *event);
 };
 
 #endif // EDITORWIDGET_H

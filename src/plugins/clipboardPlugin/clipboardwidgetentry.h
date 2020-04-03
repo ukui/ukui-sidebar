@@ -20,6 +20,7 @@
 #ifndef CLIPBOARDWIDGETENTRY_H
 #define CLIPBOARDWIDGETENTRY_H
 #include <QWidget>
+#include <QObject>
 #include <QPushButton>
 #include <QLineEdit>
 #include <QLabel>
@@ -30,28 +31,25 @@
 #include <QEvent>
 #include <QDebug>
 #include <QSpacerItem>
+#include "clipboardsignal.h"
 #define  EDIT_SVG_PATH  ":/image/editor.svg"
 #define  COPY_SVG_PATH  ":/image/copy.svg"
 #define  REMOVE_SVG_PATH  ":/image/delete.svg"
 #define  SEARCH_SVG_CLEAN ":/image/button-close-hover-click-two.svg"
 #define  SEARCH_SVG_CLEAN_BACK ":/image/button-close-hover-click-add-background-one.svg"
+extern ClipboardSignal *globalClipboardSignal;
 class ClipboardWidgetEntry : public QWidget
 {
 public:
     ClipboardWidgetEntry(QWidget *parent = nullptr);
-    void WidgetEntry();
-    void WidgetEntryLine();
     QPushButton *m_pPopButton;
     QPushButton *m_pEditButon;
     QPushButton *m_pRemoveButton;
     QLabel      *m_pCopyDataLabal;
     QHBoxLayout *m_pHLayout;
-    QHBoxLayout *m_pHorizontalLineLayout;
-    QLine       *m_pLine;
-    QGroupBox   *m_pMainWidgetEntryBox;
-    QGroupBox   *m_pEntryLineBox;
-    QVBoxLayout *m_pMainLayout;
-    QSpacerItem *m_pHideButtonItem;
+    QString      m_ptext;
+    QString SetFormatBody(QString text);
+
 protected:
     void enterEvent(QEvent *);                      //进入QWidget瞬间事件
     void leaveEvent(QEvent *);                      //离开QWidget瞬间事件

@@ -3,7 +3,7 @@
 
 SmallPluginsButton::SmallPluginsButton()
 {
-
+    connect(this, &SmallPluginsButton::clicked, this, &SmallPluginsButton::enterButtonSignal);
 }
 
 SmallPluginsButton::~SmallPluginsButton()
@@ -14,7 +14,7 @@ SmallPluginsButton::~SmallPluginsButton()
 void SmallPluginsButton::enterEvent(QEvent *e)
 {
     Q_UNUSED(e);
-    emit enterButtonSignal();
+//    emit enterButtonSignal();
 }
 
 void SmallPluginsButton::leaveEvent(QEvent *e)

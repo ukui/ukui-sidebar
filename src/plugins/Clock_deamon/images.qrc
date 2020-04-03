@@ -1,8 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>background.png</file>
-        <file>clock.png</file>
-        <file>deleteBtn.png</file>
         <file>alarm_off.png</file>
         <file>alarm_on.png</file>
         <file>icon-4-16x16.png</file>
@@ -20,5 +17,7 @@
         <file>sax.mp3</file>
         <file>object-select-symbolic.png</file>
         <file>go-bottom-symbolic.png</file>
+        <file>clock.ico</file>
+        <file>kylin-alarm-clock.svg</file>
     </qresource>
 </RCC>

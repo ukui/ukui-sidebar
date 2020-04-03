@@ -43,14 +43,13 @@ void submit_success::UI_init()
 
     succ_closeBtn = new closeBtn_hover(this);
     succ_closeBtn->setGeometry(QRect(396, 4, 30, 30));
-    succ_closeBtn->setIcon(QIcon(":/image/close_default.png"));
-    succ_closeBtn->setStyleSheet("background-color: rgb(255,255,255);");
+    succ_closeBtn->setStyleSheet("background-color: rgb(255,255,255);border-image:url(:/image/close_default.png);border-radius:4px;");
     connect(succ_closeBtn,SIGNAL(clicked()),this,SLOT(succ_close_window()));
 
     pushButton = new QPushButton(this);
     pushButton->setText(tr("继续反馈问题"));
     pushButton->setObjectName(QString::fromUtf8("pushButton"));
-    pushButton->setGeometry(QRect(130, 165, 131, 26));
+    pushButton->setGeometry(QRect(110, 165, 131, 26));
     pushButton->setFlat(true);
     pushButton->setStyleSheet(QString::fromUtf8("color: rgb(61, 107, 229);"));
     pushButton_2 = new QPushButton(this);
@@ -77,6 +76,7 @@ submit_success::~submit_success()
 void submit_success::on_pushButton_2_clicked()
 {
     this->close();
+    parentWnd->window_close();
 }
 
 void submit_success::on_pushButton_clicked()

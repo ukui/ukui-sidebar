@@ -21,6 +21,7 @@
 #include <QApplication>
 #include <QStyle>
 #include <QFile>
+
 SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
 {
     Q_UNUSED(parent);
@@ -28,6 +29,9 @@ SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
     this->setContentsMargins(0,0,0,0);
     m_pClearListWidgetButton = new QPushButton(tr("Clear"));
     m_pClearListWidgetButton->setObjectName("CleanList");
+    connect(m_pClearListWidgetButton, &QPushButton::clicked, this, [=](){
+        emit globalClipboardSignal->ClipBoardWidgetEntryEditButtonSignal();
+    });
     m_pClearTextButton = new QPushButton;
     m_pClearTextButton->setFixedSize(19, 21);
     m_pClearTextButton->setIconSize(QSize(9, 9));
@@ -50,6 +54,10 @@ SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
     /* Sets the font color of the placeholder */
     QBrush LineEditBrush;
     QPalette paletteLineEdit;
+    QFont SearchLine;
+    SearchLine = m_pLineEditArea->font();
+    SearchLine.setPointSize(14);
+    m_pLineEditArea->setFont(SearchLine);
     QColor ColorPlaceholderText(255,255,255,89);
     LineEditBrush = paletteLineEdit.placeholderText();
     LineEditBrush.setColor(ColorPlaceholderText);

@@ -118,7 +118,7 @@ void feedback::UI_init()
     frame = new QFrame(centralwidget);
     frame->setObjectName(QString::fromUtf8("frame"));
     frame->setGeometry(QRect(140, 145, 320, 120));
-    frame->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);"));
+    frame->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);color:rgb(0,0,0)"));
     frame->setFrameShape(QFrame::StyledPanel);
     frame->setFrameShadow(QFrame::Raised);
     textEdit = new QTextEdit(frame);
@@ -126,6 +126,7 @@ void feedback::UI_init()
     textEdit->setGeometry(QRect(10, 10, 300, 100));
     textEdit->setPlaceholderText(tr("请输入内容"));//设置详细输入框的提示信息
     textEdit->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);\n"
+                                              "color:rgb(0,0,0);\n"
                                               ""));
     textEdit->setFrameShape(QFrame::NoFrame);
     label_4 = new QLabel(centralwidget);
@@ -158,7 +159,9 @@ void feedback::UI_init()
     lineEdit_2->setObjectName(QString::fromUtf8("lineEdit_2"));
     lineEdit_2->setGeometry(QRect(140, 275, 320, 30));
     lineEdit_2->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);\n"
-                                                "border: 1px solid rgb(240, 240, 240);"));
+                                                "border: 1px solid rgb(240, 240, 240);\n"
+                                                "color:rgb(0,0,0);\n"
+                                                ""));
 
 
     label_7 = new QLabel(centralwidget);
@@ -188,9 +191,9 @@ void feedback::UI_init()
     checkBox_4 = new QCheckBox(centralwidget);
     checkBox_4->setText(tr("同意获取我的"));
     checkBox_4->setObjectName(QString::fromUtf8("checkBox_4"));
-    checkBox_4->setGeometry(QRect(35, 490       , 121, 24));
+    checkBox_4->setGeometry(QRect(35, 490, 121, 24));
     checkBox_4->setStyleSheet(" spacing: 6px;");
-    checkBox_4->setStyleSheet(QString::fromUtf8("font: 14px;"));
+    checkBox_4->setStyleSheet(QString::fromUtf8("font: 14px;color:rgb(0,0,0)"));
     pushButton_2 = new QPushButton(centralwidget);
     pushButton_2->setText(tr("提交"));
     pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
@@ -242,15 +245,15 @@ void feedback::UI_init()
     label_10 = new QLabel(frame_2);
     label_10->setObjectName(QString::fromUtf8("label_10"));
     label_10->setGeometry(QRect(15, 10, 200, 20));
-    label_10->setStyleSheet(QString::fromUtf8("border-color: rgb(255, 255, 255);"));
+    label_10->setStyleSheet(QString::fromUtf8("border-color: rgb(255, 255, 255);color:rgb(0,0,0)"));
     label_12 = new QLabel(frame_2);
     label_12->setObjectName(QString::fromUtf8("label_12"));
     label_12->setGeometry(QRect(15, 30, 200, 20));
-    label_12->setStyleSheet(QString::fromUtf8("border-color: rgb(255, 255, 255);"));
+    label_12->setStyleSheet(QString::fromUtf8("border-color: rgb(255, 255, 255);color:rgb(0,0,0)"));
     label_11 = new QLabel(frame_2);
     label_11->setObjectName(QString::fromUtf8("label_11"));
     label_11->setGeometry(QRect(15, 50, 200, 20));
-    label_11->setStyleSheet(QString::fromUtf8("border-color: rgb(255, 255, 255);"));
+    label_11->setStyleSheet(QString::fromUtf8("border-color: rgb(255, 255, 255);color:rgb(0,0,0)"));
 
     label_8 = new QLabel(centralwidget);
     label_8->setText(tr("日志文件"));
@@ -279,8 +282,8 @@ void feedback::UI_init()
     checkBox->setText(tr("syslog"));
     checkBox->setObjectName(QString::fromUtf8("checkBox"));
     checkBox->setStyleSheet(QString::fromUtf8("font: 14px;\n"
-                                              "spacing: 5px"
-                                               "indicator {width: 16px; height: 16px;}"));
+                                              "color:rgb(0,0,0);\n"
+                                              ""));
 
     horizontalLayout->addWidget(checkBox);
 
@@ -288,7 +291,9 @@ void feedback::UI_init()
     checkBox_2->setText(tr("apport.log"));
     checkBox_2->setObjectName(QString::fromUtf8("checkBox_2"));
     checkBox_2->setStyleSheet(QString::fromUtf8("font: 14px ;\n"
-                                                "spacing: 5px;"));
+                                                "spacing: 5px;"
+                                                "color:rgb(0,0,0);\n"
+                                                ""));
 
     horizontalLayout->addWidget(checkBox_2);
 
@@ -297,6 +302,7 @@ void feedback::UI_init()
     checkBox_3->setObjectName(QString::fromUtf8("checkBox_3"));
     checkBox_3->setStyleSheet(QString::fromUtf8("font: 14px;\n"
                                                 "spacing: 5px;\n"
+                                                "color:rgb(0,0,0);\n"
                                                 ""));
 
     horizontalLayout->addWidget(checkBox_3);
@@ -314,18 +320,14 @@ void feedback::UI_init()
     //最小化和关闭按钮
     pushButton_mix = new hideBtn_hover(centralwidget);
     pushButton_mix->setGeometry(QRect(532, 4, 30, 30));
-    pushButton_mix->setIcon(QIcon(":/image/mix_default.png"));
-    pushButton_mix->setStyleSheet("QPushButton{background-color: rgb(255,255,255)};"
-                                  "QPushButton:hover{background-color: rgb(61,107,229)};"
-                                  "QPushButton:pressed{background-color: rgb(60,87,202)};");
+    pushButton_mix->setStyleSheet("background-color: rgb(255,255,255);border-image:url(:/image/mix_default.png);border-radius:4px;");
 
 
     connect(pushButton_mix,SIGNAL(clicked()),this,SLOT(on_pushButton_mix_clicked()));
 
     pushButton_close = new closeBtn_hover(centralwidget);
     pushButton_close->setGeometry(QRect(566, 4, 30, 30));
-    pushButton_close->setIcon(QIcon(":/image/close_default.png"));
-    pushButton_close->setStyleSheet("background-color: rgb(255,255,255);");
+    pushButton_close->setStyleSheet("background-color: rgb(255,255,255);border-image:url(:/image/close_default.png);border-radius:4px;");
 
     //添加附件列表
     file_listwidget = new QListWidget(this);
@@ -403,11 +405,21 @@ void feedback::on_pushButton_close_clicked()
     delete accessManager;
     submitting_timer->stop();
 }
+void feedback::window_close()
+{
+    this->close();
+}
+//发送失败后 重新发送
+void feedback::resend_info_when_sendfail()
+{
+    this->on_pushButton_2_clicked();
+}
 //获取图片
 void feedback::on_pushButton_clicked()
 {
     pushButton->setStyleSheet("font: 14px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(68, 68, 68)");
     filename=QFileDialog::getOpenFileName(this,tr("选择图片"),"/","Image file(*.gif *.jpg *.png)",0);
+
     //判断文件是否重复添加
     if (file_name_list.size() ==0)
     {
@@ -504,13 +516,13 @@ void feedback::add_systeminfo()
     }
     //获取系统信息
     //1.获取系统版本
-    string system_info_str;
+    string system_info;
     string system_name;
     string system_version_id;
     string s;
     ifstream fp("/etc/os-release");
     if(!fp){
-        system_info_str = "None";
+        system_info = "None";
     }
     else{
         while (getline(fp,s)){
@@ -529,25 +541,26 @@ void feedback::add_systeminfo()
             }
         }
 
-        system_info_str = os_info +system_name +" " + system_version_id;
+        system_info = os_info +system_name +" " + system_version_id;
     }
-    QString system_info = QString::fromStdString(system_info_str);//string 转QString
-    system_info.remove(QChar('"'), Qt::CaseInsensitive);  //将字符串中"字符删除
-    label_10->setText(system_info);
+    send_os_info = QString::fromStdString(system_name +" " + system_version_id);
+    system_info_str = QString::fromStdString(system_info);//string 转QString
+    system_info_str.remove(QChar('"'), Qt::CaseInsensitive);  //将字符串中"字符删除
+    label_10->setText(system_info_str);
     //2.获取桌面环境信息
     char * desktop = getenv("DESKTOP_SESSION");
     desktop_info.append(desktop);
-    label_12->setText(QString::fromStdString(desktop_info));
+    send_dekstop_info.append(desktop);
+    desktop_info_str = QString::fromStdString(desktop_info);
+    label_12->setText(desktop_info_str);
     //3.获取编码格式
-    char * encoding = getenv("LANG");
+    char * encoding = getenv("GDM_LANG");
     encoding_info.append(encoding);
-    label_11->setText(QString::fromStdString(encoding_info));
+    send_encoding_info.append(encoding);
+    encoding_info_str = QString::fromStdString(encoding_info);
+    label_11->setText(encoding_info_str);
 
-    all_systeminfo.append(system_info);
-    all_systeminfo.append("    ");
-    all_systeminfo.append(QString::fromStdString(desktop_info));
-    all_systeminfo.append("    ");
-    all_systeminfo.append(QString::fromStdString(encoding_info));
+
 }
 
 //syslog点选
@@ -616,6 +629,7 @@ void feedback::on_comboBox_currentIndexChanged(const QString &arg1)
 //提交按钮
 void feedback::on_pushButton_2_clicked()
 {
+    pushButton_2->setEnabled(false);
     pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(255, 255, 255)");
 
     submitting_timer->start();
@@ -628,89 +642,148 @@ void feedback::on_pushButton_2_clicked()
         label_13->show();
         return;
     }
+    QJsonObject feedback_info_json;
     //反馈信息类型
-    QString s1("?title=");
-    s1+=feedback_type;
+    feedback_info_json.insert("subject",feedback_type);
     //详细描述
-    s1+="&description=";
-    s1+=textContent;
+    feedback_info_json.insert("description",textContent);
     //邮箱
-    s1+="&mail=";
-    s1+=email_str;
+    feedback_info_json.insert("email",email_str);
     //系统信息发送
     if(get_systeminfoflag == 1){
-        s1+="&source=";
-        s1+=all_systeminfo;
+        feedback_info_json.insert("version",send_os_info);
+        feedback_info_json.insert("desktop",send_dekstop_info);
+        feedback_info_json.insert("language",send_encoding_info);
+    }
+    else{
+        feedback_info_json.insert("version","");
+        feedback_info_json.insert("desktop","");
+        feedback_info_json.insert("language","");
     }
     QString url_filepath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) +"/.config/ukui/url.conf";
-    QString urlstring;
     //从配置文件中读服务器地址
     QFile  file_url(url_filepath);
     QFileInfo url_fileinfo(url_filepath);
     if(!url_fileinfo.isFile())
     {
         file_url.open(QIODevice::ReadWrite | QIODevice::Text);
-        file_url.write("http://ubuntukylin.com:10080");
-        file_url.close();
+        file_url.write("http://feedback.ubuntukylin.com/v1/issue/");
+        urlstring.append("http://feedback.ubuntukylin.com/v1/issue/");
+
     }
     else{
         file_url.open(QIODevice::ReadWrite | QIODevice::Text);
+        urlstring = file_url.readLine();
     }
-    urlstring = file_url.readLine();
+    file_url.close();
     //去掉从配置文件中读出的换行符(删除最后一个字符)
-    urlstring.remove(urlstring.length()-1,1);
-    urlstring += s1;
+    //urlstring.remove(urlstring.length()-1,1);
     //设置request属性
     set_request_header();
     request.setUrl(QUrl(urlstring));
-    //accessManager->post(request,s1.toUtf8());
 
-    //發送log和截圖文件到服務器 FIXME RENAME!
-    send_file_httpserver();
-    accessManager->post(request,multiPart);
+    qDebug()<<"url:"<<urlstring;
+    //发送JSON表单
+    QJsonDocument json_doc;
+    json_doc.setObject(feedback_info_json);
+    QByteArray post_feedback_info_array = json_doc.toJson(QJsonDocument::Compact);
+
+    qDebug()<<post_feedback_info_array;
+
+    accessManager->post(request,post_feedback_info_array);
+
+
 
 }
-QFile* feedback::add_file_to_Part(QString filepath)
+QFile* feedback::add_file_to_Part(QString filepath,QString file_type,QString file_name)
 {
+    qDebug()<<"this is add_file_to_Part";
     QHttpPart upload_part;
-    upload_part.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"text\""));
+    upload_part.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant(QString("form-data; name=\"%1\";filename=\"%2\"").arg(file_type).arg(file_name)));
     QFile *upload_file =  new QFile(filepath);
-    if(!upload_file->open(QIODevice::ReadOnly| QIODevice::Text))
-    {
-        return nullptr;
+    if(!(upload_file->open(QIODevice::ReadOnly))){
+        qDebug()<<"file open fail";
     }
-    upload_part.setBodyDevice(upload_file);
-    upload_file->setParent(multiPart);
+    upload_part.setBody(upload_file->readAll());
     multiPart->append(upload_part);
     return upload_file;
 }
-void feedback::send_file_httpserver()
+void feedback::send_file_httpserver(QString uid)
 {
+    qDebug()<<"this is send file http server";
+    qDebug()<<"uid:"<<uid;
+    //初始化http发送文件请求
+    accessManager_file = new QNetworkAccessManager(this);
+    connect(accessManager_file, SIGNAL(finished(QNetworkReply*)), this, SLOT(sendfile_finished(QNetworkReply* )));
+
+    //设置请求头
+    request_file.setHeader(QNetworkRequest::ContentTypeHeader,"multipart/form-data");
+    //设置url
+    QString urlstring_file =   urlstring + "annex/";
+    request_file.setUrl(QUrl(urlstring_file));
+
+    qDebug()<<urlstring_file<<"---";
+    //构建发送信息
     multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
+
+    //**************自我添加部分****************************
+    QString bd = "X-INSOMNIA-BOUNDARY";
+    multiPart->setBoundary(bd.toLatin1());
+    request_file.setHeader(QNetworkRequest::ContentTypeHeader,"multipart/form-data;boundary="+bd);
+
+    //把发送反馈信息服务器返回的uid 加入此次发送中
+    QHttpPart uid_part;
+
+    uid_part.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"issue_uid\""));
+    uid_part.setBody(uid.toUtf8());
+    multiPart->append(uid_part);
+
 
     //判断三个log文件哪个点选了
     if(dpkglogflag ==1){
         //var/log/dpkg.log
-        QFile *file_dpkglog = add_file_to_Part("/var/log/dpkg.log");
+        QFile *file_dpkglog = add_file_to_Part("/var/log/dpkg.log","dpkg","dpkg.log");
         m_filesArray.push_back(file_dpkglog);
     }
     if(apportlogflag == 1){
         //var/log/apport.log
-        QFile *file_apportlog = add_file_to_Part("/var/log/apport.log");
+        QFile *file_apportlog = add_file_to_Part("/var/log/apport.log","apport","apport.log");
         m_filesArray.push_back(file_apportlog);
     }
     if(syslogflag== 1){
         //var/log/syslog.log
-        QFile *file_syslog = add_file_to_Part("/var/log/syslog");
+        QFile *file_syslog = add_file_to_Part("/var/log/syslog","syslog","syslog");
         m_filesArray.push_back(file_syslog);
     }
     //获取添加的附件，文件名
     for(int filenum=0; filenum<file_path_list.size(); filenum++)
     {
         //发送文件
-        QFile *file_image = add_file_to_Part(file_path_list.at(filenum));
+        QFile *file_image = add_file_to_Part(file_path_list.at(filenum),"img"+QString::number(filenum+1),file_name_list.at(filenum));
         m_filesArray.push_back(file_image);
     }
+
+
+    accessManager_file->post(request_file,multiPart);
+}
+//发送文件请求结束槽函数
+void feedback::sendfile_finished(QNetworkReply* reply)
+{
+    qDebug()<<"this is send file finished";
+
+    QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+    if(statusCode.isValid())
+        qDebug() << "status code=" << statusCode.toInt();
+
+    QVariant reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
+    if(reason.isValid())
+        qDebug() << "reason=" << reason.toString();
+
+    QByteArray bytes = reply->readAll();
+    //panduan ==200
+    qDebug() << bytes;
+
+
 }
 //邮箱是否填写
 void feedback::on_lineEdit_2_textChanged()
@@ -875,12 +948,12 @@ void feedback::add_fileinfo_model()
         file_size_list.append(file_size);
         file_path_list.append(filename);
     }
-        for(int i=0; i<file_name_list.size()-1; i++)
-        {
-            delete file_listwidget_item[i];
-            delete file_widget[i];
-        }
-        update_add_file_window();
+    for(int i=0; i<file_name_list.size()-1; i++)
+    {
+        delete file_listwidget_item[i];
+        delete file_widget[i];
+    }
+    update_add_file_window();
 }
 //根据数据列表 刷新窗口
 void feedback::update_add_file_window()
@@ -984,13 +1057,13 @@ void feedback::finishedSlot(QNetworkReply *reply)
                                                   "border:4px ;"));
     pushButton_2->setIcon(QIcon());
 
-    if (reply->error() == QNetworkReply::NoError)
-    {
-        // 获取http状态码
-        QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
-        if(statusCode.isValid())
-            qDebug() << "status code=" << statusCode.toInt();
+    qDebug()<<"this is send feedbackinfo finished";
 
+    // 获取http状态码
+    QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+    if(statusCode.isValid())
+        qDebug() << "status code=" << statusCode.toInt();
+    if(statusCode.toInt() == 201){
         QVariant reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
         if(reason.isValid())
             qDebug() << "reason=" << reason.toString();
@@ -1002,6 +1075,22 @@ void feedback::finishedSlot(QNetworkReply *reply)
         success_dialog = new submit_success(this);
         success_dialog->setModal(true);
         success_dialog->show();
+
+        //解析JSON 获取uid annex_uid
+        QString uid_value;
+        QJsonParseError jsonerror;
+        QJsonDocument document = QJsonDocument::fromJson(bytes,&jsonerror);
+
+
+        if(!document.isNull() &&(jsonerror.error == QJsonParseError::NoError))
+        {
+            if(document.isObject()){
+                QJsonObject object = document.object();
+                uid_value = object["uid"].toString();
+            }
+        }
+        //发送文件
+        send_file_httpserver(uid_value);
     }
     else
     {
@@ -1023,9 +1112,8 @@ void feedback::finishedSlot(QNetworkReply *reply)
     }
     m_filesArray.clear();
 }
-//http设置请求头
+//http设置请求头(发送反馈信息)
 void feedback::set_request_header()
 {
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "Accept-Charset=utf-8");
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 }

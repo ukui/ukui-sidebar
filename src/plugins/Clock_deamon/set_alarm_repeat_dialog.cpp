@@ -51,8 +51,6 @@ void set_alarm_repeat_Dialog::retranslateUi(QWidget( *set_alarm_repeat_Dialog))
 } // retranslateUi
 
 
-
-
 set_alarm_repeat_widget::set_alarm_repeat_widget(QWidget *parent):
     QWidget(parent)
 {
