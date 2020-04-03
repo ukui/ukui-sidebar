@@ -20,6 +20,7 @@
 #include <QListWidget>
 #include <QMouseEvent>
 #include "clipboardsignal.h"
+
 extern ClipboardSignal *globalClipboardSignal;
 class ClipBoardLisetWidget :public QListWidget
 {

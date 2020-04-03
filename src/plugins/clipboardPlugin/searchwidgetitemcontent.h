@@ -28,6 +28,8 @@
 #include <QAction>
 #include <QWidgetAction>
 #include "clipboardwidgetentry.h"
+#include "clipboardsignal.h"
+extern ClipboardSignal *globalClipboardSignal;
 #define  SIDEBAR_SEARCH_QSS_PATH  ":/qss/sideBarSearchArea.css"
 class SearchWidgetItemContent:public QWidget
 {

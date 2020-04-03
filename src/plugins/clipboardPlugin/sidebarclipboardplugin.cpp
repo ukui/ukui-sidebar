@@ -23,6 +23,9 @@
 #include <QMimeData>
 #include <QFile>
 #include <QTranslator>
+#include <QStyle>
+#include <QTimer>
+#include <QStyleFactory>
 ClipboardSignal *globalClipboardSignal;
 SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
 {
@@ -36,6 +39,11 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
         QApplication::installTranslator(translator);
     }
     installEventFilter(this);
+//    QStringList styles = QStyleFactory::keys();
+//    if (styles.contains("ukui-default")) {
+
+//    }
+//    qDebug () << styles;
     m_pSidebarClipboardWidget = new QWidget();
     m_pSidebarClipboardWidget->setObjectName("ClipboardWidget");
     m_pSidebarClipboardWidget->setContentsMargins(0,0,0,0);
@@ -135,8 +143,8 @@ void SidebarClipboardPlugin::createFindClipboardWidgetItem()
     QListWidgetItem *pListWidgetItem = new QListWidgetItem;
     pListWidgetItem->setFlags(Qt::NoItemFlags);
     m_pSearchArea = new SearchWidgetItemContent;
-
     connect(m_pSearchArea->m_pClearListWidgetButton, &QPushButton::clicked, this, &SidebarClipboardPlugin::removeAllWidgetItem);
+
     connect(m_pSearchArea->m_pLineEditArea, SIGNAL(textChanged(QString)), this, SLOT(searchClipboardLableTextSlots(QString)));
     pListWidgetItem->setSizeHint(QSize(400,38));
     m_pSearchWidgetListWidget->insertItem(0,pListWidgetItem);
@@ -421,8 +429,7 @@ void SidebarClipboardPlugin::editButtonSlots(ClipboardWidgetEntry *w)
         }
         qDebug() << "d当前所在的条木" << row_num;
     }
-    else if (nRet == QDialog::Rejected)
-    {
+    else if (nRet == QDialog::Rejected) {
         qDebug() << "不需要做其余操作";
     }
 }
@@ -462,6 +469,19 @@ void SidebarClipboardPlugin::removeAllWidgetItem()
 {
     int tmp = m_pShortcutOperationListWidget->count();
     qDebug() << "m_pShortcutOperationListWidget->count()" << tmp;
+    if (tmp <= 0) {
+        qDebug() << "条目为零，不需要清空";
+        return;
+    }
+    CleanPromptBox PromptBoxWidget;
+    int nRet = PromptBoxWidget.exec();
+    if (nRet == QDialog::Accepted) {
+        qDebug() << "nRet == QDialog::Accepted";
+    } else if (nRet == QDialog::Rejected) {
+        qDebug() << "nRet == QDialog::Rejected";
+        return;
+    }
+
     for (int i = 0; i < tmp; i++) {
         removeOriginalDataHash(m_pShortcutOperationListWidget->item(0));
         QListWidgetItem *tmp = m_pShortcutOperationListWidget->takeItem(0);

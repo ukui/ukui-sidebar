@@ -33,7 +33,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     QLocale locale;
     if( locale.language() == QLocale::Chinese )                             /* 获取系统语言环境 */
     {
-        m_pTranslator->load(QString(":sidebartranslat/Sidebar_zh_CN.qm"));  /* 选择翻译文件 */
+        m_pTranslator->load(QString(":/sidebartranslat/Sidebar_zh_CN.qm"));  /* 选择翻译文件 */
         QApplication::installTranslator(m_pTranslator);
     }
     m_bShowFlag = false;
@@ -514,12 +514,13 @@ void Widget::primaryScreenChangedSLot()
     InitializeHomeScreenGeometry();
 }
 
+/* 接受剪贴板信号，将boll值m_bClipboardFlag置为false; */
 void Widget::ClipboardShowSlots()
 {
     m_bClipboardFlag = false;
 }
 
-
+/* 接受剪贴板信号，将boll值m_bClipboardFlag置为true; */
 void Widget::ClipboardHideSlots()
 {
     m_bClipboardFlag = true;
