@@ -25,6 +25,7 @@
 #include <QPropertyAnimation>
 #include <QDBusPendingCallWatcher>
 #include <QScreen>
+#include <QGSettings>
 #include <QGuiApplication>
 #include "clipboardpluginiface.h"
 #include "sidebarSmallPluginInterface.h"
@@ -37,6 +38,8 @@
 #define PANEL_DBUS_SERVICE "com.ukui.panel.desktop"
 #define PANEL_DBUS_PATH "/"
 #define PANEL_DBUS_INTERFACE "com.ukui.panel.desktop"
+
+#define UKUI_PANEL_SETTING "org.ukui.panel.settings"
 
 class QGroupBox;
 class QGridLayout;
@@ -85,6 +88,7 @@ public:
 
 protected:
     void mousePressEvent(QMouseEvent *event);                                   //鼠标点击事件
+    void mouseMoveEvent(QMouseEvent *event);
     bool eventFilter(QObject *obj, QEvent *event);                              //设置过滤事件
 
 private:
@@ -110,6 +114,7 @@ private:
     QPropertyAnimation          *m_pAnimationShowSidebarWidget;
     QPropertyAnimation          *m_pAnimationHideSidebarWidget;
     QDesktopWidget              *m_pDeskWgt;                                    //桌面问题
+    QGSettings                  *m_pPanelSetting = nullptr;
 
     //快捷操作面板
     ClipboardInterface*         m_pSidebarClipboard;                            //侧边栏剪贴板指针

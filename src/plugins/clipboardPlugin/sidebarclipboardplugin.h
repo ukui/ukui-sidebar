@@ -45,7 +45,7 @@
 #include "clipboardlisetwidget.h"
 #include "cleanpromptbox.h"
 #include "clipBoardInternalSignal.h"
-#define  WIDGET_ENTRY_COUNT 5
+#define  WIDGET_ENTRY_COUNT 10
 #define  SIDEBAR_CLIPBOARD_QSS_PATH  ":/qss/sidebarClipboard.css"
 
 typedef struct  clipboardOriginalDataHash {

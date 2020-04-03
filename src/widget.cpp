@@ -43,6 +43,12 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     m_pServiceInterface = new QDBusInterface(PANEL_DBUS_SERVICE, PANEL_DBUS_PATH, PANEL_DBUS_INTERFACE, QDBusConnection::sessionBus());
     m_pServiceInterface->setTimeout(2147483647);
 
+    /* 链接任务栏dgsetting接口 */
+    if(QGSettings::isSchemaInstalled(UKUI_PANEL_SETTING)){
+        m_pPanelSetting = new QGSettings(UKUI_PANEL_SETTING);
+        qDebug() << "m_pPanelSetting = new QGSettings(UKUI_PANEL_SETTING)";
+    }
+
     /* 监听屏幕分辨率是否变化 主频是否有变化 初始化屏幕宽高 和主屏起始X坐标值 */
     m_pDeskWgt = QApplication::desktop();
     connect(m_pDeskWgt, SIGNAL(resized(int)), this, SLOT(onResolutionChanged(int)));
@@ -258,18 +264,35 @@ void Widget::iconActivated(QSystemTrayIcon::ActivationReason reason)
 //链接任务栏dbus获取高度的接口
 int Widget::connectTaskBarDbus()
 {
-    QDBusMessage msg = m_pServiceInterface->call("GetPanelSize", QVariant("Hight"));
-    int panelHight = msg.arguments().at(0).toInt();
-    return panelHight;
+    int panelHeight = 46;
+    if (m_pPanelSetting != nullptr) {
+        QStringList keys = m_pPanelSetting->keys();
+        if (keys.contains("panelsize")) {
+            panelHeight = m_pPanelSetting->get("panelsize").toInt();
+        }
+    } else {
+        QDBusMessage msg = m_pServiceInterface->call("GetPanelSize", QVariant("Hight"));
+        panelHeight = msg.arguments().at(0).toInt();
+        return panelHeight;
+    }
+    return panelHeight;
 }
 
 //获取任务栏状态位置下上左右
 int Widget::getPanelSite()
 {
-    QDBusMessage msg = m_pServiceInterface->call("GetPanelPosition", QVariant("Site"));
-    int PanelSite = msg.arguments().at(0).toInt();
-    qDebug() << "panel所在的位置" << PanelSite;
-    return PanelSite;
+    int panelPosition = 0;
+    if (m_pPanelSetting != nullptr) {
+        QStringList keys = m_pPanelSetting->keys();
+        if (keys.contains("panelposition")) {
+            panelPosition = m_pPanelSetting->get("panelposition").toInt();
+        }
+    } else {
+        QDBusMessage msg = m_pServiceInterface->call("GetPanelPosition", QVariant("Site"));
+        panelPosition = msg.arguments().at(0).toInt();
+    }
+    qDebug() << "panel所在的位置" << panelPosition;
+    return panelPosition;
 }
 
 void Widget::mousePressEvent(QMouseEvent *event)
@@ -279,6 +302,12 @@ void Widget::mousePressEvent(QMouseEvent *event)
         mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
         hideAnimation();
     }
+}
+
+void Widget::mouseMoveEvent(QMouseEvent *event)
+{
+    QPoint p_ab = event->globalPos();//整个桌面位置
+    qDebug() << "个桌面位置 x-->" << p_ab.x() << "y-->" << p_ab.y();
 }
 
 //获取屏幕的可用区域高度和宽度
@@ -327,7 +356,9 @@ void Widget::showAnimation()
     {
         pNotificationPluginObject->showNotification();       //当动画展开时给插件一个通知
     }
-
+    int clipboardhight = setClipBoardWidgetScaleFactor();
+    qDebug() << "剪贴板高度" << clipboardhight;
+    sidebarPluginsWidgets::getInstancePluinsWidgets()->setClipboardWidgetSize(clipboardhight);      /* 设定剪贴板高度 */
     int  AnimaStartSideBarSite[4];                           //侧边栏动画开始位置
     int  AnimaStopSidebarSite[4];                            //侧边栏动画结束位置
     switch (getPanelSite())
@@ -410,7 +441,12 @@ void Widget::showAnimationAction(const QVariant &value)
 {
     QRect Rect = value.value<QRect>();
     int x = Rect.x();
-    mostGrandWidget::getInstancemostGrandWidget()->setProperty("blurRegion", QRegion(QRect(x, 0, 400, m_nScreenHeight - connectTaskBarDbus())));
+    if (getPanelSite() == Widget::PanelDown || getPanelSite() == Widget::PanelUp){
+        mostGrandWidget::getInstancemostGrandWidget()->setProperty("blurRegion", QRegion(QRect(x, 0, 400, m_nScreenHeight - connectTaskBarDbus())));
+    }
+    else {
+        mostGrandWidget::getInstancemostGrandWidget()->setProperty("blurRegion", QRegion(QRect(x, 0, 400, m_nScreenHeight)));
+    }
 }
 
 //隐藏动画
@@ -553,7 +589,12 @@ void Widget::ModifyScreenNeeds()
 void Widget::InitializeHomeScreenGeometry()
 {
     QList<QScreen*> screen = QGuiApplication::screens();
-    m_nScreen_x = screen[0]->availableGeometry().x();
+    int count = m_pDeskWgt->screenCount();
+    if (count > 1) {
+        m_nScreen_x = screen[0]->availableGeometry().x();
+    } else {
+        m_nScreen_x = 0;
+    }
 }
 
 /* 根据任务栏位置调整侧边栏位置 */
@@ -576,6 +617,8 @@ void Widget::MostGrandWidgetCoordinates()
             {
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight);
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400, 0);
+                qDebug() << m_nScreen_x << m_nScreenWidth;
+                qDebug() << "m_nScreen_x + m_nScreenWidth - 400" << m_nScreen_x + m_nScreenWidth - 400;
             }
             break;
         case Widget::PanelRight:
