@@ -69,7 +69,7 @@ void MonitorThread::extractData(QString strOutput)
 
     if("" == strIcon)
     {
-        strIcon = "/usr/share/icons/ukui-icon-theme/24x24/mimetypes/application-x-desktop.png";
+        strIcon = "/usr/share/icons/ukui-icon-theme-default/24x24/mimetypes/application-x-desktop.png";
     }
 
     //主题的获取

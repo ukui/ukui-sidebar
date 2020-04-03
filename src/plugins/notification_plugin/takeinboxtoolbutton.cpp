@@ -33,11 +33,11 @@ void TakeInBoxToolButton::enterEvent(QEvent *event)
 
     if(false == m_bEnterTakeInBox)
     {
-        this->setToolTip(QString::fromLocal8Bit("进入收纳盒"));
+        this->setToolTip((tr("Enter unimportant news")));
     }
     else
     {
-        this->setToolTip(QString::fromLocal8Bit("退出收纳盒"));
+        this->setToolTip((tr("Quit unimportant news")));
     }
     return;
 }

@@ -113,7 +113,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     //设置通知消息中的通知时间
     m_pTimeLabel = new QLabel();
     m_pTimeLabel->setObjectName("pushtime");
-    m_pTimeLabel->setText("现在");
+    m_pTimeLabel->setText(tr("now"));
     m_pTimeLabel->setStyleSheet("background-color:transparent;");
 
     //收纳删除按钮图标的大小
@@ -274,7 +274,7 @@ void SingleMsg::updatePushTime()
 
     if(1 == (currentDateTime.date().toJulianDay() - m_dateTime.date().toJulianDay()))
     {
-        strPushDate = "昨天 ";
+        strPushDate = tr("Yesterday ");
         if(true == m_bTimeFormat)
         {
             strPushDate = strPushDate + m_dateTime.toString("hh:mm");       //24小时制
@@ -353,7 +353,7 @@ void SingleMsg::setBodyLabelWordWrap(bool bFlag)
 void SingleMsg::setLeftItem(int nShowLeftCount)
 {
     m_nShowLeftCount = nShowLeftCount;
-    QString strShowLeft = "还有" + QString::number(nShowLeftCount) + "则通知";
+    QString strShowLeft = tr("In addition ") + QString::number(nShowLeftCount) + tr(" notification");
     m_pShowLeftItemLabel->setText(strShowLeft);
     m_pShowLeftItemLabel->setStyleSheet("color:rgba(255,255,255,0.35);font-weight:400;font-size:14px;font-weight:400;background-color:transparent;line-height:24px;padding:0px;");
 

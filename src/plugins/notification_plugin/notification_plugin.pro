@@ -58,5 +58,6 @@ unix {
     INSTALLS += translation
 }
 
+TRANSLATIONS += ../../../translations/notification_plugin/language.ts
 RESOURCES += \
     notification_plugin.qrc
