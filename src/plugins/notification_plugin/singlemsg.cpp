@@ -43,7 +43,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
     this->adjustSize();
 
-    qDebug() << "single message-------------";
+    qDebug() << "single message-------------" << this->size();
     connect(this, SIGNAL(Sig_setAppFoldFlag(bool)), pParent, SLOT(setAppFoldFlag(bool)));
     connect(this, SIGNAL(Sig_onDeleSingleMsg(SingleMsg*)), pParent, SLOT(onDeleSingleMsg(SingleMsg*)));
     connect(this, SIGNAL(Sig_onDeleteAppMsg()), pParent, SLOT(onDeleteAppMsg()));
@@ -77,12 +77,13 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
     //图标和时间行的水平布局器
     pIconHLayout = new QHBoxLayout();
-    pIconHLayout->setContentsMargins(12,11,0,0);
+    pIconHLayout->setContentsMargins(10,11,0,0);
     pIconHLayout->setSpacing(0);
 
     //设置通知消息中的Icon，使用QToolButton
     QToolButton* pIconToolButton = new QToolButton();
     pIconToolButton->setStyleSheet("QToolButton{border:none;border-style:none;padding:0px;background:transparent;}");
+    pIconToolButton->setFixedSize(24,24);
     pIconToolButton->setIconSize(QSize(24,24));
     pIconToolButton->setIcon(QPixmap(strIconPath));
 
@@ -166,6 +167,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pStorageDeleteButtonWidget->setLayout(m_pStorageDeleteButtonHLaout);
 
     pIconHLayout->addWidget(pIconToolButton, 0, Qt::AlignLeft);
+    pIconHLayout->addItem(new QSpacerItem(6,10,QSizePolicy::Fixed,QSizePolicy::Fixed));
     pIconHLayout->addWidget(pAppNameLabel, 0, Qt::AlignLeft|Qt::AlignVCenter);
     pIconHLayout->addItem(pHExpandSpacer);
     pIconHLayout->addWidget(m_pTimeLabelWidget);
@@ -244,7 +246,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pAppVLaout->addWidget(m_pSingleWidget);
     this->setLayout(m_pAppVLaout);
 
-    setStyleSheet("background-color:rgba(255,255,255,0.12);");
+    setStyleSheet("background-color:rgba(255,255,255,0);");
     return;
 }
 
@@ -393,12 +395,9 @@ void SingleMsg::enterEvent(QEvent *event)
         setStyleSheet("background-color:rgba(255,255,255,0.2);");
     }
 
-//    m_pSingleTakeinButton->setVisible(true);
-//    m_pSingleDeleteButton->setVisible(true);
-//    m_pTimeLabel->setVisible(false);
     m_pStorageDeleteButtonWidget->show();
     m_pTimeLabelWidget->hide();
-    pIconHLayout->setContentsMargins(12,11,0,0);
+    pIconHLayout->setContentsMargins(10,11,0,0);
     if((true == m_bMain) && (true == m_bFold) && (m_nShowLeftCount > 0))
     {
         emit Sig_onMainEnter();
@@ -419,12 +418,9 @@ void SingleMsg::leaveEvent(QEvent *event)
     {
         setStyleSheet("background-color:rgba(255,255,255,0.12);");
     }
-//    m_pSingleTakeinButton->setVisible(false);
-//    m_pSingleDeleteButton->setVisible(false);
-//    m_pTimeLabel->setVisible(true);
     m_pTimeLabelWidget->show();
     m_pStorageDeleteButtonWidget->hide();
-    pIconHLayout->setContentsMargins(12,11,0,0);
+    pIconHLayout->setContentsMargins(10,11,0,0);
     if((true == m_bMain) && (true == m_bFold) && (m_nShowLeftCount > 0))
     {
         emit Sig_onMainLeave();
