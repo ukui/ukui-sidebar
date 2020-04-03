@@ -1,6 +1,7 @@
 #include "cleanpromptbox.h"
 #include "customstyle.h"
 #include "customstyle_pushbutton_2.h"
+#include <QDebug>
 CleanPromptBox::CleanPromptBox()
 {
     this->setFixedSize(400, 218);
@@ -63,6 +64,16 @@ void CleanPromptBox::creatorHintInfomationWidget()
 void CleanPromptBox::creatorCheckBoxWidget()
 {
     m_pCheckBoxNoHint = new QCheckBox;
+//    connect(m_pCheckBoxNoHint, &QCheckBox::stateChanged, this, [=](int state) {
+//        qDebug() << "m_pCheckBoxNoHint, &QCheckBox::stateChanged";
+//        if (state == Qt::Checked) {
+//            //选中 --> 改变状态bool值
+//           qDebug() << "tate == Qt::Checked -->选中";
+//           emit globalClipboardSignal->CheckBoxSelectedSignal();
+//        } else {
+//           qDebug() << "tate == Qt::Checked -->Unchecked";
+//        }
+//    });
     m_pCheckBoxNoHint->setText(QObject::tr("Don't ask"));
     QPalette palete;
     palete.setColor(QPalette::WindowText,Qt::white);
@@ -86,6 +97,7 @@ void CleanPromptBox::creatorButtonWidget()
 
     connect(m_pConfirmButton, &QPushButton::clicked, globalClipboardSignal, &ClipboardSignal::CLipBoardEditConfirmButtonSignal);
     connect(m_pCancelButton, &QPushButton::clicked, globalClipboardSignal, &ClipboardSignal::CLipBoardEditConfirmButtonSignal);
+    connect(m_pConfirmButton, &QPushButton::clicked, this, &CleanPromptBox::ConfirmButtonSlots);
     connect(m_pConfirmButton, &QPushButton::clicked, this, &CleanPromptBox::accept);
     connect(m_pCancelButton, &QPushButton::clicked, this, &CleanPromptBox::reject);
 
@@ -147,4 +159,12 @@ void CleanPromptBox::paintEvent(QPaintEvent *)
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     p.drawRoundedRect(opt.rect,6,6);
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+}
+
+void CleanPromptBox::ConfirmButtonSlots()
+{
+    if (m_pCheckBoxNoHint->isChecked()) {
+        emit ClipBoardInternalSignal::getGlobalInternalSignal()->CheckBoxSelectedSignal();
+        qDebug() << "是选中状态";
+    }
 }

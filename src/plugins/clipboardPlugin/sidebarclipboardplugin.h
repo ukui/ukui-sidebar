@@ -44,6 +44,7 @@
 #include "clipboardsignal.h"
 #include "clipboardlisetwidget.h"
 #include "cleanpromptbox.h"
+#include "clipBoardInternalSignal.h"
 #define  WIDGET_ENTRY_COUNT 5
 #define  SIDEBAR_CLIPBOARD_QSS_PATH  ":/qss/sidebarClipboard.css"
 
@@ -83,6 +84,7 @@ public:
     QGroupBox   *m_pSidebarClipboardBox;
     QWidget     *m_pSidebarClipboardWidget;
     QLabel      *m_pSideBarClipboardLable;
+    bool         m_bPromptBoxBool;
 
     QVBoxLayout     *m_pClipboardLaout;
     QClipboard      *m_pSidebarClipboard;

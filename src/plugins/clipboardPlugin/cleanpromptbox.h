@@ -12,13 +12,14 @@
 #include <QStyleOption>
 #include <QPainter>
 #include <QFile>
+#include <QRadioButton>
 #include "clipboardsignal.h"
+#include "clipBoardInternalSignal.h"
 #define  CLEAN_PNG_PATH  ":/image/user-trash.png"
 #define  SIDEBAR_HINT_QSS_PATH  ":/qss/HintBoxWidget.css"
 extern ClipboardSignal *globalClipboardSignal;
 class CleanPromptBox : public QDialog
 {
-//    Q_OBJECT
 public:
     CleanPromptBox();
     QWidget     *m_pHintInformationWidget;
@@ -44,6 +45,8 @@ public:
     void creatorCleanPromptBoxWidget();
 protected:
     void paintEvent(QPaintEvent *);
+private slots:
+    void ConfirmButtonSlots();
 };
 
 #endif // CLEANPROMPTBOX_H
