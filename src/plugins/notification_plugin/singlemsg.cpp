@@ -210,7 +210,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
         m_pBodyLabel->setFixedWidth(315);
         m_pBodyLabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
         m_pBodyLabel->adjustSize();
-        m_pBodyLabel->setStyleSheet("color:rgba(255,255,255,0.57);font-weight:400;font-size:14px;background-color:transparent;line-height:24px;padding:0px;");
+        m_pBodyLabel->setStyleSheet("color:rgba(255,255,255,0.91);font-weight:400;font-size:14px;background-color:transparent;line-height:24px;padding:0px;");
 
         QFontMetrics fontMetrics(m_pBodyLabel->font());
         int fontSize = fontMetrics.width(strLineHeight24Body);
@@ -355,6 +355,7 @@ void SingleMsg::setLeftItem(int nShowLeftCount)
     m_nShowLeftCount = nShowLeftCount;
     QString strShowLeft = "还有" + QString::number(nShowLeftCount) + "则通知";
     m_pShowLeftItemLabel->setText(strShowLeft);
+    m_pShowLeftItemLabel->setStyleSheet("color:rgba(255,255,255,0.35);font-weight:400;font-size:14px;font-weight:400;background-color:transparent;line-height:24px;padding:0px;");
 
     //当剩余条数大于0, 且是折叠状态则显示剩余标签
     if((true == m_bFold) && (m_nShowLeftCount > 0))
