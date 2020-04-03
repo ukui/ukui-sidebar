@@ -509,6 +509,7 @@ void SidebarClipboardPlugin::searchClipboardLableTextSlots(QString Text)
         while (iter1 != m_pClipboardDataHash.constEnd()) {
             m_pShortcutOperationListWidget->insertItem(0, iter1.key());
             ClipboardWidgetEntry *w = new ClipboardWidgetEntry();
+            w->setFixedSize(397, 42);
             connectWidgetEntryButton(w);
             QString Format = SetFormatBody(iter1.value()->text, w);
             w->m_pCopyDataLabal->setText(Format);
@@ -525,6 +526,7 @@ void SidebarClipboardPlugin::searchClipboardLableTextSlots(QString Text)
         if (iter2.value()->text.contains(Text, Qt::CaseSensitive)) {
             m_pShortcutOperationListWidget->insertItem(0, iter2.key());
             ClipboardWidgetEntry *w = new ClipboardWidgetEntry();
+            w->setFixedSize(397, 42);
             connectWidgetEntryButton(w);
             QString Format = SetFormatBody(iter1.value()->text, w);
             w->m_pCopyDataLabal->setText(Format);

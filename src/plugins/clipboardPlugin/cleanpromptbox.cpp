@@ -64,16 +64,6 @@ void CleanPromptBox::creatorHintInfomationWidget()
 void CleanPromptBox::creatorCheckBoxWidget()
 {
     m_pCheckBoxNoHint = new QCheckBox;
-//    connect(m_pCheckBoxNoHint, &QCheckBox::stateChanged, this, [=](int state) {
-//        qDebug() << "m_pCheckBoxNoHint, &QCheckBox::stateChanged";
-//        if (state == Qt::Checked) {
-//            //选中 --> 改变状态bool值
-//           qDebug() << "tate == Qt::Checked -->选中";
-//           emit globalClipboardSignal->CheckBoxSelectedSignal();
-//        } else {
-//           qDebug() << "tate == Qt::Checked -->Unchecked";
-//        }
-//    });
     m_pCheckBoxNoHint->setText(QObject::tr("Don't ask"));
     QPalette palete;
     palete.setColor(QPalette::WindowText,Qt::white);

@@ -53,7 +53,6 @@ ClipboardWidgetEntry::ClipboardWidgetEntry(QWidget *parent)
     m_pHLayout->setContentsMargins(0,0,0,0);
     m_pHLayout->addItem(new QSpacerItem(10,20));
     m_pHLayout->addWidget(m_pCopyDataLabal);
-//    m_pHLayout->addItem(new QSpacerItem(116, 20));
     m_pHLayout->addWidget(m_pPopButton);
     m_pHLayout->addWidget(m_pEditButon);
     m_pHLayout->addWidget(m_pRemoveButton);
