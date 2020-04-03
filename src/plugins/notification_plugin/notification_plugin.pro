@@ -8,11 +8,12 @@ QT       += core gui widgets svg
 
 TARGET = notification_plugin
 TEMPLATE = lib
-CONFIG += plugin
+CONFIG += plugin \
+          link_pkgconfig
 
 DESTDIR = ../notification_plugins
 
-
+PKGCONFIG += gsettings-qt \
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
@@ -57,5 +58,6 @@ unix {
     INSTALLS += translation
 }
 
+TRANSLATIONS += ../../../translations/notification_plugin/language.ts
 RESOURCES += \
     notification_plugin.qrc

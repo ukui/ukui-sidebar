@@ -209,8 +209,9 @@ QLabel#importantnotification{
 QLabel#AppName{
     color:rgba(255,255,255,0.57);    /*文字颜色*/
     font-size:14px;
-    background-color:transparent;
-    width:84px;
+    font-weight:400;
+    font-family:NotoSansCJKsc-Regular;
+/*    background-color:transparent;*/
 }
 
 QLabel#pushtime{

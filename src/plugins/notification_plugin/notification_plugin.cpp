@@ -22,7 +22,7 @@
 #include "takeinboxtoolbutton.h"
 #include "monitorthread.h"
 #include <QSvgRenderer>
-
+#include <QDebug>
 
 
 NotificationPlugin::NotificationPlugin()
@@ -65,7 +65,6 @@ NotificationPlugin::NotificationPlugin()
 
     QLabel* pLabel = new QLabel(QObject::tr("Notification center"));
     pLabel->setObjectName("notificationcentername");
-
     //收纳按钮
     m_pTakeInBoxToolButton = new TakeInBoxToolButton();
     m_pTakeInBoxToolButton->setObjectName("takein");
@@ -74,6 +73,8 @@ NotificationPlugin::NotificationPlugin()
     //QToolButton添加svg图片
     m_pSvgRender = new QSvgRenderer(pWidget1);
     m_pSvgRender->load(QString(":/images/box-24.svg"));
+    m_pTakeInBoxToolButton->setFixedSize(24,24);
+    m_pTakeInBoxToolButton->setIconSize(QSize(24,24));
     m_pPixmap = new QPixmap(24, 24);
 
     m_pPixmap->fill(Qt::transparent);

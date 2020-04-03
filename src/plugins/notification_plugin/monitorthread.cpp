@@ -23,6 +23,9 @@
 MonitorThread::MonitorThread(NotificationPlugin *parent)
 {
     m_parent = parent;
+    if(QGSettings::isSchemaInstalled(UKUI_CONTROL_CENTER_NOTIFY)) {
+        m_pSettings = new QGSettings(UKUI_CONTROL_CENTER_NOTIFY);
+    }
     this->moveToThread(this);
 }
 
@@ -66,7 +69,7 @@ void MonitorThread::extractData(QString strOutput)
 
     if("" == strIcon)
     {
-        strIcon = "/usr/share/icons/ukui-icon-theme/24x24/mimetypes/application-x-desktop.png";
+        strIcon = "/usr/share/icons/ukui-icon-theme-default/24x24/mimetypes/application-x-desktop.png";
     }
 
     //主题的获取
@@ -99,9 +102,93 @@ void MonitorThread::extractData(QString strOutput)
     QString strBody = strOutputTmp.mid(0, nIndex);
     strOutputTmp = strOutputTmp.mid(nIndex + 1);
 
+    //如果
+    bool status = true;
+    if (m_pStorageAppList.contains(strAppName)) {
+         for (int i=0;i<m_pStorageAppList.count();i++) {
+            QStringList keys = m_pSettings->keys();
+            if (keys.contains("ukuiPowerStatistics"))
+            {
+                status = m_pSettings->get("ukuiPowerStatistics").toBool();
+            }
+        }
+    }
+
     QDateTime dateTime(QDateTime::currentDateTime());
-    emit Sig_Notify(strAppName, strIcon, strSummary, strBody, dateTime, true);
+    if (status)
+        emit Sig_Notify(strAppName, strIcon, strSummary, strBody, dateTime, true);
+    else
+        emit Sig_Takein(strAppName, strIcon, strSummary, strBody, dateTime);
     return;
+}
+
+void MonitorThread::listeningAppNotificationStatus()
+{
+    QStringList keys = m_pSettings->keys();
+    QString appNotifyName = "";
+    if (keys.contains("ukuiPowerStatistics"))
+    {
+        if (keys.contains("ukuiPowerStatisticsname"))
+        {
+            appNotifyName = m_pSettings->get("ukuiPowerStatisticsname").toString();
+        }
+        bool status = m_pSettings->get("ukuiPowerStatistics").toBool();
+        if (status) {
+            int index = m_pStorageAppList.indexOf(appNotifyName);
+            if (-1 == index)
+                return;
+            else {
+                m_pStorageAppList.removeAt(index);
+            }
+        }
+        else {
+            m_pStorageAppList.append(appNotifyName);
+        }
+    }
+    connect(m_pSettings,SIGNAL(changed(const QString &)),this,SLOT(appNotifySettingChangedSlot()));
+}
+
+void MonitorThread::appNotifySettingChangedSlot()
+{
+    bool status = false;
+    QString appNotifyName;
+    QStringList keys = m_pSettings->keys();
+    if (keys.contains("ukuiPowerStatistics"))
+    {
+        status = m_pSettings->get("ukuiPowerStatistics").toBool();
+        if (keys.contains("ukuiPowerStatisticsname"))
+        {
+            appNotifyName = m_pSettings->get("ukuiPowerStatisticsname").toString();
+        }
+        if (status)
+        {
+            int index = m_pStorageAppList.indexOf(appNotifyName);
+            if (-1 == index)
+            {
+                return;
+            }
+            else
+            {
+                m_pStorageAppList.removeAt(index);
+            }
+        }
+        else
+        {
+            m_pStorageAppList.append(appNotifyName);
+        }
+    }
+    if (keys.contains("kylinVideo"))
+    {
+        status = m_pSettings->get("kylinVideo").toBool();
+    }
+    if (keys.contains("kylinAssistant"))
+    {
+        status = m_pSettings->get("kylinAssistant").toBool();
+    }
+    if (keys.contains("ubuntuKylinSoftwareCenter"))
+    {
+        status = m_pSettings->get("ubuntuKylinSoftwareCenter").toBool();
+    }
 }
 
 
@@ -140,7 +227,13 @@ void MonitorThread::run()
     connect(pTimer, SIGNAL(timeout()), this, SLOT(readOutputData()));
     pTimer->start(1000);
 
+    //将消息添加到通知中心或收纳盒
+    listeningAppNotificationStatus();
+
     connect(this, SIGNAL(Sig_Notify(QString, QString, QString, QString, QDateTime, bool)), m_parent, SLOT(onAddSingleNotify(QString, QString, QString, QString, QDateTime, bool)));
+
+    connect(this, SIGNAL(Sig_Takein(QString, QString, QString, QString, QDateTime)), m_parent, SLOT(onTakeInSingleNotify(QString, QString, QString, QString, QDateTime)));
+
     exec();
 
 }

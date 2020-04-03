@@ -25,7 +25,7 @@
 #include <QSvgWidget>
 #include <QDebug>
 
-ButtonWidget::ButtonWidget(QString strIcon, QString strHoverIcon, QString strPressIcon)
+ButtonWidget::ButtonWidget(QString strIcon, QString strHoverIcon, QString strPressIcon,QSize normalIconSize,QSize pressIconSize)
 {
     m_strIcon = strIcon;
     m_strHoverIcon = strHoverIcon;
@@ -34,7 +34,6 @@ ButtonWidget::ButtonWidget(QString strIcon, QString strHoverIcon, QString strPre
     this->setFixedWidth(24);
     this->setFixedHeight(24);
     this->setStyleSheet("border:none;border-style:none;padding:0px;background:transparent;width:24px;height:24px;");
-
     QVBoxLayout* pVBoxLayout = new QVBoxLayout;
     pVBoxLayout->setContentsMargins(0,0,0,0);
     pVBoxLayout->setSpacing(0);
@@ -42,8 +41,8 @@ ButtonWidget::ButtonWidget(QString strIcon, QString strHoverIcon, QString strPre
     m_ToolButton = new QLabel;
     m_pTakeinSvgRender = new QSvgRenderer(m_ToolButton);
     m_pTakeinSvgRender->load(m_strIcon);
-    m_pTakeinPixmap = new QPixmap(16, 16);
-    m_pTakeinPressPixmap = new QPixmap(14, 14);
+    m_pTakeinPixmap = new QPixmap(normalIconSize);
+    m_pTakeinPressPixmap = new QPixmap(pressIconSize);
     m_pTakeinPixmap->fill(Qt::transparent);
     QPainter takeinPainter(m_pTakeinPixmap);
     m_pTakeinSvgRender->render(&takeinPainter);
