@@ -23,9 +23,9 @@
 MonitorThread::MonitorThread(NotificationPlugin *parent)
 {
     m_parent = parent;
-    if(QGSettings::isSchemaInstalled(UKUI_CONTROL_CENTER_NOTIFY)) {
+    /*if(QGSettings::isSchemaInstalled(UKUI_CONTROL_CENTER_NOTIFY)) {
         m_pSettings = new QGSettings(UKUI_CONTROL_CENTER_NOTIFY);
-    }
+    }*/
     this->moveToThread(this);
 }
 
@@ -102,8 +102,8 @@ void MonitorThread::extractData(QString strOutput)
     QString strBody = strOutputTmp.mid(0, nIndex);
     strOutputTmp = strOutputTmp.mid(nIndex + 1);
 
-    //如果
     bool status = true;
+    /*
     if (m_pStorageAppList.contains(strAppName)) {
          for (int i=0;i<m_pStorageAppList.count();i++) {
             QStringList keys = m_pSettings->keys();
@@ -112,7 +112,7 @@ void MonitorThread::extractData(QString strOutput)
                 status = m_pSettings->get("ukuiPowerStatistics").toBool();
             }
         }
-    }
+    }*/
 
     QDateTime dateTime(QDateTime::currentDateTime());
     if (status)
@@ -122,6 +122,7 @@ void MonitorThread::extractData(QString strOutput)
     return;
 }
 
+/*
 void MonitorThread::listeningAppNotificationStatus()
 {
     QStringList keys = m_pSettings->keys();
@@ -147,7 +148,9 @@ void MonitorThread::listeningAppNotificationStatus()
     }
     connect(m_pSettings,SIGNAL(changed(const QString &)),this,SLOT(appNotifySettingChangedSlot()));
 }
+*/
 
+/*
 void MonitorThread::appNotifySettingChangedSlot()
 {
     bool status = false;
@@ -190,7 +193,7 @@ void MonitorThread::appNotifySettingChangedSlot()
         status = m_pSettings->get("ubuntuKylinSoftwareCenter").toBool();
     }
 }
-
+*/
 
 void MonitorThread::readOutputData()
 {
@@ -227,9 +230,9 @@ void MonitorThread::run()
     connect(pTimer, SIGNAL(timeout()), this, SLOT(readOutputData()));
     pTimer->start(1000);
 
-    //将消息添加到通知中心或收纳盒
+    /*//将消息添加到通知中心或收纳盒
     listeningAppNotificationStatus();
-
+    */
     connect(this, SIGNAL(Sig_Notify(QString, QString, QString, QString, QDateTime, bool)), m_parent, SLOT(onAddSingleNotify(QString, QString, QString, QString, QDateTime, bool)));
 
     connect(this, SIGNAL(Sig_Takein(QString, QString, QString, QString, QDateTime)), m_parent, SLOT(onTakeInSingleNotify(QString, QString, QString, QString, QDateTime)));

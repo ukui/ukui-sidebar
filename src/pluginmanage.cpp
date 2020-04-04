@@ -29,7 +29,7 @@ static PluginManager *global_instance = nullptr;
 
 PluginManager::PluginManager(QObject *parent) : QObject(parent)
 {
-    QDir pluginsDir("./plugins/sidebarSmallPlugins");
+    QDir pluginsDir("/usr/lib/ukui-sidebar/sidebarSmallPlugins");
     pluginsDir.setFilter(QDir::Files);
 
     qDebug()<<pluginsDir.entryList().count();
