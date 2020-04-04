@@ -528,7 +528,7 @@ void SidebarClipboardPlugin::searchClipboardLableTextSlots(QString Text)
             ClipboardWidgetEntry *w = new ClipboardWidgetEntry();
             w->setFixedSize(397, 42);
             connectWidgetEntryButton(w);
-            QString Format = SetFormatBody(iter1.value()->text, w);
+            QString Format = SetFormatBody(iter2.value()->text, w);
             w->m_pCopyDataLabal->setText(Format);
             iter2.value()->WidgetEntry = w;
             m_pShortcutOperationListWidget->setItemWidget(iter2.key(), w);
