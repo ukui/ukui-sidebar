@@ -163,6 +163,12 @@ private:
     QString desktop_info_str;  //系统桌面环境
 
 
+    QString send_os_info;
+    QString send_encoding_info;
+    QString send_dekstop_info;
+
+
+
     QPushButton *deletefileBtn[5];
     QLabel *filename_label[5];
     QLabel *filesize_label[5];

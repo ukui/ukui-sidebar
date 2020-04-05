@@ -28,6 +28,7 @@ submit_success::submit_success(QWidget *parent) :
     setWindowTitle(tr("提交成功 "));
     ui->pushButton->setFlat(true);
     ui->pushButton_2->setFlat(true);
+    ui->label->setStyleSheet("font: 30px;");
 }
 
 submit_success::~submit_success()
