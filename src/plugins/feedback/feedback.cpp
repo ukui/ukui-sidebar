@@ -101,8 +101,8 @@ void feedback::window_ui_init()
 
     ui->checkBox_4->setStyleSheet(" spacing: 6px;");
     //设置反馈类型的样式
-    ui->comboBox->setStyleSheet("min-height: 30px;background-color: rgb(244, 244, 244);color: rgb(68, 68, 68);font: 14px ;");
     ui->errorMailMessage->setVisible(false);
+    ui->textEdit_2->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
 
     this->setStyleSheet("background-color:rgb();");
@@ -173,7 +173,7 @@ void feedback::on_textEdit_textChanged()
         describeflag = 1;//详细描述是否填写
     if (emailflag == 1 && describeflag == 1){//邮箱和详细描述都已经填写
         ui->pushButton_2->setEnabled(true);//设置提交按钮属性
-        ui->pushButton_2->setStyleSheet("font: 18px ;border-radius:4px;background-color:rgb(61,107,229);color: rgb(255, 255, 255)");
+      //  ui->pushButton_2->setStyleSheet("font: 18px ;border-radius:4px;background-color:rgb(61,107,229);color: rgb(255, 255, 255)");
     }
     else
     {
@@ -250,17 +250,20 @@ void feedback::add_systeminfo()
 
         system_info = os_info +system_name +" " + system_version_id;
     }
+    send_os_info = QString::fromStdString(system_name +" " + system_version_id);
     system_info_str = QString::fromStdString(system_info);//string 转QString
     system_info_str.remove(QChar('"'), Qt::CaseInsensitive);  //将字符串中"字符删除
     ui->label_10->setText(system_info_str);
     //2.获取桌面环境信息
     char * desktop = getenv("DESKTOP_SESSION");
     desktop_info.append(desktop);
+    send_dekstop_info.append(desktop);
     desktop_info_str = QString::fromStdString(desktop_info);
     ui->label_12->setText(desktop_info_str);
     //3.获取编码格式
-    char * encoding = getenv("LANG");
+    char * encoding = getenv("GDM_LANG");
     encoding_info.append(encoding);
+    send_encoding_info.append(encoding);
     encoding_info_str = QString::fromStdString(encoding_info);
     ui->label_11->setText(encoding_info_str);
 }
@@ -329,7 +332,7 @@ void feedback::on_comboBox_currentIndexChanged(const QString &arg1)
 void feedback::on_pushButton_2_clicked()
 {
     ui->pushButton_2->setEnabled(false);
-    ui->pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(255, 255, 255)");
+ //   ui->pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(255, 255, 255)");
     //判断文件总大小是否超过10M，如果超过，提示
     if(all_file_size_than_10M() == true)
     {
@@ -345,9 +348,9 @@ void feedback::on_pushButton_2_clicked()
     feedback_info_json.insert("email",email_str);
     //系统信息发送
     if(get_systeminfoflag == 1){
-        feedback_info_json.insert("version",system_info_str);
-        feedback_info_json.insert("desktop",desktop_info_str);
-        feedback_info_json.insert("language",encoding_info_str);
+        feedback_info_json.insert("version",send_os_info);
+        feedback_info_json.insert("desktop",send_dekstop_info);
+        feedback_info_json.insert("language",send_encoding_info);
     }
 
     QString url_filepath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) +"/.config/ukui/url.conf";
@@ -359,12 +362,12 @@ void feedback::on_pushButton_2_clicked()
     {
         file_url.open(QIODevice::ReadWrite | QIODevice::Text);
         file_url.write("http://feedback.ubuntukylin.com/v1/issue/");
+        urlstring.append("http://feedback.ubuntukylin.com/v1/issue/");
     }
     else{
         file_url.open(QIODevice::ReadWrite | QIODevice::Text);
+        urlstring = file_url.readLine();
     }
-
-    urlstring = file_url.readLine();
     file_url.close();
     //去掉从配置文件中读出的换行符(删除最后一个字符)
     //urlstring.remove(urlstring.length()-1,1);
@@ -480,7 +483,7 @@ void feedback::on_textEdit_2_textChanged()
     else
     {
         ui->pushButton_2->setEnabled(false);//设置提交按钮属性
-        ui->pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(233, 233, 233);color: rgb(255, 255, 255)");
+    //    ui->pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(233, 233, 233);color: rgb(255, 255, 255)");
     }
 }
 

@@ -26,6 +26,8 @@ submit_fail::submit_fail(QWidget *parent) :
 
     setWindowTitle(tr("提交失败"));
     ui->pushButton_2->setFlat(true);
+    ui->label->setStyleSheet("");
+    ui->label_3->setStyleSheet("font: 30px;");
 }
 
 
