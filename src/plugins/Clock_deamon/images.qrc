@@ -19,5 +19,6 @@
         <file>continu.png</file>
         <file>sax.mp3</file>
         <file>kylin-alarm-clock.svg</file>
+        <file>Clock.qm</file>
     </qresource>
 </RCC>

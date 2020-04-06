@@ -90,6 +90,20 @@ Clock::Clock(QWidget *parent) :
     on_pixmap = QPixmap(":/alarm_on.png");
     off_pixmap = QPixmap(":/alarm_off.png");
 
+    ui->label->move(53,43);
+    ui->label_2->move(187,43);
+    ui->label_3->move(322,43);
+    ui->label->setFixedSize(80,30);
+    ui->label_2->setFixedSize(80,30);
+    ui->label_3->setFixedSize(80,30);
+    ui->label_3->setAlignment(Qt::AlignHCenter);
+    ui->label_2->setAlignment(Qt::AlignHCenter);
+    ui->label->setAlignment(Qt::AlignHCenter);
+    ui->label_6->setStyleSheet("font: 36pt;");
+    ui->label_4->setStyleSheet("font: 36pt;");
+    ui->label_8->setStyleSheet("font: 36pt;");
+    ui->label_9->setStyleSheet("font: 36pt;");
+
 
     ui->pushButton->setIcon(pixmap1);
     ui->pushButton_2->setIcon(pixmap4);
@@ -756,7 +770,7 @@ void Clock::listClickslot()
     if(num < 0){
         ui->label_7->setText(QApplication::translate("Clock", "\347\202\271\345\207\273\351\227\271\351\222\237\346\230\276\347\244\272\345\211\251\344\275\231\346\227\266\351\227\264", nullptr));
     }else{
-        ui->label_7->setText(QString::number(x_h)+"小时"+QString::number(x_m)+"分钟后铃响");
+        ui->label_7->setText(QString::number(x_h)+tr("小时")+QString::number(x_m)+tr("分钟后铃响"));
     }
 }
 void Clock::deleteAlarm()
