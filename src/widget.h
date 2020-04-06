@@ -141,6 +141,7 @@ private slots :
     void primaryScreenChangedSLot();                                            //主屏发生变化
     void ClipboardShowSlots();                                                  //接受剪贴板信号，将boll值m_bClipboardFlag置为false;
     void ClipboardHideSlots();                                                  //接受剪贴板信号，将boll值m_bClipboardFlag置为true;
+    void screenCountChangedSlots(int count);                                    //屏幕数量改变时对应槽函数
 };
 
 #endif // WIDGET_H

@@ -38,50 +38,49 @@
 <context>
     <name>EditorWidget</name>
     <message>
-        <location filename="editorwidget.cpp" line="66"/>
         <source>Edit</source>
-        <translation>编辑内容</translation>
+        <translation type="vanished">编辑内容</translation>
     </message>
     <message>
-        <location filename="editorwidget.cpp" line="72"/>
         <source>Confirm</source>
-        <translation>确认</translation>
+        <translation type="vanished">确认</translation>
     </message>
     <message>
-        <location filename="editorwidget.cpp" line="73"/>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation type="vanished">取消</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="sidebarclipboardplugin.h" line="66"/>
+        <location filename="sidebarclipboardplugin.h" line="67"/>
         <source>ClipBoard</source>
         <translation>剪贴板</translation>
     </message>
     <message>
-        <location filename="sidebarclipboardplugin.h" line="68"/>
+        <location filename="sidebarclipboardplugin.h" line="69"/>
         <source>Show the folder children as icons.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="cleanpromptbox.cpp" line="55"/>
+        <location filename="cleanpromptbox.cpp" line="67"/>
         <source>Are you sure empty your clipboard history?</source>
         <translation type="unfinished">确认要清空剪贴板历史吗？</translation>
     </message>
     <message>
-        <location filename="cleanpromptbox.cpp" line="72"/>
+        <location filename="cleanpromptbox.cpp" line="84"/>
         <source>Don&apos;t ask</source>
         <translation type="unfinished">不再询问</translation>
     </message>
     <message>
-        <location filename="cleanpromptbox.cpp" line="88"/>
+        <location filename="cleanpromptbox.cpp" line="100"/>
+        <location filename="editorwidget.cpp" line="72"/>
         <source>Confirm</source>
         <translation type="unfinished">确认</translation>
     </message>
     <message>
-        <location filename="cleanpromptbox.cpp" line="90"/>
+        <location filename="cleanpromptbox.cpp" line="102"/>
+        <location filename="editorwidget.cpp" line="73"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>
@@ -100,6 +99,11 @@
         <source>Remove</source>
         <translation type="unfinished">移除</translation>
     </message>
+    <message>
+        <location filename="editorwidget.cpp" line="66"/>
+        <source>Edit</source>
+        <translation type="unfinished">编辑内容</translation>
+    </message>
 </context>
 <context>
     <name>SearchWidgetItemContent</name>
@@ -117,7 +121,7 @@
 <context>
     <name>SidebarClipboardPlugin</name>
     <message>
-        <location filename="sidebarclipboardplugin.cpp" line="56"/>
+        <location filename="sidebarclipboardplugin.cpp" line="52"/>
         <source>No clip content</source>
         <translation>无剪贴内容</translation>
     </message>

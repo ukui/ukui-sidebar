@@ -53,6 +53,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     m_pDeskWgt = QApplication::desktop();
     connect(m_pDeskWgt, SIGNAL(resized(int)), this, SLOT(onResolutionChanged(int)));
     connect(m_pDeskWgt, &QDesktopWidget::primaryScreenChanged, this, &Widget::primaryScreenChangedSLot);
+    connect(m_pDeskWgt, &QDesktopWidget::screenCountChanged, this, &Widget::screenCountChangedSlots);
     InitializeHomeScreenGeometry();  /* 初始化主屏的X坐标 */
     GetsAvailableAreaScreen();       /* 获取屏幕可用高度区域 */
 
@@ -550,6 +551,15 @@ void Widget::primaryScreenChangedSLot()
     InitializeHomeScreenGeometry();
 }
 
+/* 屏幕数量改变时对应槽函数 */
+void Widget::screenCountChangedSlots(int count)
+{
+    Q_UNUSED(count);
+    qDebug() << "屏幕数量发生变化";
+    GetsAvailableAreaScreen();
+    InitializeHomeScreenGeometry();
+}
+
 /* 接受剪贴板信号，将boll值m_bClipboardFlag置为false; */
 void Widget::ClipboardShowSlots()
 {
@@ -592,8 +602,10 @@ void Widget::InitializeHomeScreenGeometry()
     int count = m_pDeskWgt->screenCount();
     if (count > 1) {
         m_nScreen_x = screen[0]->availableGeometry().x();
+        m_nScreen_y = screen[0]->availableGeometry().y();
     } else {
         m_nScreen_x = 0;
+        m_nScreen_y = 0;
     }
 }
 
@@ -604,19 +616,20 @@ void Widget::MostGrandWidgetCoordinates()
         case Widget::PanelDown :
             {
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight - connectTaskBarDbus());
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400, 0);
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400, m_nScreen_y);
+                qDebug() << "m_nScreen_x + m_nScreenWidth - 400-->" << m_nScreen_x + m_nScreenWidth - 400 << "&&" << m_nScreen_x << "&&" << m_nScreenWidth;
             }
             break;
         case Widget::PanelUp:
             {
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight - connectTaskBarDbus());
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400, connectTaskBarDbus());
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400, connectTaskBarDbus() + m_nScreen_y);
             }
             break;
         case Widget::PanelLeft:
             {
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight);
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400, 0);
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400, m_nScreen_y);
                 qDebug() << m_nScreen_x << m_nScreenWidth;
                 qDebug() << "m_nScreen_x + m_nScreenWidth - 400" << m_nScreen_x + m_nScreenWidth - 400;
             }
@@ -624,14 +637,13 @@ void Widget::MostGrandWidgetCoordinates()
         case Widget::PanelRight:
             {
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight);
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400 - connectTaskBarDbus(), 0);
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400 - connectTaskBarDbus(), m_nScreen_y);
             }
             break;
         default:
             break;
     }
 }
-
 
 //当没展开时，来了新通知才提示
 void Widget::onNewNotification()
@@ -668,12 +680,13 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
     {
         if (event->type() == QEvent::WindowDeactivate && true == m_bShowFlag && true == m_bClipboardFlag)
         {
-            qDebug() << "事件类型" << event->type();
             qDebug() << "Widget::eventFilter 消失";
             mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
             hideAnimation();
             m_bShowFlag = false;
             return true;
+        } else if (event->type() == QEvent::StyleChange) {
+            ModifyScreenNeeds();
         }
     }
 
