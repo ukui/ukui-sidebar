@@ -120,7 +120,7 @@ void feedback::window_ui_init()
     ui->textEdit_2->setStyleSheet("");
     ui->frame->setStyleSheet("");
 
-    if(QStyleFactory::keys().contains("ukui ")){
+    if(QStyleFactory::keys().contains("ukui")){
         QTimer::singleShot(500, this, [=](){
             ui->comboBox->view()->setStyle(QStyleFactory::create("ukui"));
         });
