@@ -20,11 +20,21 @@
 #include <QWidget>
 #include <QDesktopWidget>
 #include <QApplication>
+#include <QTranslator>
 
 feedback_plugin::feedback_plugin()
 {
+    QString locale = QLocale::system().name();
+    QTranslator *translator_feedback;
+    translator_feedback = new QTranslator();
+    //英文环境加载en.qm
+    if(locale == "en_US"){
+        translator_feedback->load(QString(":/Resource/feedback_en.qm"));  //选择翻译文件
+        QApplication::installTranslator(translator_feedback);
+    }
       mp_feedback = new feedback ;
       FeedBackFlag = false;
+
 }
 
 void feedback_plugin::onNotification() {
