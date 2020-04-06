@@ -354,12 +354,18 @@ void Clock::on_pushButton_Start_clicked()
 //计次
 void Clock::on_pushButton_ring_clicked()
 {
+    if(!isStarted)
+    {
+        return;
+    }
 
     if(stopwatch_isStarted == 0)
     {
         timer_2->start();
         stopwatch_isStarted = 1;
     }
+
+    if(stopwatch_item_flag < 100){
     stopwatch_aItem[stopwatch_item_flag] =new QListWidgetItem;
     stopwatch_aItem[stopwatch_item_flag]->setSizeHint(QSize(376,56));
     stopwatch_aItem[stopwatch_item_flag]->setTextColor(QColor(255, 0, 0, 255));
@@ -381,6 +387,7 @@ void Clock::on_pushButton_ring_clicked()
     qDebug()<< stopwatch_item_flag;
 
     stopwatch_item_flag++;
+    }
 }
 
 
