@@ -1,3 +1,16 @@
+ukui-sidebar (1.1.2-1) unstable; urgency=medium
+
+  * New upstream bugfix release:
+    - Fix the bug that clipboard and plugin overlap.
+    - Fix the wrong position on multi-screen.
+    - Fix that the label disappear.
+    - Fix that the feedback failed to submit.
+    - Fix the icon error.
+    - Fix the i18n issue.
+    - Fix the inaccurate time.
+
+ -- handsome_feng <jianfengli@ubuntukylin.com>  Mon, 06 Apr 2020 16:18:36 +0800
+
 ukui-sidebar (1.1.1-1) unstable; urgency=medium
 
   * New upstream bugfix release.
