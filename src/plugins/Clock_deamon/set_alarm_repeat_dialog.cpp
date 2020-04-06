@@ -19,16 +19,22 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QApplication>
+#include <QBitmap>
+#include <QPainter>
 set_alarm_repeat_Dialog::set_alarm_repeat_Dialog(QWidget *parent , int rowNum ) :
     rowNum_all(rowNum),
     QWidget(parent)
 {
     setupUi(this);
 
+
+    this->setStyleSheet("background:rgba(48,48,51,1);border-radius:4px;");
+this->setWindowOpacity(0.9);
     for (int i = 0; i < rowNum_all; i++) {
         set_aItem(i);
     }
 }
+
 
 set_alarm_repeat_Dialog::~set_alarm_repeat_Dialog()
 {

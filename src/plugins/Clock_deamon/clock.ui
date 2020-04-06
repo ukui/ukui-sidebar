@@ -14,7 +14,7 @@
    <string>Clock</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(14, 19, 22);
+   <string notr="true">background-color: rgba(14,19,22,1);
 
 color: rgb(255, 255, 255);
 </string>
@@ -29,7 +29,7 @@ color: rgb(255, 255, 255);
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true"/>
+    <string notr="true">border-radius:7px;</string>
    </property>
    <property name="currentIndex">
     <number>1</number>
@@ -217,39 +217,11 @@ background-color: rgb(76, 76, 76);</string>
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">font: 36pt &quot;Sans Serif&quot;;</string>
+        <string notr="true">font: 36pt ;</string>
        </property>
        <property name="text">
         <string>00:00:00</string>
        </property>
-      </widget>
-      <widget class="QComboBox" name="comboBox">
-       <property name="geometry">
-        <rect>
-         <x>87</x>
-         <y>405</y>
-         <width>280</width>
-         <height>36</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">width:280px;
-
-height:36px;
-background:rgba(72,72,76,1);
-
-</string>
-       </property>
-       <item>
-        <property name="text">
-         <string>玻璃</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>犬吠</string>
-        </property>
-       </item>
       </widget>
       <widget class="QLabel" name="label_10">
        <property name="geometry">
@@ -324,6 +296,79 @@ background-color: rgb(76, 76, 76);</string>
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
+      <widget class="QWidget" name="widget_5" native="true">
+       <property name="geometry">
+        <rect>
+         <x>87</x>
+         <y>405</y>
+         <width>280</width>
+         <height>36</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">width:280px;
+height:36px;
+background:rgba(48,48,51,1);
+border-radius:4px;
+</string>
+       </property>
+       <widget class="QLabel" name="label_23">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>61</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">width:39px;
+height:14px;
+font-size:14px;
+font-weight:400;
+color:rgba(255,255,255,1);
+</string>
+        </property>
+        <property name="text">
+         <string>  提醒铃声</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_19">
+        <property name="geometry">
+         <rect>
+          <x>244</x>
+          <y>0</y>
+          <width>36</width>
+          <height>36</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_20">
+        <property name="geometry">
+         <rect>
+          <x>70</x>
+          <y>0</y>
+          <width>171</width>
+          <height>36</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">width:67px;
+height:14px;
+font-size:14px;
+font-weight:400;
+color:rgba(148, 148, 148,1);
+opacity:0.35;
+text-align: right</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </widget>
      </widget>
     </widget>
    </widget>
@@ -331,16 +376,16 @@ background-color: rgb(76, 76, 76);</string>
     <widget class="QLabel" name="label_6">
      <property name="geometry">
       <rect>
-       <x>128</x>
-       <y>35</y>
-       <width>197</width>
-       <height>45</height>
+       <x>116</x>
+       <y>19</y>
+       <width>221</width>
+       <height>61</height>
       </rect>
      </property>
      <property name="styleSheet">
       <string notr="true">color: rgb(255, 255, 255);
-font: 36pt &quot;Sans Serif&quot;;
-font-family:Source Han Sans CN;</string>
+font: 36pt ;
+</string>
      </property>
      <property name="text">
       <string>00:00:00</string>
@@ -379,7 +424,7 @@ font: 12pt &quot;Sans Serif&quot;;
      <property name="styleSheet">
       <string notr="true">color: rgb(255, 255, 255);
 color: rgb(148, 148, 148);
-font: 12pt &quot;Sans Serif&quot;;
+font: 12pt ;
 opacity:0.45;</string>
      </property>
      <property name="text">
@@ -416,6 +461,19 @@ background-color: rgb(76, 76, 76);</string>
      </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_15">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>50</y>
+       <width>31</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
      </property>
     </widget>
    </widget>
@@ -458,16 +516,16 @@ font: 12pt &quot;Sans Serif&quot;;</string>
     <widget class="QLabel" name="label_4">
      <property name="geometry">
       <rect>
-       <x>128</x>
-       <y>42</y>
-       <width>197</width>
-       <height>45</height>
+       <x>116</x>
+       <y>36</y>
+       <width>211</width>
+       <height>61</height>
       </rect>
      </property>
      <property name="styleSheet">
       <string notr="true">color: rgb(255, 255, 255);
-text-decoration: underline;
-font: 36pt &quot;Sans Serif&quot;;</string>
+
+font: 36pt ;</string>
      </property>
      <property name="text">
       <string>00:00:00</string>
@@ -552,7 +610,7 @@ background-color: rgb(76, 76, 76);
   <widget class="QPushButton" name="pushButton_5">
    <property name="geometry">
     <rect>
-     <x>435</x>
+     <x>430</x>
      <y>8</y>
      <width>20</width>
      <height>20</height>
@@ -565,7 +623,7 @@ background-color: rgb(76, 76, 76);
   <widget class="QPushButton" name="pushButton_4">
    <property name="geometry">
     <rect>
-     <x>412</x>
+     <x>408</x>
      <y>8</y>
      <width>20</width>
      <height>20</height>
@@ -585,7 +643,7 @@ background-color: rgb(76, 76, 76);
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true"/>
+    <string notr="true">border-radius:7px;</string>
    </property>
    <widget class="QWidget" name="page_7">
     <widget class="QPushButton" name="pushButton_3">
@@ -604,15 +662,15 @@ background-color: rgb(76, 76, 76);
     <widget class="ClickableLabel" name="label">
      <property name="geometry">
       <rect>
-       <x>63</x>
+       <x>53</x>
        <y>40</y>
-       <width>60</width>
+       <width>80</width>
        <height>32</height>
       </rect>
      </property>
      <property name="styleSheet">
       <string notr="true">color: rgb(255, 255, 255);
-font: 10pt &quot;Sans Serif&quot;;</string>
+font: 10pt ;</string>
      </property>
      <property name="text">
       <string>倒计时</string>
@@ -621,15 +679,15 @@ font: 10pt &quot;Sans Serif&quot;;</string>
     <widget class="ClickableLabel" name="label_2">
      <property name="geometry">
       <rect>
-       <x>197</x>
+       <x>187</x>
        <y>40</y>
-       <width>60</width>
+       <width>80</width>
        <height>32</height>
       </rect>
      </property>
      <property name="styleSheet">
       <string notr="true">color: rgb(255, 255, 255);
-font: 10pt &quot;Sans Serif&quot;;</string>
+font: 10pt ;</string>
      </property>
      <property name="text">
       <string>闹钟</string>
@@ -638,15 +696,15 @@ font: 10pt &quot;Sans Serif&quot;;</string>
     <widget class="ClickableLabel" name="label_3">
      <property name="geometry">
       <rect>
-       <x>332</x>
+       <x>322</x>
        <y>40</y>
-       <width>60</width>
+       <width>80</width>
        <height>32</height>
       </rect>
      </property>
      <property name="styleSheet">
       <string notr="true">color: rgb(255, 255, 255);
-font: 10pt &quot;Sans Serif&quot;;</string>
+font: 10pt ;</string>
      </property>
      <property name="text">
       <string>秒表</string>
@@ -708,7 +766,7 @@ background-color: rgb(102, 102, 102);
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true"/>
+    <string notr="true">border-radius:7px;</string>
    </property>
    <widget class="QPushButton" name="pushButton_8">
     <property name="geometry">
@@ -724,7 +782,7 @@ background-color: rgb(102, 102, 102);
 height:32px;
 background:rgba(44,44,46,1);
 border:1px solid rgba(68,68,71,1);
-border-radius:4p</string>
+border-radius:4px;</string>
     </property>
     <property name="text">
      <string>删除闹铃</string>
@@ -744,7 +802,7 @@ border-radius:4p</string>
 height:32px;
 background: rgb(37, 200, 124);
 border:1px solid rgba(68,68,71,1);
-border-radius:4p</string>
+border-radius:4px;</string>
     </property>
     <property name="text">
      <string>保存</string>
@@ -753,9 +811,9 @@ border-radius:4p</string>
    <widget class="QLabel" name="label_12">
     <property name="geometry">
      <rect>
-      <x>141</x>
+      <x>127</x>
       <y>284</y>
-      <width>173</width>
+      <width>200</width>
       <height>25</height>
      </rect>
     </property>
@@ -763,7 +821,6 @@ border-radius:4p</string>
      <string notr="true">width:173px;
 height:18px;
 font-size:18px;
-font-family:Source Han Sans CN;
 font-weight:400;
 color:rgba(148, 148, 148,1);
 opacity:0.45;
@@ -787,7 +844,7 @@ opacity:0.45;
 height:32px;
 background:rgba(44,44,46,1);
 border:1px solid rgba(68,68,71,1);
-border-radius:4p</string>
+border-radius:4px;</string>
     </property>
     <property name="text">
      <string>取消</string>
@@ -807,7 +864,7 @@ border-radius:4p</string>
 height:32px;
 background: rgb(37, 200, 124);
 border:1px solid rgba(68,68,71,1);
-border-radius:4p</string>
+border-radius:4px;</string>
     </property>
     <property name="text">
      <string>保存</string>
@@ -826,7 +883,6 @@ border-radius:4p</string>
      <string notr="true">width:74px;
 height:18px;
 font-size:18px;
-font-family:Source Han Sans CN;
 font-weight:400;
 color:rgba(255,255,255,1);
 </string>
@@ -864,7 +920,6 @@ border-radius:4px;
       <string notr="true">width:39px;
 height:14px;
 font-size:14px;
-font-family:Source Han Sans CN;
 font-weight:400;
 color:rgba(255,255,255,1);
 </string>
@@ -873,27 +928,17 @@ color:rgba(255,255,255,1);
       <string>  闹钟名</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_18">
+    <widget class="QLineEdit" name="lineEdit">
      <property name="geometry">
       <rect>
-       <x>58</x>
+       <x>52</x>
        <y>0</y>
-       <width>181</width>
-       <height>36</height>
+       <width>191</width>
+       <height>32</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">width:67px;
-height:14px;
-font-size:14px;
-font-family:Source Han Sans CN;
-font-weight:400;
-color:rgba(148, 148, 148,1);
-opacity:0.35;
-text-align: right</string>
-     </property>
-     <property name="text">
-      <string/>
+      <string notr="true">color:rgba(148, 148, 148,1);</string>
      </property>
     </widget>
    </widget>
@@ -926,7 +971,6 @@ border-radius:4px;
       <string notr="true">width:39px;
 height:14px;
 font-size:14px;
-font-family:Source Han Sans CN;
 font-weight:400;
 color:rgba(255,255,255,1);
 </string>
@@ -961,7 +1005,6 @@ color:rgba(255,255,255,1);
       <string notr="true">width:67px;
 height:14px;
 font-size:14px;
-font-family:Source Han Sans CN;
 font-weight:400;
 color:rgba(148, 148, 148,1);
 opacity:0.35;
@@ -1001,7 +1044,6 @@ border-radius:4px;
       <string notr="true">width:39px;
 height:14px;
 font-size:14px;
-font-family:Source Han Sans CN;
 font-weight:400;
 color:rgba(255,255,255,1);
 </string>
@@ -1036,7 +1078,6 @@ color:rgba(255,255,255,1);
       <string notr="true">width:67px;
 height:14px;
 font-size:14px;
-font-family:Source Han Sans CN;
 font-weight:400;
 color:rgba(148, 148, 148,1);
 opacity:0.35;
@@ -1076,7 +1117,6 @@ border-radius:4px;
       <string notr="true">width:39px;
 height:14px;
 font-size:14px;
-font-family:Source Han Sans CN;
 font-weight:400;
 color:rgba(255,255,255,1);
 </string>
@@ -1111,7 +1151,6 @@ color:rgba(255,255,255,1);
       <string notr="true">width:67px;
 height:14px;
 font-size:14px;
-font-family:Source Han Sans CN;
 font-weight:400;
 color:rgba(148, 148, 148,1);
 opacity:0.35;
@@ -1126,7 +1165,7 @@ text-align: right</string>
   <widget class="QPushButton" name="pushButton_12">
    <property name="geometry">
     <rect>
-     <x>390</x>
+     <x>385</x>
      <y>7</y>
      <width>20</width>
      <height>20</height>

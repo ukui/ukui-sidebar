@@ -12,6 +12,7 @@ TARGET = Clock_deamon
 TEMPLATE = lib
 CONFIG += plugin
 
+
 SOURCES += \
         clock.cpp \
     clock_plugin.cpp \
@@ -34,7 +35,8 @@ INCLUDEPATH    += ../../plugin-interface
 
 DESTDIR = ../sidebarSmallPlugins
 
-DISTFILES += Clock.json
+DISTFILES += Clock.json \
+    Clock.json
 
 
 HEADERS  += clock.h \

@@ -21,6 +21,7 @@
 #include <QDialog>
 #include <QListWidgetItem>
 #include <QLabel>
+#include <QPainter>
 
 namespace Ui {
 class set_alarm_repeat_Dialog;
@@ -36,6 +37,7 @@ class set_alarm_repeat_Dialog : public QWidget
 public:
     explicit set_alarm_repeat_Dialog(QWidget *parent = nullptr , int rowNum = 0);
     ~set_alarm_repeat_Dialog();
+    //void paintEvent(QPaintEvent *event);
 
     set_alarm_repeat_widget *widget[20];
     QListWidgetItem *aItem[20];

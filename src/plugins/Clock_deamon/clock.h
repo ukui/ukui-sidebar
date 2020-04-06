@@ -70,63 +70,83 @@ public:
     explicit Clock(QWidget *parent = nullptr);
     ~Clock();
 
+    void paintEvent(QPaintEvent *event)
+    {
+        QPainter painter(this);
+        painter.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+        painter.setBrush(QBrush(QColor(14, 19, 22)));
+        painter.setPen(Qt::transparent);
+        QRect rect = this->rect();
+        rect.setWidth(rect.width() - 0);
+        rect.setHeight(rect.height() - 0);
+        painter.drawRoundedRect(rect, 7, 7);
+        //也可用QPainterPath 绘制代替 painter.drawRoundedRect(rect, 15, 15);
+        {
+            QPainterPath painterPath;
+            painterPath.addRoundedRect(rect, 7, 7);
+            painter.drawPath(painterPath);
+        }
+        QWidget::paintEvent(event);
+    }
+
 protected:
     void paintEvent1(QPaintEvent *);
 
 private slots:
-    void notice_dialog_show(int,int);
 
-    void model_setup_set();                                                    //全局设置数据库初始化
+    void notice_dialog_show(int,int);                                                    //通知弹窗
 
-    void Count_down();//int Hour,int minute ,int second);
+    void model_setup_set();                                                              //默认设置数据库数据初始化
 
-    void on_pushButton_Start_clicked();
+    void Count_down();//int Hour,int minute ,int second);                                //秒表执行
 
-    void on_pushButton_ring_clicked();
+    void on_pushButton_Start_clicked();                                                  //秒表开始暂停继续
 
-    void on_pushButton_timeselect_clicked();
+    void on_pushButton_ring_clicked();                                                   //计次
 
-    void on_pushButton_5_clicked();
+    void on_pushButton_timeselect_clicked();                                             //复位
 
-    void on_pushButton_4_clicked();
+    void on_pushButton_5_clicked();                                                      //窗口关闭
 
-    void on_pushButton_clicked();
+    void on_pushButton_4_clicked();                                                      //窗口最小化
 
-    void on_pushButton_2_clicked();
+    void on_pushButton_clicked();                                                        //倒计时切换
 
-    void on_pushButton_3_clicked();
+    void on_pushButton_2_clicked();                                                      //闹钟窗口切换
 
-    void timerUpdate();
+    void on_pushButton_3_clicked();                                                      //秒表窗口切换
 
-    void text_timerUpdate();
+    void timerUpdate();                                                                  //动态监控闹钟与本地时间
 
-    void set_Alarm_Clock();                                                          //新建闹钟按钮回调
+    void text_timerUpdate();                                                             //闹钟上方电子表
 
-    void cancelAlarmClock();                                                         //添加闹钟dialog关闭
+    void set_Alarm_Clock();                                                              //新建闹钟按钮回调
 
-    void updateAlarmClock();
+    void cancelAlarmClock();                                                             //添加闹钟dialog关闭
 
-    void On_Off_Alarm();                                                             //闹钟开关
+    void updateAlarmClock();                                                             //重绘窗口，更新闹钟
 
-    void deleteAlarm();
+    void On_Off_Alarm();                                                                 //闹钟开关
 
-    void stopPlayMusic();
+    void deleteAlarm();                                                                  //闹钟重编辑页面删除闹钟回调
 
-    void selectMusic();
+    void stopPlayMusic();                                                                //停止音乐
 
-    void rePlayMusic();
+    void selectMusic();                                                                  //选择音乐
 
-    void aItem_new();
+    void rePlayMusic();                                                                  //播放音乐
 
-    void listdoubleClickslot();                                                       //双击闹钟打开重编辑页面
+    void aItem_new();                                                                    //增加item
 
-    void listClickslot();
+    void listdoubleClickslot();                                                          //双击闹钟打开重编辑页面
 
-    void on_pushButton_9_clicked();
+    void listClickslot();                                                                //单击闹钟显示铃声剩余时间
 
-    void stat_countdown();
+    void on_pushButton_9_clicked();                                                      //闹钟重编辑保存回调
 
-    void setcoutdown_number(int h, int m, int s);
+    void stat_countdown();                                                               //倒计时执行
+
+    void setcoutdown_number(int h, int m, int s);                                        //设置倒计时初始时间
 
     void startbtn_countdown();                                                           //倒计时开始-结束回调
 
@@ -170,8 +190,6 @@ private slots:
 
     void time_music_listClickslot();                                                     //单击选择音乐时长回调
 
-    void clack_rename();                                                                 //闹钟命名输入框打开回调
-
     void set_up_page();                                                                  //设置页面绘制回调
 
     void alarm_clcok_Self_starting();                                                    //开机自启动开关回调
@@ -179,6 +197,12 @@ private slots:
     void Mute_starting();                                                                //静音开关回调
 
     void set_volume_Value(int value);                                                    //设置音量回调
+
+    void countdown_music_sellect();                                                      //倒计时音乐选择
+
+    void count_music_listClickslot();                                                    //倒计时音乐选择单机回调
+
+    void countdown_notice_dialog_show();                                                 //倒计时通知弹窗
 
 
 
@@ -236,6 +260,7 @@ private:
     QMediaPlaylist *mediaList; //播放列表
     QSqlTableModel *model;  //数据库
     QSqlTableModel *model_setup;
+    QSqlTableModel *model_Stopwatch;
     QString musicPath;
 
     item_new *w1[20];
@@ -269,6 +294,7 @@ private:
     set_alarm_repeat_Dialog *dialog_repeat = nullptr;
     set_alarm_repeat_Dialog *dialog_music = nullptr;
     set_alarm_repeat_Dialog *time_music = nullptr;
+    set_alarm_repeat_Dialog *count_music_sellect = nullptr;
 
     QWidget *grand = nullptr;
     setuppage  *setup_page= nullptr;

@@ -31,7 +31,7 @@ class setuppage : public QWidget
     Q_OBJECT
 
 public:
-    explicit setuppage(QWidget *parent = nullptr);
+    explicit setuppage( double , double, QWidget *parent = nullptr );
     ~setuppage();
 
     Ui::setuppage *ui;
@@ -65,6 +65,8 @@ private:
     QSqlTableModel *model_setup;
     QPixmap repeat_on_Pixmap;
     QPixmap repeat_off_Pixmap;
+    double pos_x;
+    double pos_y;
 
 };
 

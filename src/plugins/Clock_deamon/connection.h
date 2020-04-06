@@ -36,8 +36,12 @@ static bool createConnection()
                    "create table clock (Hour int, Minute int, Music QString, onoroff int, NUM int, repeat Qstring,Monday int, Tuesday int, Wednesday int, Thursday int, Friday int, Saturday int , Sunday int, Musictime QString, Name Qstring)"));
                QSqlQuery query_setup;
             query_setup.exec(QString(
-                                 "create table setup (selfstart int, Mutestart int, Timeformat int,Popupwindow int, Reminderoff int, Defaultringtone string, volume int, Monday int, Tuesday int, Wednesday int, Thursday int, Friday int, Saturday int ,Sunday int, repeat Qstring, Time Qstring, window Qstring, Reminder Qstring , volume2 int)"));
-                             return true;
+                                 "create table setup (selfstart int, Mutestart int, Timeformat int,Popupwindow int, Reminderoff int, Defaultringtone string, volume int, Monday int, Tuesday int, Wednesday int, Thursday int, Friday int, Saturday int ,Sunday int, repeat Qstring, Time Qstring, window Qstring, Reminder Qstring , volume2 int, count_music_str QString)"));
+                      QSqlQuery query_stop;
+            query_stop.exec(QString(
+                                    "create table Stopwatch (num int, stopwatch_h int, stopwatch_m int, stopwatch_s int, stopwatch_jg_h int, stopwatch_jg_m int, stopwatch_jg_s int)"));
+
+            return true;
 }
 
 #endif // CONNECTION_H

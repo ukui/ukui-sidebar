@@ -74,6 +74,7 @@ private slots:
 private:
     QTimer *timer = nullptr;
     int timer_value;
+    int num_flag;
     QMediaPlayer  *music;
 
 };

@@ -22,16 +22,19 @@
 #include "set_alarm_repeat_dialog.h"
 #include <QDebug>
 
-setuppage::setuppage(QWidget *parent) :
+setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     QWidget(parent),
+    pos_x(position_x),
+    pos_y(position_y),
     ui(new Ui::setuppage)
 {
     ui->setupUi(this);
-    this->setWindowOpacity(0.9);
+    this->setWindowOpacity(0.5);
 
     ui->pushButton->hide();
     ui->label->hide();
-
+    ui->label_4->setAlignment(Qt::AlignHCenter);
+    ui->label_4->setAlignment(Qt::AlignHCenter);
     QPixmap bgPixmap = QPixmap(":/go-bottom-symbolic.png");
     ui->pushButton_10->setIcon(bgPixmap);
     ui->pushButton_11->setIcon(bgPixmap);
@@ -78,16 +81,14 @@ void setuppage::Mute_starting()
 //默认工作日日期设置回调
 void setuppage::werk_day_set()
 {
-     if(dialog_werk_day)
-     {
-         dialog_werk_day->close();
-         dialog_werk_day = nullptr;
-     }
-     else {
-         dialog_werk_day = new  set_alarm_repeat_Dialog(ui->widget, 7);
-         dialog_werk_day->setWindowFlags(Qt::FramelessWindowHint);
-         dialog_werk_day->move(45,133);
 
+         dialog_werk_day = new  set_alarm_repeat_Dialog(ui->widget, 7);
+         dialog_werk_day->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
+         dialog_werk_day->setAttribute(Qt::WA_TranslucentBackground);
+         QPointF position = parentWidget()->pos();
+         dialog_werk_day->move(position.x()+83,position.y()+162);
+         dialog_werk_day->resize(280,225);
+         dialog_werk_day->listWidget->setFixedSize(280,225);
          dialog_werk_day->widget[0]->alarmLabel0->setText(tr("周一"));
          dialog_werk_day->widget[1]->alarmLabel0->setText(tr("周二"));
          dialog_werk_day->widget[2]->alarmLabel0->setText(tr("周三"));
@@ -106,7 +107,7 @@ void setuppage::werk_day_set()
          }
 
          connect(dialog_werk_day->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(werk_day_listClickslot()));
-     }
+
 }
 //工作日选择单击回调
 void setuppage::werk_day_listClickslot()
@@ -221,24 +222,24 @@ void setuppage::werk_day_listClickslot()
 //时间格式设置回调
 void setuppage::Time_format_set()
 {
-    if(dialog_werk_day)
-    {
-        dialog_werk_day->close();
-        dialog_werk_day = nullptr;
-    }
-    else {
-        dialog_werk_day = new  set_alarm_repeat_Dialog(ui->widget, 2);
-        dialog_werk_day->setWindowFlags(Qt::FramelessWindowHint);
-        dialog_werk_day->move(45,183);
-        dialog_werk_day->resize(280, 75);
-        dialog_werk_day->widget[0]->alarmLabel0->setText(tr("24小时制(23:59:59)"));
+
+        dialog_werk_day = new  set_alarm_repeat_Dialog(ui->widget, 3);
+        dialog_werk_day->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
+        dialog_werk_day->setAttribute(Qt::WA_TranslucentBackground);
+        QPointF position = parentWidget()->pos();
+        dialog_werk_day->move(position.x()+83,position.y()+212);
+        dialog_werk_day->resize(280,110);
+        dialog_werk_day->listWidget->setFixedSize(280,110);
+        dialog_werk_day->widget[0]->alarmLabel0->setText(tr("跟随系统"));
         dialog_werk_day->widget[0]->alarmLabel0->setFixedSize(200,17);
-        dialog_werk_day->widget[1]->alarmLabel0->setText(tr("12小时制(上午10:59:59)"));
+        dialog_werk_day->widget[1]->alarmLabel0->setText(tr("24小时制(23:59:59)"));
         dialog_werk_day->widget[1]->alarmLabel0->setFixedSize(200,17);
+        dialog_werk_day->widget[2]->alarmLabel0->setText(tr("12小时制(下午11:59:59)"));
+        dialog_werk_day->widget[2]->alarmLabel0->setFixedSize(200,17);
 
         dialog_werk_day->show();
         connect(dialog_werk_day->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(Time_format_listClickslot()));
-    }
+
 }
 
 //时间格式选择单击回调
@@ -250,19 +251,20 @@ void setuppage::Time_format_listClickslot()
     {
     case 0:
             model_setup->setData(model_setup->index(0, 2), 0);
+            model_setup->setData(model_setup->index(0, 15), tr("跟随系统"));
         break;
 
     case 1:
             model_setup->setData(model_setup->index(0, 2), 1);
+            model_setup->setData(model_setup->index(0, 15), tr("24小时制(23:59:59)"));
+        break;
+
+    case 2:
+            model_setup->setData(model_setup->index(0, 2), 2);
+            model_setup->setData(model_setup->index(0, 15), tr("12小时制(上午11:59:59)"));
         break;
     default:
         break;
-    }
-    if(!model_setup->index(0, 2).data().toInt())
-    {
-        model_setup->setData(model_setup->index(0, 15), tr("24小时制(23:59:59)"));
-    }else{
-        model_setup->setData(model_setup->index(0, 15), tr("12小时制(上午10:59:59)"));
     }
 
     ui->pushButton_7->setText(model_setup->index(0, 15).data().toString());
@@ -274,21 +276,19 @@ void setuppage::Time_format_listClickslot()
 
 void setuppage::Pop_up_window_set()
 {
-    if(dialog_werk_day)
-    {
-        dialog_werk_day->close();
-        dialog_werk_day = nullptr;
-    }
-    else {
+
         dialog_werk_day = new  set_alarm_repeat_Dialog(ui->widget, 2);
-        dialog_werk_day->setWindowFlags(Qt::FramelessWindowHint);
-        dialog_werk_day->move(45,233);
-        dialog_werk_day->resize(280, 75);
+        dialog_werk_day->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
+        dialog_werk_day->setAttribute(Qt::WA_TranslucentBackground);;
+        QPointF position = parentWidget()->pos();
+        dialog_werk_day->move(position.x()+83,position.y()+262);
+        dialog_werk_day->resize(280,75);
+        dialog_werk_day->listWidget->setFixedSize(280,75);
         dialog_werk_day->widget[0]->alarmLabel0->setText(tr("通知栏弹窗"));
         dialog_werk_day->widget[1]->alarmLabel0->setText(tr("全屏弹窗"));
         dialog_werk_day->show();
         connect(dialog_werk_day->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(Pop_up_window_listClickslot()));
-    }
+
 
 }
 
@@ -323,16 +323,14 @@ void setuppage::Pop_up_window_listClickslot()
 
 void setuppage::Reminder_off_set()
 {
-    if(dialog_werk_day)
-    {
-        dialog_werk_day->close();
-        dialog_werk_day = nullptr;
-    }
-    else {
+
         dialog_werk_day = new  set_alarm_repeat_Dialog(ui->widget, 5);
-        dialog_werk_day->setWindowFlags(Qt::FramelessWindowHint);
-        dialog_werk_day->move(45,283);
-        dialog_werk_day->resize(280, 175);
+        dialog_werk_day->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
+        dialog_werk_day->setAttribute(Qt::WA_TranslucentBackground);
+        QPointF position = parentWidget()->pos();
+        dialog_werk_day->move(position.x()+83,position.y()+312);
+        dialog_werk_day->resize(280,175);
+        dialog_werk_day->listWidget->setFixedSize(280,175);
         dialog_werk_day->widget[0]->alarmLabel0->setFixedSize(200,17);
         dialog_werk_day->widget[1]->alarmLabel0->setFixedSize(200,17);
         dialog_werk_day->widget[2]->alarmLabel0->setFixedSize(200,17);
@@ -345,7 +343,7 @@ void setuppage::Reminder_off_set()
         dialog_werk_day->widget[4]->alarmLabel0->setText(tr("6分钟后自动关闭"));
         dialog_werk_day->show();
         connect(dialog_werk_day->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(Reminder_off_listClickslot()));
-    }
+
 }
 
 //提醒关闭选择单击回调
@@ -387,24 +385,21 @@ void setuppage::Reminder_off_listClickslot()
 
 void setuppage::Default_ringtone_set()
 {
-    if(dialog_werk_day)
-    {
-        dialog_werk_day->close();
-        dialog_werk_day = nullptr;
-    }
-    else {
+
         dialog_werk_day = new  set_alarm_repeat_Dialog(ui->widget, 4);
-        dialog_werk_day->setWindowFlags(Qt::FramelessWindowHint);
-        dialog_werk_day->move(45,343);
-        dialog_werk_day->resize(280,100);
-        dialog_werk_day->listWidget->setFixedSize(280,100);
+        dialog_werk_day->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
+        dialog_werk_day->setAttribute(Qt::WA_TranslucentBackground);
+        QPointF position = parentWidget()->pos();
+        dialog_werk_day->move(position.x()+83,position.y()+362);
+        dialog_werk_day->resize(280,129);
+        dialog_werk_day->listWidget->setFixedSize(280,129);
         dialog_werk_day->widget[0]->alarmLabel0->setText(tr("玻璃"));
         dialog_werk_day->widget[1]->alarmLabel0->setText(tr("犬吠"));
         dialog_werk_day->widget[2]->alarmLabel0->setText(tr("声呐"));
         dialog_werk_day->widget[3]->alarmLabel0->setText(tr("雨滴"));
         dialog_werk_day->show();
         connect(dialog_werk_day->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(Default_ringtone_listClickslot()));
-    }
+
 }
 
 //默认铃声选择单击回调
