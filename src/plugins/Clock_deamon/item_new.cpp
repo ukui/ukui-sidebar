@@ -29,13 +29,13 @@ item_new::item_new(QWidget *parent) :
     alarmLabel_w0 = new QLabel(this);//闹钟用途
     alarmLabel_w0->move(22, 9);
     alarmLabel_w0->setFixedSize(100, 17);
-    alarmLabel_w0->setStyleSheet("font: 11pt 'Sans Serif';background-color: rgb();");
+    alarmLabel_w0->setStyleSheet("font: 11pt ;background-color: rgb();");
     alarmLabel_w0->setText(tr("闹钟"));
 
     alarmLabel_s0 = new QLabel( this);//闹钟重复
     alarmLabel_s0->move(24, 34);
     alarmLabel_s0->setFixedSize(100, 17);
-    alarmLabel_s0->setStyleSheet("font: 9pt 'Sans Serif';color: rgb(148, 148, 148);background-color: rgb();");
+    alarmLabel_s0->setStyleSheet("font: 9pt ;color: rgb(148, 148, 148);background-color: rgb();");
     alarmLabel_s0->setText(tr("工作日"));
     alarmLabel_s0->setVisible(true);
 
@@ -49,7 +49,7 @@ item_new::item_new(QWidget *parent) :
     alarmLabel0 = new QLabel(this);//闹钟，音乐，
     alarmLabel0->move(213,15);
     alarmLabel0->setFixedSize(78, 20);
-    alarmLabel0->setStyleSheet("font: 17pt 'Sans Serif';background-color: rgb();");
+    alarmLabel0->setStyleSheet("font: 17pt ;background-color: rgb();");
     alarmLabel0->setText("00:00");
     alarmLabel0->setVisible(true);
     alarmLabel0->show();

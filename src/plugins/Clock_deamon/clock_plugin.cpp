@@ -22,11 +22,22 @@
 #include "debug.h"
 #include "qdebug.h"
 #include <QDesktopWidget>
+#include <QTranslator>
+#include <QLocale>
 
 
 clock_plugin::clock_plugin()
 {
 //    m_pClock = new Clock;
+    QString locale = QLocale::system().name();
+    QTranslator *translator_clock;
+    translator_clock = new QTranslator();
+    //英文环境加载en.qm
+    if(locale == "en_US"){
+        translator_clock->load(QString(":/Clock.qm"));  //选择翻译文件
+        QApplication::installTranslator(translator_clock);
+    }
+
 }
 
 void clock_plugin::onNotification() {

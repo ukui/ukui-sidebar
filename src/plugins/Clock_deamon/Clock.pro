@@ -26,6 +26,8 @@ HEADERS  += clock.h \
     clock_plugin.h \
     stopwatch_item.h
 
+TRANSLATIONS = Clock.ts
+
 DESTDIR = ../sidebarSmallPlugins
 
 INCLUDEPATH    += ../../plugin-interface
