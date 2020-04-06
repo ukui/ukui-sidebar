@@ -45,6 +45,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
 //    qDebug() << "dasdasdas" << m_pDeskWgt->height();
     connect(m_pDeskWgt, SIGNAL(resized(int)), this, SLOT(onResolutionChanged(int)));
     connect(m_pDeskWgt, &QDesktopWidget::primaryScreenChanged, this, &Widget::primaryScreenChangedSLot);
+    connect(m_pDeskWgt, &QDesktopWidget::screenCountChanged, this, &Widget::screenCountChangedSlots);
 
     m_pServiceInterface = new QDBusInterface(PANEL_DBUS_SERVICE, PANEL_DBUS_PATH, PANEL_DBUS_INTERFACE, QDBusConnection::sessionBus());
     m_pServiceInterface->setTimeout(2147483647);
@@ -69,6 +70,8 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     /* 初始化剪贴板与小插件界面 */
     sidebarPluginsWidgets::initPluginsWidgets();
     sidebarPluginsWidgets::getInstancePluinsWidgets()->loadSmallPlugins();
+
+    InitializeHomeScreenGeometry();
 
     //加载通知中心插件
     if (false == loadNotificationPlugin()) {
@@ -510,6 +513,13 @@ void Widget::onResolutionChanged(int argc)
 {
     Q_UNUSED(argc);
     GetsAvailableAreaScreen();                               //获取屏幕可用高度区域
+    ModifyScreenNeeds();
+    return;
+}
+
+/* 修改屏幕分辨率或者主屏需要做的事情 */
+void Widget::ModifyScreenNeeds()
+{
     int clipboardhight = setClipBoardWidgetScaleFactor();
 
     qDebug() << "剪贴板高度" << clipboardhight;
@@ -517,7 +527,7 @@ void Widget::onResolutionChanged(int argc)
 
     /* 先将侧边栏show出来，改变一次状态机，将修改分辨率后，对布局的影响去掉 */
     mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(-500, 0);
-    mostGrandWidget::getInstancemostGrandWidget()->setVisible(true);
+    mostGrandWidget::getInstancemostGrandWidget()->show();
 
     if (sidebarPluginsWidgets::getInstancePluinsWidgets()->m_statusFlag == KYLIN_STATE_CLIPBOARD) {
         sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pSidebarPluginButton->SendSingal();
@@ -528,17 +538,36 @@ void Widget::onResolutionChanged(int argc)
         sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pSidebarPluginButton->SendSingal();
         sidebarPluginsWidgets::getInstancePluinsWidgets()->SmallPluginsBool = true;
     }
-
-    return;
 }
 
 /* 主屏发生变化槽函数 */
 void Widget::primaryScreenChangedSLot()
 {
     GetsAvailableAreaScreen();
-    qDebug() << "主屏发生变化";
-    qDebug() << "m_nScreenWidth" << m_nScreenWidth;
-    qDebug() << "m_nScreenHeight" << m_nScreenHeight;
+    InitializeHomeScreenGeometry();
+}
+
+/* 屏幕数量改变时对应槽函数 */
+void Widget::screenCountChangedSlots(int count)
+{
+    Q_UNUSED(count);
+    qDebug() << "屏幕数量发生变化";
+    GetsAvailableAreaScreen();
+    InitializeHomeScreenGeometry();
+}
+
+/* 初始化主屏的X坐标 */
+void Widget::InitializeHomeScreenGeometry()
+{
+    QList<QScreen*> screen = QGuiApplication::screens();
+    int count = m_pDeskWgt->screenCount();
+    if (count > 1) {
+        m_nScreen_x = screen[0]->availableGeometry().x();
+        m_nScreen_y = screen[0]->availableGeometry().y();
+    } else {
+        m_nScreen_x = 0;
+        m_nScreen_y = 0;
+    }
 }
 
 /* 根据任务栏位置调整侧边栏位置 */
@@ -548,25 +577,25 @@ void Widget::MostGrandWidgetCoordinates()
         case Widget::PanelDown :
             {
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight - connectTaskBarDbus());
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreenWidth - 400, 0);
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400, m_nScreen_y);
             }
             break;
         case Widget::PanelUp:
             {
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight - connectTaskBarDbus());
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreenWidth - 400, connectTaskBarDbus());
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400, connectTaskBarDbus() + m_nScreen_y);
             }
             break;
         case Widget::PanelLeft:
             {
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight);
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreenWidth - 400, 0);
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400, m_nScreen_y);
             }
             break;
         case Widget::PanelRight:
             {
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight);
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreenWidth - 400 - connectTaskBarDbus(), 0);
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400 - connectTaskBarDbus(), m_nScreen_y);
             }
             break;
         default:
@@ -615,6 +644,8 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
             hideAnimation();
             m_bShowFlag = false;
             return true;
+        } else if (event->type() == QEvent::StyleChange) {
+            ModifyScreenNeeds();
         }
     }
 

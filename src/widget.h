@@ -77,6 +77,8 @@ public:
     bool loadnotebookPlugin();
     void GetsAvailableAreaScreen();                                             //获取屏幕可用区域高度
     void MostGrandWidgetCoordinates();                                          //根据任务栏位置调整侧边栏位置
+    void ModifyScreenNeeds();                                                   //修改屏幕分辨率或者主屏需要做的事情
+    void InitializeHomeScreenGeometry();                                        //初始化主屏的X坐标
 
 
 protected:
@@ -94,6 +96,8 @@ private:
     bool                        m_bShowFlag;                                    //控制托盘栏点击事件的标志位
     int                         m_nScreenWidth;                                 //屏幕分辨率的宽
     int                         m_nScreenHeight;                                //屏幕分辨率的高
+    int                         m_nScreen_x;
+    int                         m_nScreen_y;
     QObject*                    m_pNotificationPluginObject;                    //通知中心插件对象
     QObject*                    m_pclock_PluginObject;                          //闹钟插件第一次加载插件对象
     QObject*                    m_pfeedback_PluginObject;
@@ -130,6 +134,7 @@ private slots :
     void hideAnimationFinish();                                                 //隐藏动画完成
     void showAnimationAction(const QVariant &value);                            //展开动画开始
     void primaryScreenChangedSLot();                                            //主屏发生变化
+    void screenCountChangedSlots(int count);
 };
 
 #endif // WIDGET_H
