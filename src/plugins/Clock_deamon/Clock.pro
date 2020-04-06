@@ -16,6 +16,7 @@ CONFIG += plugin
 SOURCES += \
         clock.cpp \
     clock_plugin.cpp \
+    customstyle.cpp \
     item_new.cpp \
     notice_dialog.cpp \
     setuppage.cpp \
@@ -42,6 +43,7 @@ DISTFILES += Clock.json \
 HEADERS  += clock.h \
     clock_plugin.h \
     connection.h \
+    customstyle.h \
     debug.h \
     item_new.h \
     notice_dialog.h \

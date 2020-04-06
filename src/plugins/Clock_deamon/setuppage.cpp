@@ -21,6 +21,7 @@
 #include <QPixmap>
 #include "set_alarm_repeat_dialog.h"
 #include <QDebug>
+#include "customstyle.h"
 
 setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     QWidget(parent),
@@ -30,6 +31,9 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
 {
     ui->setupUi(this);
     this->setWindowOpacity(0.5);
+
+    ui->horizontalSlider->setStyle(new CustomStyle("ukui"));
+
 
     ui->pushButton->hide();
     ui->label->hide();
