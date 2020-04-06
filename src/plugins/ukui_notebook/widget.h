@@ -28,6 +28,7 @@
 #include <QSqlQuery>
 #include <QSqlTableModel>
 #include <QListWidgetItem>
+#include <QTranslator>
 #include "ui_ukui_notebook.h"
 #include "ui_singleitemwidget.h"
 #include "sql_create.h"
@@ -47,6 +48,7 @@ signals:
     void listItemClicked(int);
 
 public:
+    QTranslator *translator;                        //国际化
     static bool ukui_sql_load();
 
 

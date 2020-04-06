@@ -48,5 +48,7 @@
         <file>SVG/dark_theme/close.svg</file>
         <file>SVG/dark_theme/close-hover.svg</file>
         <file>SVG/dark_theme/close-click.svg</file>
+        <file>SVG/kylin-notebook.svg</file>
+        <file>translations/ukui_notebook_zh_CN.qm</file>
     </qresource>
 </RCC>
