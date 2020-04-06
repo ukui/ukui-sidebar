@@ -22,11 +22,20 @@
 #include "debug.h"
 #include "qdebug.h"
 #include <QDesktopWidget>
-
+#include <QTranslator>
+#include <QLocale>
 
 clock_plugin::clock_plugin()
 {
-//    m_pClock = new Clock;
+    //m_pClock = new Clock;
+    QString locale = QLocale::system().name();
+    QTranslator *translator_feedback;
+    translator_feedback = new QTranslator();
+    //英文环境加载en.qm
+    if(locale == "en_US"){
+        translator_feedback->load(QString(":/Clock.qm"));  //选择翻译文件
+        QApplication::installTranslator(translator_feedback);
+    }
 }
 
 void clock_plugin::onNotification() {
@@ -34,8 +43,8 @@ void clock_plugin::onNotification() {
 }
 
 void clock_plugin::PluginsShowInterface() {
-//    if(Clockflag)
-        m_pClock = new Clock;
+    if(!m_pClock)
+       m_pClock = new Clock;
     QDesktopWidget *desk = QApplication::desktop();
     QRect deskRect = desk->availableGeometry();
     m_pClock->show();

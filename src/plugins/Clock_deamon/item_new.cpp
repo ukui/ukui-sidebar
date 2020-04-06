@@ -33,7 +33,6 @@ item_new::item_new(QWidget *parent) :
                                  width:35px;\
                                  height:17px;\
                                  font-size:18px;\
-                                 font-family:Source Han Sans CN;\
                                  font-weight:500;\
                                  color:rgba(255,255,255,1);\
                                  ");
@@ -47,7 +46,6 @@ item_new::item_new(QWidget *parent) :
                                  width:42px;\
                                  height:14px;\
                                  font-size:14px;\
-                                 font-family:Source Han Sans CN;\
                                  font-weight:400;\
                                  color:rgba(148, 148, 148,1);\
                                  opacity:0.45;\
@@ -64,11 +62,10 @@ item_new::item_new(QWidget *parent) :
     alarmLabel0 = new QLabel(this);//闹钟，音乐，
     alarmLabel0->move(200,13);
     alarmLabel0->setFixedSize(89, 27);
-    alarmLabel0->setStyleSheet("font: 17pt 'Sans Serif';background-color: rgb();\
+    alarmLabel0->setStyleSheet("font: 17pt;background-color: rgb();\
                                width:78px;\
                                height:22px;\
                                font-size:30px;\
-                               font-family:Source Han Sans CN;\
                                font-weight:400;\
                                color:rgba(255,255,255,1);");
     alarmLabel0->setText("00:00");

@@ -22,10 +22,12 @@
 
 Notice_Dialog::Notice_Dialog(QWidget *parent, int close_time, int num) :
     QDialog(parent),
+    num_flag(num),
     timer_value(close_time)
 {
     setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint);   /* 开启窗口无边框 */
+    //setAttribute(Qt::WA_TranslucentBackground);
     setWindowOpacity(0.7);
     this->setStyleSheet("QDialog{background-color: rgba(0, 0, 0, 0.5);}");
     QPixmap bgPixmap = QPixmap(":/window-close-symbolic.png");
@@ -50,21 +52,39 @@ Notice_Dialog::Notice_Dialog(QWidget *parent, int close_time, int num) :
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
     model->select(); //选取整个表的所有行
 
+    QSqlTableModel *model_setup = new QSqlTableModel(this);
+    model_setup->setTable("setup");
+    model_setup->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    model_setup->select();
+
     music = new QMediaPlayer(this);//初始化音乐
     QMediaPlaylist *playlist = new QMediaPlaylist(this);//初始化播放列表
-
-    if(model->index(num, 2).data().toString().compare(tr("玻璃"))==0){
-        playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/glass.ogg"));
-    }else if (model->index(num, 2).data().toString().compare(tr("犬吠"))==0) {
-        playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/bark.ogg"));
-    }else if (model->index(num, 2).data().toString().compare(tr("声呐"))==0) {
-        playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/sonar.ogg"));
-    }else if (model->index(num, 2).data().toString().compare(tr("雨滴"))==0){
-        playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/drip.ogg"));
+    if(num >= 0)
+    {
+        if(model->index(num, 2).data().toString().compare(tr("玻璃"))==0){
+            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/glass.ogg"));
+        }else if (model->index(num, 2).data().toString().compare(tr("犬吠"))==0) {
+            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/bark.ogg"));
+        }else if (model->index(num, 2).data().toString().compare(tr("声呐"))==0) {
+            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/sonar.ogg"));
+        }else if (model->index(num, 2).data().toString().compare(tr("雨滴"))==0){
+            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/drip.ogg"));
+        }
+    }else{
+        if(model_setup->index(0, 19).data().toString().compare(tr("玻璃"))==0){
+            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/glass.ogg"));
+        }else if(model_setup->index(0, 19).data().toString().compare(tr("犬吠"))==0){
+            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/bark.ogg"));
+        }else if(model_setup->index(0, 19).data().toString().compare(tr("声呐"))==0){
+            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/sonar.ogg"));
+        }else{
+            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/drip.ogg"));
+        }
     }
 
     playlist->setPlaybackMode(QMediaPlaylist::Loop);//设置播放模式(顺序播放，单曲循环，随机播放等)
     music->setPlaylist(playlist);  //设置播放列表
+    music->setVolume(  model_setup->index(0, 6).data().toInt() );
     music->play();
 
 }
@@ -89,7 +109,11 @@ void Notice_Dialog::close_music()
     {
         set_dialog_close();
     }
-    label_2->setText(QString::number(timer_value));
+    if(num_flag >= 0){
+        label_2->setText(QString::number(timer_value));
+    }else{
+        label_2->setText(tr("倒计时时间结束"));
+    }
     timer_value--;
 }
 

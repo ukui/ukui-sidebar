@@ -54,7 +54,7 @@ public:
 
     virtual void PluginsShowInterface() override;
 
-    QWidget *m_pClock;
+    QWidget *m_pClock = nullptr;
     QWidget*  centerWidget();
     void onNotification() ;
 

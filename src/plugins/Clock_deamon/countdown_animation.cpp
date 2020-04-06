@@ -48,8 +48,8 @@ void Countdown_Animation::connectToSlider(QRoundProgressBar *bar)
     timer = new QTimer();
     timer->setInterval(1000);
 
-    bar->setRange(0, 1000);
-    bar->setValue(1000);
+    bar->setRange(0, 3600);
+    bar->setValue(3600);
 
     connect(timer, SIGNAL(timeout()), bar, SLOT(setValue()));
     timer->start();

@@ -103,7 +103,7 @@ border-radius:4px;
       <string notr="true">width:39px;
 height:14px;
 font-size:14px;
-font-family:Source Han Sans CN;
+
 font-weight:400;
 color:rgba(255,255,255,1);
 </string>
@@ -178,7 +178,7 @@ border-radius:4px;
       <string notr="true">width:39px;
 height:14px;
 font-size:14px;
-font-family:Source Han Sans CN;
+
 font-weight:400;
 color:rgba(255,255,255,1);
 </string>
@@ -253,7 +253,7 @@ border-radius:4px;
       <string notr="true">width:39px;
 height:14px;
 font-size:14px;
-font-family:Source Han Sans CN;
+
 font-weight:400;
 color:rgba(255,255,255,1);
 </string>
@@ -328,7 +328,7 @@ border-radius:4px;
       <string notr="true">width:39px;
 height:14px;
 font-size:14px;
-font-family:Source Han Sans CN;
+
 font-weight:400;
 color:rgba(255,255,255,1);
 </string>
@@ -395,7 +395,7 @@ border-radius:4px;
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>61</width>
+       <width>71</width>
        <height>31</height>
       </rect>
      </property>
@@ -403,7 +403,7 @@ border-radius:4px;
       <string notr="true">width:39px;
 height:14px;
 font-size:14px;
-font-family:Source Han Sans CN;
+
 font-weight:400;
 color:rgba(255,255,255,1);
 </string>
@@ -452,17 +452,17 @@ text-align: right</string>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>53</x>
+      <x>45</x>
       <y>358</y>
-      <width>32</width>
-      <height>19</height>
+      <width>51</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">width:28px;
 height:14px;
 font-size:14px;
-font-family:Source Han Sans CN;
+
 font-weight:400;
 color:rgba(255,255,255,1)</string>
     </property>
@@ -502,7 +502,7 @@ border-radius:6px;
     </property>
     <property name="styleSheet">
      <string notr="true">font-size:14px;
-font-family:Source Han Sans CN;
+
 font-weight:300;
 color:rgba(255,255,255,1)</string>
     </property>
@@ -535,14 +535,14 @@ border-radius:50%;
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>30</y>
-      <width>121</width>
-      <height>41</height>
+      <x>40</x>
+      <y>25</y>
+      <width>300</width>
+      <height>50</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 25 22pt &quot;Noto Sans CJK SC&quot;;
+     <string notr="true">font: 25 22pt;
 color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">

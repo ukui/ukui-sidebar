@@ -179,7 +179,7 @@ public:
      */
     double maximum() const { return m_max; }
     double time_max = 10000;
-    double ring_max = 1000;
+    double ring_max = 3600;
 
 public Q_SLOTS:
     /**

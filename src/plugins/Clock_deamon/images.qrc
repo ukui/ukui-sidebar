@@ -19,5 +19,7 @@
         <file>go-bottom-symbolic.png</file>
         <file>clock.ico</file>
         <file>kylin-alarm-clock.svg</file>
+        <file>Clock.ts</file>
+        <file>Clock.qm</file>
     </qresource>
 </RCC>
