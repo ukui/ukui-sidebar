@@ -23,6 +23,13 @@ Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)
 {    
+    translator = new QTranslator;
+    QLocale locale;
+    //获取系统语言环境
+    if ( locale.language() == QLocale::Chinese ) {
+        translator->load(QString(":/new/prefix1/translations/ukui_notebook_zh_CN.qm"));  //选择翻译文件
+        QApplication::installTranslator(translator);
+    }
     ui->setupUi(this);
     //createSql();
     this->ukui_init();
@@ -41,7 +48,8 @@ void Widget::ukui_init()
     //窗口属性
     setWindowFlags(Qt::FramelessWindowHint);//开启窗口无边框
     setWindowOpacity(0.8);//窗口透明度
-    this->setWindowTitle(tr("笔记"));
+    this->setWindowTitle(tr("Note"));
+    setWindowIcon(QIcon(":/new/prefix1/SVG/kylin-notebook.svg"));
     //组件属性
     //ui->listWidget->setAttribute(Qt::WA_TranslucentBackground);//设置透明度
     //ui->toolButton->setAttribute(Qt::WA_TranslucentBackground);

@@ -184,7 +184,7 @@ border-style:outset;</string>
 border-radius:4px;</string>
     </property>
     <property name="text">
-     <string>保存</string>
+     <string>Save</string>
     </property>
    </widget>
    <widget class="QPushButton" name="ukui_NoteSaveAs">
@@ -201,7 +201,7 @@ border-radius:4px;</string>
 border-radius:4px;</string>
     </property>
     <property name="text">
-     <string>另存为</string>
+     <string>SaveAs</string>
     </property>
    </widget>
   </widget>

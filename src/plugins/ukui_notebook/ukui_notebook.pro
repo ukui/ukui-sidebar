@@ -28,9 +28,13 @@ DESTDIR = ../sidebarSmallPlugins
 
 INCLUDEPATH    += ../../plugin-interface
 
-DISTFILES += notebook.json
+DISTFILES += notebook.json \
+    ukui_notebook_zh_CN.ts
 
 CONFIG += c++11
+
+TRANSLATIONS += \
+        ukui_notebook_zh_CN.ts
 
 SOURCES += \
         widget.cpp \
