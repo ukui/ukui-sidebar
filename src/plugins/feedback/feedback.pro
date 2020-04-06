@@ -20,8 +20,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 
-TRANSLATIONS += Resource/feedback_zh.ts \
-               Resource/feedback_en.ts
+TRANSLATIONS += Resource/feedback_en.ts
 
 SOURCES += \
     browse_button.cpp \
