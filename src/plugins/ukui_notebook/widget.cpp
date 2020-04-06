@@ -65,7 +65,7 @@ void Widget::ukui_init()
     //ui->toolButton->setAttribute(Qt::WA_TranslucentBackground);
     //标题
     this->setWindowTitle(tr("Note"));
-
+    setWindowIcon(QIcon(":/new/prefix1/SVG/kylin-notebook.svg"));
     ui->ukui_labelTitle->setStyleSheet("width:47px;        \
                                         height:23px;        \
                                         font-size:20px;     \

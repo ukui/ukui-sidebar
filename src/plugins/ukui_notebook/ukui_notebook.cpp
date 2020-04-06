@@ -53,6 +53,7 @@ void ukui_NoteBook::ukuiNoteBook_init()
     QDesktopWidget *desktop = QApplication::desktop();
     move((desktop->width() - this->width())/2, (desktop->height() - this->height())/2);
     this->setWindowTitle(tr("NoteBook"));
+    setWindowIcon(QIcon(":/new/prefix1/SVG/kylin-notebook.svg"));
     //this->setStyleSheet("background-color: rgb(0,0,0)");
     //按钮属性
     ui->ukui_NoteClose->setStyleSheet("QPushButton{image:url(:/new/prefix1/SVG/dark_theme/close.svg);}"
