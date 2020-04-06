@@ -40,6 +40,9 @@
 #include <QTranslator>
 #include <QLocale>
 #include <QStandardPaths>
+#include <QStyleFactory>
+#include <QTimer>
+#include <QAbstractItemView>
 feedback::feedback(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::feedback)
@@ -116,6 +119,12 @@ void feedback::window_ui_init()
     ui->textEdit->setStyleSheet("");
     ui->textEdit_2->setStyleSheet("");
     ui->frame->setStyleSheet("");
+
+    if(QStyleFactory::keys().contains("ukui ")){
+        QTimer::singleShot(500, this, [=](){
+            ui->comboBox->view()->setStyle(QStyleFactory::create("ukui"));
+        });
+    }
 }
 //获取图片
 void feedback::on_pushButton_clicked()
