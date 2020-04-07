@@ -26,6 +26,7 @@
 #include <QStyle>
 #include <QTimer>
 #include <QStyleFactory>
+#include <QTextFrame>
 ClipboardSignal *globalClipboardSignal;
 SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
 {
@@ -410,7 +411,20 @@ void SidebarClipboardPlugin::editButtonSlots(ClipboardWidgetEntry *w)
         return;
     }
     QString text = GetOriginalDataValue(Item)->text;
+
+
     EditWidget.m_pEditingArea->setText(text);
+
+    QTextDocument *document = EditWidget.m_pEditingArea->document();
+    QTextFrame *rootFrame=document->rootFrame();//获取根框架
+
+    QTextFrameFormat format;
+
+    format.setPadding(10);//设置填衬
+
+    format.setBorderStyle(QTextFrameFormat::BorderStyle_Dotted);//设置边框样式
+
+    rootFrame->setFrameFormat(format);//往根框架中加载设置好的格式
     int nRet = EditWidget.exec();
     if (nRet == QDialog::Accepted) {
         QString formatBody = SetFormatBody(EditWidget.m_pEditingArea->toPlainText(), w);  // 设置...字样

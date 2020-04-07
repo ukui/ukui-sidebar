@@ -19,11 +19,18 @@
 
 #include "editorwidget.h"
 #include <QFile>
+#include <QTextFrameFormat>
+#include <QTimer>
+
 
 EditorWidget::EditorWidget()
 {
     installEventFilter(this);
+    this->setFixedSize(400, 338);
+    this->setContentsMargins(0, 0, 0, 0);
     m_pMainQVBoxLayout = new QVBoxLayout();
+    m_pMainQVBoxLayout->setContentsMargins(0, 0, 0, 0);
+
     editBox();
     operationBox();
 
@@ -34,11 +41,17 @@ EditorWidget::EditorWidget()
     connect(m_pConfirmButton, &QPushButton::clicked, globalClipboardSignal, &ClipboardSignal::CLipBoardEditConfirmButtonSignal);
     connect(m_pCancelButton, &QPushButton::clicked, globalClipboardSignal, &ClipboardSignal::CLipBoardEditConfirmButtonSignal);
     m_pEditingArea->setObjectName("EditingArea");
-    m_pEditBox->setObjectName("EditBox");
-    m_pOperationBox->setObjectName("OperationBox");
+    m_pEditWidget->setObjectName("EditBox");
+    m_pOperationWidget->setObjectName("OperationBox");
     this->setObjectName("EditorWidget");
-    m_pMainQVBoxLayout->addWidget(m_pEditBox);
-    m_pMainQVBoxLayout->addWidget(m_pOperationBox);
+
+    m_pMainQVBoxLayout->setContentsMargins(18, 0, 0, 0);
+    m_pMainQVBoxLayout->addItem(new QSpacerItem(20, 24));
+    m_pMainQVBoxLayout->addWidget(m_pEditWidget);
+    m_pMainQVBoxLayout->addItem(new QSpacerItem(20, 15));
+    m_pMainQVBoxLayout->addWidget(m_pOperationWidget);
+    m_pMainQVBoxLayout->addItem(new QSpacerItem(20, 18));
+    m_pMainQVBoxLayout->setSpacing(0);
     this->setWindowFlags(Qt::FramelessWindowHint);
 
     QScreen* pScreen = QGuiApplication::primaryScreen();
@@ -48,35 +61,65 @@ EditorWidget::EditorWidget()
     move(m_nScreenWidth/2-130, m_nScreenHeight/2-180);
     setLayout(m_pMainQVBoxLayout);
     setAttribute(Qt::WA_TranslucentBackground);
-    QFile file(SIDEBAR_EDITAREA_QSS_PATH);
-    if (file.open(QFile::ReadOnly)) {
-        QString strQss = QLatin1String(file.readAll());
-        QString strPaletteColor = strQss.mid(20, 7);
-        this->setPalette(QPalette(QColor(strPaletteColor)));
-        this->setStyleSheet(strQss);
-        file.close();
-    }
 }
 
 void EditorWidget::editBox()
 {
     m_pEditingArea = new QTextEdit();
-    m_pEditLaout = new QHBoxLayout;
+    m_pEditingArea->setFixedSize(362, 200);
+    m_pEditingArea->setFrameShape(QFrame::NoFrame);
+    QColor color(255,255,255,16);
+    QPalette paletteTextEdit = m_pEditingArea->palette();
+    paletteTextEdit.setBrush(QPalette::Base, color);
+    m_pEditingArea->setPalette(paletteTextEdit);
+    m_pEditingArea->viewport()->setContentsMargins(50,0,12,0);
+
+
+//    m_pEditingArea->setContentsMargins(10, 0, 12, 0);
+    m_ptileLable = new QLabel(QObject::tr("Edit"));
+    m_ptileLable->setFixedHeight(20);
+    QTimer::singleShot(1, m_ptileLable, [=](){
+        QFont font = m_ptileLable->font();
+        font.setPixelSize(20);
+        font.setFamily("Noto Sans CJK SC");
+        m_ptileLable->setFont(font);
+    });
+
+    m_pEditLaout = new QVBoxLayout;
+    m_pEditLaout->addWidget(m_ptileLable);
+    m_pEditLaout->addItem(new QSpacerItem(12, 22));
     m_pEditLaout->addWidget(m_pEditingArea);
-    m_pEditBox = new QGroupBox(QObject::tr("Edit"));
-    m_pEditBox->setLayout(m_pEditLaout);
+    m_pEditLaout->setSpacing(0);
+    m_pEditWidget = new QWidget();
+    m_pEditWidget->setAttribute(Qt::WA_TranslucentBackground);
+    m_pEditWidget->setLayout(m_pEditLaout);
+    m_pEditLaout->setContentsMargins(0, 0, 0, 0);
+//    m_pEditWidget->setContentsMargins(0, 0, 0, 0);
 }
 
 void EditorWidget::operationBox()
 {
     m_pConfirmButton = new QPushButton(QObject::tr("Confirm"));
+    m_pConfirmButton->setFixedSize(120, 34);
+    m_pConfirmButton->setStyle(new CustomStyle("ukui-default"));
+
     m_pCancelButton  = new QPushButton(QObject::tr("Cancel"));
+    m_pCancelButton->setFixedSize(120, 34);
+    m_pCancelButton->setStyle(new CustomStyle_pushbutton_2("ukui-default") );
+
     m_pOperationLayout = new QHBoxLayout;
 
+    m_pOperationLayout->setContentsMargins(0, 0, 0, 0);
+    m_pOperationLayout->addItem(new QSpacerItem(106, 20, QSizePolicy::Expanding));
     m_pOperationLayout->addWidget(m_pCancelButton);
+    m_pOperationLayout->addItem(new QSpacerItem(16, 20));
     m_pOperationLayout->addWidget(m_pConfirmButton);
-    m_pOperationBox = new QGroupBox();
-    m_pOperationBox->setLayout(m_pOperationLayout);
+    m_pOperationLayout->addItem(new QSpacerItem(20, 20));
+    m_pOperationLayout->setSpacing(0);
+    m_pOperationWidget = new QWidget();
+    m_pOperationWidget->setContentsMargins(0, 0, 0, 0);
+    m_pOperationWidget->setLayout(m_pOperationLayout);
+
 }
 
 void EditorWidget::paintEvent(QPaintEvent *)

@@ -36,6 +36,8 @@
 #include <QStyleOption>
 #include <QPainter>
 #include <QDialog>
+#include "customstyle.h"
+#include "customstyle_pushbutton_2.h"
 #include "clipboardsignal.h"
 #define  SIDEBAR_EDITAREA_QSS_PATH  ":/qss/sideBarEditArea.css"
 extern ClipboardSignal *globalClipboardSignal;
@@ -47,12 +49,13 @@ public:
     QPushButton  *m_pCancelButton;
     QTextEdit    *m_pEditingArea;
     QLabel       *m_ptileLable;
-    QGroupBox    *m_pTitleBox;
     QGroupBox    *m_pEditBox;
+    QWidget      *m_pEditWidget;
     QGroupBox    *m_pOperationBox;
+    QWidget      *m_pOperationWidget;
     QVBoxLayout  *m_pMainQVBoxLayout;                                     //主界面垂直布局器
     QHBoxLayout  *m_ptileLayout;
-    QHBoxLayout  *m_pEditLaout;
+    QVBoxLayout  *m_pEditLaout;
     QHBoxLayout  *m_pOperationLayout;
 
     void titleBox();
