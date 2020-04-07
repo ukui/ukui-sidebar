@@ -54,6 +54,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     connect(m_pDeskWgt, SIGNAL(resized(int)), this, SLOT(onResolutionChanged(int)));
     connect(m_pDeskWgt, &QDesktopWidget::primaryScreenChanged, this, &Widget::primaryScreenChangedSLot);
     connect(m_pDeskWgt, &QDesktopWidget::screenCountChanged, this, &Widget::screenCountChangedSlots);
+
     InitializeHomeScreenGeometry();  /* 初始化主屏的X坐标 */
     GetsAvailableAreaScreen();       /* 获取屏幕可用高度区域 */
 
@@ -329,6 +330,8 @@ void Widget::GetsAvailableAreaScreen()
         m_nScreenWidth = screenRect.width();
         m_nScreenHeight = screenRect.height();
     }
+    qDebug() << "主屏Width  --> " << m_nScreenWidth;
+    qDebug() << "主屏Height --> " << m_nScreenHeight;
 }
 
 /* 设定剪贴板高度 */
@@ -442,7 +445,7 @@ void Widget::showAnimationAction(const QVariant &value)
 {
     QRect Rect = value.value<QRect>();
     int x = Rect.x();
-    if (getPanelSite() == Widget::PanelDown || getPanelSite() == Widget::PanelUp){
+    if (getPanelSite() == Widget::PanelDown || getPanelSite() == Widget::PanelUp) {
         mostGrandWidget::getInstancemostGrandWidget()->setProperty("blurRegion", QRegion(QRect(x, 0, 400, m_nScreenHeight - connectTaskBarDbus())));
     }
     else {
@@ -537,8 +540,10 @@ void Widget::hideAnimationFinish()
 void Widget::onResolutionChanged(int argc)
 {
     Q_UNUSED(argc);
+    qDebug() << "屏幕分辨率发生变化";
     GetsAvailableAreaScreen();                               //获取屏幕可用高度区域
     ModifyScreenNeeds();                                     //修改屏幕分辨率或者主屏需要做的事情
+    InitializeHomeScreenGeometry();
     return;
 }
 
@@ -557,6 +562,7 @@ void Widget::screenCountChangedSlots(int count)
     Q_UNUSED(count);
     qDebug() << "屏幕数量发生变化";
     GetsAvailableAreaScreen();
+    ModifyScreenNeeds();
     InitializeHomeScreenGeometry();
 }
 
@@ -601,12 +607,17 @@ void Widget::InitializeHomeScreenGeometry()
     QList<QScreen*> screen = QGuiApplication::screens();
     int count = m_pDeskWgt->screenCount();
     if (count > 1) {
-        m_nScreen_x = screen[0]->availableGeometry().x();
-        m_nScreen_y = screen[0]->availableGeometry().y();
+//        m_nScreen_x = screen[0]->availableGeometry().x();
+//        m_nScreen_y = screen[0]->availableGeometry().y();
+        m_nScreen_x = screen[0]->geometry().x();
+        m_nScreen_y = screen[0]->geometry().y();
+
     } else {
         m_nScreen_x = 0;
         m_nScreen_y = 0;
     }
+    qDebug() << "偏移的x坐标" << m_nScreen_x;
+    qDebug() << "偏移的Y坐标" << m_nScreen_y;
 }
 
 /* 根据任务栏位置调整侧边栏位置 */

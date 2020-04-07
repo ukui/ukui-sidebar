@@ -57,7 +57,7 @@ void customLogMessageHandler(QtMsgType type, const QMessageLogContext& context, 
     }
 
     QString logInfo;
-    QString logTime = QDateTime::currentDateTime().toString("yyyy-MM-dd-hh-mm-ss");
+    QString logTime = QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss");
     switch (type)
     {
     case QtDebugMsg:

@@ -51,17 +51,21 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
     m_pSearchWidgetListWidget      = new QListWidget;
 
     m_pSideBarClipboardLable = new QLabel(tr("No clip content"));
+
+    /* 插件内部通信的信号类 */
     ClipBoardInternalSignal::initInternalSignal();
     ClipBoardInternalSignal *InternalSignal = ClipBoardInternalSignal::getGlobalInternalSignal();
     connect(InternalSignal, &ClipBoardInternalSignal::CheckBoxSelectedSignal, this, [=]() {
         m_bPromptBoxBool = false; //在点击确认键后判断是否有勾选不再提示这一功能
     });
+    /* 当剪贴板条目发生变化的时候执行该槽函数 */
     connect(this, &SidebarClipboardPlugin::Itemchange, this, &SidebarClipboardPlugin::ItemNumchagedSlots);
 
     m_pSearchWidgetListWidget->setFixedSize(400, 42);
     m_pShortcutOperationListWidget->setContentsMargins(0,0,0,0);
     m_pSearchWidgetListWidget->setContentsMargins(0,0,0,0);
 
+    /* 创建查找条目 */
     createFindClipboardWidgetItem();
 
     m_pClipboardLaout->addWidget(m_pSearchWidgetListWidget);
@@ -352,13 +356,13 @@ QListWidgetItem* SidebarClipboardPlugin::iterationClipboardDataHash(ClipboardWid
 void SidebarClipboardPlugin::popButtonSlots(ClipboardWidgetEntry *w)
 {
     if (w == nullptr) {
-        qDebug() << "置顶槽函数ClipboardWidgetEntry *w 为空";
+        qWarning() << "置顶槽函数ClipboardWidgetEntry *w 为空";
         return;
     }
     QListWidgetItem *Item = iterationClipboardDataHash(w);
     const QMimeData* pMimeData = GetOriginalDataValue(Item)->MimeData;
     if (nullptr == pMimeData) {
-        qDebug() << "剪贴板元数据不存在";
+        qWarning() << "剪贴板元数据不存在";
         return;
     }
     removeOriginalDataHash(Item);
@@ -399,7 +403,7 @@ void SidebarClipboardPlugin::editButtonSlots(ClipboardWidgetEntry *w)
     qDebug() << "ClipboardWidgetEntry:::" << w;
     /* 防止重复创建 */
     if (w == nullptr) {
-        qDebug() << "传入值为空";
+        qWarning() << "传入值为空";
         return;
     }
     EditorWidget EditWidget;
@@ -407,7 +411,7 @@ void SidebarClipboardPlugin::editButtonSlots(ClipboardWidgetEntry *w)
     QListWidgetItem *Item = iterationClipboardDataHash(w);
     QMimeData* pMimeData = (QMimeData*)GetOriginalDataValue(Item)->MimeData;
     if (nullptr == pMimeData) {
-        qDebug() << "剪贴板元数据不存在";
+        qWarning() << "剪贴板元数据不存在";
         return;
     }
     QString text = GetOriginalDataValue(Item)->text;

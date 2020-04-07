@@ -96,7 +96,7 @@ QString ClipboardWidgetEntry::SetFormatBody(QString text)
     int LableWidth = this->m_pCopyDataLabal->width();
     int fontSize = fontMetrics.width(text);
     QString formatBody = text;
-    qDebug() << "fontSize > (LableWidth - 10)" << LableWidth << "&&jiantieban---->" << fontSize;
+    qDebug() << "Lable象数点大小为" << LableWidth << "&&从编辑框返回的数据，象数点大小为-->" << fontSize;
     if(fontSize > (LableWidth - 10))
     {
         QStringList list = formatBody.split("\n");
@@ -110,14 +110,14 @@ QString ClipboardWidgetEntry::SetFormatBody(QString text)
             formatBody = fontMetrics.elidedText(formatBody, Qt::ElideRight, oneFontSize);
         } else {
             //说明只存在一行，在最后面加...就行
-            qDebug() << "fontSize > (LableWidth - 10)" << LableWidth << "&&jiantieban---->" << fontSize;
+            qDebug() << "Lable象数点大小为" << LableWidth << "&&从编辑框返回的数据，象数点大小为-->" << fontSize;
             formatBody = fontMetrics.elidedText(formatBody, Qt::ElideRight, LableWidth - 10);
         }
     } else {
         QStringList list = formatBody.split("\n");
         if (list.size() >= 2) {
             formatBody = list.at(0);
-            qDebug() << "第一端" << formatBody;
+            qDebug() << "第一段" << formatBody;
             int oneFontSize = fontMetrics.width(formatBody);
             qDebug () << "oneFontSize = fontMetrics.width(formatBody);" << oneFontSize;
             formatBody = fontMetrics.elidedText(formatBody, Qt::ElideRight, oneFontSize - 1);
