@@ -72,12 +72,10 @@ SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
     connect(m_pClearTextButton, &QPushButton::clicked, this, [=](){
           m_pLineEditArea->setText("");
     });
-    QSpacerItem *item = new QSpacerItem(10,20);
-    QSpacerItem *item1 = new QSpacerItem(10,20);
-    m_pHBoxLayout->addItem(item);
+    m_pHBoxLayout->addItem(new QSpacerItem(10,20));
     m_pHBoxLayout->addWidget(m_pLineEditArea);
     m_pHBoxLayout->addWidget(m_pClearListWidgetButton);
-    m_pHBoxLayout->addItem(item1);
+    m_pHBoxLayout->addItem(new QSpacerItem(10,20));
     m_pHBoxLayout->setSpacing(10);
     this->setLayout(m_pHBoxLayout);
 }
