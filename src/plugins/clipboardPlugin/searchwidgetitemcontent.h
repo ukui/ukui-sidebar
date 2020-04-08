@@ -27,6 +27,7 @@
 #include <QHBoxLayout>
 #include <QAction>
 #include <QWidgetAction>
+#include <QTranslator>
 #include "clipboardwidgetentry.h"
 #include "clipboardsignal.h"
 extern ClipboardSignal *globalClipboardSignal;
@@ -40,7 +41,7 @@ public:
     QPushButton *m_pClearListWidgetButton;
     QLineEdit   *m_pLineEditArea;
     QHBoxLayout *m_pHBoxLayout;
-
+    QTranslator *translator;
 private slots:
     void textChageSlots(const QString &text);
 };

@@ -25,6 +25,15 @@
 SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
 {
     Q_UNUSED(parent);
+    translator = new QTranslator;
+    QLocale locale;
+    //获取系统语言环境
+    if ( locale.language() == QLocale::Chinese ) {
+        qDebug() << "中文环境" ;
+        translator->load(QString(":/translations/qt_zh_CN.qm"));  //选择翻译文件
+        QApplication::installTranslator(translator);
+    }
+
     this->setObjectName("SearhWidget");
     this->setContentsMargins(0,0,0,0);
     m_pClearListWidgetButton = new QPushButton(tr("Clear"));

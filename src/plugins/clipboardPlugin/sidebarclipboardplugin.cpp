@@ -333,7 +333,7 @@ void SidebarClipboardPlugin::WhetherTopFirst()
     }
     //获取hash表中minmete数据
 
-    qDebug() << "dasdasdasdasdasdasd" << pMimeData;
+    qDebug() << "获取hash表中minmete数据" << pMimeData;
     m_pSidebarClipboard->setMimeData((QMimeData*)pMimeData, QClipboard::Clipboard);
     m_pSidebarClipboard->setMimeData((QMimeData*)pMimeData, QClipboard::Selection);
     return;
@@ -416,7 +416,6 @@ void SidebarClipboardPlugin::editButtonSlots(ClipboardWidgetEntry *w)
     }
     QString text = GetOriginalDataValue(Item)->text;
 
-
     EditWidget.m_pEditingArea->setText(text);
 
     QTextDocument *document = EditWidget.m_pEditingArea->document();
@@ -445,8 +444,7 @@ void SidebarClipboardPlugin::editButtonSlots(ClipboardWidgetEntry *w)
             popButtonSlots(w);
         }
         qDebug() << "d当前所在的条木" << row_num;
-    }
-    else if (nRet == QDialog::Rejected) {
+    } else if (nRet == QDialog::Rejected) {
         qDebug() << "不需要做其余操作";
     }
 }

@@ -11,6 +11,7 @@
    <file>qss/sideBarEditArea.css</file>
    <file>qss/sideBarSearchArea.css</file>
    <file>translations/test_zh_CN.qm</file>
+   <file>translations/qt_zh_CN.qm</file>
 </qresource>
 </RCC>
 
