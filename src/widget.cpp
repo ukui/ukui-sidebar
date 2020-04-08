@@ -194,12 +194,12 @@ void Widget::createAction()
 //添加动作和创建 systray实例
 void Widget::createSystray()
 {
-    trayIconMenu = new QMenu(this);
-    if (trayIconMenu == nullptr)
-    {
-        qWarning() << "分配空间trayIconMenu失败";
-        return ;
-    }
+//    trayIconMenu = new QMenu(this);
+//    if (trayIconMenu == nullptr)
+//    {
+//        qWarning() << "分配空间trayIconMenu失败";
+//        return ;
+//    }
 //    trayIconMenu->addAction(minimizeAction);
 //    trayIconMenu->addAction(maximizeAction);
 //    trayIconMenu->addAction(restoreAction);
@@ -213,7 +213,7 @@ void Widget::createSystray()
         qWarning()<< "分配空间trayIcon失败";
         return ;
     }
-    trayIcon->setContextMenu(trayIconMenu);
+//    trayIcon->setContextMenu(trayIconMenu);
 }
 
 //设置托盘栏的图标
