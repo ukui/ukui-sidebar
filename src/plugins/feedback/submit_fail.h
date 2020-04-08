@@ -39,6 +39,9 @@ private slots:
     void close_fail_window();
     void resend_feedbackinfo();
 
+protected:
+    void paintEvent(QPaintEvent*);
+
 private:
 
     void UI_init();

@@ -39,6 +39,26 @@ void submit_fail::UI_init()
     this->resize(430, 260);
     this->setStyleSheet(QString::fromUtf8("border:2px;"));
     this->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);//设置窗口无边框
+
+    //--------设置圆角
+    QBitmap bmp(this->size());
+
+    bmp.fill();
+
+    QPainter p(&bmp);
+
+    p.setPen(Qt::NoPen);
+
+    p.setBrush(Qt::black);
+
+    p.setRenderHint(QPainter::Antialiasing);
+
+    p.drawRoundedRect(bmp.rect(),6,6);
+
+    setMask(bmp);
+    //----- ------------------------
+
+
     label = new QLabel(this);
     label->setText(tr("问题提交失败"));
     label->setObjectName(QString::fromUtf8("label"));
@@ -115,4 +135,17 @@ void submit_fail::resend_feedbackinfo()
 {
     parentWnd->resend_info_when_sendfail();
     this->close();
+}
+void submit_fail::paintEvent(QPaintEvent *e)
+{
+    Q_UNUSED(e);
+    QStyleOption opt;
+    opt.init(this);
+    QPainter p(this);
+    p.save();
+    p.setBrush(Qt::white);
+    p.setPen(Qt::NoPen);
+    p.drawRoundedRect(opt.rect,0,0);
+    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+    p.restore();
 }
