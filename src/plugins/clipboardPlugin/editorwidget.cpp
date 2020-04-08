@@ -72,10 +72,11 @@ void EditorWidget::editBox()
     QPalette paletteTextEdit = m_pEditingArea->palette();
     paletteTextEdit.setBrush(QPalette::Base, color);
     m_pEditingArea->setPalette(paletteTextEdit);
-    m_pEditingArea->viewport()->setContentsMargins(50,0,12,0);
+    QFont font = m_pEditingArea->font();
+    font.setFamily("Noto Sans CJK SC");
+    font.setPixelSize(14);
+    m_pEditingArea->setFont(font);
 
-
-//    m_pEditingArea->setContentsMargins(10, 0, 12, 0);
     m_ptileLable = new QLabel(QObject::tr("Edit"));
     m_ptileLable->setFixedHeight(20);
     QTimer::singleShot(1, m_ptileLable, [=](){
@@ -94,7 +95,6 @@ void EditorWidget::editBox()
     m_pEditWidget->setAttribute(Qt::WA_TranslucentBackground);
     m_pEditWidget->setLayout(m_pEditLaout);
     m_pEditLaout->setContentsMargins(0, 0, 0, 0);
-//    m_pEditWidget->setContentsMargins(0, 0, 0, 0);
 }
 
 void EditorWidget::operationBox()

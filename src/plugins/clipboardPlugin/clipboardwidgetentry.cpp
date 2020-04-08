@@ -18,7 +18,7 @@
 
 
 #include "clipboardwidgetentry.h"
-
+#include "customstyle_clean_pushbutton.h"
 ClipboardWidgetEntry::ClipboardWidgetEntry(QWidget *parent)
 {
     Q_UNUSED(parent);
@@ -31,24 +31,32 @@ ClipboardWidgetEntry::ClipboardWidgetEntry(QWidget *parent)
     QIcon RemoveIcon;
     RemoveIcon.addFile(REMOVE_SVG_PATH);
     m_pPopButton     = new QPushButton();
+    m_pPopButton->setStyle(new customstyle_clean_pushbutton("ukui-default"));
     m_pPopButton->setToolTip(QObject::tr("Pop"));
     m_pPopButton->setFixedSize(34, 34);
     m_pPopButton->setIcon(PopIcon);
     m_pPopButton->setObjectName("PopButton");
+
     m_pEditButon     = new QPushButton();
+    m_pEditButon->setStyle(new customstyle_clean_pushbutton("ukui-default"));
     connect(m_pEditButon, &QPushButton::clicked, globalClipboardSignal, &ClipboardSignal::ClipBoardWidgetEntryEditButtonSignal);
     m_pEditButon->setToolTip(QObject::tr("EditButton"));
     m_pEditButon->setFixedSize(34, 34);
     m_pEditButon->setIcon(EditIcon);
     m_pEditButon->setObjectName("EditButon");
+
     m_pRemoveButton  = new QPushButton();
+    m_pRemoveButton->setStyle(new customstyle_clean_pushbutton("ukui-default"));
     m_pRemoveButton->setToolTip(QObject::tr("Remove"));
     m_pRemoveButton->setFixedSize(34, 34);
     m_pRemoveButton->setIcon(RemoveIcon);
     m_pRemoveButton->setObjectName("RemoveButton");
+
     m_pCopyDataLabal = new QLabel();
+
     m_pCopyDataLabal->setObjectName("EntryLable");
     m_pCopyDataLabal->setFixedSize(386, 34);
+
     m_pHLayout       = new QHBoxLayout();
     m_pHLayout->setContentsMargins(0,0,0,0);
     m_pHLayout->addItem(new QSpacerItem(10,20));
@@ -69,6 +77,10 @@ void ClipboardWidgetEntry::enterEvent(QEvent *e)
     if(e == nullptr) {
         return;
     }
+//    QPalette palette = this->palette();
+//    QColor color(255,255,255,21);
+//    palette.setBrush(QPalette::Background, color);
+//    this->setPalette(palette);
     m_pCopyDataLabal->setFixedSize(260, 34);
     m_pPopButton->setVisible(true);
     m_pEditButon->setVisible(true);
@@ -83,6 +95,10 @@ void ClipboardWidgetEntry::leaveEvent(QEvent *e)
     if(e == nullptr) {
         return;
     }
+//    QPalette palette = this->palette();
+//    QColor color(255,255,255,0);
+//    palette.setBrush(QPalette::Background, color);
+//    this->setPalette(palette);
     m_pPopButton->setVisible(false);
     m_pEditButon->setVisible(false);
     m_pRemoveButton->setVisible(false);

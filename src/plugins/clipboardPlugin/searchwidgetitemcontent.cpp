@@ -37,6 +37,8 @@ SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
     this->setObjectName("SearhWidget");
     this->setContentsMargins(0,0,0,0);
     m_pClearListWidgetButton = new QPushButton(tr("Clear"));
+    m_pClearListWidgetButton->setFixedSize(80, 34);
+    m_pClearListWidgetButton->setStyle(new customstyle_search_pushbutton("ukui-default"));
     m_pClearListWidgetButton->setObjectName("CleanList");
     connect(m_pClearListWidgetButton, &QPushButton::clicked, this, [=](){
         emit globalClipboardSignal->ClipBoardWidgetEntryEditButtonSignal();
@@ -47,6 +49,7 @@ SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
     m_pClearTextButton->setObjectName("ClearTextButton");
     m_pClearTextButton->setStyleSheet("QPushButton:pressed{border-image:url(:/image/button-close-hover-click-add-background-one.svg)}");
     m_pClearTextButton->setStyleSheet("QPushButton:hover{border-image:url(:/image/button-close-hover-click-add-background-one.svg)}");
+
     QIcon ClearTextEditIcon;
     ClearTextEditIcon.addFile(SEARCH_SVG_CLEAN);
     m_pClearTextButton->setIcon(ClearTextEditIcon);
@@ -55,18 +58,24 @@ SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
     m_pHBoxLayout = new QHBoxLayout;
     m_pHBoxLayout->setContentsMargins(0,0,0,0);
     m_pLineEditArea = new QLineEdit;
+    m_pLineEditArea->setAttribute(Qt::WA_Hover, true);
+    m_pLineEditArea->setStyle(new CustomStyle("ukui-default"));
     m_pLineEditArea->setFixedSize(290, 30);
     m_pLineEditArea->setObjectName("SearchLabel");
-    m_pLineEditArea->setContentsMargins(0,0,0,0);
+//    m_pLineEditArea->setContentsMargins(0,0,0,0);
+    m_pLineEditArea->setTextMargins(8, 0, 0, 0);
     m_pLineEditArea->setPlaceholderText(tr("search..."));
+
     connect(m_pLineEditArea, &QLineEdit::textChanged, this, &SearchWidgetItemContent::textChageSlots);
     /* Sets the font color of the placeholder */
     QBrush LineEditBrush;
     QPalette paletteLineEdit;
     QFont SearchLine;
     SearchLine = m_pLineEditArea->font();
-    SearchLine.setPointSize(14);
+    SearchLine.setPixelSize(14);
+    SearchLine.setFamily("Noto Sans CJK SC");
     m_pLineEditArea->setFont(SearchLine);
+
     QColor ColorPlaceholderText(255,255,255,89);
     LineEditBrush = paletteLineEdit.placeholderText();
     LineEditBrush.setColor(ColorPlaceholderText);
@@ -83,9 +92,10 @@ SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
     });
     m_pHBoxLayout->addItem(new QSpacerItem(10,20));
     m_pHBoxLayout->addWidget(m_pLineEditArea);
+    m_pHBoxLayout->addItem(new QSpacerItem(10,20));
     m_pHBoxLayout->addWidget(m_pClearListWidgetButton);
     m_pHBoxLayout->addItem(new QSpacerItem(10,20));
-    m_pHBoxLayout->setSpacing(10);
+    m_pHBoxLayout->setSpacing(0);
     this->setLayout(m_pHBoxLayout);
 }
 

@@ -28,6 +28,8 @@
 #include <QAction>
 #include <QWidgetAction>
 #include <QTranslator>
+#include "customstyle.h"
+#include "customstyle_search_pushbutton.h"
 #include "clipboardwidgetentry.h"
 #include "clipboardsignal.h"
 extern ClipboardSignal *globalClipboardSignal;

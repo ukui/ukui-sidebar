@@ -1,7 +1,7 @@
 QPalette{background:#131314;}
 
 /* 搜索栏的Widget */
-QWidget#SearhWidget {
+/*QWidget#SearhWidget {
     margin-top: 0px;
     margin-right: 0px;
     margin-bottom: 0px;
@@ -15,7 +15,7 @@ QWidget#SearhWidget {
     background:rgba(19, 19, 20, 0);
     opacity:0;
     border: 1px solid rgba(255,255,0,1);
-}
+}*/
 
 /* listWidget的中的widgetitem  */
 QWidget#WidgetEntry {
@@ -39,11 +39,11 @@ QWidget#WidgetEntry {
 
 /* 设置listWidget的中的widgetitem悬乎状态 */
 QWidget#WidgetEntry:hover {
-    background:rgba(255, 255, 255, 36);
+    background:rgba(255, 255, 255, 0.08);
 }
 
 /* 显示内容条目Widget中的置顶按钮 */
-QWidget#WidgetEntry>QPushButton#PopButton {
+/*QWidget#WidgetEntry>QPushButton#PopButton {
     width:34px;
     height:34px;
     margin-bottom: 0px;
@@ -56,22 +56,22 @@ QWidget#WidgetEntry>QPushButton#PopButton {
     border-radius:3px;
 }
 
-/* 显示内容条目Widget中的置顶按钮悬乎 */
+
 QWidget#WidgetEntry>QPushButton#PopButton:hover {
-    background-color:rgba(255,255,255,36); /*改变背景色*/
+    background-color:rgba(255,255,255,36);
     opacity:0.2;
     border: 0px solid rgba(255,0,0,1);
 }
 
-/* 显示内容条目Widget中的置顶按钮按下 */
+
 QWidget#WidgetEntry>QPushButton#PopButton:pressed {
-    background-color:rgba(255,255,255,0.08); /*改变背景色*/
+    background-color:rgba(255,255,255,0.08);
     opacity:0.08;
     border: 0px solid rgba(255,0,0,1);
-}
+}*/
 
 /* 显示内容条目Widget中的编辑按钮 */
-QWidget#WidgetEntry>QPushButton#EditButon {
+/*QWidget#WidgetEntry>QPushButton#EditButon {
     width:34px;
     height:34px;
     margin-bottom: 0px;
@@ -82,26 +82,26 @@ QWidget#WidgetEntry>QPushButton#EditButon {
     background:rgba(255,255,255,30);
     opacity:0.12;
     border-radius:3px;
-}
+}*/
 
 /* 显示内容条目Widget中的置编辑钮悬乎 */
-QWidget#WidgetEntry>QPushButton#EditButon:hover {
-    background-color:rgba(255,255,255,36); /*改变背景色*/
+/*QWidget#WidgetEntry>QPushButton#EditButon:hover {
+    background-color:rgba(255,255,255,36);
     border-radius:3px;
     opacity:0.2;
     border: 0px solid rgba(255,0,0,1);
-}
+}*/
 
 /* 显示内容条目Widget中的编辑按钮按下 */
-QWidget#WidgetEntry>QPushButton#EditButon:pressed {
-    background-color:rgba(255,255,255,25); /*改变背景色*/
+/*QWidget#WidgetEntry>QPushButton#EditButon:pressed {
+    background-color:rgba(255,255,255,25);
     border-radius:3px;
     opacity:0.08;
     border: 0px solid rgba(255,0,0,1);
-}
+}*/
 
 /* 显示内容条目Widget中的删除按钮 */
-QWidget#WidgetEntry>QPushButton#RemoveButton {
+/*QWidget#WidgetEntry>QPushButton#RemoveButton {
     width: 34px;
     height: 34px;
     margin-bottom: 0px;
@@ -112,25 +112,25 @@ QWidget#WidgetEntry>QPushButton#RemoveButton {
     background:rgba(255,255,255,30);
     opacity: 0.12;
     border-radius: 3px;
-}
+}*/
 
 /* 显示内容条目Widget中的删除按钮悬乎 */
-QWidget#WidgetEntry>QPushButton#RemoveButton:hover {
-    background-color:rgba(255,255,255,36); /*改变背景色*/
+/*QWidget#WidgetEntry>QPushButton#RemoveButton:hover {
+    background-color:rgba(255,255,255,36);
     opacity:0.2;
     border-radius:3px;
     border: 0px solid rgba(255,0,0,1);
-}
+}*/
 
 /* 显示内容条目Widget中的删除按钮按下 */
-QWidget#WidgetEntry>QPushButton#RemoveButton:pressed {
-    background-color:rgba(255,255,255,0.08); /*改变背景色*/
+/*QWidget#WidgetEntry>QPushButton#RemoveButton:pressed {
+    background-color:rgba(255,255,255,0.08);
     opacity:0.08;
     border: 0px solid rgba(255,0,0,1);
-}
+}*/
 
 /* 清空所有的WidgetItem按扭 */
-QWidget#SearhWidget>QPushButton#CleanList {
+/*QWidget#SearhWidget>QPushButton#CleanList {
     width:80px;
     height:34px;
     margin-top:0px;
@@ -150,28 +150,26 @@ QWidget#SearhWidget>QPushButton#CleanList {
     line-height:24px;
     opacity:0.91;
     border:0px solid rgba(255,0,0,1);
-}
+}*/
 
 /* 清空所有的WidgetItem按扭悬浮时的效果 */
-QWidget#SearhWidget>QPushButton#CleanList:hover{
-    background-color:rgba(255,255,255,36); /*改变背景色*/
-    border-style:inset;               /*改变边框风格*/
+/*QWidget#SearhWidget>QPushButton#CleanList:hover{
+    background-color:rgba(255,255,255,36);
+    border-style:inset;
 
     border: 0px solid rgba(255,0,0,1);
-}
+}*/
 
 /* 清空所有的WidgetItem按扭按下时的效果 */
-QWidget#SearhWidget>QPushButton#CleanList:pressed{
-    background-color:rgba(255,255,255,25); /*改变背景色*/
-    border-style:inset;/*改变边框风格*/
+/*QWidget#SearhWidget>QPushButton#CleanList:pressed{
+    background-color:rgba(255,255,255,25);
+    border-style:inset;
 
     border: 0px solid rgba(255,0,0,1);
-}
+}*/
 
 /* 清空所有的QlineEdit按扭 */
 QLineEdit#SearchLabel>QPushButton#ClearTextButton {
-/*    width:21px;
-    height:21px;*/
     margin-top:0px;
     margin-left:0px;
     margin-bottom:2px;
@@ -186,7 +184,7 @@ QLineEdit#SearchLabel>QPushButton#ClearTextButton {
 }
 
 /* 查找栏的Lable */
-QWidget#SearhWidget>QLineEdit#SearchLabel {
+/*QWidget#SearhWidget>QLineEdit#SearchLabel {
     width:280px;
     height:30px;
     margin-top: 0px;
@@ -208,21 +206,21 @@ QWidget#SearhWidget>QLineEdit#SearchLabel {
     line-height:24px;
     opacity:0.91;
 
-}
+}*/
 
 /* 查找栏的Lable悬乎状态 */
-QWidget#SearhWidget>QLineEdit#SearchLabel:hover {
-    border-style:inset;               /*改变边框风格*/
+/*QWidget#SearhWidget>QLineEdit#SearchLabel:hover {
+    border-style:inset;
     border: 1px solid rgba(61,107,229,1);
     border-radius:4px;
-}
+}*/
 
 /* 查找栏的Lable焦点状态 */
-QWidget#SearhWidget>QLineEdit#SearchLabel:focus {
-    border-style:inset;   /*改变边框风格*/
+/*QWidget#SearhWidget>QLineEdit#SearchLabel:focus {
+    border-style:inset;
     border: 1px solid rgba(28, 47, 146, 1);
     border-radius:4px;
-}
+}*/
 
 /* 显示所有剪贴内容的WidgetList大小 */
 QListWidget#ShortcutOperationList {
@@ -260,32 +258,6 @@ QListWidget#SearchWidgetListWidget {
     opacity:0;
     border: 0px solid rgba(255,0,255,0);
     border:0px;
-}
-
-/* 显示内容的groupbox大小 */
-QGroupBox {
-    width:400px;
-    height:400px;
-    margin-top:0px;
-    margin-left:0px;
-    margin-bottom:0px;
-    margin-right:0px;
-
-    padding-top:0px;
-    padding-bottom:0px;
-    padding-left:0px;
-    padding-right:0px;
-
-    border: 0px solid rgba(255,0,0,1);
-    background:rgba(19, 19, 20, 0);
-    opacity:0.05;
-
-    font-size:14px;
-    font-family:Noto Sans CJK SC;
-    font-weight:400;
-    color:rgba(255,255,255,1);
-    line-height:40px;
-    opacity:0.91;
 }
 
 /* widget条目的Lable */
@@ -327,7 +299,7 @@ QListWidget:Item{
 }
 
 /* 无剪贴板内容字样 */
-QLabel#SideBarClipboardLable{
+/*QLabel#SideBarClipboardLable{
     width:70px;
     height:14px;
     margin-top:50px;
@@ -340,4 +312,4 @@ QLabel#SideBarClipboardLable{
     color:rgba(255,255,255,1);
     line-height:28px;
     opacity:0.57;
-}
+}*/

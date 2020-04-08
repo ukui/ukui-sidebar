@@ -29,7 +29,9 @@ SOURCES += \
     cleanpromptbox.cpp \
     clipBoardInternalSignal.cpp \
     customstyle.cpp \
+    customstyle_clean_pushbutton.cpp \
     customstyle_pushbutton_2.cpp \
+    customstyle_search_pushbutton.cpp \
         sidebarclipboardplugin.cpp \
     clipboardwidgetentry.cpp \
     editorwidget.cpp \
@@ -42,7 +44,9 @@ HEADERS += \
     cleanpromptbox.h \
     clipBoardInternalSignal.h \
     customstyle.h \
+    customstyle_clean_pushbutton.h \
     customstyle_pushbutton_2.h \
+    customstyle_search_pushbutton.h \
         sidebarclipboardplugin.h \
     clipboardwidgetentry.h \
     clipboardsignal.h \

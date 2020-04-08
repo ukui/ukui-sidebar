@@ -104,6 +104,8 @@ public:
     void createFindClipboardWidgetItem();                                   /* 创建查找条目 */
     void WhetherTopFirst();                                                 /* 设置新置顶的条目写入到剪贴版中去 */
     void connectWidgetEntryButton(ClipboardWidgetEntry * w);                /* 连接WIdgetEntry条目中三个按钮的槽函数 */
+    void createTipLable();                                                  /* 创建无剪贴板板字样 */
+    void createWidget();                                                    /* 创建剪贴板主Widget和搜索栏与条目的ListWidget界面 */
     QString SetFormatBody(QString text, ClipboardWidgetEntry *w);           /* 设置... */
     QListWidgetItem* iterationClipboardDataHash(ClipboardWidgetEntry *w);   /* 迭代Hash表m_pClipboardDataHash */
     QMimeData *copyMinedata(const QMimeData* mimeReference);                /* 拷贝QMimeData拷贝数据类型 */

@@ -41,33 +41,31 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
     }
     installEventFilter(this);
     m_bPromptBoxBool = true;
-    m_pSidebarClipboardWidget = new QWidget();
-    m_pSidebarClipboardWidget->setObjectName("ClipboardWidget");
-    m_pSidebarClipboardWidget->setContentsMargins(0,0,0,0);
 
-    m_pClipboardLaout = new QVBoxLayout;
-    m_pClipboardLaout->setContentsMargins(0,0,0,0);
-    m_pShortcutOperationListWidget = new ClipBoardLisetWidget;
-    m_pSearchWidgetListWidget      = new QListWidget;
+    /* 创建剪贴板主Widget和搜索栏与条目的ListWidget界面 */
+    createWidget();
 
-    m_pSideBarClipboardLable = new QLabel(tr("No clip content"));
-
-    /* 插件内部通信的信号类 */
-    ClipBoardInternalSignal::initInternalSignal();
-    ClipBoardInternalSignal *InternalSignal = ClipBoardInternalSignal::getGlobalInternalSignal();
-    connect(InternalSignal, &ClipBoardInternalSignal::CheckBoxSelectedSignal, this, [=]() {
-        m_bPromptBoxBool = false; //在点击确认键后判断是否有勾选不再提示这一功能
-    });
-    /* 当剪贴板条目发生变化的时候执行该槽函数 */
-    connect(this, &SidebarClipboardPlugin::Itemchange, this, &SidebarClipboardPlugin::ItemNumchagedSlots);
-
-    m_pSearchWidgetListWidget->setFixedSize(400, 42);
-    m_pShortcutOperationListWidget->setContentsMargins(0,0,0,0);
-    m_pSearchWidgetListWidget->setContentsMargins(0,0,0,0);
+    /* 创建无剪贴板板字样 */
+    createTipLable();
 
     /* 创建查找条目 */
     createFindClipboardWidgetItem();
 
+    /* 插件内部通信的信号类 */
+    ClipBoardInternalSignal::initInternalSignal();
+    ClipBoardInternalSignal *InternalSignal = ClipBoardInternalSignal::getGlobalInternalSignal();
+
+    /* 在点击确认键后判断是否有勾选不再提示这一功能 */
+    connect(InternalSignal, &ClipBoardInternalSignal::CheckBoxSelectedSignal, this, [=]() {
+        m_bPromptBoxBool = false;
+    });
+
+    /* 当剪贴板条目发生变化的时候执行该槽函数 */
+    connect(this, &SidebarClipboardPlugin::Itemchange, this, &SidebarClipboardPlugin::ItemNumchagedSlots);
+
+    /* 将控件加入到剪贴板界面中 */
+    m_pClipboardLaout = new QVBoxLayout;
+    m_pClipboardLaout->setContentsMargins(0,0,0,0);
     m_pClipboardLaout->addWidget(m_pSearchWidgetListWidget);
     m_pClipboardLaout->addWidget(m_pShortcutOperationListWidget);
     m_pClipboardLaout->addWidget(m_pSideBarClipboardLable);
@@ -79,6 +77,7 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
     m_pSearchWidgetListWidget->setObjectName("SearchWidgetListWidget");
     m_pSideBarClipboardLable->setObjectName("SideBarClipboardLable");
 
+    /* 监听系统剪贴板 */
     m_pSidebarClipboard = QApplication::clipboard();
     connect(m_pSidebarClipboard, &QClipboard::dataChanged, this, [=]() {
        const QMimeData *mimeData = new QMimeData();
@@ -93,6 +92,32 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
         m_pSidebarClipboardWidget->setStyleSheet(strQss);
         file.close();
     }
+}
+
+/* 创建剪贴板主Widget和搜索栏与条目的ListWidget界面 */
+void SidebarClipboardPlugin::createWidget()
+{
+    m_pSidebarClipboardWidget = new QWidget();
+    m_pSidebarClipboardWidget->setObjectName("ClipboardWidget");
+    m_pSidebarClipboardWidget->setContentsMargins(0,0,0,0);
+
+    m_pShortcutOperationListWidget = new ClipBoardLisetWidget;
+    m_pShortcutOperationListWidget->setContentsMargins(0,0,0,0);
+
+    m_pSearchWidgetListWidget      = new QListWidget;
+    m_pSearchWidgetListWidget->setFixedSize(400, 42);
+    m_pSearchWidgetListWidget->setContentsMargins(0,0,0,0);
+}
+
+/* 创建无剪贴板板字样 */
+void SidebarClipboardPlugin::createTipLable()
+{
+    m_pSideBarClipboardLable = new QLabel(tr("No clip content"));
+    m_pSideBarClipboardLable->setContentsMargins(165, 50, 132, 100);
+    QFont fontLable = m_pSideBarClipboardLable->font();
+    fontLable.setFamily("Noto Sans CJK SC");
+    fontLable.setPixelSize(14);
+    m_pSideBarClipboardLable->setFont(fontLable);
 }
 
 /* 构造原型的QMimeData数据类型 */
@@ -169,7 +194,7 @@ void SidebarClipboardPlugin::createWidgetEntry(const QMimeData *mimeData)
     w->setFixedSize(397, 42);
     if (nullptr == mimeData->urls().value(0).toString()) {
         text = mimeData->text();
-        qDebug() << "text文本数据为:" << text;
+//        qDebug() << "text文本数据为:" << text;
     } else if(mimeData->urls().value(0).toString() != "") {
         QList<QUrl> fileUrls = mimeData->urls();
 
@@ -194,6 +219,7 @@ void SidebarClipboardPlugin::createWidgetEntry(const QMimeData *mimeData)
         delete w;
         return;
     }
+
     /* hash插入QMimeData，保留原数据 */
     OriginalDataHashValue *s_pDataHashValue = new OriginalDataHashValue;
     s_pDataHashValue->WidgetEntry     = w;
@@ -209,7 +235,8 @@ void SidebarClipboardPlugin::createWidgetEntry(const QMimeData *mimeData)
 
     pListWidgetItem->setSizeHint(QSize(397,42));
     pListWidgetItem->setFlags(Qt::NoItemFlags);
-    //设置...字样
+
+    /* 设置...字样 */
     w->m_pCopyDataLabal->setText(SetFormatBody(text, w));
 
     /* 将按钮与槽对应上 */

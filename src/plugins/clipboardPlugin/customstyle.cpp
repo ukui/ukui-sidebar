@@ -25,6 +25,7 @@
 
 CustomStyle::CustomStyle(const QString &proxyStyleName, QObject *parent) : QProxyStyle (proxyStyleName)
 {
+    Q_UNUSED(parent);
 }
 
 void CustomStyle::drawComplexControl(QStyle::ComplexControl control, const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const
@@ -57,35 +58,71 @@ void CustomStyle::drawItemText(QPainter *painter, const QRect &rectangle, int al
 /// 如果你需要自己实现一个主题，这同样是你需要注意和考虑的点
 void CustomStyle::drawPrimitive(QStyle::PrimitiveElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const
 {
-    if (element == PE_PanelButtonCommand) {
-        qDebug()<<"draw pe button";
-        if (widget) {
-            bool isPressed = false;
-            bool isHover = false;
-            if (!option->state.testFlag(State_Sunken)) {
-                if (option->state.testFlag(State_MouseOver)) {
-                    isHover = true;
+    switch (element) {
+        case PE_PanelButtonCommand: {
+            if (option->state & State_MouseOver) {
+                if (option->state &  State_Sunken) {
+                    painter->save();
+                    painter->setRenderHint(QPainter::Antialiasing,true);
+                    painter->setPen(Qt::NoPen);
+                    QColor color(50,87,202,255);
+                    painter->setBrush(color);
+                    painter->drawRoundedRect(option->rect,4,4);
+                    painter->restore();
+                } else {
+                    painter->save();
+                    painter->setRenderHint(QPainter::Antialiasing,true);
+                    painter->setPen(Qt::NoPen);
+                    QColor color(107,142,235,255);
+                    painter->setBrush(color);
+                    painter->drawRoundedRect(option->rect,4, 4);
+                    painter->restore();
                 }
             } else {
-                isPressed = true;
-            }
-
-            QStyleOption opt = *option;
-            if (isHover) {
-                QColor color(107,142,235,255);
-                opt.palette.setColor(QPalette::Highlight, color);
-
-            }
-            if (isPressed) {
-                QColor color(50,87,202,255);
-                opt.palette.setColor(QPalette::Highlight, color);
-            }
-            if (!isHover && !isPressed) {
+                painter->save();
+                painter->setRenderHint(QPainter::Antialiasing,true);
+                painter->setPen(Qt::NoPen);
                 QColor color(61, 107, 229, 255);
-                opt.palette.setColor(QPalette::Button,color);
+                painter->setBrush(color);
+                painter->drawRoundedRect(option->rect, 4, 4);
+                painter->restore();
             }
-            return QProxyStyle::drawPrimitive(element, &opt, painter, widget);
-        }
+            return;
+        } break;
+        case PE_PanelLineEdit://UKUI Line edit style
+        {
+            // Conflict with qspinbox and so on, The widget text cannot use this style
+            painter->save();
+            if (const QStyleOptionFrame *panel = qstyleoption_cast<const QStyleOptionFrame *>(option)) {
+                painter->setRenderHint(QPainter::Antialiasing,true);
+                //Setpen is set to avoid a bug that collides with a white background
+                painter->setPen(Qt::NoPen);
+                QColor color(0,0,0,51);
+                painter->setBrush(color);
+                QFont font;
+                font.setFamily("Noto Sans CJK SC");
+                font.setPixelSize(14);
+                font.setWeight(400);
+                painter->setFont(font);
+                if (widget->isEnabled()) {
+                    if (option->state &State_MouseOver) {
+                        qDebug() << "State_MouseOver";
+                        QColor ColotPen(61,107,229,255);
+                        painter->setPen(ColotPen);
+                        painter->setBrush(color);
+                    }
+                    if(option->state &State_HasFocus) {
+                        qDebug() << "State_HasFocus";
+                        QColor ColotPen(28, 47, 146, 255);
+                        painter->setPen(ColotPen);
+                        painter->setBrush(color);
+                    }
+                }
+                painter->drawRoundedRect(panel->rect,4,4);
+            }
+            painter->restore();
+            return;
+        }break;
     }
     return QProxyStyle::drawPrimitive(element, option, painter, widget);
 }
