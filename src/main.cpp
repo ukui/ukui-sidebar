@@ -63,16 +63,13 @@ int main(int argc, char *argv[])
     parser.addOptions({debugOption});
     parser.process(a);
 
-    if (parser.isSet(debugOption)) {                                /* 根据命令行设定日志等级 */
+    if (parser.isSet(debugOption)) {                                    /* 根据命令行设定日志等级 */
         setLogLevel(QtDebugMsg);
+        setLogPath("~/.config" + LOG_FILE_NAME);                        /* 绑定打印日志文件路径 */
         qInstallMessageHandler(customLogMessageHandler);
     } else {
         setLogLevel(QtWarningMsg);
     }
-
-    QString LogFilePath = QCoreApplication::applicationDirPath();   /* 获取文件运行的当前路径 */
-    setLogPath(LogFilePath + LOG_FILE_NAME);                        /* 绑定打印日志文件路径 */
-
 
     QApplication::setQuitOnLastWindowClosed(false);
     SmallPluginsManage::SmallPluginsManageInit();                   /* 初始化侧边栏小插件管理容器 */

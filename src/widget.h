@@ -103,6 +103,7 @@ private:
     int                         m_nScreenHeight;                                //屏幕分辨率的高
     int                         m_nScreen_x;                                    //主屏的起始坐标X
     int                         m_nScreen_y;                                    //主屏的起始坐标Y
+    int                         m_pPeonySite;                                   //任务栏位置
 
     QObject*                    m_pNotificationPluginObject;                    //通知中心插件对象
 
@@ -134,7 +135,6 @@ private slots :
     void onResolutionChanged(int);                                              //当改变屏幕分辨率时重新获取屏幕分辨率
     void onNewNotification();                                                   //当没展开时，来了新通知才提示
     void twinkle();                                                             //新消息闪烁设置
-    void updateAnimationPosition(int, int, int, int);                           //更新动画坐标动态
     void showAnimationFinish();                                                 //展开动画完成
     void hideAnimationFinish();                                                 //隐藏动画完成
     void showAnimationAction(const QVariant &value);                            //展开动画开始

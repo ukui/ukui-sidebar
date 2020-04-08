@@ -24,6 +24,7 @@
 #include "sidebarpluginswidgets.h"
 #include <stdio.h>
 #include <QtDBus>
+#include <QGuiApplication>
 #include "customstyle.h"
 
 
@@ -365,7 +366,8 @@ void Widget::showAnimation()
     sidebarPluginsWidgets::getInstancePluinsWidgets()->setClipboardWidgetSize(clipboardhight);      /* 设定剪贴板高度 */
     int  AnimaStartSideBarSite[4];                           //侧边栏动画开始位置
     int  AnimaStopSidebarSite[4];                            //侧边栏动画结束位置
-    switch (getPanelSite())
+    m_pPeonySite = getPanelSite();
+    switch (m_pPeonySite)
     {
         case Widget::PanelDown :
             {
@@ -432,11 +434,6 @@ void Widget::showAnimation()
     m_pAnimationShowSidebarWidget->start();
 }
 
-void Widget::updateAnimationPosition(int x1, int y1, int x2, int y2)
-{
-    this->setGeometry(x1, y1, m_nInitalXPosition - x1, y2);
-}
-
 void Widget::showAnimationFinish()
 {
 }
@@ -445,7 +442,7 @@ void Widget::showAnimationAction(const QVariant &value)
 {
     QRect Rect = value.value<QRect>();
     int x = Rect.x();
-    if (getPanelSite() == Widget::PanelDown || getPanelSite() == Widget::PanelUp) {
+    if (m_pPeonySite == Widget::PanelDown || m_pPeonySite == Widget::PanelUp) {
         mostGrandWidget::getInstancemostGrandWidget()->setProperty("blurRegion", QRegion(QRect(x, 0, 400, m_nScreenHeight - connectTaskBarDbus())));
     }
     else {

@@ -261,7 +261,7 @@ QListWidget#SearchWidgetListWidget {
 }
 
 /* widget条目的Lable */
-QWidget#WidgetEntry>QLabel#EntryLable{
+QWidget#WidgetEntry>QLabel#EntryLable {
     width:200px;
     height:34px;
     font-size:15px;

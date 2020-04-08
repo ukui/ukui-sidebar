@@ -300,7 +300,6 @@ void sidebarPluginsWidgets::setSmallPluginsButtonBackgroudIsBlank()
 void sidebarPluginsWidgets::setClipboardWidgetSize(int ClipHight)
 {
     qDebug() << "设置小剪贴板的界面大小---->" << ClipHight;
-
     this->setFixedSize(400, ClipHight);
     m_pClipboardWidget->setFixedSize(400, ClipHight - 50);
 

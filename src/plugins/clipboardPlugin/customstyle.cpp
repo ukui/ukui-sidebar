@@ -106,13 +106,11 @@ void CustomStyle::drawPrimitive(QStyle::PrimitiveElement element, const QStyleOp
                 painter->setFont(font);
                 if (widget->isEnabled()) {
                     if (option->state &State_MouseOver) {
-                        qDebug() << "State_MouseOver";
                         QColor ColotPen(61,107,229,255);
                         painter->setPen(ColotPen);
                         painter->setBrush(color);
                     }
                     if(option->state &State_HasFocus) {
-                        qDebug() << "State_HasFocus";
                         QColor ColotPen(28, 47, 146, 255);
                         painter->setPen(ColotPen);
                         painter->setBrush(color);
