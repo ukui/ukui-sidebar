@@ -39,7 +39,23 @@ void submit_success::UI_init()
     label->setStyleSheet(QString::fromUtf8("font: 30px;\n"
                                            "color: rgb(68, 68, 68);"));
 
+    //--------设置圆角
+    QBitmap bmp(this->size());
 
+    bmp.fill();
+
+    QPainter p(&bmp);
+
+    p.setPen(Qt::NoPen);
+
+    p.setBrush(Qt::black);
+
+    p.setRenderHint(QPainter::Antialiasing);
+
+    p.drawRoundedRect(bmp.rect(),6,6);
+
+    setMask(bmp);
+    //----- ------------------------
 
     succ_closeBtn = new closeBtn_hover(this);
     succ_closeBtn->setGeometry(QRect(396, 4, 30, 30));
@@ -87,4 +103,17 @@ void submit_success::on_pushButton_clicked()
 void submit_success::succ_close_window()
 {
     this->close();
+}
+void submit_success::paintEvent(QPaintEvent *e)
+{
+    Q_UNUSED(e);
+    QStyleOption opt;
+    opt.init(this);
+    QPainter p(this);
+    p.save();
+    p.setBrush(Qt::white);
+    p.setPen(Qt::NoPen);
+    p.drawRoundedRect(opt.rect,0,0);
+    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+    p.restore();
 }

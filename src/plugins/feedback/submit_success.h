@@ -40,6 +40,11 @@ private slots:
     void on_pushButton_clicked();
     void succ_close_window();
 
+
+protected:
+    void paintEvent(QPaintEvent*);
+
+
 private:
     feedback *parentWnd;
 

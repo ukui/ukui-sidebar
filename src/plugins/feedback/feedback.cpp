@@ -41,18 +41,11 @@
 #include <QStandardPaths>
 #include "fileitem_init.h"
 #include <QTimer>
+#include "customstyle.h"
+
 feedback::feedback(QWidget *parent)
     : QMainWindow(parent)
 {
-
-    QString locale = QLocale::system().name();
-    QTranslator *translator_feedback;
-    translator_feedback = new QTranslator();
-    //英文环境加载en.qm
-    if(locale == "en_US"){
-        translator_feedback->load(QString("://translation/feedback_en_US.qm"));  //选择翻译文件
-        QApplication::installTranslator(translator_feedback);
-    }
 
     UI_init();
     feedback_init();
@@ -76,11 +69,29 @@ void feedback::UI_init()
     sizePolicy.setHeightForWidth(this->sizePolicy().hasHeightForWidth());
     this->setSizePolicy(sizePolicy);
     this->setSizeIncrement(QSize(0, 0));
-    this->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
     this->setWindowTitle(tr("用户反馈"));
     this->setFixedSize(600,550);
     this->setWindowIcon(QIcon(":/image/kylin-feedback.png"));
     this->setWindowFlags(Qt::FramelessWindowHint);//设置窗口无边框
+
+
+    //--------设置圆角
+    QBitmap bmp(this->size());
+
+    bmp.fill();
+
+    QPainter p(&bmp);
+
+    p.setPen(Qt::NoPen);
+
+    p.setBrush(Qt::black);
+
+    p.setRenderHint(QPainter::Antialiasing);
+
+    p.drawRoundedRect(bmp.rect(),6,6);
+
+    setMask(bmp);
+    //----- ------------------------
 
     centralwidget = new QWidget(this);
     centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
@@ -118,17 +129,21 @@ void feedback::UI_init()
     frame = new QFrame(centralwidget);
     frame->setObjectName(QString::fromUtf8("frame"));
     frame->setGeometry(QRect(140, 145, 320, 120));
-    frame->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);color:rgb(0,0,0)"));
     frame->setFrameShape(QFrame::StyledPanel);
     frame->setFrameShadow(QFrame::Raised);
     textEdit = new QTextEdit(frame);
     textEdit->setObjectName(QString::fromUtf8("textEdit"));
     textEdit->setGeometry(QRect(10, 10, 300, 100));
-    textEdit->setPlaceholderText(tr("请输入内容"));//设置详细输入框的提示信息
-    textEdit->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);\n"
-                                              "color:rgb(0,0,0);\n"
-                                              ""));
     textEdit->setFrameShape(QFrame::NoFrame);
+    QPalette palette_textedit = textEdit->palette();
+    palette_textedit.setBrush(QPalette::Base,Qt::white);
+    palette_textedit.setBrush(QPalette::Text,Qt::black);
+    palette_textedit.setBrush(QPalette::PlaceholderText,QColor("#CCCCCC"));
+    textEdit->setPalette(palette_textedit);
+    textEdit->setPlaceholderText(tr("请输入内容"));//设置详细输入框的提示信息
+
+
+
     label_4 = new QLabel(centralwidget);
     label_4->setText(tr("邮箱"));
     label_4->setObjectName(QString::fromUtf8("label_4"));
@@ -158,11 +173,11 @@ void feedback::UI_init()
     lineEdit_2 = new QLineEdit(centralwidget);
     lineEdit_2->setObjectName(QString::fromUtf8("lineEdit_2"));
     lineEdit_2->setGeometry(QRect(140, 275, 320, 30));
-    lineEdit_2->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);\n"
-                                                "border: 1px solid rgb(240, 240, 240);\n"
-                                                "color:rgb(0,0,0);\n"
-                                                ""));
-
+    lineEdit_2->setStyle(new CustomStyle("ukui"));
+    QPalette palette_lineedit_2 = lineEdit_2->palette();
+    palette_lineedit_2.setBrush(QPalette::Text,Qt::black);
+    palette_lineedit_2.setBrush(QPalette::PlaceholderText,QColor("#CCCCCC"));
+    lineEdit_2->setPalette(palette_lineedit_2);
 
     label_7 = new QLabel(centralwidget);
     label_7->setText(tr("上传附件"));
@@ -177,8 +192,11 @@ void feedback::UI_init()
     lineEdit->setReadOnly(true);
     lineEdit->setFrame(true);
     lineEdit->setPlaceholderText(tr("文件大小不能超过10MB"));
-    lineEdit->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);\n"
-                                              "border: 1px solid rgb(240, 240, 240);"));
+    lineEdit->setStyle(new CustomStyle("ukui"));
+    QPalette palette_lineedit = lineEdit->palette();
+    palette_lineedit.setBrush(QPalette::Text,Qt::black);
+    palette_lineedit.setBrush(QPalette::PlaceholderText,QColor("#CCCCCC"));
+    lineEdit->setPalette(palette_lineedit);
 
     pushButton = new browse_button(centralwidget);
     pushButton->setText(tr("浏览..."));
@@ -245,15 +263,15 @@ void feedback::UI_init()
     label_10 = new QLabel(frame_2);
     label_10->setObjectName(QString::fromUtf8("label_10"));
     label_10->setGeometry(QRect(15, 10, 200, 20));
-    label_10->setStyleSheet(QString::fromUtf8("border-color: rgb(255, 255, 255);color:rgb(0,0,0)"));
+    label_10->setStyleSheet(QString::fromUtf8("border-color: rgb(255, 255, 255);color:rgb(0,0,0);font:12px;"));
     label_12 = new QLabel(frame_2);
     label_12->setObjectName(QString::fromUtf8("label_12"));
     label_12->setGeometry(QRect(15, 30, 200, 20));
-    label_12->setStyleSheet(QString::fromUtf8("border-color: rgb(255, 255, 255);color:rgb(0,0,0)"));
+    label_12->setStyleSheet(QString::fromUtf8("border-color: rgb(255, 255, 255);color:rgb(0,0,0);font:12px;"));
     label_11 = new QLabel(frame_2);
     label_11->setObjectName(QString::fromUtf8("label_11"));
     label_11->setGeometry(QRect(15, 50, 200, 20));
-    label_11->setStyleSheet(QString::fromUtf8("border-color: rgb(255, 255, 255);color:rgb(0,0,0)"));
+    label_11->setStyleSheet(QString::fromUtf8("border-color: rgb(255, 255, 255);color:rgb(0,0,0);font:12px;"));
 
     label_8 = new QLabel(centralwidget);
     label_8->setText(tr("日志文件"));
@@ -629,6 +647,22 @@ void feedback::on_comboBox_currentIndexChanged(const QString &arg1)
 //提交按钮
 void feedback::on_pushButton_2_clicked()
 {
+    //判断邮箱格式
+
+    QRegExp rx("^[\\w-]+(\\.[\\w-]+)*@[\\w-]+(\\.[\\w-]+)+");
+    int pos=0;
+    QRegExpValidator v(rx, 0);
+    if(2==v.validate(email_str,pos)){
+        email_err_msg_label->hide();
+    }
+    else{
+        email_err_msg_label->show();
+        pushButton_2->setEnabled(false);//设置提交按钮属性
+        pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(233, 233, 233);color: rgb(255, 255, 255)");
+        return ;
+    }
+
+
     pushButton_2->setEnabled(false);
     pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(255, 255, 255)");
 
@@ -793,20 +827,8 @@ void feedback::on_lineEdit_2_textChanged()
         emailflag = 0;
         email_err_msg_label->hide();
     }
-    //判断邮箱格式
-    else {
-        QRegExp rx("^[\\w-]+(\\.[\\w-]+)*@[\\w-]+(\\.[\\w-]+)+");
-        int pos=0;
-        QRegExpValidator v(rx, 0);
-        if(2==v.validate(email_str,pos)){
-            email_err_msg_label->hide();
-            emailflag = 1;
-        }
-        else{
-            email_err_msg_label->show();
-            emailflag=0;
-        }
-    }
+    else
+        emailflag =1;
     if (describeflag == 1 && emailflag == 1){//邮箱和详细描述都已经填写
         pushButton_2->setEnabled(true);
         pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(255, 255, 255)");
@@ -818,10 +840,10 @@ void feedback::on_lineEdit_2_textChanged()
     }
 }
 
+
 //删除文件按钮槽函数
 void feedback::del_file_button_clicked()
 {
-    int rowNum = file_name_list.size();
     //QObject::sender()返回发送信号的对象的指针
     QPushButton *btn = qobject_cast<QPushButton*>(QObject::sender());
 
@@ -1117,3 +1139,19 @@ void feedback::set_request_header()
 {
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 }
+
+void feedback::paintEvent(QPaintEvent *e)
+{
+    QStyleOption opt;
+    opt.init(this);
+    QPainter p(this);
+    p.save();
+    p.setBrush(Qt::white);
+    p.setPen(Qt::NoPen);
+    p.drawRoundedRect(opt.rect,0,0);
+    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+    p.restore();
+
+}
+
+

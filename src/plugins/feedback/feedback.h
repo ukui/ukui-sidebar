@@ -65,6 +65,7 @@
 #include"hidebtnhover.h"
 #include <QJsonObject>
 #include <QJsonDocument>
+#include <QBitmap>
 
 class QSqlTableModel;
 class QPushButton;
@@ -145,8 +146,8 @@ public:
 
     void feedback_quit();
 
-//protected:
-//    void paintEvent(QPaintEvent*);
+protected:
+    void paintEvent(QPaintEvent*);
 
 
 signals:

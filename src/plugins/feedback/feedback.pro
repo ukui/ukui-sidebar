@@ -25,6 +25,7 @@ TRANSLATIONS += translation/feedback_en_US.ts
 SOURCES += \
     browse_button.cpp \
     closeBtn_hover.cpp \
+    customstyle.cpp \
     feedback.cpp \
     fileitem_init.cpp \
     hidebtnhover.cpp \
@@ -37,6 +38,7 @@ INCLUDEPATH    += ../../plugin-interface
 HEADERS += \
     browse_button.h \
     closeBtn_hover.h \
+    customstyle.h \
     feedback.h \
     fileitem_init.h \
     hidebtnhover.h \
