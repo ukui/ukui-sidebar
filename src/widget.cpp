@@ -143,7 +143,7 @@ bool Widget::loadNotificationPlugin()
 //加载剪贴板插件
 int Widget::ListenClipboardSignal()
 {
-    QDir pluginsDir("./plugins/sidebar_clipboardPlugin_plugins");
+    QDir pluginsDir("/usr/lib/ukui-sidebar/sidebar_clipboardPlugin_plugins");
     pluginsDir.setFilter(QDir::Files);
 
     QPluginLoader pluginLoader(pluginsDir.absoluteFilePath("libclipboardPlugin.so"));
