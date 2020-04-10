@@ -21,6 +21,7 @@
 
 #include <QWidget>
 #include "sidebarSmallPluginInterface.h"
+#include <QTranslator>
 class feedback_plugin : public QObject, public SidebarSmallPluginInterface
 {
 
@@ -31,9 +32,6 @@ class feedback_plugin : public QObject, public SidebarSmallPluginInterface
     Q_INTERFACES(SidebarSmallPluginInterface)
 public:
     feedback_plugin();
-
-
-    bool FeedBackFlag;
 
     ~feedback_plugin();
     const QString name() override {return QObject::tr("用户反馈");}
@@ -55,7 +53,8 @@ public:
 
     virtual void PluginsShowInterface() override;
 
-    QWidget * mp_feedback;
+    QWidget * mp_feedback=nullptr;
+    QTranslator *translator_feedback;
     QWidget*  centerWidget();
     void onNotification() ;
    // void UI_in_sidebar();

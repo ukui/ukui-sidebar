@@ -29,11 +29,13 @@ closeBtn_hover::~closeBtn_hover()
 }
 void closeBtn_hover::enterEvent(QEvent *e)
 {
+    Q_UNUSED(e);
     setStyleSheet("background-color:rgb(248,100,87);border-image:url(:/image/close_hover.png);border-radius:4px;");
 
 }
 void closeBtn_hover::leaveEvent(QEvent *e)
 {
+    Q_UNUSED(e);
     setStyleSheet("background-color:rgb(255,255,255);border-image:url(:/image/close_default.png);border-radius:4px;");
 }
 

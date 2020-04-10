@@ -68,14 +68,16 @@ signals:
     void    Sig_onNewNotification();
 
 private slots:
-    uint onAddSingleNotify(QString strAppName, QString strIconPath, QString strSummary, QString strBody, QDateTime dateTime, bool bNewNotificationFlag);    //处理新增单条通知
-    void onTakeInSingleNotify(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime);                                //处理收纳单条通知
+    uint onAddSingleNotify(QString strAppName, QString strIconPath, QString strSummary, QString strBody, QDateTime dateTime, int maxNum, bool bNewNotificationFlag);    //处理新增单条通知
+    void onTakeInSingleNotify(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime, int maxNum, bool bNewTakeinFlag);           //处理收纳单条通知
     void onClearAllMessage();                                   //清除所有消息
     void onClearAppMsg(AppMsg* pAppMsg);                        //处理删除通知应用消息槽函数
     void onClearTakeInAppMsg(AppMsg* pAppMsg);                  //处理删除收纳应用的槽函数
     void onShowTakeInMessage();                                 //切换至收纳盒
     void onCallControlPanel();                                  //调用控制面板
     void onCountTakeInBitAndUpate();                            //统计收纳位数并更新至右上角提示
+    void onCloseAppMsg(QString strAppName);                     //配置实时关闭通知消息
+    void onUpdateAppMaxNum(QString strAppName, int maxNum);     //配置实时更新通知消息最大数
 
 };
 

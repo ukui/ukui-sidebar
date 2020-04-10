@@ -44,11 +44,13 @@ public:
     uint    getAppPushTime() {return m_uNotifyTime;}
     QString getAppName() {return m_strAppName;}
     void    addSingleMsg(QString strIconPath, QString strSummary, QDateTime dateTime, QString strBody);
+    void    deleteExceedingMsg();                       //删除超出最大数的消息
     void    updateAppPushTime();                        //更新应用最新的推送时间
     int     getSingleMsgCount();                        //获取应用消息数
     void    statisticLeftItem();                        //统计应用剩余显示条数
     void    setTopWithSecondItem();                     //当应用最顶条被删除后,将第二条置顶
     void    setAppFold();                               //当app展开时，将app设置折叠
+    int     setMaxNumMsg(int nMaxNum) {m_nMaxCount = nMaxNum;}
 
 
 private:
@@ -61,15 +63,15 @@ private:
     uint                m_uNotifyTime;                  //保存推送时间的绝对时间
     bool                m_bTakeInFlag;                  //转变为收纳消息吗，默认为false
     bool                m_bFold;                        //折叠标志
-
+    int                 m_nMaxCount;                    //应用消息最大收录数
 
 
 signals:
     void                Sig_onDeleteAppMsg(AppMsg* p);              //该对象属于通知应用,发出删除应用的信号
     void                Sig_onDeleteTakeInAppMsg(AppMsg* p);        //当该对象属于收纳应用时,发出删除收纳应用的信号
     void                Sig_countTakeInBitAndUpate();               //发个统计收纳数信号
-    void                Sig_SendTakeInSingleMsg(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime);
-    void                Sig_SendAddSingleMsg(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime, bool bNewNotificationFlag);
+    void                Sig_SendTakeInSingleMsg(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime, int maxNum, bool bNewTakeinFlag);
+    void                Sig_SendAddSingleMsg(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime, int maxNum, bool bNewNotificationFlag);
 
 
 public slots:

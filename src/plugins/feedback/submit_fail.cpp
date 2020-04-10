@@ -124,17 +124,17 @@ submit_fail::~submit_fail()
 
 void submit_fail::on_pushButton_2_clicked()
 {
-    this->close();
+    this->hide();
     parentWnd->window_close();
 }
 void submit_fail::close_fail_window()
 {
-    this->close();
+    this->hide();
 }
 void submit_fail::resend_feedbackinfo()
 {
     parentWnd->resend_info_when_sendfail();
-    this->close();
+    this->hide();
 }
 void submit_fail::paintEvent(QPaintEvent *e)
 {
