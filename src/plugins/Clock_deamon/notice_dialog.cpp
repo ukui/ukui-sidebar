@@ -19,6 +19,7 @@
 #include <QSqlTableModel>
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
+#include <QDebug>
 
 Notice_Dialog::Notice_Dialog(QWidget *parent, int close_time, int num) :
     QDialog(parent),
@@ -58,7 +59,7 @@ Notice_Dialog::Notice_Dialog(QWidget *parent, int close_time, int num) :
     model_setup->select();
 
     music = new QMediaPlayer(this);//初始化音乐
-    QMediaPlaylist *playlist = new QMediaPlaylist(this);//初始化播放列表
+    playlist = new QMediaPlaylist(this);//初始化播放列表
     if(num >= 0)
     {
         if(model->index(num, 2).data().toString().compare(tr("玻璃"))==0){
@@ -91,8 +92,30 @@ Notice_Dialog::Notice_Dialog(QWidget *parent, int close_time, int num) :
 
 Notice_Dialog::~Notice_Dialog()
 {
-    timer->stop();
-    music->stop();
+  timer->stop();
+   music->stop();
+    delete timer;
+    delete music;
+    delete playlist;
+
+    delete gridLayout_4;
+    delete horizontalLayout_2;
+    delete horizontalSpacer_2;
+    delete verticalLayout;
+    delete horizontalLayout_5;
+    delete horizontalSpacer_4;
+    delete label_2;
+    delete horizontalSpacer_5;
+    delete label;
+    delete horizontalSpacer_3;
+    delete verticalSpacer;
+    delete horizontalLayout;
+    delete label_3;
+    delete label_4;
+    delete horizontalSpacer;
+    delete pushButton;
+    delete verticalSpacer_2;
+   qDebug()<<"------Notice_Dialog---------";
 }
 
 void Notice_Dialog::set_dialog_close()

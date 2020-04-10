@@ -46,6 +46,9 @@ VerticalScroll_99::VerticalScroll_99(QWidget *parent) :
 
 VerticalScroll_99::~VerticalScroll_99()
 {
+    delete timer_21111;
+    delete homingAni;
+    qDebug()<<"-------VerticalScroll_99---------";
 
 }
 /*

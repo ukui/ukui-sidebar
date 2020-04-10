@@ -49,6 +49,7 @@ public:
     void setupUi(QDialog *Notice_Dialog);
     void retranslateUi(QDialog *Notice_Dialog);
 
+    QMediaPlaylist *playlist;
     QGridLayout *gridLayout_4;
     QHBoxLayout *horizontalLayout_2;
     QSpacerItem *horizontalSpacer_2;

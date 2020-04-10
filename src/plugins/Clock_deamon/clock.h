@@ -223,7 +223,7 @@ private:
     bool countdown_isStarted_2;
     bool stopwatch_isStarted;
 
-    QMediaPlayer *player = new QMediaPlayer;
+    QMediaPlayer *player;
     QString ring;//铃声名字
 
     QPixmap pixmap1;
@@ -247,8 +247,6 @@ private:
     QPixmap on_pixmap;
     QPixmap off_pixmap;
     QPixmap clock_icon;
-
-    QLabel *cTimeLabe;
 
     QDialog *dialog;
     QFont alarmFont;

@@ -16,6 +16,7 @@
 *
 */
 #include "DotLineDemo.h"
+#include <QDebug>
 
 DotLineDemo::DotLineDemo(QWidget *parent):
      QWidget(parent)
@@ -25,6 +26,8 @@ DotLineDemo::DotLineDemo(QWidget *parent):
 
 DotLineDemo::~DotLineDemo()
 {
+    //delete widget;
+    qDebug()<<"-------DotLineDemo---------";
 
 }
 
