@@ -32,7 +32,7 @@ color: rgb(255, 255, 255);
     <string notr="true">border-radius:7px;</string>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="page">
     <widget class="QPushButton" name="count_stat">
@@ -45,10 +45,11 @@ color: rgb(255, 255, 255);
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">color: rgb(255, 255, 255);
+      <string notr="true">QPushButton{color: rgb(255, 255, 255);
 background-color: rgba(39,207,129,0.9);
  border-radius:4px;
-font: 11pt &quot;Sans Serif&quot;;
+font: 11pt ;}
+QPushButton:hover{background-color: rgb(27, 143, 89);}
 
 </string>
      </property>
@@ -95,11 +96,13 @@ font: 11pt &quot;Sans Serif&quot;;
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">width:56px;
-font: 11pt &quot;Sans Serif&quot;;
+        <string notr="true">QPushButton{
+width:56px;
+font: 11pt ;
 height:36px;
 background:rgba(46,46,46,1);
-border-radius:4px;
+border-radius:4px;}
+QPushButton:hover{background:rgba(143, 97, 47, 0.1)}
 </string>
        </property>
        <property name="text">
@@ -116,12 +119,13 @@ border-radius:4px;
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">width:56px;
+        <string notr="true">QPushButton{
+width:56px;
+font: 11pt ;
 height:36px;
 background:rgba(46,46,46,1);
-border-radius:4px;
-font: 11pt &quot;Sans Serif&quot;;
-</string>
+border-radius:4px;}
+QPushButton:hover{background:rgba(143, 97, 47, 0.1)}</string>
        </property>
        <property name="text">
         <string>10分钟</string>
@@ -137,11 +141,13 @@ font: 11pt &quot;Sans Serif&quot;;
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">width:56px;
+        <string notr="true">QPushButton{
+width:56px;
+font: 11pt ;
 height:36px;
 background:rgba(46,46,46,1);
-border-radius:4px;
-font: 11pt &quot;Sans Serif&quot;;</string>
+border-radius:4px;}
+QPushButton:hover{background:rgba(143, 97, 47, 0.1)}</string>
        </property>
        <property name="text">
         <string>20分钟</string>
@@ -157,11 +163,13 @@ font: 11pt &quot;Sans Serif&quot;;</string>
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">width:56px;
+        <string notr="true">QPushButton{
+width:56px;
+font: 11pt ;
 height:36px;
 background:rgba(46,46,46,1);
-border-radius:4px;
-font: 11pt &quot;Sans Serif&quot;;</string>
+border-radius:4px;}
+QPushButton:hover{background:rgba(143, 97, 47, 0.1)}</string>
        </property>
        <property name="text">
         <string>30分钟</string>
@@ -177,12 +185,13 @@ font: 11pt &quot;Sans Serif&quot;;</string>
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">width:56px;
-font: 11pt &quot;Sans Serif&quot;;
+        <string notr="true">QPushButton{
+width:56px;
+font: 11pt ;
 height:36px;
 background:rgba(46,46,46,1);
-border-radius:4px;
-</string>
+border-radius:4px;}
+QPushButton:hover{background:rgba(143, 97, 47, 0.1)}</string>
        </property>
        <property name="text">
         <string>60分钟</string>
@@ -272,11 +281,13 @@ opacity:0.45;
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(255, 255, 255);</string>
+        <string notr="true">QPushButton{color: rgb(255, 255, 255);
+ background-color: rgba(231,159,78,0.9);
+ border-radius:34px;}
+ QPushButton:hover{background:rgba(143, 97, 47, 0.6)}</string>
        </property>
        <property name="text">
-        <string/>
+        <string>暂停</string>
        </property>
       </widget>
       <widget class="Line" name="line_3">
@@ -401,11 +412,12 @@ font: 36pt ;
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">width:100px;
-height:32px;
+      <string notr="true">QPushButton{width:100px;
+ height:32px;
 background: rgba(39,207,129,0.9) ;
-border-radius:4px;
-font: 12pt &quot;Sans Serif&quot;;
+border-radius:4px;font: 12pt;}
+
+QPushButton:hover{background-color: rgb(27, 143, 89);}
 </string>
      </property>
      <property name="text">
@@ -488,11 +500,16 @@ background-color: rgb(76, 76, 76);</string>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(255, 255, 255);</string>
+      <string notr="true">QPushButton{
+color: rgb(255, 255, 255);
+background-color: rgba(39,207,129,0.9);
+border-radius:34px;
+}
+QPushButton:hover{background-color: rgb(27, 143, 89);}
+</string>
      </property>
      <property name="text">
-      <string/>
+      <string>开始</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_5">
@@ -541,12 +558,10 @@ font: 36pt ;</string>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">width:100px;
-height:32px;
-background:rgba(44,44,46,1);
-border:1px solid rgba(68,68,71,1);
+      <string notr="true">background:rgba(28,28,30,1);
+border:1px solid rgba(52,52,56,1);
 border-radius:4px;
-</string>
+color: rgb(65, 65, 65);</string>
      </property>
      <property name="text">
       <string>复位</string>
@@ -562,11 +577,10 @@ border-radius:4px;
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">width:100px;
-height:32px;
-background:rgba(44,44,46,1);
-border:1px solid rgba(68,68,71,1);
+      <string notr="true">background:rgba(28,28,30,1);
+border:1px solid rgba(52,52,56,1);
 border-radius:4px;
+color: rgb(65, 65, 65);
 </string>
      </property>
      <property name="text">
@@ -778,11 +792,11 @@ background-color: rgb(102, 102, 102);
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">width:100px;
-height:32px;
+     <string notr="true">QPushButton{
 background:rgba(44,44,46,1);
 border:1px solid rgba(68,68,71,1);
-border-radius:4px;</string>
+border-radius:4px;}
+QPushButton:hover{background:rgba(143, 97, 47, 0.1)}</string>
     </property>
     <property name="text">
      <string>删除闹铃</string>
@@ -798,11 +812,11 @@ border-radius:4px;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">width:100px;
-height:32px;
+     <string notr="true">QPushButton{
 background: rgb(37, 200, 124);
 border:1px solid rgba(68,68,71,1);
-border-radius:4px;</string>
+border-radius:4px;}
+QPushButton:hover{background-color: rgb(27, 143, 89);}</string>
     </property>
     <property name="text">
      <string>保存</string>
@@ -840,11 +854,13 @@ opacity:0.45;
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">width:100px;
+     <string notr="true">QPushButton{
+width:100px;
 height:32px;
 background:rgba(44,44,46,1);
 border:1px solid rgba(68,68,71,1);
-border-radius:4px;</string>
+border-radius:4px;}
+QPushButton:hover{background:rgba(143, 97, 47, 0.1)}</string>
     </property>
     <property name="text">
      <string>取消</string>
@@ -860,11 +876,11 @@ border-radius:4px;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">width:100px;
-height:32px;
+     <string notr="true">QPushButton{
 background: rgb(37, 200, 124);
 border:1px solid rgba(68,68,71,1);
-border-radius:4px;</string>
+border-radius:4px;}
+QPushButton:hover{background-color: rgb(27, 143, 89);}</string>
     </property>
     <property name="text">
      <string>保存</string>

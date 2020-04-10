@@ -134,7 +134,6 @@ Clock::Clock(QWidget *parent) :
     ui->pushButton_19->setIcon(bgPixmap);
     //设置定时器每个多少毫秒发送一个timeout()信号
     countdown_timer->setInterval(1000);
-    ui->count_push->setStyleSheet("border-image: url(:/push_1.png);");
     countdown_hour = 0;
     countdown_minute = 0;
     countdown_second = 9;
@@ -142,11 +141,6 @@ Clock::Clock(QWidget *parent) :
     countdown_isStarted = 0;
     countdown_isStarted_2 = 0;
     //------------秒表-----------------------------------------------------------------------------------
-    //  ui->pushButton_Start->setIcon(pixmap8);
-    ui->pushButton_Start->setFlat(true);
-    ui->pushButton_Start->setVisible(true);
-    ui->pushButton_Start->setFocusPolicy(Qt::NoFocus);
-    ui->pushButton_Start->setStyleSheet("border-image: url(:/start_1.png);");
     //初始化定时器
     timer = new QTimer();
     //信号和槽
@@ -316,7 +310,21 @@ void Clock::Count_down()
 void Clock::on_pushButton_Start_clicked()
 {
     if (!isStarted){
-        ui->pushButton_Start->setStyleSheet("border-image: url(:/push_1.png);");
+        ui->pushButton_Start->setText(tr("暂停"));
+        ui->pushButton_Start->setStyleSheet("QPushButton{color: rgb(255, 255, 255);\
+                                            background-color: rgba(231,159,78,0.9);\
+                                            border-radius:34px;}\
+                                            QPushButton:hover{background:rgba(143, 97, 47, 0.6)}");
+        ui->pushButton_ring->setStyleSheet("QPushButton{color: rgb(255, 255, 255);\
+                                           background:rgba(44,44,46,1);\
+                                           border:1px solid rgba(68,68,71,1);\
+                                           border-radius:4px;}\
+                                           QPushButton:hover{background:rgba(143, 97, 47, 0.1)}");
+        ui->pushButton_timeselect->setStyleSheet("background:rgba(28,28,30,1);\
+                                           border:1px solid rgba(52,52,56,1);\
+                                           border-radius:4px;\
+                                           color: rgb(65, 65, 65);");
+
         if(stopwatch_isStarted == 0)
         {
             timer_2->start();
@@ -332,7 +340,21 @@ void Clock::on_pushButton_Start_clicked()
             stopwatch_isStarted = 0;
         }
         isStarted=0;
-        ui->pushButton_Start->setStyleSheet("border-image: url(:/continu.png);");
+        ui->pushButton_Start->setText(tr("继续"));
+        ui->pushButton_Start->setStyleSheet("QPushButton{\
+                                            color: rgb(255, 255, 255);\
+                                            background-color: rgba(39,207,129,0.9);\
+                                            border-radius:34px;\
+                                            }QPushButton:hover{background-color: rgb(27, 143, 89);}");
+        ui->pushButton_ring->setStyleSheet("background:rgba(28,28,30,1);\
+                                           border:1px solid rgba(52,52,56,1);\
+                                           border-radius:4px;\
+                                           color: rgb(65, 65, 65);");
+        ui->pushButton_timeselect->setStyleSheet("QPushButton{color: rgb(255, 255, 255);\
+                                           background:rgba(44,44,46,1);\
+                                           border:1px solid rgba(68,68,71,1);\
+                                           border-radius:4px;}\
+                                           QPushButton:hover{background:rgba(143, 97, 47, 0.1)}");
     }
     return;
 }
@@ -361,7 +383,7 @@ void Clock::on_pushButton_ring_clicked()
         stopwatch_w[stopwatch_item_flag] = new stopwatch_item(ui->listWidget_2);
 
         stopwatch_w[stopwatch_item_flag]->stopwatch1->setText(tr("计次")+QString::number(stopwatch_item_flag));
-        stopwatch_w[stopwatch_item_flag]->stopwatch2->setText(stopwatch_jg_h+":"+stopwatch_jg_m+"."+stopwatch_jg_s);
+        stopwatch_w[stopwatch_item_flag]->stopwatch2->setText(tr("间隔 ")+stopwatch_jg_h+":"+stopwatch_jg_m+"."+stopwatch_jg_s);
         stopwatch_w[stopwatch_item_flag]->stopwatch3->setText(stopwatch_h+":"+stopwatch_m+"."+stopwatch_s);
 
         ui->listWidget_2->setItemWidget(stopwatch_aItem[stopwatch_item_flag],stopwatch_w[stopwatch_item_flag]);
@@ -381,6 +403,11 @@ void Clock::on_pushButton_ring_clicked()
 void Clock::on_pushButton_timeselect_clicked()
 {
     if(nullptr != timer){
+        if(isStarted)
+        {
+            return;
+        }
+
         timer->stop();
         timer_2->stop();
         ui->label_4->setText("00:00.00");
@@ -391,7 +418,16 @@ void Clock::on_pushButton_timeselect_clicked()
         stopwatch_hour = 0;
         stopwatch_minute = 0;
         stopwatch_second = 0;
-        ui->pushButton_Start->setStyleSheet("border-image: url(:/start_1.png);");
+        ui->pushButton_Start->setText(tr("开始"));
+        ui->pushButton_Start->setStyleSheet("QPushButton{\
+                                            color: rgb(255, 255, 255);\
+                                            background-color: rgba(39,207,129,0.9);\
+                                            border-radius:34px;\
+                                            }QPushButton:hover{background-color: rgb(27, 143, 89);}");
+        ui->pushButton_timeselect->setStyleSheet("background:rgba(28,28,30,1);\
+                                           border:1px solid rgba(52,52,56,1);\
+                                           border-radius:4px;\
+                                           color: rgb(65, 65, 65);");
 
         for (int i=0; i < stopwatch_item_flag; i++) {
             delete stopwatch_w[i];
@@ -419,9 +455,11 @@ void Clock::on_pushButton_clicked()
     ui->stackedWidget->setCurrentIndex(0);
     ui->pushButton->setStyleSheet("background-color: rgba(39,207,129,0.9); border-radius:4px;");
     ui->label->setStyleSheet("color: rgb(39, 207, 129);");
-    ui->pushButton_2->setStyleSheet("background-color: rgb(14, 19, 22);");
+    ui->pushButton_2->setStyleSheet("QPushButton{background-color: rgb(14, 19, 22);}"
+                                    "QPushButton:hover{background-color: rgb(27, 143, 89);border-radius:4px;}");
     ui->label_2->setStyleSheet("color: rgb(255, 255, 255);");
-    ui->pushButton_3->setStyleSheet("background-color: rgb(14, 19, 22);");
+    ui->pushButton_3->setStyleSheet("QPushButton{background-color: rgb(14, 19, 22);}"
+                                    "QPushButton:hover{background-color: rgb(27, 143, 89);border-radius:4px;}");
     ui->label_3->setStyleSheet("color: rgb(255, 255, 255);");
 
     ui->pushButton->setFlat(0);
@@ -435,9 +473,11 @@ void Clock::on_pushButton_2_clicked()
     ui->stackedWidget->setCurrentIndex(1);
     ui->pushButton_2->setStyleSheet("background-color: rgba(39,207,129,0.9); border-radius:4px;");
     ui->label_2->setStyleSheet("color: rgb(39, 207, 129);");
-    ui->pushButton->setStyleSheet("background-color: rgb(14, 19, 22);");
+    ui->pushButton->setStyleSheet("QPushButton{background-color: rgb(14, 19, 22);}"
+                                  "QPushButton:hover{background-color: rgb(27, 143, 89);border-radius:4px;}");
     ui->label->setStyleSheet("color: rgb(255, 255, 255);");
-    ui->pushButton_3->setStyleSheet("background-color: rgb(14, 19, 22);");
+    ui->pushButton_3->setStyleSheet("QPushButton{background-color: rgb(14, 19, 22);}"
+                                    "QPushButton:hover{background-color: rgb(27, 143, 89);border-radius:4px;}");
     ui->label_3->setStyleSheet("color: rgb(255, 255, 255);");
 
     ui->pushButton->setFlat(1);
@@ -451,9 +491,11 @@ void Clock::on_pushButton_3_clicked()
     ui->stackedWidget->setCurrentIndex(2);
     ui->pushButton_3->setStyleSheet("background-color:rgba(39,207,129,0.9); border-radius:4px;");
     ui->label_3->setStyleSheet("color: rgb(39, 207, 129);");
-    ui->pushButton_2->setStyleSheet("background-color: rgb(14, 19, 22);");
+    ui->pushButton_2->setStyleSheet("QPushButton{background-color: rgb(14, 19, 22);}"
+                                    "QPushButton:hover{background-color: rgb(27, 143, 89);border-radius:4px;}");
     ui->label_2->setStyleSheet("color: rgb(255, 255, 255);");
-    ui->pushButton->setStyleSheet("background-color: rgb(14, 19, 22);");
+    ui->pushButton->setStyleSheet("QPushButton{background-color: rgb(14, 19, 22);}"
+                                  "QPushButton:hover{background-color: rgb(27, 143, 89);border-radius:4px;}");
     ui->label->setStyleSheet("color: rgb(255, 255, 255);");
 
     ui->pushButton->setFlat(1);
@@ -1165,14 +1207,11 @@ void Clock::startbtn_countdown(){
         }
         int ringmax = timer_ring99->m_currentValue*3600 + timer_ring60->m_currentValue*60 + timer_ring60_2->m_currentValue;
         ui->page_5->RoundBar3->time_max = ringmax;
-        ui->count_stat->setStyleSheet("\
-width:100px;\
-height:32px;\
-background:rgba(44,44,46,1);\
-border:1px solid rgba(68,68,71,1);\
-border-radius:4px;\
-font: 11pt 'Sans Serif';\
-");
+        ui->count_stat->setStyleSheet("QPushButton{background:rgba(44,44,46,1);\
+                                        border:1px solid rgba(68,68,71,1);\
+                                        border-radius:4px;\
+                                        font: 11pt; }\
+                                        QPushButton:hover{background:rgba(143, 97, 47, 0.1)}");
         countdown_isStarted=1;
         ui->count_stat->setText(tr("结束"));
         ui->stackedWidget_4->setCurrentIndex(1);
@@ -1182,12 +1221,11 @@ font: 11pt 'Sans Serif';\
     } else {
         ui->page_5->RoundBar3->ring_max = 3600;
         ui->page_5->RoundBar3->setValue(3600);//初始化倒计时进度圈
-        ui->count_stat->setStyleSheet("\
-color: rgb(255, 255, 255);\
-background-color: rgba(39,207,129,0.9);\
-border-radius:4px;\
-font: 11pt 'Sans Serif';\
-        ;");
+        ui->count_stat->setStyleSheet("QPushButton{color: rgb(255, 255, 255);\
+                                      background-color: rgba(39,207,129,0.9);\
+                                       border-radius:4px;\
+                                      font: 11pt ;}\
+                                      QPushButton:hover{background-color: rgb(27, 143, 89);}");
 
         countdown_timer->stop();
         ui->page_5->timer->stop();
@@ -1200,7 +1238,11 @@ font: 11pt 'Sans Serif';\
         ui->label_9->setText("00:00:00");
         ui->label_8->setText("00:00:00");
         ui->stackedWidget_4->setCurrentIndex(0);
-        ui->count_push->setStyleSheet("border-image: url(:/push_1.png);");//点击结束,初始化暂停继续按钮
+        ui->count_push->setText(tr("暂停"));
+        ui->count_push->setStyleSheet("QPushButton{color: rgb(255, 255, 255);\
+                                      background-color: rgba(231,159,78,0.9);\
+                                      border-radius:34px;}\
+                                      QPushButton:hover{background:rgba(143, 97, 47, 0.6)}");
     }
     return;
 }
@@ -1306,13 +1348,23 @@ void Clock::get_countdown_over_time()
 void Clock::on_count_push_clicked()
 {
     if (countdown_isStarted_2){
-        ui->count_push->setStyleSheet("border-image: url(:/push_1.png);");
+        ui->count_push->setText(tr("暂停"));
+        ui->count_push->setStyleSheet("QPushButton{color: rgb(255, 255, 255);\
+                                      background-color: rgba(231,159,78,0.9);\
+                                      border-radius:34px;}\
+                                      QPushButton:hover{background:rgba(143, 97, 47, 0.6)}");
         countdown_timer->start();
         ui->page_5->timer->start();
         countdown_isStarted_2=0;
 
     } else {
-        ui->count_push->setStyleSheet("border-image: url(:/continu.png);");
+        ui->count_push->setText(tr("继续"));
+        ui->count_push->setStyleSheet("QPushButton{\
+                                      color: rgb(255, 255, 255);\
+                                      background-color: rgba(39,207,129,0.9);\
+                                      border-radius:34px;\
+                                      }\
+                                      QPushButton:hover{background-color: rgb(27, 143, 89);}");
         countdown_timer->stop();
         ui->page_5->timer->stop();
         countdown_isStarted_2=1;
