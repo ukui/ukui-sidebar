@@ -9,7 +9,8 @@ Build-Depends: debhelper-compat (= 12),
                libqt5svg5-dev,
                qtmultimedia5-dev,
                qttools5-dev-tools,
-	       libgsettings-qt-dev
+	       libgsettings-qt-dev,
+	       libdconf-dev
 Standards-Version: 4.5.0
 Rules-Requires-Root: no
 Homepage: https://github.com/ukui/ukui-sidebar.git

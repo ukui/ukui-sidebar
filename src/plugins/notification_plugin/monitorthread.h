@@ -22,11 +22,11 @@
 #include <QThread>
 #include <QDateTime>
 #include <QGSettings>
+#include <QMap>
+
 class NotificationPlugin;
 class QProcess;
 class QTimer;
-
-#define UKUI_CONTROL_CENTER_NOTIFY "org.ukui.control-center.noticeorigin"
 
 class MonitorThread : public QThread
 {
@@ -35,19 +35,26 @@ public:
     MonitorThread(NotificationPlugin *parent);
     void run();                                 //线程入口函数（工作线程的主函数）
     void extractData(QString strOutput);
-    void listeningAppNotificationStatus();
+    void getSettingsValue();
+    QList<char *> listExistsPath();
+    void fromSettingsGetInfoToList();
+
 private:
     NotificationPlugin*     m_parent;           //传一个插件对象指针，用来回传槽函数
     QProcess*               m_pProcess;
-    /*QGSettings*             m_pSettings;
-    QStringList             m_pStorageAppList; */
+    QGSettings*             m_pSettings;
+    QMap<QString, int>      m_nAppMaxNum;
+    QMap<QString, bool>     m_mapAppSwitch;
 
 signals:
-    void Sig_Notify(QString, QString, QString, QString, QDateTime, bool);
-    void Sig_Takein(QString,QString,QString,QString,QDateTime);
+    void Sig_Notify(QString, QString, QString, QString, QDateTime, int, bool);
+    void Sig_Takein(QString, QString, QString, QString, QDateTime, int, bool);
+    void Sig_CloseAppMsg(QString strAppName);
+    void Sig_UpdateAppMaxNum(QString strAppName, int maxNum);
+
 public slots:
     void readOutputData();
-//    void appNotifySettingChangedSlot();
+    void appNotifySettingChangedSlot();
 };
 
 #endif // MONITORTHREAD_H

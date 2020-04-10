@@ -62,7 +62,7 @@ protected:
 
 private:
     QVBoxLayout*    m_pAppVLaout;
-    QHBoxLayout*    pIconHLayout;
+    QHBoxLayout*    m_pIconHLayout;
     QWidget*        m_pSingleWidget;                //除去底部6px的空白之外的一个内框部件
     QWidget*        m_pAnimationBaseMapWidget;      //动画底图动态模拟大小替身部件
     QWidget*        m_pIconWidget;                  //在动画中暂定高38px
@@ -77,7 +77,7 @@ private:
     QLabel*         m_pBodyLabel;                   //正文标签,收缩时,在动画中暂定高24px
     QWidget*        m_pShowLeftWidget;              //显示该应用未展开部件
     QLabel*         m_pShowLeftItemLabel;           //显示该应用未展开条数
-    QSpacerItem*    m_pItem;
+
 
 
     QString         m_strIconPath;                  //图标路径

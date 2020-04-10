@@ -20,7 +20,7 @@
 #include "appmsg.h"
 #include "notification_plugin.h"
 #include "singlemsg.h"
-
+#include  "monitorthread.h"
 AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
 {
     m_bFold = true;
@@ -28,6 +28,8 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
     m_strAppName = strAppName;
     this->setFixedWidth(380);
     this->adjustSize();
+
+    m_nMaxCount = 20;
 
     //App信息中的总的垂直布局器
     m_pMainVLaout = new QVBoxLayout();
@@ -59,9 +61,9 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
     connect(this, SIGNAL(Sig_onDeleteTakeInAppMsg(AppMsg*)), parent, SLOT(onClearTakeInAppMsg(AppMsg*)));
 
     //发个信号通知插件收纳单条应用消息
-    connect(this, SIGNAL(Sig_SendTakeInSingleMsg(QString, QString, QString, QString, QDateTime)), parent, SLOT(onTakeInSingleNotify(QString, QString, QString, QString, QDateTime)));
+    connect(this, SIGNAL(Sig_SendTakeInSingleMsg(QString, QString, QString, QString, QDateTime,int, bool)), parent, SLOT(onTakeInSingleNotify(QString, QString, QString, QString, QDateTime,int, bool)));
     //发个信号通知插件恢复单条应用消息
-    connect(this, SIGNAL(Sig_SendAddSingleMsg(QString, QString, QString, QString, QDateTime, bool)), parent, SLOT(onAddSingleNotify(QString, QString, QString, QString, QDateTime, bool)));
+    connect(this, SIGNAL(Sig_SendAddSingleMsg(QString, QString, QString, QString, QDateTime, int, bool)), parent, SLOT(onAddSingleNotify(QString, QString, QString, QString, QDateTime, int, bool)));
 
     //发个统计收纳数更新信号
     connect(this, SIGNAL(Sig_countTakeInBitAndUpate()), parent, SLOT(onCountTakeInBitAndUpate()));
@@ -93,6 +95,24 @@ void AppMsg::statisticLeftItem()
     pTopSingleMsg->setLeftItem(nShowLeftCount);
     return;
 }
+
+//当显示的最大消息大于设置的消息数目时删除最早的消息
+void AppMsg::deleteExceedingMsg()
+{
+    int nIndex = -1;
+    while (m_listSingleMsg.count() > m_nMaxCount)
+    {
+        nIndex = m_listSingleMsg.count() - 1;
+        if (-1 == nIndex)
+        {
+            return;
+        }
+
+        SingleMsg* pSingleMsg = m_listSingleMsg.at(nIndex);
+        onDeleSingleMsg(pSingleMsg);
+    }
+}
+
 
 //新增单条消息至通知列表，崭新消息需要new，然后添加至列表最上面
 void AppMsg::addSingleMsg(QString strIconPath, QString strSummary, QDateTime dateTime, QString strBody)
@@ -147,6 +167,9 @@ void AppMsg::addSingleMsg(QString strIconPath, QString strSummary, QDateTime dat
     m_listSingleMsg.insert(uIndex, pSingleMsg);
     m_pMainVLaout->insertWidget(uIndex, pSingleMsg);
 
+    //当单个应用的消息达到设置的最大数目时，删除最早的消息并统计数目
+    deleteExceedingMsg();
+
     //将该应用中最顶上的一条消息的时间赋给应用
     SingleMsg* pTopSingleMsg = m_listSingleMsg.at(0);
     m_uNotifyTime = pTopSingleMsg->getPushTime();
@@ -194,7 +217,7 @@ void AppMsg::onTakeinWholeApp()
         SingleMsg* pSingleMsg = m_listSingleMsg.at(0);
         m_pMainVLaout->removeWidget(pSingleMsg);
         m_listSingleMsg.removeAt(0);
-        emit Sig_SendTakeInSingleMsg(m_strAppName, pSingleMsg->getIcon(), pSingleMsg->getSummary(), pSingleMsg->getBody(), pSingleMsg->getPushDateTime());
+        emit Sig_SendTakeInSingleMsg(m_strAppName, pSingleMsg->getIcon(), pSingleMsg->getSummary(), pSingleMsg->getBody(), pSingleMsg->getPushDateTime(), 20, false);
     }
 
     emit Sig_onDeleteAppMsg(this);
@@ -209,7 +232,7 @@ void AppMsg::onRecoverWholeApp()
         SingleMsg* pSingleMsg = m_listSingleMsg.at(0);
         m_pMainVLaout->removeWidget(pSingleMsg);
         m_listSingleMsg.removeAt(0);
-        emit Sig_SendAddSingleMsg(m_strAppName, pSingleMsg->getIcon(), pSingleMsg->getSummary(), pSingleMsg->getBody(), pSingleMsg->getPushDateTime(), false);
+        emit Sig_SendAddSingleMsg(m_strAppName, pSingleMsg->getIcon(), pSingleMsg->getSummary(), pSingleMsg->getBody(), pSingleMsg->getPushDateTime(), 20, false);
     }
 
     emit Sig_onDeleteTakeInAppMsg(this);
@@ -291,7 +314,7 @@ void AppMsg::onTakeInSingleMsg(SingleMsg* pSingleMsg)
     m_listSingleMsg.removeAt(nIndex);
     m_pMainVLaout->removeWidget(pSingleMsg);
 
-    emit Sig_SendTakeInSingleMsg(m_strAppName, pSingleMsg->getIcon(), pSingleMsg->getSummary(), pSingleMsg->getBody(), pSingleMsg->getPushDateTime());
+    emit Sig_SendTakeInSingleMsg(m_strAppName, pSingleMsg->getIcon(), pSingleMsg->getSummary(), pSingleMsg->getBody(), pSingleMsg->getPushDateTime(), 20, false);
     pSingleMsg->deleteLater();
 
     //当本次收纳为应用首条时,且该应用不止一条,考虑将新的首条设置为顶部消息状态
@@ -322,7 +345,7 @@ void AppMsg::onRecoverSingleMsg(SingleMsg* pSingleMsg)
     m_listSingleMsg.removeAt(nIndex);
     m_pMainVLaout->removeWidget(pSingleMsg);
 
-    emit Sig_SendAddSingleMsg(m_strAppName, pSingleMsg->getIcon(), pSingleMsg->getSummary(), pSingleMsg->getBody(), pSingleMsg->getPushDateTime(), false);
+    emit Sig_SendAddSingleMsg(m_strAppName, pSingleMsg->getIcon(), pSingleMsg->getSummary(), pSingleMsg->getBody(), pSingleMsg->getPushDateTime(), 20, false);
     pSingleMsg->deleteLater();
 
     //当本次收纳为应用首条时,且该应用不止一条,考虑将新的首条设置为顶部消息状态
