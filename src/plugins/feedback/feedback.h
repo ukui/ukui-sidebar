@@ -66,7 +66,7 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QBitmap>
-
+#include <QGraphicsDropShadowEffect>
 class QSqlTableModel;
 class QPushButton;
 class QLabel;
@@ -104,6 +104,7 @@ public:
     QLabel *label_2;
     QWidget *verticalWidget;
     QFrame *frame_2;
+    QGraphicsDropShadowEffect *effect;
     QLabel *label_10;
     QLabel *label_12;
     QLabel *label_11;
@@ -121,6 +122,7 @@ public:
     QListWidgetItem * file_listwidget_item[5];
     fileitem_init* file_widget[5];
     QPixmap submitting_pixmap[8];
+
     //*************************
 
     void UI_init();
@@ -132,6 +134,10 @@ public:
 
     void feedback_info_init();
 
+    void set_all_disable_in_submit();
+    void set_all_enable_after_submit();
+    QByteArray get_today_syslog();
+
     void add_fileinfo_model();
     void update_add_file_window();
     void update_linedit_add_or_del_file();
@@ -141,8 +147,7 @@ public:
     void send_file_httpserver(QString uid);
     void window_close();
     void resend_info_when_sendfail();
-    QFile* add_file_to_Part(QString filepath,QString file_type,QString file_name);
-    vector<QFile*> m_filesArray;
+    void add_file_to_Part(QString filepath,QString file_type,QString file_name);
 
     void feedback_quit();
 
@@ -182,8 +187,8 @@ private slots:
 
 private:
 
-    submit_fail *fail_dialog;
-    submit_success * success_dialog;
+    submit_fail *fail_dialog=nullptr;
+    submit_success * success_dialog=nullptr;
 
 
 //logflag
@@ -203,7 +208,7 @@ private:
     QString encoding_info_str; //系统编码格式
     QString desktop_info_str;  //系统桌面环境
 
-    QTimer *submitting_timer;
+    QTimer *submitting_timer=nullptr;
 
 
     QString send_os_info;
@@ -215,15 +220,34 @@ private:
     QLabel *filesize_label[5];
 
     //httpclient
-    QNetworkAccessManager *accessManager;
-    QNetworkAccessManager *accessManager_file;
+    QNetworkAccessManager *accessManager=nullptr;
+    QNetworkAccessManager *accessManager_file=nullptr;
     QNetworkRequest request;
     QNetworkRequest request_file;
     QString urlstring;//服务器地址
 
+    QVariant statusCode_file;
+    QVariant reason_file ;
+    QVariant statusCode_info;
+    QVariant reason_info ;
+    QByteArray bytes_info;
+    QByteArray bytes_file;
+
+
+    QJsonObject feedback_info_json;
+    QJsonDocument json_doc;
+    QByteArray post_feedback_info_array;
+
+
+    QString uid_value;
+    QJsonParseError jsonerror;
+    QJsonDocument document;
+    QJsonObject object;
+
+
     int send_fail_flags = 0;
 
-    QHttpMultiPart *multiPart;
+    QHttpMultiPart *multiPart=nullptr;
 
     QList<QString> file_name_list;
     QList<QString> file_size_list;

@@ -29,11 +29,13 @@ hideBtn_hover::~hideBtn_hover()
 }
 void hideBtn_hover::enterEvent(QEvent *e)
 {
+    Q_UNUSED(e);
     setStyleSheet("background-color:rgb(61,107,229);border-image:url(:/image/mix_hover.png);border-radius:4px;");
 
 }
 void hideBtn_hover::leaveEvent(QEvent *e)
 {
+    Q_UNUSED(e);
     setStyleSheet("background-color:rgb(255,255,255);border-image:url(:/image/mix_default.png);border-radius:4px;");
 
 }

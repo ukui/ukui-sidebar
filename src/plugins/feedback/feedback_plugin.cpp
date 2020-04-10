@@ -20,19 +20,16 @@
 #include <QWidget>
 #include <QDesktopWidget>
 #include <QApplication>
-#include <QTranslator>
+
 feedback_plugin::feedback_plugin()
 {
     QString locale = QLocale::system().name();
-    QTranslator *translator_feedback;
     translator_feedback = new QTranslator();
     //英文环境加载en.qm
     if(locale == "en_US"){
         translator_feedback->load(QString("://translation/feedback_en_US.qm"));  //选择翻译文件
         QApplication::installTranslator(translator_feedback);
     }
-    mp_feedback = new feedback ;
-    FeedBackFlag = false;
 }
 
 void feedback_plugin::onNotification() {
@@ -40,14 +37,15 @@ void feedback_plugin::onNotification() {
 }
 
 void feedback_plugin::PluginsShowInterface() {
-    if (FeedBackFlag) {
+    if (!mp_feedback) {
         mp_feedback = new feedback ;
     }
+    (static_cast<feedback*>(mp_feedback))->feedback_info_init();
     QDesktopWidget *desk = QApplication::desktop();
     QRect deskRect = desk->availableGeometry();
     mp_feedback->show();
+
     mp_feedback->move((deskRect.width()-mp_feedback->width())/2, (deskRect.height()-mp_feedback->height())/2);
-    FeedBackFlag = true;
 }
 
 feedback_plugin::~feedback_plugin() {
@@ -56,6 +54,8 @@ feedback_plugin::~feedback_plugin() {
         delete mp_feedback;
     }
     mp_feedback = nullptr;
+
+    delete translator_feedback;
 
 }
 
