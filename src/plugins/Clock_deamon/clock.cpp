@@ -228,8 +228,7 @@ Clock::Clock(QWidget *parent) :
     alarm_set_start_time();//闹钟初始化数字转盘
     model_setup_set(); //人设置数据库初始化
     text_timerUpdate();
-
-
+    ui->pushButton_20->setText(model_setup->index(0, 19).data().toString());
     for (int i=0; i<9; i++) {
         repeat_day[i] = 0;
     }
@@ -1783,6 +1782,7 @@ void Clock::model_setup_set()
         model_setup->setData(model_setup->index(setup_rowNum, 15), tr("24小时制(23:59:59)"));
         model_setup->setData(model_setup->index(setup_rowNum, 16), tr("通知栏弹窗"));
         model_setup->setData(model_setup->index(setup_rowNum, 17), tr("一分钟后自动关闭"));
+        model_setup->setData(model_setup->index(setup_rowNum, 19), tr("玻璃"));
     }
     model_setup->submitAll();
 }
