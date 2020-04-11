@@ -230,6 +230,9 @@ Clock::Clock(QWidget *parent) :
     dialog_music = new  set_alarm_repeat_Dialog(ui->set_page, 4);dialog_music->hide();
     time_music = new  set_alarm_repeat_Dialog(ui->set_page, 5);time_music->hide();
     count_music_sellect = new  set_alarm_repeat_Dialog(ui->page, 4);count_music_sellect->hide();
+    connect(dialog_repeat->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(repeat_listClickslot()));
+    connect(dialog_music->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(music_listClickslot()));
+    connect(time_music->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(time_music_listClickslot()));
 }
 
 Clock::~Clock()
@@ -452,7 +455,7 @@ void Clock::on_pushButton_timeselect_clicked()
 //窗口关闭
 void Clock::on_pushButton_5_clicked()
 {
-    this->close();
+    this->hide();
 }
 
 //窗口最小化
@@ -1476,7 +1479,6 @@ void Clock::alarm_repeat()
             }
         }
         dialog_repeat->show();
-        connect(dialog_repeat->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(repeat_listClickslot()));
 
 }
 //重复选项单击回调
@@ -1643,7 +1645,7 @@ void Clock::select_Music()
         }
 
         dialog_music->show();
-        connect(dialog_music->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(music_listClickslot()));
+
 
 }
 //闹钟初始化单击选择音乐
@@ -1708,7 +1710,7 @@ void Clock::time_Music()
         }
         // set_border_radius(time_music);
         time_music->show();
-        connect(time_music->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(time_music_listClickslot()));
+
 
 }
 
@@ -1781,7 +1783,11 @@ void Clock::set_up_page()
         QPointF position1 = QCursor::pos();
         if(!setup_page){
             qDebug()<<"11111111111132313";
-        setup_page = new setuppage(position1.x(), position1.y(),  this);}
+        setup_page = new setuppage(position1.x(), position1.y(),  this);
+        connect(setup_page->ui->pushButton, SIGNAL(clicked()), this, SLOT(alarm_clcok_Self_starting()) );
+        connect(setup_page->ui->pushButton_2, SIGNAL(clicked()), this, SLOT(Mute_starting()) );
+        connect(setup_page->ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(set_volume_Value(int)));
+        }
         setup_page->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
         setup_page->setFixedSize(380,450);
 
@@ -1789,11 +1795,6 @@ void Clock::set_up_page()
 
         setup_page->move(position.x()+38,position.y()+27);
         setup_page->setWindowOpacity(0.95);
-
-        connect(setup_page->ui->pushButton, SIGNAL(clicked()), this, SLOT(alarm_clcok_Self_starting()) );
-        connect(setup_page->ui->pushButton_2, SIGNAL(clicked()), this, SLOT(Mute_starting()) );
-        connect(setup_page->ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(set_volume_Value(int)));
-
 
         //属性记忆重绘制
         if(model_setup->index(0, 0).data().toInt()){
