@@ -300,17 +300,17 @@ int Widget::getPanelSite()
 
 void Widget::mousePressEvent(QMouseEvent *event)
 {
-    if (event->buttons() == Qt::LeftButton)
-    {
-        mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
-        hideAnimation();
-    }
+//    if (event->buttons() == Qt::LeftButton)
+//    {
+//        mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
+//        hideAnimation();
+//    }
 }
 
 void Widget::mouseMoveEvent(QMouseEvent *event)
 {
-    QPoint p_ab = event->globalPos();//整个桌面位置
-    qDebug() << "个桌面位置 x-->" << p_ab.x() << "y-->" << p_ab.y();
+//    QPoint p_ab = event->globalPos();//整个桌面位置
+//    qDebug() << "个桌面位置 x-->" << p_ab.x() << "y-->" << p_ab.y();
 }
 
 //获取屏幕的可用区域高度和宽度
@@ -604,8 +604,6 @@ void Widget::InitializeHomeScreenGeometry()
     QList<QScreen*> screen = QGuiApplication::screens();
     int count = m_pDeskWgt->screenCount();
     if (count > 1) {
-//        m_nScreen_x = screen[0]->availableGeometry().x();
-//        m_nScreen_y = screen[0]->availableGeometry().y();
         m_nScreen_x = screen[0]->geometry().x();
         m_nScreen_y = screen[0]->geometry().y();
 
@@ -682,8 +680,6 @@ void Widget::twinkle()
 /* 事件过滤器 */
 bool Widget::eventFilter(QObject *obj, QEvent *event)
 {
-//    Q_UNUSED(obj);
-//    Q_UNUSED(event);
     if (obj == this)
     {
         if (event->type() == QEvent::WindowDeactivate && true == m_bShowFlag && true == m_bClipboardFlag)

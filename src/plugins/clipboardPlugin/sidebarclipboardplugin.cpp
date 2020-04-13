@@ -517,6 +517,7 @@ void SidebarClipboardPlugin::removeAllWidgetItem()
     }
     /* 判断用户是否勾选了不再提醒这一功能 */
     if (m_bPromptBoxBool) {
+        emit globalClipboardSignal->ClipBoardWidgetEntryEditButtonSignal(); //当点击清楚时，将侧边栏置为不Hide状态
         CleanPromptBox PromptBoxWidget;
         int nRet = PromptBoxWidget.exec();
         if (nRet == QDialog::Accepted) {

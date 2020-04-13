@@ -40,9 +40,7 @@ SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
     m_pClearListWidgetButton->setFixedSize(80, 34);
     m_pClearListWidgetButton->setStyle(new customstyle_search_pushbutton("ukui-default"));
     m_pClearListWidgetButton->setObjectName("CleanList");
-    connect(m_pClearListWidgetButton, &QPushButton::clicked, this, [=](){
-        emit globalClipboardSignal->ClipBoardWidgetEntryEditButtonSignal();
-    });
+
     m_pClearTextButton = new QPushButton;
     m_pClearTextButton->setFixedSize(19, 21);
     m_pClearTextButton->setIconSize(QSize(9, 9));
