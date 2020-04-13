@@ -267,6 +267,7 @@ QString SidebarClipboardPlugin::SetFormatBody(QString text, ClipboardWidgetEntry
             //当有几行时，只需要截取第一行就行，在第一行后面加...
             /* 判断第一行是否是空行 */
             formatBody = judgeBlankLine(list);
+            formatBody = formatBody + "aa";
             int oneFontSize = fontMetrics.width(formatBody);
             if (oneFontSize > (LableWidth - 10)) {
                 formatBody = fontMetrics.elidedText(formatBody, Qt::ElideRight, LableWidth - 10);
@@ -290,8 +291,10 @@ QString SidebarClipboardPlugin::SetFormatBody(QString text, ClipboardWidgetEntry
         if (list.size() >= 2) {
             //取得当前的有字符串的子串
             formatBody = judgeBlankLine(list);
+            formatBody = formatBody + "aa";
             if (!substringSposition(formatBody, list)) {
                 int oneFontSize = fontMetrics.width(formatBody);
+
                 qDebug () << "当前子串的大小" << oneFontSize << formatBody;
                 formatBody = fontMetrics.elidedText(formatBody, Qt::ElideRight, oneFontSize - 1);
             }
