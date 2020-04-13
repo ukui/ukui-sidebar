@@ -338,13 +338,13 @@ void Widget::GetsAvailableAreaScreen()
 /* 设定剪贴板高度 */
 int Widget::setClipBoardWidgetScaleFactor()
 {
-    if ((m_nScreenWidth >= 800 && m_nScreenWidth <= 1280)&&(m_nScreenHeight >= 600 && m_nScreenHeight <= 768)) {
+    if (m_nScreenHeight >= 600 && m_nScreenHeight <= 768) {
         qDebug() << "800 <= x <= 1280 && 600 <= y <= 720 ";
-        return m_nScreenHeight/2 - connectTaskBarDbus();
-    } else if ((m_nScreenWidth >= 1280 && m_nScreenWidth <= 2048)&&(m_nScreenHeight >= 900 && m_nScreenHeight <= 1080)) {
+        return m_nScreenHeight/2 - connectTaskBarDbus() - 60;
+    } else if (m_nScreenHeight >= 900 && m_nScreenHeight <= 1080) {
         qDebug() << "1280 <= x <= 2048 && 900 <= y <= 1080";
         return m_nScreenHeight/3;
-    } else if ((m_nScreenWidth >= 1920 && m_nScreenWidth <= 3840)&&(m_nScreenHeight >= 1200 && m_nScreenHeight <= 2160)) {
+    } else if (m_nScreenHeight >= 1200 && m_nScreenHeight <= 2160) {
         qDebug() << "1920 <= x 3840 && y >= 1200 && y <= 2160";
         return m_nScreenHeight/4;
     } else {

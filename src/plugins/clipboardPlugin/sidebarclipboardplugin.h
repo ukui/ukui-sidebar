@@ -107,6 +107,8 @@ public:
     void createTipLable();                                                  /* 创建无剪贴板板字样 */
     void createWidget();                                                    /* 创建剪贴板主Widget和搜索栏与条目的ListWidget界面 */
     QString SetFormatBody(QString text, ClipboardWidgetEntry *w);           /* 设置... */
+    QString judgeBlankLine(QStringList list);                               /* 去除掉空行，显示有字体的行 */
+    bool    substringSposition(QString formatBody, QStringList list);       /* 判断后面是否还有子串 */
     QListWidgetItem* iterationClipboardDataHash(ClipboardWidgetEntry *w);   /* 迭代Hash表m_pClipboardDataHash */
     QMimeData *copyMinedata(const QMimeData* mimeReference);                /* 拷贝QMimeData拷贝数据类型 */
 

@@ -77,10 +77,6 @@ void ClipboardWidgetEntry::enterEvent(QEvent *e)
     if(e == nullptr) {
         return;
     }
-//    QPalette palette = this->palette();
-//    QColor color(255,255,255,21);
-//    palette.setBrush(QPalette::Background, color);
-//    this->setPalette(palette);
     m_pCopyDataLabal->setFixedSize(260, 34);
     m_pPopButton->setVisible(true);
     m_pEditButon->setVisible(true);
@@ -95,10 +91,6 @@ void ClipboardWidgetEntry::leaveEvent(QEvent *e)
     if(e == nullptr) {
         return;
     }
-//    QPalette palette = this->palette();
-//    QColor color(255,255,255,0);
-//    palette.setBrush(QPalette::Background, color);
-//    this->setPalette(palette);
     m_pPopButton->setVisible(false);
     m_pEditButon->setVisible(false);
     m_pRemoveButton->setVisible(false);
@@ -113,31 +105,69 @@ QString ClipboardWidgetEntry::SetFormatBody(QString text)
     int fontSize = fontMetrics.width(text);
     QString formatBody = text;
     qDebug() << "Lable象数点大小为" << LableWidth << "&&从编辑框返回的数据，象数点大小为-->" << fontSize;
-    if(fontSize > (LableWidth - 10))
-    {
+    if(fontSize > (LableWidth - 10)) {
         QStringList list = formatBody.split("\n");
         if (list.size() >= 2) {
             //当有几行时，只需要截取第一行就行，在第一行后面加...
-            formatBody = list.at(0);
+            /* 判断第一行是否是空行 */
+            formatBody = judgeBlankLine(list);
             int oneFontSize = fontMetrics.width(formatBody);
             if (oneFontSize > (LableWidth - 10)) {
                 formatBody = fontMetrics.elidedText(formatBody, Qt::ElideRight, LableWidth - 10);
+                return formatBody;
+            } else {
+                if (!substringSposition(formatBody, list)) {
+                    int oneFontSize = fontMetrics.width(formatBody);
+                    qDebug () << "oneFontSize = fontMetrics.width(formatBody);" << oneFontSize;
+                    formatBody = fontMetrics.elidedText(formatBody, Qt::ElideRight, oneFontSize - 1);
+                    return formatBody;
+                }
             }
-            formatBody = fontMetrics.elidedText(formatBody, Qt::ElideRight, oneFontSize);
         } else {
             //说明只存在一行，在最后面加...就行
-            qDebug() << "Lable象数点大小为" << LableWidth << "&&从编辑框返回的数据，象数点大小为-->" << fontSize;
+            qDebug() << "fontSize > (LableWidth - 10)" << LableWidth << "&&jiantieban---->" << fontSize;
             formatBody = fontMetrics.elidedText(formatBody, Qt::ElideRight, LableWidth - 10);
+            return formatBody;
         }
     } else {
         QStringList list = formatBody.split("\n");
         if (list.size() >= 2) {
-            formatBody = list.at(0);
-            qDebug() << "第一段" << formatBody;
-            int oneFontSize = fontMetrics.width(formatBody);
-            qDebug () << "oneFontSize = fontMetrics.width(formatBody);" << oneFontSize;
-            formatBody = fontMetrics.elidedText(formatBody, Qt::ElideRight, oneFontSize - 1);
+            //取得当前的有字符串的子串
+            formatBody = judgeBlankLine(list);
+            if (!substringSposition(formatBody, list)) {
+                int oneFontSize = fontMetrics.width(formatBody);
+                qDebug () << "当前子串的大小" << oneFontSize << formatBody;
+                formatBody = fontMetrics.elidedText(formatBody, Qt::ElideRight, oneFontSize - 1);
+            }
         }
     }
     return formatBody;
+}
+
+/* 去除掉空行，显示有字体的行 */
+QString ClipboardWidgetEntry::judgeBlankLine(QStringList list)
+{
+    int tmp = list.count();
+    for (int i = 0; i < tmp; i++) {
+        QString dest = list.at(i);
+        dest = dest.trimmed();
+        if (dest.size() != 0) {
+           return list.at(i);
+        }
+    }
+    return list.at(0);
+}
+
+/* 判断当前子串位置，后面是否还有子串 */
+bool ClipboardWidgetEntry::substringSposition(QString formatBody, QStringList list)
+{
+    int tmp = list.count();
+    for (int i = 0; i < tmp; i++) {
+        QString dest = list.at(i);
+        if (dest == formatBody && i == tmp - 1) {
+            qDebug() << "后面没有字串，返回true";
+            return true;
+        }
+    }
+    return false;
 }

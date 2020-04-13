@@ -114,10 +114,16 @@ void SidebarClipboardPlugin::createTipLable()
 {
     m_pSideBarClipboardLable = new QLabel(tr("No clip content"));
     m_pSideBarClipboardLable->setContentsMargins(165, 50, 132, 100);
-    QFont fontLable = m_pSideBarClipboardLable->font();
-    fontLable.setFamily("Noto Sans CJK SC");
-    fontLable.setPixelSize(14);
-    m_pSideBarClipboardLable->setFont(fontLable);
+    QTimer::singleShot(1, m_pSideBarClipboardLable, [=](){
+        QFont font = m_pSideBarClipboardLable->font();
+        font.setPixelSize(14);
+        font.setFamily("Noto Sans CJK SC");
+        m_pSideBarClipboardLable->setFont(font);
+    });
+//    QFont fontLable = m_pSideBarClipboardLable->font();
+//    fontLable.setFamily("Noto Sans CJK SC");
+//    fontLable.setPixelSize(14);
+//    m_pSideBarClipboardLable->setFont(fontLable);
 }
 
 /* 构造原型的QMimeData数据类型 */
@@ -254,34 +260,73 @@ QString SidebarClipboardPlugin::SetFormatBody(QString text, ClipboardWidgetEntry
     int LableWidth = w->m_pCopyDataLabal->width();
     int fontSize = fontMetrics.width(text);
     QString formatBody = text;
-    qDebug() << "fontSize > (LableWidth - 10)" << LableWidth << "&&jiantieban---->" << fontSize;
-    if(fontSize > (LableWidth - 10))
-    {
+    qDebug() << "fontSize > (LableWidth - 10)" << LableWidth << "&&剪贴板返回的数据---->" << fontSize;
+    if(fontSize > (LableWidth - 10)) {
         QStringList list = formatBody.split("\n");
         if (list.size() >= 2) {
             //当有几行时，只需要截取第一行就行，在第一行后面加...
-            formatBody = list.at(0);
+            /* 判断第一行是否是空行 */
+            formatBody = judgeBlankLine(list);
             int oneFontSize = fontMetrics.width(formatBody);
             if (oneFontSize > (LableWidth - 10)) {
                 formatBody = fontMetrics.elidedText(formatBody, Qt::ElideRight, LableWidth - 10);
+                return formatBody;
+            } else {
+                if (!substringSposition(formatBody, list)) {
+                    int oneFontSize = fontMetrics.width(formatBody);
+                    qDebug () << "oneFontSize = fontMetrics.width(formatBody);" << oneFontSize;
+                    formatBody = fontMetrics.elidedText(formatBody, Qt::ElideRight, oneFontSize - 1);
+                    return formatBody;
+                }
             }
-            formatBody = fontMetrics.elidedText(formatBody, Qt::ElideRight, oneFontSize);
         } else {
             //说明只存在一行，在最后面加...就行
             qDebug() << "fontSize > (LableWidth - 10)" << LableWidth << "&&jiantieban---->" << fontSize;
             formatBody = fontMetrics.elidedText(formatBody, Qt::ElideRight, LableWidth - 10);
+            return formatBody;
         }
     } else {
         QStringList list = formatBody.split("\n");
         if (list.size() >= 2) {
-            formatBody = list.at(0);
-            qDebug() << "第一端" << formatBody;
-            int oneFontSize = fontMetrics.width(formatBody);
-            qDebug () << "oneFontSize = fontMetrics.width(formatBody);" << oneFontSize;
-            formatBody = fontMetrics.elidedText(formatBody, Qt::ElideRight, oneFontSize - 1);
+            //取得当前的有字符串的子串
+            formatBody = judgeBlankLine(list);
+            if (!substringSposition(formatBody, list)) {
+                int oneFontSize = fontMetrics.width(formatBody);
+                qDebug () << "当前子串的大小" << oneFontSize << formatBody;
+                formatBody = fontMetrics.elidedText(formatBody, Qt::ElideRight, oneFontSize - 1);
+            }
         }
     }
+    qDebug() << formatBody.size() << formatBody;
     return formatBody;
+}
+
+/* 去除掉空行，显示有字体的行 */
+QString SidebarClipboardPlugin::judgeBlankLine(QStringList list)
+{
+    int tmp = list.count();
+    for (int i = 0; i < tmp; i++) {
+        QString dest = list.at(i);
+        dest = dest.trimmed();
+        if (dest.size() != 0) {
+           return list.at(i);
+        }
+    }
+    return list.at(0);
+}
+
+/* 判断当前子串位置，后面是否还有子串 */
+bool SidebarClipboardPlugin::substringSposition(QString formatBody, QStringList list)
+{
+    int tmp = list.count();
+    for (int i = 0; i < tmp; i++) {
+        QString dest = list.at(i);
+        if (dest == formatBody && i == tmp - 1) {
+            qDebug() << "后面没有字串，返回true";
+            return true;
+        }
+    }
+    return false;
 }
 
 void SidebarClipboardPlugin::connectWidgetEntryButton(ClipboardWidgetEntry *w)
