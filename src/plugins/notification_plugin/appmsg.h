@@ -50,7 +50,7 @@ public:
     void    statisticLeftItem();                        //统计应用剩余显示条数
     void    setTopWithSecondItem();                     //当应用最顶条被删除后,将第二条置顶
     void    setAppFold();                               //当app展开时，将app设置折叠
-    int     setMaxNumMsg(int nMaxNum) {m_nMaxCount = nMaxNum;}
+    void    setMaxNumMsg(int nMaxNum) {m_nMaxCount = nMaxNum;}
 
 
 private:
