@@ -171,8 +171,7 @@ Clock::Clock(QWidget *parent) :
     connect(timer_clock, SIGNAL(timeout()), this, SLOT(timerUpdate()) );//动态获取时间
     timer_clock->start(1000);
     connect( ui->addAlarmBtn, SIGNAL(clicked()), this, SLOT(set_Alarm_Clock()) );//添加闹钟
-    player_alarm = new QMediaPlayer(this);
-    mediaList = new QMediaPlaylist(this);
+
     ui->label_6->setAlignment(Qt::AlignHCenter);
     ui->label_7->setAlignment(Qt::AlignHCenter);
     ui->label_12->setAlignment(Qt::AlignHCenter);
@@ -189,11 +188,6 @@ Clock::Clock(QWidget *parent) :
     model_setup->setTable("setup");
     model_setup->setEditStrategy(QSqlTableModel::OnManualSubmit);
     model_setup->select();
-
-    model_Stopwatch = new QSqlTableModel(this);
-    model_Stopwatch->setTable("Stopwatch");
-    model_Stopwatch->setEditStrategy(QSqlTableModel::OnManualSubmit);
-    model_Stopwatch->select();
 
     connect(ui->listWidget,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(listdoubleClickslot()));
     connect(ui->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(listClickslot()));
@@ -232,11 +226,33 @@ Clock::Clock(QWidget *parent) :
     for (int i=0; i<9; i++) {
         repeat_day[i] = 0;
     }
+    dialog_repeat = new  set_alarm_repeat_Dialog(ui->set_page, 9);dialog_repeat->hide();
+    dialog_music = new  set_alarm_repeat_Dialog(ui->set_page, 4);dialog_music->hide();
+    time_music = new  set_alarm_repeat_Dialog(ui->set_page, 5);time_music->hide();
+    count_music_sellect = new  set_alarm_repeat_Dialog(ui->page, 4);count_music_sellect->hide();
+    connect(dialog_repeat->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(repeat_listClickslot()));
+    connect(dialog_music->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(music_listClickslot()));
+    connect(time_music->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(time_music_listClickslot()));
 }
 
 Clock::~Clock()
 {
+    qDebug()<<"----------------";
+    delete timer_set_page;
+    delete timer_Surplus;
+    delete timer;
+    delete timer_2;
+    delete countdown_timer;
+    delete model;
+    delete model_setup;
+    delete setup_page;
+    delete dialog_repeat;
+    delete dialog_music;
+    delete time_music;
+    delete count_music_sellect;
+    delete ui->page_5;
     delete ui;
+    qDebug()<<"----------------";
 }
 
 //时间间隔执行
@@ -439,7 +455,7 @@ void Clock::on_pushButton_timeselect_clicked()
 //窗口关闭
 void Clock::on_pushButton_5_clicked()
 {
-    this->close();
+    this->hide();
 }
 
 //窗口最小化
@@ -596,23 +612,6 @@ void Clock::timerUpdate()
                 && timeM == model->index(i, 1).data().toInt()
                 && timeS == 0)
         {
-            QMediaPlayer  *music = new QMediaPlayer(this);//初始化音乐
-            QMediaPlaylist *playlist = new QMediaPlaylist(this);//初始化播放列表
-
-            if(model->index(i, 2).data().toString().compare(tr("玻璃"))==0){
-                playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/glass.ogg"));
-            }else if (model->index(i, 2).data().toString().compare(tr("犬吠"))==0) {
-                playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/bark.ogg"));
-            }else if (model->index(i, 2).data().toString().compare(tr("声呐"))==0) {
-                playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/sonar.ogg"));
-            }else if (model->index(i, 2).data().toString().compare(tr("雨滴"))==0){
-                playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/drip.ogg"));
-            }
-
-            playlist->setPlaybackMode(QMediaPlaylist::Loop);//设置播放模式(顺序播放，单曲循环，随机播放等)
-            music->setPlaylist(playlist);  //设置播放列表
-            music->play();
-
             double music_time = 30;
             if(model->index(i, 13).data().toString().compare(tr("2分钟"))==0){
                 music_time = 2*60;
@@ -626,7 +625,6 @@ void Clock::timerUpdate()
                 music_time = 60;
             }
             notice_dialog_show(music_time, i );
-            music->stop();
         }
     }
     update();
@@ -816,17 +814,14 @@ void Clock::set_alarm_save()
     if(dialog_repeat)
     {
         dialog_repeat->close();
-        dialog_repeat = nullptr;
     }
     if(dialog_music)
     {
         dialog_music->close();
-        dialog_music = nullptr;
     }
     if(time_music)
     {
         time_music->close();
-        time_music = nullptr;
     }
 }
 
@@ -963,17 +958,14 @@ void Clock::on_pushButton_9_clicked()
     if(dialog_repeat)
     {
         dialog_repeat->close();
-        dialog_repeat = nullptr;
     }
     if(dialog_music)
     {
         dialog_music->close();
-        dialog_music = nullptr;
     }
     if(time_music)
     {
         time_music->close();
-        time_music = nullptr;
     }
 }
 
@@ -1029,7 +1021,7 @@ void Clock::deleteAlarm()
     int num=ui->listWidget->currentRow();
     int rowNum = model->rowCount();
     model->removeRows(num, 1);
-    qDebug() << "delete " <<num;
+    qDebug() << "delete " <<num <<rowNum;
 
     int ok = QMessageBox::warning(this, "删除当前闹钟！",
                                   "您确定删除当前闹钟吗？",
@@ -1043,17 +1035,23 @@ void Clock::deleteAlarm()
     {
         for(int i=0; i<rowNum; i++)
         {
-            delete aItem[i];
             delete w1[i];
+            delete aItem[i];
+            qDebug() << "rowNu444444444444444444444";
         }
         model->submitAll();   //否则提交, 在数据库中删除该行
         updateAlarmClock();
         rowNum = model->rowCount();
         qDebug() << rowNum;
+
         ui->stackedWidget_3->raise();
+
         this->raise();
+
         ui->stackedWidget->raise();//将页面放置最前方
+
     }
+
     timer_set_page->stop();
 }
 
@@ -1093,7 +1091,6 @@ void Clock::On_Off_Alarm()
 void Clock::countdown_music_sellect()
 {
 
-        count_music_sellect = new  set_alarm_repeat_Dialog(ui->page, 4);
 
         QPointF position = this->pos();
         count_music_sellect->move(position.x()+87,position.y()+552);
@@ -1135,7 +1132,6 @@ void Clock::count_music_listClickslot()
     model_setup->setData(model_setup->index(0, 19), music);
     ui->pushButton_20->setText(music);
     count_music_sellect->close();
-    count_music_sellect = nullptr;
     model_setup->submitAll();
 }
 
@@ -1457,7 +1453,7 @@ void Clock::alarm_repeat()
         num= model->rowCount();
     }
 
-        dialog_repeat = new  set_alarm_repeat_Dialog(ui->set_page, 9);
+
         QPointF position = this->pos();
         dialog_repeat->move(position.x()+87,position.y()+446);
         dialog_repeat->resize(280,270);
@@ -1483,7 +1479,6 @@ void Clock::alarm_repeat()
             }
         }
         dialog_repeat->show();
-        connect(dialog_repeat->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(repeat_listClickslot()));
 
 }
 //重复选项单击回调
@@ -1510,7 +1505,6 @@ void Clock::repeat_listClickslot()
             dialog_repeat->widget[i+2]->alarmLabel1->setIcon(repeat_off_Pixmap);
         }
         dialog_repeat->close();
-        dialog_repeat = nullptr;
         return;
         break;
     case 1:
@@ -1530,7 +1524,6 @@ void Clock::repeat_listClickslot()
         dialog_repeat->widget[7]->alarmLabel1->setIcon(repeat_on_Pixmap);
         dialog_repeat->widget[8]->alarmLabel1->setIcon(repeat_on_Pixmap);
         dialog_repeat->close();
-        dialog_repeat = nullptr;
         return;
         break;
     case 2:
@@ -1630,7 +1623,6 @@ void Clock::select_Music()
         num= model->rowCount();
     }
 
-        dialog_music = new  set_alarm_repeat_Dialog(ui->set_page, 4);
         QPointF position = this->pos();
         dialog_music->move(position.x()+87,position.y()+496);
         dialog_music->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
@@ -1653,7 +1645,7 @@ void Clock::select_Music()
         }
 
         dialog_music->show();
-        connect(dialog_music->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(music_listClickslot()));
+
 
 }
 //闹钟初始化单击选择音乐
@@ -1680,7 +1672,6 @@ void Clock::music_listClickslot()
     }
     ui->pushButton_11->setText(music_str_model);
     dialog_music->close();
-    dialog_music = nullptr;
 }
 
 void Clock::time_Music()
@@ -1692,7 +1683,6 @@ void Clock::time_Music()
         num= model->rowCount();
     }
 
-        time_music = new  set_alarm_repeat_Dialog(ui->set_page, 5);
 
         QPointF position = this->pos();
         time_music->move(position.x()+87,position.y()+546);
@@ -1720,7 +1710,7 @@ void Clock::time_Music()
         }
         // set_border_radius(time_music);
         time_music->show();
-        connect(time_music->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(time_music_listClickslot()));
+
 
 }
 
@@ -1749,7 +1739,6 @@ void Clock::time_music_listClickslot()
     }
     ui->pushButton_17->setText(time_music_str_model);
     time_music->close();
-    time_music = nullptr;
 }
 
 
@@ -1792,8 +1781,13 @@ void Clock::model_setup_set()
 void Clock::set_up_page()
 {
         QPointF position1 = QCursor::pos();
-
+        if(!setup_page){
+            qDebug()<<"11111111111132313";
         setup_page = new setuppage(position1.x(), position1.y(),  this);
+        connect(setup_page->ui->pushButton, SIGNAL(clicked()), this, SLOT(alarm_clcok_Self_starting()) );
+        connect(setup_page->ui->pushButton_2, SIGNAL(clicked()), this, SLOT(Mute_starting()) );
+        connect(setup_page->ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(set_volume_Value(int)));
+        }
         setup_page->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
         setup_page->setFixedSize(380,450);
 
@@ -1801,11 +1795,6 @@ void Clock::set_up_page()
 
         setup_page->move(position.x()+38,position.y()+27);
         setup_page->setWindowOpacity(0.95);
-
-        connect(setup_page->ui->pushButton, SIGNAL(clicked()), this, SLOT(alarm_clcok_Self_starting()) );
-        connect(setup_page->ui->pushButton_2, SIGNAL(clicked()), this, SLOT(Mute_starting()) );
-        connect(setup_page->ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(set_volume_Value(int)));
-
 
         //属性记忆重绘制
         if(model_setup->index(0, 0).data().toInt()){

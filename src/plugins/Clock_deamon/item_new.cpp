@@ -17,6 +17,7 @@
 */
 #include "item_new.h"
 #include<QApplication>
+#include <QDebug>
 
 item_new::item_new(QWidget *parent) :
     QWidget(parent)
@@ -82,6 +83,12 @@ item_new::item_new(QWidget *parent) :
 
 item_new::~item_new()
 {
+   delete  alarmLabel_w0;
+   delete  alarmLabel_s0;
+   delete  alarm_line0;
+   delete  alarmLabel0;
+   delete  alarm_on_off0;
+    qDebug()<<"------item_new---------";
 
 }
 

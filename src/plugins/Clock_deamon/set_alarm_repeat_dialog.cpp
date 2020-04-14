@@ -21,6 +21,7 @@
 #include <QApplication>
 #include <QBitmap>
 #include <QPainter>
+#include <QDebug>
 set_alarm_repeat_Dialog::set_alarm_repeat_Dialog(QWidget *parent , int rowNum ) :
     rowNum_all(rowNum),
     QWidget(parent)
@@ -38,7 +39,12 @@ this->setWindowOpacity(0.9);
 
 set_alarm_repeat_Dialog::~set_alarm_repeat_Dialog()
 {
-   delete this;
+    for(int i =0 ; i <rowNum_all; i++){
+    delete widget[i];
+    delete aItem[i];
+    }
+    delete listWidget;
+    qDebug()<<"-------set_alarm_repeat_Dialog---------";
 }
 
 void set_alarm_repeat_Dialog::set_aItem(int rowNum)
@@ -95,7 +101,9 @@ set_alarm_repeat_widget::set_alarm_repeat_widget(QWidget *parent):
 
 set_alarm_repeat_widget::~set_alarm_repeat_widget()
 {
-    delete this;
+    delete   alarmLabel0;
+    delete   alarmLabel1;
+    qDebug()<<"-------set_alarm_repeat_Dialog-----2----";
 }
 
 
