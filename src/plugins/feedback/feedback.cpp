@@ -42,6 +42,11 @@
 #include "fileitem_init.h"
 #include <QTimer>
 #include "customstyle.h"
+#include "mps_style.h"
+#include <QStyleFactory>
+
+extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
+
 
 feedback::feedback(QWidget *parent)
     : QMainWindow(parent)
@@ -49,6 +54,7 @@ feedback::feedback(QWidget *parent)
 
     UI_init();
     feedback_init();
+    setAttribute(Qt::WA_TranslucentBackground);
 }
 
 feedback::~feedback()
@@ -117,6 +123,8 @@ void feedback::UI_init()
 
 
 
+
+
     //--------设置圆角
     QBitmap bmp(this->size());
 
@@ -137,6 +145,7 @@ void feedback::UI_init()
 
     centralwidget = new QWidget(this);
     centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
+    centralwidget->setAttribute(Qt::WA_TranslucentBackground);
 
     label = new QLabel(centralwidget);
     label->setText(tr("问题反馈"));
@@ -158,13 +167,19 @@ void feedback::UI_init()
     comboBox->addItem(QString(tr("商务合作")));
     comboBox->addItem(QString(tr("其他")));
     comboBox->setObjectName(QString::fromUtf8("comboBox"));
-    comboBox->setGeometry(QRect(140, 105, 320, 20));
-    comboBox->setStyleSheet(QString::fromUtf8("min-height: 30px;background-color: rgb(255, 255, 255);"
-                                              "color: rgb(68, 68, 68);font: 14px ;"));
+    comboBox->setGeometry(QRect(140, 105, 320, 30));
+    comboBox->setStyle(new CustomStyle());
+    //设置combobox中item的高度和宽度
+    comboBox->setStyleSheet("QComboBox { min-height: 30px; }"
+                            "QComboBox QAbstractItemView::item{ min-height: 30px; }");
+    comboBox->setView(new QListView());
+
+    //    comboBox->setStyleSheet(QString::fromUtf8("min-height: 30px;background-color: rgb(255, 255, 255);"
+    //                                              "color: rgb(68, 68, 68);font: 14px ;"));
     label_3 = new QLabel(centralwidget);
     label_3->setText(tr("问题描述"));
     label_3->setObjectName(QString::fromUtf8("label_3"));
-    label_3->setGeometry(QRect(35, 145, 61, 20));
+    label_3->setGeometry(QRect(35, 145, 63, 20));
     label_3->setStyleSheet(QString::fromUtf8("font: 14px ;\n"
                                              "color: rgb(68, 68, 68);\n"
                                              ""));
@@ -173,6 +188,7 @@ void feedback::UI_init()
     frame->setGeometry(QRect(140, 145, 320, 120));
     frame->setFrameShape(QFrame::StyledPanel);
     frame->setFrameShadow(QFrame::Raised);
+
     textEdit = new QTextEdit(frame);
     textEdit->setObjectName(QString::fromUtf8("textEdit"));
     textEdit->setGeometry(QRect(10, 10, 300, 100));
@@ -183,7 +199,7 @@ void feedback::UI_init()
     palette_textedit.setBrush(QPalette::PlaceholderText,QColor("#CCCCCC"));
     textEdit->setPalette(palette_textedit);
     textEdit->setPlaceholderText(tr("请输入内容"));//设置详细输入框的提示信息
-
+    textEdit->setStyle(new CustomStyle("ukui-light"));
 
 
     label_4 = new QLabel(centralwidget);
@@ -203,7 +219,7 @@ void feedback::UI_init()
     label_5 = new QLabel(centralwidget);
     label_5->setText(tr("*"));
     label_5->setObjectName(QString::fromUtf8("label_5"));
-    label_5->setGeometry(QRect(93, 142, 16, 16));
+    label_5->setGeometry(QRect(95, 142, 16, 16));
     label_5->setStyleSheet(QString::fromUtf8("font: 11pt \"Sans Serif\";\n"
                                              "color: rgb(255, 0, 0);"));
     label_6 = new QLabel(centralwidget);
@@ -271,8 +287,8 @@ void feedback::UI_init()
     pushButton_3->setFlat(true);
     pushButton_3->setEnabled(false);
     pushButton_3->setStyleSheet(QString::fromUtf8("font: 14px;\n"
-                                                  "color: rgb(85, 85, 255);"));
-
+                                                  "color: rgb(85, 85, 255);"
+                                                  "background-color:rgb(255,255,255)"));
 
     verticalWidget = new QWidget();
     verticalWidget->setObjectName(QString::fromUtf8("verticalWidget"));
@@ -325,7 +341,7 @@ void feedback::UI_init()
     label_9 = new QLabel(centralwidget);
     label_9->setText(tr("限200字"));
     label_9->setObjectName(QString::fromUtf8("label_9"));
-    label_9->setGeometry(QRect(470, 145, 44, 18));
+    label_9->setGeometry(QRect(470, 145, 50, 18));
     label_9->setStyleSheet(QString::fromUtf8("color: rgb(136, 136, 136);\n"
                                              "font: 12px;"));
 
@@ -371,7 +387,7 @@ void feedback::UI_init()
     label_13 = new QLabel(centralwidget);
     label_13->setText(tr("文件大小超过了10MB或文件格式不支持"));
     label_13->setObjectName(QString::fromUtf8("label_13"));
-    label_13->setGeometry(QRect(140, 407, 260, 16));
+    label_13->setGeometry(QRect(140, 407, 300, 16));
     label_13->hide();
     label_13->setStyleSheet(QString::fromUtf8("color: rgb(255, 0, 0);font:12px"));
     this->setCentralWidget(centralwidget);
@@ -379,23 +395,29 @@ void feedback::UI_init()
 
     //最小化和关闭按钮
     pushButton_mix = new hideBtn_hover(centralwidget);
-    pushButton_mix->setGeometry(QRect(532, 4, 30, 30));
+    pushButton_mix->setGeometry(QRect(520, 14, 30, 30));
     pushButton_mix->setStyleSheet("background-color: rgb(255,255,255);border-image:url(:/image/mix_default.png);border-radius:4px;");
 
 
     connect(pushButton_mix,SIGNAL(clicked()),this,SLOT(on_pushButton_mix_clicked()));
 
     pushButton_close = new closeBtn_hover(centralwidget);
-    pushButton_close->setGeometry(QRect(566, 4, 30, 30));
+    pushButton_close->setGeometry(QRect(554, 14, 30, 30));
     pushButton_close->setStyleSheet("background-color: rgb(255,255,255);border-image:url(:/image/close_default.png);border-radius:4px;");
 
     //添加附件列表
     file_listwidget = new QListWidget(this);
     file_listwidget->setGeometry(QRect(140,407,320,40));
-    file_listwidget->setStyleSheet("background-color: rgb(255,255,255);selection-background-color: rgb(255,255,255);");
+
+    file_listwidget->setStyleSheet("selection-background-color: rgb(255,255,255);");
+
+    file_listwidget->setStyle(new CustomStyle("ukui-light"));
+
+    file_listwidget->setAttribute(Qt::WA_TranslucentBackground);
     file_listwidget->setFrameShape(QListWidget::NoFrame);
+
     //设置横向纵向无下拉条
-    file_listwidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    //    file_listwidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     file_listwidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     //添加提交图片
@@ -479,7 +501,9 @@ void feedback::on_pushButton_clicked()
     pushButton->setStyleSheet("font: 14px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(68, 68, 68)");
     filename=QFileDialog::getOpenFileName(this,tr("选择图片"),"/","Image file(*.gif *.jpg *.png)",0);
 
-    //判断文件是否重复添加
+    if (filename.isEmpty())
+        return;
+    //判断文件个数
     if (file_name_list.size() ==0)
     {
         //添加附件框改变
@@ -506,7 +530,6 @@ void feedback::on_pushButton_clicked()
             //添加附件框改变
             lineEdit->setText(filename);
             add_fileinfo_model();
-
         }
     }
 }
@@ -686,7 +709,7 @@ void feedback::on_comboBox_currentIndexChanged(const QString &arg1)
 //提交过程中所有控件不可以操作
 void feedback::set_all_disable_in_submit()
 {
-    comboBox->setEnabled(false);
+    //    comboBox->setEnabled(false);
     textEdit->setEnabled(false);
     lineEdit_2->setEnabled(false);
     checkBox->setEnabled(false);
@@ -703,7 +726,7 @@ void feedback::set_all_disable_in_submit()
 //提交完成后所有控件还原
 void feedback::set_all_enable_after_submit()
 {
-    comboBox->setEnabled(true);
+    //    comboBox->setEnabled(true);
     textEdit->setEnabled(true);
     lineEdit_2->setEnabled(true);
     checkBox->setEnabled(true);
@@ -747,6 +770,7 @@ void feedback::on_pushButton_2_clicked()
     }
 
     label_13->hide();
+    file_listwidget->move(140,407);
     pushButton_2->setEnabled(false);
     pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(255, 255, 255)");
 
@@ -959,9 +983,11 @@ void feedback::del_file_button_clicked()
 
     if( btn == file_widget[0]->deletebtn0 )
     {
+        qDebug()<<file_name_list.size()<<"delete before";
         file_name_list.removeAt(0);
         file_size_list.removeAt(0);
         file_path_list.removeAt(0);
+        qDebug()<<file_name_list.size()<<"delete after";
         qDebug() << "delete 0";
     }
     else if( btn == file_widget[1]->deletebtn0 )
@@ -991,7 +1017,7 @@ void feedback::del_file_button_clicked()
         file_size_list.removeAt(4);
         file_path_list.removeAt(4);
     }
-    qDebug()<<file_name_list.size()<<"after";
+    qDebug()<<file_name_list.size()<<"-----after";
     foreach(auto item,file_name_list)
     {
         qDebug()<<item<<"after";
@@ -1073,45 +1099,45 @@ void feedback::add_fileinfo_model()
 
     //向stringlist 添加数据
     qDebug()<<"向stringlist 添加数据"<<file_name_list.size()<<"--"<<file_size_list.size()<<"---"<<file_path_list.size();
+
+    for(int i=0; i<file_name_list.size(); i++)
+    {
+        file_listwidget->removeItemWidget(file_listwidget_item[i]);
+        delete file_listwidget_item[i];
+        file_listwidget_item[i] = nullptr;
+        delete file_widget[i];
+        file_widget[i] = nullptr;
+    }
     //限制添加的文件最多五个
     if(file_name_list.size() < 5){
         file_name_list.append(file_name);
         file_size_list.append(file_size);
         file_path_list.append(filename);
     }
-    for(int i=0; i<file_name_list.size()-1; i++)
-    {
-        delete file_listwidget_item[i];
-        delete file_widget[i];
-    }
+
     update_add_file_window();
 }
 //根据数据列表 刷新窗口
 void feedback::update_add_file_window()
 {
-    if(filename.isEmpty()){
-        return;
-    }
-
 
     for(int filenum=0; filenum<file_name_list.size(); filenum++)
     {
         file_listwidget_item[filenum] = new QListWidgetItem;
-        file_listwidget_item[filenum]->setSizeHint(QSize(320,20));
-        //file_listwidget_item[filenum]->setTextColor(QColor());
+        file_listwidget_item[filenum]->setSizeHint(QSize(320,25));
         file_listwidget->addItem(file_listwidget_item[filenum]);
         file_widget[filenum] = new fileitem_init(file_listwidget);
         file_listwidget->setItemWidget(file_listwidget_item[filenum],file_widget[filenum]);
 
 
-        file_widget[filenum]->filename_label0->move(0,0);
+        file_widget[filenum]->filename_label0->move(0,3);
         file_widget[filenum]->filename_label0->setText(file_name_list.at(filenum));
         file_widget[filenum]->filename_label0->setStyleSheet("font: 12px ;color: rgb(68,68,68);");
         file_widget[filenum]->filename_label0->adjustSize();
 
         int filename_width = file_widget[filenum]->filename_label0->geometry().width();
 
-        file_widget[filenum]->filesize_label0->move(filename_width+10,0);
+        file_widget[filenum]->filesize_label0->move(filename_width+10,3);
         file_widget[filenum]->filesize_label0->setText(file_size_list.at(filenum));
         file_widget[filenum]->filesize_label0->setStyleSheet("font: 12px ;color: rgb(68,68,68);");
         file_widget[filenum]->filesize_label0->adjustSize();
@@ -1120,7 +1146,9 @@ void feedback::update_add_file_window()
 
         file_widget[filenum]->deletebtn0->setGeometry(filename_width+filesize_width+20,0,35,25);
         file_widget[filenum]->deletebtn0->setText(tr("删除"));
-        file_widget[filenum]->deletebtn0->setStyleSheet("font: 12px ;color: rgb(61,107,229)");
+        file_widget[filenum]->deletebtn0->setStyleSheet("QPushButton{font: 12px ;color: rgb(61,107,229);background-color:rgb(255,255,255)}"
+                                                        "");
+        file_widget[filenum]->deletebtn0->setStyle(new CustomStyle("ukui"));
         file_widget[filenum]->deletebtn0->setFlat(true);
 
         connect( file_widget[filenum]->deletebtn0, SIGNAL(clicked()), this, SLOT(del_file_button_clicked()) );
@@ -1188,8 +1216,9 @@ void feedback::finishedSlot(QNetworkReply *reply)
                                                   "border:4px ;"));
     pushButton_2->setIcon(QIcon());
 
-    qDebug()<<"this is send feedbackinfo finished";
+    set_all_enable_after_submit();
 
+    qDebug()<<"this is send feedbackinfo finished";
 
     // 获取http状态码
     statusCode_info = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
@@ -1207,12 +1236,11 @@ void feedback::finishedSlot(QNetworkReply *reply)
         success_dialog = new submit_success(this);
         success_dialog->setModal(false);
         success_dialog->show();
-
         //解析JSON 获取uid annex_uid
         QString uid_value;
         QJsonParseError jsonerror;
         QJsonDocument document = QJsonDocument::fromJson(bytes_info,&jsonerror);
-
+        qDebug()<<"this is send file _httpserver";
 
         if(!document.isNull() &&(jsonerror.error == QJsonParseError::NoError))
         {
@@ -1221,6 +1249,7 @@ void feedback::finishedSlot(QNetworkReply *reply)
                 uid_value = object["uid"].toString();
             }
         }
+        qDebug()<<"this is send file _httpserver";
         //发送文件
         send_file_httpserver(uid_value);
     }
@@ -1249,16 +1278,55 @@ void feedback::set_request_header()
 void feedback::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e);
-    QStyleOption opt;
-    opt.init(this);
-    QPainter p(this);
-    p.save();
-    p.setBrush(Qt::white);
-    p.setPen(Qt::NoPen);
-    p.drawRoundedRect(opt.rect,0,0);
-    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
-    p.restore();
+    //    QStyleOption opt;
+    //    opt.init(this);
+    //    QPainter p(this);
+    //    p.save();
+    //    p.setBrush(Qt::white);
+    //    p.setPen(QColor("#cfcfcf"));
+    //    p.drawRoundedRect(opt.rect,0,0);
+    //    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+    //    p.restore();
 
+
+    //    setAttribute(Qt::WA_TranslucentBackground);   //设置窗口半透明 设置阴影时需要
+
+
+
+    QPainter p(this);
+    p.setRenderHint(QPainter::Antialiasing);
+    QPainterPath rectPath;
+    rectPath.addRoundedRect(this->rect().adjusted(6, 6, -6, -6),6,6);
+    // 画一个黑底
+    QPixmap pixmap(this->rect().size());
+    pixmap.fill(Qt::transparent);
+    QPainter pixmapPainter(&pixmap);
+    pixmapPainter.setRenderHint(QPainter::Antialiasing);
+    pixmapPainter.setPen(Qt::transparent);
+    pixmapPainter.setBrush(Qt::black);
+    pixmapPainter.drawPath(rectPath);
+    pixmapPainter.end();
+
+    // 模糊这个黑底
+    QImage img = pixmap.toImage();
+    qt_blurImage(img, 10, false, false);
+
+    // 挖掉中心
+    pixmap = QPixmap::fromImage(img);
+    QPainter pixmapPainter2(&pixmap);
+    pixmapPainter2.setRenderHint(QPainter::Antialiasing);
+    pixmapPainter2.setCompositionMode(QPainter::CompositionMode_Clear);
+    pixmapPainter2.setPen(Qt::transparent);
+    pixmapPainter2.setBrush(Qt::transparent);
+    pixmapPainter2.drawPath(rectPath);
+
+    // 绘制阴影
+    p.drawPixmap(this->rect(), pixmap, pixmap.rect());
+
+    // 随便绘制一个背景
+    p.save();
+    p.fillPath(rectPath, QColor(255, 255, 255));
+    p.restore();
 }
 
 

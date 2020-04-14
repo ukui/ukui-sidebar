@@ -17,9 +17,10 @@
 */
 #include "submit_fail.h"
 #include "feedback.h"
+#include "browse_button.h"
 
 
-
+extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 
 submit_fail::submit_fail(QWidget *parent) :
     QDialog(parent)
@@ -27,6 +28,8 @@ submit_fail::submit_fail(QWidget *parent) :
 
     UI_init();
     parentWnd = (feedback *)parent;
+    setAttribute(Qt::WA_TranslucentBackground);
+
 
 }
 
@@ -37,25 +40,25 @@ void submit_fail::UI_init()
     setWindowTitle(tr("提交失败"));
 
     this->resize(430, 260);
-    this->setStyleSheet(QString::fromUtf8("border:2px;"));
+
     this->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);//设置窗口无边框
 
     //--------设置圆角
-    QBitmap bmp(this->size());
+//    QBitmap bmp(this->size());
 
-    bmp.fill();
+//    bmp.fill();
 
-    QPainter p(&bmp);
+//    QPainter p(&bmp);
 
-    p.setPen(Qt::NoPen);
+//    p.setPen(Qt::NoPen);
 
-    p.setBrush(Qt::black);
+//    p.setBrush(Qt::black);
 
-    p.setRenderHint(QPainter::Antialiasing);
+//    p.setRenderHint(QPainter::Antialiasing);
 
-    p.drawRoundedRect(bmp.rect(),6,6);
+//    p.drawRoundedRect(bmp.rect(),6,6);
 
-    setMask(bmp);
+//    setMask(bmp);
     //----- ------------------------
 
 
@@ -68,7 +71,7 @@ void submit_fail::UI_init()
 
 
     fail_closeBtn = new closeBtn_hover(this);
-    fail_closeBtn->setGeometry(QRect(396, 4, 30, 30));
+    fail_closeBtn->setGeometry(QRect(386, 14, 30, 30));
     fail_closeBtn->setStyleSheet("background-color: rgb(255,255,255);border-image:url(:/image/close_default.png);border-radius:4px;");
 
     connect(fail_closeBtn,SIGNAL(clicked()),this,SLOT(close_fail_window()));
@@ -77,15 +80,20 @@ void submit_fail::UI_init()
     resendBtn->setGeometry(QRect(130, 160, 60, 26));
     resendBtn->setText(tr("重新发送"));
     resendBtn->setFlat(true);
-    resendBtn->setStyleSheet(QString::fromUtf8("color: rgb(61, 107, 229);"));
+    resendBtn->setStyleSheet(QString::fromUtf8("QPushButton{color: rgb(61, 107, 229);}"
+                                                  "QPushButton:hover {color: rgb(255,255,255);}"
+                                                  ""));
     connect(resendBtn,SIGNAL(clicked()),this,SLOT(resend_feedbackinfo()));
 
     pushButton_2 = new QPushButton(this);
     pushButton_2->setText(tr("退出"));
     pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
     pushButton_2->setGeometry(QRect(220, 160, 40, 26));
-    pushButton_2->setStyleSheet(QString::fromUtf8("color: rgb(61, 107, 229);"));
     pushButton_2->setFlat(true);
+    pushButton_2->setStyleSheet(QString::fromUtf8("QPushButton{color: rgb(61, 107, 229);}"
+                                                  "QPushButton:hover {color: rgb(255,255,255);}"
+                                                  ""));
+
     label_2 = new QLabel(this);
     label_2->setObjectName(QString::fromUtf8("label_2"));
     label_2->setGeometry(QRect(70, 94, 50, 50));
@@ -138,14 +146,50 @@ void submit_fail::resend_feedbackinfo()
 }
 void submit_fail::paintEvent(QPaintEvent *e)
 {
-    Q_UNUSED(e);
-    QStyleOption opt;
-    opt.init(this);
+//    Q_UNUSED(e);
+//    QStyleOption opt;
+//    opt.init(this);
+//    QPainter p(this);
+//    p.save();
+//    p.setBrush(Qt::white);
+//    p.setPen(QColor("#cfcfcf"));
+//    p.drawRoundedRect(opt.rect,0,0);
+//    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+//    p.restore();
+
+
     QPainter p(this);
+    p.setRenderHint(QPainter::Antialiasing);
+    QPainterPath rectPath;
+    rectPath.addRoundedRect(this->rect().adjusted(6, 6, -6, -6), 6, 6);
+    // 画一个黑底
+    QPixmap pixmap(this->rect().size());
+    pixmap.fill(Qt::transparent);
+    QPainter pixmapPainter(&pixmap);
+    pixmapPainter.setRenderHint(QPainter::Antialiasing);
+    pixmapPainter.setPen(Qt::transparent);
+    pixmapPainter.setBrush(Qt::black);
+    pixmapPainter.drawPath(rectPath);
+    pixmapPainter.end();
+
+    // 模糊这个黑底
+    QImage img = pixmap.toImage();
+    qt_blurImage(img, 10, false, false);
+
+    // 挖掉中心
+    pixmap = QPixmap::fromImage(img);
+    QPainter pixmapPainter2(&pixmap);
+    pixmapPainter2.setRenderHint(QPainter::Antialiasing);
+    pixmapPainter2.setCompositionMode(QPainter::CompositionMode_Clear);
+    pixmapPainter2.setPen(Qt::transparent);
+    pixmapPainter2.setBrush(Qt::transparent);
+    pixmapPainter2.drawPath(rectPath);
+
+    // 绘制阴影
+    p.drawPixmap(this->rect(), pixmap, pixmap.rect());
+
+    // 随便绘制一个背景
     p.save();
-    p.setBrush(Qt::white);
-    p.setPen(Qt::NoPen);
-    p.drawRoundedRect(opt.rect,0,0);
-    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+    p.fillPath(rectPath, QColor(255, 255, 255));
     p.restore();
 }

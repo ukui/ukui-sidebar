@@ -150,6 +150,9 @@ public:
 
 signals:
 
+protected:
+    void drawComBoxIndicator(SubControl which, const QStyleOptionComplex *option,QPainter *painter) const;
+
 public slots:
 };
 
