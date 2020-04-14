@@ -4,223 +4,230 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../feedback_plugin.h" line="40"/>
+        <location filename="../feedback_plugin.h" line="37"/>
+        <location filename="../feedback_plugin.h" line="47"/>
         <location filename="../feedback_plugin.h" line="50"/>
-        <location filename="../feedback_plugin.h" line="53"/>
         <source>用户反馈</source>
         <translatorcomment>Feedback</translatorcomment>
         <translation type="unfinished">Feedback</translation>
     </message>
     <message>
-        <location filename="../feedback_plugin.h" line="42"/>
+        <location filename="../feedback_plugin.h" line="39"/>
         <source>用户反馈问题的插件</source>
         <translatorcomment>feedback  plugins</translatorcomment>
-        <translation type="unfinished">feedback  plugins</translation>
+        <translation>feedback  plugins</translation>
     </message>
 </context>
 <context>
     <name>feedback</name>
     <message>
-        <location filename="../feedback.cpp" line="71"/>
+        <location filename="../feedback.cpp" line="117"/>
         <source>用户反馈</source>
         <translatorcomment>FeedBack</translatorcomment>
-        <translation type="unfinished">FeedBack</translation>
+        <translation>FeedBack</translation>
     </message>
     <message>
-        <location filename="../feedback.cpp" line="80"/>
+        <location filename="../feedback.cpp" line="149"/>
         <source>问题反馈</source>
         <translatorcomment>feedback</translatorcomment>
-        <translation type="unfinished">feedback</translation>
+        <translation>feedback</translation>
     </message>
     <message>
-        <location filename="../feedback.cpp" line="87"/>
+        <location filename="../feedback.cpp" line="156"/>
         <source>问题类型</source>
         <translatorcomment>backtype</translatorcomment>
-        <translation type="unfinished">backtype</translation>
+        <translation>backtype</translation>
     </message>
     <message>
-        <location filename="../feedback.cpp" line="94"/>
+        <location filename="../feedback.cpp" line="163"/>
         <source>系统问题</source>
         <translatorcomment>system issue</translatorcomment>
-        <translation type="unfinished">system issue</translation>
+        <translation>system issue</translation>
     </message>
     <message>
-        <location filename="../feedback.cpp" line="95"/>
+        <location filename="../feedback.cpp" line="164"/>
         <source>意见建议</source>
         <translatorcomment>suggestions</translatorcomment>
-        <translation type="unfinished">suggestions</translation>
+        <translation>suggestions</translation>
     </message>
     <message>
-        <location filename="../feedback.cpp" line="96"/>
+        <location filename="../feedback.cpp" line="165"/>
         <source>商务合作</source>
         <translatorcomment>Business Cooperation</translatorcomment>
-        <translation type="unfinished">Business Cooperation</translation>
+        <translation>Business Cooperation</translation>
     </message>
     <message>
-        <location filename="../feedback.cpp" line="97"/>
+        <location filename="../feedback.cpp" line="166"/>
         <source>其他</source>
         <translatorcomment>other</translatorcomment>
-        <translation type="unfinished">other</translation>
+        <translation>other</translation>
     </message>
     <message>
-        <location filename="../feedback.cpp" line="103"/>
+        <location filename="../feedback.cpp" line="173"/>
         <source>问题描述</source>
         <translatorcomment>description</translatorcomment>
-        <translation type="unfinished">description</translation>
+        <translation>description</translation>
     </message>
     <message>
-        <location filename="../feedback.cpp" line="118"/>
+        <location filename="../feedback.cpp" line="193"/>
         <source>请输入内容</source>
         <translatorcomment>Please enter content</translatorcomment>
-        <translation type="unfinished">Please enter content</translation>
+        <translation>Please enter content</translation>
     </message>
     <message>
-        <location filename="../feedback.cpp" line="123"/>
+        <location filename="../feedback.cpp" line="198"/>
         <source>邮箱</source>
         <translatorcomment>email</translatorcomment>
-        <translation type="unfinished">email</translation>
+        <translation>email</translation>
     </message>
     <message>
-        <location filename="../feedback.cpp" line="131"/>
+        <location filename="../feedback.cpp" line="206"/>
         <source>邮箱格式输入不正确</source>
         <translatorcomment>Email format is incorrect</translatorcomment>
-        <translation type="unfinished">Email format is incorrect</translation>
+        <translation>Email format is incorrect</translation>
     </message>
     <message>
-        <location filename="../feedback.cpp" line="137"/>
-        <location filename="../feedback.cpp" line="143"/>
+        <location filename="../feedback.cpp" line="212"/>
+        <location filename="../feedback.cpp" line="218"/>
         <source>*</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../feedback.cpp" line="155"/>
+        <location filename="../feedback.cpp" line="233"/>
         <source>上传附件</source>
-        <translatorcomment>Upload Attachment</translatorcomment>
-        <translation type="unfinished">Upload Attachment</translation>
+        <translatorcomment>Upload</translatorcomment>
+        <translation type="unfinished">Upload</translation>
     </message>
     <message>
-        <location filename="../feedback.cpp" line="166"/>
+        <location filename="../feedback.cpp" line="244"/>
         <source>文件大小不能超过10MB</source>
         <translatorcomment>File size cannot exceed 10MB</translatorcomment>
         <translation type="unfinished">File size cannot exceed 10MB</translation>
     </message>
     <message>
-        <location filename="../feedback.cpp" line="171"/>
+        <location filename="../feedback.cpp" line="252"/>
         <source>浏览...</source>
         <translatorcomment>Browse</translatorcomment>
         <translation type="unfinished">Browse</translation>
     </message>
     <message>
-        <location filename="../feedback.cpp" line="179"/>
+        <location filename="../feedback.cpp" line="260"/>
         <source>同意获取我的</source>
         <translatorcomment>get mine</translatorcomment>
         <translation type="unfinished">get mine</translation>
     </message>
     <message>
-        <location filename="../feedback.cpp" line="185"/>
-        <location filename="../feedback.cpp" line="979"/>
+        <location filename="../feedback.cpp" line="266"/>
+        <location filename="../feedback.cpp" line="1061"/>
+        <location filename="../feedback.cpp" line="1193"/>
         <source>提交</source>
         <translatorcomment>submit</translatorcomment>
         <translation type="unfinished">submit</translation>
     </message>
     <message>
-        <location filename="../feedback.cpp" line="194"/>
+        <location filename="../feedback.cpp" line="275"/>
         <source>系统信息</source>
         <translatorcomment>osinfo</translatorcomment>
         <translation type="unfinished">osinfo</translation>
     </message>
     <message>
-        <location filename="../feedback.cpp" line="246"/>
+        <location filename="../feedback.cpp" line="327"/>
         <source>日志文件</source>
         <translatorcomment>Log file</translatorcomment>
         <translation type="unfinished">Log file</translation>
     </message>
     <message>
-        <location filename="../feedback.cpp" line="253"/>
+        <location filename="../feedback.cpp" line="334"/>
         <source>限200字</source>
         <translatorcomment>200 words</translatorcomment>
         <translation type="unfinished">200 words</translation>
     </message>
     <message>
-        <location filename="../feedback.cpp" line="269"/>
+        <location filename="../feedback.cpp" line="350"/>
         <source>syslog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../feedback.cpp" line="278"/>
+        <location filename="../feedback.cpp" line="359"/>
         <source>apport.log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../feedback.cpp" line="286"/>
+        <location filename="../feedback.cpp" line="369"/>
         <source>dpkg.log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../feedback.cpp" line="296"/>
+        <location filename="../feedback.cpp" line="380"/>
         <source>文件大小超过了10MB或文件格式不支持</source>
         <translatorcomment>File size exceeds 10MB or file format is not supported</translatorcomment>
         <translation type="unfinished">File size exceeds 10MB or file format is not supported</translation>
     </message>
     <message>
-        <location filename="../feedback.cpp" line="406"/>
+        <location filename="../feedback.cpp" line="490"/>
         <source>选择图片</source>
         <translatorcomment>select image</translatorcomment>
         <translation type="unfinished">select image</translation>
     </message>
     <message>
-        <location filename="../feedback.cpp" line="918"/>
+        <location filename="../feedback.cpp" line="1132"/>
         <source>删除</source>
-        <translatorcomment>delete</translatorcomment>
-        <translation type="unfinished">delete</translation>
+        <translatorcomment>del</translatorcomment>
+        <translation type="unfinished">del</translation>
     </message>
 </context>
 <context>
     <name>submit_fail</name>
     <message>
-        <location filename="../submit_fail.cpp" line="36"/>
+        <location filename="../submit_fail.cpp" line="40"/>
         <source>提交失败</source>
         <translatorcomment>submit fail</translatorcomment>
         <translation type="unfinished">submit fail</translation>
     </message>
     <message>
-        <location filename="../submit_fail.cpp" line="42"/>
+        <location filename="../submit_fail.cpp" line="66"/>
         <source>问题提交失败</source>
         <translatorcomment>issue submitfail</translatorcomment>
         <translation type="unfinished">issue submitfail</translation>
     </message>
     <message>
-        <location filename="../submit_fail.cpp" line="48"/>
+        <location filename="../submit_fail.cpp" line="81"/>
+        <source>重新发送</source>
+        <translatorcomment>resend</translatorcomment>
+        <translation type="unfinished">resend</translation>
+    </message>
+    <message>
+        <location filename="../submit_fail.cpp" line="89"/>
         <source>退出</source>
         <translatorcomment>exit</translatorcomment>
         <translation type="unfinished">exit</translation>
     </message>
     <message>
-        <location filename="../submit_fail.cpp" line="69"/>
+        <location filename="../submit_fail.cpp" line="113"/>
         <source>远程服务器拒绝连接</source>
         <translatorcomment>The remote server refused the connection</translatorcomment>
         <translation type="unfinished">The remote server refused the connection</translation>
     </message>
     <message>
-        <location filename="../submit_fail.cpp" line="72"/>
+        <location filename="../submit_fail.cpp" line="116"/>
         <source>服务器关闭</source>
         <translatorcomment>Server down</translatorcomment>
         <translation type="unfinished">Server down</translation>
     </message>
     <message>
-        <location filename="../submit_fail.cpp" line="75"/>
+        <location filename="../submit_fail.cpp" line="119"/>
         <source>找不到远程主机名（无效的主机名）</source>
         <translatorcomment>Cannot find remote host name (invalid host name)</translatorcomment>
         <translation type="unfinished">Cannot find remote host name (invalid host name)</translation>
     </message>
     <message>
-        <location filename="../submit_fail.cpp" line="78"/>
+        <location filename="../submit_fail.cpp" line="122"/>
         <source>与远程服务器的连接超时</source>
         <translatorcomment>Connection to remote server timed out</translatorcomment>
         <translation type="unfinished">Connection to remote server timed out</translation>
     </message>
     <message>
-        <location filename="../submit_fail.cpp" line="81"/>
+        <location filename="../submit_fail.cpp" line="125"/>
         <source>未知错误</source>
         <translatorcomment>unknown mistake</translatorcomment>
         <translation type="unfinished">unknown mistake</translation>
@@ -229,25 +236,25 @@
 <context>
     <name>submit_success</name>
     <message>
-        <location filename="../submit_success.cpp" line="32"/>
+        <location filename="../submit_success.cpp" line="36"/>
         <source>提交成功 </source>
         <translatorcomment>Submitted successfully</translatorcomment>
         <translation type="unfinished">Submitted successfully</translation>
     </message>
     <message>
-        <location filename="../submit_success.cpp" line="36"/>
+        <location filename="../submit_success.cpp" line="40"/>
         <source>问题提交成功</source>
         <translatorcomment>Question submitted successfully</translatorcomment>
         <translation type="unfinished">Question submitted successfully</translation>
     </message>
     <message>
-        <location filename="../submit_success.cpp" line="42"/>
+        <location filename="../submit_success.cpp" line="70"/>
         <source>继续反馈问题</source>
         <translatorcomment>Continue feedback</translatorcomment>
         <translation type="unfinished">Continue feedback</translation>
     </message>
     <message>
-        <location filename="../submit_success.cpp" line="48"/>
+        <location filename="../submit_success.cpp" line="78"/>
         <source>退出</source>
         <translatorcomment>exit</translatorcomment>
         <translation type="unfinished">exit</translation>
