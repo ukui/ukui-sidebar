@@ -113,17 +113,13 @@ void SidebarClipboardPlugin::createWidget()
 void SidebarClipboardPlugin::createTipLable()
 {
     m_pSideBarClipboardLable = new QLabel(tr("No clip content"));
-    m_pSideBarClipboardLable->setContentsMargins(165, 50, 132, 100);
+    m_pSideBarClipboardLable->setContentsMargins(165, 70, 132, 90);
     QTimer::singleShot(1, m_pSideBarClipboardLable, [=](){
         QFont font = m_pSideBarClipboardLable->font();
         font.setPixelSize(14);
         font.setFamily("Noto Sans CJK SC");
         m_pSideBarClipboardLable->setFont(font);
     });
-//    QFont fontLable = m_pSideBarClipboardLable->font();
-//    fontLable.setFamily("Noto Sans CJK SC");
-//    fontLable.setPixelSize(14);
-//    m_pSideBarClipboardLable->setFont(fontLable);
 }
 
 /* 构造原型的QMimeData数据类型 */
@@ -638,8 +634,11 @@ void SidebarClipboardPlugin::ItemNumchagedSlots()
     if (num > 0) {
         m_pSideBarClipboardLable->setVisible(false);
         m_pShortcutOperationListWidget->setVisible(true);
+        m_pSearchArea->m_pClearListWidgetButton->setEnabled(true);
     } else {
         m_pSideBarClipboardLable->setVisible(true);
         m_pShortcutOperationListWidget->setVisible(false);
+        m_pSearchArea->m_pClearListWidgetButton->setEnabled(false);
+//        emit ClipBoardInternalSignal::getGlobalInternalSignal()->ClipboardEntryEmptySetCleanButton();
     }
 }

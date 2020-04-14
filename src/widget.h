@@ -124,10 +124,8 @@ private:
     //系统托盘
     QSystemTrayIcon*            trayIcon;
     QMenu*                      trayIconMenu;
-    QAction*                    minimizeAction;
-    QAction*                    maximizeAction;
-    QAction*                    restoreAction;
-    QAction*                    quitAction;
+    QAction*                    Open;
+    QAction*                    OpenSetUp;
     QTimer*                     m_pTimer;                                       //新通知闪烁定时器
     bool                        m_bFwinkleFlag;                                 //新通知闪烁标志
 
@@ -142,6 +140,8 @@ private slots :
     void ClipboardShowSlots();                                                  //接受剪贴板信号，将boll值m_bClipboardFlag置为false;
     void ClipboardHideSlots();                                                  //接受剪贴板信号，将boll值m_bClipboardFlag置为true;
     void screenCountChangedSlots(int count);                                    //屏幕数量改变时对应槽函数
+    void OpenSidebarSlots();                                                    //打开侧边栏
+    void OpenControlCenterSettings();                                           //打开控制中心的通知中心
 };
 
 #endif // WIDGET_H

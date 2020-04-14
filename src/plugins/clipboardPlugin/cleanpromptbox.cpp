@@ -109,20 +109,20 @@ void CleanPromptBox::creatorButtonWidget()
     connect(m_pCancelButton, &QPushButton::clicked, this, &CleanPromptBox::reject);
 
     /* 设置按钮字体\背景颜色 */
-    auto palette = m_pCancelButton->palette();
-    QColor ColorPlaceholderText(255,255,255,31);
-    palette.setColor(QPalette::ButtonText,Qt::white);
-    palette.setColor(QPalette::Button, ColorPlaceholderText);
-    palette.setColor(QPalette::Highlight, Qt::transparent);
-    m_pCancelButton->setPalette(palette);
+//    auto palette = m_pCancelButton->palette();
+//    QColor ColorPlaceholderText(255,255,255,31);
+//    palette.setColor(QPalette::ButtonText,Qt::white);
+//    palette.setColor(QPalette::Button, ColorPlaceholderText);
+//    palette.setColor(QPalette::Highlight, Qt::transparent);
+//    m_pCancelButton->setPalette(palette);
     m_pCancelButton->setStyle(new CustomStyle_pushbutton_2("ukui-default"));
 
     /* 设置按钮字体\背景颜色 */
-    QPalette paleteConfirmButton;
-    QColor ColorPlaceholderTextConfirmButton(61, 107, 229, 255);
-    paleteConfirmButton.setColor(QPalette::ButtonText,Qt::white);
-    paleteConfirmButton.setColor(QPalette::Button, ColorPlaceholderTextConfirmButton);
-    m_pConfirmButton->setPalette(paleteConfirmButton);
+//    QPalette paleteConfirmButton;
+//    QColor ColorPlaceholderTextConfirmButton(61, 107, 229, 255);
+//    paleteConfirmButton.setColor(QPalette::ButtonText,Qt::white);
+//    paleteConfirmButton.setColor(QPalette::Button, ColorPlaceholderTextConfirmButton);
+//    m_pConfirmButton->setPalette(paleteConfirmButton);
     m_pConfirmButton->setStyle(new CustomStyle("ukui-default"));
 
     m_pConfirmButton->setFixedSize(120, 34);

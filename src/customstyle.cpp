@@ -22,7 +22,8 @@
 #include <QStyleFactory>
 #include <QWidget>
 #include <QVariant>
-
+#include <QStyleOptionSlider>
+#include <QPainter>
 CustomStyle::CustomStyle(const QString &proxyStyleName, QObject *parent) : QProxyStyle (proxyStyleName)
 {
 
@@ -30,6 +31,75 @@ CustomStyle::CustomStyle(const QString &proxyStyleName, QObject *parent) : QProx
 
 void CustomStyle::drawComplexControl(QStyle::ComplexControl control, const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const
 {
+    switch (control) {
+    case CC_ToolButton:
+    {
+        if (const QStyleOptionToolButton *toolbutton
+                = qstyleoption_cast<const QStyleOptionToolButton *>(option)) {
+            QRect button, menuarea,rect;
+            button = proxy()->subControlRect(control, toolbutton, SC_ToolButton, widget);
+            menuarea = proxy()->subControlRect(control, toolbutton, SC_ToolButtonMenu, widget);
+            rect = proxy()->subControlRect(CC_ToolButton,toolbutton,SC_None,widget);
+
+            State bflags = toolbutton->state & ~State_Sunken;
+
+            if (bflags & State_AutoRaise) {
+                if (!(bflags & State_MouseOver) || !(bflags & State_Enabled)) {
+                    bflags &= ~State_Raised;
+                }
+            }
+            State mflags = bflags;
+            if (toolbutton->state & State_Sunken) {
+                if (toolbutton->activeSubControls & SC_ToolButton)
+                    bflags |= State_Sunken;
+                mflags |= State_Sunken;
+            }
+
+            QStyleOption tool = *toolbutton;
+            tool.state = bflags;
+            if(mflags & (State_Sunken | State_MouseOver))
+            {
+                tool.state = mflags;
+            }
+            tool.rect = rect;
+            proxy()->drawPrimitive(PE_PanelButtonTool, &tool, painter, widget);
+
+            if (toolbutton->state & State_HasFocus) {
+                QStyleOptionFocusRect fr;
+                fr.QStyleOption::operator=(*toolbutton);
+                fr.rect.adjust(3, 3, -3, -3);
+                if (toolbutton->features & QStyleOptionToolButton::MenuButtonPopup)
+                    fr.rect.adjust(0, 0, -proxy()->pixelMetric(QStyle::PM_MenuButtonIndicator,
+                                                               toolbutton, widget), 0);
+                proxy()->drawPrimitive(PE_FrameFocusRect, &fr, painter, widget);
+            }
+            QStyleOptionToolButton label = *toolbutton;
+            label.state = bflags;
+            label.rect = button;
+            proxy()->drawControl(CE_ToolButtonLabel, &label, painter, widget);
+
+            if (toolbutton->subControls & SC_ToolButtonMenu) {
+                tool.rect = menuarea;
+                tool.state = mflags;
+                proxy()->drawPrimitive(PE_IndicatorArrowDown, &tool, painter, widget);
+            }
+            /*
+            ToolButton has Menu and popupmode is DelayedPopup.
+            If you want to show the arrow, please remove the comment below
+*/
+            //            else if (toolbutton->features & QStyleOptionToolButton::HasMenu) {
+            //                int mbi = qMin(button.width(),button.height())/5;
+            //                QRect ir = toolbutton->rect;
+            //                QStyleOptionToolButton newBtn = *toolbutton;
+            //                newBtn.rect = QRect(ir.right()  - mbi -1, ir.y() + ir.height() - mbi -1, mbi, mbi);
+            //                newBtn.rect = visualRect(toolbutton->direction, button, newBtn.rect);
+            //                Qt5UKUIStyle::drawPrimitive(PE_IndicatorArrowDown, &newBtn, painter, widget);
+            //            }
+        }
+        break;
+    }
+    default:break;
+    }
     return QProxyStyle::drawComplexControl(control, option, painter, widget);
 }
 
@@ -37,7 +107,7 @@ void CustomStyle::drawControl(QStyle::ControlElement element, const QStyleOption
 {
     return QProxyStyle::drawControl(element, option, painter, widget);
 }
-
+//UKUI ToolBar  item style
 void CustomStyle::drawItemPixmap(QPainter *painter, const QRect &rectangle, int alignment, const QPixmap &pixmap) const
 {
     return QProxyStyle::drawItemPixmap(painter, rectangle, alignment, pixmap);
@@ -50,6 +120,40 @@ void CustomStyle::drawItemText(QPainter *painter, const QRect &rectangle, int al
 
 void CustomStyle::drawPrimitive(QStyle::PrimitiveElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const
 {
+    switch (element)
+    {
+        case PE_PanelButtonTool:
+        {
+            if(!(option->state & State_Enabled))
+            {
+                painter->save();
+                painter->setPen(Qt::NoPen);
+                painter->setBrush(option->palette.color(QPalette::Disabled,QPalette::Button));
+                painter->setRenderHint(QPainter::Antialiasing,true);
+                painter->drawRoundedRect(option->rect,4,4);
+                painter->restore();
+                return;
+            }
+            painter->save();
+            painter->setPen(Qt::NoPen);
+            painter->setBrush(option->palette.color(QPalette::WindowText));
+            painter->setRenderHint(QPainter::Antialiasing,true);
+            painter->setOpacity(0.12);
+            if(option->state & (State_Sunken | State_On))
+            {
+                painter->setOpacity(0.08);
+            }
+            else if(option->state & State_MouseOver)
+            {
+                painter->setOpacity(0.2);
+            }
+            painter->drawRoundedRect(option->rect,4,4);
+            painter->restore();
+            return;
+          }
+    default:
+        break;
+    }
     return QProxyStyle::drawPrimitive(element, option, painter, widget);
 }
 
@@ -80,18 +184,6 @@ int CustomStyle::pixelMetric(QStyle::PixelMetric metric, const QStyleOption *opt
 
 void CustomStyle::polish(QWidget *widget)
 {
-    if (widget)
-    {
-        if (widget->inherits("QTipLabel"))
-        {
-            widget->setAttribute(Qt::WA_TranslucentBackground);
-            QPainterPath path;
-            auto rect = widget->rect();
-            rect.adjust(0, 0, -0, -0);
-            path.addRoundedRect(rect, 6, 6);
-            widget->setProperty("blurRegion", (QVariant)QRegion(path.toFillPolygon().toPolygon()));
-        }
-    }
     return QProxyStyle::polish(widget);
 }
 

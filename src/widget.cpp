@@ -178,33 +178,25 @@ int Widget::ListenClipboardSignal()
 //创建动作
 void Widget::createAction()
 {
-    minimizeAction = new QAction(tr("Mi&nimize"), this);
-    connect(minimizeAction, &QAction::triggered, this, &QWidget::hide);
+    Open = new QAction(tr("Open"), this);
+    connect(Open, &QAction::triggered, this, &Widget::OpenSidebarSlots);
 
-    maximizeAction = new QAction(tr("Ma&ximize"), this);
-    connect(maximizeAction, &QAction::triggered, this, &QWidget::showMaximized);
+    OpenSetUp = new QAction(tr("Open set up"), this);
+    connect(OpenSetUp, &QAction::triggered, this, &Widget::OpenControlCenterSettings);
 
-    restoreAction = new QAction(tr("normal"), this);
-    connect(restoreAction, &QAction::triggered, this, &QWidget::showNormal);
-
-    quitAction = new QAction(tr("&Quit"), this);
-    connect(quitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
 }
 
 //添加动作和创建 systray实例
 void Widget::createSystray()
 {
-//    trayIconMenu = new QMenu(this);
-//    if (trayIconMenu == nullptr)
-//    {
-//        qWarning() << "分配空间trayIconMenu失败";
-//        return ;
-//    }
-//    trayIconMenu->addAction(minimizeAction);
-//    trayIconMenu->addAction(maximizeAction);
-//    trayIconMenu->addAction(restoreAction);
-//    trayIconMenu->addSeparator();
-//    trayIconMenu->addAction(quitAction);
+    trayIconMenu = new QMenu(this);
+    if (trayIconMenu == nullptr)
+    {
+        qWarning() << "分配空间trayIconMenu失败";
+        return ;
+    }
+    trayIconMenu->addAction(Open);
+    trayIconMenu->addAction(OpenSetUp);
 
     trayIcon = new QSystemTrayIcon(this);
 
@@ -213,7 +205,7 @@ void Widget::createSystray()
         qWarning()<< "分配空间trayIcon失败";
         return ;
     }
-//    trayIcon->setContextMenu(trayIconMenu);
+    trayIcon->setContextMenu(trayIconMenu);
 }
 
 //设置托盘栏的图标
@@ -573,6 +565,25 @@ void Widget::ClipboardShowSlots()
 void Widget::ClipboardHideSlots()
 {
     m_bClipboardFlag = true;
+}
+
+/* 右键菜单打开侧边栏槽函数 */
+void Widget::OpenSidebarSlots()
+{
+    mostGrandWidget::getInstancemostGrandWidget()->hide();
+    MostGrandWidgetCoordinates();
+    qDebug() << "Widget::iconActivated 展开";
+    mostGrandWidget::getInstancemostGrandWidget()->show();
+    showAnimation();
+    m_bShowFlag = true;
+//  m_pTimer->stop();                               //当侧边栏展开时，停止闪烁定时器，并且设置有图标的托盘图标
+    setIcon(TRAY_ICON);
+}
+
+/* 打开控制中心的通知中心 */
+void Widget::OpenControlCenterSettings()
+{
+    qDebug() << "打开控制中心的通知中心";
 }
 
 /* 修改屏幕分辨率或者主屏需要做的事情 */

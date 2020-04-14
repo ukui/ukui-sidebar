@@ -37,6 +37,7 @@ SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
     this->setObjectName("SearhWidget");
     this->setContentsMargins(0,0,0,0);
     m_pClearListWidgetButton = new QPushButton(tr("Clear"));
+    m_pClearListWidgetButton->setEnabled(false);
     m_pClearListWidgetButton->setFixedSize(80, 34);
     m_pClearListWidgetButton->setStyle(new customstyle_search_pushbutton("ukui-default"));
     m_pClearListWidgetButton->setObjectName("CleanList");

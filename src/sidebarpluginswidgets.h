@@ -36,6 +36,7 @@
 #include "smallpluginsbutton.h"
 #include "smallpluginsmanage.h"
 #include "mostgrandwidget.h"
+#include "customstyle.h"
 class sidebarPluginsWidgets : public QWidget
 {
     Q_OBJECT

@@ -297,6 +297,7 @@ void sidebarPluginsWidgets::setSmallPluginsButtonBackgroudIsBlank()
                                                                   opacity:0.97;}");
 }
 
+/* 设置剪贴板的高度 */
 void sidebarPluginsWidgets::setClipboardWidgetSize(int ClipHight)
 {
     qDebug() << "设置小剪贴板的界面大小---->" << ClipHight;
@@ -312,7 +313,7 @@ void sidebarPluginsWidgets::paintEvent(QPaintEvent *)
     QStyleOption opt;
     opt.init(this);
     QPainter p(this);
-
+//    p.setBrush(opt.palette.color(QPalette::Base));
     p.setBrush(QBrush(QColor("#161617")));
     p.setOpacity(0.42);
     p.setPen(Qt::NoPen);
@@ -323,6 +324,7 @@ void sidebarPluginsWidgets::paintEvent(QPaintEvent *)
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }
 
+/* 小插件加载 */
 void sidebarPluginsWidgets::loadSmallPlugins()
 {
     /* Iterative m_pSmallPluginsHash hash table */
@@ -338,16 +340,17 @@ void sidebarPluginsWidgets::loadSmallPlugins()
                 qDebug() << "iter1.value()->pluginsLoadingSequence() --> " << iter1.value()->pluginsLoadingSequence();
                 if (iter1.value()->pluginsLoadingSequence() == Sequence) {
                     QToolButton *p_ToolButton = new QToolButton();
-                    QPalette palette = p_ToolButton->palette();
-                    QColor ColorPlaceholderText(255,255,255,0);
-                    QBrush brush;
-                    brush.setColor(ColorPlaceholderText);
-                    palette.setBrush(QPalette::Button, brush);
-                    p_ToolButton->setPalette(palette);
+//                    QPalette palette = p_ToolButton->palette();
+//                    QColor ColorPlaceholderText(255,255,255,0);
+//                    QBrush brush;
+//                    brush.setColor(ColorPlaceholderText);
+//                    palette.setBrush(QPalette::Button, brush);
+//                    p_ToolButton->setPalette(palette);
                     p_ToolButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     p_ToolButton->setFixedSize(90,90);
                     p_ToolButton->setIcon(iter1.value()->icon());
                     p_ToolButton->setText(iter1.value()->PluginButtonName());
+                    p_ToolButton->setStyle(new CustomStyle("ukui-default"));
                     qDebug() << "jiekoumingzi4560000000" << iter1.value()->PluginButtonName();
                     p_ToolButton->setIconSize(QSize(iter1.value()->PluginIconSize_W(), iter1.value()->PluginIconSize_H()));
                     m_pGroupBoxUnSmallPluginsGLayout->addItem(item1, add_x, add_y - 1);

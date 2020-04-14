@@ -37,7 +37,8 @@ SOURCES += \
         smallpluginsmanage.cpp \
         widget.cpp \
         pluginmanage.cpp \
-        sidebar_app_log.cpp
+        sidebar_app_log.cpp \
+        customstyle.cpp
 
 INCLUDEPATH += ./plugin-interface
 
@@ -49,7 +50,8 @@ HEADERS += \
         smallpluginsmanage.h \
         widget.h \
         pluginmanage.h \
-        sidebar_app_log.h
+        sidebar_app_log.h \
+        customstyle.h
 
 
 INCLUDEPATH +=./plugin-interface ./plugin-sub-manager
