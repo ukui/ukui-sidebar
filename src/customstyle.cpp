@@ -84,18 +84,6 @@ void CustomStyle::drawComplexControl(QStyle::ComplexControl control, const QStyl
                 tool.state = mflags;
                 proxy()->drawPrimitive(PE_IndicatorArrowDown, &tool, painter, widget);
             }
-            /*
-            ToolButton has Menu and popupmode is DelayedPopup.
-            If you want to show the arrow, please remove the comment below
-*/
-            //            else if (toolbutton->features & QStyleOptionToolButton::HasMenu) {
-            //                int mbi = qMin(button.width(),button.height())/5;
-            //                QRect ir = toolbutton->rect;
-            //                QStyleOptionToolButton newBtn = *toolbutton;
-            //                newBtn.rect = QRect(ir.right()  - mbi -1, ir.y() + ir.height() - mbi -1, mbi, mbi);
-            //                newBtn.rect = visualRect(toolbutton->direction, button, newBtn.rect);
-            //                Qt5UKUIStyle::drawPrimitive(PE_IndicatorArrowDown, &newBtn, painter, widget);
-            //            }
         }
         break;
     }
