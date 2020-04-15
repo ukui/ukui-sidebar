@@ -511,8 +511,8 @@
     <message>
         <location filename="clock.cpp" line="1786"/>
         <source>一分钟后自动关闭</source>
-        <translatorcomment>Turn off automatically in a min</translatorcomment>
-        <translation type="unfinished">Turn off automatically in a min</translation>
+        <translatorcomment>Turn off after 1 min</translatorcomment>
+        <translation type="unfinished">Turn off after 1 min</translation>
     </message>
 </context>
 <context>
@@ -803,36 +803,36 @@
         <location filename="setuppage.cpp" line="343"/>
         <location filename="setuppage.cpp" line="362"/>
         <source>1分钟后自动关闭</source>
-        <translatorcomment>Turn off automatically after 1 min</translatorcomment>
-        <translation type="unfinished">Turn off automatically after 1 min</translation>
+        <translatorcomment>Turn off after 1 min</translatorcomment>
+        <translation type="unfinished">Turn off  after 1 min</translation>
     </message>
     <message>
         <location filename="setuppage.cpp" line="344"/>
         <location filename="setuppage.cpp" line="366"/>
         <source>2分钟后自动关闭</source>
-        <translatorcomment>Turn off automatically after 2 min</translatorcomment>
-        <translation type="unfinished">Turn off automatically after 2 min</translation>
+        <translatorcomment>Turn off after 2 min</translatorcomment>
+        <translation type="unfinished">Turn off after 2 min</translation>
     </message>
     <message>
         <location filename="setuppage.cpp" line="345"/>
         <location filename="setuppage.cpp" line="370"/>
         <source>3分钟后自动关闭</source>
-        <translatorcomment>Turn off automatically after 3 min</translatorcomment>
-        <translation type="unfinished">Turn off automatically after 3 min</translation>
+        <translatorcomment>Turn off after 3 min</translatorcomment>
+        <translation type="unfinished">Turn off after 3 min</translation>
     </message>
     <message>
         <location filename="setuppage.cpp" line="346"/>
         <location filename="setuppage.cpp" line="374"/>
         <source>4分钟后自动关闭</source>
-        <translatorcomment>Turn off automatically after 4 min</translatorcomment>
-        <translation type="unfinished">Turn off automatically after 4 min</translation>
+        <translatorcomment>Turn off  after 4 min</translatorcomment>
+        <translation type="unfinished">Turn off after 4 min</translation>
     </message>
     <message>
         <location filename="setuppage.cpp" line="347"/>
         <location filename="setuppage.cpp" line="378"/>
         <source>6分钟后自动关闭</source>
-        <translatorcomment>Turn off automatically after 6 min</translatorcomment>
-        <translation type="unfinished">Turn off automatically after 6 min</translation>
+        <translatorcomment>Turn off after 6 min</translatorcomment>
+        <translation type="unfinished">Turn off  after 6 min</translation>
     </message>
     <message>
         <location filename="setuppage.cpp" line="400"/>
