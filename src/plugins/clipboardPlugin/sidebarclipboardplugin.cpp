@@ -196,14 +196,15 @@ void SidebarClipboardPlugin::createWidgetEntry(const QMimeData *mimeData)
     w->setFixedSize(397, 42);
     if (nullptr == mimeData->urls().value(0).toString()) {
         text = mimeData->text();
-//        qDebug() << "text文本数据为:" << text;
+        qDebug() << "剪贴板中文本" << text;
     } else if(mimeData->urls().value(0).toString() != "") {
         QList<QUrl> fileUrls = mimeData->urls();
 
         for (int i = 0; i < fileUrls.size(); ++i) {
             text += fileUrls.value(i).toString();
         }
-        qDebug() << "text文本URL为:" << text;
+    } else if(mimeData->hasHtml()) {
+        qDebug() << "文本为Html";
     } else {
         qWarning() << "剪贴板数据为空";
         return;
@@ -239,8 +240,8 @@ void SidebarClipboardPlugin::createWidgetEntry(const QMimeData *mimeData)
     pListWidgetItem->setFlags(Qt::NoItemFlags);
 
     /* 设置...字样 */
+    w->m_pCopyDataLabal->setTextFormat(Qt::PlainText);
     w->m_pCopyDataLabal->setText(SetFormatBody(text, w));
-
     /* 将按钮与槽对应上 */
     connectWidgetEntryButton(w);
 
@@ -256,7 +257,6 @@ QString SidebarClipboardPlugin::SetFormatBody(QString text, ClipboardWidgetEntry
     int LableWidth = w->m_pCopyDataLabal->width();
     int fontSize = fontMetrics.width(text);
     QString formatBody = text;
-    qDebug() << "fontSize > (LableWidth - 10)" << LableWidth << "&&剪贴板返回的数据---->" << fontSize;
     if(fontSize > (LableWidth - 10)) {
         QStringList list = formatBody.split("\n");
         if (list.size() >= 2) {
@@ -271,14 +271,12 @@ QString SidebarClipboardPlugin::SetFormatBody(QString text, ClipboardWidgetEntry
             } else {
                 if (!substringSposition(formatBody, list)) {
                     int oneFontSize = fontMetrics.width(formatBody);
-                    qDebug () << "oneFontSize = fontMetrics.width(formatBody);" << oneFontSize;
                     formatBody = fontMetrics.elidedText(formatBody, Qt::ElideRight, oneFontSize - 1);
                     return formatBody;
                 }
             }
         } else {
             //说明只存在一行，在最后面加...就行
-            qDebug() << "fontSize > (LableWidth - 10)" << LableWidth << "&&jiantieban---->" << fontSize;
             formatBody = fontMetrics.elidedText(formatBody, Qt::ElideRight, LableWidth - 10);
             return formatBody;
         }
@@ -290,13 +288,10 @@ QString SidebarClipboardPlugin::SetFormatBody(QString text, ClipboardWidgetEntry
             formatBody = formatBody + "aa";
             if (!substringSposition(formatBody, list)) {
                 int oneFontSize = fontMetrics.width(formatBody);
-
-                qDebug () << "当前子串的大小" << oneFontSize << formatBody;
                 formatBody = fontMetrics.elidedText(formatBody, Qt::ElideRight, oneFontSize - 1);
             }
         }
     }
-    qDebug() << formatBody.size() << formatBody;
     return formatBody;
 }
 
@@ -486,8 +481,8 @@ void SidebarClipboardPlugin::editButtonSlots(ClipboardWidgetEntry *w)
         return;
     }
     QString text = GetOriginalDataValue(Item)->text;
-
-    EditWidget.m_pEditingArea->setText(text);
+    qDebug() << "将要写入编辑框中的东西" << text;
+    EditWidget.m_pEditingArea->setPlainText(text);
 
     QTextDocument *document = EditWidget.m_pEditingArea->document();
     QTextFrame *rootFrame=document->rootFrame();//获取根框架

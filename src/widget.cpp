@@ -46,7 +46,9 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     m_pServiceInterface->setTimeout(2147483647);
 
     /* 链接任务栏Dbus接口，获取任务栏点击信号 */
-    QDBusConnection::sessionBus().connect(QString(), QString("/taskbar/click"), "com.ukui.panel.plugins.taskbar", "sendToUkuiDEApp", this, SLOT(ClickPanelHideSidebarSlots(void)));
+    QDBusConnection::sessionBus().connect(QString(), QString("/taskbar/click"), \
+                                          "com.ukui.panel.plugins.taskbar", "sendToUkuiDEApp", this, SLOT(ClickPanelHideSidebarSlots(void)));
+
     /* 链接任务栏dgsetting接口 */
     if(QGSettings::isSchemaInstalled(UKUI_PANEL_SETTING)){
         m_pPanelSetting = new QGSettings(UKUI_PANEL_SETTING);
