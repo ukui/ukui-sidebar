@@ -17,6 +17,7 @@
 */
 #include "stopwatch_item.h"
 #include<QApplication>
+#include <QDebug>
 
 stopwatch_item::stopwatch_item(QWidget *parent) :
     QWidget(parent)
@@ -68,6 +69,12 @@ stopwatch_item::stopwatch_item(QWidget *parent) :
 
 stopwatch_item::~stopwatch_item()
 {
+    delete stopwatch1;
+    delete stopwatch2;
+    delete stopwatch3;
+
+    delete stopwatch_line;
+     qDebug()<<"-------stopwatch_item---------";
 
 }
 

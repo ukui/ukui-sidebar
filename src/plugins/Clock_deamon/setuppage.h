@@ -36,7 +36,10 @@ public:
 
     Ui::setuppage *ui;
     set_alarm_repeat_Dialog * dialog_werk_day = nullptr;
-
+    set_alarm_repeat_Dialog * Time_format = nullptr;
+    set_alarm_repeat_Dialog * Pop_up_window = nullptr;
+    set_alarm_repeat_Dialog * Reminder_off = nullptr;
+    set_alarm_repeat_Dialog * Default_ringtone = nullptr;
 
 private slots:
     void Mute_starting();                                                                //静音开关回调

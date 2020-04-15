@@ -39,6 +39,9 @@ VerticalScroll_24::VerticalScroll_24(QWidget *parent) :
 
 VerticalScroll_24::~VerticalScroll_24()
 {
+    delete homingAni;
+
+    qDebug()<<"-------VerticalScroll_24---------";
     //delete ui;
 }
 /*

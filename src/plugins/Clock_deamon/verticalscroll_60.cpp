@@ -41,6 +41,9 @@ VerticalScroll_60::VerticalScroll_60(QWidget *parent) :
 
 VerticalScroll_60::~VerticalScroll_60()
 {
+    delete homingAni;
+    qDebug()<<"-------VerticalScroll_60---------";
+
     //delete ui;
 }
 /*

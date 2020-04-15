@@ -35,7 +35,7 @@ class set_alarm_repeat_Dialog : public QWidget
     Q_OBJECT
 
 public:
-    explicit set_alarm_repeat_Dialog(QWidget *parent = nullptr , int rowNum = 0);
+    explicit set_alarm_repeat_Dialog(QWidget *parent = nullptr , int rowNum = 0 );
     ~set_alarm_repeat_Dialog();
     //void paintEvent(QPaintEvent *event);
 

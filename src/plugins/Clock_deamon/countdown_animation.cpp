@@ -29,10 +29,6 @@ Countdown_Animation::Countdown_Animation(QWidget *parent , int value) :
 {
     setupUi(this);
 
-//   ui->RoundBar3->setFormat("%p");
-//   ui->RoundBar3->setBarStyle(QRoundProgressBar::StyleLine);
-//   connectToSlider(ui->RoundBar3);
-
     QGradientStops gradientPoints;
     gradientPoints << QGradientStop(0.5, QColor(255, 160, 90)) << QGradientStop(1, QColor(180, 30, 10)); //渐变起止颜色设置
     RoundBar3->setDataColors(gradientPoints);
@@ -41,6 +37,9 @@ Countdown_Animation::Countdown_Animation(QWidget *parent , int value) :
 
 Countdown_Animation::~Countdown_Animation()
 {
+    delete timer;
+    delete RoundBar3;
+    qDebug()<<"-------Countdown_Animation---------";
 }
 
 void Countdown_Animation::connectToSlider(QRoundProgressBar *bar)
