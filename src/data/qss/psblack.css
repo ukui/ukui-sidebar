@@ -531,30 +531,19 @@ border:0px solid #484848;
 border-radius:3px;
 }
 
-QToolBox::tab,QGroupBox#gboxDevicePanel,QGroupBox#gboxDeviceTitle,QFrame#gboxDevicePanel,QFrame#gboxDeviceTitle{
-padding:3px;
-border-radius:5px;
-color:#DCDCDC;
-background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #484848,stop:1 #383838);
-}
-
-QToolTip{
-border:0px solid #DCDCDC;
-padding:1px;
-color:#DCDCDC;
-background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #484848,stop:1 #383838);
-}
-
-QToolBox::tab:selected{
-background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #646464,stop:1 #525252);
-}
-
 QPrintPreviewDialog QToolButton{
 border:0px solid #DCDCDC;
 border-radius:0px;
 margin:0px;
 padding:3px;
 background:none;
+}
+
+QToolBox::tab,QGroupBox#gboxDevicePanel,QGroupBox#gboxDeviceTitle,QFrame#gboxDevicePanel,QFrame#gboxDeviceTitle{
+padding:3px;
+border-radius:5px;
+color:#DCDCDC;
+background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #484848,stop:1 #383838);
 }
 
 QColorDialog QPushButton,QFileDialog QPushButton{

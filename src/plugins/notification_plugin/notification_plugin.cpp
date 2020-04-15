@@ -111,7 +111,6 @@ NotificationPlugin::NotificationPlugin()
 
     m_pClearAllToolButton = new QPushButton();
     m_pClearAllToolButton->setObjectName("clearall");
-    m_pClearAllToolButton->setStyleSheet("QPushButton#clearall{background:rgba(19,19,20,0);}");
     connect(m_pClearAllToolButton, SIGNAL(clicked()), this, SLOT(onClearAllMessage()));
     m_pClearAllToolButton->setText(QObject::tr("Clean up"));
 
@@ -121,7 +120,6 @@ NotificationPlugin::NotificationPlugin()
     pSettingToolButton->setObjectName("setting");
     connect(pSettingToolButton, SIGNAL(clicked()), this, SLOT(onCallControlPanel()));
     pSettingToolButton->setText(QObject::tr("Set up"));
-
 
     pQHBoxLayout2->addWidget(m_pNotificationLabel, 0, Qt::AlignLeft);
     pQHBoxLayout2->addSpacerItem(pHSpacer);
