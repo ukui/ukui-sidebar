@@ -19,9 +19,15 @@
 
 #include "clipboardwidgetentry.h"
 #include "customstyle_clean_pushbutton.h"
+#include <QTimer>
+#include <QStyleOption>
+#include <QPainter>
+#include <QPalette>
+#include <QEvent>
 ClipboardWidgetEntry::ClipboardWidgetEntry(QWidget *parent)
 {
     Q_UNUSED(parent);
+    status=NORMAL;
     this->setObjectName("WidgetEntry");
     this->setContentsMargins(0,0,0,0);
     QIcon EditIcon;
@@ -53,8 +59,14 @@ ClipboardWidgetEntry::ClipboardWidgetEntry(QWidget *parent)
     m_pRemoveButton->setObjectName("RemoveButton");
 
     m_pCopyDataLabal = new QLabel();
-
+    QTimer::singleShot(1, m_pCopyDataLabal, [=](){
+        QFont font = m_pCopyDataLabal->font();
+        font.setPixelSize(14);
+        font.setFamily("Noto Sans CJK SC");
+        m_pCopyDataLabal->setFont(font);
+    });
     m_pCopyDataLabal->setObjectName("EntryLable");
+    m_pCopyDataLabal->setContentsMargins(3, 0, 0, 0);
     m_pCopyDataLabal->setFixedSize(386, 34);
 
     m_pHLayout       = new QHBoxLayout();
@@ -77,6 +89,10 @@ void ClipboardWidgetEntry::enterEvent(QEvent *e)
     if(e == nullptr) {
         return;
     }
+
+    status=HOVER;
+    repaint();
+
     m_pCopyDataLabal->setFixedSize(260, 34);
     m_pPopButton->setVisible(true);
     m_pEditButon->setVisible(true);
@@ -91,6 +107,7 @@ void ClipboardWidgetEntry::leaveEvent(QEvent *e)
     if(e == nullptr) {
         return;
     }
+    status=NORMAL;
     m_pPopButton->setVisible(false);
     m_pEditButon->setVisible(false);
     m_pRemoveButton->setVisible(false);
@@ -172,4 +189,31 @@ bool ClipboardWidgetEntry::substringSposition(QString formatBody, QStringList li
         }
     }
     return false;
+}
+
+void ClipboardWidgetEntry::paintEvent(QPaintEvent *e)
+{
+    QStyleOption opt;
+    opt.init(this);
+    QPainter p(this);
+    switch (status) {
+      case NORMAL: {
+              p.setBrush(QBrush(QColor(255, 255, 255, 0)));
+              p.setPen(Qt::NoPen);
+              break;
+          }
+      case HOVER: {
+              QColor color(opt.palette.color(QPalette::WindowText));
+              p.setBrush(QBrush(color));
+              p.setOpacity(0.08);
+              p.setPen(Qt::NoPen);
+              break;
+          }
+      case PRESS: {
+              break;
+          }
+      }
+    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+    p.drawRoundedRect(opt.rect,0,0);
+    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }

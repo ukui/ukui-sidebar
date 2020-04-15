@@ -66,9 +66,6 @@ void CleanPromptBox::creatorHintInfomationWidget()
 
     m_pHintInformation = new QLabel(QObject::tr("Are you sure empty your clipboard history?"));
     m_pHintInformation->setFixedSize(250, 30);
-    QPalette palete;
-    palete.setColor(QPalette::WindowText,Qt::white);
-    m_pHintInformation->setPalette(palete);
     m_pIconLableHLaout->addItem(new QSpacerItem(31,20));
     m_pIconLableHLaout->addWidget(m_pIconButton);
     m_pIconLableHLaout->addItem(new QSpacerItem(16, 20));
@@ -82,9 +79,6 @@ void CleanPromptBox::creatorCheckBoxWidget()
 {
     m_pCheckBoxNoHint = new QCheckBox;
     m_pCheckBoxNoHint->setText(QObject::tr("Don't ask"));
-    QPalette palete;
-    palete.setColor(QPalette::WindowText,Qt::white);
-    m_pCheckBoxNoHint->setPalette(palete);
     m_pCheckBoxNoHint->setFixedSize(85, 20);
     m_pChechBoxHLaout = new QHBoxLayout;
     m_pChechBoxHLaout->setContentsMargins(0,0,0,0);
@@ -109,20 +103,9 @@ void CleanPromptBox::creatorButtonWidget()
     connect(m_pCancelButton, &QPushButton::clicked, this, &CleanPromptBox::reject);
 
     /* 设置按钮字体\背景颜色 */
-//    auto palette = m_pCancelButton->palette();
-//    QColor ColorPlaceholderText(255,255,255,31);
-//    palette.setColor(QPalette::ButtonText,Qt::white);
-//    palette.setColor(QPalette::Button, ColorPlaceholderText);
-//    palette.setColor(QPalette::Highlight, Qt::transparent);
-//    m_pCancelButton->setPalette(palette);
     m_pCancelButton->setStyle(new CustomStyle_pushbutton_2("ukui-default"));
 
     /* 设置按钮字体\背景颜色 */
-//    QPalette paleteConfirmButton;
-//    QColor ColorPlaceholderTextConfirmButton(61, 107, 229, 255);
-//    paleteConfirmButton.setColor(QPalette::ButtonText,Qt::white);
-//    paleteConfirmButton.setColor(QPalette::Button, ColorPlaceholderTextConfirmButton);
-//    m_pConfirmButton->setPalette(paleteConfirmButton);
     m_pConfirmButton->setStyle(new CustomStyle("ukui-default"));
 
     m_pConfirmButton->setFixedSize(120, 34);
@@ -159,8 +142,9 @@ void CleanPromptBox::paintEvent(QPaintEvent *)
     opt.init(this);
     QPainter p(this);
 
-    p.setBrush(QBrush(QColor("#131314")));
-    p.setOpacity(0.7);
+//    p.setBrush(QBrush(QColor("#131314")));
+    p.setBrush(opt.palette.color(QPalette::Base));
+    p.setOpacity(0.42);
     p.setPen(Qt::NoPen);
 
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;

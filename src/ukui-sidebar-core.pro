@@ -31,6 +31,7 @@ RESOURCES  += sidebar.qrc
 SOURCES += \
         main.cpp \
         mostgrandwidget.cpp \
+        pluginstoolbutton.cpp \
         realtimepropertyanimation.cpp \
         sidebarpluginswidgets.cpp \
         smallpluginsbutton.cpp \
@@ -38,12 +39,14 @@ SOURCES += \
         widget.cpp \
         pluginmanage.cpp \
         sidebar_app_log.cpp \
-        customstyle.cpp
+        customstyle.cpp \
+        customstyle_clean_pushbutton.cpp
 
 INCLUDEPATH += ./plugin-interface
 
 HEADERS += \
         mostgrandwidget.h \
+        pluginstoolbutton.h \
         realtimepropertyanimation.h \
         sidebarpluginswidgets.h \
         smallpluginsbutton.h \
@@ -51,7 +54,8 @@ HEADERS += \
         widget.h \
         pluginmanage.h \
         sidebar_app_log.h \
-        customstyle.h
+        customstyle.h \
+        customstyle_clean_pushbutton.h
 
 
 INCLUDEPATH +=./plugin-interface ./plugin-sub-manager

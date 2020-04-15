@@ -33,9 +33,12 @@
 #include <QGroupBox>
 #include <QLabel>
 #include <QToolButton>
+#include <QStyle>
 #include "smallpluginsbutton.h"
 #include "smallpluginsmanage.h"
 #include "mostgrandwidget.h"
+#include "pluginstoolbutton.h"
+#include "customstyle_clean_pushbutton.h"
 #include "customstyle.h"
 class sidebarPluginsWidgets : public QWidget
 {
@@ -55,6 +58,7 @@ public:
     void setSmallPluginsButtonBackgroudIsBlank();                 //设置小插件按钮背景色为空白
     void setClipboardWidgetSize(int ClipHight);                   //设置此窗口的大小
     void loadSmallPlugins();                                      //加载小插件，放置到sidebar界面
+    void setButtonFont();
 
 
     QVBoxLayout *m_pWidgetOutVLayout;                             //最外层布局
@@ -92,7 +96,7 @@ private slots:
     void m_pClipBoardStateSlots();
     void m_pSmallPluginsStateSlots();
 protected:
-    void paintEvent(QPaintEvent *);
+    void paintEvent(QPaintEvent *e);
 
 };
 

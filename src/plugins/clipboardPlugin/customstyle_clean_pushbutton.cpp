@@ -35,6 +35,16 @@ void customstyle_clean_pushbutton::drawComplexControl(QStyle::ComplexControl con
 
 void customstyle_clean_pushbutton::drawControl(QStyle::ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const
 {
+    switch (element) {
+    case QStyle::CE_PushButton: {
+        QStyleOptionButton button = *qstyleoption_cast<const QStyleOptionButton *>(option);
+        button.palette.setColor(QPalette::HighlightedText, button.palette.buttonText().color());
+        return QProxyStyle::drawControl(element, &button, painter, widget);
+        break;
+    }
+    default:
+        break;
+    }
     return QProxyStyle::drawControl(element, option, painter, widget);
 }
 
@@ -65,16 +75,20 @@ void customstyle_clean_pushbutton::drawPrimitive(QStyle::PrimitiveElement elemen
                     painter->save();
                     painter->setRenderHint(QPainter::Antialiasing,true);
                     painter->setPen(Qt::NoPen);
-                    QColor color(255,255,255,21);
-                    painter->setBrush(color);
+//                    QColor color(255,255,255,21);
+//                    painter->setBrush(color);
+                    painter->setBrush(option->palette.color(QPalette::WindowText));
+                    painter->setOpacity(0.08);
                     painter->drawRoundedRect(option->rect, 4, 4);
                     painter->restore();
                 } else {
                     painter->save();
                     painter->setRenderHint(QPainter::Antialiasing,true);
                     painter->setPen(Qt::NoPen);
-                    QColor color(255,255,255,51);
-                    painter->setBrush(color);
+//                    QColor color(255,255,255,51);
+//                    painter->setBrush(color);
+                    painter->setBrush(option->palette.color(QPalette::WindowText));
+                    painter->setOpacity(0.2);
                     painter->drawRoundedRect(option->rect, 4, 4);
                     painter->restore();
                 }
@@ -82,8 +96,10 @@ void customstyle_clean_pushbutton::drawPrimitive(QStyle::PrimitiveElement elemen
                 painter->save();
                 painter->setRenderHint(QPainter::Antialiasing,true);
                 painter->setPen(Qt::NoPen);
-                QColor color(255,255,255,31);
-                painter->setBrush(color);
+//                QColor color(255,255,255,31);
+//                painter->setBrush(color);
+                painter->setBrush(option->palette.color(QPalette::WindowText));
+                painter->setOpacity(0.12);
                 painter->drawRoundedRect(option->rect, 4, 4);
                 painter->restore();
             }

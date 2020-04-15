@@ -24,6 +24,7 @@
 #include <QVariant>
 #include <QStyleOptionSlider>
 #include <QPainter>
+#include <QDebug>
 CustomStyle::CustomStyle(const QString &proxyStyleName, QObject *parent) : QProxyStyle (proxyStyleName)
 {
 
@@ -105,6 +106,22 @@ void CustomStyle::drawComplexControl(QStyle::ComplexControl control, const QStyl
 
 void CustomStyle::drawControl(QStyle::ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const
 {
+    switch (element) {
+    case QStyle::CE_PushButton: {
+        QStyleOptionButton button = *qstyleoption_cast<const QStyleOptionButton *>(option);
+        button.palette.setColor(QPalette::HighlightedText, button.palette.buttonText().color());
+        return QProxyStyle::drawControl(element, option, painter, widget);
+        break;
+    }
+    case CE_ToolButtonLabel:{
+        QStyleOptionToolButton toolButton = *qstyleoption_cast<const QStyleOptionToolButton *>(option);
+        toolButton.palette.setColor(QPalette::HighlightedText, toolButton.palette.windowText().color());
+        return QProxyStyle::drawControl(element, &toolButton, painter, widget);
+        break;
+    }
+    default:
+        break;
+    }
     return QProxyStyle::drawControl(element, option, painter, widget);
 }
 //UKUI ToolBar  item style
@@ -124,8 +141,7 @@ void CustomStyle::drawPrimitive(QStyle::PrimitiveElement element, const QStyleOp
     {
         case PE_PanelButtonTool:
         {
-            if(!(option->state & State_Enabled))
-            {
+            if(!(option->state & State_Enabled)) {
                 painter->save();
                 painter->setPen(Qt::NoPen);
                 painter->setBrush(option->palette.color(QPalette::Disabled,QPalette::Button));
@@ -139,12 +155,10 @@ void CustomStyle::drawPrimitive(QStyle::PrimitiveElement element, const QStyleOp
             painter->setBrush(option->palette.color(QPalette::WindowText));
             painter->setRenderHint(QPainter::Antialiasing,true);
             painter->setOpacity(0.12);
-            if(option->state & (State_Sunken | State_On))
-            {
+            if (option->state & (State_Sunken | State_On)) {
                 painter->setOpacity(0.08);
             }
-            else if(option->state & State_MouseOver)
-            {
+            else if(option->state & State_MouseOver) {
                 painter->setOpacity(0.2);
             }
             painter->drawRoundedRect(option->rect,4,4);

@@ -52,9 +52,12 @@ public:
     QString judgeBlankLine(QStringList list);                               /* 去除掉空行，显示有字体的行 */
     bool    substringSposition(QString formatBody, QStringList list);       /* 判断后面是否还有子串 */
 
+    enum TaskWidgetStatus{NORMAL, HOVER, PRESS};
+    TaskWidgetStatus status;
 protected:
     void enterEvent(QEvent *);                      //进入QWidget瞬间事件
     void leaveEvent(QEvent *);                      //离开QWidget瞬间事件
+    void paintEvent(QPaintEvent *e);                //重绘事件
 };
 
 #endif // CLIPBOARDWIDGETENTRY_H

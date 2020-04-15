@@ -25,7 +25,6 @@ sidebarPluginsWidgets::sidebarPluginsWidgets(QWidget *parent) : QWidget(parent)
     this->setContentsMargins(0,0,0,0);
     this->setFixedSize(400,300);
     this->setStyleSheet("QWidget{background:rgba(255, 255, 0, 0);}");
-
     flagnumClipboardState = 0;
 
     m_pBoolStates = true;
@@ -195,6 +194,7 @@ void sidebarPluginsWidgets::AddPluginWidgetInterface()
     /* 进入状态机一需要将小插件按钮的背景设置成空白 */
     connect(m_pClipBoardState, &QState::entered, this, [=](){
         setSmallPluginsButtonBackgroudIsBlank();
+//        m_pSidebarPluginButton->setStyle(BlankButtonStyle);
         m_pBlueBackgroundButton->setVisible(true);
         m_pAnimationRightLeft->start();
         m_statusFlag = KYLIN_STATE_CLIPBOARD;
@@ -203,6 +203,7 @@ void sidebarPluginsWidgets::AddPluginWidgetInterface()
     /* 进入状态机二时将按钮小插件的背景设置成空白 */
     connect(m_pSmallPluginsState, &QState::entered, this, [=](){
         setClipboardButtonBackgroundIsBlank();
+//        m_pClipboardButton->setStyle(BlankButtonStyle);
         m_pBlueBackgroundButton->setVisible(true);
         m_pAnimationLeftRight->start();
         m_statusFlag = KYLIN_STATE_SMALL_PLUGINS;
@@ -247,54 +248,22 @@ void sidebarPluginsWidgets::initLableBackgroundAnimation()
 /* 设置侧边栏的按钮背景色为蓝色 */
 void sidebarPluginsWidgets::setClipboardButtonBackgroundIsBlue()
 {
-    m_pClipboardButton->setStyleSheet("QPushButton#ClipboardButton{background:rgba(61,107,229,1);\
-                                                                  width:41px; \
-                                                                  height:14px; \
-                                                                  font-size:14px; \
-                                                                  font-family:Noto Sans CJK SC; \
-                                                                  font-weight:400; \
-                                                                  color:rgba(255,255,255,1); \
-                                                                  line-height:34px; \
-                                                                  opacity:0.97;}");
+    m_pClipboardButton->setStyleSheet("QPushButton#ClipboardButton{background:rgba(61,107,229,1);}");
 }
 
 void sidebarPluginsWidgets::setSmallPluginsButtonBackgroudIsBlue()
 {
-    m_pSidebarPluginButton->setStyleSheet("QPushButton#SidebarPluginButton{background:rgba(61,107,229,1);\
-                                                                  width:41px; \
-                                                                  height:14px; \
-                                                                  font-size:14px; \
-                                                                  font-family:Noto Sans CJK SC; \
-                                                                  font-weight:400; \
-                                                                  color:rgba(255,255,255,1); \
-                                                                  line-height:34px; \
-                                                                  opacity:0.97;}");
+    m_pSidebarPluginButton->setStyleSheet("QPushButton#SidebarPluginButton{background:rgba(61,107,229,1);}");
 }
 
 void sidebarPluginsWidgets::setClipboardButtonBackgroundIsBlank()
 {
-    m_pClipboardButton->setStyleSheet("QPushButton#ClipboardButton{background:rgba(61,107,229,0);\
-                                                                  width:41px; \
-                                                                  height:14px; \
-                                                                  font-size:14px; \
-                                                                  font-family:Noto Sans CJK SC; \
-                                                                  font-weight:400; \
-                                                                  color:rgba(255,255,255,1); \
-                                                                  line-height:34px; \
-                                                                  opacity:0.97;}");
+    m_pClipboardButton->setStyleSheet("QPushButton#ClipboardButton{background:rgba(61,107,229,0);}");
 }
 
 void sidebarPluginsWidgets::setSmallPluginsButtonBackgroudIsBlank()
 {
-    m_pSidebarPluginButton->setStyleSheet("QPushButton#SidebarPluginButton{background:rgba(61,107,229,0);\
-                                                                  width:41px; \
-                                                                  height:14px; \
-                                                                  font-size:14px; \
-                                                                  font-family:Noto Sans CJK SC; \
-                                                                  font-weight:400; \
-                                                                  color:rgba(255,255,255,1); \
-                                                                  line-height:34px; \
-                                                                  opacity:0.97;}");
+    m_pSidebarPluginButton->setStyleSheet("QPushButton#SidebarPluginButton{background:rgba(61,107,229,0);}");
 }
 
 /* 设置剪贴板的高度 */
@@ -307,14 +276,28 @@ void sidebarPluginsWidgets::setClipboardWidgetSize(int ClipHight)
     return;
 }
 
+void sidebarPluginsWidgets::setButtonFont()
+{
+    QPalette paletteButton = QApplication::palette();
+    paletteButton.setBrush(QPalette::Text,paletteButton.color(QPalette::WindowText));
+    qDebug() << "color -->" << paletteButton.color(QPalette::WindowText);
+    m_pClipboardButton->setPalette(paletteButton);
+    m_pSidebarPluginButton->setPalette(paletteButton);
+    return;
+}
+
 //重新绘制背景色
 void sidebarPluginsWidgets::paintEvent(QPaintEvent *)
 {
     QStyleOption opt;
     opt.init(this);
     QPainter p(this);
-//    p.setBrush(opt.palette.color(QPalette::Base));
-    p.setBrush(QBrush(QColor("#161617")));
+    /* 获取当前剪贴板中字体的颜色，作为背景色；
+     * 白字体 --> 黑背景
+     * 黑字体 --> 白字体
+    */
+    p.setBrush(opt.palette.color(QPalette::Base));
+//    p.setBrush(QBrush(QColor("#161617")));
     p.setOpacity(0.42);
     p.setPen(Qt::NoPen);
 
@@ -329,7 +312,7 @@ void sidebarPluginsWidgets::loadSmallPlugins()
 {
     /* Iterative m_pSmallPluginsHash hash table */
     int pluginsNum = SmallPluginsManage::getInstance()->m_PluginsNum;
-    qDebug() << "1111111111111-->pluginsNum" << pluginsNum;
+    qDebug() << "加载插件的个数" << pluginsNum;
     int Sequence = 1;
     int add_x = 0;
     int add_y = 1;
@@ -337,21 +320,15 @@ void sidebarPluginsWidgets::loadSmallPlugins()
     while (pluginsNum) {
         QHash<PluginInterface*, SidebarSmallPluginInterface*> ::const_iterator iter1 = SmallPluginsManage::getInstance()->m_pSmallPluginsHash.constBegin();
         while (iter1 != SmallPluginsManage::getInstance()->m_pSmallPluginsHash.constEnd()) {
-                qDebug() << "iter1.value()->pluginsLoadingSequence() --> " << iter1.value()->pluginsLoadingSequence();
+                qDebug() << "当前插件加载的序号 --> " << iter1.value()->pluginsLoadingSequence();
                 if (iter1.value()->pluginsLoadingSequence() == Sequence) {
                     QToolButton *p_ToolButton = new QToolButton();
-//                    QPalette palette = p_ToolButton->palette();
-//                    QColor ColorPlaceholderText(255,255,255,0);
-//                    QBrush brush;
-//                    brush.setColor(ColorPlaceholderText);
-//                    palette.setBrush(QPalette::Button, brush);
-//                    p_ToolButton->setPalette(palette);
                     p_ToolButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     p_ToolButton->setFixedSize(90,90);
                     p_ToolButton->setIcon(iter1.value()->icon());
                     p_ToolButton->setText(iter1.value()->PluginButtonName());
                     p_ToolButton->setStyle(new CustomStyle("ukui-default"));
-                    qDebug() << "jiekoumingzi4560000000" << iter1.value()->PluginButtonName();
+                    qDebug() << "插件接口名称" << iter1.value()->PluginButtonName();
                     p_ToolButton->setIconSize(QSize(iter1.value()->PluginIconSize_W(), iter1.value()->PluginIconSize_H()));
                     m_pGroupBoxUnSmallPluginsGLayout->addItem(item1, add_x, add_y - 1);
                     m_pGroupBoxUnSmallPluginsGLayout->addWidget(p_ToolButton, add_x, add_y);

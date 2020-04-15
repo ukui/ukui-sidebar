@@ -128,7 +128,8 @@ void EditorWidget::paintEvent(QPaintEvent *)
     opt.init(this);
     QPainter p(this);
 
-    p.setBrush(QBrush(QColor("#131314")));
+//    p.setBrush(QBrush(QColor("#131314")));
+    p.setBrush(opt.palette.color(QPalette::Base));
     p.setOpacity(0.7);
     p.setPen(Qt::NoPen);
 

@@ -8,6 +8,16 @@
         <source>Display debug information</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="widget.cpp" line="184"/>
+        <source>Open</source>
+        <translation>打开</translation>
+    </message>
+    <message>
+        <location filename="widget.cpp" line="187"/>
+        <source>Open set up</source>
+        <translation>设置</translation>
+    </message>
 </context>
 <context>
     <name>Widget</name>
@@ -16,27 +26,7 @@
         <translation type="vanished">剪贴板</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="172"/>
-        <source>Mi&amp;nimize</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="widget.cpp" line="175"/>
-        <source>Ma&amp;ximize</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="widget.cpp" line="178"/>
-        <source>normal</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="widget.cpp" line="181"/>
-        <source>&amp;Quit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="widget.cpp" line="216"/>
+        <location filename="widget.cpp" line="220"/>
         <source>Sidebar</source>
         <translation>侧边栏</translation>
     </message>
@@ -44,12 +34,12 @@
 <context>
     <name>sidebarPluginsWidgets</name>
     <message>
-        <location filename="sidebarpluginswidgets.cpp" line="69"/>
+        <location filename="sidebarpluginswidgets.cpp" line="85"/>
         <source>Clipboard</source>
         <translation>剪贴板</translation>
     </message>
     <message>
-        <location filename="sidebarpluginswidgets.cpp" line="75"/>
+        <location filename="sidebarpluginswidgets.cpp" line="91"/>
         <source>Plugins</source>
         <translation>小插件</translation>
     </message>

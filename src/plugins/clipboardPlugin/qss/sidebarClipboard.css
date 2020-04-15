@@ -38,9 +38,9 @@ QWidget#WidgetEntry {
 }
 
 /* 设置listWidget的中的widgetitem悬乎状态 */
-QWidget#WidgetEntry:hover {
+/*QWidget#WidgetEntry:hover {
     background:rgba(255, 255, 255, 0.08);
-}
+}*/
 
 /* 显示内容条目Widget中的置顶按钮 */
 /*QWidget#WidgetEntry>QPushButton#PopButton {
@@ -261,7 +261,7 @@ QListWidget#SearchWidgetListWidget {
 }
 
 /* widget条目的Lable */
-QWidget#WidgetEntry>QLabel#EntryLable {
+/*QWidget#WidgetEntry>QLabel#EntryLable {
     width:200px;
     height:34px;
     font-size:15px;
@@ -282,7 +282,7 @@ QWidget#WidgetEntry>QLabel#EntryLable {
     color:rgba(255,255,255,1);
     line-height:40px;
     opacity:0.91;
-}
+}*/
 
 QListWidget:Item{
     margin-top: 0px;

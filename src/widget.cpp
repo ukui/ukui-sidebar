@@ -41,9 +41,12 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     m_bClipboardFlag = true;
     m_bFwinkleFlag = true;
 
+    /* 链接任务栏Dbus接口，获取任务栏高度和位置 */
     m_pServiceInterface = new QDBusInterface(PANEL_DBUS_SERVICE, PANEL_DBUS_PATH, PANEL_DBUS_INTERFACE, QDBusConnection::sessionBus());
     m_pServiceInterface->setTimeout(2147483647);
 
+    /* 链接任务栏Dbus接口，获取任务栏点击信号 */
+    QDBusConnection::sessionBus().connect(QString(), QString("/taskbar/click"), "com.ukui.panel.plugins.taskbar", "sendToUkuiDEApp", this, SLOT(ClickPanelHideSidebarSlots(void)));
     /* 链接任务栏dgsetting接口 */
     if(QGSettings::isSchemaInstalled(UKUI_PANEL_SETTING)){
         m_pPanelSetting = new QGSettings(UKUI_PANEL_SETTING);
@@ -166,7 +169,7 @@ int Widget::ListenClipboardSignal()
 
     connect(m_pSidebarSignal, &SidebarClipBoardSignal::ClipBoardWidgetEntryEditButtonSignal, this, &Widget::ClipboardShowSlots);
 
-    sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pClipboardWidget = m_pSidebarClipboard->getClipbaordGroupBox();   /* 获取剪贴板的Groubox指针; */
+    sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pClipboardWidget = m_pSidebarClipboard->getClipbaordGroupBox();   /* 获取剪贴板的Widget指针; */
     int clipboardhight = setClipBoardWidgetScaleFactor();
     qDebug() << "剪贴板高度" << clipboardhight;
     sidebarPluginsWidgets::getInstancePluinsWidgets()->setClipboardWidgetSize(clipboardhight);      /* 设定剪贴板高度 */
@@ -178,10 +181,10 @@ int Widget::ListenClipboardSignal()
 //创建动作
 void Widget::createAction()
 {
-    Open = new QAction(tr("Open"), this);
+    Open = new QAction(QObject::tr("Open"), this);
     connect(Open, &QAction::triggered, this, &Widget::OpenSidebarSlots);
 
-    OpenSetUp = new QAction(tr("Open set up"), this);
+    OpenSetUp = new QAction(QIcon::fromTheme("application-menu", QIcon(SETTING_ICON)), QObject::tr("Open set up"), this);
     connect(OpenSetUp, &QAction::triggered, this, &Widget::OpenControlCenterSettings);
 
 }
@@ -234,23 +237,10 @@ void Widget::iconActivated(QSystemTrayIcon::ActivationReason reason)
                 mostGrandWidget::getInstancemostGrandWidget()->show();
                 showAnimation();
                 m_bShowFlag = true;
-//                m_pTimer->stop();                               //当侧边栏展开时，停止闪烁定时器，并且设置有图标的托盘图标
                 setIcon(TRAY_ICON);
             }
             break;
         }
-//        case QSystemTrayIcon::DoubleClick:
-//        {
-//            mostGrandWidget::getInstancemostGrandWidget()->hide();
-//            MostGrandWidgetCoordinates();
-//            qDebug() << "Widget::iconActivated 展开";
-//            mostGrandWidget::getInstancemostGrandWidget()->show();
-//            showAnimation();
-//            m_bShowFlag = true;
-//            m_pTimer->stop();                                   //当侧边栏展开时，停止闪烁定时器，并且设置有图标的托盘图标
-//            setIcon(TRAY_ICON);
-//            break;
-//        }
         default:
             break;
     }
@@ -292,17 +282,12 @@ int Widget::getPanelSite()
 
 void Widget::mousePressEvent(QMouseEvent *event)
 {
+    Q_UNUSED(event);
 //    if (event->buttons() == Qt::LeftButton)
 //    {
 //        mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
 //        hideAnimation();
 //    }
-}
-
-void Widget::mouseMoveEvent(QMouseEvent *event)
-{
-//    QPoint p_ab = event->globalPos();//整个桌面位置
-//    qDebug() << "个桌面位置 x-->" << p_ab.x() << "y-->" << p_ab.y();
 }
 
 //获取屏幕的可用区域高度和宽度
@@ -331,16 +316,17 @@ void Widget::GetsAvailableAreaScreen()
 int Widget::setClipBoardWidgetScaleFactor()
 {
     if (m_nScreenHeight >= 600 && m_nScreenHeight <= 768) {
-        qDebug() << "800 <= x <= 1280 && 600 <= y <= 720 ";
+        qDebug() << "剪贴板高度设置符合此比例 -->" << "600 <= y <= 768 ";
         return m_nScreenHeight/2 - connectTaskBarDbus() - 60;
     } else if (m_nScreenHeight >= 900 && m_nScreenHeight <= 1080) {
-        qDebug() << "1280 <= x <= 2048 && 900 <= y <= 1080";
+        qDebug() << "剪贴板高度设置符合此比例 -->" << "900 <= y <= 1080";
         return m_nScreenHeight/3;
     } else if (m_nScreenHeight >= 1200 && m_nScreenHeight <= 2160) {
-        qDebug() << "1920 <= x 3840 && y >= 1200 && y <= 2160";
+        qDebug() << "剪贴板高度设置符合此比例 -->" << "1920 <= x 3840 && y >= 1200 && y <= 2160";
         return m_nScreenHeight/4;
     } else {
         return m_nScreenHeight/2 - connectTaskBarDbus();
+        qDebug() << "此屏幕比例不在所设置的范围内，返回1/2高度 -->" << "y < 600 && y > 2160";
         qDebug() << "y <= 600 || y>= 2160";
     }
 }
@@ -436,8 +422,7 @@ void Widget::showAnimationAction(const QVariant &value)
     int x = Rect.x();
     if (m_pPeonySite == Widget::PanelDown || m_pPeonySite == Widget::PanelUp) {
         mostGrandWidget::getInstancemostGrandWidget()->setProperty("blurRegion", QRegion(QRect(x, 0, 400, m_nScreenHeight - connectTaskBarDbus())));
-    }
-    else {
+    } else {
         mostGrandWidget::getInstancemostGrandWidget()->setProperty("blurRegion", QRegion(QRect(x, 0, 400, m_nScreenHeight)));
     }
 }
@@ -567,12 +552,19 @@ void Widget::ClipboardHideSlots()
     m_bClipboardFlag = true;
 }
 
+/* 接受任务栏点击信号，当任务栏点击左键时，关闭任务栏 */
+void Widget::ClickPanelHideSidebarSlots()
+{
+    mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
+    hideAnimation();
+    return;
+}
+
 /* 右键菜单打开侧边栏槽函数 */
 void Widget::OpenSidebarSlots()
 {
     mostGrandWidget::getInstancemostGrandWidget()->hide();
     MostGrandWidgetCoordinates();
-    qDebug() << "Widget::iconActivated 展开";
     mostGrandWidget::getInstancemostGrandWidget()->show();
     showAnimation();
     m_bShowFlag = true;
@@ -583,7 +575,11 @@ void Widget::OpenSidebarSlots()
 /* 打开控制中心的通知中心 */
 void Widget::OpenControlCenterSettings()
 {
-    qDebug() << "打开控制中心的通知中心";
+    QProcess p(0);
+    p.startDetached("ukui-control-center -n");
+    p.waitForStarted();
+    return;
+
 }
 
 /* 修改屏幕分辨率或者主屏需要做的事情 */
@@ -702,6 +698,7 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
             return true;
         } else if (event->type() == QEvent::StyleChange) {
             ModifyScreenNeeds();
+            sidebarPluginsWidgets::getInstancePluinsWidgets()->setButtonFont();
         }
     }
 

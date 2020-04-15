@@ -18,12 +18,15 @@
 #ifndef SMALLPLUGINSBUTTON_H
 #define SMALLPLUGINSBUTTON_H
 #include <QPushButton>
+#include <QStyleOptionButton>
+#include <QStylePainter>
+#include <QProxyStyle>
 
 class SmallPluginsButton :public QPushButton
 {
     Q_OBJECT
 public:
-    SmallPluginsButton();
+    explicit SmallPluginsButton(QWidget *parent = nullptr);
     ~SmallPluginsButton();
     void SendSingal();
 protected:

@@ -35,6 +35,16 @@ void customstyle_search_pushbutton::drawComplexControl(QStyle::ComplexControl co
 
 void customstyle_search_pushbutton::drawControl(QStyle::ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const
 {
+    switch (element) {
+    case QStyle::CE_PushButton: {
+        QStyleOptionButton button = *qstyleoption_cast<const QStyleOptionButton *>(option);
+        button.palette.setColor(QPalette::HighlightedText, button.palette.buttonText().color());
+        return QProxyStyle::drawControl(element, &button, painter, widget);
+        break;
+    }
+    default:
+        break;
+    }
     return QProxyStyle::drawControl(element, option, painter, widget);
 }
 

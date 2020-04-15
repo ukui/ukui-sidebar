@@ -27,6 +27,8 @@
 #include <QScreen>
 #include <QGSettings>
 #include <QGuiApplication>
+#include <QPalette>
+#include <QStyleOption>
 #include "clipboardpluginiface.h"
 #include "sidebarSmallPluginInterface.h"
 #include "realtimepropertyanimation.h"
@@ -34,6 +36,7 @@
 
 #define  TRAY_ICON           ":/data/images/kylin-tool-box.svg"
 #define  TRAY_NULL_ICON      ":/data/images/kylin-tool-box-null.svg"
+#define  SETTING_ICON        ":/data/images/application-menu.svg"
 
 #define PANEL_DBUS_SERVICE "com.ukui.panel.desktop"
 #define PANEL_DBUS_PATH "/"
@@ -88,7 +91,6 @@ public:
 
 protected:
     void mousePressEvent(QMouseEvent *event);                                   //鼠标点击事件
-    void mouseMoveEvent(QMouseEvent *event);
     bool eventFilter(QObject *obj, QEvent *event);                              //设置过滤事件
 
 private:
@@ -142,6 +144,7 @@ private slots :
     void screenCountChangedSlots(int count);                                    //屏幕数量改变时对应槽函数
     void OpenSidebarSlots();                                                    //打开侧边栏
     void OpenControlCenterSettings();                                           //打开控制中心的通知中心
+    void ClickPanelHideSidebarSlots();
 };
 
 #endif // WIDGET_H

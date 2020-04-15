@@ -18,7 +18,7 @@
 #include "smallpluginsbutton.h"
 #include <QDebug>
 
-SmallPluginsButton::SmallPluginsButton()
+SmallPluginsButton::SmallPluginsButton(QWidget *parent):QPushButton(parent)
 {
     connect(this, &SmallPluginsButton::clicked, this, &SmallPluginsButton::enterButtonSignal);
 }

@@ -7,6 +7,7 @@
         <file>data/images/kylin-alarm-clock.svg</file>
         <file>data/images/kylin-notebook.svg</file>
         <file>data/images/kylin-feedback.png</file>
+        <file>data/images/application-menu.svg</file>
         <file>sidebartranslat/Sidebar_zh_CN.qm</file>
     </qresource>
 </RCC>
