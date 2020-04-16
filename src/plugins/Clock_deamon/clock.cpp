@@ -461,6 +461,7 @@ void Clock::on_pushButton_5_clicked()
 //窗口最小化
 void Clock::on_pushButton_4_clicked()
 {
+    this->showNormal();
     this->showMinimized();
 }
 

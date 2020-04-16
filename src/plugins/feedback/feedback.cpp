@@ -474,6 +474,7 @@ void feedback::feedback_quit()
 //最小化窗口
 void feedback::on_pushButton_mix_clicked()
 {
+    this->showNormal();
     this->showMinimized();
 }
 //关闭窗口

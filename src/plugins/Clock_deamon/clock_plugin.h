@@ -38,7 +38,7 @@ public:
     const QString name() override {return QObject::tr("闹钟");}
     PluginType pluginType() override {return PluginType::SmallPlugin;}
     const QString description() override {return QObject::tr("闹钟");}
-    const QIcon icon() override {return QIcon::fromTheme("alarm-clock", QIcon::fromTheme("alarm-clock"));}
+    const QIcon icon() override {return QIcon::fromTheme("alarm-clock11", QIcon(":/kylin-alarm-clock.svg"));}
     void setEnable(bool enable) override {Q_UNUSED(enable)}
     bool isEnable() override {return true;}
 
