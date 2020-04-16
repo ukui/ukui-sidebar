@@ -1,0 +1,66 @@
+QWidget{
+background:rgb(0,0,0);
+}
+
+QPushButton#new_add_btn{
+background:rgb(240,240,240);
+}
+
+
+QWidget#Widget{
+background:rgba(240,240,240,0);
+border-radius:6px;
+}
+
+
+QTableWidgetItem#tableWidget{
+background:rgba(240,240,240,0);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+void Notebook::on_sort_btn_clicked()
+{
+    if(dack_wight_flag)
+    {
+        QFile qss(":/stylesheet/stylesheet_wight.css");
+               if( qss.open(QFile::ReadOnly))
+               {
+                   qDebug("open success");
+                   QString style = QLatin1String(qss.readAll());
+                   this->setStyleSheet("background:rgb(255,255,255);");
+                   qss.close();
+               }
+               else
+               {
+                  qDebug("Open failed");
+         }
+               dack_wight_flag = 0;
+
+    }else{
+        QFile qss(":/stylesheet/stylesheet_black.css");
+               if( qss.open(QFile::ReadOnly))
+               {
+                   qDebug("open success");
+                   QString style = QLatin1String(qss.readAll());
+                   this->setStyleSheet("background:rgb(0,0,0);");
+                   qss.close();
+               }
+               else
+               {
+                  qDebug("Open failed");
+         }
+               dack_wight_flag = 1;
+
+    }
+}

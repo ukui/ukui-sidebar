@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui printsupport sql
+QT       += core gui printsupport sql concurrent gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -23,6 +23,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+CONFIG += c++11
 
 DESTDIR = ../sidebarSmallPlugins
 
@@ -30,35 +31,73 @@ INCLUDEPATH    += ../../plugin-interface
 
 DISTFILES += notebook.json
 
-CONFIG += c++11
-
 TRANSLATIONS += \
         ukui_notebook_zh_CN.ts
 
 SOURCES += \
+    cai_tou.cpp \
+    color_mini.cpp \
+    dbmanager.cpp \
+    edit_page.cpp \
+    form.cpp \
     mythrow.cpp \
+    notebook_plugin.cpp \
+    notedata.cpp \
+    notemodel.cpp \
+    noteview.cpp \
+    notewidgetdelegate.cpp \
+    select_color_page.cpp \
+    set_font_color_page.cpp \
+    set_font_size_page.cpp \
     singleitemButton.cpp \
-        widget.cpp \
-    singleitemwidget.cpp \
-    ukui_notebook.cpp \
-    notebook_plugin.cpp
+    tanchuang.cpp \
+    text_editing.cpp \
+    tui_chu_biab_qian_dialog.cpp \
+    widget.cpp
 
 HEADERS += \
+    cai_tou.h \
+    color_mini.h \
+    dbmanager.h \
+    edit_page.h \
+    form.h \
     mythrow.h \
+    notebook_plugin.h \
+    notedata.h \
+    notemodel.h \
+    noteview.h \
+    notewidgetdelegate.h \
+    select_color_page.h \
+    set_font_color_page.h \
+    set_font_size_page.h \
     singleitemButton.h \
-        widget.h \
-    singleitemwidget.h \
-    ukui_notebook.h \
-    notebook_plugin.h
+    tanchuang.h \
+    text_editing.h \
+    tui_chu_biab_qian_dialog.h \
+    widget.h
 
 FORMS += \
-        widget.ui \
-    singleitemwidget.ui \
-    ukui_notebook.ui
+    cai_tou.ui \
+    color_mini.ui \
+    edit_page.ui \
+    form.ui \
+    select_color_page.ui \
+    set_font_color_page.ui \
+    set_font_size_page.ui \
+    tanchuang.ui \
+    text_editing.ui \
+    tui_chu_biab_qian_dialog.ui \
+    widget.ui
+
+# Default rules for deployment.
+qnx: target.path = /tmp/$${TARGET}/bin
+else: unix:!android: target.path = /opt/$${TARGET}/bin
+!isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    ukui_notebook.qrc
+    image.qrc
 
+DISTFILES +=
 unix {
     target.path = /usr/lib/ukui-sidebar/sidebarSmallPlugins
     INSTALLS += target
