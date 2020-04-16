@@ -81,10 +81,11 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
     //设置通知消息中的Icon，使用QToolButton
     QToolButton* pIconToolButton = new QToolButton();
+    QIcon icon = QIcon::fromTheme(strIconPath);
     pIconToolButton->setStyleSheet("QToolButton{border:none;border-style:none;padding:0px;background:transparent;}");
     pIconToolButton->setFixedSize(24, 24);
     pIconToolButton->setIconSize(QSize(24, 24));
-    pIconToolButton->setIcon(QPixmap(strIconPath));
+    pIconToolButton->setIcon(icon);
 
     //设置应用名标签，采用省略模式
     QLabel* pAppNameLabel = new QLabel();
@@ -247,7 +248,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pAppVLaout->addWidget(m_pSingleWidget);
     this->setLayout(m_pAppVLaout);
 
-    setStyleSheet("background-color:rgba(255,255,255,0);");
+    setStyleSheet("background-color:rgba(255,255,255,0.12);");
     return;
 }
 

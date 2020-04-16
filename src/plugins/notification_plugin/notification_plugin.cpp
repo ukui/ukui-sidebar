@@ -93,7 +93,6 @@ NotificationPlugin::NotificationPlugin()
     m_pTakeInCoutLabel->setObjectName("takeincout");
     m_pTakeInCoutLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     m_pTakeInCoutLabel->setVisible(false);
-
     QSpacerItem* pVFixedSpacer = new QSpacerItem(10, 24, QSizePolicy::Fixed, QSizePolicy::Fixed);
     pNotificationVBoxLayout->addSpacerItem(pVFixedSpacer);
 
@@ -110,10 +109,10 @@ NotificationPlugin::NotificationPlugin()
 
     QSpacerItem* pHSpacer = new QSpacerItem(300, 10, QSizePolicy::Expanding, QSizePolicy::Fixed);
 
-    QPushButton* pClearAllToolButton = new QPushButton();
-    pClearAllToolButton->setObjectName("clearall");
-    connect(pClearAllToolButton, SIGNAL(clicked()), this, SLOT(onClearAllMessage()));
-    pClearAllToolButton->setText(QObject::tr("Clean up"));
+    m_pClearAllToolButton = new QPushButton();
+    m_pClearAllToolButton->setObjectName("clearall");
+    connect(m_pClearAllToolButton, SIGNAL(clicked()), this, SLOT(onClearAllMessage()));
+    m_pClearAllToolButton->setText(QObject::tr("Clean up"));
 
     QSpacerItem* pFixSpacer = new QSpacerItem(5, 10, QSizePolicy::Fixed, QSizePolicy::Fixed);
 
@@ -122,10 +121,9 @@ NotificationPlugin::NotificationPlugin()
     connect(pSettingToolButton, SIGNAL(clicked()), this, SLOT(onCallControlPanel()));
     pSettingToolButton->setText(QObject::tr("Set up"));
 
-
     pQHBoxLayout2->addWidget(m_pNotificationLabel, 0, Qt::AlignLeft);
     pQHBoxLayout2->addSpacerItem(pHSpacer);
-    pQHBoxLayout2->addWidget(pClearAllToolButton, 0, Qt::AlignRight);
+    pQHBoxLayout2->addWidget(m_pClearAllToolButton, 0, Qt::AlignRight);
     pQHBoxLayout2->addSpacerItem(pFixSpacer);
     pQHBoxLayout2->addWidget(pSettingToolButton, 0, Qt::AlignRight);
     pWidget2->setLayout(pQHBoxLayout2);
@@ -406,7 +404,6 @@ void NotificationPlugin::onClearAllMessage()
             m_pScrollAreaTakeInVBoxLayout->insertWidget(0, m_pTakeinMessageCenterLabel, 0, Qt::AlignHCenter);
         }
         onCountTakeInBitAndUpate();
-        m_pTakeInCoutLabel->setVisible(false);
     }
 
     return;
@@ -550,7 +547,7 @@ void NotificationPlugin::onClearTakeInAppMsg(AppMsg* pAppMsg)
 void NotificationPlugin::onCallControlPanel()
 {
     QProcess p(0);
-    p.startDetached("ukui-control-center");
+    p.startDetached("ukui-control-center -n");
     p.waitForStarted();
 
     return;
