@@ -56,10 +56,16 @@ Widget::Widget(QWidget *parent) :
     ukui_init();
     ukui_conn();
     QTimer::singleShot(200,this, SLOT(InitData()));
+     setAttribute(Qt::WA_TranslucentBackground);
     black_show();
     sourch_Icon();
-    dack_wight_flag = -2;
+    dack_wight_flag = -1;
+    ui->set_btn->hide();
+    ui->change_page_btn->hide();
+    ui->add_more_btn->move(575, 0);
+    ui->frame->hide();
 
+    //ui->widget->setStyleSheet("QWidget{background-color: rgba(0, 0, 0, 0.2);}");
 }
 
 Widget::~Widget()
@@ -373,9 +379,9 @@ void Widget::migrateNote(QString notePath)
 void Widget::set_all_btn_attribute()
 {
     pixmap1 = QPixmap(":/image/1x/new.png");
-    pixmap2 = QPixmap(":/image/1x/window-close-symbolic.png");
-    pixmap3 = QPixmap(":/image/1x/window-minimize-symbolic.png");
-    pixmap4 = QPixmap(":/image/1x/open-menu-symbolic.png");
+    pixmap2 = QPixmap(":/image/1x/close_light.png");
+    pixmap3 = QPixmap(":/image/1x/mini_light.png");
+    pixmap4 = QPixmap(":/image/1x/more_light.png");
     pixmap5 = QPixmap(":/image/1x/table.png");
    // pixmap6 = QPixmap(":/image/1x/ Insert_multiple_box .png");
     pixmap6 = QPixmap(":/image/1x/delete.png");
@@ -386,6 +392,11 @@ void Widget::set_all_btn_attribute()
     pixmap10 = QPixmap(":/image/1x/close_block.png");
     pixmap11 = QPixmap(":/image/1x/mini_block.png");
     pixmap12 = QPixmap(":/image/1x/more_block.png");
+    pixmap13 = QPixmap(":/image/1x/mini2.png");
+    pixmap14 = QPixmap(":/image/1x/mini3.png");
+    pixmap15 = QPixmap(":/image/1x/close2.png");
+    pixmap16 = QPixmap(":/image/1x/close3.png");
+
 
 
     ui->newKynote->setIcon(pixmap1);
@@ -395,16 +406,19 @@ void Widget::set_all_btn_attribute()
 
     ui->change_page_btn->setIcon(pixmap5);
     ui->add_more_btn->setIcon(pixmap6);
-    ui->sort_btn->setIcon(pixmap8);
-    ui->sort_2_btn->setIcon(pixmap9);
+    ui->add_more_btn->setIconSize(QSize(36,36));
 
+    ui->sort_btn->setIcon(pixmap8);
+    ui->sort_btn->setIconSize(QSize(36,36));
+    ui->sort_2_btn->setIcon(pixmap9);
+    ui->sort_2_btn->setIconSize(QSize(36,36));
 
     ui->newKynote->setToolTip(tr("Create New Note"));
     ui->add_more_btn->setToolTip(tr("Delete Selected Note"));
     ui->sort_btn->setToolTip(tr("Sort"));
     ui->sort_2_btn->setToolTip(tr("Switching Themes"));
     ui->pushButton_Exit->setToolTip(tr("Exit"));
-     ui->pushButton_Mini->setToolTip(tr("Mini"));
+    ui->pushButton_Mini->setToolTip(tr("Mini"));
 }
 
 void Widget::set_table_list_page_attribute()
@@ -720,7 +734,7 @@ void Widget::onTextEditTextChanged(const QModelIndex &index)
         QString content = index.data(NoteModel::NoteContent).toString();
         qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
 
-        //for (size_t i = 0;i < m_editors.size();i++) {
+        //for (size_t i = 0;i < m_editors.size();i++) {                    //toHtml().toUtf8()toPlainText();
             qDebug()<<"==========="<<m_editors[index.row()]->ui->textEdit->toPlainText();
         ///}
         if(m_editors[index.row()]->ui->textEdit->toPlainText() != content){
@@ -740,6 +754,17 @@ void Widget::onTextEditTextChanged(const QModelIndex &index)
                 //moveNoteToTop();
                 //m_noteView->setAnimationEnabled(true);
             }
+
+//            QSqlQuery query;
+//            QString onlyText = getFirstLine(m_editors[index.row()]->ui->textEdit->toPlainText());
+//            qDebug()<<onlyText<<"---------------------------------------------------------------"<<index.row();
+//            query.prepare(QStringLiteral("UPDATE active_notes SET text_title = :color WHERE id = :id"));
+//            query.bindValue(QStringLiteral(":color"), onlyText);
+//            query.bindValue(QStringLiteral(":id"), index.row()+1);
+//            if (!query.exec()) {
+//                qWarning () << __func__ << ": " << query.lastError();
+//            }
+//            query.numRowsAffected();
 
             // Get the new data
             QString firstline = getFirstLine(m_editors[index.row()]->ui->textEdit->toPlainText());
@@ -1094,7 +1119,9 @@ void Widget::sourch_Icon()
     ui->SearchLine->addAction(searchAction,QLineEdit::LeadingPosition);  //图片在左侧
 
     delAction = new QAction(ui->SearchLine);
-    delAction->setIcon(QIcon(":/image/1x/close_light.png"));
+   QPixmap  delActionimage =   pixmap2.scaled(QSize(16,16));
+    delAction->setIcon(delActionimage);
+
     connect(delAction, SIGNAL(triggered()), this, SLOT(delAction_del_SearchLine()));
 }
 void Widget::delAction_del_SearchLine()
@@ -1124,7 +1151,7 @@ void Widget::on_sort_2_btn_clicked()
 void Widget::black_show()
 {
     this->setObjectName(QString::fromUtf8("便签本"));
-    ui->widget->setStyleSheet("QWidget{background-color: rgba(19, 20, 20,, 0.7);}");
+    ui->widget->setStyleSheet("QWidget{background-color: rgba(19, 20, 20,, 0.1);}");
     ui->widget_3->setStyleSheet("QWidget{background-color: rgba(19, 20, 20,, 0.7);}");
     ui->widget_2->setStyleSheet("QWidget{background-color: rgba();}");
     ui->newKynote->setStyleSheet(QString::fromUtf8("background:rgba(61,107,229,1);\n"
@@ -1141,19 +1168,39 @@ void Widget::black_show()
     ui->sort_2_btn->setStyleSheet(QString::fromUtf8("background-color: rgba(19,20,20,0);"));
     ui->add_more_btn->setStyleSheet("background-color: rgb(43,49,56);\n");
     ui->change_page_btn->setStyleSheet("background-color: rgb(43,49,56);\n");
-    ui->pushButton_Exit->setStyleSheet("border-image: url(:/image/1x/close_light.png);");
-    ui->pushButton_Mini->setStyleSheet("border-image: url(:/image/1x/mini_light.png);");
-    ui->set_btn->setStyleSheet("border-image: url(:/image/1x/more_light.png);");
+
+    ui->pushButton_Exit->setStyleSheet("background-color: rgba(19,20,20, 0);color: rgba(255, 255, 255,0.8);");
+    ui->pushButton_Mini->setStyleSheet("background-color: rgba(19,20,20, 0);color: rgba(255, 255, 255,0.8);");
+    ui->set_btn->setStyleSheet("background-color: rgba(19,20,20, 0.7);color: rgba(255, 255, 255,0.8);");
+
+    ui->pushButton_Exit->setIcon(pixmap2);
+    ui->pushButton_Exit->setIconSize(QSize(36,36));
+    ui->pushButton_Mini->setIcon(pixmap3);
+    ui->pushButton_Mini->setIconSize(QSize(36,36));
+    ui->set_btn->setIcon(pixmap4);
+    ui->set_btn->setIconSize(QSize(36,36));
+
+
+    ui->pushButton_Exit->setStyleSheet("QPushButton{border-image: url(:/image/1x/close_light.png);background-color: rgba(19,20,20, 0);color: rgba(255, 255, 255,0.8);}"
+                  "QPushButton:hover{border-image: url(:/image/1x/close2.png);background-color: rgba(19,20,20, 0);color: rgba(255, 255, 255,0.8);}"
+                  "QPushButton:pressed{border-image: url(:/image/1x/close3.png);background-color: rgba(19,20,20, 0);color: rgba(255, 255, 255,0.8);}");
+    ui->pushButton_Mini->setStyleSheet("QPushButton{border-image: url(:/image/1x/mini_light.png);background-color: rgba(19,20,20, 0);color: rgba(255, 255, 255,0.8);}"
+                  "QPushButton:hover{border-image: url(:/image/1x/mini2.png);background-color: rgba(19,20,20, 0);color: rgba(255, 255, 255,0.8);}"
+                  "QPushButton:pressed{border-image: url(:/image/1x/mini3.png);background-color: rgba(19,20,20, 0);color: rgba(255, 255, 255,0.8);}");
+
+//    ui->newKynote->setStyleSheet("QPushButton{border-image: url(:/image/1x/new.png);background:rgba(61,107,229,1);color: rgb(255, 255, 255);}"
+//                                  "QPushButton:hover{border-image: url(:/image/1x/new-big.png);background:rgba(61,107,229,1);color: rgb(255, 255, 255);}"
+//                                  "QPushButton:pressed{border-image: url(:/image/1x/new-big-click.png);background:rgba(61,107,229,1);color: rgb(255, 255, 255);}");
 }
 
 void Widget::light_show()
 {
     this->setObjectName(QString::fromUtf8("便签本"));
-    ui->widget->setStyleSheet("QWidget{background-color: rgba(240, 240, 240, 0.7);}");
+    ui->widget->setStyleSheet("QWidget{background-color: rgba(255, 255, 255, 0.7);}");
     ui->widget_3->setStyleSheet("QWidget{background-color: rgba();}");
-    ui->newKynote->setStyleSheet(QString::fromUtf8("background:rgba(61,107,229,1);\n"
+    ui->newKynote->setStyleSheet(QString::fromUtf8("background:rgba(61,107,229,1);color: rgb(255, 255, 255);\n"
                                                    "color: rgb(255, 255, 255);"));
-    ui->SearchLine->setStyleSheet(QString::fromUtf8("background-color: rgba(198, 198, 198,0.9);\n"
+    ui->SearchLine->setStyleSheet(QString::fromUtf8("background-color: rgba(198, 198, 198,0.4);\n"
                                                     "color: rgb(0, 0, 0);\n"
                                                     "opacity:0.08;\n"
                                                     "border-radius:4px;"));
@@ -1162,24 +1209,43 @@ void Widget::light_show()
     ui->label->setStyleSheet(QString::fromUtf8("background-color: rgba();\n"
                                                "color: rgb(43,49,56);\n"
                                                "color: rgb(126, 126, 126);"));
-    ui->sort_btn->setStyleSheet(QString::fromUtf8("background-color: rgba(233,233,233,0);"));
-    ui->sort_2_btn->setStyleSheet(QString::fromUtf8("background-color: rgba(233,233,233,0);"));
-    ui->add_more_btn->setStyleSheet("background-color: rgb(198, 198, 198);\n");
-    ui->change_page_btn->setStyleSheet("background-color: rgb(198, 198, 198);\n");
-    ui->pushButton_Exit->setStyleSheet("border-image: url(:/image/1x/close_block.png);");
-    ui->pushButton_Mini->setStyleSheet("border-image: url(:/image/1x/mini_block.png);");
-    ui->set_btn->setStyleSheet("border-image: url(:/image/1x/more_block.png);");
+    ui->sort_btn->setStyleSheet(QString::fromUtf8("background-color: rgba(233,233,233,0); color: rgba(0,0,0,0.8);"));
+    ui->sort_2_btn->setStyleSheet(QString::fromUtf8("background-color: rgba(233,233,233,0);color: rgba(0,0,0,0.8);"));
+    ui->add_more_btn->setStyleSheet("background-color: rgba(198, 198, 198, 0.4);color: rgba(0,0,0,0.8);");
+    ui->change_page_btn->setStyleSheet("background-color: rgb(198, 198, 198);color: rgba(0,0,0,0.8);");
+
+    ui->pushButton_Exit->setIcon(pixmap10);
+    ui->pushButton_Exit->setIconSize(QSize(36,36));
+    ui->pushButton_Mini->setIcon(pixmap11);
+    ui->pushButton_Mini->setIconSize(QSize(36,36));
+    ui->set_btn->setIcon(pixmap12);
+    ui->set_btn->setIconSize(QSize(36,36));
+
+    ui->pushButton_Exit->setStyleSheet("background-color: rgba(255, 255, 255, 0);color: rgba(0,0,0,0.8);");
+    ui->pushButton_Mini->setStyleSheet("background-color: rgba(255, 255, 255, 0);color: rgba(0,0,0,0.8);");
+    ui->set_btn->setStyleSheet("background-color: rgba(255, 255, 255, 0.7);color: rgba(0,0,0,0.8);");
+
+    ui->pushButton_Exit->setStyleSheet("QPushButton{border-image: url(:/image/1x/close_light.png);background-color: rgba(255, 255, 255, 0);color: rgba(0,0,0,0.8);}"
+                  "QPushButton:hover{border-image: url(:/image/1x/close2.png);background-color: rgba(255, 255, 255, 0);color: rgba(0,0,0,0.8);}"
+                  "QPushButton:pressed{border-image: url(:/image/1x/close3.png);background-color: rgba(255, 255, 255, 0);color: rgba(0,0,0,0.8);}");
+    ui->pushButton_Mini->setStyleSheet("QPushButton{border-image: url(:/image/1x/mini_light.png);background-color: rgba(255, 255, 255, 0);color: rgba(0,0,0,0.8);}"
+                  "QPushButton:hover{border-image: url(:/image/1x/mini2.png);background-color: rgba(255, 255, 255, 0);color: rgba(0,0,0,0.8);}"
+                  "QPushButton:pressed{border-image: url(:/image/1x/mini3.png);background-color: rgba(255, 255, 255, 0);color: rgba(0,0,0,0.8);}");
+
+
+//    ui->newKynote->setStyleSheet("QPushButton{border-image: url(:/image/1x/new.png);background:rgba(61,107,229,1);color: rgb(255, 255, 255);}"
+//                                  "QPushButton:hover{border-image: url(:/image/1x/new-big.png);background:rgba(61,107,229,1);color: rgb(255, 255, 255);}"
+//                                  "QPushButton:pressed{border-image: url(:/image/1x/new-big-click.png);background:rgba(61,107,229,1);color: rgb(255, 255, 255);}");
+
+
 }
 
 
 void Widget::on_SearchLine_textChanged(const QString &arg1)
 {
-    qDebug()<<"ssssssss";
     if(ui->SearchLine->text().isEmpty()){
-        qDebug()<<"111111111";
         ui->SearchLine->addAction(searchAction,QLineEdit::LeadingPosition);  //图片在左侧
         ui->SearchLine->removeAction(delAction);
-         qDebug()<<"1111111111-----";
     }
     else{
         ui->SearchLine->removeAction(searchAction);

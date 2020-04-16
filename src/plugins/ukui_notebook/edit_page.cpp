@@ -82,7 +82,7 @@ Edit_page::~Edit_page()
 
 void Edit_page::set_select_color_page()
 {
-  color_page = new select_color_page();
+  color_page = new select_color_page(pNotebook);
   ui->textEdit->setFrameShape(QFrame::NoFrame);
   connect(color_page->ui->blue_btn, SIGNAL(clicked()), this, SLOT(blue_btn_change()) );
   connect(color_page->ui->pink_btn, SIGNAL(clicked()), this, SLOT(pink_btn_change()) );
@@ -359,9 +359,15 @@ void Edit_page::yellow_btn_change()
 
 void Edit_page::wight_btn_change()
 {
+    if(pNotebook->dack_wight_flag){
      m_editColor = QColor(236,238,242);
-     emit colorhasChanged(m_editColor);
      caitou->color_widget = QColor(236,238,242);
+    }else{
+        m_editColor = QColor(0,0,0);
+        caitou->color_widget = QColor(0,0,0);
+    }
+
+     emit colorhasChanged(m_editColor);
      update();
 }
 
@@ -371,7 +377,9 @@ void Edit_page::set_all_btn_attribute()
     pixmap2 = QPixmap(":/image/1x/adjustment.png");
     pixmap3 = QPixmap(":/image/1x/note_color.png");
     ui->chang_btn->setIcon(pixmap2);
+    ui->chang_btn->setIconSize(QSize(36,36));
     ui->color_btn->setIcon(pixmap3);
+    ui->color_btn->setIconSize(QSize(36,36));
 }
 
 void Edit_page::on_color_btn_clicked()
@@ -394,19 +402,31 @@ void Edit_page::contextMenuEvent(QContextMenuEvent *event)
 {
     Q_UNUSED(event);
     QMenu * menu = new QMenu(this);
+    menu->resize(50,20);
+    if(!pNotebook->dack_wight_flag)
+    {
+        menu->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
+                                              "background:rgb(255,255,255);\n"
+                                              ""));
+    }else{
 
+        menu->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);\n"
+                                              "background:rgb(19,20,20);\n"
+                                              ""));
+    }
 
-    QAction * delete_the_widget = new QAction(tr("关闭"));
-    QAction * t1 = new QAction(tr("新建"));
-    QAction * t2 = new QAction(tr("删除"));
-    QAction * t3 = new QAction(tr("打开便签本"));
-    connect(t1, SIGNAL(triggered()), this, SLOT(add_new_page()));
+    QAction * delete_the_widget = new QAction(tr("Close"));
+    delete_the_widget->setIcon(QIcon(":/image/1x/delete.png"));
+    QAction * t3 = new QAction(tr("Open Notepad"));
+    t3->setIcon(QIcon(":/image/1x/open_note-book.png"));
     connect(delete_the_widget, SIGNAL(triggered()), this, SLOT(clear_the_page()));
     connect(t3, SIGNAL(triggered()), this, SLOT(show_note_page()));
     menu->addAction(delete_the_widget);
-    menu->addAction(t1);
-    menu->addAction(t2);
     menu->addAction(t3);
+    // QAction * t1 = new QAction(tr("新建"));
+    //t1->setIcon(QIcon(":/image/1x/sourch.png"));
+    //connect(t1, SIGNAL(triggered()), this, SLOT(add_new_page()));
+    // menu->addAction(t1);
     menu->move(cursor().pos()); //让菜单显示的位置在鼠标的坐标上
     menu->show();
 }

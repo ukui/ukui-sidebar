@@ -28,19 +28,23 @@
 namespace Ui {
 class select_color_page;
 }
-
+class Widget;
 class select_color_page : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit select_color_page(QWidget *parent = nullptr);
+    explicit select_color_page(Widget* page , QWidget *parent = nullptr);
     ~select_color_page();
     void paintEvent(QPaintEvent *);
      Ui::select_color_page *ui;
+      Widget* pNotebook;
+private slots:
+      void color_clicked();
 
 private:
-
+    void black_show();
+    void light_show();
 
     // 小三角起始位置;
     int m_startX = 180;
@@ -48,6 +52,7 @@ private:
     int m_triangleWidth = 10;
     // 小三角高度;
     int m_triangleHeight= 5 ;
+    QTimer *timer;
 };
 
 #endif // SELECT_COLOR_PAGE_H
