@@ -11,5 +11,7 @@
         <file>images/exitbox-16-translucent.svg</file>
         <file>images/exitbox-16.svg</file>
         <file>images/exitbox-24.svg</file>
+        <file>images/box-24-hover.svg</file>
+        <file>images/exitbox-24-hover.svg</file>
     </qresource>
 </RCC>

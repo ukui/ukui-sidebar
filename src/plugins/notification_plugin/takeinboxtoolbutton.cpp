@@ -27,14 +27,16 @@ TakeInBoxToolButton::TakeInBoxToolButton()
 void TakeInBoxToolButton::enterEvent(QEvent *event)
 {
     Q_UNUSED(event);
-
+    setIconSize(QSize(24,24));
     //设置边框, 边框色, 背景色, 字体色, 字号
     if(false == m_bEnterTakeInBox)
     {
+        setIcon(QIcon(":/images/box-24-hover.svg"));
         this->setToolTip((tr("Enter unimportant news")));
     }
     else
     {
+        setIcon(QIcon(":/images/exitbox-24-hover.svg"));
         this->setToolTip((tr("Quit unimportant news")));
     }
     return;
@@ -43,5 +45,13 @@ void TakeInBoxToolButton::enterEvent(QEvent *event)
 void TakeInBoxToolButton::leaveEvent(QEvent *event)
 {
     Q_UNUSED(event);
+    if(false == m_bEnterTakeInBox)
+    {
+        setIcon(QIcon(":/images/box-24.svg"));
+    }
+    else {
+        setIcon(QIcon(":/images/exitbox-24.svg"));
+    }
+
     return;
 }
