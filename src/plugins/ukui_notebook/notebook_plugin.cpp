@@ -19,10 +19,18 @@
 #include "widget.h"
 #include <QDesktopWidget>
 #include <QApplication>
+#include <QTranslator>
+#include <QDebug>
 
 notebook_plugin::notebook_plugin()
 {
-    mp_notebook = new Widget;
+    QTranslator *translator = new QTranslator;
+    QLocale locale;
+    //获取系统语言环境
+    if ( locale.language() == QLocale::Chinese ) {
+        translator->load(QString(":/translation/ukui_notebook_zh_CN.qm"));  //选择翻译文件
+        QApplication::installTranslator(translator);
+    }
 }
 
 void notebook_plugin::onNotification() {
@@ -30,8 +38,10 @@ void notebook_plugin::onNotification() {
 }
 
 void notebook_plugin::PluginsShowInterface() {
-    if(Notebookflag)
+    if(!mp_notebook){
         mp_notebook = new Widget;
+        qDebug()<<"1111111111111";
+    }
     QDesktopWidget *desk = QApplication::desktop();
     QRect deskRect = desk->availableGeometry();
     mp_notebook->show();

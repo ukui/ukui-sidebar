@@ -323,10 +323,21 @@ void sidebarPluginsWidgets::loadSmallPlugins()
                 qDebug() << "当前插件加载的序号 --> " << iter1.value()->pluginsLoadingSequence();
                 if (iter1.value()->pluginsLoadingSequence() == Sequence) {
                     QToolButton *p_ToolButton = new QToolButton();
-                    p_ToolButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     p_ToolButton->setFixedSize(90,90);
-                    p_ToolButton->setIcon(iter1.value()->icon());
-                    p_ToolButton->setText(iter1.value()->PluginButtonName());
+                    QPixmap pixmap = iter1.value()->icon().pixmap(QSize(45, 45));
+                    QLabel *IconLabel = new QLabel();
+                    IconLabel->setFixedSize(45, 45);
+                    IconLabel->setPixmap(pixmap);
+                    QLabel *textLabel = new QLabel();
+                    textLabel->setText(iter1.value()->PluginButtonName());
+                    QVBoxLayout *ToolButtonLaout = new QVBoxLayout();
+                    ToolButtonLaout->setContentsMargins(0, 0, 0, 0);
+                    ToolButtonLaout->addItem(new QSpacerItem(10, 12, QSizePolicy::Expanding));
+                    ToolButtonLaout->addWidget(IconLabel, 0, Qt::AlignCenter);
+                    ToolButtonLaout->addItem(new QSpacerItem(10, 9, QSizePolicy::Expanding));
+                    ToolButtonLaout->addWidget(textLabel, 0, Qt::AlignCenter);
+                    ToolButtonLaout->addSpacerItem(new QSpacerItem(10, 7));
+                    p_ToolButton->setLayout(ToolButtonLaout);
                     p_ToolButton->setStyle(new CustomStyle("ukui-default"));
                     qDebug() << "插件接口名称" << iter1.value()->PluginButtonName();
                     p_ToolButton->setIconSize(QSize(iter1.value()->PluginIconSize_W(), iter1.value()->PluginIconSize_H()));
