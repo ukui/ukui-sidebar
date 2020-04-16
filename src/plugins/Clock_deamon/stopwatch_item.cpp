@@ -28,10 +28,9 @@ stopwatch_item::stopwatch_item(QWidget *parent) :
     stopwatch1 = new QLabel(this);//计次
     stopwatch1->move(24, 9);
     stopwatch1->setFixedSize(100, 17);
-    stopwatch1->setStyleSheet("font: 11pt 'Sans Serif';background-color: rgb();width:45px;\
+    stopwatch1->setStyleSheet("font: 11pt ;background-color: rgb();width:45px;\
                               height:17px;\
                               font-size:18px;\
-                              font-family:Source Han Sans CN;\
                               font-weight:400;\
                               color:rgba(255,255,255,1);");
     stopwatch1->setText("起床铃");
@@ -39,11 +38,10 @@ stopwatch_item::stopwatch_item(QWidget *parent) :
 
     stopwatch2 = new QLabel( this);//间隔
     stopwatch2->move(24, 34);
-    stopwatch2->setFixedSize(100, 17);
-    stopwatch2->setStyleSheet("font: 9pt 'Sans Serif';color: rgb(148, 148, 148);background-color: rgb();width:85px;\
+    stopwatch2->setFixedSize(110, 17);
+    stopwatch2->setStyleSheet("font: 9pt ;color: rgb(148, 148, 148);background-color: rgb();width:85px;\
                               height:14px;\
                               font-size:14px;\
-                              font-family:Source Han Sans CN;\
                               font-weight:400;\
                               opacity:0.45;");
     stopwatch2->setText("工作日");
@@ -57,10 +55,9 @@ stopwatch_item::stopwatch_item(QWidget *parent) :
     stopwatch3 = new QLabel(this);//记次时间
     stopwatch3->move(239,15);
     stopwatch3->setFixedSize(115, 29);
-    stopwatch3->setStyleSheet("font: 17pt 'Sans Serif';background-color: rgb();width:114px;\
+    stopwatch3->setStyleSheet("font: 17pt ;background-color: rgb();width:114px;\
                               height:22px;\
                               font-size:30px;\
-                              font-family:Source Han Sans CN;\
                               font-weight:400;\
                               color:rgba(255,255,255,1);");
     stopwatch3->setText("00:00");

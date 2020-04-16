@@ -49,6 +49,7 @@ void clock_plugin::PluginsShowInterface() {
     QRect deskRect = desk->availableGeometry();
     m_pClock->show();
     m_pClock->move((deskRect.width()-m_pClock->width())/2, (deskRect.height()-m_pClock->height())/2);
+    m_pClock->showNormal();
 //    Clockflag = true;
 }
 

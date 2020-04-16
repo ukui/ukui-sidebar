@@ -1,0 +1,13 @@
+#!/bin/bash
+
+home="/home/"
+
+db_file="/.config/ukui/Clock_database.db"
+
+for file in $(ls /home)
+do
+  db_file_path=${home}${file}${db_file}  
+  if [  -f "$db_file_path" ]; then
+ 	rm "$db_file_path"
+  fi
+done
