@@ -92,7 +92,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     /* 系统托盘栏显示 */
     createAction();
     createSystray();
-    setIcon(TRAY_ICON);
+    setIcon(QIcon::fromTheme("kylin-tool-box", QIcon(TRAY_ICON)));
 
     /* 安装事件过滤器 */
     installEventFilter(this);
@@ -215,9 +215,8 @@ void Widget::createSystray()
 }
 
 //设置托盘栏的图标
-void Widget::setIcon(QString strIcon)
+void Widget::setIcon(QIcon icon)
 {
-    QIcon icon = QIcon(strIcon);
     trayIcon->setIcon(icon);
     setWindowIcon(icon);
     trayIcon->setToolTip(tr("Sidebar"));
@@ -240,7 +239,7 @@ void Widget::iconActivated(QSystemTrayIcon::ActivationReason reason)
                 mostGrandWidget::getInstancemostGrandWidget()->show();
                 showAnimation();
                 m_bShowFlag = true;
-                setIcon(TRAY_ICON);
+                setIcon(QIcon::fromTheme("kylin-tool-box", QIcon(TRAY_ICON)));
             }
             break;
         }
@@ -572,7 +571,7 @@ void Widget::OpenSidebarSlots()
     showAnimation();
     m_bShowFlag = true;
 //  m_pTimer->stop();                               //当侧边栏展开时，停止闪烁定时器，并且设置有图标的托盘图标
-    setIcon(TRAY_ICON);
+    setIcon(QIcon::fromTheme("kylin-tool-box", QIcon(TRAY_ICON)));
 }
 
 /* 打开控制中心的通知中心 */
@@ -677,13 +676,13 @@ void Widget::twinkle()
     if(true == m_bFwinkleFlag)
     {
         m_bFwinkleFlag = false;
-        setIcon(TRAY_NULL_ICON);
+        setIcon(QIcon::fromTheme("kylin-tool-box-null", QIcon(TRAY_NULL_ICON)));
         m_pTimer->stop();
     }
     else
     {
         m_bFwinkleFlag = true;
-        setIcon(TRAY_ICON);
+        setIcon(QIcon::fromTheme("kylin-tool-box", QIcon(TRAY_ICON)));
     }
 }
 
