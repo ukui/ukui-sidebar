@@ -74,17 +74,5 @@ void singleitemButton::leaveEvent(QEvent *event)
     this->setIcon(pushdelIcon);
 }
 
-//bool singleitemButton::eventFilter(QObject *obj, QEvent *e)
-//{
-//    //qDebug() << e->type();
-//    if(obj == this)
-//    {
-//        if(e->type() == QEvent::MouseButtonPress)
-//        {
-//            emit buttonclick();
-//            return true;
-//        }
-//    }
-//}
 
 

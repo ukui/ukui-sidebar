@@ -36,8 +36,6 @@ protected:
     void mousePressEvent(QMouseEvent *event);//鼠标按下事件
     void mouseReleaseEvent(QMouseEvent *event);//鼠标松开事件
     void leaveEvent(QEvent *event);//鼠标离开事件
-//    bool eventFilter(QObject *, QEvent *);//事件过滤器
-
 };
 
 #endif // SINGLEITEMBUTTON_H
