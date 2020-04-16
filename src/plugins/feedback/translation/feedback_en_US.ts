@@ -9,7 +9,7 @@
         <location filename="../feedback_plugin.h" line="50"/>
         <source>用户反馈</source>
         <translatorcomment>Feedback</translatorcomment>
-        <translation type="unfinished">Feedback</translation>
+        <translation>Feedback</translation>
     </message>
     <message>
         <location filename="../feedback_plugin.h" line="39"/>
@@ -90,7 +90,7 @@
         <location filename="../feedback.cpp" line="212"/>
         <location filename="../feedback.cpp" line="218"/>
         <source>*</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../feedback.cpp" line="233"/>
@@ -238,20 +238,20 @@
     <message>
         <location filename="../submit_success.cpp" line="36"/>
         <source>提交成功 </source>
-        <translatorcomment>Submitted successfully</translatorcomment>
-        <translation type="unfinished">Submitted successfully</translation>
+        <translatorcomment>Submitted success</translatorcomment>
+        <translation type="unfinished">Submitted success</translation>
     </message>
     <message>
         <location filename="../submit_success.cpp" line="40"/>
         <source>问题提交成功</source>
-        <translatorcomment>Question submitted successfully</translatorcomment>
-        <translation type="unfinished">Question submitted successfully</translation>
+        <translatorcomment>submitted success</translatorcomment>
+        <translation type="unfinished">submitted success</translation>
     </message>
     <message>
         <location filename="../submit_success.cpp" line="70"/>
         <source>继续反馈问题</source>
-        <translatorcomment>Continue feedback</translatorcomment>
-        <translation type="unfinished">Continue feedback</translation>
+        <translatorcomment>Continue </translatorcomment>
+        <translation type="unfinished">Continue</translation>
     </message>
     <message>
         <location filename="../submit_success.cpp" line="78"/>

@@ -18,7 +18,6 @@
 #include "submit_success.h"
 #include "feedback.h"
 #include "browse_button.h"
-#include "customstyle.h"
 
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 submit_success::submit_success(QWidget *parent) :
@@ -26,7 +25,6 @@ submit_success::submit_success(QWidget *parent) :
 {
     parentWnd = (feedback *)parent;
     UI_init();
-    setAttribute(Qt::WA_TranslucentBackground);
 }
 void submit_success::UI_init()
 {
@@ -34,8 +32,27 @@ void submit_success::UI_init()
         this->setObjectName(QString::fromUtf8("submit_success"));
     this->resize(430, 260);
     setWindowTitle(tr("提交成功 "));
-    this->setStyleSheet(QString::fromUtf8("border 2px;"));
+    this->setAttribute(Qt::WA_TranslucentBackground);//设置窗口 半透明 显示阴影
     this->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint); //设置窗口无边框
+
+    //--------设置圆角
+//    QBitmap bmp(this->size());
+
+//    bmp.fill();
+
+//    QPainter p(&bmp);
+
+//    p.setPen(Qt::NoPen);
+
+//    p.setBrush(Qt::black);
+
+//    p.setRenderHint(QPainter::Antialiasing);
+
+//    p.drawRoundedRect(bmp.rect(),6,6);
+
+//    setMask(bmp);
+    //----- ------------------------
+
     label = new QLabel(this);
     label->setText(tr("问题提交成功"));
     label->setObjectName(QString::fromUtf8("label"));
@@ -43,23 +60,7 @@ void submit_success::UI_init()
     label->setStyleSheet(QString::fromUtf8("font: 30px;\n"
                                            "color: rgb(68, 68, 68);"));
 
-    //--------设置圆角
-    QBitmap bmp(this->size());
 
-    bmp.fill();
-
-    QPainter p(&bmp);
-
-    p.setPen(Qt::NoPen);
-
-    p.setBrush(Qt::black);
-
-    p.setRenderHint(QPainter::Antialiasing);
-
-    p.drawRoundedRect(bmp.rect(),6,6);
-
-    setMask(bmp);
-    //----- ------------------------
 
     succ_closeBtn = new closeBtn_hover(this);
     succ_closeBtn->setGeometry(QRect(386, 14, 30, 30));
