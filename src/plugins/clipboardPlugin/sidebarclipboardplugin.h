@@ -52,6 +52,7 @@ typedef struct  clipboardOriginalDataHash {
     ClipboardWidgetEntry* WidgetEntry;
     const QMimeData* MimeData;
     QString          text;
+    int              Sequence;
 } OriginalDataHashValue;
 
 //static SidebarClipboardPlugin *global_instance = nullptr;
@@ -79,12 +80,14 @@ public:
 
     /* 剪贴板成员和成员函数 */
     QHash<QListWidgetItem*, OriginalDataHashValue*> m_pClipboardDataHash;
+    QList<OriginalDataHashValue*> m_ListClipboardData;
     QListWidget *m_pShortcutOperationListWidget;
     QListWidget *m_pSearchWidgetListWidget;
     QGroupBox   *m_pSidebarClipboardBox;
     QWidget     *m_pSidebarClipboardWidget;
     QLabel      *m_pSideBarClipboardLable;
     bool         m_bPromptBoxBool;
+    bool         m_bsortEntryBool = true;
 
     QVBoxLayout     *m_pClipboardLaout;
     QClipboard      *m_pSidebarClipboard;
@@ -98,6 +101,17 @@ public:
     void registerWidgetOriginalDataHash(QListWidgetItem *key, OriginalDataHashValue *value);
     OriginalDataHashValue *GetOriginalDataValue(QListWidgetItem *key);
     void removeOriginalDataHash(QListWidgetItem *key);
+    void sortingEntrySequence();
+
+    /* 对m_ListClipboardData链表的操作 */
+    void inserOriginalDataList(OriginalDataHashValue *value);
+    void removeOriginalDataList(OriginalDataHashValue *value);
+    int  ItertionOriginalDataList(OriginalDataHashValue *value);
+    void moveOriginalDataFirstList(OriginalDataHashValue *value);
+
+    //void FixOriginalDataFirstList(OriginalDataHashValue *value, QString text, const QMimeData mimedata);
+
+
 
     void removeLastWidgetItem();                                            /* 限制复制条数 */
     bool booleanExistWidgetItem(QString Text);                              /* 判断在ListWidget是否存在，如果不存在则返回fasle，创建，返回true，不创建 */

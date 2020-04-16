@@ -228,6 +228,7 @@ void SidebarClipboardPlugin::createWidgetEntry(const QMimeData *mimeData)
     s_pDataHashValue->WidgetEntry     = w;
     s_pDataHashValue->MimeData = copyMinedata(mimeData);
     s_pDataHashValue->text     = text;
+    s_pDataHashValue->Sequence = 0;
 
     registerWidgetOriginalDataHash(pListWidgetItem, s_pDataHashValue);
 
@@ -338,6 +339,7 @@ void SidebarClipboardPlugin::connectWidgetEntryButton(ClipboardWidgetEntry *w)
     });
 }
 
+/* 将数据保存到Hash表中 */
 void SidebarClipboardPlugin::registerWidgetOriginalDataHash(QListWidgetItem *key, OriginalDataHashValue *value)
 {
     if (nullptr == key || nullptr == value) {
@@ -366,6 +368,7 @@ OriginalDataHashValue *SidebarClipboardPlugin::GetOriginalDataValue(QListWidgetI
     }
 }
 
+/* 将剪贴板中的数据从Hash表中移除 */
 void SidebarClipboardPlugin::removeOriginalDataHash(QListWidgetItem *key)
 {
     if (key == nullptr) {
@@ -374,6 +377,56 @@ void SidebarClipboardPlugin::removeOriginalDataHash(QListWidgetItem *key)
     }
     if (m_pClipboardDataHash.contains(key))
         m_pClipboardDataHash.remove(key);
+    return;
+}
+
+/* 将数据有顺序的加入到链表中 */
+void SidebarClipboardPlugin::inserOriginalDataList(OriginalDataHashValue *value)
+{
+    if (m_ListClipboardData.contains(value)) {
+        qDebug() << "链表中存在";
+        return;
+    }
+    m_ListClipboardData.insert(0, value);
+    return;
+}
+
+/* 删除链表中某一个数据 */
+void SidebarClipboardPlugin::removeOriginalDataList(OriginalDataHashValue *value)
+{
+    if (!m_ListClipboardData.contains(value)) {
+        qDebug() << "链表中不存在此节点";
+        return;
+    }
+    /* 迭代链表 */
+    int tmp = ItertionOriginalDataList(value);
+    if (tmp == -1) {
+        qWarning() << "在list未此值";
+        return;
+    }
+    m_ListClipboardData.removeAt(tmp);
+    return;
+}
+
+/* 迭代链表 */
+int SidebarClipboardPlugin::ItertionOriginalDataList(OriginalDataHashValue *value)
+{
+    //stl类型的迭代器
+    int length = m_ListClipboardData.count();
+    for (int i = 0; i < length; i++) {
+        if (m_ListClipboardData.at(i) == value) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+/* 移动链表中某一个数据到最前面 */
+void SidebarClipboardPlugin::moveOriginalDataFirstList(OriginalDataHashValue *value)
+{
+    /* 从链表中先移除改数据, 然后再重新插入链表的最前面 */
+    removeOriginalDataList(value);
+    inserOriginalDataList(value);
     return;
 }
 
@@ -481,7 +534,6 @@ void SidebarClipboardPlugin::editButtonSlots(ClipboardWidgetEntry *w)
         return;
     }
     QString text = GetOriginalDataValue(Item)->text;
-    qDebug() << "将要写入编辑框中的东西" << text;
     EditWidget.m_pEditingArea->setPlainText(text);
 
     QTextDocument *document = EditWidget.m_pEditingArea->document();
@@ -578,8 +630,12 @@ void SidebarClipboardPlugin::removeAllWidgetItem()
 void SidebarClipboardPlugin::searchClipboardLableTextSlots(QString Text)
 {
     qDebug() << "hash表长度" << m_pClipboardDataHash.size();
-    QHash<QListWidgetItem*, OriginalDataHashValue*>::const_iterator iter1 = m_pClipboardDataHash.constBegin();
     qDebug() << "Text" << Text;
+
+    /* 在请出条目前，先记住每一个当前的位置 */
+    if (m_bsortEntryBool) {
+        sortingEntrySequence();
+    }
     int tmp = m_pShortcutOperationListWidget->count();
     for (int i = 0; i < tmp; i++) {
         ClipboardWidgetEntry *w = (ClipboardWidgetEntry*)m_pShortcutOperationListWidget->itemWidget(m_pShortcutOperationListWidget->item(0));
@@ -589,18 +645,27 @@ void SidebarClipboardPlugin::searchClipboardLableTextSlots(QString Text)
 
     /* 当搜索栏中内容为空，还原之前的数据 */
     if (Text == "") {
-        while (iter1 != m_pClipboardDataHash.constEnd()) {
-            m_pShortcutOperationListWidget->insertItem(0, iter1.key());
-            ClipboardWidgetEntry *w = new ClipboardWidgetEntry();
-            w->setFixedSize(397, 42);
-            connectWidgetEntryButton(w);
-            QString Format = SetFormatBody(iter1.value()->text, w);
-            w->m_pCopyDataLabal->setTextFormat(Qt::PlainText);
-            w->m_pCopyDataLabal->setText(Format);
-            iter1.value()->WidgetEntry = w;
-            m_pShortcutOperationListWidget->setItemWidget(iter1.key(), w);
-            ++iter1;
+        int index = 0;
+        int count = m_pClipboardDataHash.size();
+        while(index != count) {
+            QHash<QListWidgetItem*, OriginalDataHashValue*>::const_iterator iter1 = m_pClipboardDataHash.constBegin();
+            while (iter1 != m_pClipboardDataHash.constEnd()) {
+                if (index == iter1.value()->Sequence) {
+                    m_pShortcutOperationListWidget->insertItem(0, iter1.key());
+                    ClipboardWidgetEntry *w = new ClipboardWidgetEntry();
+                    w->setFixedSize(397, 42);
+                    connectWidgetEntryButton(w);
+                    QString Format = SetFormatBody(iter1.value()->text, w);
+                    w->m_pCopyDataLabal->setTextFormat(Qt::PlainText);
+                    w->m_pCopyDataLabal->setText(Format);
+                    iter1.value()->WidgetEntry = w;
+                    m_pShortcutOperationListWidget->setItemWidget(iter1.key(), w);
+                    index++;
+                }
+                ++iter1;
+            }
         }
+        m_bsortEntryBool = true;
         return;
     }
 
@@ -636,6 +701,14 @@ void SidebarClipboardPlugin::ItemNumchagedSlots()
         m_pSideBarClipboardLable->setVisible(true);
         m_pShortcutOperationListWidget->setVisible(false);
         m_pSearchArea->m_pClearListWidgetButton->setEnabled(false);
-//        emit ClipBoardInternalSignal::getGlobalInternalSignal()->ClipboardEntryEmptySetCleanButton();
     }
+}
+
+void SidebarClipboardPlugin::sortingEntrySequence()
+{
+    int tmp = m_pShortcutOperationListWidget->count();
+    for (int i = 0; i < tmp; i++) {
+        GetOriginalDataValue(m_pShortcutOperationListWidget->item(i))->Sequence = tmp - i - 1;
+    }
+    m_bsortEntryBool = false;
 }
