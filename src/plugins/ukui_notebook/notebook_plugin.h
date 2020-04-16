@@ -38,7 +38,7 @@ public:
     const QString name() override {return QObject::tr("NoteBook");}
     PluginType pluginType() override {return PluginType::SmallPlugin;}
     const QString description() override {return QObject::tr("Open a notebook");}
-    const QIcon icon() override {return QIcon::fromTheme("notebook", QIcon::fromTheme("noteBook",QIcon(":/new/prefix1/SVG/kylin-notebook.svg")));}
+    const QIcon icon() override {return QIcon::fromTheme("notebook", QIcon::fromTheme("noteBook",QIcon(":/image/kylin-notebook.svg")));}
     void setEnable(bool enable) override {Q_UNUSED(enable)}
     bool isEnable() override {return true;}
 
@@ -54,7 +54,7 @@ public:
 
     virtual void PluginsShowInterface() override;
 
-    QWidget*  mp_notebook;
+    QWidget*  mp_notebook = nullptr;
     QWidget*  centerWidget();
     void onNotification() ;
 
