@@ -89,6 +89,7 @@ public:
     void InitializeHomeScreenGeometry();                                        //初始化主屏的X坐标
 
 
+
 protected:
     void mousePressEvent(QMouseEvent *event);                                   //鼠标点击事件
     bool eventFilter(QObject *obj, QEvent *event);                              //设置过滤事件
@@ -129,6 +130,7 @@ private:
     QAction*                    Open;
     QAction*                    OpenSetUp;
     QTimer*                     m_pTimer;                                       //新通知闪烁定时器
+    QTimer*                     m_pUpdateSmallPluginsWidget;
     bool                        m_bFwinkleFlag;                                 //新通知闪烁标志
 
 private slots :
@@ -144,7 +146,8 @@ private slots :
     void screenCountChangedSlots(int count);                                    //屏幕数量改变时对应槽函数
     void OpenSidebarSlots();                                                    //打开侧边栏
     void OpenControlCenterSettings();                                           //打开控制中心的通知中心
-    void ClickPanelHideSidebarSlots();
+    void ClickPanelHideSidebarSlots();                                          //左键点击任务栏时隐藏侧边栏
+    void updateSmallPluginsClipboardWidget();                                   //切换主题时，定时器槽函数
 };
 
 #endif // WIDGET_H

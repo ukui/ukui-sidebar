@@ -52,7 +52,6 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     /* 链接任务栏dgsetting接口 */
     if(QGSettings::isSchemaInstalled(UKUI_PANEL_SETTING)){
         m_pPanelSetting = new QGSettings(UKUI_PANEL_SETTING);
-        qDebug() << "m_pPanelSetting = new QGSettings(UKUI_PANEL_SETTING)";
     }
 
     /* 监听屏幕分辨率是否变化 主频是否有变化 初始化屏幕宽高 和主屏起始X坐标值 */
@@ -114,6 +113,8 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
 
     m_pTimer = new QTimer();
     connect(m_pTimer, SIGNAL(timeout()), this, SLOT(twinkle()));
+    m_pUpdateSmallPluginsWidget = new QTimer();
+    connect(m_pUpdateSmallPluginsWidget, &QTimer::timeout, this, &Widget::updateSmallPluginsClipboardWidget);
 }
 
 Widget::~Widget()
@@ -686,6 +687,14 @@ void Widget::twinkle()
     }
 }
 
+
+/* 切换主题时，定时器槽函数 */
+void Widget::updateSmallPluginsClipboardWidget()
+{
+    ModifyScreenNeeds();
+    m_pUpdateSmallPluginsWidget->stop();
+}
+
 /* 事件过滤器 */
 bool Widget::eventFilter(QObject *obj, QEvent *event)
 {
@@ -699,7 +708,7 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
             m_bShowFlag = false;
             return true;
         } else if (event->type() == QEvent::StyleChange) {
-            ModifyScreenNeeds();
+            m_pUpdateSmallPluginsWidget->start(200);
             sidebarPluginsWidgets::getInstancePluinsWidgets()->setButtonFont();
         }
     }
