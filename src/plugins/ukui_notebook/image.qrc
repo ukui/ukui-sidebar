@@ -97,5 +97,9 @@
         <file>image/1x/close_light.png</file>
         <file>image/1x/mini_light.png</file>
         <file>image/1x/more_light.png</file>
+        <file>image/1x/close2.png</file>
+        <file>image/1x/close3.png</file>
+        <file>image/1x/mini2.png</file>
+        <file>image/1x/mini3.png</file>
     </qresource>
 </RCC>

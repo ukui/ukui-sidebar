@@ -18,22 +18,28 @@
 #include "select_color_page.h"
 #include "ui_select_color_page.h"
 #include <QPainter>
+#include "widget.h"
 #define SHADOW_WIDTH 0
 
-select_color_page::select_color_page(QWidget *parent) :
+select_color_page::select_color_page(Widget* page ,QWidget *parent) :
     QWidget(parent),
     ui(new Ui::select_color_page)
 {
     ui->setupUi(this);
+    pNotebook = page;
     this->setAttribute(Qt::WA_TranslucentBackground);
     setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
+    timer = new QTimer();
+    connect(timer, SIGNAL(timeout()), this, SLOT(color_clicked()));
+    timer->setInterval(100);
+    timer->start();
+    light_show();
 }
 
 select_color_page::~select_color_page()
 {
     delete ui;
 }
-
 
 
 void select_color_page::paintEvent(QPaintEvent *)
@@ -53,4 +59,35 @@ void select_color_page::paintEvent(QPaintEvent *)
 
     drawPath.addPolygon(trianglePolygon);
     painter.drawPath(drawPath);
+}
+
+void select_color_page::color_clicked()
+{
+    if(!pNotebook->dack_wight_flag == -1){
+        return;
+    }
+        if(!pNotebook->dack_wight_flag)
+        {
+            light_show();
+        }else{
+
+            black_show();
+        }
+}
+
+void select_color_page::black_show()
+{
+    ui->widget->setStyleSheet(QString::fromUtf8("background:rgb(19,20,20);\n"
+                                                "border-radius:4px;"));
+    ui->wight_btn->setStyleSheet(QString::fromUtf8("background:rgba(236,238,242,1);\n"
+                                                   "border-radius:2px;"));
+}
+
+
+void select_color_page::light_show()
+{
+    ui->widget->setStyleSheet(QString::fromUtf8("background:rgb(240,240,240);\n"
+                                                "border-radius:4px;"));
+    ui->wight_btn->setStyleSheet(QString::fromUtf8("background:rgb(19,20,20);\n"
+                                                   "border-radius:2px;"));
 }

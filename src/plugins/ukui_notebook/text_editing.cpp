@@ -75,11 +75,17 @@ void Text_editing::set_btn_image()
 
 
  ui->BoldBtn->setIcon(pixmap1);
+ ui->BoldBtn->setIconSize(QSize(36,36));
  ui->ItalicBtn->setIcon(pixmap2);
+ ui->ItalicBtn->setIconSize(QSize(36,36));
  ui->underlineBtn->setIcon(pixmap3);
+ ui->underlineBtn->setIconSize(QSize(36,36));
  ui->StrikeOutResolvedBtn->setIcon(pixmap4);
+ ui->StrikeOutResolvedBtn->setIconSize(QSize(36,36));
  ui->showListBtn->setIcon(pixmap5);
+ ui->showListBtn-> setIconSize(QSize(36,36));
  ui->showNUMList->setIcon(pixmap6);
+ ui->showNUMList->setIconSize(QSize(36,36));
 
  //ui->light_blue_btn->setStyleSheet("background:rgba(255,255,255,1);");
 }

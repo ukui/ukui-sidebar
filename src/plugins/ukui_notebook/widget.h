@@ -107,6 +107,13 @@ private:
     QPixmap pixmap10;
     QPixmap pixmap11;
     QPixmap pixmap12;
+    QPixmap pixmap13;
+    QPixmap pixmap14;
+    QPixmap pixmap15;
+    QPixmap pixmap16;
+
+
+
     int listflag;                                  //平铺/展开列表切换
     int sortflag;                                  //升降序切换
     tanchuang* tuichu;
