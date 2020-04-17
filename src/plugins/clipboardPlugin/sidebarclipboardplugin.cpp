@@ -461,6 +461,7 @@ void SidebarClipboardPlugin::WhetherTopFirst()
     return;
 }
 
+/* 迭代Hash表m_pClipboardDataHash*/
 QListWidgetItem* SidebarClipboardPlugin::iterationClipboardDataHash(ClipboardWidgetEntry *w)
 {
     QHash<QListWidgetItem*, OriginalDataHashValue*>::const_iterator iter2 = m_pClipboardDataHash.constBegin();
@@ -474,6 +475,7 @@ QListWidgetItem* SidebarClipboardPlugin::iterationClipboardDataHash(ClipboardWid
     return nullptr;
 }
 
+/* 迭代Hash表查找其中的当前下标是否存在 */
 int SidebarClipboardPlugin::iterationDataHashSearchSequence(int Index)
 {
     QHash<QListWidgetItem*, OriginalDataHashValue*>::const_iterator iter2 = m_pClipboardDataHash.constBegin();
