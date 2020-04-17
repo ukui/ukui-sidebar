@@ -191,17 +191,25 @@ void SidebarClipboardPlugin::createWidgetEntry(const QMimeData *mimeData)
         return;
     }
     QString text;
+    QString format;
+    QList<QUrl> fileUrls;
     QListWidgetItem *pListWidgetItem = new QListWidgetItem;
     ClipboardWidgetEntry *w = new ClipboardWidgetEntry;
     w->setFixedSize(397, 42);
     if (nullptr == mimeData->urls().value(0).toString()) {
         text = mimeData->text();
+        format = "Text";
         qDebug() << "剪贴板中文本" << text;
     } else if(mimeData->urls().value(0).toString() != "") {
-        QList<QUrl> fileUrls = mimeData->urls();
-
+        fileUrls = mimeData->urls();
+        format = "Url";
+        qDebug() << "文件Url" << fileUrls;
         for (int i = 0; i < fileUrls.size(); ++i) {
-            text += fileUrls.value(i).toString();
+            if (i == 0) {
+                text += fileUrls.value(i).toString();
+            } else {
+                text += "\n" + fileUrls.value(i).toString();
+            }
         }
     } else if(mimeData->hasHtml()) {
         qDebug() << "文本为Html";
@@ -225,12 +233,15 @@ void SidebarClipboardPlugin::createWidgetEntry(const QMimeData *mimeData)
 
     /* hash插入QMimeData，保留原数据 */
     OriginalDataHashValue *s_pDataHashValue = new OriginalDataHashValue;
-    s_pDataHashValue->WidgetEntry     = w;
+    s_pDataHashValue->WidgetEntry  = w;
     s_pDataHashValue->MimeData = copyMinedata(mimeData);
-    s_pDataHashValue->text     = text;
-
-    /* 判断其中是否有此下标 */
-
+    s_pDataHashValue->Clipbaordformat = format;
+    if (s_pDataHashValue->Clipbaordformat == "Text") {
+        s_pDataHashValue->text     = text;
+    } else if (s_pDataHashValue->Clipbaordformat == "Url") {
+        s_pDataHashValue->urls     = fileUrls;
+        s_pDataHashValue->text     = text;
+    }
     s_pDataHashValue->Sequence = iterationDataHashSearchSequence(m_pClipboardDataHash.count());
 
     registerWidgetOriginalDataHash(pListWidgetItem, s_pDataHashValue);
@@ -436,11 +447,7 @@ void SidebarClipboardPlugin::moveOriginalDataFirstList(OriginalDataHashValue *va
 /* 将新置顶widget写入到剪贴板中去 */
 void SidebarClipboardPlugin::WhetherTopFirst()
 {
-    qDebug() << "进入了此函数WhetherTopFirst";
-    /* 获取第一个条目 */
-    //当删除为第一项时，则自动将第二项置顶
-    int count = m_pShortcutOperationListWidget->count();
-    qDebug() << "当前还剩多少条目" << count;
+    /* 获取第一个条目 当删除为第一项时，则自动将第二项置顶 */
     QListWidgetItem *PopWidgetItem =  m_pShortcutOperationListWidget->item(0);
     qDebug() << "QListWidgetItem *PopWidgetItem" << PopWidgetItem;
     if (PopWidgetItem == nullptr) {
@@ -448,16 +455,13 @@ void SidebarClipboardPlugin::WhetherTopFirst()
         return;
     }
 
-    const QMimeData* pMimeData = GetOriginalDataValue(PopWidgetItem)->MimeData;
-    if (pMimeData == nullptr) {
-        qWarning() << "从剪贴板获取的ClipboardWidgetEntry指针为空";
+    OriginalDataHashValue *pOriginalData = GetOriginalDataValue(PopWidgetItem);
+    auto data =  structureQmimeDate(pOriginalData);
+    if (data == nullptr) {
+        qWarning() << "构造Qmimedata数据有问题";
         return;
     }
-    //获取hash表中minmete数据
-
-    qDebug() << "获取hash表中minmete数据" << pMimeData;
-    m_pSidebarClipboard->setMimeData((QMimeData*)pMimeData, QClipboard::Clipboard);
-    m_pSidebarClipboard->setMimeData((QMimeData*)pMimeData, QClipboard::Selection);
+    m_pSidebarClipboard->setMimeData(data);
     return;
 }
 
@@ -497,18 +501,36 @@ void SidebarClipboardPlugin::popButtonSlots(ClipboardWidgetEntry *w)
         return;
     }
     QListWidgetItem *Item = iterationClipboardDataHash(w);
-    const QMimeData* pMimeData = GetOriginalDataValue(Item)->MimeData;
-    if (nullptr == pMimeData) {
-        qWarning() << "剪贴板元数据不存在";
-        return;
-    }
-    removeOriginalDataHash(Item);
+    /* 构造QMimeData数据 */
+    auto data= structureQmimeDate(GetOriginalDataValue(Item));
+
+    removeOriginalDataHash(Item); //移除Hash表中的原始数据
     QListWidgetItem *deleteItem = m_pShortcutOperationListWidget->takeItem(m_pShortcutOperationListWidget->row(Item)); //删除Item;
     delete deleteItem;
-
-    m_pSidebarClipboard->setMimeData((QMimeData*)pMimeData, QClipboard::Clipboard);
-    m_pSidebarClipboard->setMimeData((QMimeData*)pMimeData, QClipboard::Selection);
+    m_pSidebarClipboard->setMimeData(data); //将新的数据set剪贴板中去
     return;
+}
+
+/* 构造QMimeData数据 */
+QMimeData *SidebarClipboardPlugin::structureQmimeDate(OriginalDataHashValue *value)
+{
+    auto data = new QMimeData;
+    bool isCut = false;
+    QVariant isCutData = QVariant(isCut);
+    if (value->Clipbaordformat == "Text") {
+        data->setData("text/plain", isCutData.toByteArray());
+        data->setText(value->text);
+    } else if (value->Clipbaordformat == "Url") {
+        data->setData("peony-qt/is-cut", isCutData.toByteArray());
+        QList<QUrl> urls;
+        QStringList uris = value->text.split("\n");
+        for (auto uri : uris) {
+            urls << uri;
+        }
+        value->urls = urls;
+        data->setUrls(value->urls);
+    }
+    return data;
 }
 
 /* 删除槽函数 */
@@ -527,7 +549,6 @@ void SidebarClipboardPlugin::removeButtonSlots(ClipboardWidgetEntry *w)
     /* 判断当前删除的是不是第一个条目 */
     if (0 == tmp) {
         qDebug() << "删除当前的条目为第一个条目";
-        /* 将新的第一个条目中的内容重新写到剪贴板中去 */
         WhetherTopFirst();
     }
     emit Itemchange();
@@ -546,24 +567,18 @@ void SidebarClipboardPlugin::editButtonSlots(ClipboardWidgetEntry *w)
     EditorWidget EditWidget;
     /* 获取保存在hash表中的数据，改变之前保存的数据 */
     QListWidgetItem *Item = iterationClipboardDataHash(w);
-    QMimeData* pMimeData = (QMimeData*)GetOriginalDataValue(Item)->MimeData;
-    if (nullptr == pMimeData) {
-        qWarning() << "剪贴板元数据不存在";
-        return;
-    }
-    QString text = GetOriginalDataValue(Item)->text;
+    OriginalDataHashValue* pOriginalData = GetOriginalDataValue(Item);
+    QString text = pOriginalData->text;
     EditWidget.m_pEditingArea->setPlainText(text);
 
+    /* 设置左右填充 */
     QTextDocument *document = EditWidget.m_pEditingArea->document();
-    QTextFrame *rootFrame=document->rootFrame();//获取根框架
-
+    QTextFrame *rootFrame=document->rootFrame();
     QTextFrameFormat format;
+    format.setPadding(10);
+    format.setBorderStyle(QTextFrameFormat::BorderStyle_Dotted);
+    rootFrame->setFrameFormat(format);
 
-    format.setPadding(10);//设置填衬
-
-    format.setBorderStyle(QTextFrameFormat::BorderStyle_Dotted);//设置边框样式
-
-    rootFrame->setFrameFormat(format);//往根框架中加载设置好的格式
     int nRet = EditWidget.exec();
     if (nRet == QDialog::Accepted) {
         QString formatBody = SetFormatBody(EditWidget.m_pEditingArea->toPlainText(), w);  // 设置...字样
@@ -571,17 +586,18 @@ void SidebarClipboardPlugin::editButtonSlots(ClipboardWidgetEntry *w)
         if (EditWidget.m_pEditingArea->toPlainText() != text) {
             //当编辑后数据改变时，就需要将m_pLabelText中的value改变
             w->m_pCopyDataLabal->setText(formatBody);
-            pMimeData->setText(EditWidget.m_pEditingArea->toPlainText());
-            GetOriginalDataValue(Item)->text = EditWidget.m_pEditingArea->toPlainText();
+            pOriginalData->text = EditWidget.m_pEditingArea->toPlainText();
+            structureQmimeDate(pOriginalData);
         }
         //获取当前条目所在位置，是不是在第一
         int row_num = m_pShortcutOperationListWidget->row(Item);
         if (row_num == 0) {
-            popButtonSlots(w);
+            QMimeData *data = structureQmimeDate(pOriginalData);
+            m_pSidebarClipboard->setMimeData(data); //将新的数据set剪贴板中去
         }
-        qDebug() << "d当前所在的条木" << row_num;
+        qDebug() << "当前所在的条木" << row_num;
     } else if (nRet == QDialog::Rejected) {
-        qDebug() << "不需要做其余操作";
+        qDebug() << "编辑框取消操作";
     }
 }
 
@@ -685,6 +701,7 @@ void SidebarClipboardPlugin::searchClipboardLableTextSlots(QString Text)
         }
         ++iter2;
     }
+    WhetherTopFirst();
     return;
 }
 

@@ -52,6 +52,8 @@ typedef struct  clipboardOriginalDataHash {
     ClipboardWidgetEntry* WidgetEntry;
     const QMimeData* MimeData;
     QString          text;
+    QString          Clipbaordformat;
+    QList<QUrl>      urls;
     int              Sequence;
 } OriginalDataHashValue;
 
@@ -127,6 +129,7 @@ public:
     QListWidgetItem* iterationClipboardDataHash(ClipboardWidgetEntry *w);   /* 迭代Hash表m_pClipboardDataHash */
     int iterationDataHashSearchSequence(int Index);                         /*  迭代Hash表查找其中的当前下标是否存在 */
     QMimeData *copyMinedata(const QMimeData* mimeReference);                /* 拷贝QMimeData拷贝数据类型 */
+    QMimeData *structureQmimeDate(OriginalDataHashValue *value);            /* 构造一个QMimeDate类型数据 */
 
 signals:
     void Itemchange();
