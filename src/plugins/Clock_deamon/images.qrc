@@ -21,5 +21,14 @@
         <file>kylin-alarm-clock.svg</file>
         <file>Clock.ts</file>
         <file>Clock.qm</file>
+        <file>image/close_light.png</file>
+        <file>image/close2.png</file>
+        <file>image/close3.png</file>
+        <file>image/mini_light.png</file>
+        <file>image/mini2.png</file>
+        <file>image/mini3.png</file>
+        <file>image/more_light.png</file>
+        <file>image/more2.png</file>
+        <file>image/more3.png</file>
     </qresource>
 </RCC>

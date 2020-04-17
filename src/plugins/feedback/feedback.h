@@ -151,6 +151,9 @@ public:
 
     void feedback_quit();
 
+    void finishedSlot(QNetworkReply*);
+
+
 protected:
     void paintEvent(QPaintEvent*);
 
@@ -180,7 +183,7 @@ private slots:
 
     void on_lineEdit_2_textChanged();
     void del_file_button_clicked();
-    void finishedSlot(QNetworkReply*);
+
     void sendfile_finished(QNetworkReply* );
 
     void submit_change_load_image();
@@ -198,6 +201,8 @@ private:
     int describeflag = 0;
     int emailflag = 0;
     int get_systeminfoflag = 0;
+
+    bool timeout_http_flag = false;
 
     QString feedback_type = "系统问题";  //反馈类型
     QString email_str;   //邮箱
@@ -245,7 +250,6 @@ private:
     QJsonObject object;
 
 
-    int send_fail_flags = 0;
 
     QHttpMultiPart *multiPart=nullptr;
 

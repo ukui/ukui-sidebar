@@ -102,4 +102,7 @@
         <file>image/1x/mini2.png</file>
         <file>image/1x/mini3.png</file>
     </qresource>
+    <qresource prefix="/translation">
+        <file>ukui_notebook_zh_CN.qm</file>
+    </qresource>
 </RCC>

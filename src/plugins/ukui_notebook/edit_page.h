@@ -38,14 +38,14 @@ class Edit_page : public QWidget
     Q_OBJECT
 
 public:
-    Edit_page(Widget* p , QModelIndex index, QWidget *parent = nullptr);
+    Edit_page(Widget* p , const QModelIndex &index, QWidget *parent = nullptr);
     ~Edit_page();
-
     Ui::Edit_page *ui;
     Widget* pNotebook;
     QColor m_editColor;
     cai_tou *caitou;
     QModelIndex m_index;
+    int id;
 
 
     void contextMenuEvent(QContextMenuEvent *event);
@@ -99,7 +99,7 @@ private:
 
 
 signals:
-    void texthasChanged(const QModelIndex &index);
+    void texthasChanged(const QModelIndex &index, int id);
     void colorhasChanged(const QColor &color);
 };
 
