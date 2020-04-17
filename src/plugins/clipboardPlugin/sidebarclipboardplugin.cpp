@@ -637,18 +637,18 @@ void SidebarClipboardPlugin::searchClipboardLableTextSlots(QString Text)
         sortingEntrySequence();
     }
 
-    /* 当搜索栏中内容为空，还原之前的数据 */
-    if (Text == "") {
-        sortingEntryShow();
-        return;
-    }
-
     /* 清空之前listWidget中的條目 */
     int tmp = m_pShortcutOperationListWidget->count();
     for (int i = 0; i < tmp; i++) {
         ClipboardWidgetEntry *w = (ClipboardWidgetEntry*)m_pShortcutOperationListWidget->itemWidget(m_pShortcutOperationListWidget->item(0));
         m_pShortcutOperationListWidget->item(0);
         m_pShortcutOperationListWidget->takeItem(0);
+    }
+
+    /* 当搜索栏中内容为空，还原之前的数据 */
+    if (Text == "") {
+        sortingEntryShow();
+        return;
     }
 
     /* 将包含有关键字的条目显示出来 */
