@@ -125,6 +125,16 @@ Clock::Clock(QWidget *parent) :
     ui->pushButton_12->setFlat(true);
     ui->pushButton_12->setVisible(true);
     ui->pushButton_12->setFocusPolicy(Qt::NoFocus);
+
+    ui->pushButton_4->setStyleSheet("QPushButton{border-image: url(://image/mini_light.png);}"
+                  "QPushButton:hover{border-image: url(://image/mini2.png);}"
+                  "QPushButton:pressed{border-image: url(://image/mini3.png);}");
+    ui->pushButton_5->setStyleSheet("QPushButton{border-image: url(://image/close_light.png);}"
+                  "QPushButton:hover{border-image: url(://image/close2.png);}"
+                  "QPushButton:pressed{border-image: url(://image/close3.png);}");
+    ui->pushButton_12->setStyleSheet("QPushButton{border-image: url(://image/more_light.png);}"
+                  "QPushButton:hover{border-image: url(://image/more2.png);}"
+                  "QPushButton:pressed{border-image: url(://image/more3.png);}");
     //---------------倒计时-------------------------------------------------------------------------
     //初始化定时器
     countdown_timer = new QTimer();

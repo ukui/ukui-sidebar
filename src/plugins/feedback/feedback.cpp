@@ -43,6 +43,7 @@
 #include <QTimer>
 #include "customstyle.h"
 #include <QStyleFactory>
+#include <QElapsedTimer>
 
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 
@@ -808,6 +809,13 @@ void feedback::on_pushButton_2_clicked()
 
     set_all_disable_in_submit();
 
+
+    //超时
+    QTimer timer_http;
+    timer_http.setInterval(30000);  // 设置超时时间 30 秒
+    timer_http.setSingleShot(true);  // 单次触发
+
+
     QJsonObject feedback_info_json;
     //反馈信息类型
     feedback_info_json.insert("subject",feedback_type);
@@ -856,9 +864,31 @@ void feedback::on_pushButton_2_clicked()
 
     qDebug()<<post_feedback_info_array;
 
-    accessManager->post(request,post_feedback_info_array);
-    qDebug()<<"222222222222222";
+    QNetworkReply *pReply = accessManager->post(request,post_feedback_info_array);
+
+    QEventLoop loop;
+    connect(&timer_http, &QTimer::timeout, &loop, &QEventLoop::quit);
+    connect(pReply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    timer_http.start();
+    loop.exec();  // 启动事件循环
+
+    if (timer_http.isActive()) {  // 处理响应
+        timer_http.stop();
+        finishedSlot(pReply);
+    } else {  // 处理超时
+        timeout_http_flag=true;
+        finishedSlot(pReply);
+        timer_http.stop();
+        disconnect(pReply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+        pReply->abort();
+        pReply->deleteLater();
+
+        qDebug() << "Timeout";
+    }
 }
+
+
+
 //截取今天的syslog
 QByteArray feedback::get_today_syslog()
 {
@@ -904,7 +934,7 @@ void feedback::add_file_to_Part(QString filepath,QString file_type,QString file_
 }
 void feedback::send_file_httpserver(QString uid)
 {
-    qDebug()<<"this is send file http server";
+    qDebug()<<"this is send file httpserver";
     qDebug()<<"uid:"<<uid;
     //初始化http发送文件请求
     accessManager_file = new QNetworkAccessManager(this);
@@ -955,7 +985,6 @@ void feedback::send_file_httpserver(QString uid)
         //发送文件
         add_file_to_Part(file_path_list.at(filenum),"img"+QString::number(filenum+1),file_name_list.at(filenum));
     }
-
 
     accessManager_file->post(request_file,multiPart);
 }
@@ -1239,7 +1268,6 @@ bool feedback::all_file_size_than_10M()
 void feedback::httpclient_init()
 {
     accessManager = new QNetworkAccessManager(this);
-    connect(accessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(finishedSlot(QNetworkReply* )));
 }
 //http请求完成
 void feedback::finishedSlot(QNetworkReply *reply)
@@ -1270,7 +1298,7 @@ void feedback::finishedSlot(QNetworkReply *reply)
         bytes_info = reply->readAll();
         //panduan ==200
         qDebug() << bytes_info;
-        send_fail_flags = 0;
+
         success_dialog = new submit_success(this);
         success_dialog->setModal(false);
         success_dialog->show();
@@ -1287,25 +1315,28 @@ void feedback::finishedSlot(QNetworkReply *reply)
                 uid_value = object["uid"].toString();
             }
         }
-        qDebug()<<"this is send file _httpserver";
+
         //发送文件
         send_file_httpserver(uid_value);
     }
     else
     {
-        send_fail_flags = 1;
+
         qDebug() << "finishedSlot errors here";
         qDebug( "found error .... code: %d\n", (int)reply->error());
         qDebug()<<qPrintable(reply->errorString());
 
         //判断错误类型
         fail_dialog = new submit_fail(this);
-        fail_dialog->show_faillinfo((int)reply->error());
+        if(!timeout_http_flag)
+            fail_dialog->show_faillinfo((int)reply->error());
+        else
+            fail_dialog->show_faillinfo(4); //timeout
         fail_dialog->setModal(false);
         fail_dialog->show();
     }
+    timeout_http_flag=false;
     reply->deleteLater();
-
 }
 //http设置请求头(发送反馈信息)
 void feedback::set_request_header()
@@ -1316,20 +1347,7 @@ void feedback::set_request_header()
 void feedback::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e);
-    //    QStyleOption opt;
-    //    opt.init(this);
-    //    QPainter p(this);
-    //    p.save();
-    //    p.setBrush(Qt::white);
-    //    p.setPen(QColor("#cfcfcf"));
-    //    p.drawRoundedRect(opt.rect,0,0);
-    //    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
-    //    p.restore();
-
-
     //    setAttribute(Qt::WA_TranslucentBackground);   //设置窗口半透明 设置阴影时需要
-
-
 
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);

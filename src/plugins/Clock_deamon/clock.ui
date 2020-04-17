@@ -624,10 +624,10 @@ background-color: rgb(76, 76, 76);
   <widget class="QPushButton" name="pushButton_5">
    <property name="geometry">
     <rect>
-     <x>430</x>
-     <y>8</y>
-     <width>20</width>
-     <height>20</height>
+     <x>428</x>
+     <y>1</y>
+     <width>25</width>
+     <height>25</height>
     </rect>
    </property>
    <property name="text">
@@ -637,10 +637,10 @@ background-color: rgb(76, 76, 76);
   <widget class="QPushButton" name="pushButton_4">
    <property name="geometry">
     <rect>
-     <x>408</x>
-     <y>8</y>
-     <width>20</width>
-     <height>20</height>
+     <x>400</x>
+     <y>1</y>
+     <width>25</width>
+     <height>25</height>
     </rect>
    </property>
    <property name="text">
@@ -1181,10 +1181,10 @@ text-align: right</string>
   <widget class="QPushButton" name="pushButton_12">
    <property name="geometry">
     <rect>
-     <x>385</x>
-     <y>7</y>
-     <width>20</width>
-     <height>20</height>
+     <x>372</x>
+     <y>1</y>
+     <width>25</width>
+     <height>25</height>
     </rect>
    </property>
    <property name="text">
