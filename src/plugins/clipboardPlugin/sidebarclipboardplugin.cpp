@@ -228,7 +228,10 @@ void SidebarClipboardPlugin::createWidgetEntry(const QMimeData *mimeData)
     s_pDataHashValue->WidgetEntry     = w;
     s_pDataHashValue->MimeData = copyMinedata(mimeData);
     s_pDataHashValue->text     = text;
-    s_pDataHashValue->Sequence = 0;
+
+    /* 判断其中是否有此下标 */
+
+    s_pDataHashValue->Sequence = iterationDataHashSearchSequence(m_pClipboardDataHash.count());
 
     registerWidgetOriginalDataHash(pListWidgetItem, s_pDataHashValue);
 
@@ -471,6 +474,19 @@ QListWidgetItem* SidebarClipboardPlugin::iterationClipboardDataHash(ClipboardWid
     return nullptr;
 }
 
+int SidebarClipboardPlugin::iterationDataHashSearchSequence(int Index)
+{
+    QHash<QListWidgetItem*, OriginalDataHashValue*>::const_iterator iter2 = m_pClipboardDataHash.constBegin();
+    while (iter2 != m_pClipboardDataHash.constEnd()) {
+        if (iter2.value()->Sequence == Index) {
+            return Index + 1;
+        }
+        ++iter2;
+    }
+    qDebug() << "没有找到当前的下标，返回当前下标" << Index;
+    return Index;
+}
+
 /* 置顶槽函数 */
 void SidebarClipboardPlugin::popButtonSlots(ClipboardWidgetEntry *w)
 {
@@ -705,7 +721,7 @@ void SidebarClipboardPlugin::sortingEntryShow()
         qDebug() << "当前条目的下标" << index;
         QHash<QListWidgetItem*, OriginalDataHashValue*>::const_iterator iter1 = m_pClipboardDataHash.constBegin();
         while (iter1 != m_pClipboardDataHash.constEnd()) {
-            qDebug() << "當前條目所處的位置-->Sequence -->" << iter1.value()->Sequence;
+            qDebug() << "当前条目所处位置的位置-->Sequence -->" << iter1.value()->Sequence;
             if (index == iter1.value()->Sequence) {
                 m_pShortcutOperationListWidget->insertItem(0, iter1.key());
                 ClipboardWidgetEntry *w = new ClipboardWidgetEntry();
@@ -718,7 +734,7 @@ void SidebarClipboardPlugin::sortingEntryShow()
                 m_pShortcutOperationListWidget->setItemWidget(iter1.key(), w);
                 IndexFlag = false;
                 index++;
-                qDebug() << "進入循環體当前条目的下标" << index;
+                qDebug() << "进入循环当前条目的下标" << index;
             }
             ++iter1;
         }
@@ -726,6 +742,10 @@ void SidebarClipboardPlugin::sortingEntryShow()
         if (IndexFlag) {
             index++;
             count++;
+        }
+        if (index > 1000 || count > 1000) {
+            qDebug() << "查找机制已经进入死循环";
+            return;
         }
     }
     m_bsortEntryBool = true;
