@@ -17,6 +17,6 @@ X-MATE-Autostart-Phase=Applications
 X-KDE-autostart-after=panel
 X-UKUI-Autostart-Notify=true
 X-UKUI-Autostart-Delay=3
-#X-UKUI-AutoRestart=true
+X-UKUI-AutoRestart=true
 
 
