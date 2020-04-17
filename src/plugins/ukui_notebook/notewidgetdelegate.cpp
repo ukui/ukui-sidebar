@@ -148,11 +148,6 @@ void NoteWidgetDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     }
 
     //绘制第二层底色背景
-    if(sink == 0)
-    {
-       qDebug()<<sink<<"-----------";
-        QColor aa = QColor(40,40,46);
-    }
     painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     if(sink == 0)
     {
@@ -232,7 +227,13 @@ void NoteWidgetDelegate::paintBackground(QPainter *painter, const QStyleOptionVi
             //应用程序可见，但未选择显示在前面
         }else if(qApp->applicationState() == Qt::ApplicationInactive){
             painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-            painter->setBrush(QBrush(m_defaultColor));
+
+            if(sink == 0){
+            painter->setBrush(QBrush(m_selectColor));
+            }else{
+                painter->setBrush(QBrush(QColor(255,255,255)));
+            }
+            //painter->setBrush(QBrush(m_defaultColor));
             painter->setPen(Qt::transparent);
             QPainterPath painterPath;
             painterPath.addRoundedRect(opt.rect, 0, 0);

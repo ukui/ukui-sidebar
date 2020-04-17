@@ -34,7 +34,7 @@
 
 static int count =0;
 
-Edit_page::Edit_page(Widget* page, QModelIndex index, QWidget *parent) :
+Edit_page::Edit_page(Widget* page, const QModelIndex &index, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Edit_page),
     m_editColor(0,0,0),
@@ -119,7 +119,7 @@ void Edit_page::set_text_editing_page()
 void Edit_page::textChangedSlot()
 {
     qDebug() << "emit textchange";
-    emit texthasChanged(m_index);
+    emit texthasChanged(m_index, this->id);
 }
 
 //chu ti
