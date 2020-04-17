@@ -120,6 +120,7 @@ public:
     void connectWidgetEntryButton(ClipboardWidgetEntry * w);                /* 连接WIdgetEntry条目中三个按钮的槽函数 */
     void createTipLable();                                                  /* 创建无剪贴板板字样 */
     void createWidget();                                                    /* 创建剪贴板主Widget和搜索栏与条目的ListWidget界面 */
+    void sortingEntryShow();                                                /* 將條目有序的展現出來 */
     QString SetFormatBody(QString text, ClipboardWidgetEntry *w);           /* 设置... */
     QString judgeBlankLine(QStringList list);                               /* 去除掉空行，显示有字体的行 */
     bool    substringSposition(QString formatBody, QStringList list);       /* 判断后面是否还有子串 */

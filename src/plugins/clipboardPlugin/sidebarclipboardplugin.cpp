@@ -632,41 +632,23 @@ void SidebarClipboardPlugin::searchClipboardLableTextSlots(QString Text)
     qDebug() << "hash表长度" << m_pClipboardDataHash.size();
     qDebug() << "Text" << Text;
 
-    /* 在请出条目前，先记住每一个当前的位置 */
+    /* 在清除条目前，先记住每一个当前的位置 */
     if (m_bsortEntryBool) {
         sortingEntrySequence();
     }
+
+    /* 当搜索栏中内容为空，还原之前的数据 */
+    if (Text == "") {
+        sortingEntryShow();
+        return;
+    }
+
+    /* 清空之前listWidget中的條目 */
     int tmp = m_pShortcutOperationListWidget->count();
     for (int i = 0; i < tmp; i++) {
         ClipboardWidgetEntry *w = (ClipboardWidgetEntry*)m_pShortcutOperationListWidget->itemWidget(m_pShortcutOperationListWidget->item(0));
         m_pShortcutOperationListWidget->item(0);
         m_pShortcutOperationListWidget->takeItem(0);
-    }
-
-    /* 当搜索栏中内容为空，还原之前的数据 */
-    if (Text == "") {
-        int index = 0;
-        int count = m_pClipboardDataHash.size();
-        while(index != count) {
-            QHash<QListWidgetItem*, OriginalDataHashValue*>::const_iterator iter1 = m_pClipboardDataHash.constBegin();
-            while (iter1 != m_pClipboardDataHash.constEnd()) {
-                if (index == iter1.value()->Sequence) {
-                    m_pShortcutOperationListWidget->insertItem(0, iter1.key());
-                    ClipboardWidgetEntry *w = new ClipboardWidgetEntry();
-                    w->setFixedSize(397, 42);
-                    connectWidgetEntryButton(w);
-                    QString Format = SetFormatBody(iter1.value()->text, w);
-                    w->m_pCopyDataLabal->setTextFormat(Qt::PlainText);
-                    w->m_pCopyDataLabal->setText(Format);
-                    iter1.value()->WidgetEntry = w;
-                    m_pShortcutOperationListWidget->setItemWidget(iter1.key(), w);
-                    index++;
-                }
-                ++iter1;
-            }
-        }
-        m_bsortEntryBool = true;
-        return;
     }
 
     /* 将包含有关键字的条目显示出来 */
@@ -691,7 +673,7 @@ void SidebarClipboardPlugin::searchClipboardLableTextSlots(QString Text)
 /* Item数目发生变化 */
 void SidebarClipboardPlugin::ItemNumchagedSlots()
 {
-    int num = m_pShortcutOperationListWidget->count();
+    int num = m_pClipboardDataHash.size();
     qDebug() << "Item数目发生变化， 当前Item数目" << num;
     if (num > 0) {
         m_pSideBarClipboardLable->setVisible(false);
@@ -711,4 +693,40 @@ void SidebarClipboardPlugin::sortingEntrySequence()
         GetOriginalDataValue(m_pShortcutOperationListWidget->item(i))->Sequence = tmp - i - 1;
     }
     m_bsortEntryBool = false;
+}
+
+void SidebarClipboardPlugin::sortingEntryShow()
+{
+    int index = 0;
+    int count = m_pClipboardDataHash.size();
+    bool IndexFlag = true;
+    while(index != count) {
+        IndexFlag = true;
+        qDebug() << "当前条目的下标" << index;
+        QHash<QListWidgetItem*, OriginalDataHashValue*>::const_iterator iter1 = m_pClipboardDataHash.constBegin();
+        while (iter1 != m_pClipboardDataHash.constEnd()) {
+            qDebug() << "當前條目所處的位置-->Sequence -->" << iter1.value()->Sequence;
+            if (index == iter1.value()->Sequence) {
+                m_pShortcutOperationListWidget->insertItem(0, iter1.key());
+                ClipboardWidgetEntry *w = new ClipboardWidgetEntry();
+                w->setFixedSize(397, 42);
+                connectWidgetEntryButton(w);
+                QString Format = SetFormatBody(iter1.value()->text, w);
+                w->m_pCopyDataLabal->setTextFormat(Qt::PlainText);
+                w->m_pCopyDataLabal->setText(Format);
+                iter1.value()->WidgetEntry = w;
+                m_pShortcutOperationListWidget->setItemWidget(iter1.key(), w);
+                IndexFlag = false;
+                index++;
+                qDebug() << "進入循環體当前条目的下标" << index;
+            }
+            ++iter1;
+        }
+        /* 如果没有进入上面的While循环，说明此Index不存在，继续往后面走 */
+        if (IndexFlag) {
+            index++;
+            count++;
+        }
+    }
+    m_bsortEntryBool = true;
 }
