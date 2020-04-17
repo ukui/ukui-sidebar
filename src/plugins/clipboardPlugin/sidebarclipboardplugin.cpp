@@ -242,8 +242,12 @@ void SidebarClipboardPlugin::createWidgetEntry(const QMimeData *mimeData)
         s_pDataHashValue->urls     = fileUrls;
         s_pDataHashValue->text     = text;
     }
-    s_pDataHashValue->Sequence = iterationDataHashSearchSequence(m_pClipboardDataHash.count());
-
+    if (m_pClipboardDataHash.count() == 0) {
+        s_pDataHashValue->Sequence = 0;
+    } else {
+        s_pDataHashValue->Sequence = iterationDataHashSearchSequence(m_pClipboardDataHash.count());
+    }
+    qDebug() << "hash表中的Sequence" << s_pDataHashValue->Sequence;
     registerWidgetOriginalDataHash(pListWidgetItem, s_pDataHashValue);
 
     /* 当超过一定数目的WidgetItem数目时，删除最后一条消息 */
@@ -483,14 +487,16 @@ QListWidgetItem* SidebarClipboardPlugin::iterationClipboardDataHash(ClipboardWid
 int SidebarClipboardPlugin::iterationDataHashSearchSequence(int Index)
 {
     QHash<QListWidgetItem*, OriginalDataHashValue*>::const_iterator iter2 = m_pClipboardDataHash.constBegin();
+    int max = iter2.value()->Sequence;
     while (iter2 != m_pClipboardDataHash.constEnd()) {
-        if (iter2.value()->Sequence == Index) {
-            return Index + 1;
+        if (iter2.value()->Sequence > max) {
+            qDebug() << "iter2.value()->Sequence" << iter2.value()->Sequence;
+            max = iter2.value()->Sequence;
         }
         ++iter2;
     }
-    qDebug() << "没有找到当前的下标，返回当前下标" << Index;
-    return Index;
+    qDebug() << "没有找到当前的下标，返回当前下标" << max + 1;
+    return max + 1;
 }
 
 /* 置顶槽函数 */
@@ -524,6 +530,7 @@ QMimeData *SidebarClipboardPlugin::structureQmimeDate(OriginalDataHashValue *val
         data->setData("peony-qt/is-cut", isCutData.toByteArray());
         QList<QUrl> urls;
         QStringList uris = value->text.split("\n");
+        qDebug() << "分解后Url的个数" << uris.count();
         for (auto uri : uris) {
             urls << uri;
         }
