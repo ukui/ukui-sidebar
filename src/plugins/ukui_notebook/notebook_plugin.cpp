@@ -20,17 +20,20 @@
 #include <QDesktopWidget>
 #include <QApplication>
 #include <QTranslator>
+#include <QLocale>
 #include <QDebug>
 
 notebook_plugin::notebook_plugin()
 {
-    QTranslator *translator = new QTranslator;
+    translator = new QTranslator;
     QLocale locale;
     //获取系统语言环境
     if ( locale.language() == QLocale::Chinese ) {
+        qDebug() << "####";
         translator->load(QString(":/translation/ukui_notebook_zh_CN.qm"));  //选择翻译文件
         QApplication::installTranslator(translator);
     }
+
 }
 
 void notebook_plugin::onNotification() {

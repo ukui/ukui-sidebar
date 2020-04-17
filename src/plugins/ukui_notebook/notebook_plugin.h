@@ -19,7 +19,7 @@
 #define NOTEBOOK_PLUGIN_H
 
 #include "sidebarSmallPluginInterface.h"
-
+#include <QTranslator>
 #include <QWidget>
 class notebook_plugin : public QObject, public SidebarSmallPluginInterface
 {
@@ -57,6 +57,7 @@ public:
     QWidget*  mp_notebook = nullptr;
     QWidget*  centerWidget();
     void onNotification() ;
+    QTranslator *translator;                        //国际化
 
 signals:
     void    notebook_ification();

@@ -79,7 +79,6 @@ public:
     std::vector<Edit_page*> m_editors;
 
     int dack_wight_flag;
-    QTranslator *translator;                        //国际化
     void error_throw();                             //异常处理抛出
 
 private:
@@ -184,7 +183,7 @@ private:
 private slots:
     void InitData();
     void loadNotes(QList<NoteData *> noteList, int noteCounter);
-    void onTextEditTextChanged(const QModelIndex &index);
+    void onTextEditTextChanged(const QModelIndex &index, int i);
     void onColorChanged(const QColor &color);
     void onTrashButtonClicked();
     void onNotePressed(const QModelIndex &index);
