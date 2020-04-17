@@ -116,15 +116,6 @@ void submit_success::succ_close_window()
 void submit_success::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e);
-//    QStyleOption opt;
-//    opt.init(this);
-//    QPainter p(this);
-//    p.save();
-//    p.setBrush(Qt::white);
-//    p.setPen(QColor("#cfcfcf"));
-//    p.drawRoundedRect(opt.rect,0,0);
-//    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
-//    p.restore();
 
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);

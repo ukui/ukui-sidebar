@@ -141,8 +141,9 @@ void submit_fail::close_fail_window()
 }
 void submit_fail::resend_feedbackinfo()
 {
+    close();
     parentWnd->resend_info_when_sendfail();
-    this->hide();
+
 }
 void submit_fail::paintEvent(QPaintEvent *e)
 {
