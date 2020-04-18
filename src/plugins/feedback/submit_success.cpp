@@ -71,17 +71,17 @@ void submit_success::UI_init()
     pushButton->setText(tr("继续反馈问题"));
     pushButton->setObjectName(QString::fromUtf8("pushButton"));
     pushButton->setGeometry(QRect(110, 165, 131, 26));
-    pushButton->setFlat(true);
-    pushButton->setStyleSheet(QString::fromUtf8("QPushButton{color: rgb(61, 107, 229);}"
-                                                  "QPushButton:hover {color: rgb(255,255,255);}"
+    pushButton->setFlat(false);
+    pushButton->setStyleSheet(QString::fromUtf8("QPushButton{color: rgb(61, 107, 229);background-color:rgb(255,255,255)}"
+                                                  "QPushButton:hover {color: rgb(255,255,255);background-color:rgb(107,142,235)}"
                                                   ""));
     pushButton_2 = new QPushButton(this);
     pushButton_2->setText(tr("退出"));
     pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
     pushButton_2->setGeometry(QRect(270, 165, 81, 26));
-    pushButton_2->setFlat(true);
-    pushButton_2->setStyleSheet(QString::fromUtf8("QPushButton{color: rgb(61, 107, 229);}"
-                                                  "QPushButton:hover {color: rgb(255,255,255);}"
+    pushButton_2->setFlat(false);
+    pushButton_2->setStyleSheet(QString::fromUtf8("QPushButton{color: rgb(61, 107, 229);background-color:rgb(255,255,255)}"
+                                                  "QPushButton:hover {color: rgb(255,255,255);background-color:rgb(107,142,235)}"
                                                   ""));
     label_2 = new QLabel(this);
     label_2->setObjectName(QString::fromUtf8("label_2"));

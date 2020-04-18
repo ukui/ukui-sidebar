@@ -79,19 +79,19 @@ void submit_fail::UI_init()
     resendBtn = new QPushButton(this);
     resendBtn->setGeometry(QRect(130, 160, 60, 26));
     resendBtn->setText(tr("重新发送"));
-    resendBtn->setFlat(true);
-    resendBtn->setStyleSheet(QString::fromUtf8("QPushButton{color: rgb(61, 107, 229);}"
-                                                  "QPushButton:hover {color: rgb(255,255,255);}"
-                                                  ""));
+    resendBtn->setFlat(false);
+    resendBtn->setStyleSheet(QString::fromUtf8("QPushButton{color: rgb(61, 107, 229);background-color:rgb(255,255,255)}"
+                                               "QPushButton:hover {color: rgb(255,255,255);background-color:rgb(107,142,235)}"
+                                               ""));
     connect(resendBtn,SIGNAL(clicked()),this,SLOT(resend_feedbackinfo()));
 
     pushButton_2 = new QPushButton(this);
     pushButton_2->setText(tr("退出"));
     pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
     pushButton_2->setGeometry(QRect(220, 160, 40, 26));
-    pushButton_2->setFlat(true);
-    pushButton_2->setStyleSheet(QString::fromUtf8("QPushButton{color: rgb(61, 107, 229);}"
-                                                  "QPushButton:hover {color: rgb(255,255,255);}"
+    pushButton_2->setFlat(false);
+    pushButton_2->setStyleSheet(QString::fromUtf8("QPushButton{color: rgb(61, 107, 229);background-color:rgb(255,255,255)}"
+                                                  "QPushButton:hover {color: rgb(255,255,255);background-color:rgb(107,142,235)}"
                                                   ""));
 
     label_2 = new QLabel(this);

@@ -44,6 +44,7 @@ void feedback_plugin::PluginsShowInterface() {
     QDesktopWidget *desk = QApplication::desktop();
     QRect deskRect = desk->availableGeometry();
     mp_feedback->show();
+    window_is_close_flag=false;
     mp_feedback->showNormal();
     mp_feedback->move((deskRect.width()-mp_feedback->width())/2, (deskRect.height()-mp_feedback->height())/2);
 }
