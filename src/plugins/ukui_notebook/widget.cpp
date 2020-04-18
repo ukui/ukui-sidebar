@@ -761,7 +761,7 @@ void Widget::onTextEditTextChanged(const QModelIndex &index,int i)
 
             // update model
             QMap<int, QVariant> dataValue;
-            dataValue[NoteModel::NoteContent] = QVariant::fromValue(m_editors[i]->ui->textEdit->toPlainText());
+            dataValue[NoteModel::NoteContent] = QVariant::fromValue(m_editors[i]->ui->textEdit->toHtml().toUtf8());
             dataValue[NoteModel::NoteFullTitle] = QVariant::fromValue(firstline);
             dataValue[NoteModel::NoteLastModificationDateTime] = QVariant::fromValue(dateTime);
 
