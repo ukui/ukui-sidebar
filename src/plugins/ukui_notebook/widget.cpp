@@ -42,6 +42,8 @@ Widget::Widget(QWidget *parent) :
   , m_dbThread(Q_NULLPTR)
   , m_isContentModified(false)
   , m_isColorModified(false)
+  , m_isTemp(false)
+  , m_isOperationRunning(false)
 {    
     ui->setupUi(this);
     setupDatabases();
