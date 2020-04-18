@@ -72,7 +72,7 @@ class QPushButton;
 class QLabel;
 
 using namespace std;
-
+extern bool window_is_close_flag;
 
 class feedback : public QMainWindow
 {

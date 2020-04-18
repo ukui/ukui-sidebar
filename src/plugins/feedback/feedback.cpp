@@ -46,7 +46,7 @@
 #include <QElapsedTimer>
 
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
-
+bool window_is_close_flag  = false;
 
 feedback::feedback(QWidget *parent)
     : QMainWindow(parent)
@@ -485,6 +485,7 @@ void feedback::on_pushButton_close_clicked()
     accessManager->disconnect();
     submitting_timer->stop();
     feedback_info_init();
+    window_is_close_flag = true;
 }
 void feedback::window_close()
 {
@@ -873,17 +874,20 @@ void feedback::on_pushButton_2_clicked()
     loop.exec();  // 启动事件循环
 
     if (timer_http.isActive()) {  // 处理响应
-        timer_http.stop();
-        finishedSlot(pReply);
+        if(window_is_close_flag == false){
+            timer_http.stop();
+            finishedSlot(pReply);
+        }
     } else {  // 处理超时
-        timeout_http_flag=true;
-        finishedSlot(pReply);
-        timer_http.stop();
-        disconnect(pReply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
-        pReply->abort();
-        pReply->deleteLater();
-
-        qDebug() << "Timeout";
+        if (window_is_close_flag ==false){
+            timeout_http_flag=true;
+            finishedSlot(pReply);
+            timer_http.stop();
+            disconnect(pReply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+            pReply->abort();
+            pReply->deleteLater();
+            qDebug() << "Timeout";
+        }
     }
 }
 
