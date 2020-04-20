@@ -86,7 +86,34 @@ Clock::Clock(QWidget *parent) :
     setWindowFlags(Qt::FramelessWindowHint);   /* 开启窗口无边框 */
     this->setAttribute(Qt::WA_TranslucentBackground);
     ui->set_page->setStyleSheet("QWidget{background-color: rgba(14, 19, 22, 0.95);}");
+    button_image_init();
+    Countdown_init();
+    stopwatch_init();
+    clock_init();
+    setup_init();
+    this->setFixedSize(454,660);
+}
 
+Clock::~Clock()
+{
+    delete timer_set_page;
+    delete timer_Surplus;
+    delete timer;
+    delete timer_2;
+    delete countdown_timer;
+    delete model;
+    delete model_setup;
+    delete setup_page;
+    delete dialog_repeat;
+    delete dialog_music;
+    delete time_music;
+    delete count_music_sellect;
+    delete ui->page_5;
+    delete ui;
+}
+
+void Clock::button_image_init()
+{
     pixmap1 = QPixmap(":/icon-1.png");
     pixmap2 = QPixmap(":/icon-2.png");
     pixmap3 = QPixmap(":/icon-3.png");
@@ -135,7 +162,10 @@ Clock::Clock(QWidget *parent) :
     ui->pushButton_12->setStyleSheet("QPushButton{border-image: url(://image/more_light.png);}"
                   "QPushButton:hover{border-image: url(://image/more2.png);}"
                   "QPushButton:pressed{border-image: url(://image/more3.png);}");
-    //---------------倒计时-------------------------------------------------------------------------
+}
+
+void Clock::Countdown_init()
+{
     //初始化定时器
     countdown_timer = new QTimer();
     //信号和槽
@@ -152,7 +182,10 @@ Clock::Clock(QWidget *parent) :
     countdown_isStarted_2 = 0;
     ui->page_5->RoundBar3->ring_max = 3600;
     ui->page_5->RoundBar3->setValue(3600);//初始化倒计时进度圈
-    //------------秒表-----------------------------------------------------------------------------------
+}
+
+void Clock::stopwatch_init()
+{
     //初始化定时器
     timer = new QTimer();
     //信号和槽
@@ -174,7 +207,10 @@ Clock::Clock(QWidget *parent) :
     stopwatch_minute = 0;
     stopwatch_second = 0;
     stopwatch_isStarted = 0;
-    //----------------------闹钟---------------------------------
+}
+
+void Clock::clock_init()
+{
     ui->pushButton_10->setIcon(bgPixmap);
     ui->pushButton_7->setIcon(bgPixmap);
     ui->pushButton_16->setIcon(bgPixmap);
@@ -224,7 +260,11 @@ Clock::Clock(QWidget *parent) :
     connect(timer_set_page, SIGNAL(timeout()), this, SLOT(verticalscroll_ring_time()));
     timer_set_page->setInterval(100);
     updateAlarmClock();
-    //-----------------------------------------------------------------------------------------------------------------
+}
+
+
+void Clock::setup_init()
+{
     countdown_set_start_time();//倒计时初始化数字转盘
     ui->label_8->hide();
     connect(ui->label, SIGNAL(clicked()), this, SLOT(on_pushButton_clicked()) );//扩大页面切换反映区
@@ -245,29 +285,8 @@ Clock::Clock(QWidget *parent) :
     connect(dialog_repeat->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(repeat_listClickslot()));
     connect(dialog_music->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(music_listClickslot()));
     connect(time_music->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(time_music_listClickslot()));
-
-    this->setFixedSize(454,660);
 }
 
-Clock::~Clock()
-{
-    qDebug()<<"----------------";
-    delete timer_set_page;
-    delete timer_Surplus;
-    delete timer;
-    delete timer_2;
-    delete countdown_timer;
-    delete model;
-    delete model_setup;
-    delete setup_page;
-    delete dialog_repeat;
-    delete dialog_music;
-    delete time_music;
-    delete count_music_sellect;
-    delete ui->page_5;
-    delete ui;
-    qDebug()<<"----------------";
-}
 
 //时间间隔执行
 void Clock::stopwatch_jg()
@@ -1063,7 +1082,6 @@ void Clock::deleteAlarm()
         {
             delete w1[i];
             delete aItem[i];
-            qDebug() << "rowNu444444444444444444444";
         }
         model->submitAll();   //否则提交, 在数据库中删除该行
         updateAlarmClock();

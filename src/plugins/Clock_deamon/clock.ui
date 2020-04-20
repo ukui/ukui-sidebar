@@ -32,7 +32,7 @@ color: rgb(255, 255, 255);
     <string notr="true">border-radius:7px;</string>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="page">
     <widget class="QPushButton" name="count_stat">
@@ -597,7 +597,7 @@ color: rgb(65, 65, 65);
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">selection-background-color: rgb(162, 162, 162);
+      <string notr="true">selection-background-color:rgba(72,72,76,1);
 border-radius:0px 0px 6px 6px;</string>
      </property>
     </widget>
