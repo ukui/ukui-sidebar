@@ -245,6 +245,8 @@ Clock::Clock(QWidget *parent) :
     connect(dialog_repeat->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(repeat_listClickslot()));
     connect(dialog_music->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(music_listClickslot()));
     connect(time_music->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(time_music_listClickslot()));
+
+    this->setFixedSize(454,660);
 }
 
 Clock::~Clock()
@@ -469,6 +471,9 @@ void Clock::on_pushButton_5_clicked()
 {
     ui->stackedWidget_3->raise();
     ui->stackedWidget->raise();
+    ui->pushButton_4->raise();
+    ui->pushButton_5->raise();
+    ui->pushButton_12->raise();
     this->hide();
 }
 
@@ -822,8 +827,10 @@ void Clock::set_alarm_save()
         QMessageBox::warning(this, "警告", "闹钟数量已达上限！", QMessageBox::Yes);
     }
     ui->stackedWidget_3->raise();
-    this->raise();
     ui->stackedWidget->raise();//将页面放置最前方
+    ui->pushButton_4->raise();
+    ui->pushButton_5->raise();
+    ui->pushButton_12->raise();
     timer_set_page->stop();
 
     if(dialog_repeat)
@@ -880,9 +887,11 @@ void Clock::verticalscroll_ring_time()
 void Clock::alarm_Cancel_save()
 {
     ui->stackedWidget_3->raise();
-    this->raise();
     ui->stackedWidget->raise();
     timer_set_page->stop();
+    ui->pushButton_4->raise();
+    ui->pushButton_5->raise();
+    ui->pushButton_12->raise();
 }
 
 //双击闹钟打开重编辑页面
@@ -966,8 +975,10 @@ void Clock::on_pushButton_9_clicked()
     updateAlarmClock();
 
     ui->stackedWidget_3->raise();
-    this->raise();
     ui->stackedWidget->raise();//将页面放置最前方
+    ui->pushButton_4->raise();
+    ui->pushButton_5->raise();
+    ui->pushButton_12->raise();
     timer_set_page->stop();
 
     if(dialog_repeat)
@@ -1060,10 +1071,10 @@ void Clock::deleteAlarm()
         qDebug() << rowNum;
 
         ui->stackedWidget_3->raise();
-
-        this->raise();
-
         ui->stackedWidget->raise();//将页面放置最前方
+        ui->pushButton_4->raise();
+        ui->pushButton_5->raise();
+        ui->pushButton_12->raise();
 
     }
 
