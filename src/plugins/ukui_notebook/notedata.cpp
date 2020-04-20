@@ -77,6 +77,16 @@ void NoteData::setContent(const QString &content)
     m_content = content;
 }
 
+QString NoteData::mdContent() const
+{
+    return m_mdContent;
+}
+
+void NoteData::setMdContent(const QString &mdContent)
+{
+    m_mdContent = mdContent;
+}
+
 bool NoteData::isModified() const
 {
     return m_isModified;
@@ -129,7 +139,8 @@ void NoteData::setCreationDateTime(const QDateTime&creationDateTime)
 
 QDataStream &operator<<(QDataStream &stream, const NoteData* noteData) {
     return stream << noteData->id() << noteData->fullTitle() << noteData->creationDateTime() \
-                  << noteData->lastModificationdateTime() << noteData->content() << noteData->notecolor();
+                  << noteData->lastModificationdateTime() << noteData->content() \
+                  << noteData->notecolor() << noteData->mdContent();
 }
 
 QDataStream &operator>>(QDataStream &stream, NoteData* &noteData){
@@ -140,13 +151,15 @@ QDataStream &operator>>(QDataStream &stream, NoteData* &noteData){
     QDateTime lastModificationDateTime;
     QDateTime creationDateTime;
     QString content;
-    stream >> id >> fullTitle >> creationDateTime >> lastModificationDateTime >> content;
+    QString mdContent;
+    stream >> id >> fullTitle >> creationDateTime >> lastModificationDateTime >> content >> mdContent;
     noteData->setId(id);
     noteData->setFullTitle(fullTitle);
     noteData->setLastModificationDateTime(lastModificationDateTime);
     noteData->setCreationDateTime(creationDateTime);
     noteData->setContent(content);
     noteData->setNoteColor(notecolor);
+    noteData->setMdContent(mdContent);
     return stream;
 }
 

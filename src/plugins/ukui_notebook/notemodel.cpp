@@ -131,6 +131,8 @@ QVariant NoteModel::data(const QModelIndex &index, int role) const
         return note->scrollBarPosition();
     }else if(role == NoteColor){
         return note->notecolor();
+    }else if (role == NoteMdContent){
+        return note->mdContent();
     }
 
     return QVariant();
@@ -161,6 +163,8 @@ bool NoteModel::setData(const QModelIndex &index, const QVariant &value, int rol
         note->setScrollBarPosition(value.toInt());
     }else if(role == NoteColor){
         note->setNoteColor(value.toInt());
+    }else if(role == NoteMdContent){
+        note->setMdContent(value.toString());
     }else{
         return false;
     }

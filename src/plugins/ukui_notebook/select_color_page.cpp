@@ -19,6 +19,8 @@
 #include "ui_select_color_page.h"
 #include <QPainter>
 #include "widget.h"
+#include "ui_widget.h"
+
 #define SHADOW_WIDTH 0
 
 select_color_page::select_color_page(Widget* page ,QWidget *parent) :
@@ -29,11 +31,8 @@ select_color_page::select_color_page(Widget* page ,QWidget *parent) :
     pNotebook = page;
     this->setAttribute(Qt::WA_TranslucentBackground);
     setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
-    timer = new QTimer();
-    connect(timer, SIGNAL(timeout()), this, SLOT(color_clicked()));
-    timer->setInterval(100);
-    timer->start();
     light_show();
+    connect(pNotebook->ui->sort_2_btn,SIGNAL(clicked()),this,SLOT(color_clicked()));
 }
 
 select_color_page::~select_color_page()
@@ -63,16 +62,10 @@ void select_color_page::paintEvent(QPaintEvent *)
 
 void select_color_page::color_clicked()
 {
-    if(!pNotebook->dack_wight_flag == -1){
-        return;
-    }
-        if(!pNotebook->dack_wight_flag)
-        {
-            light_show();
-        }else{
-
-            black_show();
-        }
+    if(sink)
+        light_show();
+    else
+        black_show();
 }
 
 void select_color_page::black_show()

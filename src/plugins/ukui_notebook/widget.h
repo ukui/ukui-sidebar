@@ -75,18 +75,14 @@ public:
     explicit Widget(QWidget *parent = nullptr);
     ~Widget();
 
-//public:
+    Ui::Widget *ui;                                 //主ui
     std::vector<Edit_page*> m_editors;
 
     int dack_wight_flag;
     void error_throw();                             //异常处理抛出
 
 private:
-    Ui::Widget *ui;                                 //主ui
     Edit_page *m_notebook;                   //新建便签指针
-    void set_table_list_page_attribute();
-    void set_tablewidget();
-    void set_listwidget();
     void black_show();
     void light_show();
 
@@ -115,7 +111,7 @@ private:
 
     int listflag;                                  //平铺/展开列表切换
     int sortflag;                                  //升降序切换
-    tanchuang* tuichu;
+    tanchuang* tuichu=nullptr;
 
     QAction *searchAction;
     QAction *delAction;

@@ -30,7 +30,7 @@
 #include "set_font_color_page.h"
 #include "ui_set_font_color_page.h"
 #include "cai_tou.h"
-
+#include "ui_widget.h"
 
 static int count =0;
 
@@ -61,17 +61,16 @@ Edit_page::Edit_page(Widget* page, const QModelIndex &index, QWidget *parent) :
     set_all_btn_attribute();
     set_select_color_page();
     set_text_editing_page();
-    connect(ui->textEdit,&QTextEdit::textChanged,this,&Edit_page::textChangedSlot);
-    timer = new QTimer();
-    connect(timer, SIGNAL(timeout()), this, SLOT(color_clicked()));
-    timer->setInterval(100);
-    timer->start();
     set_color();
 
     caitou = new  cai_tou(this);
     caitou->move(0,0);
     ui->widget->hide();
     ui->textEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    connect(ui->textEdit,&QTextEdit::textChanged,this,&Edit_page::textChangedSlot);
+    connect(pNotebook->ui->sort_2_btn,SIGNAL(clicked()),this,SLOT(color_clicked()));
+    color_clicked();
 }
 
 Edit_page::~Edit_page()
@@ -450,17 +449,10 @@ void Edit_page::show_note_page()
 
 void Edit_page::color_clicked()
 {
-    if(!pNotebook->dack_wight_flag == -1){
-        return;
-    }
-        if(!pNotebook->dack_wight_flag)
-        {
-            light_show();
-        }else{
-
-            black_show();
-        }
-
+    if(sink)
+        light_show();
+    else
+        black_show();
 }
 
 void Edit_page::light_show()

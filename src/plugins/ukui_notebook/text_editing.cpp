@@ -15,16 +15,18 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include "text_editing.h"
-#include "ui_text_editing.h"
 #include <QPainter>
 #include <QDebug>
+#include <QPointF>
 #include "widget.h"
+#include "ui_widget.h"
 #include "set_font_size_page.h"
 #include "ui_set_font_size_page.h"
 #include "set_font_color_page.h"
 #include "ui_set_font_color_page.h"
-#include <QPointF>
+#include "text_editing.h"
+#include "ui_text_editing.h"
+
 
 #define SHADOW_WIDTH 0
 
@@ -38,10 +40,6 @@ Text_editing::Text_editing(Widget* page,QWidget *parent) :
     setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
 
     set_btn_image();
-    timer = new QTimer();
-    connect(timer, SIGNAL(timeout()), this, SLOT(color_clicked()));
-    timer->setInterval(100);
-    timer->start();
 
     //ui->light_blue_btn->setStyle(new CustomStyle());
     //ui->colorBtn->setCheckable(true);
@@ -57,6 +55,7 @@ Text_editing::Text_editing(Widget* page,QWidget *parent) :
 
     set_color_fort_page = new Set_font_color_page;
     set_color_fort_page->hide();
+    connect(pNotebook->ui->sort_2_btn,SIGNAL(clicked()),this,SLOT(color_clicked()));
 }
 
 Text_editing::~Text_editing()
@@ -131,16 +130,10 @@ void Text_editing::on_blue_btn_2_clicked()
 
 void Text_editing::color_clicked()
 {
-    if(!pNotebook->dack_wight_flag == -1){
-        return;
-    }
-        if(!pNotebook->dack_wight_flag)
-        {
-            light_show();
-        }else{
-
-            black_show();
-        }
+    if(sink)
+        light_show();
+    else
+        black_show();
 }
 
 void Text_editing::light_show()
