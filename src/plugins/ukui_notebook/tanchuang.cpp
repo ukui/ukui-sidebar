@@ -20,6 +20,7 @@
 #include <QBitmap>
 #include <QPainter>
 #include "widget.h"
+#include "ui_widget.h"
 tanchuang::tanchuang(Widget* page, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::tanchuang)
@@ -39,6 +40,7 @@ tanchuang::tanchuang(Widget* page, QWidget *parent) :
 
     this->setAttribute(Qt::WA_TranslucentBackground);
     setWindowFlags(Qt::FramelessWindowHint);
+    connect(pNotebook->ui->sort_2_btn,SIGNAL(clicked()),this,SLOT(color_clicked()));
     color_clicked();
 }
 

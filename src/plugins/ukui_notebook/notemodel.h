@@ -36,7 +36,8 @@ public:
         NoteDeletionDateTime,
         NoteContent,
         NoteScrollbarPos,
-        NoteColor
+        NoteColor,
+        NoteMdContent
     };
 
     explicit NoteModel(QObject *parent = Q_NULLPTR);

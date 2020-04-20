@@ -26,7 +26,6 @@ int sink = 0;
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)
-  //, m_notebook(new Edit_page(this))
   , m_autoSaveTimer(new QTimer(this))
   , m_settingsDatabase(Q_NULLPTR)
   , m_ukui_SearchLine(Q_NULLPTR)
@@ -51,16 +50,9 @@ Widget::Widget(QWidget *parent) :
     ukui_init();
     ukui_conn();
     QTimer::singleShot(200,this, SLOT(InitData()));
-     setAttribute(Qt::WA_TranslucentBackground);
+    setAttribute(Qt::WA_TranslucentBackground);
     black_show();
     sourch_Icon();
-    dack_wight_flag = -1;
-    ui->set_btn->hide();
-    ui->change_page_btn->hide();
-    ui->add_more_btn->move(575, 0);
-    ui->frame->hide();
-
-    //ui->widget->setStyleSheet("QWidget{background-color: rgba(0, 0, 0, 0.2);}");
 }
 
 Widget::~Widget()
@@ -109,10 +101,10 @@ void Widget::InitData()
         emit requestNotesList();
     }
 
-    /// Check if it is running with an argument (ex. hide)
-    if (qApp->arguments().contains(QStringLiteral("--autostart"))) {
-        //setMainWindowVisibility(false);
-    }
+    // Check if it is running with an argument (ex. hide)
+//    if (qApp->arguments().contains(QStringLiteral("--autostart"))) {
+//        setMainWindowVisibility(false);
+//    }
 }
 
 void Widget::setupModelView()
@@ -203,33 +195,33 @@ void Widget::error_throw()
 
 void Widget::ukui_init()
 {
-    sortflag = 1;
+    sortflag = 1;//排序
+    listflag = 1;//平铺\列表
+    dack_wight_flag = -1;//主题
+
     m_ukui_SearchLine = ui->SearchLine;
     m_newKynote = ui->newKynote;
     m_trashButton = ui->add_more_btn;
     m_countLabel = ui->label;
     m_sortLabel = ui->sort_btn;
+
+    //隐藏滑动条
     ui->listView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->listView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-//    m_trashButton->setToolTip(QStringLiteral("Delete Selected Note"));
-//    m_newKynote->setToolTip(QStringLiteral("Create New Note"));
-//    //窗口属性
-//    setWindowFlags(Qt::FramelessWindowHint);//开启窗口无边框
+    //窗口属性
+    setWindowFlags(Qt::FramelessWindowHint);//开启窗口无边框
 //    setWindowOpacity(0.8);//窗口透明度
     //弹出位置
     QDesktopWidget *desktop = QApplication::desktop();
     move((desktop->width() - this->width())/2, (desktop->height() - this->height())/2);
-//    //组件属性
-//    //ui->listWidget->setAttribute(Qt::WA_TranslucentBackground);//设置透明度
-//    //ui->newKynote->setAttribute(Qt::WA_TranslucentBackground);
     //标题
     this->setWindowTitle(tr("ukui-note"));
     //任务栏图标
     setWindowIcon(QIcon(":/image/kylin-notebook.svg"));
-//    //按钮
-//    ui->newKynote->setStyleSheet(tristateButton(QPushButton,:/new/prefix1/SVG/new-b));
-//    ui->pushButton_Mini->setStyleSheet(tristateButton(QPushButton,:/new/prefix1/SVG/dark_theme/min));
-//    //ui->pushButton_Exit->setStyleSheet(tristateButton(QPushButton,:/new/prefix1/SVG/dark_theme/close));
+    //搜索框
+    ui->SearchLine->setPlaceholderText(tr("Search"));//设置详细输入框的提示信息
+    //按钮
+    set_all_btn_attribute();
 
     QBitmap bmp(this->size());
     bmp.fill();
@@ -240,22 +232,18 @@ void Widget::ukui_init()
     p.drawRoundedRect(bmp.rect(),6,6);
     setMask(bmp);
 
-    //setWindowOpacity(0.9);
-    setWindowFlags(Qt::FramelessWindowHint);
-    //搜索框
-    ui->SearchLine->setPlaceholderText(tr("Search"));//设置详细输入框的提示信息
-
-    set_table_list_page_attribute();
-    set_all_btn_attribute();
-
     ui->tableView->hide();
-    listflag = 1;
-
+    ui->set_btn->hide();
+    ui->change_page_btn->hide();
+    ui->add_more_btn->move(575, 0);
+    ui->frame->hide();
+    //退出框
+    tuichu = new tanchuang(this);
 }
 
 void Widget::ukui_conn()
 {
-    qDebug() << "conn";
+    qDebug() << "init connect slot";
     //主界面退出按钮
     connect(ui->pushButton_Exit,SIGNAL(clicked()),this,SLOT(exitSlot()));
     //主界面最小化按钮
@@ -274,7 +262,7 @@ void Widget::ukui_conn()
     connect(m_noteView,&NoteView::doubleClicked,this,&Widget::listDoubleClickSlot);
     // noteView viewport pressed
     connect(m_noteView, &NoteView::viewportPressed, this, [this](){
-        qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
+        qDebug() << "receive signal viewportPressed";
         if(m_isTemp && m_proxyModel->rowCount() > 1){
             QModelIndex indexInProxy = m_proxyModel->index(1, 0);
             selectNote(indexInProxy);
@@ -415,16 +403,6 @@ void Widget::set_all_btn_attribute()
     ui->sort_2_btn->setToolTip(tr("Switching Themes"));
     ui->pushButton_Exit->setToolTip(tr("Exit"));
     ui->pushButton_Mini->setToolTip(tr("Mini"));
-}
-
-void Widget::set_table_list_page_attribute()
-{
-
-}
-
-void Widget::set_tablewidget()
-{
-
 }
 
 void Widget::deleteNote(const QModelIndex &noteIndex, bool isFromUser)
@@ -576,21 +554,18 @@ void Widget::selectNote(const QModelIndex &noteIndex)
 void Widget::showNoteInEditor(const QModelIndex &noteIndex)
 {
     qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
-    //m_textEdit->blockSignals(true);
-
-    /// fixing bug #202
-    //m_textEdit->setTextBackgroundColor(QColor(255,255,255, 0));
-
 
     QString content = noteIndex.data(NoteModel::NoteContent).toString();
     QDateTime dateTime = noteIndex.data(NoteModel::NoteLastModificationDateTime).toDateTime();
     int scrollbarPos = noteIndex.data(NoteModel::NoteScrollbarPos).toInt();
     int noteColor = noteIndex.data(NoteModel::NoteColor).toInt();
+    QString mdContent = noteIndex.data(NoteModel::NoteMdContent).toString();
 
+    qDebug() << mdContent << "!!!!!!!!" << content;
     const NoteWidgetDelegate delegate;
     QColor m_color = delegate.intToQcolor(noteColor);
     // set text and date
-    m_notebook->ui->textEdit->setText(content);
+    m_notebook->ui->textEdit->setText(mdContent);
     m_notebook->caitou->color_widget = QColor(m_color);
     m_notebook->update();
 
@@ -730,11 +705,7 @@ void Widget::onTextEditTextChanged(const QModelIndex &index,int i)
     qDebug() << "receive signal textchange";
     qDebug() << index;
     if(index.isValid()){
-        //m_notebook->ui->textEdit->blockSignals(true);
-        qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
         QString content = index.data(NoteModel::NoteContent).toString();
-        qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
-
 
         if(m_editors[i]->ui->textEdit->toPlainText() != content){
 
@@ -761,27 +732,23 @@ void Widget::onTextEditTextChanged(const QModelIndex &index,int i)
 
             // update model
             QMap<int, QVariant> dataValue;
-            dataValue[NoteModel::NoteContent] = QVariant::fromValue(m_editors[i]->ui->textEdit->toHtml().toUtf8());
+            dataValue[NoteModel::NoteContent] = QVariant::fromValue(m_editors[i]->ui->textEdit->toPlainText());
+            dataValue[NoteModel::NoteMdContent] = QVariant::fromValue(m_editors[i]->ui->textEdit->toHtml().toUtf8());
             dataValue[NoteModel::NoteFullTitle] = QVariant::fromValue(firstline);
             dataValue[NoteModel::NoteLastModificationDateTime] = QVariant::fromValue(dateTime);
 
-            qDebug()<<"now change text is"<< firstline;
-            QModelIndex index2 = m_proxyModel->mapToSource(index);
+            qDebug()<<"now change text is"<< firstline << m_editors[i]->ui->textEdit->toHtml().toUtf8();
+            //QModelIndex index2 = m_proxyModel->mapToSource(index);
             m_noteModel->setItemData(index, dataValue);
 
             m_isContentModified = true;
             //m_autoSaveTimer->start(500);
             saveNoteToDB(index);
         }
-        //m_notebook->ui->textEdit->blockSignals(false);
-
-        //获取当前调色板颜色
-
-        //当前调色
 
         m_isTemp = false;
     }else{
-        qDebug() << "Widget::onTextEditTextChanged() : m_currentSelectedNoteProxy is not valid";
+        qDebug() << "Widget::onTextEditTextChanged() : index is not valid";
     }
 }
 
@@ -803,13 +770,11 @@ void Widget::onColorChanged(const QColor &color)
     }
 }
 
-void Widget::exitSlot(){
-    tuichu = new tanchuang(this);
+void Widget::exitSlot()
+{
+    tuichu->setWindowFlags(tuichu->windowFlags() | Qt::WindowStaysOnTopHint);
     tuichu->show();
-    if(tuichu->close_flage)
-    {
-       this->close();
-    }
+    //tuichu->raise();
 }
 
 void Widget::miniSlot()
@@ -826,7 +791,7 @@ void Widget::saveNoteToDB(const QModelIndex& noteIndex)
 {   //如果实例变量 noteIndex 是个有效对象 &&
     if(noteIndex.isValid() && m_isContentModified){
         //从排序过滤器模型返回与给定 noteIndex 对应的源模型索引。
-        QModelIndex indexInSrc = m_proxyModel->mapToSource(noteIndex);
+        //QModelIndex indexInSrc = m_proxyModel->mapToSource(noteIndex);
         NoteData* note = m_noteModel->getNote(noteIndex);
         if(note != Q_NULLPTR)
             emit requestCreateUpdateNote(note);
@@ -835,7 +800,7 @@ void Widget::saveNoteToDB(const QModelIndex& noteIndex)
     }else if(noteIndex.isValid() && m_isColorModified)
     {
         //从排序过滤器模型返回与给定 noteIndex 对应的源模型索引。
-        QModelIndex indexInSrc = m_proxyModel->mapToSource(noteIndex);
+        //QModelIndex indexInSrc = m_proxyModel->mapToSource(noteIndex);
         NoteData* note = m_noteModel->getNote(noteIndex);
         if(note != Q_NULLPTR)
             emit requestCreateUpdateNote(note);
@@ -877,8 +842,10 @@ NoteData* Widget::generateNote(const int noteID)
  */
 void Widget::createNewNote()
 {
+    qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
+    qDebug() << m_isOperationRunning;
     if(!m_isOperationRunning){
-
+        qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
         m_isOperationRunning = true;
 
         m_noteView->scrollToTop();
@@ -910,6 +877,7 @@ void Widget::createNewNote()
             int row = m_currentSelectedNoteProxy.row();
             m_noteView->animateAddedRow(QModelIndex(),row, row);
         }
+        qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
         //设置索引 m_currentSelectedNoteProxy 所在的页面为当前页面
         m_noteView->setCurrentIndex(m_currentSelectedNoteProxy);
         m_isOperationRunning = false;
@@ -918,6 +886,7 @@ void Widget::createNewNote()
 
 void Widget::newSlot()
 {
+    qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
     //新建一个笔记本
     //m_notebook =  new Edit_page(this);
     //m_notebook->show();
@@ -939,7 +908,9 @@ void Widget::newSlot()
         m_isContentModified = false;
     }
 
+    qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
     this->createNewNote();
+    qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
     m_countLabel->setText(QObject::tr("%1 records in total").arg(m_proxyModel->rowCount()));
 
 

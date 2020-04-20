@@ -48,8 +48,12 @@ void NoteView::animateAddedRow(const QModelIndex& parent, int start, int end)
     Q_UNUSED(parent)
     Q_UNUSED(end)
 
+    //model(): 返回此视图显示的模型。
     QModelIndex idx = model()->index(start,0);
     // Note: 这一行添加了flikering，当动画运行缓慢时可以看到
+    // QItemSelectionModel::ClearAndSelect 将清除完整的选择 | 将选择所有指定的索引
+    // selectionModel(): Returns the current selection model.
+    // select(): 使用指定的命令选择模型项索引，并发出selectionChanged（）
     selectionModel()->select(idx, QItemSelectionModel::ClearAndSelect);
 
     NoteWidgetDelegate* delegate = static_cast<NoteWidgetDelegate*>(itemDelegate());
@@ -217,7 +221,9 @@ bool NoteView::viewportEvent(QEvent*e)
         //鼠标按键按下
         case QEvent::MouseButtonPress:{
             qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
+            //将全局屏幕坐标pos转换为小部件坐标
             QPoint pt = mapFromGlobal(QCursor::pos());
+            //返回在内容坐标中包含点x，y的可见项的索引。如果在指定的点上没有项，或者项不可见，则返回-1。
             QModelIndex index = indexAt(QPoint(10, pt.y()));
             if(!index.isValid())
                 emit viewportPressed();

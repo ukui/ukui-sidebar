@@ -48,6 +48,9 @@ public:
     QString content() const;
     void setContent(const QString &content);
 
+    QString mdContent() const;
+    void setMdContent(const QString &mdContent);
+
     bool isModified() const;
     void setModified(bool isModified);
 
@@ -69,6 +72,7 @@ private:
     QDateTime m_creationDateTime;
     QDateTime m_deletionDateTime;
     QString m_content;
+    QString m_mdContent;
     bool m_isModified;
     bool m_isSelected;
     int m_scrollBarPosition;
