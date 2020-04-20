@@ -85,7 +85,7 @@ Clock::Clock(QWidget *parent) :
     this->setWindowTitle(tr("闹钟"));
     setWindowFlags(Qt::FramelessWindowHint);   /* 开启窗口无边框 */
     this->setAttribute(Qt::WA_TranslucentBackground);
-    ui->set_page->setStyleSheet("QWidget{background-color: rgba(14, 19, 22, 0.9);}");
+    ui->set_page->setStyleSheet("QWidget{background-color: rgba(14, 19, 22, 0.95);}");
 
     pixmap1 = QPixmap(":/icon-1.png");
     pixmap2 = QPixmap(":/icon-2.png");
@@ -150,6 +150,8 @@ Clock::Clock(QWidget *parent) :
     countdown_pushflag = 0;
     countdown_isStarted = 0;
     countdown_isStarted_2 = 0;
+    ui->page_5->RoundBar3->ring_max = 3600;
+    ui->page_5->RoundBar3->setValue(3600);//初始化倒计时进度圈
     //------------秒表-----------------------------------------------------------------------------------
     //初始化定时器
     timer = new QTimer();
@@ -465,6 +467,8 @@ void Clock::on_pushButton_timeselect_clicked()
 //窗口关闭
 void Clock::on_pushButton_5_clicked()
 {
+    ui->stackedWidget_3->raise();
+    ui->stackedWidget->raise();
     this->hide();
 }
 
