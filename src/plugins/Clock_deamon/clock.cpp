@@ -1049,8 +1049,8 @@ void Clock::deleteAlarm()
     model->removeRows(num, 1);
     qDebug() << "delete " <<num <<rowNum;
 
-    int ok = QMessageBox::warning(this, "删除当前闹钟！",
-                                  "您确定删除当前闹钟吗？",
+    int ok = QMessageBox::warning(this, tr("删除当前闹钟！"),
+                                  tr("您确定删除当前闹钟吗？"),
                                   QMessageBox::Yes, QMessageBox::No);
     if(ok == QMessageBox::No)
     {
