@@ -200,7 +200,7 @@ void feedback::UI_init()
     textEdit->setPalette(palette_textedit);
     textEdit->setPlaceholderText(tr("请输入内容"));//设置详细输入框的提示信息
     textEdit->setStyle(new CustomStyle("ukui-light"));
-
+    textEdit->setAcceptRichText(false); //不接受富文本
 
     label_4 = new QLabel(centralwidget);
     label_4->setText(tr("邮箱"));
@@ -270,6 +270,10 @@ void feedback::UI_init()
     checkBox_4->setGeometry(QRect(35, 490, 121, 24));
     checkBox_4->setStyleSheet(" spacing: 6px;");
     checkBox_4->setStyleSheet(QString::fromUtf8("font: 14px;color:rgb(0,0,0)"));
+    QPalette palette_checkbox = checkBox_4->palette();
+    palette_checkbox.setBrush(QPalette::Base,QColor("#CFCFCF"));
+    checkBox_4->setPalette(palette_checkbox);
+
     pushButton_2 = new QPushButton(centralwidget);
     pushButton_2->setText(tr("提交"));
     pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
@@ -312,8 +316,8 @@ void feedback::UI_init()
     frame_2->setFrameShape(QFrame::StyledPanel);
     frame_2->setFrameShadow(QFrame::Raised);
     effect = new QGraphicsDropShadowEffect;
-    effect->setOffset(4,4);
-    effect->setColor(QColor(0,0,0));
+    effect->setOffset(1,1);
+    effect->setColor(QColor(80,80,80));
     effect->setBlurRadius(10);
     frame_2->setGraphicsEffect(effect);
     frame_2->setStyleSheet("border-color: rgba(255, 255, 255,0.1);");
@@ -360,7 +364,7 @@ void feedback::UI_init()
     checkBox->setStyleSheet(QString::fromUtf8("font: 14px;\n"
                                               "color:rgb(0,0,0);\n"
                                               ""));
-
+    checkBox->setPalette(palette_checkbox);
     horizontalLayout->addWidget(checkBox);
 
     checkBox_2 = new QCheckBox(layoutWidget);
@@ -370,7 +374,7 @@ void feedback::UI_init()
                                                 "spacing: 5px;"
                                                 "color:rgb(0,0,0);\n"
                                                 ""));
-
+    checkBox_2->setPalette(palette_checkbox);
     horizontalLayout->addWidget(checkBox_2);
 
     checkBox_3 = new QCheckBox(layoutWidget);
@@ -381,6 +385,7 @@ void feedback::UI_init()
                                                 "color:rgb(0,0,0);\n"
                                                 ""));
 
+    checkBox_3->setPalette(palette_checkbox);
     horizontalLayout->addWidget(checkBox_3);
 
 
@@ -1191,18 +1196,23 @@ void feedback::add_fileinfo_model()
 //根据数据列表 刷新窗口
 void feedback::update_add_file_window()
 {
-
+    QString filename_labelstr;
     for(int filenum=0; filenum<file_name_list.size(); filenum++)
     {
         file_listwidget_item[filenum] = new QListWidgetItem;
-        file_listwidget_item[filenum]->setSizeHint(QSize(320,25));
+        file_listwidget_item[filenum]->setSizeHint(QSize(320,20));
         file_listwidget->addItem(file_listwidget_item[filenum]);
         file_widget[filenum] = new fileitem_init(file_listwidget);
         file_listwidget->setItemWidget(file_listwidget_item[filenum],file_widget[filenum]);
+        filename_labelstr=file_name_list.at(filenum);
+        //如果文件过长，只显示前30个字符，后面省略
+        if(file_name_list.at(filenum).length() > 33){
+            filename_labelstr = file_name_list.at(filenum).left(30) + "...";
+        }
 
 
         file_widget[filenum]->filename_label0->move(0,3);
-        file_widget[filenum]->filename_label0->setText(file_name_list.at(filenum));
+        file_widget[filenum]->filename_label0->setText(filename_labelstr);
         file_widget[filenum]->filename_label0->setStyleSheet("font: 12px ;color: rgb(68,68,68);");
         file_widget[filenum]->filename_label0->adjustSize();
 

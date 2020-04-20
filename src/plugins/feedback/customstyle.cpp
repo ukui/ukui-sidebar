@@ -300,9 +300,9 @@ void CustomStyle::drawPrimitive(QStyle::PrimitiveElement element, const QStyleOp
         painter->setRenderHint(QPainter::Antialiasing,true);
         painter->setBrush(Qt::NoBrush);
         if(option->state & State_Enabled){
-            painter->setPen(Qt::black);
+            painter->setPen(QPen(Qt::black, 1.2));
             if (option->state & State_MouseOver) {
-                painter->setPen(Qt::black);
+                painter->setPen(QPen(Qt::black, 1.2));
             }
         }
         else {
