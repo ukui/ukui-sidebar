@@ -187,7 +187,7 @@ void Widget::createAction()
     Open = new QAction(QObject::tr("Open"), this);
     connect(Open, &QAction::triggered, this, &Widget::OpenSidebarSlots);
 
-    OpenSetUp = new QAction(QIcon::fromTheme("application-menu", QIcon(SETTING_ICON)), QObject::tr("Open set up"), this);
+    OpenSetUp = new QAction(QIcon::fromTheme("application-menu", QIcon(SETTING_ICON)), QObject::tr("Set up notification center"), this);
     connect(OpenSetUp, &QAction::triggered, this, &Widget::OpenControlCenterSettings);
 
 }
@@ -196,6 +196,7 @@ void Widget::createAction()
 void Widget::createSystray()
 {
     trayIconMenu = new QMenu(this);
+    trayIconMenu->setProperty("iconHighlightEffectMode", 1);
     if (trayIconMenu == nullptr)
     {
         qWarning() << "分配空间trayIconMenu失败";

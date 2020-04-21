@@ -9,14 +9,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="184"/>
+        <location filename="widget.cpp" line="187"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="187"/>
-        <source>Open set up</source>
-        <translation>设置</translation>
+        <location filename="widget.cpp" line="190"/>
+        <source>Set up notification center</source>
+        <translation>设置通知中心</translation>
     </message>
 </context>
 <context>
@@ -26,7 +26,7 @@
         <translation type="vanished">剪贴板</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="220"/>
+        <location filename="widget.cpp" line="222"/>
         <source>Sidebar</source>
         <translation>侧边栏</translation>
     </message>
