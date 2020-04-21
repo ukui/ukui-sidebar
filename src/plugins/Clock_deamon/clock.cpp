@@ -56,6 +56,10 @@
 #include "notice_dialog.h"
 #include <QBitmap>
 #include <QProcess>
+#include<QScreen>
+#include "natice_alarm.h"
+#include "ui_natice_alarm.h"
+
 
 const double PI=3.141592;
 
@@ -672,15 +676,22 @@ void Clock::timerUpdate()
 //通知弹窗
 void Clock::notice_dialog_show(int close_time, int alarm_num)
 {
-    model_setup->select();
-    Notice_Dialog *dialog1 = new Notice_Dialog(nullptr,close_time,alarm_num);
-    dialog1->pushButton->setStyleSheet(QString::fromUtf8("background-color: rgba(83, 83, 83, 0.1);"));
-    dialog1->label_4->setText(model->index(alarm_num, 14).data().toString());
-    if(model_setup->index(0, 3).data().toInt())
-    {
-        dialog1->showFullScreen();
-    }
-    dialog1->show();
+    QScreen *screen=QGuiApplication::primaryScreen ();
+    QRect mm=screen->availableGeometry() ;
+    int screen_width = mm.width();
+    int screen_height = mm.height();
+      Natice_alarm  *dialog1 = new Natice_alarm(close_time,alarm_num);
+      dialog1->ui->label_2->setText(model->index(alarm_num, 14).data().toString());
+      dialog1->ui->label_3->setText(QString::number(model->index(alarm_num, 0).data().toInt())+" : "+QString::number(model->index(alarm_num, 1).data().toInt()));
+      if(model_setup->index(0, 3).data().toInt())
+      {
+          dialog1->showFullScreen();
+      }else{
+          dialog1->move(screen_width-450,screen_height-300);
+      }
+      Qt::WindowFlags m_flags = windowFlags();
+      setWindowFlags(m_flags | Qt::WindowStaysOnTopHint);
+      dialog1->show();
 }
 
 //重绘窗口，更新闹钟
@@ -1224,16 +1235,21 @@ void Clock::stat_countdown(){
 //倒计时通知弹窗
 void Clock::countdown_notice_dialog_show()
 {
+    QScreen *screen=QGuiApplication::primaryScreen ();
+    QRect mm=screen->availableGeometry() ;
+    int screen_width = mm.width();
+    int screen_height = mm.height();
     model_setup->select();
-    Notice_Dialog *dialog1 = new Notice_Dialog(nullptr,360,-1);
-    dialog1->pushButton->setStyleSheet(QString::fromUtf8("background-color: rgba(83, 83, 83, 0.1);"));
-    dialog1->label_4->setText(tr("倒计时"));
-    dialog1->label_3->hide();
-    dialog1->label->hide();
-    dialog1->label_2->setText(tr("倒计时时间结束"));
+    Natice_alarm *dialog1 = new Natice_alarm(360,-1);
+    //dialog1->ui->label_4->hide();
+    dialog1->ui->label_2->hide();
+    dialog1->ui->label->setText(tr("倒计时"));
+    dialog1->ui->label_3->setText(tr("时间到"));
     if(model_setup->index(0, 3).data().toInt())
     {
         dialog1->showFullScreen();
+    }else{
+        dialog1->move(screen_width-450,screen_height-300);
     }
     dialog1->show();
 }

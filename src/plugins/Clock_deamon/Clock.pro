@@ -18,6 +18,7 @@ SOURCES += \
     clock_plugin.cpp \
     customstyle.cpp \
     item_new.cpp \
+    natice_alarm.cpp \
     notice_dialog.cpp \
     setuppage.cpp \
     stopwatch_item.cpp \
@@ -46,6 +47,7 @@ HEADERS  += clock.h \
     customstyle.h \
     debug.h \
     item_new.h \
+    natice_alarm.h \
     notice_dialog.h \
     setuppage.h \
     stopwatch_item.h \
@@ -61,6 +63,7 @@ HEADERS  += clock.h \
 
 
 FORMS    += clock.ui \
+    natice_alarm.ui \
     setuppage.ui
 
 

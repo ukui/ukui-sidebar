@@ -27,7 +27,8 @@
 
 clock_plugin::clock_plugin()
 {
-    //m_pClock = new Clock;
+    if(!m_pClock)
+       m_pClock = new Clock;
     QString locale = QLocale::system().name();
     QTranslator *translator_feedback;
     translator_feedback = new QTranslator();
@@ -43,14 +44,12 @@ void clock_plugin::onNotification() {
 }
 
 void clock_plugin::PluginsShowInterface() {
-    if(!m_pClock)
-       m_pClock = new Clock;
+
     QDesktopWidget *desk = QApplication::desktop();
     QRect deskRect = desk->availableGeometry();
     m_pClock->show();
     m_pClock->move((deskRect.width()-m_pClock->width())/2, (deskRect.height()-m_pClock->height())/2);
     m_pClock->showNormal();
-//    Clockflag = true;
 }
 
 clock_plugin::~clock_plugin() {
