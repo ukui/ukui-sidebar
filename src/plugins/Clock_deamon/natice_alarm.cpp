@@ -126,10 +126,6 @@ void Natice_alarm::paintEvent(QPaintEvent *)
     QStyleOption opt;
     opt.init(this);
     QPainter p(this);
-    /* 获取当前剪贴板中字体的颜色，作为背景色；
-     * 白字体 --> 黑背景
-     * 黑字体 --> 白字体
-    */
     p.setBrush(QBrush(QColor("#161617")));
     p.setOpacity(0.5);
     p.setPen(Qt::NoPen);
@@ -143,7 +139,7 @@ void Natice_alarm::paintEvent(QPaintEvent *)
 void Natice_alarm::show_again()
 {
     this->hide();
-    ring_num = 3;
+    ring_num = 300;
     timer_value =  timer_value2;
     timer_xumhuan->start();
     timer->stop();
