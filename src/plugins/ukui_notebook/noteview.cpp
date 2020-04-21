@@ -27,11 +27,11 @@
 #include <QScrollBar>
 
 NoteView::NoteView(QWidget *parent)
-    : QListView( parent ),
-      m_isScrollBarHidden(true),
-      m_animationEnabled(true),
-      m_isMousePressed(false),
-      m_rowHeight(38)
+    : QListView( parent )
+    , m_isScrollBarHidden(true)
+    , m_animationEnabled(true)
+    , m_isMousePressed(false)
+    , m_rowHeight(38)
 {
     this->setAttribute(Qt::WA_MacShowFocusRect, 0);
     setEditTriggers(QAbstractItemView::NoEditTriggers);

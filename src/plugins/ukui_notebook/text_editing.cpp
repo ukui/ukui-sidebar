@@ -27,8 +27,9 @@
 #include "text_editing.h"
 #include "ui_text_editing.h"
 
-
+#ifndef SHADOW_WIDTH
 #define SHADOW_WIDTH 0
+#endif
 
 Text_editing::Text_editing(Widget* page,QWidget *parent) :
     QWidget(parent),

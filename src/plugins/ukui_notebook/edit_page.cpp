@@ -168,7 +168,7 @@ void Edit_page::showStrikeOutResolved()
 //fu hao  suo jin
 void Edit_page::showList(bool index)
 {
-
+    Q_UNUSED(index);
     qDebug()<<"--------showList-----------";
     QTextCursor cursor = ui->textEdit->textCursor();
 
@@ -200,7 +200,7 @@ void Edit_page::showList(bool index)
 //shu zhi  suo jin
 void Edit_page::showNUMList(bool index)
 {
-
+    Q_UNUSED(index);
     qDebug()<<"--------showList-----------";
     QTextCursor cursor = ui->textEdit->textCursor();
 

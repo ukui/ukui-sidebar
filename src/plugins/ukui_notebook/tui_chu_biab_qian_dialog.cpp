@@ -38,8 +38,6 @@ tui_chu_biab_qian_Dialog::tui_chu_biab_qian_Dialog(QWidget *parent) :
     p.drawRoundedRect(bmp.rect(),6,6);
     setMask(bmp);
 
-    //close_flage = 0;
-
     this->setAttribute(Qt::WA_TranslucentBackground);
     ui->widget->setStyleSheet("QWidget{background-color: rgba(255, 255, 255, 0.4);}");
     ui->label->setStyleSheet("background-color: rgba();\
