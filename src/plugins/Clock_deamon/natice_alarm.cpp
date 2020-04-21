@@ -62,6 +62,8 @@ void Natice_alarm::natice_init()
     model_setup->setEditStrategy(QSqlTableModel::OnManualSubmit);
     model_setup->select();
 
+    model_setup->select();
+
     full_flag=model_setup->index(0, 3).data().toInt();
     if(full_flag)
     {
