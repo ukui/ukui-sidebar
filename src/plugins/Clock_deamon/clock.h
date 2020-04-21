@@ -214,6 +214,7 @@ private slots:
     void countdown_notice_dialog_show();                                                 //倒计时通知弹窗
 
 
+    QString change_NUM_to_str(int alarmHour);
 
 private:
     QPoint m_startPoint;
