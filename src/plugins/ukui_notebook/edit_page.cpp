@@ -433,6 +433,7 @@ void Edit_page::contextMenuEvent(QContextMenuEvent *event)
 void Edit_page::clear_the_page()
 {
     this->close();
+    single = 0;
 }
 
 void Edit_page::add_new_page()

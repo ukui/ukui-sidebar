@@ -49,7 +49,7 @@ void Set_font_size_page::set_listwidget()
 
         ui->listWidget->addItem(list_aItem[n]);
 
-        list_page[n] = new  Form();
+        list_page[n] = new Form(this);
         list_page[n]->resize(QSize(30,23));
 
         ui->listWidget->setItemWidget(list_aItem[n],list_page[n]);

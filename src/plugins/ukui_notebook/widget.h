@@ -56,6 +56,7 @@
 #include "tanchuang.h"
 #include "ui_edit_page.h"
 extern int sink;
+extern int single;
 
 #define     tristateButton(className,imageUrl)     (""#className"{image:url("#imageUrl".svg);}   \
     "#className":hover{image:url("#imageUrl"-hover.svg);}  \

@@ -334,6 +334,7 @@ bool DBManager::updateNote(NoteData* note)
     QString emptyStr;
 
     int id = note->id();
+    qDebug() << "updateNote  note id = " <<id;
     int notecolor = note->notecolor();
 
     qint64 epochTimeDateModified = note->lastModificationdateTime().toMSecsSinceEpoch();

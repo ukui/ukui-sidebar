@@ -56,6 +56,7 @@ QModelIndex NoteModel::insertNote(NoteData *note, int row)
 NoteData* NoteModel::getNote(const QModelIndex& index)
 {
     if(index.isValid()){
+        //返回列表中索引位置index.row处的项, index.row 必须是列表中有效的索引位置
         return m_noteList.at(index.row());
     }else{
         return Q_NULLPTR;
