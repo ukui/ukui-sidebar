@@ -32,7 +32,7 @@ color: rgb(255, 255, 255);
     <string notr="true">border-radius:7px;</string>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="page">
     <widget class="QPushButton" name="count_stat">
@@ -597,7 +597,7 @@ color: rgb(65, 65, 65);
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">selection-background-color: rgb(162, 162, 162);
+      <string notr="true">selection-background-color:rgba(72,72,76,1);
 border-radius:0px 0px 6px 6px;</string>
      </property>
     </widget>
@@ -624,10 +624,10 @@ background-color: rgb(76, 76, 76);
   <widget class="QPushButton" name="pushButton_5">
    <property name="geometry">
     <rect>
-     <x>428</x>
-     <y>1</y>
-     <width>25</width>
-     <height>25</height>
+     <x>424</x>
+     <y>0</y>
+     <width>30</width>
+     <height>30</height>
     </rect>
    </property>
    <property name="text">
@@ -637,10 +637,10 @@ background-color: rgb(76, 76, 76);
   <widget class="QPushButton" name="pushButton_4">
    <property name="geometry">
     <rect>
-     <x>400</x>
+     <x>394</x>
      <y>1</y>
-     <width>25</width>
-     <height>25</height>
+     <width>30</width>
+     <height>30</height>
     </rect>
    </property>
    <property name="text">
@@ -657,7 +657,8 @@ background-color: rgb(76, 76, 76);
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-radius:7px;</string>
+    <string notr="true">border-radius:7px;
+</string>
    </property>
    <widget class="QWidget" name="page_7">
     <widget class="QPushButton" name="pushButton_3">
@@ -1181,10 +1182,10 @@ text-align: right</string>
   <widget class="QPushButton" name="pushButton_12">
    <property name="geometry">
     <rect>
-     <x>372</x>
+     <x>364</x>
      <y>1</y>
-     <width>25</width>
-     <height>25</height>
+     <width>30</width>
+     <height>30</height>
     </rect>
    </property>
    <property name="text">
@@ -1205,10 +1206,10 @@ text-align: right</string>
   </action>
   <zorder>set_page</zorder>
   <zorder>pushButton_5</zorder>
-  <zorder>pushButton_4</zorder>
   <zorder>stackedWidget_3</zorder>
   <zorder>stackedWidget</zorder>
   <zorder>pushButton_12</zorder>
+  <zorder>pushButton_4</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>

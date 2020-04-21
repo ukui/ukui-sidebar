@@ -93,6 +93,15 @@ protected:
     void paintEvent1(QPaintEvent *);
 
 private slots:
+    void button_image_init();                                                            //闹钟按钮图片初始化
+
+    void Countdown_init();                                                               //倒计时页初始化
+
+    void stopwatch_init();                                                               //秒表页初始化
+
+    void clock_init();                                                                   //闹钟页初始化
+
+    void setup_init();                                                                   //默认初始设置
 
     void notice_dialog_show(int,int);                                                    //通知弹窗
 

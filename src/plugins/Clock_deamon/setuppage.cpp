@@ -35,7 +35,7 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     ui->horizontalSlider->setStyle(new CustomStyle("ukui"));
     ui->pushButton->hide();
     ui->label->hide();
-    ui->label_4->setAlignment(Qt::AlignHCenter);
+    ui->label_2->setAlignment(Qt::AlignHCenter);
     ui->label_4->setAlignment(Qt::AlignHCenter);
     QPixmap bgPixmap = QPixmap(":/go-bottom-symbolic.png");
     ui->pushButton_10->setIcon(bgPixmap);
