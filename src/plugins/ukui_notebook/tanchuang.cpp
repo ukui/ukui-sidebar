@@ -36,8 +36,6 @@ tanchuang::tanchuang(Widget* page, QWidget *parent) :
     p.drawRoundedRect(bmp.rect(),6,6);
     setMask(bmp);
 
-    close_flage = 0;
-
     this->setAttribute(Qt::WA_TranslucentBackground);
     setWindowFlags(Qt::FramelessWindowHint);
     connect(pNotebook->ui->sort_2_btn,SIGNAL(clicked()),this,SLOT(color_clicked()));
@@ -56,7 +54,6 @@ void tanchuang::on_pushButton_clicked()
 
 void tanchuang::on_pushButton_2_clicked()
 {
-    close_flage = 1;
     this->close();
     pNotebook->close();
     if(ui->checkBox->isChecked()==true)
@@ -69,16 +66,13 @@ void tanchuang::on_pushButton_2_clicked()
 
 void tanchuang::color_clicked()
 {
-    if(!pNotebook->dack_wight_flag == -1){
-        return;
-    }
-        if(!pNotebook->dack_wight_flag)
-        {
-            light_show();
-        }else{
+    if(!pNotebook->dack_wight_flag)
+    {
+        light_show();
+    }else{
 
-            black_show();
-        }
+        black_show();
+    }
 }
 
 void tanchuang::light_show()

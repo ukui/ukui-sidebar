@@ -41,7 +41,7 @@ DBManager::DBManager(QObject *parent)
 void DBManager::open(const QString &path, bool doCreate)
 {
     QSqlDatabase m_db;
-    m_db = QSqlDatabase::addDatabase("QSQLITE");
+    m_db = QSqlDatabase::addDatabase("QSQLITE","note");
 
     m_db.setDatabaseName(path);
     if(!m_db.open()){
@@ -59,7 +59,7 @@ void DBManager::open(const QString &path, bool doCreate)
  */
 void DBManager::createTables()
 {
-    QSqlQuery query;
+    QSqlQuery query(QSqlDatabase::database("note"));
     QString active = "CREATE TABLE active_notes ("
                      "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                      "creation_date INTEGER NOT NULL DEFAULT (0),"
@@ -95,7 +95,7 @@ void DBManager::createTables()
  */
 int DBManager::getLastRowID()
 {
-    QSqlQuery query;
+    QSqlQuery query(QSqlDatabase::database("note"));
     //sqlite_sequence表也是SQLite的系统表,数据库被创建时，sqlite_sequence表会被自动创建
     //该表包括两列。第一列为name，用来存储表的名称。第二列为seq，用来保存表对应的RowID的最大值
     //当对应的表增加记录，该表会自动更新。当表删除，该表对应的记录也会自动删除。如果该值超过最大值，会引起SQL_FULL错误。
@@ -111,7 +111,7 @@ int DBManager::getLastRowID()
  */
 bool DBManager::forceLastRowIndexValue(const int indexValue)
 {
-    QSqlQuery query;
+    QSqlQuery query(QSqlDatabase::database("note"));
     QString queryStr = QStringLiteral("UPDATE SQLITE_SEQUENCE "
                                       "SET seq=%1 "
                                       "WHERE name='active_notes';").arg(indexValue);
@@ -127,7 +127,7 @@ bool DBManager::forceLastRowIndexValue(const int indexValue)
  */
 NoteData* DBManager::getNote(QString id)
 {
-    QSqlQuery query;
+    QSqlQuery query(QSqlDatabase::database("note"));
 
     int parsedId = id.split('_')[1].toInt();
     QString queryStr = QStringLiteral("SELECT * FROM active_notes WHERE id = %1 LIMIT 1").arg(parsedId);
@@ -165,7 +165,7 @@ NoteData* DBManager::getNote(QString id)
  */
 bool DBManager::isNoteExist(NoteData* note)
 {
-    QSqlQuery query;
+    QSqlQuery query(QSqlDatabase::database("note"));
 
     int id = note->id();
     QString queryStr = QStringLiteral("SELECT EXISTS(SELECT 1 FROM active_notes WHERE id = %1 LIMIT 1 )")
@@ -184,7 +184,7 @@ QList<NoteData *> DBManager::getAllNotes()
 {
     QList<NoteData *> noteList;
 
-    QSqlQuery query;
+    QSqlQuery query(QSqlDatabase::database("note"));
     query.prepare("SELECT * FROM active_notes");
     bool status = query.exec();
     if(status){
@@ -228,7 +228,7 @@ QList<NoteData *> DBManager::getAllNotes()
  */
 bool DBManager::addNote(NoteData* note)
 {
-    QSqlQuery query;
+    QSqlQuery query(QSqlDatabase::database("note"));
     QString emptyStr;
 
     qint64 epochTimeDateCreated = note->creationDateTime()
@@ -271,7 +271,7 @@ bool DBManager::addNote(NoteData* note)
  */
 bool DBManager::removeNote(NoteData* note)
 {
-    QSqlQuery query;
+    QSqlQuery query(QSqlDatabase::database("note"));
     QString emptyStr;
 
     int id = note->id();
@@ -319,7 +319,7 @@ bool DBManager::removeNote(NoteData* note)
  */
 bool DBManager::permanantlyRemoveAllNotes()
 {
-    QSqlQuery query;
+    QSqlQuery query(QSqlDatabase::database("note"));
     return query.exec(QString("DELETE FROM active_notes"));
 }
 
@@ -330,7 +330,7 @@ bool DBManager::permanantlyRemoveAllNotes()
  */
 bool DBManager::updateNote(NoteData* note)
 {
-    QSqlQuery query;
+    QSqlQuery query(QSqlDatabase::database("note"));
     QString emptyStr;
 
     int id = note->id();
@@ -365,7 +365,7 @@ bool DBManager::updateNote(NoteData* note)
  */
 bool DBManager::migrateNote(NoteData* note)
 {
-    QSqlQuery query;
+    QSqlQuery query(QSqlDatabase::database("note"));
 
     QString emptyStr;
 
@@ -404,7 +404,7 @@ bool DBManager::migrateNote(NoteData* note)
  */
 bool DBManager::migrateTrash(NoteData* note)
 {
-    QSqlQuery query;
+    QSqlQuery query(QSqlDatabase::database("note"));
     QString emptyStr;
 
     int id = note->id();
