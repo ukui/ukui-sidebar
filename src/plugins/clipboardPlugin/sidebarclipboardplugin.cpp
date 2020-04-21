@@ -720,11 +720,9 @@ void SidebarClipboardPlugin::ItemNumchagedSlots()
     if (num > 0) {
         m_pSideBarClipboardLable->setVisible(false);
         m_pShortcutOperationListWidget->setVisible(true);
-        m_pSearchArea->m_pClearListWidgetButton->setEnabled(true);
     } else {
         m_pSideBarClipboardLable->setVisible(true);
         m_pShortcutOperationListWidget->setVisible(false);
-        m_pSearchArea->m_pClearListWidgetButton->setEnabled(false);
     }
 }
 

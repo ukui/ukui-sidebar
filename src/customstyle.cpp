@@ -159,12 +159,12 @@ void CustomStyle::drawPrimitive(QStyle::PrimitiveElement element, const QStyleOp
             painter->setPen(Qt::NoPen);
             painter->setBrush(option->palette.color(QPalette::WindowText));
             painter->setRenderHint(QPainter::Antialiasing,true);
-            painter->setOpacity(0.12);
+            painter->setOpacity(0.04);
             if (option->state & (State_Sunken | State_On)) {
                 painter->setOpacity(0.08);
             }
             else if(option->state & State_MouseOver) {
-                painter->setOpacity(0.2);
+                painter->setOpacity(0.12);
             }
             painter->drawRoundedRect(option->rect,4,4);
             painter->restore();
