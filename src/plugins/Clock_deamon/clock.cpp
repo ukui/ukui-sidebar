@@ -682,15 +682,14 @@ void Clock::notice_dialog_show(int close_time, int alarm_num)
     int screen_height = mm.height();
       Natice_alarm  *dialog1 = new Natice_alarm(close_time,alarm_num);
       dialog1->ui->label_2->setText(model->index(alarm_num, 14).data().toString());
-      dialog1->ui->label_3->setText(QString::number(model->index(alarm_num, 0).data().toInt())+" : "+QString::number(model->index(alarm_num, 1).data().toInt()));
+      dialog1->ui->label_3->setText(change_NUM_to_str(model->index(alarm_num, 0).data().toInt())+" : "+change_NUM_to_str(model->index(alarm_num, 1).data().toInt()));
       if(model_setup->index(0, 3).data().toInt())
       {
           dialog1->showFullScreen();
       }else{
           dialog1->move(screen_width-450,screen_height-300);
       }
-      Qt::WindowFlags m_flags = windowFlags();
-      setWindowFlags(m_flags | Qt::WindowStaysOnTopHint);
+
       dialog1->show();
 }
 

@@ -83,9 +83,9 @@ border-radius: 6px;
        <widget class="QLabel" name="label">
         <property name="geometry">
          <rect>
-          <x>170</x>
+          <x>150</x>
           <y>10</y>
-          <width>60</width>
+          <width>100</width>
           <height>23</height>
          </rect>
         </property>
@@ -116,9 +116,9 @@ font: 25 14pt  &quot;Noto Sans Devanagari Md&quot;;</string>
        <widget class="QLabel" name="label_3">
         <property name="geometry">
          <rect>
-          <x>140</x>
+          <x>0</x>
           <y>80</y>
-          <width>120</width>
+          <width>400</width>
           <height>51</height>
          </rect>
         </property>
@@ -185,7 +185,7 @@ QPushButton:hover{background-color: rgb(27, 143, 89);}
          <string notr="true">color: rgb(255, 255, 255);</string>
         </property>
         <property name="text">
-         <string>120秒后自动关闭</string>
+         <string>秒后自动关闭</string>
         </property>
        </widget>
       </widget>

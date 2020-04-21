@@ -27,8 +27,8 @@
 
 clock_plugin::clock_plugin()
 {
-    if(!m_pClock)
-       m_pClock = new Clock;
+
+
     QString locale = QLocale::system().name();
     QTranslator *translator_feedback;
     translator_feedback = new QTranslator();
@@ -37,6 +37,7 @@ clock_plugin::clock_plugin()
         translator_feedback->load(QString(":/Clock.qm"));  //选择翻译文件
         QApplication::installTranslator(translator_feedback);
     }
+        m_pClock = new Clock;
 }
 
 void clock_plugin::onNotification() {
