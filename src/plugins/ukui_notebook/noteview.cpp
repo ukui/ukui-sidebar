@@ -35,6 +35,7 @@ NoteView::NoteView(QWidget *parent)
 {
     this->setAttribute(Qt::WA_MacShowFocusRect, 0);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
+    //一次性定时器,槽函数只处理一次
     QTimer::singleShot(0, this, SLOT(init()));
 }
 

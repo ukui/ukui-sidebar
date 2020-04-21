@@ -51,10 +51,10 @@ Text_editing::Text_editing(Widget* page,QWidget *parent) :
     ui->showListBtn->setCheckable(true);
     ui->showNUMList->setCheckable(true);
 
-    set_size_page = new Set_font_size_page;
+    set_size_page = new Set_font_size_page(this);
     set_size_page->hide();
 
-    set_color_fort_page = new Set_font_color_page;
+    set_color_fort_page = new Set_font_color_page(this);
     set_color_fort_page->hide();
     connect(pNotebook->ui->sort_2_btn,SIGNAL(clicked()),this,SLOT(color_clicked()));
 }

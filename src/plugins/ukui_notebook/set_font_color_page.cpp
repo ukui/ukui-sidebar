@@ -30,7 +30,7 @@ Set_font_color_page::Set_font_color_page(QWidget *parent) :
     ui->listWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     set_color();
-        set_listwidget();
+    set_listwidget();
 }
 
 Set_font_color_page::~Set_font_color_page()
@@ -40,7 +40,6 @@ Set_font_color_page::~Set_font_color_page()
 
 void Set_font_color_page::set_color()
 {
-
     color[0]="background:rgba(76,119,231,1);";
     color[1]="background:rgba(250,108,99,1);";
     color[2]="background:rgba(15,161,90,1);";
@@ -64,7 +63,7 @@ void Set_font_color_page::set_listwidget()
 
         ui->listWidget->addItem(list_aItem[n]);
 
-        list_page[n] = new  color_mini();
+        list_page[n] = new color_mini(this);
         list_page[n]->resize(QSize(30,23));
 
         ui->listWidget->setItemWidget(list_aItem[n],list_page[n]);
