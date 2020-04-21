@@ -32,7 +32,7 @@ color: rgb(255, 255, 255);
     <string notr="true">border-radius:7px;</string>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="page">
     <widget class="QPushButton" name="count_stat">
@@ -232,45 +232,6 @@ background-color: rgb(76, 76, 76);</string>
         <string>00:00:00</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_10">
-       <property name="geometry">
-        <rect>
-         <x>178</x>
-         <y>137</y>
-         <width>20</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">border-image: url(:/icon-4-16x16.png);</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_11">
-       <property name="geometry">
-        <rect>
-         <x>210</x>
-         <y>140</y>
-         <width>70</width>
-         <height>14</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">width:70px;
-height:14px;
-font-size:14px;
-font-family:Source Han Sans CN;
-font-weight:400;
-color:rgba(255,255,255,1);
-opacity:0.45;
-</string>
-       </property>
-       <property name="text">
-        <string>下午05:31</string>
-       </property>
-      </widget>
       <widget class="QPushButton" name="count_push">
        <property name="geometry">
         <rect>
@@ -379,6 +340,83 @@ text-align: right</string>
          <string/>
         </property>
        </widget>
+      </widget>
+      <widget class="QWidget" name="horizontalLayoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>130</y>
+         <width>241</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_10">
+          <property name="minimumSize">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">border-image: url(:/icon-4-16x16.png);</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_11">
+          <property name="styleSheet">
+           <string notr="true">width:70px;
+height:14px;
+font-size:14px;
+font-family:Source Han Sans CN;
+font-weight:400;
+color:rgba(255,255,255,1);
+opacity:0.45;
+</string>
+          </property>
+          <property name="text">
+           <string>下午05:31</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </widget>
      </widget>
     </widget>

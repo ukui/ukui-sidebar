@@ -23,7 +23,7 @@
 VerticalScroll_99::VerticalScroll_99(QWidget *parent) :
     QWidget(parent),
     m_minRange(0),      //最小值默认为0
-    m_maxRange(99),    //最大值默认99
+    m_maxRange(48),    //最大值默认99
     m_currentValue(0), //当前值默认0
     isDragging(false),
     m_deviation(0),     //默认偏移量为0
@@ -276,7 +276,7 @@ void VerticalScroll_99::setupUi(QWidget *VerticalScroll_99)
 {
     if (VerticalScroll_99->objectName().isEmpty())
         VerticalScroll_99->setObjectName(QString::fromUtf8("VerticalScroll_99"));
-    VerticalScroll_99->resize(50, 200);
+    VerticalScroll_99->resize(53, 200);
 
     retranslateUi(VerticalScroll_99);
 

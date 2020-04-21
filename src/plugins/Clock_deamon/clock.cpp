@@ -1373,15 +1373,32 @@ void Clock::get_countdown_over_time()
         x_m = x_m - 60;
         x_h ++;
     }
-    if(x_h >= 24){
+   if(x_h >= 48){
+        x_h = x_h - 48;
+        ui->label_11->setText(tr("后天")+change_NUM_to_str(x_h)+":"+change_NUM_to_str(x_m));
+    }else if(x_h >= 24){
         x_h = x_h - 24;
-        ui->label_11->setText(tr("明日")+QString::number(x_h)+":"+QString::number(x_m));
+        ui->label_11->setText(tr("明天")+change_NUM_to_str(x_h)+":"+change_NUM_to_str(x_m));
     }else if(x_h >= 12){
         x_h = x_h - 12;
-        ui->label_11->setText(tr("下午")+QString::number(x_h)+":"+QString::number(x_m));
+        ui->label_11->setText(tr("下午")+change_NUM_to_str(x_h)+":"+change_NUM_to_str(x_m));
     }else {
-        ui->label_11->setText(tr("上午")+QString::number(x_h)+":"+QString::number(x_m));
+        ui->label_11->setText(tr("上午")+change_NUM_to_str(x_h)+":"+change_NUM_to_str(x_m));
     }
+}
+
+
+//单位变双位
+QString Clock::change_NUM_to_str(int alarmHour)
+{
+    QString str;
+    if(alarmHour < 10){
+        QString hours_str = QString::number(alarmHour);
+        str = "0"+hours_str;
+    }else {
+        str = QString::number(alarmHour);
+    }
+    return str;
 }
 //倒计时-暂停继续
 void Clock::on_count_push_clicked()
@@ -1447,13 +1464,13 @@ void Clock::countdown_set_start_time()
     m_in_s->setText(":");
     m_in_s->setStyleSheet("font: 30pt 'Sans Serif';");
 
-    timer_ring99->move(129, 115);
+    timer_ring99->move(125, 115);
     hour_ring->move(129,110);
     h_in_m->move(185,192);
-    timer_ring60->move(201, 115);
+    timer_ring60->move(200, 115);
     min_ring->move(201,110);
     m_in_s->move(257,192);
-    timer_ring60_2->move(273, 115);
+    timer_ring60_2->move(272, 115);
     sec_ring->move(273,110);
 }
 //-----------------------------------------闹钟初始化--------------------------------------------

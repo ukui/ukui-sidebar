@@ -520,7 +520,7 @@ color:rgba(255,255,255,1)</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(36,36,37);
+     <string notr="true">background-color: rgb();
 border-left-color: rgb(85, 255, 0);
 border-bottom-color: rgb(85, 170, 0);
 border-radius:50%;
