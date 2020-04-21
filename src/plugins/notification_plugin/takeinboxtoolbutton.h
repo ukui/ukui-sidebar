@@ -31,10 +31,14 @@ public:
 
 protected:
     virtual void    enterEvent(QEvent *event) override;
+//    virtual void    hoverEvent(QHoverEvent *event) override;
+//    virtual void    mousePressEvent(QMouseEvent *event) override;
     virtual void    leaveEvent(QEvent *event) override;
+    virtual bool    event(QEvent *e) override;
 
 private:
     bool            m_bEnterTakeInBox;
+    bool            m_bIsHover;
 
 };
 

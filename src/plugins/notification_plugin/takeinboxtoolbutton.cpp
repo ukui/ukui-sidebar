@@ -18,15 +18,18 @@
 
 #include "takeinboxtoolbutton.h"
 #include <QToolTip>
+#include <QDebug>
 
 TakeInBoxToolButton::TakeInBoxToolButton()
 {
     m_bEnterTakeInBox = false;
+    m_bIsHover = false;
 }
 
 void TakeInBoxToolButton::enterEvent(QEvent *event)
 {
     Q_UNUSED(event);
+    m_bIsHover = true;
     setIconSize(QSize(24,24));
     //设置边框, 边框色, 背景色, 字体色, 字号
     if(false == m_bEnterTakeInBox)
@@ -42,9 +45,30 @@ void TakeInBoxToolButton::enterEvent(QEvent *event)
     return;
 }
 
+bool TakeInBoxToolButton::event(QEvent *event)
+{
+    Q_UNUSED(event);
+    if(false == m_bEnterTakeInBox && false == m_bIsHover)
+    {
+        setIcon(QIcon(":/images/box-24.svg"));
+    }
+    else if (true == m_bEnterTakeInBox && false == m_bIsHover) {
+        setIcon(QIcon(":/images/exitbox-24.svg"));
+    }
+    else if (false == m_bEnterTakeInBox && true == m_bIsHover) {
+        setIcon(QIcon(":/images/box-24-hover.svg"));
+    }
+    else if (true == m_bEnterTakeInBox && true == m_bIsHover) {
+        setIcon(QIcon(":/images/exitbox-24-hover.svg"));
+    }
+
+    return QToolButton::event(event);
+}
+
 void TakeInBoxToolButton::leaveEvent(QEvent *event)
 {
     Q_UNUSED(event);
+    m_bIsHover = false;
     if(false == m_bEnterTakeInBox)
     {
         setIcon(QIcon(":/images/box-24.svg"));
