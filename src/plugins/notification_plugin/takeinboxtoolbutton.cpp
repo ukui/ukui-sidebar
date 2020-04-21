@@ -48,19 +48,20 @@ void TakeInBoxToolButton::enterEvent(QEvent *event)
 bool TakeInBoxToolButton::event(QEvent *event)
 {
     Q_UNUSED(event);
-    if(false == m_bEnterTakeInBox && false == m_bIsHover)
-    {
-        setIcon(QIcon(":/images/box-24.svg"));
-    }
-    else if (true == m_bEnterTakeInBox && false == m_bIsHover) {
-        setIcon(QIcon(":/images/exitbox-24.svg"));
-    }
-    else if (false == m_bEnterTakeInBox && true == m_bIsHover) {
-        setIcon(QIcon(":/images/box-24-hover.svg"));
-    }
-    else if (true == m_bEnterTakeInBox && true == m_bIsHover) {
-        setIcon(QIcon(":/images/exitbox-24-hover.svg"));
-    }
+//    qDebug() << "进入此处";
+//    if(false == m_bEnterTakeInBox && false == m_bIsHover)
+//    {
+//        setIcon(QIcon(":/images/box-24.svg"));
+//    }
+//    else if (true == m_bEnterTakeInBox && false == m_bIsHover) {
+//        setIcon(QIcon(":/images/exitbox-24.svg"));
+//    }
+//    else if (false == m_bEnterTakeInBox && true == m_bIsHover) {
+//        setIcon(QIcon(":/images/box-24-hover.svg"));
+//    }
+//    else if (true == m_bEnterTakeInBox && true == m_bIsHover) {
+//        setIcon(QIcon(":/images/exitbox-24-hover.svg"));
+//    }
 
     return QToolButton::event(event);
 }
