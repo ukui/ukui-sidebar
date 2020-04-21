@@ -48,6 +48,7 @@ void notebook_plugin::PluginsShowInterface() {
     QDesktopWidget *desk = QApplication::desktop();
     QRect deskRect = desk->availableGeometry();
     mp_notebook->show();
+    mp_notebook->showNormal();
     mp_notebook->move((deskRect.width()-mp_notebook->width())/2, (deskRect.height()-mp_notebook->height())/2);
     Notebookflag = true;
 }

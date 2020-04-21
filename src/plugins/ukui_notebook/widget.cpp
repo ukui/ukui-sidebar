@@ -881,6 +881,7 @@ void Widget::exitSlot()
 
 void Widget::miniSlot()
 {
+    this->showNormal();
     this->showMinimized();
 }
 
