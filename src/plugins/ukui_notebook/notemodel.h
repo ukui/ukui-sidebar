@@ -37,7 +37,7 @@ public:
         NoteContent,
         NoteScrollbarPos,
         NoteColor,
-        NoteMdContent
+        NoteMdContent,
     };
 
     explicit NoteModel(QObject *parent = Q_NULLPTR);

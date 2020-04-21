@@ -21,7 +21,9 @@
 #include "widget.h"
 #include "ui_widget.h"
 
+#ifndef SHADOW_WIDTH
 #define SHADOW_WIDTH 0
+#endif
 
 select_color_page::select_color_page(Widget* page ,QWidget *parent) :
     QWidget(parent),

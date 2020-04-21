@@ -87,7 +87,7 @@ private:
     void light_show();
 
     void set_all_btn_attribute();
-    void sourch_Icon();
+    void searchInit();
 
 
     QPixmap pixmap1;
@@ -128,7 +128,6 @@ private:
     NoteModel* m_deletedNotesModel;
     QSortFilterProxyModel* m_proxyModel;            //对项目进行排序，过滤
     QModelIndex m_currentSelectedNoteProxy;
-    QModelIndex m_selectedNoteBeforeSearchingInSource;
     QQueue<QString> m_searchQueue;
     DBManager* m_dbManager;
     QThread* m_dbThread;
@@ -142,15 +141,14 @@ private:
 
 
 
-    void ukui_init();                               //加载界面组件
-    void ukui_conn();                               //绑定槽函数
+    void kyNoteInit();                               //加载界面组件
+    void kyNoteConn();                               //绑定槽函数
     void sqlInit();                                 //加载数据库
     void sqlAddItem();                              //插入数据库，同步插入item
     void sqlUpdateItem();                           //同步数据库，同步更新item
 
 
 
-    //void InitData();
     void createNewNote();                           //新建笔记
     void deleteNote(const QModelIndex& noteIndex, bool isFromUser=true);
     void deleteSelectedNote();
@@ -177,30 +175,22 @@ private:
 
 
 private slots:
-    void InitData();
-    void loadNotes(QList<NoteData *> noteList, int noteCounter);
-    void onTextEditTextChanged(const QModelIndex &index, int i);
-    void onColorChanged(const QColor &color);
-    void onTrashButtonClicked();
-    void onNotePressed(const QModelIndex &index);
-    void onSearchEditTextChanged(const QString& keyword);
-
-    void exitSlot();                                //关闭按钮槽函数
-    void miniSlot();                                //最小化按钮槽函数
-    void editSlot();                                //编辑按钮槽函数
-    void newSlot();                                 //新建按钮槽函数
-    void listClickSlot();                           //item点击事件槽函数
-    void listDoubleClickSlot(const QModelIndex &);  //item双击事件槽函数
-    void lineeditChangedSlot(const QString &text);  //搜索栏清空按钮显示
-    void sortSlot();                                //升/降序槽函数
-    void on_sort_2_btn_clicked();                   //主题切换
-    void delAction_del_SearchLine();                //
-
+    void InitData();                                                //初始化加载第一个便签
+    void loadNotes(QList<NoteData *> noteList, int noteCounter);    //加载便签列表
+    void exitSlot();                                                //关闭按钮槽函数
+    void miniSlot();                                                //最小化按钮槽函数
+    void editSlot();                                                //编辑按钮槽函数
+    void newSlot();                                                 //新建按钮槽函数
+    void listClickSlot(const QModelIndex &index);                   //item单击事件槽函数
+    void listDoubleClickSlot(const QModelIndex &);                  //item双击事件槽函数
+    void onTextEditTextChanged(const QModelIndex &index, int i);    //文本改变槽函数
+    void onColorChanged(const QColor &color);                       //便签颜色改变槽函数
+    void onTrashButtonClicked();                                    //删除槽函数
+    void onSearchEditTextChanged(const QString& keyword);           //搜索栏文本改变槽函数
+    void sortSlot();                                                //升/降序槽函数
+    void on_sort_2_btn_clicked();                                   //主题切换
+    void delAction_del_SearchLine();
     void on_SearchLine_textChanged(const QString &arg1);
-
-
-protected:
-    void paintEvent(QPaintEvent *event);
 
 signals:
     void requestNotesList();
