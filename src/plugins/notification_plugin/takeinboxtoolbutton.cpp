@@ -78,9 +78,6 @@ void TakeInBoxToolButton::mousePressEvent(QMouseEvent *event)
 
 void TakeInBoxToolButton::mouseReleaseEvent(QMouseEvent *event)
 {
-    int x = event->x();
-    int y = event->y();
-
     setIconSize(QSize(24,24));
     //设置边框, 边框色, 背景色, 字体色, 字号
     if(false == m_bEnterTakeInBox)
@@ -92,6 +89,8 @@ void TakeInBoxToolButton::mouseReleaseEvent(QMouseEvent *event)
         setIcon(QIcon(":/images/exitbox-24.svg"));
     }
 
+    int x = event->x();
+    int y = event->y();
     //假如在QRect(0, 0, 24, 24));这个区域里，就发出信号
     if (x >= 0 && x <= 24 && y >= 0 && y<=24)
     {
