@@ -23,7 +23,6 @@ Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
     ui->label_3->setAlignment(Qt::AlignHCenter);
     ui->label_4->setAlignment(Qt::AlignHCenter);
 
-    ui->pushButton_2->setToolTip(tr("5分钟后提醒"));
 
     this->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
 
@@ -44,6 +43,8 @@ Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
     timer_xumhuan->setInterval(1000);
 
     natice_init();
+    ui->pushButton_2->setToolTip(tr("5分钟后提醒"));
+
 }
 
 Natice_alarm::~Natice_alarm()
