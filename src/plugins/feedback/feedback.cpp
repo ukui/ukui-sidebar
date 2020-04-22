@@ -643,7 +643,19 @@ void feedback::add_systeminfo()
     desktop_info_str = QString::fromStdString(desktop_info);
     label_12->setText(desktop_info_str);
     //3.获取编码格式
-    char * encoding = getenv("GDM_LANG");
+    char *encoding = getenv("GDM_LANG");
+    char *emcoding_2;
+    emcoding_2 = (char *)malloc(8);
+    if (encoding == NULL) {
+        QString locale = QLocale::system().name();
+        if (locale == "en_US") {
+            strcpy(emcoding_2, "en_US");
+        } else {
+            strcpy(emcoding_2, "zh_CN");
+        }
+        encoding = emcoding_2;
+    }
+    qDebug() << "encoding" << encoding;
     encoding_info.append(encoding);
     send_encoding_info.append(encoding);
     encoding_info_str = QString::fromStdString(encoding_info);
@@ -841,6 +853,7 @@ void feedback::on_pushButton_2_clicked()
         feedback_info_json.insert("language","");
     }
     QString url_filepath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) +"/.config/ukui/url.conf";
+    qDebug () << "url_filepath-->" << url_filepath;
     //从配置文件中读服务器地址
     QFile  file_url(url_filepath);
     QFileInfo url_fileinfo(url_filepath);
