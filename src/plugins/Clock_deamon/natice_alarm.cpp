@@ -15,6 +15,9 @@ Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
     setWindowFlags(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
     ui->setupUi(this);
+    QPixmap dialogPixmap = QPixmap(":/clock.ico");
+    this->setWindowTitle(tr("响铃提示"));
+    this->setWindowIcon(dialogPixmap);
     ui->label->setAlignment(Qt::AlignHCenter);
     ui->label_2->setAlignment(Qt::AlignHCenter);
     ui->label_3->setAlignment(Qt::AlignHCenter);

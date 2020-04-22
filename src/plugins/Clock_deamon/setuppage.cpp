@@ -70,6 +70,7 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     model_setup->setTable("setup");
     model_setup->setEditStrategy(QSqlTableModel::OnManualSubmit);
     model_setup->select();
+    model_setup->submitAll();
 
     repeat_on_Pixmap = QPixmap(":/object-select-symbolic.png");
     repeat_off_Pixmap = QPixmap("");
@@ -266,6 +267,8 @@ void setuppage::Time_format_set()
 //时间格式选择单击回调
 void setuppage::Time_format_listClickslot()
 {
+    model_setup->select();
+
     int num=Time_format->listWidget->currentRow();
 
     switch (num)
@@ -315,6 +318,8 @@ void setuppage::Pop_up_window_set()
 //弹窗方式选择单击回调
 void setuppage::Pop_up_window_listClickslot()
 {
+    model_setup->select();
+
     int num=Pop_up_window->listWidget->currentRow();
     switch (num)
     {
@@ -368,6 +373,8 @@ void setuppage::Reminder_off_set()
 //提醒关闭选择单击回调
 void setuppage::Reminder_off_listClickslot()
 {
+    model_setup->select();
+
     int num=Reminder_off->listWidget->currentRow();
     model_setup->setData(model_setup->index(0, 4), num);
 
@@ -421,6 +428,8 @@ void setuppage::Default_ringtone_set()
 //默认铃声选择单击回调
 void setuppage::Default_ringtone_listClickslot()
 {
+    model_setup->select();
+
     int num=Default_ringtone->listWidget->currentRow();
 
     switch (num)

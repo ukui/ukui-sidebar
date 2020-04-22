@@ -185,7 +185,7 @@ QPushButton:hover{background-color: rgb(27, 143, 89);}
          <string notr="true">color: rgb(255, 255, 255);</string>
         </property>
         <property name="text">
-         <string>秒后自动关闭</string>
+         <string/>
         </property>
        </widget>
       </widget>
