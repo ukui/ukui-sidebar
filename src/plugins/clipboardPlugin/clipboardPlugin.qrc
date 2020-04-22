@@ -1,17 +1,17 @@
-<!DOCTYPE RCC><RCC version="1.0">
-<qresource prefix="/">
-   <file>image/editor.svg</file>
-   <file>image/copy.svg</file>
-   <file>image/delete.svg</file>
-   <file>image/button-close-hover-click-two.svg</file>
-   <file>image/button-close-hover-click-add-background-one.svg</file>
-   <file>image/button-close-default-add-background-three.svg</file>
-   <file>image/user-trash.png</file>
-   <file>qss/sidebarClipboard.css</file>
-   <file>qss/sideBarEditArea.css</file>
-   <file>qss/sideBarSearchArea.css</file>
-   <file>translations/test_zh_CN.qm</file>
-   <file>translations/qt_zh_CN.qm</file>
-</qresource>
+<RCC>
+    <qresource prefix="/">
+        <file>image/editor.svg</file>
+        <file>image/copy.svg</file>
+        <file>image/delete.svg</file>
+        <file>image/button-close-hover-click-two.svg</file>
+        <file>image/button-close-hover-click-add-background-one.svg</file>
+        <file>image/button-close-default-add-background-three.svg</file>
+        <file>image/user-trash.png</file>
+        <file>qss/sidebarClipboard.css</file>
+        <file>qss/sideBarEditArea.css</file>
+        <file>qss/sideBarSearchArea.css</file>
+        <file>translations/test_zh_CN.qm</file>
+        <file>translations/qt_zh_CN.qm</file>
+        <file>translations/widgets.qm</file>
+    </qresource>
 </RCC>
-
