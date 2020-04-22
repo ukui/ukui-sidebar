@@ -676,6 +676,7 @@ void Clock::timerUpdate()
 //通知弹窗
 void Clock::notice_dialog_show(int close_time, int alarm_num)
 {
+    model_setup->select();
     QScreen *screen=QGuiApplication::primaryScreen ();
     QRect mm=screen->availableGeometry() ;
     int screen_width = mm.width();
@@ -1234,6 +1235,7 @@ void Clock::stat_countdown(){
 //倒计时通知弹窗
 void Clock::countdown_notice_dialog_show()
 {
+    model_setup->select();
     QScreen *screen=QGuiApplication::primaryScreen ();
     QRect mm=screen->availableGeometry() ;
     int screen_width = mm.width();
@@ -1786,7 +1788,6 @@ void Clock::time_Music()
         }
         // set_border_radius(time_music);
         time_music->show();
-
 
 }
 

@@ -618,8 +618,8 @@
     <message>
         <location filename="natice_alarm.cpp" line="116"/>
         <source>秒后自动关闭</source>
-        <translatorcomment>Seconds to close</translatorcomment>
-        <translation>Seconds to close</translation>
+        <translatorcomment> Seconds to close</translatorcomment>
+        <translation> Seconds to close</translation>
     </message>
 </context>
 <context>
