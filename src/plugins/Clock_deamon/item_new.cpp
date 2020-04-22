@@ -28,8 +28,8 @@ item_new::item_new(QWidget *parent) :
     this->setFixedSize(376, 58);
 
     alarmLabel_w0 = new QLabel(this);//闹钟用途
-    alarmLabel_w0->move(22, 9);
-    alarmLabel_w0->setFixedSize(170, 20);
+    alarmLabel_w0->move(22,4);
+    alarmLabel_w0->setFixedSize(170, 25);
     alarmLabel_w0->setStyleSheet("font: 11pt 'Sans Serif';background-color: rgb();\
                                  width:35px;\
                                  height:17px;\
