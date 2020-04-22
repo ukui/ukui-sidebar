@@ -18,18 +18,16 @@
 
 #include "takeinboxtoolbutton.h"
 #include <QToolTip>
-#include <QDebug>
+#include <QMouseEvent>
 
 TakeInBoxToolButton::TakeInBoxToolButton()
 {
     m_bEnterTakeInBox = false;
-    m_bIsHover = false;
 }
 
 void TakeInBoxToolButton::enterEvent(QEvent *event)
 {
     Q_UNUSED(event);
-    m_bIsHover = true;
     setIconSize(QSize(24,24));
     //设置边框, 边框色, 背景色, 字体色, 字号
     if(false == m_bEnterTakeInBox)
@@ -45,37 +43,58 @@ void TakeInBoxToolButton::enterEvent(QEvent *event)
     return;
 }
 
-bool TakeInBoxToolButton::event(QEvent *event)
-{
-    Q_UNUSED(event);
-//    qDebug() << "进入此处";
-//    if(false == m_bEnterTakeInBox && false == m_bIsHover)
-//    {
-//        setIcon(QIcon(":/images/box-24.svg"));
-//    }
-//    else if (true == m_bEnterTakeInBox && false == m_bIsHover) {
-//        setIcon(QIcon(":/images/exitbox-24.svg"));
-//    }
-//    else if (false == m_bEnterTakeInBox && true == m_bIsHover) {
-//        setIcon(QIcon(":/images/box-24-hover.svg"));
-//    }
-//    else if (true == m_bEnterTakeInBox && true == m_bIsHover) {
-//        setIcon(QIcon(":/images/exitbox-24-hover.svg"));
-//    }
-
-    return QToolButton::event(event);
-}
-
 void TakeInBoxToolButton::leaveEvent(QEvent *event)
 {
     Q_UNUSED(event);
-    m_bIsHover = false;
     if(false == m_bEnterTakeInBox)
     {
         setIcon(QIcon(":/images/box-24.svg"));
     }
     else {
         setIcon(QIcon(":/images/exitbox-24.svg"));
+    }
+
+    return;
+}
+
+//鼠标点击事件
+void TakeInBoxToolButton::mousePressEvent(QMouseEvent *event)
+{
+    if (event->buttons() == Qt::LeftButton)
+    {
+        setIconSize(QSize(20,20));
+        if(false == m_bEnterTakeInBox)
+        {
+            setIcon(QIcon(":/images/box-24-hover.svg"));
+        }
+        else
+        {
+            setIcon(QIcon(":/images/exitbox-24-hover.svg"));
+        }
+    }
+
+    return;
+}
+
+void TakeInBoxToolButton::mouseReleaseEvent(QMouseEvent *event)
+{
+    setIconSize(QSize(24,24));
+    //设置边框, 边框色, 背景色, 字体色, 字号
+    if(false == m_bEnterTakeInBox)
+    {
+        setIcon(QIcon(":/images/box-24.svg"));
+    }
+    else
+    {
+        setIcon(QIcon(":/images/exitbox-24.svg"));
+    }
+
+    int x = event->x();
+    int y = event->y();
+    //假如在QRect(0, 0, 24, 24));这个区域里，就发出信号
+    if (x >= 0 && x <= 24 && y >= 0 && y<=24)
+    {
+        emit Sig_clicked();
     }
 
     return;

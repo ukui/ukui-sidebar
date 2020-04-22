@@ -69,7 +69,7 @@ NotificationPlugin::NotificationPlugin()
     //收纳按钮
     m_pTakeInBoxToolButton = new TakeInBoxToolButton();
     m_pTakeInBoxToolButton->setObjectName("takein");
-    connect(m_pTakeInBoxToolButton, SIGNAL(clicked()), this, SLOT(onShowTakeInMessage()));
+    connect(m_pTakeInBoxToolButton, SIGNAL(Sig_clicked()), this, SLOT(onShowTakeInMessage()));
 
     //QToolButton添加svg图片
     m_pSvgRender = new QSvgRenderer(pWidget1);
