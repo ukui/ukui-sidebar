@@ -684,6 +684,7 @@ void Clock::notice_dialog_show(int close_time, int alarm_num)
       Natice_alarm  *dialog1 = new Natice_alarm(close_time,alarm_num);
       dialog1->ui->label_2->setText(model->index(alarm_num, 14).data().toString());
       dialog1->ui->label_3->setText(change_NUM_to_str(model->index(alarm_num, 0).data().toInt())+" : "+change_NUM_to_str(model->index(alarm_num, 1).data().toInt()));
+      dialog1->ui->label_4->setText(QString::number(close_time)+tr("秒后自动关闭"));
       if(model_setup->index(0, 3).data().toInt())
       {
           dialog1->showFullScreen();
@@ -1242,7 +1243,7 @@ void Clock::countdown_notice_dialog_show()
     int screen_height = mm.height();
     model_setup->select();
     Natice_alarm *dialog1 = new Natice_alarm(360,-1);
-    //dialog1->ui->label_4->hide();
+    dialog1->ui->label_4->setText(tr("360秒后自动关闭"));
     dialog1->ui->label_2->hide();
     dialog1->ui->label->setText(tr("倒计时"));
     dialog1->ui->label_3->setText(tr("时间到"));
