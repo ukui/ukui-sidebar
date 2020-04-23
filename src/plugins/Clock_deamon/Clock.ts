@@ -594,36 +594,41 @@
         <translation>close</translation>
     </message>
     <message>
-        <location filename="natice_alarm.cpp" line="23"/>
+        <location filename="natice_alarm.cpp" line="19"/>
+        <source>响铃提示</source>
+        <translation>Ring prompt</translation>
+    </message>
+    <message>
+        <location filename="natice_alarm.cpp" line="46"/>
         <source>5分钟后提醒</source>
         <translatorcomment>Alert in 5 minutes</translatorcomment>
         <translation>Alert in 5 minutes</translation>
     </message>
     <message>
-        <location filename="natice_alarm.cpp" line="76"/>
-        <location filename="natice_alarm.cpp" line="86"/>
+        <location filename="natice_alarm.cpp" line="80"/>
+        <location filename="natice_alarm.cpp" line="90"/>
         <source>玻璃</source>
         <translation>glass</translation>
     </message>
     <message>
-        <location filename="natice_alarm.cpp" line="78"/>
-        <location filename="natice_alarm.cpp" line="88"/>
+        <location filename="natice_alarm.cpp" line="82"/>
+        <location filename="natice_alarm.cpp" line="92"/>
         <source>犬吠</source>
         <translation>bark</translation>
     </message>
     <message>
-        <location filename="natice_alarm.cpp" line="80"/>
-        <location filename="natice_alarm.cpp" line="90"/>
+        <location filename="natice_alarm.cpp" line="84"/>
+        <location filename="natice_alarm.cpp" line="94"/>
         <source>声呐</source>
         <translation>sonar</translation>
     </message>
     <message>
-        <location filename="natice_alarm.cpp" line="82"/>
+        <location filename="natice_alarm.cpp" line="86"/>
         <source>雨滴</source>
         <translation>drip</translation>
     </message>
     <message>
-        <location filename="natice_alarm.cpp" line="118"/>
+        <location filename="natice_alarm.cpp" line="122"/>
         <source>秒后自动关闭</source>
         <translatorcomment> Seconds to close</translatorcomment>
         <translation> Seconds to close</translation>
