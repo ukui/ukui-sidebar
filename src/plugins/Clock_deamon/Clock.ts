@@ -707,8 +707,8 @@
         <location filename="clock_plugin.h" line="48"/>
         <location filename="clock_plugin.h" line="51"/>
         <source>闹钟</source>
-        <translatorcomment>Alarm clock</translatorcomment>
-        <translation>Alarm clock</translation>
+        <translatorcomment>Clock</translatorcomment>
+        <translation type="unfinished">Clock</translation>
     </message>
 </context>
 <context>
