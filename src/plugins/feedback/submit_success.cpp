@@ -36,21 +36,21 @@ void submit_success::UI_init()
     this->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint); //设置窗口无边框
 
     //--------设置圆角
-//    QBitmap bmp(this->size());
+    QBitmap bmp(this->size());
 
-//    bmp.fill();
+    bmp.fill();
 
-//    QPainter p(&bmp);
+    QPainter p(&bmp);
 
-//    p.setPen(Qt::NoPen);
+    p.setPen(Qt::NoPen);
 
-//    p.setBrush(Qt::black);
+    p.setBrush(Qt::black);
 
-//    p.setRenderHint(QPainter::Antialiasing);
+    p.setRenderHint(QPainter::Antialiasing);
 
-//    p.drawRoundedRect(bmp.rect(),6,6);
+    p.drawRoundedRect(bmp.rect(),6,6);
 
-//    setMask(bmp);
+    setMask(bmp);
     //----- ------------------------
 
     label = new QLabel(this);
@@ -120,7 +120,7 @@ void submit_success::paintEvent(QPaintEvent *e)
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);
     QPainterPath rectPath;
-    rectPath.addRoundedRect(this->rect().adjusted(6, 6, -6, -6), 6, 6);
+    rectPath.addRoundedRect(this->rect().adjusted(10, 10, -10, -10), 5, 5);
     // 画一个黑底
     QPixmap pixmap(this->rect().size());
     pixmap.fill(Qt::transparent);
