@@ -1865,6 +1865,7 @@ void Clock::set_up_page()
         connect(setup_page->ui->pushButton, SIGNAL(clicked()), this, SLOT(alarm_clcok_Self_starting()) );
         connect(setup_page->ui->pushButton_2, SIGNAL(clicked()), this, SLOT(Mute_starting()) );
         connect(setup_page->ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(set_volume_Value(int)));
+        grand = new QWidget(setup_page->ui->widget);
         }
         setup_page->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
         setup_page->setFixedSize(380,450);
@@ -1888,10 +1889,11 @@ void Clock::set_up_page()
         setup_page->ui->horizontalSlider->setValue(model_setup->index(0, 6).data().toInt());
 
         if(model_setup->index(0, 1).data().toInt()){
-            grand = new QWidget(setup_page->ui->widget);
             grand->resize(197,24);
             grand->move(128,406);
             grand->setStyleSheet("QWidget{background-color: rgba(14, 19, 22, 0);}");
+            grand->show();
+        }else{
             grand->show();
         }
         setup_page->show();
@@ -1937,7 +1939,6 @@ void Clock::Mute_starting()
         grand->setStyleSheet("QWidget{background-color: rgba(14, 19, 22, 0);}");
         grand->show();
     }
-
     model_setup->submitAll();
 }
 
