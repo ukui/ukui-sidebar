@@ -1860,7 +1860,6 @@ void Clock::set_up_page()
 {
         QPointF position1 = QCursor::pos();
         if(!setup_page){
-            qDebug()<<"11111111111132313";
         setup_page = new setuppage(position1.x(), position1.y(),  this);
         connect(setup_page->ui->pushButton, SIGNAL(clicked()), this, SLOT(alarm_clcok_Self_starting()) );
         connect(setup_page->ui->pushButton_2, SIGNAL(clicked()), this, SLOT(Mute_starting()) );
@@ -1894,7 +1893,7 @@ void Clock::set_up_page()
             grand->setStyleSheet("QWidget{background-color: rgba(14, 19, 22, 0);}");
             grand->show();
         }else{
-            grand->show();
+            grand->hide();
         }
         setup_page->show();
 }
@@ -1919,12 +1918,9 @@ void Clock::Mute_starting()
     if(model_setup->index(0, 1).data().toInt()){
         setup_page->ui->pushButton_2->setStyleSheet("border-image: url(:/alarm_off.png);");
         model_setup->setData(model_setup->index(0, 1), 0);
-        if(grand){
-            grand->close();
-            grand = nullptr;
-            model_setup->setData(model_setup->index(0, 6),model_setup->index(0, 18).data().toInt());//滑动条记忆回复
-            setup_page->ui->horizontalSlider->setValue(model_setup->index(0, 6).data().toInt());
-        }
+        grand->hide();
+        model_setup->setData(model_setup->index(0, 6),model_setup->index(0, 18).data().toInt());//滑动条记忆回复
+        setup_page->ui->horizontalSlider->setValue(model_setup->index(0, 6).data().toInt());
     }else {
         setup_page->ui->pushButton_2->setStyleSheet("border-image: url(:/alarm_on.png);");
         model_setup->setData(model_setup->index(0, 1), 1);
@@ -1933,8 +1929,6 @@ void Clock::Mute_starting()
         model_setup->setData(model_setup->index(0, 6),0 );
         setup_page->ui->horizontalSlider->setValue(0);
 
-        grand = new QWidget(setup_page->ui->widget);
-        grand->resize(197,24);
         grand->move(128,406);
         grand->setStyleSheet("QWidget{background-color: rgba(14, 19, 22, 0);}");
         grand->show();
