@@ -297,6 +297,7 @@ void feedback::UI_init()
     verticalWidget = new QWidget();
     verticalWidget->setObjectName(QString::fromUtf8("verticalWidget"));
     verticalWidget->setWindowFlags(Qt::FramelessWindowHint| Qt::WindowStaysOnTopHint);
+    verticalWidget->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
     verticalWidget->hide();
     verticalWidget->setAttribute(Qt::WA_TranslucentBackground);//设置窗口透明
 
