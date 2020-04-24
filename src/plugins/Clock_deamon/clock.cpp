@@ -57,8 +57,8 @@
 #include <QBitmap>
 #include <QProcess>
 #include<QScreen>
-#include "natice_alarm.h"
-#include "ui_natice_alarm.h"
+#include "notice_alarm.h"
+#include "ui_notice_alarm.h"
 
 
 const double PI=3.141592;
@@ -668,6 +668,8 @@ void Clock::timerUpdate()
                 music_time = 60;
             }
             notice_dialog_show(music_time, i );
+            if(model->index(i, 5).data().toString().compare(tr("不重复"))==0)
+                off_Alarm(i);
         }
     }
     update();
@@ -1141,6 +1143,22 @@ void Clock::On_Off_Alarm()
     }
     updateAlarmClock();
 }
+void Clock::off_Alarm(int i)
+{
+    w1[i]->alarm_on_off0->setStyleSheet("border-image: url(:/alarm_off.png);background-color: rgb();");
+    qDebug() << "on";
+
+    model->setData(model->index(i, 3), int(1));
+    model->submitAll();
+
+    int rowNum = model->rowCount();
+    for(int i=0; i<rowNum; i++)
+    {
+        delete aItem[i];
+        delete w1[i];
+    }
+    updateAlarmClock();
+}
 
 //------------------------------------------------------倒计时--------------------------------------------------------------------
 //倒计时音乐选择
@@ -1579,10 +1597,11 @@ void Clock::repeat_listClickslot()
         ui->pushButton_6->setText(tr("不重复"));
         repeat_str_model = tr("不重复");
         for (int i=0; i<7; i++) {
-            repeat_day[i] = 0;
+            repeat_day[i] = 1;
             qDebug() << repeat_day[i];
             dialog_repeat->widget[i+2]->alarmLabel1->setIcon(repeat_off_Pixmap);
         }
+
         dialog_repeat->close();
         return;
         break;
@@ -1724,7 +1743,6 @@ void Clock::select_Music()
         }
 
         dialog_music->show();
-
 
 }
 //闹钟初始化单击选择音乐

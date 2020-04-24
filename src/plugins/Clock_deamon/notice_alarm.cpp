@@ -1,4 +1,4 @@
-#include "natice_alarm.h"
+#include "notice_alarm.h"
 #include "ui_natice_alarm.h"
 #include <QPalette>
 #include <QSqlTableModel>

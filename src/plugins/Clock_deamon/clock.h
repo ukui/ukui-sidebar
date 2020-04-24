@@ -213,6 +213,8 @@ private slots:
 
     void countdown_notice_dialog_show();                                                 //倒计时通知弹窗
 
+    void off_Alarm(int );                                                                //不重复时单独关闭闹钟
+
 
     QString change_NUM_to_str(int alarmHour);
 
