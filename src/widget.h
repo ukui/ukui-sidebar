@@ -31,7 +31,6 @@
 #include <QStyleOption>
 #include "clipboardpluginiface.h"
 #include "sidebarSmallPluginInterface.h"
-#include "realtimepropertyanimation.h"
 #include "mostgrandwidget.h"
 
 #define  TRAY_ICON           ":/data/images/kylin-tool-box.svg"
@@ -91,7 +90,6 @@ public:
 
 
 protected:
-    void mousePressEvent(QMouseEvent *event);                                   //鼠标点击事件
     bool eventFilter(QObject *obj, QEvent *event);                              //设置过滤事件
 
 private:
@@ -129,15 +127,11 @@ private:
     QMenu*                      trayIconMenu;
     QAction*                    Open;
     QAction*                    OpenSetUp;
-    QTimer*                     m_pTimer;                                       //新通知闪烁定时器
     QTimer*                     m_pUpdateSmallPluginsWidget;
-    bool                        m_bFwinkleFlag;                                 //新通知闪烁标志
 
 private slots :
     void onResolutionChanged(int);                                              //当改变屏幕分辨率时重新获取屏幕分辨率
     void onNewNotification();                                                   //当没展开时，来了新通知才提示
-    void twinkle();                                                             //新消息闪烁设置
-    void showAnimationFinish();                                                 //展开动画完成
     void hideAnimationFinish();                                                 //隐藏动画完成
     void showAnimationAction(const QVariant &value);                            //展开动画开始
     void primaryScreenChangedSLot();                                            //主屏发生变化

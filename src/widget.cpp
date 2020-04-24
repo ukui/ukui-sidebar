@@ -20,7 +20,6 @@
 #include "widget.h"
 #include "notification_interface.h"
 #include "pluginmanage.h"
-#include "realtimepropertyanimation.h"
 #include "sidebarpluginswidgets.h"
 #include <stdio.h>
 #include <QtDBus>
@@ -39,7 +38,6 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     }
     m_bShowFlag = false;
     m_bClipboardFlag = true;
-    m_bFwinkleFlag = true;
 
     /* 链接任务栏Dbus接口，获取任务栏高度和位置 */
     m_pServiceInterface = new QDBusInterface(PANEL_DBUS_SERVICE, PANEL_DBUS_PATH, PANEL_DBUS_INTERFACE, QDBusConnection::sessionBus());
@@ -101,7 +99,6 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     m_pAnimationHideSidebarWidget = new QPropertyAnimation(this, "geometry");
 
     connect(m_pAnimationHideSidebarWidget, &QPropertyAnimation::finished, this, &Widget::hideAnimationFinish);
-    connect(m_pAnimationShowSidebarWidget, &QPropertyAnimation::finished, this, &Widget::showAnimationFinish);
     connect(m_pAnimationShowSidebarWidget, &QPropertyAnimation::valueChanged, this, &Widget::showAnimationAction);
 
     /* 将托盘栏图标和widget联系起来 */
@@ -111,8 +108,6 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
     qInfo() << "---------------------------主界面加载完毕---------------------------";
 
-    m_pTimer = new QTimer();
-    connect(m_pTimer, SIGNAL(timeout()), this, SLOT(twinkle()));
     m_pUpdateSmallPluginsWidget = new QTimer();
     connect(m_pUpdateSmallPluginsWidget, &QTimer::timeout, this, &Widget::updateSmallPluginsClipboardWidget);
 }
@@ -283,16 +278,6 @@ int Widget::getPanelSite()
     return panelPosition;
 }
 
-void Widget::mousePressEvent(QMouseEvent *event)
-{
-    Q_UNUSED(event);
-//    if (event->buttons() == Qt::LeftButton)
-//    {
-//        mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
-//        hideAnimation();
-//    }
-}
-
 //获取屏幕的可用区域高度和宽度
 void Widget::GetsAvailableAreaScreen()
 {
@@ -413,10 +398,6 @@ void Widget::showAnimation()
     m_pAnimationShowSidebarWidget->setStartValue(QRect(AnimaStartSideBarSite[0], AnimaStartSideBarSite[1], AnimaStartSideBarSite[2], AnimaStartSideBarSite[3]));
     m_pAnimationShowSidebarWidget->setEndValue(QRect(AnimaStopSidebarSite[0], AnimaStopSidebarSite[1], AnimaStopSidebarSite[2], AnimaStopSidebarSite[3]));
     m_pAnimationShowSidebarWidget->start();
-}
-
-void Widget::showAnimationFinish()
-{
 }
 
 void Widget::showAnimationAction(const QVariant &value)
@@ -571,7 +552,6 @@ void Widget::OpenSidebarSlots()
     mostGrandWidget::getInstancemostGrandWidget()->show();
     showAnimation();
     m_bShowFlag = true;
-//  m_pTimer->stop();                               //当侧边栏展开时，停止闪烁定时器，并且设置有图标的托盘图标
     setIcon(QIcon::fromTheme("kylin-tool-box", QIcon(TRAY_ICON)));
 }
 
@@ -666,27 +646,10 @@ void Widget::onNewNotification()
 {
     if(false == m_bShowFlag)
     {
-        m_bFwinkleFlag = true;
-        m_pTimer->start(500);
+        setIcon(QIcon::fromTheme("kylin-tool-box-null", QIcon(TRAY_NULL_ICON)));
     }
     return;
 }
-
-void Widget::twinkle()
-{
-    if(true == m_bFwinkleFlag)
-    {
-        m_bFwinkleFlag = false;
-        setIcon(QIcon::fromTheme("kylin-tool-box-null", QIcon(TRAY_NULL_ICON)));
-        m_pTimer->stop();
-    }
-    else
-    {
-        m_bFwinkleFlag = true;
-        setIcon(QIcon::fromTheme("kylin-tool-box", QIcon(TRAY_ICON)));
-    }
-}
-
 
 /* 切换主题时，定时器槽函数 */
 void Widget::updateSmallPluginsClipboardWidget()
