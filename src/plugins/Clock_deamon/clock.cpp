@@ -693,7 +693,8 @@ void Clock::notice_dialog_show(int close_time, int alarm_num)
       }else{
           dialog1->move(screen_width-450,screen_height-300);
       }
-
+      Qt::WindowFlags m_flags = windowFlags();
+      dialog1->setWindowFlags(m_flags | Qt::WindowStaysOnTopHint);
       dialog1->show();
 }
 
@@ -1271,6 +1272,8 @@ void Clock::countdown_notice_dialog_show()
     }else{
         dialog1->move(screen_width-450,screen_height-300);
     }
+    Qt::WindowFlags m_flags = windowFlags();
+    dialog1->setWindowFlags(m_flags | Qt::WindowStaysOnTopHint);
     dialog1->show();
 }
 
