@@ -476,11 +476,6 @@ void SingleMsg::mousePressEvent(QMouseEvent *event)
     return;
 }
 
-void SingleMsg::resizeEvent(QResizeEvent *event)
-{
-    Q_UNUSED(event);
-}
-
 void SingleMsg::mainMsgSetFold()
 {
     //当消息为主窗口时,由主消息设置折叠
@@ -505,7 +500,6 @@ void SingleMsg::startAnimationUnfold()
 {
     int width = this->width();
     int height = this->height();
-    qDebug()<<"SingleMsg::startAnimationUnfold"<<this <<width <<height;
 
     m_pAppVLaout->removeWidget(m_pSingleWidget);
     m_pAnimationBaseMapWidget->setFixedSize(width, 0);
@@ -538,7 +532,6 @@ void SingleMsg::startAnimationFold()
 {
     int width = this->width();
     int height = this->height();
-    qDebug()<<"SingleMsg::startAnimationFold"<<this <<width <<height;
 
     m_pAnimationBaseMapWidget->setFixedSize(380, (height - 6));
     m_pAnimationBaseMapWidget->setVisible(true);

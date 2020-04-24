@@ -192,21 +192,20 @@ QList<char*> MonitorThread::listExistsPath()
     int len;
 
     DConfClient * client = dconf_client_new();
-    childs = dconf_client_list (client, NOTICE_ORIGIN_PATH, &len);
-    g_object_unref (client);
+    childs = dconf_client_list(client, NOTICE_ORIGIN_PATH, &len);
+    g_object_unref(client);
 
     QList<char*> vals;
 
     for (int i = 0; childs[i] != NULL; i++)
     {
-        if (dconf_is_rel_dir (childs[i], NULL))
+        if (dconf_is_rel_dir(childs[i], NULL))
         {
-            char* val = g_strdup (childs[i]);
-
+            char* val = g_strdup(childs[i]);
             vals.append(val);
         }
     }
-    g_strfreev (childs);
+    g_strfreev(childs);
     return vals;
 }
 

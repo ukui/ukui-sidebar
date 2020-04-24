@@ -305,8 +305,6 @@ uint NotificationPlugin::onAddSingleNotify(QString strAppName, QString strIconPa
         }
     }
 
-
-
     return 1;
 }
 
