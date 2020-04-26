@@ -129,8 +129,8 @@
         <location filename="clock.cpp" line="89"/>
         <location filename="clock.cpp" line="815"/>
         <source>闹钟</source>
-        <translatorcomment>Alarm clock</translatorcomment>
-        <translation>Alarm clock</translation>
+        <translatorcomment>Alarm</translatorcomment>
+        <translation type="unfinished">Alarm</translation>
     </message>
     <message>
         <location filename="clock.ui" line="763"/>
@@ -707,8 +707,8 @@
         <location filename="clock_plugin.h" line="48"/>
         <location filename="clock_plugin.h" line="51"/>
         <source>闹钟</source>
-        <translatorcomment>Alarm clock</translatorcomment>
-        <translation>Alarm clock</translation>
+        <translatorcomment>Clock</translatorcomment>
+        <translation type="unfinished">Clock</translation>
     </message>
 </context>
 <context>

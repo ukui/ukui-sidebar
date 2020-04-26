@@ -57,8 +57,8 @@
 #include <QBitmap>
 #include <QProcess>
 #include<QScreen>
-#include "natice_alarm.h"
-#include "ui_natice_alarm.h"
+#include "notice_alarm.h"
+#include "ui_notice_alarm.h"
 
 
 const double PI=3.141592;
@@ -668,6 +668,8 @@ void Clock::timerUpdate()
                 music_time = 60;
             }
             notice_dialog_show(music_time, i );
+            if(model->index(i, 5).data().toString().compare(tr("不重复"))==0)
+                off_Alarm(i);
         }
     }
     update();
@@ -691,7 +693,8 @@ void Clock::notice_dialog_show(int close_time, int alarm_num)
       }else{
           dialog1->move(screen_width-450,screen_height-300);
       }
-
+      Qt::WindowFlags m_flags = windowFlags();
+      dialog1->setWindowFlags(m_flags | Qt::WindowStaysOnTopHint);
       dialog1->show();
 }
 
@@ -1141,6 +1144,22 @@ void Clock::On_Off_Alarm()
     }
     updateAlarmClock();
 }
+void Clock::off_Alarm(int i)
+{
+    w1[i]->alarm_on_off0->setStyleSheet("border-image: url(:/alarm_off.png);background-color: rgb();");
+    qDebug() << "on";
+
+    model->setData(model->index(i, 3), int(1));
+    model->submitAll();
+
+    int rowNum = model->rowCount();
+    for(int i=0; i<rowNum; i++)
+    {
+        delete aItem[i];
+        delete w1[i];
+    }
+    updateAlarmClock();
+}
 
 //------------------------------------------------------倒计时--------------------------------------------------------------------
 //倒计时音乐选择
@@ -1253,6 +1272,8 @@ void Clock::countdown_notice_dialog_show()
     }else{
         dialog1->move(screen_width-450,screen_height-300);
     }
+    Qt::WindowFlags m_flags = windowFlags();
+    dialog1->setWindowFlags(m_flags | Qt::WindowStaysOnTopHint);
     dialog1->show();
 }
 
@@ -1579,10 +1600,11 @@ void Clock::repeat_listClickslot()
         ui->pushButton_6->setText(tr("不重复"));
         repeat_str_model = tr("不重复");
         for (int i=0; i<7; i++) {
-            repeat_day[i] = 0;
+            repeat_day[i] = 1;
             qDebug() << repeat_day[i];
             dialog_repeat->widget[i+2]->alarmLabel1->setIcon(repeat_off_Pixmap);
         }
+
         dialog_repeat->close();
         return;
         break;
@@ -1725,7 +1747,6 @@ void Clock::select_Music()
 
         dialog_music->show();
 
-
 }
 //闹钟初始化单击选择音乐
 void Clock::music_listClickslot()
@@ -1860,11 +1881,11 @@ void Clock::set_up_page()
 {
         QPointF position1 = QCursor::pos();
         if(!setup_page){
-            qDebug()<<"11111111111132313";
         setup_page = new setuppage(position1.x(), position1.y(),  this);
         connect(setup_page->ui->pushButton, SIGNAL(clicked()), this, SLOT(alarm_clcok_Self_starting()) );
         connect(setup_page->ui->pushButton_2, SIGNAL(clicked()), this, SLOT(Mute_starting()) );
         connect(setup_page->ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(set_volume_Value(int)));
+        grand = new QWidget(setup_page->ui->widget);
         }
         setup_page->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
         setup_page->setFixedSize(380,450);
@@ -1888,11 +1909,12 @@ void Clock::set_up_page()
         setup_page->ui->horizontalSlider->setValue(model_setup->index(0, 6).data().toInt());
 
         if(model_setup->index(0, 1).data().toInt()){
-            grand = new QWidget(setup_page->ui->widget);
             grand->resize(197,24);
             grand->move(128,406);
             grand->setStyleSheet("QWidget{background-color: rgba(14, 19, 22, 0);}");
             grand->show();
+        }else{
+            grand->hide();
         }
         setup_page->show();
 }
@@ -1917,12 +1939,9 @@ void Clock::Mute_starting()
     if(model_setup->index(0, 1).data().toInt()){
         setup_page->ui->pushButton_2->setStyleSheet("border-image: url(:/alarm_off.png);");
         model_setup->setData(model_setup->index(0, 1), 0);
-        if(grand){
-            grand->close();
-            grand = nullptr;
-            model_setup->setData(model_setup->index(0, 6),model_setup->index(0, 18).data().toInt());//滑动条记忆回复
-            setup_page->ui->horizontalSlider->setValue(model_setup->index(0, 6).data().toInt());
-        }
+        grand->hide();
+        model_setup->setData(model_setup->index(0, 6),model_setup->index(0, 18).data().toInt());//滑动条记忆回复
+        setup_page->ui->horizontalSlider->setValue(model_setup->index(0, 6).data().toInt());
     }else {
         setup_page->ui->pushButton_2->setStyleSheet("border-image: url(:/alarm_on.png);");
         model_setup->setData(model_setup->index(0, 1), 1);
@@ -1931,13 +1950,10 @@ void Clock::Mute_starting()
         model_setup->setData(model_setup->index(0, 6),0 );
         setup_page->ui->horizontalSlider->setValue(0);
 
-        grand = new QWidget(setup_page->ui->widget);
-        grand->resize(197,24);
         grand->move(128,406);
         grand->setStyleSheet("QWidget{background-color: rgba(14, 19, 22, 0);}");
         grand->show();
     }
-
     model_setup->submitAll();
 }
 
