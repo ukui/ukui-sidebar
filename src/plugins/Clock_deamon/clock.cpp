@@ -211,6 +211,13 @@ void Clock::stopwatch_init()
     stopwatch_minute = 0;
     stopwatch_second = 0;
     stopwatch_isStarted = 0;
+
+    ui->label_4->move(122,136);
+    ui->label_5->move(177,210);
+    ui->listWidget_2->move(39,230);
+    ui->pushButton_Start->raise();
+    ui->pushButton_ring->raise();
+    ui->pushButton_timeselect->raise();
 }
 
 void Clock::clock_init()
@@ -228,6 +235,7 @@ void Clock::clock_init()
     ui->label_7->setAlignment(Qt::AlignHCenter);
     ui->label_12->setAlignment(Qt::AlignHCenter);
     ui->label_4->setAlignment(Qt::AlignHCenter);
+    ui->label_5->setAlignment(Qt::AlignHCenter);
     ui->label->setAlignment(Qt::AlignHCenter);
     ui->label_2->setAlignment(Qt::AlignHCenter);
     ui->label_3->setAlignment(Qt::AlignHCenter);
@@ -323,6 +331,7 @@ void Clock::stopwatch_jg()
         stopwatch_minute++; stopwatch_second=0;}
     if(stopwatch_minute==60){
         stopwatch_hour++; stopwatch_minute=0;}
+
 }
 
 //秒表执行
@@ -384,6 +393,11 @@ void Clock::on_pushButton_Start_clicked()
         }
         timer->start();
         isStarted=1;
+        if(!stopwatch_Animation)
+        {
+            stopwatch_start_Animation();
+            stopwatch_Animation = 1;
+        }
     } else {
         timer->stop();
         if(stopwatch_isStarted == 1)//查询间隔计时器是否启动
@@ -409,6 +423,49 @@ void Clock::on_pushButton_Start_clicked()
                                            QPushButton:hover{background:rgba(143, 97, 47, 0.1)}");
     }
     return;
+}
+
+//倒计时标签动画移动
+void Clock::stopwatch_start_Animation()
+{
+    animation1 = new QPropertyAnimation(ui->label_4, "geometry");
+    animation1->setDuration(1000);
+    animation1->setKeyValueAt(0, QRect(122, 136, 210, 61));
+    animation1->setEndValue(QRect(122, 36, 210, 61));
+    animation1->start();
+
+    animation2 = new QPropertyAnimation(ui->label_5, "geometry");
+    animation2->setDuration(1000);
+    animation2->setKeyValueAt(0, QRect(177, 210, 100, 20));
+    animation2->setEndValue(QRect(177, 110, 100, 20));
+    animation2->start();
+
+    animation3 = new QPropertyAnimation(ui->listWidget_2, "geometry");
+    animation3->setDuration(1000);
+    animation3->setKeyValueAt(0, QRect(39 ,230, 376, 251));
+    animation3->setEndValue(QRect(39, 130, 376, 251));
+    animation3->start();
+}
+
+void Clock::stopwatch_stop_Animation()
+{
+    animation1 = new QPropertyAnimation(ui->label_4, "geometry");
+    animation1->setDuration(1000);
+    animation1->setKeyValueAt(0, QRect(122, 36, 210, 61));
+    animation1->setEndValue(QRect(122, 136, 210, 61));
+    animation1->start();
+
+    animation2 = new QPropertyAnimation(ui->label_5, "geometry");
+    animation2->setDuration(1000);
+    animation2->setKeyValueAt(0, QRect(177, 110, 100, 20));
+    animation2->setEndValue(QRect(177, 210, 100, 20));
+    animation2->start();
+
+    animation3 = new QPropertyAnimation(ui->listWidget_2, "geometry");
+    animation3->setDuration(1000);
+    animation3->setKeyValueAt(0, QRect(39 ,130, 376, 251));
+    animation3->setEndValue(QRect(39, 230, 376, 251));
+    animation3->start();
 }
 
 //计次
@@ -486,6 +543,11 @@ void Clock::on_pushButton_timeselect_clicked()
             delete stopwatch_aItem[i];
         }
         stopwatch_item_flag = 0;
+        if(stopwatch_Animation)
+        {
+            stopwatch_stop_Animation();
+            stopwatch_Animation = 0;
+        }
     }
 }
 
@@ -1279,7 +1341,17 @@ void Clock::countdown_notice_dialog_show()
 
 //倒计时开始-结束
 void Clock::startbtn_countdown(){
-    if (!countdown_isStarted){
+
+//    animation1 = new QPropertyAnimation(ui->label_4, "geometry");
+//    animation1->setDuration(10000);
+//    animation1->setKeyValueAt(0, QRect(122, 136, 210, 61));
+//    animation1->setEndValue(QRect(122, 36, 210, 61));
+//    animation1->start();
+
+
+    if (!countdown_isStarted)
+    {
+
         if(timer_ring99->m_currentValue==0 && timer_ring60->m_currentValue==0 && timer_ring60_2->m_currentValue==0){
             return;
         }
@@ -1746,8 +1818,8 @@ void Clock::select_Music()
         }
 
         dialog_music->show();
-
 }
+
 //闹钟初始化单击选择音乐
 void Clock::music_listClickslot()
 {

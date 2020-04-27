@@ -42,7 +42,7 @@
 #include <QPointF>
 #include <QLineEdit>
 #include "setuppage.h"
-
+#include <QPropertyAnimation>
 
 
 class QSpinBox;
@@ -152,6 +152,10 @@ private slots:
     void listClickslot();                                                                //单击闹钟显示铃声剩余时间
 
     void on_pushButton_9_clicked();                                                      //闹钟重编辑保存回调
+
+    void stopwatch_start_Animation();                                                    //倒计时开始动画移动
+
+    void stopwatch_stop_Animation();                                                     //倒计时开始动画移动
 
     void stat_countdown();                                                               //倒计时执行
 
@@ -291,6 +295,7 @@ private:
     int alarm_repeat_flag = 0;
     int repeat_day[9];   //重复日选择保存中介
     int repeat_new_or_edit_flag;  //重复日判断 是新建,还是重编辑,两者获取数据库号不同;
+    int stopwatch_Animation = 0;
 
 
     QTimer *timer_Surplus;
@@ -314,6 +319,9 @@ private:
     QString time_music_str_model;
     QString clock_name;
     QLineEdit *lineEdit= nullptr ;
+    QPropertyAnimation *animation1;
+    QPropertyAnimation *animation2;
+    QPropertyAnimation *animation3;
 
 };
 
