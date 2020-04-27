@@ -223,15 +223,25 @@ void VerticalScroll_99::paintNum(QPainter &painter, int num, int deviation)
     font.setPixelSize(size);
     painter.setFont(font);
     painter.setPen(QColor(255,255,255,transparency));
-    //painter.setFontFeatureSettings();
     if ( y >= 0 && y + height < Height)
     {
-        //painter.drawRect(0, y, Width, height);
         painter.drawText(QRectF(0, y, Width, height),
                          Qt::AlignCenter,
-                         //QString::number(num, 'd', 1));
-                         QString::number(num));
+                         change_NUM_to_str(num));
     }
+}
+
+//单位变双位
+QString VerticalScroll_99::change_NUM_to_str(int alarmHour)
+{
+    QString str;
+    if(alarmHour < 10){
+        QString hours_str = QString::number(alarmHour);
+        str = "0"+hours_str;
+    }else {
+        str = QString::number(alarmHour);
+    }
+    return str;
 }
 
 /*

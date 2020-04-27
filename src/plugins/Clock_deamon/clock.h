@@ -88,6 +88,8 @@ public:
         }
         QWidget::paintEvent(event);
     }
+    Ui::Clock *ui;
+    QSqlTableModel *model_setup;
 
 protected:
     void paintEvent1(QPaintEvent *);
@@ -224,7 +226,6 @@ private slots:
 
 private:
     QPoint m_startPoint;
-    Ui::Clock *ui;
     QTimer *timer = nullptr;
     QTimer *countdown_timer = nullptr;
     QTimer *timer_2 = nullptr;
@@ -273,7 +274,6 @@ private:
     QMediaPlayer *player_alarm;
     QMediaPlaylist *mediaList; //播放列表
     QSqlTableModel *model;  //数据库
-    QSqlTableModel *model_setup;
     QSqlTableModel *model_Stopwatch;
     QString musicPath;
 

@@ -19,7 +19,10 @@
 #include <QMouseEvent>
 #include <QDebug>
 #include <QApplication>
-VerticalScroll_24::VerticalScroll_24(QWidget *parent) :
+#include "clock.h"
+#include "ui_clock.h"
+#include <QProcess>
+VerticalScroll_24::VerticalScroll_24(QWidget *parent, Clock *clock) :
     QWidget(parent),
     m_minRange(0),      //最小值默认为0
     m_maxRange(23),    //最大值默认24
@@ -31,7 +34,7 @@ VerticalScroll_24::VerticalScroll_24(QWidget *parent) :
     devide(4)           //默认分成4格
 {
     setupUi(this);
-
+    m_Pclock = clock;
     homingAni = new QPropertyAnimation(this, "deviation");
     homingAni->setDuration(300);
     homingAni->setEasingCurve(QEasingCurve::OutQuad);
@@ -142,6 +145,12 @@ void VerticalScroll_24::wheelEvent(QWheelEvent *event)
 
 void VerticalScroll_24::paintEvent(QPaintEvent *)
 {
+    QProcess process;
+    process.start("gsettings get org.ukui.control-center.panel.plugins hoursystem");
+    process.waitForFinished();
+    QByteArray output = process.readAllStandardOutput();
+    QString str_output = output;
+
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
     int Height = height() - 1;
@@ -160,38 +169,20 @@ void VerticalScroll_24::paintEvent(QPaintEvent *)
         m_currentValue += interval;
     }
 
-    //middle number
-    paintNum(painter, m_currentValue, m_deviation);
-
-    //两侧数字1
-    if (m_currentValue != m_minRange)
+    if( m_Pclock->model_setup->index(0, 2).data().toInt() == 1 )
     {
-        paintNum(painter, m_currentValue - interval, m_deviation - Height / devide);
-    }else {
-        paintNum(painter, m_maxRange, m_deviation - Height / devide);
-}
-
-    if (m_currentValue != m_maxRange)
-    {
-        paintNum(painter, m_currentValue + interval, m_deviation + Height / devide);
-    }else {
-        paintNum(painter, m_minRange, m_deviation + Height / devide);
-}
-
-    for (int i=2; i <= devide/2; ++i)
-    {
-        if (m_currentValue - interval * i >= m_minRange)
-        {
-            paintNum(painter, m_currentValue - interval * i, m_deviation - Height / devide * i);
-        }
-
-        if (m_currentValue + interval * i <= m_maxRange)
-        {
-            paintNum(painter, m_currentValue + interval * i, m_deviation + Height / devide * i);
+        paintNum_24( painter, Height);
+    }else if( m_Pclock->model_setup->index(0, 2).data().toInt() == 2 ){
+        paintNum_12( painter, Height);
+    }else{
+        if(str_output.compare("'24'\n") == 0){
+            paintNum_24( painter, Height);
+        }else{
+            paintNum_12( painter, Height);
         }
     }
-
 }
+
 /*
  * 根据偏移量描绘数字
  * int num 需要显示的数字
@@ -210,16 +201,97 @@ void VerticalScroll_24::paintNum(QPainter &painter, int num, int deviation)
     font.setPixelSize(size);
     painter.setFont(font);
     painter.setPen(QColor(255,255,255,transparency));
-    //painter.setFontFeatureSettings();
     if ( y >= 0 && y + height < Height)
     {
-        //painter.drawRect(0, y, Width, height);
         painter.drawText(QRectF(0, y, Width, height),
                          Qt::AlignCenter,
-                         //QString::number(num, 'd', 1));
-                         QString::number(num));
+                         change_NUM_to_str(num));
     }
 }
+
+//单位变双位
+QString VerticalScroll_24::change_NUM_to_str(int alarmHour)
+{
+    QString str;
+    if(alarmHour < 10){
+        QString hours_str = QString::number(alarmHour);
+        str = "0"+hours_str;
+    }else {
+        str = QString::number(alarmHour);
+    }
+    return str;
+}
+
+void VerticalScroll_24::paintNum_24(QPainter &painter, int Height)
+{
+    //middle number
+    paintNum(painter, m_currentValue, m_deviation);
+
+    //两侧数字1
+    if (m_currentValue != m_minRange)
+    {
+        paintNum(painter, m_currentValue - interval, m_deviation - Height / devide);
+    }else {
+        paintNum(painter, m_maxRange, m_deviation - Height / devide);
+    }
+
+    if (m_currentValue != m_maxRange)
+    {
+        paintNum(painter, m_currentValue + interval, m_deviation + Height / devide);
+    }else {
+        paintNum(painter, m_minRange, m_deviation + Height / devide);
+    }
+    m_Pclock->ui->label_17->hide();
+}
+
+void VerticalScroll_24::paintNum_12(QPainter &painter, int Height)
+{
+    int system_12_Value = m_currentValue;
+    if(m_currentValue > 12){
+        system_12_Value = m_currentValue - 12;
+        paintNum(painter, system_12_Value, m_deviation);
+    }else
+    {
+        if(m_currentValue == 0){
+            system_12_Value = 12;
+            paintNum(painter, system_12_Value, m_deviation);
+        }else{
+            system_12_Value = m_currentValue;
+            paintNum(painter, system_12_Value, m_deviation);
+        }
+    }
+
+    if (system_12_Value != m_minRange)
+    {
+        if(system_12_Value == 1){
+            paintNum(painter, 12, m_deviation - Height / devide);
+        }else{
+            paintNum(painter, system_12_Value - interval, m_deviation - Height / devide);
+        }
+    }
+    else{
+        paintNum(painter, m_maxRange, m_deviation - Height / devide);
+    }
+
+
+    if (system_12_Value != m_maxRange)
+    {
+        if(system_12_Value == 12){
+            paintNum(painter, 1, m_deviation + Height / devide);
+        }else{
+            paintNum(painter, system_12_Value + interval, m_deviation + Height / devide);
+        }
+    }else {
+        paintNum(painter, m_minRange, m_deviation + Height / devide);
+    }
+    m_Pclock->ui->label_17->show();
+    if(m_currentValue>12){
+        m_Pclock->ui->label_17->setText(tr("下午"));
+    }else{
+        m_Pclock->ui->label_17->setText(tr("上午"));
+    }
+}
+
 
 /*
  * 使选中的数字回到屏幕中间
