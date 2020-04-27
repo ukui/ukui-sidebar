@@ -507,7 +507,7 @@ void feedback::resend_info_when_sendfail()
 void feedback::on_pushButton_clicked()
 {
     pushButton->setStyleSheet("font: 14px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(68, 68, 68)");
-    filename=QFileDialog::getOpenFileName(this,tr("选择图片"),"/","Image file(*.gif *.jpg *.png)",0);
+    filename=QFileDialog::getOpenFileName(this,tr("选择附件"),"/","(*.gif *.jpg *.png *.pptx *.wps *.xlsx *.pdf *.txt)",0);
 
     if (filename.isEmpty())
         return;
