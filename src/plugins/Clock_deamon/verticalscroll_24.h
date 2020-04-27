@@ -27,6 +27,7 @@ namespace Ui {
 class VerticalScroll_24;
 
 }
+class Clock;
 class VerticalScroll_24 : public QWidget
 
 {
@@ -36,7 +37,7 @@ class VerticalScroll_24 : public QWidget
 
 public:
 
-    explicit VerticalScroll_24(QWidget *parent = 0);
+    explicit VerticalScroll_24(QWidget *parent = 0, Clock *clock = 0);
 
     ~VerticalScroll_24();
     //设置范围
@@ -44,6 +45,7 @@ public:
     //获取当前值
     int readValue();
     int m_currentValue;  //当前选中的值
+    Clock *m_Pclock;
 
 protected:
     void mousePressEvent(QMouseEvent *);
@@ -91,6 +93,9 @@ private:
     QPropertyAnimation *homingAni;
     const int interval;  //间隔大小
     const int devide;       //分隔数量
+    void paintNum_24(QPainter &painter, int Height);
+    void paintNum_12(QPainter &painter, int Height);
+    QString change_NUM_to_str(int alarmHour);
 };
 
 #endif // VERTICALSCROLL_24_H

@@ -641,6 +641,7 @@ void Clock::text_timerUpdate()
     if(model_setup->index(0, 2).data().toInt() == 1){
         ui->label_6->setText(time.toString("hh")+":"+time.toString("mm")+":"+time.toString("ss"));
         ui->label_15->setText("");
+        ui->label_17->setText("");
     }else if(model_setup->index(0, 2).data().toInt() == 2){
         if(timeH > 12){
             timeH = timeH - 12;
@@ -650,14 +651,17 @@ void Clock::text_timerUpdate()
                 ui->label_6->setText(QString::number(timeH)+":"+time.toString("mm")+":"+time.toString("ss"));
             }
             ui->label_15->setText(tr("下午"));
+            ui->label_17->setText(tr("下午"));
         }else{
             ui->label_6->setText(time.toString("hh")+":"+time.toString("mm")+":"+time.toString("ss"));
             ui->label_15->setText(tr("上午"));
+            ui->label_17->setText(tr("上午"));
         }
     }else{
         if(str_output.compare("'24'\n") == 0){
             ui->label_6->setText(time.toString("hh")+":"+time.toString("mm")+":"+time.toString("ss"));
             ui->label_15->setText("");
+            ui->label_17->setText("");
         }else{
             if(timeH > 12){
                 timeH = timeH - 12;
@@ -668,9 +672,11 @@ void Clock::text_timerUpdate()
                 }
                 ui->label_6->setText(QString::number(timeH)+":"+time.toString("mm")+":"+time.toString("ss"));
                 ui->label_15->setText(tr("下午"));
+                ui->label_17->setText(tr("下午"));
             }else{
                 ui->label_6->setText(QString::number(timeH)+":"+time.toString("mm")+":"+time.toString("ss"));
                 ui->label_15->setText(tr("上午"));
+                ui->label_17->setText(tr("上午"));
             }
         }
     }
@@ -1588,7 +1594,7 @@ void Clock::countdown_set_start_time()
 //闹钟初始化数字转盘
 void Clock::alarm_set_start_time()
 {
-    timer_alarm_start24 = new VerticalScroll_24(ui->set_page);
+    timer_alarm_start24 = new VerticalScroll_24(ui->set_page, this);
     QLabel * h_in_m = new QLabel (ui->set_page);
     timer_alarm_start60 = new VerticalScroll_60(ui->set_page);
 

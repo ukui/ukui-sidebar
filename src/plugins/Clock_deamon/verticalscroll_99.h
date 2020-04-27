@@ -99,6 +99,7 @@ private:
     QPropertyAnimation *homingAni;
     const int interval;  //间隔大小
     const int devide;       //分隔数量
+    QString change_NUM_to_str(int alarmHour);
 };
 
 #endif // VERTICALSCROLL_99_H
