@@ -15,13 +15,13 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include "tui_chu_biab_qian_dialog.h"
-#include "ui_tui_chu_biab_qian_dialog.h"
+#include "empty_notepad.h"
+#include "ui_empty_notepad.h"
 #include <QBitmap>
 #include <QDebug>
 #include <QPainter>
 
-tui_chu_biab_qian_Dialog::tui_chu_biab_qian_Dialog(QWidget *parent) :
+empty_notepad::empty_notepad(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::tui_chu_biab_qian_Dialog)
 {
@@ -59,12 +59,12 @@ tui_chu_biab_qian_Dialog::tui_chu_biab_qian_Dialog(QWidget *parent) :
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(on_pushButton_clicked()) );
 }
 
-tui_chu_biab_qian_Dialog::~tui_chu_biab_qian_Dialog()
+empty_notepad::~empty_notepad()
 {
     delete ui;
 }
 
-void tui_chu_biab_qian_Dialog::on_pushButton_clicked()
+void empty_notepad::on_pushButton_clicked()
 {
     qDebug()<<"111";
     this->close();

@@ -39,6 +39,7 @@ SOURCES += \
     color_mini.cpp \
     dbmanager.cpp \
     edit_page.cpp \
+    empty_notepad.cpp \
     form.cpp \
     mythrow.cpp \
     notebook_plugin.cpp \
@@ -46,13 +47,12 @@ SOURCES += \
     notemodel.cpp \
     noteview.cpp \
     notewidgetdelegate.cpp \
+    pop_up_exit.cpp \
     select_color_page.cpp \
     set_font_color_page.cpp \
     set_font_size_page.cpp \
     singleitemButton.cpp \
-    tanchuang.cpp \
     text_editing.cpp \
-    tui_chu_biab_qian_dialog.cpp \
     widget.cpp
 
 HEADERS += \
@@ -60,6 +60,7 @@ HEADERS += \
     color_mini.h \
     dbmanager.h \
     edit_page.h \
+    empty_notepad.h \
     form.h \
     mythrow.h \
     notebook_plugin.h \
@@ -67,26 +68,25 @@ HEADERS += \
     notemodel.h \
     noteview.h \
     notewidgetdelegate.h \
+    pop_up_exit.h \
     select_color_page.h \
     set_font_color_page.h \
     set_font_size_page.h \
     singleitemButton.h \
-    tanchuang.h \
     text_editing.h \
-    tui_chu_biab_qian_dialog.h \
     widget.h
 
 FORMS += \
     cai_tou.ui \
     color_mini.ui \
     edit_page.ui \
+    empty_notepad.ui \
     form.ui \
+    pop_up_exit.ui \
     select_color_page.ui \
     set_font_color_page.ui \
     set_font_size_page.ui \
-    tanchuang.ui \
     text_editing.ui \
-    tui_chu_biab_qian_dialog.ui \
     widget.ui
 
 # Default rules for deployment.

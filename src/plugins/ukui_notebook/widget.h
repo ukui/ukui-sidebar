@@ -53,7 +53,7 @@
 #include <QBitmap>
 #include <vector>
 #include "edit_page.h"
-#include "tanchuang.h"
+#include "pop_up_exit.h"
 #include "ui_edit_page.h"
 extern int sink;
 extern int single;
@@ -112,7 +112,7 @@ private:
 
     int listflag;                                  //平铺/展开列表切换
     int sortflag;                                  //升降序切换
-    tanchuang* tuichu=nullptr;
+    Pop_ip_exit* tuichu=nullptr;
 
     QAction *searchAction;
     QAction *delAction;
