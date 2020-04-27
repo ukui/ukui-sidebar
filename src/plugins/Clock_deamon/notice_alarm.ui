@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>432</width>
-    <height>272</height>
+    <width>486</width>
+    <height>286</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -46,14 +46,14 @@
       <widget class="QWidget" name="widget" native="true">
        <property name="minimumSize">
         <size>
-         <width>400</width>
-         <height>240</height>
+         <width>454</width>
+         <height>254</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>400</width>
-         <height>240</height>
+         <width>454</width>
+         <height>254</height>
         </size>
        </property>
        <property name="styleSheet">
@@ -67,7 +67,7 @@ border-radius: 6px;
        <widget class="QPushButton" name="pushButton">
         <property name="geometry">
          <rect>
-          <x>370</x>
+          <x>424</x>
           <y>0</y>
           <width>30</width>
           <height>30</height>
@@ -83,7 +83,7 @@ border-radius: 6px;
        <widget class="QLabel" name="label">
         <property name="geometry">
          <rect>
-          <x>150</x>
+          <x>177</x>
           <y>10</y>
           <width>100</width>
           <height>23</height>
@@ -100,9 +100,9 @@ border-radius: 6px;
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>40</y>
-          <width>400</width>
-          <height>41</height>
+          <y>64</y>
+          <width>454</width>
+          <height>31</height>
          </rect>
         </property>
         <property name="styleSheet">
@@ -117,8 +117,8 @@ font: 25 14pt  &quot;Noto Sans Devanagari Md&quot;;</string>
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>80</y>
-          <width>400</width>
+          <y>94</y>
+          <width>454</width>
           <height>51</height>
          </rect>
         </property>
@@ -133,10 +133,10 @@ font: 28pt &quot;Noto Sans Coptic&quot;;</string>
        <widget class="QPushButton" name="pushButton_2">
         <property name="geometry">
          <rect>
-          <x>60</x>
-          <y>140</y>
-          <width>120</width>
-          <height>36</height>
+          <x>97</x>
+          <y>169</y>
+          <width>100</width>
+          <height>32</height>
          </rect>
         </property>
         <property name="styleSheet">
@@ -154,10 +154,10 @@ QPushButton:hover{background:rgba(143, 97, 47, 0.1)}</string>
        <widget class="QPushButton" name="pushButton_3">
         <property name="geometry">
          <rect>
-          <x>220</x>
-          <y>140</y>
-          <width>120</width>
-          <height>36</height>
+          <x>257</x>
+          <y>169</y>
+          <width>100</width>
+          <height>32</height>
          </rect>
         </property>
         <property name="styleSheet">
@@ -175,11 +175,17 @@ QPushButton:hover{background-color: rgb(27, 143, 89);}
        <widget class="QLabel" name="label_4">
         <property name="geometry">
          <rect>
-          <x>80</x>
-          <y>200</y>
-          <width>240</width>
+          <x>0</x>
+          <y>221</y>
+          <width>454</width>
           <height>23</height>
          </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>454</width>
+          <height>0</height>
+         </size>
         </property>
         <property name="styleSheet">
          <string notr="true">color: rgb(255, 255, 255);</string>

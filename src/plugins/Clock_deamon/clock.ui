@@ -32,7 +32,7 @@ color: rgb(255, 255, 255);
     <string notr="true">border-radius:7px;</string>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="page">
     <widget class="QPushButton" name="count_stat">
@@ -553,9 +553,9 @@ QPushButton:hover{background-color: rgb(27, 143, 89);}
     <widget class="QLabel" name="label_5">
      <property name="geometry">
       <rect>
-       <x>190</x>
+       <x>177</x>
        <y>110</y>
-       <width>81</width>
+       <width>100</width>
        <height>20</height>
       </rect>
      </property>
@@ -571,9 +571,9 @@ font: 12pt &quot;Sans Serif&quot;;</string>
     <widget class="QLabel" name="label_4">
      <property name="geometry">
       <rect>
-       <x>116</x>
+       <x>122</x>
        <y>36</y>
-       <width>211</width>
+       <width>210</width>
        <height>61</height>
       </rect>
      </property>
@@ -676,7 +676,7 @@ background-color: rgb(76, 76, 76);
    <property name="geometry">
     <rect>
      <x>394</x>
-     <y>1</y>
+     <y>0</y>
      <width>30</width>
      <height>30</height>
     </rect>
@@ -1221,7 +1221,7 @@ text-align: right</string>
    <property name="geometry">
     <rect>
      <x>364</x>
-     <y>1</y>
+     <y>0</y>
      <width>30</width>
      <height>30</height>
     </rect>
