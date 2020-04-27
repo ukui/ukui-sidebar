@@ -231,7 +231,7 @@ void Widget::kyNoteInit()
     ui->frame->hide();
     setAttribute(Qt::WA_TranslucentBackground);
     //退出框
-    tuichu = new tanchuang(this);
+    tuichu = new Pop_ip_exit(this);
 }
 
 void Widget::kyNoteConn()

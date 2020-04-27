@@ -26,13 +26,13 @@ namespace Ui {
 class tanchuang;
 }
 ///class Notebook;
-class tanchuang : public QDialog
+class Pop_ip_exit : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit tanchuang(Widget* page,QWidget *parent=nullptr);
-    ~tanchuang();
+    explicit Pop_ip_exit(Widget* page,QWidget *parent=nullptr);
+    ~Pop_ip_exit();
 
 
 private slots:
