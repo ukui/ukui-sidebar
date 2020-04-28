@@ -805,15 +805,15 @@ void Clock::notice_dialog_show(int close_time, int alarm_num)
     }else{
         if(hour_now>=12){
             if(hour_now == 12){
-                dialog1->ui->label_3->setText("下午 "+change_NUM_to_str(hour_now)+" : "+change_NUM_to_str(min_now));
+                dialog1->ui->label_3->setText(tr("下午")+" "+change_NUM_to_str(hour_now)+" : "+change_NUM_to_str(min_now));
             }else{
-                dialog1->ui->label_3->setText("下午 "+change_NUM_to_str(hour_now-12)+" : "+change_NUM_to_str(min_now));
+                dialog1->ui->label_3->setText(tr("下午")+" "+change_NUM_to_str(hour_now-12)+" : "+change_NUM_to_str(min_now));
             }
         }else{
             if(hour_now == 0){
-                dialog1->ui->label_3->setText("上午 "+change_NUM_to_str(12)+" : "+change_NUM_to_str(min_now));
+                dialog1->ui->label_3->setText(tr("上午")+" "+change_NUM_to_str(12)+" : "+change_NUM_to_str(min_now));
             }else{
-                dialog1->ui->label_3->setText("上午 "+change_NUM_to_str(hour_now)+" : "+change_NUM_to_str(min_now));
+                dialog1->ui->label_3->setText(tr("上午")+" "+change_NUM_to_str(hour_now)+" : "+change_NUM_to_str(min_now));
             }
         }
     }
@@ -857,14 +857,14 @@ void Clock::updateAlarmClock()
             w1[alarmNum]->alarmLabel1->hide();
         }else{
             if(hour_now>=12){
-                w1[alarmNum]->alarmLabel1->setText("下午");
+                w1[alarmNum]->alarmLabel1->setText(tr("下午"));
                 if(hour_now == 12){
                     w1[alarmNum]->alarmLabel0->setText(change_NUM_to_str(hour_now)+" : "+change_NUM_to_str(min_now));
                 }else{
                     w1[alarmNum]->alarmLabel0->setText(change_NUM_to_str(hour_now-12)+" : "+change_NUM_to_str(min_now));
                 }
             }else{
-                w1[alarmNum]->alarmLabel1->setText("上午");
+                w1[alarmNum]->alarmLabel1->setText(tr("上午"));
                 if(hour_now == 0){
                     w1[alarmNum]->alarmLabel0->setText(change_NUM_to_str(12)+" : "+change_NUM_to_str(min_now));
                 }else{
