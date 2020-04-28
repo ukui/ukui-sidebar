@@ -633,6 +633,7 @@ void Clock::text_timerUpdate()
     process.waitForFinished();
     QByteArray output = process.readAllStandardOutput();
     QString str_output = output;
+    int rowNum = model->rowCount();
 
     model_setup->select();
     QTime time = QTime::currentTime();
@@ -642,6 +643,17 @@ void Clock::text_timerUpdate()
         ui->label_6->setText(time.toString("hh")+":"+time.toString("mm")+":"+time.toString("ss"));
         ui->label_15->setText("");
         ui->label_17->setText("");
+        if(system_time_flag == 0){
+           system_time_flag = 1;
+           for(int i=0; i<rowNum; i++)
+           {
+               delete aItem[i];
+               delete w1[i];
+           }
+           updateAlarmClock();
+        }else{
+        system_time_flag = 1;
+        }
     }else if(model_setup->index(0, 2).data().toInt() == 2){
         if(timeH > 12){
             timeH = timeH - 12;
@@ -657,11 +669,33 @@ void Clock::text_timerUpdate()
             ui->label_15->setText(tr("上午"));
             ui->label_17->setText(tr("上午"));
         }
+        if(system_time_flag == 1){
+           system_time_flag = 0;
+           for(int i=0; i<rowNum; i++)
+           {
+               delete aItem[i];
+               delete w1[i];
+           }
+           updateAlarmClock();
+        }else{
+        system_time_flag = 0;
+        }
     }else{
         if(str_output.compare("'24'\n") == 0){
             ui->label_6->setText(time.toString("hh")+":"+time.toString("mm")+":"+time.toString("ss"));
             ui->label_15->setText("");
             ui->label_17->setText("");
+            if(system_time_flag == 0){
+               system_time_flag = 1;
+               for(int i=0; i<rowNum; i++)
+               {
+                   delete aItem[i];
+                   delete w1[i];
+               }
+               updateAlarmClock();
+            }else{
+            system_time_flag = 1;
+            }
         }else{
             if(timeH > 12){
                 timeH = timeH - 12;
@@ -677,6 +711,17 @@ void Clock::text_timerUpdate()
                 ui->label_6->setText(QString::number(timeH)+":"+time.toString("mm")+":"+time.toString("ss"));
                 ui->label_15->setText(tr("上午"));
                 ui->label_17->setText(tr("上午"));
+            }
+            if(system_time_flag == 1){
+               system_time_flag = 0;
+               for(int i=0; i<rowNum; i++)
+               {
+                   delete aItem[i];
+                   delete w1[i];
+               }
+               updateAlarmClock();
+            }else{
+            system_time_flag = 0;
             }
         }
     }
@@ -747,29 +792,50 @@ void Clock::timerUpdate()
 void Clock::notice_dialog_show(int close_time, int alarm_num)
 {
     model_setup->select();
+    int hour_now = model->index(alarm_num, 0).data().toInt();
+    int min_now = model->index(alarm_num, 1).data().toInt();
     QScreen *screen=QGuiApplication::primaryScreen ();
     QRect mm=screen->availableGeometry() ;
     int screen_width = mm.width();
     int screen_height = mm.height();
-      Natice_alarm  *dialog1 = new Natice_alarm(close_time,alarm_num);
-      dialog1->ui->label_2->setText(model->index(alarm_num, 14).data().toString());
-      dialog1->ui->label_3->setText(change_NUM_to_str(model->index(alarm_num, 0).data().toInt())+" : "+change_NUM_to_str(model->index(alarm_num, 1).data().toInt()));
-      dialog1->ui->label_4->setText(QString::number(close_time)+tr("秒后自动关闭"));
-      if(model_setup->index(0, 3).data().toInt())
-      {
-          dialog1->showFullScreen();
-      }else{
-          dialog1->move(screen_width-450,screen_height-300);
-      }
-      Qt::WindowFlags m_flags = windowFlags();
-      dialog1->setWindowFlags(m_flags | Qt::WindowStaysOnTopHint);
-      dialog1->show();
+    Natice_alarm  *dialog1 = new Natice_alarm(close_time,alarm_num);
+    dialog1->ui->label_2->setText(model->index(alarm_num, 14).data().toString());
+    if(system_time_flag){
+        dialog1->ui->label_3->setText(change_NUM_to_str(hour_now)+" : "+change_NUM_to_str(min_now));
+    }else{
+        if(hour_now>=12){
+            if(hour_now == 12){
+                dialog1->ui->label_3->setText("下午 "+change_NUM_to_str(hour_now)+" : "+change_NUM_to_str(min_now));
+            }else{
+                dialog1->ui->label_3->setText("下午 "+change_NUM_to_str(hour_now-12)+" : "+change_NUM_to_str(min_now));
+            }
+        }else{
+            if(hour_now == 0){
+                dialog1->ui->label_3->setText("上午 "+change_NUM_to_str(12)+" : "+change_NUM_to_str(min_now));
+            }else{
+                dialog1->ui->label_3->setText("上午 "+change_NUM_to_str(hour_now)+" : "+change_NUM_to_str(min_now));
+            }
+        }
+    }
+    dialog1->ui->label_4->setText(QString::number(close_time)+tr("秒后自动关闭"));
+    if(model_setup->index(0, 3).data().toInt())
+    {
+        dialog1->showFullScreen();
+    }else{
+        dialog1->move(screen_width-450,screen_height-300);
+    }
+    dialog1->ui->pushButton_2->setToolTip(tr("5分钟后提醒"));
+    Qt::WindowFlags m_flags = windowFlags();
+    dialog1->setWindowFlags(m_flags | Qt::WindowStaysOnTopHint);
+    dialog1->show();
 }
 
 //重绘窗口，更新闹钟
 void Clock::updateAlarmClock()
 {
     int rowNum = model->rowCount();
+    int hour_now;
+    int min_now;
 
     for(int alarmNum=0; alarmNum<rowNum; alarmNum++)
     {
@@ -782,9 +848,31 @@ void Clock::updateAlarmClock()
         w1[alarmNum] = new item_new(ui->listWidget);
         ui->listWidget->setItemWidget(aItem[alarmNum],w1[alarmNum]);
 
-        change_time_NUM(model->index(alarmNum, 0).data().toInt(),model->index(alarmNum, 1).data().toInt());//转换int为QString
-        w1[alarmNum]->alarmLabel0->setText(alarmHour_str+" : "+alarmMinute_str);
+        hour_now = model->index(alarmNum, 0).data().toInt();
+        min_now = model->index(alarmNum, 1).data().toInt();
 
+        if(system_time_flag){
+            change_time_NUM(hour_now,min_now);//转换int为QString
+            w1[alarmNum]->alarmLabel0->setText(alarmHour_str+" : "+alarmMinute_str);
+            w1[alarmNum]->alarmLabel1->hide();
+        }else{
+            if(hour_now>=12){
+                w1[alarmNum]->alarmLabel1->setText("下午");
+                if(hour_now == 12){
+                    w1[alarmNum]->alarmLabel0->setText(change_NUM_to_str(hour_now)+" : "+change_NUM_to_str(min_now));
+                }else{
+                    w1[alarmNum]->alarmLabel0->setText(change_NUM_to_str(hour_now-12)+" : "+change_NUM_to_str(min_now));
+                }
+            }else{
+                w1[alarmNum]->alarmLabel1->setText("上午");
+                if(hour_now == 0){
+                    w1[alarmNum]->alarmLabel0->setText(change_NUM_to_str(12)+" : "+change_NUM_to_str(min_now));
+                }else{
+                    w1[alarmNum]->alarmLabel0->setText(change_NUM_to_str(hour_now)+" : "+change_NUM_to_str(min_now));
+                }
+            }
+
+        }
         //闹钟开关
         if(model->index(alarmNum, 3).data().toInt() == 1){
             w1[alarmNum]->alarm_on_off0->setStyleSheet("border-image: url(:/alarm_off.png);background-color: rgb();");
@@ -1233,8 +1321,6 @@ void Clock::off_Alarm(int i)
 //倒计时音乐选择
 void Clock::countdown_music_sellect()
 {
-
-
         QPointF position = this->pos();
         count_music_sellect->move(position.x()+87,position.y()+552);
         count_music_sellect->resize(280,141);
@@ -1340,6 +1426,7 @@ void Clock::countdown_notice_dialog_show()
     }else{
         dialog1->move(screen_width-450,screen_height-300);
     }
+    dialog1->ui->pushButton_2->setToolTip(tr("5分钟后提醒"));
     Qt::WindowFlags m_flags = windowFlags();
     dialog1->setWindowFlags(m_flags | Qt::WindowStaysOnTopHint);
     dialog1->show();
@@ -1347,14 +1434,6 @@ void Clock::countdown_notice_dialog_show()
 
 //倒计时开始-结束
 void Clock::startbtn_countdown(){
-
-//    animation1 = new QPropertyAnimation(ui->label_4, "geometry");
-//    animation1->setDuration(10000);
-//    animation1->setKeyValueAt(0, QRect(122, 136, 210, 61));
-//    animation1->setEndValue(QRect(122, 36, 210, 61));
-//    animation1->start();
-
-
     if (!countdown_isStarted)
     {
 

@@ -201,6 +201,13 @@ void VerticalScroll_24::paintNum(QPainter &painter, int num, int deviation)
     font.setPixelSize(size);
     painter.setFont(font);
     painter.setPen(QColor(255,255,255,transparency));
+
+    QLinearGradient linearGradient(QPointF(5, 10), QPointF(7, 15));
+    linearGradient.setColorAt(0.2, Qt::white);
+    linearGradient.setColorAt(0.6, Qt::green);
+    linearGradient.setColorAt(1.0, Qt::black);
+    painter.setBrush(QBrush(linearGradient));
+
     if ( y >= 0 && y + height < Height)
     {
         painter.drawText(QRectF(0, y, Width, height),
@@ -285,11 +292,12 @@ void VerticalScroll_24::paintNum_12(QPainter &painter, int Height)
         paintNum(painter, m_minRange, m_deviation + Height / devide);
     }
     m_Pclock->ui->label_17->show();
-    if(m_currentValue>12){
+    if(m_currentValue>=12){
         m_Pclock->ui->label_17->setText(tr("下午"));
     }else{
         m_Pclock->ui->label_17->setText(tr("上午"));
     }
+
 }
 
 
