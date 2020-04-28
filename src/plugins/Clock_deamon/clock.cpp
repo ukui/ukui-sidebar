@@ -96,6 +96,7 @@ Clock::Clock(QWidget *parent) :
     clock_init();
     setup_init();
     this->setFixedSize(454,660);
+    this->setWindowOpacity(0.95);
 }
 
 Clock::~Clock()
@@ -637,91 +638,93 @@ void Clock::text_timerUpdate()
 
     model_setup->select();
     QTime time = QTime::currentTime();
-    int timeH = time.hour();
+    int time_H = time.hour();
+    int time_M = time.minute();
+    int time_S = time.second();
+
 
     if(model_setup->index(0, 2).data().toInt() == 1){
-        ui->label_6->setText(time.toString("hh")+":"+time.toString("mm")+":"+time.toString("ss"));
+        ui->label_6->setText(change_NUM_to_str(time_H)+":"+change_NUM_to_str(time_M)+":"+change_NUM_to_str(time_S));
         ui->label_15->setText("");
         ui->label_17->setText("");
         if(system_time_flag == 0){
-           system_time_flag = 1;
-           for(int i=0; i<rowNum; i++)
-           {
-               delete aItem[i];
-               delete w1[i];
-           }
-           updateAlarmClock();
+            system_time_flag = 1;
+            for(int i=0; i<rowNum; i++)
+            {
+                delete aItem[i];
+                delete w1[i];
+            }
+            updateAlarmClock();
         }else{
-        system_time_flag = 1;
+            system_time_flag = 1;
         }
     }else if(model_setup->index(0, 2).data().toInt() == 2){
-        if(timeH > 12){
-            timeH = timeH - 12;
-            if(timeH<10){
-                ui->label_6->setText("0"+QString::number(timeH)+":"+time.toString("mm")+":"+time.toString("ss"));
-            }else{
-                ui->label_6->setText(QString::number(timeH)+":"+time.toString("mm")+":"+time.toString("ss"));
-            }
+        if(time_H >=12){
+            ui->label_6->setText(change_NUM_to_str(time_H - 12)+":"+change_NUM_to_str(time_M)+":"+change_NUM_to_str(time_S));
             ui->label_15->setText(tr("下午"));
             ui->label_17->setText(tr("下午"));
         }else{
-            ui->label_6->setText(time.toString("hh")+":"+time.toString("mm")+":"+time.toString("ss"));
+            ui->label_6->setText(change_NUM_to_str(time_H)+":"+change_NUM_to_str(time_M)+":"+change_NUM_to_str(time_S));
             ui->label_15->setText(tr("上午"));
             ui->label_17->setText(tr("上午"));
+        }if(time_H == 0){
+            ui->label_6->setText(change_NUM_to_str(12)+":"+change_NUM_to_str(time_M)+":"+change_NUM_to_str(time_S));
+        }if(time_H == 12){
+            ui->label_6->setText(change_NUM_to_str(time_H)+":"+change_NUM_to_str(time_M)+":"+change_NUM_to_str(time_S));
         }
+
         if(system_time_flag == 1){
-           system_time_flag = 0;
-           for(int i=0; i<rowNum; i++)
-           {
-               delete aItem[i];
-               delete w1[i];
-           }
-           updateAlarmClock();
+            system_time_flag = 0;
+            for(int i=0; i<rowNum; i++)
+            {
+                delete aItem[i];
+                delete w1[i];
+            }
+            updateAlarmClock();
         }else{
-        system_time_flag = 0;
+            system_time_flag = 0;
         }
     }else{
         if(str_output.compare("'24'\n") == 0){
-            ui->label_6->setText(time.toString("hh")+":"+time.toString("mm")+":"+time.toString("ss"));
+            ui->label_6->setText(change_NUM_to_str(time_H)+":"+change_NUM_to_str(time_M)+":"+change_NUM_to_str(time_S));
             ui->label_15->setText("");
             ui->label_17->setText("");
             if(system_time_flag == 0){
-               system_time_flag = 1;
-               for(int i=0; i<rowNum; i++)
-               {
-                   delete aItem[i];
-                   delete w1[i];
-               }
-               updateAlarmClock();
+                system_time_flag = 1;
+                for(int i=0; i<rowNum; i++)
+                {
+                    delete aItem[i];
+                    delete w1[i];
+                }
+                updateAlarmClock();
             }else{
-            system_time_flag = 1;
+                system_time_flag = 1;
             }
         }else{
-            if(timeH > 12){
-                timeH = timeH - 12;
-                if(timeH<10){
-                    ui->label_6->setText("0"+QString::number(timeH)+":"+time.toString("mm")+":"+time.toString("ss"));
-                }else{
-                    ui->label_6->setText(QString::number(timeH)+":"+time.toString("mm")+":"+time.toString("ss"));
-                }
-                ui->label_6->setText(QString::number(timeH)+":"+time.toString("mm")+":"+time.toString("ss"));
+            if(time_H >=12){
+                ui->label_6->setText(change_NUM_to_str(time_H - 12)+":"+change_NUM_to_str(time_M)+":"+change_NUM_to_str(time_S));
                 ui->label_15->setText(tr("下午"));
                 ui->label_17->setText(tr("下午"));
             }else{
-                ui->label_6->setText(QString::number(timeH)+":"+time.toString("mm")+":"+time.toString("ss"));
+                ui->label_6->setText(change_NUM_to_str(time_H)+":"+change_NUM_to_str(time_M)+":"+change_NUM_to_str(time_S));
                 ui->label_15->setText(tr("上午"));
                 ui->label_17->setText(tr("上午"));
+            }if(time_H == 0){
+                ui->label_6->setText(change_NUM_to_str(12)+":"+change_NUM_to_str(time_M)+":"+change_NUM_to_str(time_S));
+            }if(time_H == 12){
+                ui->label_6->setText(change_NUM_to_str(time_H)+":"+change_NUM_to_str(time_M)+":"+change_NUM_to_str(time_S));
             }
+
             if(system_time_flag == 1){
-               system_time_flag = 0;
-               for(int i=0; i<rowNum; i++)
-               {
-                   delete aItem[i];
-                   delete w1[i];
-               }
-               updateAlarmClock();
+                system_time_flag = 0;
+                for(int i=0; i<rowNum; i++)
+                {
+                    delete aItem[i];
+                    delete w1[i];
+                }
+                updateAlarmClock();
             }else{
-            system_time_flag = 0;
+                system_time_flag = 0;
             }
         }
     }
