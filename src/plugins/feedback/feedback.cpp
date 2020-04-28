@@ -481,12 +481,14 @@ void feedback::feedback_quit()
 //最小化窗口
 void feedback::on_pushButton_mix_clicked()
 {
+    pushButton_mix->setStyleSheet("background-color:rgb(50,87,202);border-image:url(:/image/mix_hover.png);border-radius:4px;");
     this->showNormal();
     this->showMinimized();
 }
 //关闭窗口
 void feedback::on_pushButton_close_clicked()
 {
+    pushButton_close->setStyleSheet("background-color:rgb(215,52,53);border-image:url(:/image/close_hover.png);border-radius:4px;");
     this->hide();
     accessManager->disconnect();
     submitting_timer->stop();
