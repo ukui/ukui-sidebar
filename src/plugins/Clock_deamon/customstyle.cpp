@@ -84,8 +84,8 @@ void CustomStyle::drawComplexControl(QStyle::ComplexControl cc, const QStyleOpti
                 painter->setRenderHint(QPainter::Antialiasing);
                 if (slider->orientation == Qt::Horizontal) {
                     painter->drawLine(QPointF(rectGroove.left(), rectHandle.center().y()), QPointF(rectHandle.left(), rectHandle.center().y()));
-                    pen.setColor(Qt::NoPen);
-                    painter->setPen(Qt::NoPen);
+                    pen.setColor(QColor(61,61,65));
+                    painter->setPen(pen);
                     painter->drawLine(QPointF(rectGroove.right(), rectHandle.center().y()), QPointF(rectHandle.right(), rectHandle.center().y()));
                 } else {
                     painter->drawLine(QPointF(rectGroove.center().x(), rectGroove.bottom()), QPointF(rectGroove.center().x(),  rectHandle.bottom()));
