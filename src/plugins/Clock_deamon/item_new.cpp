@@ -60,6 +60,7 @@ item_new::item_new(QWidget *parent) :
     alarm_line0->setFixedSize(350, 1);
     alarm_line0->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);background-color: rgb(102, 102, 102);"));
 
+
     alarmLabel0 = new QLabel(this);//闹钟，音乐，
     alarmLabel0->move(200,13);
     alarmLabel0->setFixedSize(89, 27);
@@ -72,6 +73,15 @@ item_new::item_new(QWidget *parent) :
     alarmLabel0->setText("00:00");
     alarmLabel0->setVisible(true);
     alarmLabel0->show();
+
+    alarmLabel1 = new QLabel(this);//闹钟，音乐，
+    alarmLabel1->move(170,0);
+    alarmLabel1->setFixedSize(31, 56);
+    alarmLabel1->setStyleSheet("font: 10pt;background-color: rgb();\
+                               color:rgba(255,255,255,1);");
+    alarmLabel1->setText("上午");
+    alarmLabel1->setVisible(true);
+
 
     alarm_on_off0 = new QPushButton(this);//闹钟开关
     alarm_on_off0->move(305,14);

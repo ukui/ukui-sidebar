@@ -44,6 +44,7 @@ public:
 
     QPushButton *deleteAlarmBtn0;
     QLabel *alarmLabel0;
+    QLabel *alarmLabel1;
     QLabel *alarmLabel_w0;
     QLabel *alarmLabel_s0;
 

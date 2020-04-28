@@ -296,6 +296,7 @@ private:
     int repeat_day[9];   //重复日选择保存中介
     int repeat_new_or_edit_flag;  //重复日判断 是新建,还是重编辑,两者获取数据库号不同;
     int stopwatch_Animation = 0;
+    int system_time_flag;
 
 
     QTimer *timer_Surplus;
