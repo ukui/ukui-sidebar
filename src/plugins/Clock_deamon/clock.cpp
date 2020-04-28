@@ -96,6 +96,7 @@ Clock::Clock(QWidget *parent) :
     clock_init();
     setup_init();
     this->setFixedSize(454,660);
+    this->setWindowOpacity(0.95);
 }
 
 Clock::~Clock()
