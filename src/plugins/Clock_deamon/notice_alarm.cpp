@@ -43,7 +43,7 @@ Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
     timer_xumhuan->setInterval(1000);
 
     natice_init();
-    ui->pushButton_2->setToolTip(tr("5分钟后提醒"));
+    //ui->pushButton_2->setToolTip(tr("5分钟后提醒"));
 
 }
 
@@ -61,7 +61,7 @@ void Natice_alarm::natice_init()
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
     model->select();
 
-    QSqlTableModel *model_setup = new QSqlTableModel(this);
+    model_setup = new QSqlTableModel(this);
     model_setup->setTable("setup");
     model_setup->setEditStrategy(QSqlTableModel::OnManualSubmit);
     model_setup->select();
@@ -145,7 +145,18 @@ void Natice_alarm::paintEvent(QPaintEvent *)
 void Natice_alarm::show_again()
 {
     this->hide();
-    ring_num = 300;
+    int remind = model_setup->index(0, 4).data().toInt();
+    if(remind == 0){
+        ring_num = 120;
+    }else if(remind == 1){
+        ring_num = 300;
+    }else if(remind == 2){
+        ring_num = 600;
+    }else if(remind == 3){
+        ring_num = 1800;
+    }else if(remind == 4){
+        ring_num = 3600;
+    }
     timer_value =  timer_value2;
     timer_xumhuan->start();
     timer->stop();

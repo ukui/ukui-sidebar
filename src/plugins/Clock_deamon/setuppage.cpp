@@ -235,6 +235,12 @@ void setuppage::werk_day_listClickslot()
             repeat_str=repeat_str+day[i];
         }
     }
+    if(model_setup->index(0, 7).data().toInt()&&model_setup->index(0, 8).data().toInt()\
+            &&model_setup->index(0, 9).data().toInt()&&model_setup->index(0, 10).data().toInt() \
+            &&model_setup->index(0, 11).data().toInt()&&model_setup->index(0, 12).data().toInt() \
+            &&model_setup->index(0, 13).data().toInt()){
+        repeat_str = tr("每天");
+    }
     ui->pushButton_6->setText(repeat_str);
     model_setup->setData(model_setup->index(0, 14), repeat_str);
 
@@ -353,18 +359,18 @@ void setuppage::Reminder_off_set()
         Reminder_off->setAttribute(Qt::WA_TranslucentBackground);
         QPointF position = parentWidget()->pos();
         Reminder_off->move(position.x()+83,position.y()+312);
-        Reminder_off->resize(280,175);
-        Reminder_off->listWidget->setFixedSize(280,175);
+        Reminder_off->resize(280,170);
+        Reminder_off->listWidget->setFixedSize(280,170);
         Reminder_off->widget[0]->alarmLabel0->setFixedSize(200,17);
         Reminder_off->widget[1]->alarmLabel0->setFixedSize(200,17);
         Reminder_off->widget[2]->alarmLabel0->setFixedSize(200,17);
         Reminder_off->widget[3]->alarmLabel0->setFixedSize(200,17);
         Reminder_off->widget[4]->alarmLabel0->setFixedSize(200,17);
-        Reminder_off->widget[0]->alarmLabel0->setText(tr("1分钟后自动关闭"));
-        Reminder_off->widget[1]->alarmLabel0->setText(tr("2分钟后自动关闭"));
-        Reminder_off->widget[2]->alarmLabel0->setText(tr("3分钟后自动关闭"));
-        Reminder_off->widget[3]->alarmLabel0->setText(tr("4分钟后自动关闭"));
-        Reminder_off->widget[4]->alarmLabel0->setText(tr("6分钟后自动关闭"));
+        Reminder_off->widget[0]->alarmLabel0->setText(tr("2分钟后提醒"));
+        Reminder_off->widget[1]->alarmLabel0->setText(tr("5分钟后提醒"));
+        Reminder_off->widget[2]->alarmLabel0->setText(tr("10分钟后提醒"));
+        Reminder_off->widget[3]->alarmLabel0->setText(tr("30分钟后提醒"));
+        Reminder_off->widget[4]->alarmLabel0->setText(tr("60分钟后提醒"));
         Reminder_off->show();
 
 
@@ -381,24 +387,25 @@ void setuppage::Reminder_off_listClickslot()
     switch (num)
     {
     case 0:
-            model_setup->setData(model_setup->index(0, 17), tr("1分钟后自动关闭"));
+            model_setup->setData(model_setup->index(0, 17), tr("2分钟后提醒"));
         break;
 
     case 1:
-            model_setup->setData(model_setup->index(0, 17), tr("2分钟后自动关闭"));
+            model_setup->setData(model_setup->index(0, 17), tr("5分钟后提醒"));
         break;
 
     case 2:
-            model_setup->setData(model_setup->index(0, 17), tr("3分钟后自动关闭"));
+            model_setup->setData(model_setup->index(0, 17), tr("10分钟后提醒"));
         break;
 
     case 3:
-            model_setup->setData(model_setup->index(0, 17), tr("4分钟后自动关闭"));
+            model_setup->setData(model_setup->index(0, 17), tr("30分钟后提醒"));
         break;
 
     case 4:
-            model_setup->setData(model_setup->index(0, 17), tr("6分钟后自动关闭"));
+            model_setup->setData(model_setup->index(0, 17), tr("60分钟后提醒"));
         break;
+
     default:
         break;
     }

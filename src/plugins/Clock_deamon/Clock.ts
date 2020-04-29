@@ -582,22 +582,22 @@
     <message>
         <location filename="notice_alarm.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="notice_alarm.ui" line="96"/>
         <source>闹钟</source>
-        <translation type="unfinished">Alarm clock</translation>
+        <translation>Alarm clock</translation>
     </message>
     <message>
         <location filename="notice_alarm.ui" line="113"/>
         <source>工作会议</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="notice_alarm.ui" line="130"/>
         <source>10 : 45</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="notice_alarm.ui" line="151"/>
@@ -657,63 +657,63 @@
         <location filename="notice_dialog.cpp" line="37"/>
         <source>响铃提示</source>
         <translatorcomment>Ring prompt</translatorcomment>
-        <translation type="unfinished">Ring prompt</translation>
+        <translation>Ring prompt</translation>
     </message>
     <message>
         <location filename="notice_dialog.cpp" line="65"/>
         <location filename="notice_dialog.cpp" line="75"/>
         <source>玻璃</source>
         <translatorcomment>glass</translatorcomment>
-        <translation type="unfinished">glass</translation>
+        <translation>glass</translation>
     </message>
     <message>
         <location filename="notice_dialog.cpp" line="67"/>
         <location filename="notice_dialog.cpp" line="77"/>
         <source>犬吠</source>
         <translatorcomment>bark</translatorcomment>
-        <translation type="unfinished">bark</translation>
+        <translation>bark</translation>
     </message>
     <message>
         <location filename="notice_dialog.cpp" line="69"/>
         <location filename="notice_dialog.cpp" line="79"/>
         <source>声呐</source>
         <translatorcomment>sonar</translatorcomment>
-        <translation type="unfinished">sonar</translation>
+        <translation>sonar</translation>
     </message>
     <message>
         <location filename="notice_dialog.cpp" line="71"/>
         <source>雨滴</source>
         <translatorcomment>drip</translatorcomment>
-        <translation type="unfinished">drip</translation>
+        <translation>drip</translation>
     </message>
     <message>
         <location filename="notice_dialog.cpp" line="138"/>
         <source>倒计时时间结束</source>
         <translatorcomment>End of countdown time</translatorcomment>
-        <translation type="unfinished">End of countdown time</translation>
+        <translation>End of countdown time</translation>
     </message>
     <message>
         <location filename="notice_dialog.cpp" line="243"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="notice_dialog.cpp" line="245"/>
         <source>秒后关闭铃声</source>
         <translatorcomment>Seconds to turn off the ring</translatorcomment>
-        <translation type="unfinished">Seconds to turn off the ring</translation>
+        <translation>Seconds to turn off the ring</translation>
     </message>
     <message>
         <location filename="notice_dialog.cpp" line="246"/>
         <source>闹钟:</source>
         <translatorcomment>Alarm clock:</translatorcomment>
-        <translation type="unfinished">Alarm clock:</translation>
+        <translation>Alarm clock:</translation>
     </message>
     <message>
         <location filename="notice_dialog.cpp" line="247"/>
         <source>起床铃</source>
         <translatorcomment>Wake up bell </translatorcomment>
-        <translation type="unfinished">Wake up bell </translation>
+        <translation>Wake up bell </translation>
     </message>
 </context>
 <context>
@@ -725,7 +725,7 @@
         <location filename="clock_plugin.h" line="51"/>
         <source>闹钟</source>
         <translatorcomment>Clock</translatorcomment>
-        <translation type="unfinished">Clock</translation>
+        <translation>Clock</translation>
     </message>
 </context>
 <context>
@@ -799,43 +799,43 @@
         <location filename="setuppage.ui" line="53"/>
         <source>开机启动</source>
         <translatorcomment>Boot up</translatorcomment>
-        <translation type="unfinished">Boot up</translation>
+        <translation>Boot up</translation>
     </message>
     <message>
         <location filename="setuppage.ui" line="112"/>
         <source>  工作日</source>
         <translatorcomment>work</translatorcomment>
-        <translation type="unfinished">work</translation>
+        <translation>work</translation>
     </message>
     <message>
         <location filename="setuppage.ui" line="187"/>
         <source>  时间格式</source>
         <translatorcomment>Time</translatorcomment>
-        <translation type="unfinished">Time</translation>
+        <translation>Time</translation>
     </message>
     <message>
         <location filename="setuppage.ui" line="262"/>
         <source>  弹窗方式</source>
         <translatorcomment>Pop-up</translatorcomment>
-        <translation type="unfinished">Pop-up</translation>
+        <translation>Pop-up</translation>
     </message>
     <message>
         <location filename="setuppage.ui" line="337"/>
         <source>  铃声时长</source>
         <translatorcomment>duration</translatorcomment>
-        <translation type="unfinished">duration</translation>
+        <translation>duration</translation>
     </message>
     <message>
         <location filename="setuppage.ui" line="412"/>
         <source>  默认铃声</source>
         <translatorcomment>ringtone</translatorcomment>
-        <translation type="unfinished">ringtone</translation>
+        <translation>ringtone</translation>
     </message>
     <message>
         <location filename="setuppage.ui" line="470"/>
         <source>静音</source>
         <translatorcomment>Mute</translatorcomment>
-        <translation type="unfinished">Mute</translation>
+        <translation>Mute</translation>
     </message>
     <message>
         <location filename="setuppage.ui" line="510"/>
@@ -903,26 +903,26 @@
         <location filename="setuppage.cpp" line="278"/>
         <source>跟随系统</source>
         <translatorcomment>Following system</translatorcomment>
-        <translation type="unfinished">Following system</translation>
+        <translation>Following system</translation>
     </message>
     <message>
         <location filename="setuppage.cpp" line="258"/>
         <location filename="setuppage.cpp" line="283"/>
         <source>24小时制(23:59:59)</source>
         <translatorcomment>24 hour system </translatorcomment>
-        <translation type="unfinished">24 hour system</translation>
+        <translation>24 hour system</translation>
     </message>
     <message>
         <location filename="setuppage.cpp" line="260"/>
         <source>12小时制(下午11:59:59)</source>
         <translatorcomment>12 hour system </translatorcomment>
-        <translation type="unfinished">12 hour system</translation>
+        <translation>12 hour system</translation>
     </message>
     <message>
         <location filename="setuppage.cpp" line="288"/>
         <source>12小时制(上午11:59:59)</source>
         <translatorcomment>12 hour system</translatorcomment>
-        <translation type="unfinished">12 hour system</translation>
+        <translation>12 hour system</translation>
     </message>
     <message>
         <location filename="setuppage.cpp" line="310"/>
@@ -978,28 +978,28 @@
         <location filename="setuppage.cpp" line="438"/>
         <source>玻璃</source>
         <translatorcomment>glass</translatorcomment>
-        <translation type="unfinished">glass</translation>
+        <translation>glass</translation>
     </message>
     <message>
         <location filename="setuppage.cpp" line="421"/>
         <location filename="setuppage.cpp" line="442"/>
         <source>犬吠</source>
         <translatorcomment>bark</translatorcomment>
-        <translation type="unfinished">bark</translation>
+        <translation>bark</translation>
     </message>
     <message>
         <location filename="setuppage.cpp" line="422"/>
         <location filename="setuppage.cpp" line="446"/>
         <source>声呐</source>
         <translatorcomment>sonar</translatorcomment>
-        <translation type="unfinished">sonar</translation>
+        <translation>sonar</translation>
     </message>
     <message>
         <location filename="setuppage.cpp" line="423"/>
         <location filename="setuppage.cpp" line="450"/>
         <source>雨滴</source>
         <translatorcomment>drip</translatorcomment>
-        <translation type="unfinished">drip</translation>
+        <translation>drip</translation>
     </message>
 </context>
 <context>
