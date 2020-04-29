@@ -60,6 +60,7 @@
 #include "ui_notice_alarm.h"
 #include "delete_msg.h"
 #include "ui_delete_msg.h"
+#include <QScroller>
 
 const double PI=3.141592;
 
@@ -97,6 +98,14 @@ Clock::Clock(QWidget *parent) :
     setup_init();
     this->setFixedSize(454,660);
     this->setWindowOpacity(0.95);
+    //ui->listWidget_2->setMovement(QListView::Static);//禁止元素拖拽
+    //ui->listWidget_2->setMovement(QListView::Free);//元素可以自由拖拽
+    //ui->listWidget_2->setMovement(QListView::Snap);
+    // 想要实现鼠标左键滑动效果，下面一行代码就可以了
+    QScroller::grabGesture(ui->listWidget,QScroller::LeftMouseButtonGesture); //设置鼠标左键拖动
+    QScroller::grabGesture(ui->listWidget_2,QScroller::LeftMouseButtonGesture); //设置鼠标左键拖动
+    ui->listWidget -> setVerticalScrollMode(QAbstractItemView::ScrollPerPixel); // 设置像素级滑动
+    ui->listWidget_2 -> setVerticalScrollMode(QAbstractItemView::ScrollPerPixel); // 设置像素级滑动
 }
 
 Clock::~Clock()
