@@ -17,6 +17,7 @@ SOURCES += \
         clock.cpp \
     clock_plugin.cpp \
     customstyle.cpp \
+    delete_msg.cpp \
     item_new.cpp \
     notice_alarm.cpp \
     notice_dialog.cpp \
@@ -29,8 +30,7 @@ SOURCES += \
     DotLineDemo.cpp \
     set_alarm_repeat_dialog.cpp \
     countdown_animation.cpp \
-    QRoundProgressBar.cpp \
-    messagebox.cpp
+    QRoundProgressBar.cpp
 TRANSLATIONS = Clock.ts
 
 INCLUDEPATH    += ../../plugin-interface
@@ -46,6 +46,7 @@ HEADERS  += clock.h \
     connection.h \
     customstyle.h \
     debug.h \
+    delete_msg.h \
     item_new.h \
     notice_alarm.h \
     notice_dialog.h \
@@ -58,11 +59,11 @@ HEADERS  += clock.h \
     DotLineDemo.h \
     set_alarm_repeat_dialog.h \
     countdown_animation.h \
-    QRoundProgressBar.h \
-    messagebox.h
+    QRoundProgressBar.h
 
 
 FORMS    += clock.ui \
+    delete_msg.ui \
     notice_alarm.ui \
     setuppage.ui
 

@@ -44,7 +44,6 @@
 #include "setuppage.h"
 #include <QPropertyAnimation>
 
-
 class QSpinBox;
 class QComboBox;
 class QDialog;
@@ -323,7 +322,6 @@ private:
     QPropertyAnimation *animation1;
     QPropertyAnimation *animation2;
     QPropertyAnimation *animation3;
-
 };
 
 

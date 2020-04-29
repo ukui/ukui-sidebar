@@ -22,6 +22,7 @@
 #include <QBitmap>
 #include <QPainter>
 #include <QDebug>
+#include <QScroller>
 set_alarm_repeat_Dialog::set_alarm_repeat_Dialog(QWidget *parent , int rowNum ) :
     rowNum_all(rowNum),
     QWidget(parent)
@@ -55,6 +56,8 @@ void set_alarm_repeat_Dialog::set_aItem(int rowNum)
     listWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     widget[rowNum] = new set_alarm_repeat_widget(listWidget);
     listWidget->setItemWidget(aItem[rowNum],widget[rowNum]);
+    QScroller::grabGesture(listWidget,QScroller::LeftMouseButtonGesture); //设置鼠标左键拖动
+    listWidget -> setVerticalScrollMode(QAbstractItemView::ScrollPerPixel); // 设置像素级滑动
 }
 
 void set_alarm_repeat_Dialog::setupUi(QWidget( *set_alarm_repeat_Dialog))
