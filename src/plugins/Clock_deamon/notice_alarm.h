@@ -8,6 +8,8 @@
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
 #include <QStyleOption>
+#include <QSqlTableModel>
+
 namespace Ui {
 class Natice_alarm;
 }
@@ -42,6 +44,7 @@ private:
     int ring_num;
     int timer_value2;
     int full_flag=1;
+    QSqlTableModel *model_setup;
 };
 
 #endif // NATICE_ALARM_H

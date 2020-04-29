@@ -827,7 +827,18 @@ void Clock::notice_dialog_show(int close_time, int alarm_num)
     }else{
         dialog1->move(screen_width-450,screen_height-300);
     }
-    dialog1->ui->pushButton_2->setToolTip(tr("5分钟后提醒"));
+    int remind = model_setup->index(0, 4).data().toInt();
+    if(remind == 0){
+        dialog1->ui->pushButton_2->setToolTip(tr("2分钟后提醒"));
+    }else if(remind == 1){
+        dialog1->ui->pushButton_2->setToolTip(tr("5分钟后提醒"));
+    }else if(remind == 2){
+        dialog1->ui->pushButton_2->setToolTip(tr("10分钟后提醒"));
+    }else if(remind == 3){
+        dialog1->ui->pushButton_2->setToolTip(tr("30分钟后提醒"));
+    }else if(remind == 4){
+        dialog1->ui->pushButton_2->setToolTip(tr("60分钟后提醒"));
+    }
     Qt::WindowFlags m_flags = windowFlags();
     dialog1->setWindowFlags(m_flags | Qt::WindowStaysOnTopHint);
     dialog1->show();
@@ -960,17 +971,7 @@ void Clock::set_Alarm_Clock()
     for (int i=0; i<7; i++) {
         repeat_day[i] = model_setup->index(0, i+7).data().toInt();
     }
-    if(model_setup->index(0, 4).data().toInt() == 0){
-        time_music_str_model = tr("1分钟");
-    }else if (model_setup->index(0, 4).data().toInt() == 1) {
-        time_music_str_model = tr("2分钟");
-    }else if (model_setup->index(0, 4).data().toInt() == 2) {
-        time_music_str_model = tr("3分钟");
-    }else if (model_setup->index(0, 4).data().toInt() == 3){
-        time_music_str_model = tr("4分钟");
-    }else if (model_setup->index(0, 4).data().toInt() == 4){
-        time_music_str_model = tr("6分钟");
-    }
+    time_music_str_model = tr("2分钟");
     ui->pushButton_17->setText(time_music_str_model+tr("(默认)"));
     music_str_model = model_setup->index(0, 5).data().toString();
     ui->pushButton_11->setText(music_str_model+tr("(默认)"));
@@ -1429,7 +1430,18 @@ void Clock::countdown_notice_dialog_show()
     }else{
         dialog1->move(screen_width-450,screen_height-300);
     }
-    dialog1->ui->pushButton_2->setToolTip(tr("5分钟后提醒"));
+    int remind = model_setup->index(0, 4).data().toInt();
+    if(remind == 0){
+        dialog1->ui->pushButton_2->setToolTip(tr("2分钟后提醒"));
+    }else if(remind == 1){
+        dialog1->ui->pushButton_2->setToolTip(tr("5分钟后提醒"));
+    }else if(remind == 2){
+        dialog1->ui->pushButton_2->setToolTip(tr("10分钟后提醒"));
+    }else if(remind == 3){
+        dialog1->ui->pushButton_2->setToolTip(tr("30分钟后提醒"));
+    }else if(remind == 4){
+        dialog1->ui->pushButton_2->setToolTip(tr("60分钟后提醒"));
+    }
     Qt::WindowFlags m_flags = windowFlags();
     dialog1->setWindowFlags(m_flags | Qt::WindowStaysOnTopHint);
     dialog1->show();
@@ -1869,6 +1881,8 @@ void Clock::repeat_listClickslot()
             repeat_str=repeat_str+day[i];
         }
     }
+    if(repeat_day[0]&&repeat_day[1]&&repeat_day[2]&&repeat_day[3]&&repeat_day[4]&&repeat_day[5]&&repeat_day[6])
+        repeat_str = tr("每天");
     ui->pushButton_6->setText(repeat_str);
     repeat_str_model = repeat_str;
     repeat_str="";
@@ -1957,18 +1971,7 @@ void Clock::time_Music()
         time_music->widget[3]->alarmLabel0->setText(tr("4分钟"));
         time_music->widget[4]->alarmLabel0->setText(tr("6分钟"));
 
-        if(model_setup->index(0, 4).data().toInt() == 0){
-            time_music->widget[0]->alarmLabel0->setText(tr("1分钟(默认)"));
-        }else if (model_setup->index(0, 4).data().toInt() == 1) {
-            time_music->widget[1]->alarmLabel0->setText(tr("2分钟(默认)"));
-        }else if (model_setup->index(0, 4).data().toInt() == 2) {
-            time_music->widget[2]->alarmLabel0->setText(tr("3分钟(默认)"));
-        }else if (model_setup->index(0, 4).data().toInt() == 3){
-            time_music->widget[3]->alarmLabel0->setText(tr("4分钟(默认)"));
-        }else if (model_setup->index(0, 4).data().toInt() == 4){
-            time_music->widget[4]->alarmLabel0->setText(tr("6分钟(默认)"));
-        }
-        // set_border_radius(time_music);
+       // time_music->widget[1]->alarmLabel0->setText(tr("2分钟(默认)"));
         time_music->show();
 
 }
