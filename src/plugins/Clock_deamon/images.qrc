@@ -30,5 +30,6 @@
         <file>image/more_light.png</file>
         <file>image/more2.png</file>
         <file>image/more3.png</file>
+        <file>image/aptdaemon-error.png</file>
     </qresource>
 </RCC>

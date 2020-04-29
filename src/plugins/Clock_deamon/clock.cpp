@@ -52,14 +52,15 @@
 #include "item_new.h"
 #include "set_clock.h"
 #include "stopwatch_item.h"
-#include "messagebox.h"
 #include "notice_dialog.h"
 #include <QBitmap>
 #include <QProcess>
 #include<QScreen>
 #include "notice_alarm.h"
 #include "ui_notice_alarm.h"
-
+#include "delete_msg.h"
+#include "ui_delete_msg.h"
+#include <QScroller>
 
 const double PI=3.141592;
 
@@ -97,6 +98,14 @@ Clock::Clock(QWidget *parent) :
     setup_init();
     this->setFixedSize(454,660);
     this->setWindowOpacity(0.95);
+    //ui->listWidget_2->setMovement(QListView::Static);//禁止元素拖拽
+    //ui->listWidget_2->setMovement(QListView::Free);//元素可以自由拖拽
+    //ui->listWidget_2->setMovement(QListView::Snap);
+    // 想要实现鼠标左键滑动效果，下面一行代码就可以了
+    QScroller::grabGesture(ui->listWidget,QScroller::LeftMouseButtonGesture); //设置鼠标左键拖动
+    QScroller::grabGesture(ui->listWidget_2,QScroller::LeftMouseButtonGesture); //设置鼠标左键拖动
+    ui->listWidget -> setVerticalScrollMode(QAbstractItemView::ScrollPerPixel); // 设置像素级滑动
+    ui->listWidget_2 -> setVerticalScrollMode(QAbstractItemView::ScrollPerPixel); // 设置像素级滑动
 }
 
 Clock::~Clock()
@@ -1243,10 +1252,12 @@ void Clock::deleteAlarm()
     model->removeRows(num, 1);
     qDebug() << "delete " <<num <<rowNum;
 
-    int ok = QMessageBox::warning(this, tr("删除当前闹钟！"),
-                                  tr("您确定删除当前闹钟吗？"),
-                                  QMessageBox::Yes, QMessageBox::No);
-    if(ok == QMessageBox::No)
+    delete_msg *deletemsg = new delete_msg();
+    QPointF position = this->pos();
+    deletemsg->move(position.x()+67,position.y()+250);
+    deletemsg->exec();
+
+    if(!(deletemsg->close_sure))
     {
         model->revertAll();//如果不删除, 则撤销
         qDebug() << rowNum;
