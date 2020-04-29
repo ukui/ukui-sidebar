@@ -67,18 +67,18 @@ SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
     connect(m_pLineEditArea, &QLineEdit::textChanged, this, &SearchWidgetItemContent::textChageSlots);
     /* Sets the font color of the placeholder */
     QBrush LineEditBrush;
-    QPalette paletteLineEdit;
+//    QPalette paletteLineEdit;
     QFont SearchLine;
     SearchLine = m_pLineEditArea->font();
     SearchLine.setPixelSize(14);
     SearchLine.setFamily("Noto Sans CJK SC");
     m_pLineEditArea->setFont(SearchLine);
 
-    QColor ColorPlaceholderText(255,255,255,89);
-    LineEditBrush = paletteLineEdit.placeholderText();
-    LineEditBrush.setColor(ColorPlaceholderText);
-    paletteLineEdit.setBrush(QPalette::PlaceholderText, LineEditBrush);
-    m_pLineEditArea->setPalette(paletteLineEdit);
+//    QColor ColorPlaceholderText(255,255,255,89);
+//    LineEditBrush = paletteLineEdit.placeholderText();
+//    LineEditBrush.setColor(ColorPlaceholderText);
+//    paletteLineEdit.setBrush(QPalette::PlaceholderText, LineEditBrush);
+//    m_pLineEditArea->setPalette(paletteLineEdit);
 
     QWidgetAction* action = new QWidgetAction(m_pLineEditArea);
     action->setDefaultWidget(m_pClearTextButton);

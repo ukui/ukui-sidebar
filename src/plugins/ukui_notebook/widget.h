@@ -31,7 +31,7 @@
 #include <iostream>
 #include <QTranslator>
 #include <QStandardPaths>
-#include <QStringLiteral>
+/*#include <QStringLiteral*/>
 #include <QPushButton>
 #include <QSettings>
 #include <QThread>
