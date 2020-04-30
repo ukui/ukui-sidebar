@@ -2043,7 +2043,7 @@ void Clock::model_setup_set()
         model_setup->setData(model_setup->index(setup_rowNum, 14), tr("周一周二周三周四周五"));
         model_setup->setData(model_setup->index(setup_rowNum, 15), tr("24小时制(23:59:59)"));
         model_setup->setData(model_setup->index(setup_rowNum, 16), tr("通知栏弹窗"));
-        model_setup->setData(model_setup->index(setup_rowNum, 17), tr("一分钟后自动关闭"));
+        model_setup->setData(model_setup->index(setup_rowNum, 17), tr("2分钟后提醒"));
         model_setup->setData(model_setup->index(setup_rowNum, 19), tr("玻璃"));
     }
     model_setup->submitAll();
