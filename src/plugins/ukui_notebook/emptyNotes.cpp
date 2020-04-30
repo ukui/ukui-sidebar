@@ -15,15 +15,15 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include "empty_notepad.h"
-#include "ui_empty_notepad.h"
+#include "emptyNotes.h"
+#include "ui_emptyNotes.h"
 #include <QBitmap>
 #include <QDebug>
 #include <QPainter>
 
-empty_notepad::empty_notepad(QWidget *parent) :
+emptyNotes::emptyNotes(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::tui_chu_biab_qian_Dialog)
+    ui(new Ui::emptyNotes)
 {
     ui->setupUi(this);
 
@@ -59,12 +59,12 @@ empty_notepad::empty_notepad(QWidget *parent) :
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(on_pushButton_clicked()) );
 }
 
-empty_notepad::~empty_notepad()
+emptyNotes::~emptyNotes()
 {
     delete ui;
 }
 
-void empty_notepad::on_pushButton_clicked()
+void emptyNotes::on_pushButton_clicked()
 {
     qDebug()<<"111";
     this->close();

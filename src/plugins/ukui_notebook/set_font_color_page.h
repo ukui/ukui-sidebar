@@ -20,9 +20,9 @@
 
 #include <QWidget>
 #include <QListWidgetItem>
-#include "color_mini.h"
-#include "ui_color_mini.h"
 #include <QString>
+#include "paletteButton.h"
+#include "ui_paletteButton.h"
 
 namespace Ui {
 class Set_font_color_page;
@@ -40,7 +40,7 @@ public:
 
     Ui::Set_font_color_page *ui;
     QListWidgetItem *list_aItem[10];
-    color_mini *list_page[10];
+    paletteButton *list_page[10];
 
     QString color[11];
     QString color1;

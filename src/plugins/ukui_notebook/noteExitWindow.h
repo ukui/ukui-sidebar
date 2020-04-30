@@ -15,26 +15,43 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#ifndef COLOR_MINI_H
-#define COLOR_MINI_H
+#ifndef NOTEEXITWINDOW_H
+#define NOTEEXITWINDOW_H
 
-#include <QWidget>
+#include <QDialog>
+#include <QPainter>
 
+class Widget;
 namespace Ui {
-class color_mini;
+class noteExitWindow;
 }
 
-class color_mini : public QWidget
+class noteExitWindow : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit color_mini(QWidget *parent = nullptr);
-    ~color_mini();
-    Ui::color_mini *ui;
+    explicit noteExitWindow(Widget* page,QWidget *parent=nullptr);
+    ~noteExitWindow();
+
+
+private slots:
+    void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
+
+    void color_clicked();
 
 private:
+    Ui::noteExitWindow *ui;
 
+    void light_show();
+    void black_show();
+
+    Widget* pNotebook;
+
+signals:
+    void requestSetNoteNull();
 };
 
-#endif // COLOR_MINI_H
+#endif // NOTEEXITWINDOW_H

@@ -35,19 +35,20 @@ TRANSLATIONS += \
         ukui_notebook_zh_CN.ts
 
 SOURCES += \
-    cai_tou.cpp \
-    color_mini.cpp \
     dbmanager.cpp \
     edit_page.cpp \
-    empty_notepad.cpp \
-    form.cpp \
+    emptyNotes.cpp \
+    fontButton.cpp \
     mythrow.cpp \
+    noteExitWindow.cpp \
+    noteHead.cpp \
+    noteTable.cpp \
     notebook_plugin.cpp \
     notedata.cpp \
     notemodel.cpp \
     noteview.cpp \
     notewidgetdelegate.cpp \
-    pop_up_exit.cpp \
+    paletteButton.cpp \
     select_color_page.cpp \
     set_font_color_page.cpp \
     set_font_size_page.cpp \
@@ -56,19 +57,20 @@ SOURCES += \
     widget.cpp
 
 HEADERS += \
-    cai_tou.h \
-    color_mini.h \
     dbmanager.h \
     edit_page.h \
-    empty_notepad.h \
-    form.h \
+    emptyNotes.h \
+    fontButton.h \
     mythrow.h \
     notebook_plugin.h \
+    noteExitWindow.h \
+    noteHead.h \
+    noteTable.h \
     notedata.h \
     notemodel.h \
     noteview.h \
     notewidgetdelegate.h \
-    pop_up_exit.h \
+    paletteButton.h \
     select_color_page.h \
     set_font_color_page.h \
     set_font_size_page.h \
@@ -77,12 +79,12 @@ HEADERS += \
     widget.h
 
 FORMS += \
-    cai_tou.ui \
-    color_mini.ui \
     edit_page.ui \
-    empty_notepad.ui \
-    form.ui \
-    pop_up_exit.ui \
+    emptyNotes.ui \
+    fontButton.ui \
+    noteExitWindow.ui \
+    noteHead.ui \
+    paletteButton.ui \
     select_color_page.ui \
     set_font_color_page.ui \
     set_font_size_page.ui \

@@ -15,26 +15,18 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#ifndef FORM_H
-#define FORM_H
+#include "noteHead.h"
+#include "ui_noteHead.h"
 
-#include <QWidget>
-
-namespace Ui {
-class Form;
+noteHead::noteHead(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::noteHead)
+{
+    ui->setupUi(this);
+    this->resize(250,8);
 }
 
-class Form : public QWidget
+noteHead::~noteHead()
 {
-    Q_OBJECT
-
-public:
-    explicit Form(QWidget *parent = nullptr);
-    ~Form();
-        Ui::Form *ui;
-
-private:
-
-};
-
-#endif // FORM_H
+    delete ui;
+}
