@@ -15,18 +15,24 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include "form.h"
-#include "ui_form.h"
+#ifndef NOTETABLE_H
+#define NOTETABLE_H
 
-Form::Form(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::Form)
-{
-    ui->setupUi(this);
-    ui->label->setAlignment(Qt::AlignHCenter);
-}
+#include <QWidget>
+#include <QTableView>
+#include <QTimer>
 
-Form::~Form()
+class NoteTable : public QTableView
 {
-    delete ui;
-}
+    Q_OBJECT
+
+public:
+    explicit NoteTable(QWidget* parent = Q_NULLPTR);
+    ~NoteTable();
+
+
+private slots:
+    void init();
+};
+
+#endif // NOTETABLE_H

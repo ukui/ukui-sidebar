@@ -68,6 +68,32 @@ void NoteView::animateAddedRow(const QModelIndex& parent, int start, int end)
     }
 }
 
+void NoteView::animateRemovedRow(const QModelIndex& parent, int start, int end)
+{
+    qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
+    Q_UNUSED(parent)
+    Q_UNUSED(end)
+
+    //model(): 返回此视图显示的模型。
+    QModelIndex idx = model()->index(start,0);
+    // Note: 这一行添加了flikering，当动画运行缓慢时可以看到
+    // QItemSelectionModel::ClearAndSelect 将清除完整的选择 | 将选择所有指定的索引
+    // selectionModel(): Returns the current selection model.
+    // select(): 使用指定的命令选择模型项索引，并发出selectionChanged（）
+    selectionModel()->select(idx, QItemSelectionModel::ClearAndSelect);
+
+    NoteWidgetDelegate* delegate = static_cast<NoteWidgetDelegate*>(itemDelegate());
+    if(delegate != Q_NULLPTR){
+        delegate->setCurrentSelectedIndex(QModelIndex());
+        delegate->setState( NoteWidgetDelegate::Remove, idx);
+
+        // TODO find a way to finish this function till the animation stops
+//        while(delegate->animationState() == QTimeLine::Running){
+//            qApp->processEvents();
+//        }
+    }
+}
+
 /**
  * @brief Reimplemented from QWidget::paintEvent()
  */
@@ -85,7 +111,7 @@ void NoteView::paintEvent(QPaintEvent *e)
  */
 void NoteView::rowsInserted(const QModelIndex &parent, int start, int end)
 {
-
+    qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
     if(start == end && m_animationEnabled)
         animateAddedRow(parent, start, end);
 
@@ -97,6 +123,7 @@ void NoteView::rowsInserted(const QModelIndex &parent, int start, int end)
  */
 void NoteView::rowsAboutToBeRemoved(const QModelIndex &parent, int start, int end)
 {
+    qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
     if(start == end){
         NoteWidgetDelegate* delegate = static_cast<NoteWidgetDelegate*>(itemDelegate());
         if(delegate != Q_NULLPTR){
@@ -104,6 +131,7 @@ void NoteView::rowsAboutToBeRemoved(const QModelIndex &parent, int start, int en
             delegate->setCurrentSelectedIndex(QModelIndex());
 
             if(m_animationEnabled){
+                qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
                 delegate->setState( NoteWidgetDelegate::Remove, idx);
             }else{
                 delegate->setState( NoteWidgetDelegate::Normal, idx);
@@ -149,6 +177,7 @@ void NoteView::rowsAboutToBeMoved(const QModelIndex &sourceParent, int sourceSta
 void NoteView::rowsMoved(const QModelIndex &parent, int start, int end,
                          const QModelIndex &destination, int row)
 {
+    qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
     Q_UNUSED(parent)
     Q_UNUSED(start)
     Q_UNUSED(end)
@@ -241,6 +270,7 @@ bool NoteView::viewportEvent(QEvent*e)
 
 void NoteView::setCurrentRowActive(bool isActive)
 {
+    qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
     NoteWidgetDelegate* delegate = static_cast<NoteWidgetDelegate*>(itemDelegate());
     if(delegate == Q_NULLPTR)
         return;
@@ -299,6 +329,7 @@ void NoteView::setupSignalsSlots()
 
     // viewport was entered
     connect(this, &NoteView::viewportEntered,[this](){
+        qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
         if(model() != Q_NULLPTR && model()->rowCount() > 1){
             NoteWidgetDelegate* delegate = static_cast<NoteWidgetDelegate *>(itemDelegate());
             if(delegate != Q_NULLPTR)

@@ -91,7 +91,7 @@ bool NoteModel::moveRow(const QModelIndex &sourceParent, int sourceRow, const QM
 
         return false;
     }
-    //参数1 QSortFilterProxyModel
+    //参数1 QAbstractListModel
     //参数2和参数3是要移动的行的第一行和最后一行,将参数2 参数3 所在行 移动到 destinationChild 之上
     //参数4 QAbstractListModel 索引对应于在其中这些行被移动的父
     beginMoveRows(sourceParent,sourceRow,sourceRow,destinationParent,destinationChild);

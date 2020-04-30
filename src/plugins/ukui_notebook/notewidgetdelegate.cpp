@@ -29,19 +29,19 @@
 
 NoteWidgetDelegate::NoteWidgetDelegate(QObject *parent)
     : QStyledItemDelegate(parent),
-      m_titleFont(QStringLiteral(""), 14, 30),        //标题字体
-      m_titleSelectedFont(QStringLiteral(""), 14),    //
-      m_dateFont(QStringLiteral(""), 10),             //日期字体
+      m_titleFont(QStringLiteral(""), 14, 30),              //标题字体
+      m_titleSelectedFont(QStringLiteral(""), 14),          //
+      m_dateFont(QStringLiteral(""), 10),                   //日期字体
       m_titleColor(255, 255, 255),                          //标题颜色
       m_dateColor(255, 255, 255),                           //日期颜色
       m_ActiveColor(218, 233, 239),
       m_notActiveColor(175, 212, 228),                      //默认选中背景色
-      m_hoverColor(80, 80, 80),                          //悬停颜色
-      m_selectColor(43, 49, 60),                                      //选中颜色43, 49, 60   40,40,40
+      m_hoverColor(80, 80, 80),                             //悬停颜色
+      m_selectColor(43, 49, 60),                            //选中颜色
       m_applicationInactiveColor(207, 207, 207),            //应用程序可见，但未选择显示在前面时背景色
       m_separatorColor(221, 221, 221),
       m_defaultColor(0, 0, 0),
-      m_noteColor(0, 0, 0),                             //便签头颜色
+      m_noteColor(0, 0, 0),                                 //便签头颜色
       m_rowHeight(82),                                      //item宽度
       m_maxFrame(200),
       m_rowRightOffset(0),
@@ -122,7 +122,7 @@ void NoteWidgetDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     case MoveOut:
         if(index == m_animatedIndex){
             opt.rect.setHeight(int(height));
-            opt.backgroundBrush.setColor(m_notActiveColor);
+            //opt.backgroundBrush.setColor(m_notActiveColor);
         }
         break;
     case MoveIn:
