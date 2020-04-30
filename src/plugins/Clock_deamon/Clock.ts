@@ -11,8 +11,8 @@
     <message>
         <location filename="clock.ui" line="57"/>
         <location filename="clock.ui" line="550"/>
-        <location filename="clock.cpp" line="531"/>
-        <location filename="clock.cpp" line="1489"/>
+        <location filename="clock.cpp" line="540"/>
+        <location filename="clock.cpp" line="1498"/>
         <source>开始</source>
         <translatorcomment>start</translatorcomment>
         <translation>start</translation>
@@ -64,9 +64,9 @@
     </message>
     <message>
         <location filename="clock.ui" line="251"/>
-        <location filename="clock.cpp" line="375"/>
-        <location filename="clock.cpp" line="1493"/>
-        <location filename="clock.cpp" line="1620"/>
+        <location filename="clock.cpp" line="384"/>
+        <location filename="clock.cpp" line="1502"/>
+        <location filename="clock.cpp" line="1629"/>
         <source>暂停</source>
         <translatorcomment>suspend</translatorcomment>
         <translation>suspend</translation>
@@ -86,7 +86,7 @@
     </message>
     <message>
         <location filename="clock.ui" line="481"/>
-        <location filename="clock.cpp" line="1232"/>
+        <location filename="clock.cpp" line="1241"/>
         <source>点击闹钟显示剩余时间</source>
         <translatorcomment>Remaining time</translatorcomment>
         <translation>Remaining time</translation>
@@ -99,7 +99,7 @@
     </message>
     <message>
         <location filename="clock.ui" line="625"/>
-        <location filename="clock.cpp" line="495"/>
+        <location filename="clock.cpp" line="504"/>
         <source>计次</source>
         <translatorcomment>count</translatorcomment>
         <translation>count</translation>
@@ -119,15 +119,15 @@
     </message>
     <message>
         <location filename="clock.ui" line="729"/>
-        <location filename="clock.cpp" line="1427"/>
+        <location filename="clock.cpp" line="1436"/>
         <source>倒计时</source>
         <translatorcomment>Count down</translatorcomment>
         <translation>Count down</translation>
     </message>
     <message>
         <location filename="clock.ui" line="746"/>
-        <location filename="clock.cpp" line="89"/>
-        <location filename="clock.cpp" line="978"/>
+        <location filename="clock.cpp" line="90"/>
+        <location filename="clock.cpp" line="987"/>
         <source>闹钟</source>
         <translatorcomment>Alarm</translatorcomment>
         <translation type="unfinished">Alarm</translation>
@@ -152,7 +152,7 @@
     </message>
     <message>
         <location filename="clock.ui" line="946"/>
-        <location filename="clock.cpp" line="964"/>
+        <location filename="clock.cpp" line="973"/>
         <source>新建闹钟</source>
         <translatorcomment>New alarm</translatorcomment>
         <translation>New alarm</translation>
@@ -181,257 +181,258 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="410"/>
-        <location filename="clock.cpp" line="1630"/>
+        <location filename="clock.cpp" line="419"/>
+        <location filename="clock.cpp" line="1639"/>
         <source>继续</source>
         <translatorcomment>Continue</translatorcomment>
         <translation>Continue</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="496"/>
+        <location filename="clock.cpp" line="505"/>
         <source>间隔 </source>
         <translatorcomment>interval </translatorcomment>
         <translation type="unfinished">interval </translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="664"/>
-        <location filename="clock.cpp" line="665"/>
-        <location filename="clock.cpp" line="706"/>
-        <location filename="clock.cpp" line="707"/>
-        <location filename="clock.cpp" line="811"/>
-        <location filename="clock.cpp" line="813"/>
-        <location filename="clock.cpp" line="874"/>
-        <location filename="clock.cpp" line="1597"/>
+        <location filename="clock.cpp" line="673"/>
+        <location filename="clock.cpp" line="674"/>
+        <location filename="clock.cpp" line="715"/>
+        <location filename="clock.cpp" line="716"/>
+        <location filename="clock.cpp" line="820"/>
+        <location filename="clock.cpp" line="822"/>
+        <location filename="clock.cpp" line="883"/>
+        <location filename="clock.cpp" line="1606"/>
         <source>下午</source>
         <translatorcomment>PM</translatorcomment>
         <translation>PM</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="668"/>
-        <location filename="clock.cpp" line="669"/>
-        <location filename="clock.cpp" line="710"/>
-        <location filename="clock.cpp" line="711"/>
-        <location filename="clock.cpp" line="817"/>
-        <location filename="clock.cpp" line="819"/>
-        <location filename="clock.cpp" line="881"/>
-        <location filename="clock.cpp" line="1599"/>
+        <location filename="clock.cpp" line="677"/>
+        <location filename="clock.cpp" line="678"/>
+        <location filename="clock.cpp" line="719"/>
+        <location filename="clock.cpp" line="720"/>
+        <location filename="clock.cpp" line="826"/>
+        <location filename="clock.cpp" line="828"/>
+        <location filename="clock.cpp" line="890"/>
+        <location filename="clock.cpp" line="1608"/>
         <source>上午</source>
         <translatorcomment>AM</translatorcomment>
         <translation>AM</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="750"/>
-        <location filename="clock.cpp" line="1739"/>
-        <location filename="clock.cpp" line="1763"/>
+        <location filename="clock.cpp" line="759"/>
+        <location filename="clock.cpp" line="1748"/>
+        <location filename="clock.cpp" line="1772"/>
         <source>周一</source>
         <translatorcomment>Mon</translatorcomment>
         <translation>Mon</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="752"/>
-        <location filename="clock.cpp" line="1740"/>
-        <location filename="clock.cpp" line="1764"/>
+        <location filename="clock.cpp" line="761"/>
+        <location filename="clock.cpp" line="1749"/>
+        <location filename="clock.cpp" line="1773"/>
         <source>周二</source>
         <translatorcomment>Tue</translatorcomment>
         <translation>Tue</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="754"/>
-        <location filename="clock.cpp" line="1741"/>
-        <location filename="clock.cpp" line="1765"/>
+        <location filename="clock.cpp" line="763"/>
+        <location filename="clock.cpp" line="1750"/>
+        <location filename="clock.cpp" line="1774"/>
         <source>周三</source>
         <translatorcomment>Wed</translatorcomment>
         <translation>Wed</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="756"/>
-        <location filename="clock.cpp" line="1742"/>
-        <location filename="clock.cpp" line="1766"/>
+        <location filename="clock.cpp" line="765"/>
+        <location filename="clock.cpp" line="1751"/>
+        <location filename="clock.cpp" line="1775"/>
         <source>周四</source>
         <translatorcomment>Thu</translatorcomment>
         <translation>Thu</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="758"/>
-        <location filename="clock.cpp" line="1743"/>
-        <location filename="clock.cpp" line="1767"/>
+        <location filename="clock.cpp" line="767"/>
+        <location filename="clock.cpp" line="1752"/>
+        <location filename="clock.cpp" line="1776"/>
         <source>周五</source>
         <translatorcomment>Fri</translatorcomment>
         <translation>Fri</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="760"/>
-        <location filename="clock.cpp" line="1744"/>
-        <location filename="clock.cpp" line="1768"/>
+        <location filename="clock.cpp" line="769"/>
+        <location filename="clock.cpp" line="1753"/>
+        <location filename="clock.cpp" line="1777"/>
         <source>周六</source>
         <translatorcomment>Sat</translatorcomment>
         <translation>Sat</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="762"/>
-        <location filename="clock.cpp" line="1745"/>
-        <location filename="clock.cpp" line="1769"/>
+        <location filename="clock.cpp" line="771"/>
+        <location filename="clock.cpp" line="1754"/>
+        <location filename="clock.cpp" line="1778"/>
         <source>周日</source>
         <translatorcomment>Sun</translatorcomment>
         <translation>Sun</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="823"/>
+        <location filename="clock.cpp" line="832"/>
         <source>秒后自动关闭</source>
         <translatorcomment> Seconds to close</translatorcomment>
         <translation> Seconds to close</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="832"/>
-        <location filename="clock.cpp" line="1437"/>
+        <location filename="clock.cpp" line="841"/>
+        <location filename="clock.cpp" line="1446"/>
+        <location filename="clock.cpp" line="2046"/>
         <source>2分钟后提醒</source>
         <translation>Alert in 2 minutes</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="834"/>
-        <location filename="clock.cpp" line="1439"/>
+        <location filename="clock.cpp" line="843"/>
+        <location filename="clock.cpp" line="1448"/>
         <source>5分钟后提醒</source>
         <translation>Alert in 5 minutes</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="836"/>
-        <location filename="clock.cpp" line="1441"/>
+        <location filename="clock.cpp" line="845"/>
+        <location filename="clock.cpp" line="1450"/>
         <source>10分钟后提醒</source>
         <translation>Alert in 10 minutes</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="838"/>
-        <location filename="clock.cpp" line="1443"/>
+        <location filename="clock.cpp" line="847"/>
+        <location filename="clock.cpp" line="1452"/>
         <source>30分钟后提醒</source>
         <translation>Alert in 30 minutes</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="840"/>
-        <location filename="clock.cpp" line="1445"/>
+        <location filename="clock.cpp" line="849"/>
+        <location filename="clock.cpp" line="1454"/>
         <source>60分钟后提醒</source>
         <translation>Alert in 60 minutes</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="1336"/>
-        <location filename="clock.cpp" line="1352"/>
-        <location filename="clock.cpp" line="1909"/>
-        <location filename="clock.cpp" line="1914"/>
-        <location filename="clock.cpp" line="1935"/>
-        <location filename="clock.cpp" line="2025"/>
-        <location filename="clock.cpp" line="2038"/>
+        <location filename="clock.cpp" line="1345"/>
+        <location filename="clock.cpp" line="1361"/>
+        <location filename="clock.cpp" line="1918"/>
+        <location filename="clock.cpp" line="1923"/>
+        <location filename="clock.cpp" line="1944"/>
+        <location filename="clock.cpp" line="2034"/>
+        <location filename="clock.cpp" line="2047"/>
         <source>玻璃</source>
         <translatorcomment>glass</translatorcomment>
         <translation>glass</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="1337"/>
-        <location filename="clock.cpp" line="1355"/>
-        <location filename="clock.cpp" line="1910"/>
-        <location filename="clock.cpp" line="1916"/>
-        <location filename="clock.cpp" line="1938"/>
+        <location filename="clock.cpp" line="1346"/>
+        <location filename="clock.cpp" line="1364"/>
+        <location filename="clock.cpp" line="1919"/>
+        <location filename="clock.cpp" line="1925"/>
+        <location filename="clock.cpp" line="1947"/>
         <source>犬吠</source>
         <translatorcomment>bark</translatorcomment>
         <translation>bark</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="1338"/>
-        <location filename="clock.cpp" line="1358"/>
-        <location filename="clock.cpp" line="1911"/>
-        <location filename="clock.cpp" line="1918"/>
-        <location filename="clock.cpp" line="1941"/>
+        <location filename="clock.cpp" line="1347"/>
+        <location filename="clock.cpp" line="1367"/>
+        <location filename="clock.cpp" line="1920"/>
+        <location filename="clock.cpp" line="1927"/>
+        <location filename="clock.cpp" line="1950"/>
         <source>声呐</source>
         <translatorcomment>sonar</translatorcomment>
         <translation>sonar</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="1339"/>
-        <location filename="clock.cpp" line="1361"/>
-        <location filename="clock.cpp" line="1912"/>
-        <location filename="clock.cpp" line="1920"/>
-        <location filename="clock.cpp" line="1944"/>
+        <location filename="clock.cpp" line="1348"/>
+        <location filename="clock.cpp" line="1370"/>
+        <location filename="clock.cpp" line="1921"/>
+        <location filename="clock.cpp" line="1929"/>
+        <location filename="clock.cpp" line="1953"/>
         <source>雨滴</source>
         <translatorcomment>drip</translatorcomment>
         <translation>drip</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="775"/>
-        <location filename="clock.cpp" line="974"/>
-        <location filename="clock.cpp" line="1971"/>
-        <location filename="clock.cpp" line="1990"/>
+        <location filename="clock.cpp" line="784"/>
+        <location filename="clock.cpp" line="983"/>
+        <location filename="clock.cpp" line="1980"/>
+        <location filename="clock.cpp" line="1999"/>
         <source>2分钟</source>
         <translatorcomment>2min</translatorcomment>
         <translation>2min</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="777"/>
-        <location filename="clock.cpp" line="1972"/>
-        <location filename="clock.cpp" line="1993"/>
+        <location filename="clock.cpp" line="786"/>
+        <location filename="clock.cpp" line="1981"/>
+        <location filename="clock.cpp" line="2002"/>
         <source>3分钟</source>
         <translatorcomment>3min</translatorcomment>
         <translation>3min</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="779"/>
-        <location filename="clock.cpp" line="1973"/>
-        <location filename="clock.cpp" line="1996"/>
+        <location filename="clock.cpp" line="788"/>
+        <location filename="clock.cpp" line="1982"/>
+        <location filename="clock.cpp" line="2005"/>
         <source>4分钟</source>
         <translatorcomment>4min</translatorcomment>
         <translation>4min</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="781"/>
-        <location filename="clock.cpp" line="1974"/>
-        <location filename="clock.cpp" line="1999"/>
+        <location filename="clock.cpp" line="790"/>
+        <location filename="clock.cpp" line="1983"/>
+        <location filename="clock.cpp" line="2008"/>
         <source>6分钟</source>
         <translatorcomment>6min</translatorcomment>
         <translation>6min</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="969"/>
-        <location filename="clock.cpp" line="1738"/>
-        <location filename="clock.cpp" line="1786"/>
-        <location filename="clock.cpp" line="1787"/>
+        <location filename="clock.cpp" line="978"/>
+        <location filename="clock.cpp" line="1747"/>
+        <location filename="clock.cpp" line="1795"/>
+        <location filename="clock.cpp" line="1796"/>
         <source>工作日</source>
         <translatorcomment>Workingday</translatorcomment>
         <translation>Workingday</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="970"/>
-        <location filename="clock.cpp" line="975"/>
-        <location filename="clock.cpp" line="977"/>
+        <location filename="clock.cpp" line="979"/>
+        <location filename="clock.cpp" line="984"/>
+        <location filename="clock.cpp" line="986"/>
         <source>(默认)</source>
         <translatorcomment>(default)</translatorcomment>
         <translation>(default)</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="1887"/>
+        <location filename="clock.cpp" line="1896"/>
         <source>每天</source>
         <translatorcomment>Every day</translatorcomment>
         <translation>Every day</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="1970"/>
-        <location filename="clock.cpp" line="1987"/>
+        <location filename="clock.cpp" line="1979"/>
+        <location filename="clock.cpp" line="1996"/>
         <source>1分钟</source>
         <translatorcomment>1min</translatorcomment>
         <translation>1min</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="1077"/>
-        <location filename="clock.cpp" line="1234"/>
+        <location filename="clock.cpp" line="1086"/>
+        <location filename="clock.cpp" line="1243"/>
         <source>小时</source>
         <translatorcomment>hour</translatorcomment>
         <translation>hour</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="1077"/>
-        <location filename="clock.cpp" line="1234"/>
+        <location filename="clock.cpp" line="1086"/>
+        <location filename="clock.cpp" line="1243"/>
         <source>分钟后铃响</source>
         <translatorcomment>min bell rings</translatorcomment>
         <translation>min bell rings</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="1102"/>
+        <location filename="clock.cpp" line="1111"/>
         <source>编辑闹钟</source>
         <translatorcomment>Edit alarm clock</translatorcomment>
         <translation>Edit alarm clock</translation>
@@ -452,7 +453,7 @@
         <translation type="vanished">End of countdown time</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="1468"/>
+        <location filename="clock.cpp" line="1477"/>
         <source>结束</source>
         <translatorcomment>End</translatorcomment>
         <translation>End</translation>
@@ -463,77 +464,77 @@
         <translation type="vanished">Tom</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="1425"/>
+        <location filename="clock.cpp" line="1434"/>
         <source>360秒后自动关闭</source>
         <translatorcomment>360 Seconds to close</translatorcomment>
         <translation type="unfinished">360 Seconds to close</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="1428"/>
+        <location filename="clock.cpp" line="1437"/>
         <source>时间到</source>
         <translation>Time out</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="1591"/>
+        <location filename="clock.cpp" line="1600"/>
         <source>后天</source>
         <translatorcomment>after tomorrow</translatorcomment>
         <translation>after tomorrow</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="1594"/>
+        <location filename="clock.cpp" line="1603"/>
         <source>明天</source>
         <translatorcomment>Tomorrow</translatorcomment>
         <translation>Tomorrow</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="1664"/>
-        <location filename="clock.cpp" line="1708"/>
+        <location filename="clock.cpp" line="1673"/>
+        <location filename="clock.cpp" line="1717"/>
         <source>时</source>
         <translatorcomment>hour</translatorcomment>
         <translation>hour</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="1667"/>
-        <location filename="clock.cpp" line="1711"/>
+        <location filename="clock.cpp" line="1676"/>
+        <location filename="clock.cpp" line="1720"/>
         <source>分</source>
         <translatorcomment>min</translatorcomment>
         <translation>min</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="1670"/>
+        <location filename="clock.cpp" line="1679"/>
         <source>秒</source>
         <translatorcomment>sec</translatorcomment>
         <translation>sec</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="787"/>
-        <location filename="clock.cpp" line="1737"/>
-        <location filename="clock.cpp" line="1774"/>
-        <location filename="clock.cpp" line="1775"/>
+        <location filename="clock.cpp" line="796"/>
+        <location filename="clock.cpp" line="1746"/>
+        <location filename="clock.cpp" line="1783"/>
+        <location filename="clock.cpp" line="1784"/>
         <source>不重复</source>
         <translatorcomment>No repetition </translatorcomment>
         <translation>No repetition</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="1915"/>
+        <location filename="clock.cpp" line="1924"/>
         <source>玻璃(默认)</source>
         <translatorcomment>glass(default)</translatorcomment>
         <translation>glass(default)</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="1917"/>
+        <location filename="clock.cpp" line="1926"/>
         <source>犬吠(默认)</source>
         <translatorcomment>bark(default)</translatorcomment>
         <translation type="unfinished">bark(default)</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="1919"/>
+        <location filename="clock.cpp" line="1928"/>
         <source>声呐(默认)</source>
         <translatorcomment>sonar(default)</translatorcomment>
         <translation type="unfinished">sonar(default)</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="1921"/>
+        <location filename="clock.cpp" line="1930"/>
         <source>雨滴(默认)</source>
         <translatorcomment>drip(default)</translatorcomment>
         <translation type="unfinished">drip(default)</translation>
@@ -564,27 +565,26 @@
         <translation type="obsolete">6min(default)</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="2034"/>
+        <location filename="clock.cpp" line="2043"/>
         <source>周一周二周三周四周五</source>
         <translation type="unfinished">Monday to Friday</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="2035"/>
+        <location filename="clock.cpp" line="2044"/>
         <source>24小时制(23:59:59)</source>
         <translatorcomment>24 hour system </translatorcomment>
         <translation type="unfinished">24 hour system</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="2036"/>
+        <location filename="clock.cpp" line="2045"/>
         <source>通知栏弹窗</source>
         <translatorcomment>Notification</translatorcomment>
         <translation type="unfinished">Notification</translation>
     </message>
     <message>
-        <location filename="clock.cpp" line="2037"/>
         <source>一分钟后自动关闭</source>
         <translatorcomment>Turn off after 1 min</translatorcomment>
-        <translation type="unfinished">Turn off after 1 min</translation>
+        <translation type="obsolete">Turn off after 1 min</translation>
     </message>
 </context>
 <context>
@@ -823,7 +823,7 @@
 <context>
     <name>set_alarm_repeat_Dialog</name>
     <message>
-        <location filename="set_alarm_repeat_dialog.cpp" line="77"/>
+        <location filename="set_alarm_repeat_dialog.cpp" line="80"/>
         <source>Dialog</source>
         <translation type="unfinished"></translation>
     </message>
