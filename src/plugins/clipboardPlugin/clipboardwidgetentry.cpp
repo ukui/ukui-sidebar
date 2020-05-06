@@ -212,7 +212,7 @@ void ClipboardWidgetEntry::paintEvent(QPaintEvent *e)
       case PRESS: {
               break;
           }
-      }
+    }
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     p.drawRoundedRect(opt.rect,0,0);
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);

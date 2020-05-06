@@ -51,10 +51,12 @@
 typedef struct  clipboardOriginalDataHash {
     ClipboardWidgetEntry* WidgetEntry;
     const QMimeData* MimeData;
+    QPixmap          *p_pixmap;
     QString          text;
     QString          Clipbaordformat;
     QList<QUrl>      urls;
     int              Sequence;
+    int              DataFlag = 0;  //数据标记，判断该数据类型为Pixmap还是Text DataFlag = 1 --> 文本, DataFlag = 2 --> 图片
 } OriginalDataHashValue;
 
 //static SidebarClipboardPlugin *global_instance = nullptr;
@@ -123,6 +125,7 @@ public:
     void createTipLable();                                                  /* 创建无剪贴板板字样 */
     void createWidget();                                                    /* 创建剪贴板主Widget和搜索栏与条目的ListWidget界面 */
     void sortingEntryShow();                                                /* 將條目有序的展現出來 */
+    bool booleanExistWidgetImagin(QPixmap Pixmap);
     QString SetFormatBody(QString text, ClipboardWidgetEntry *w);           /* 设置... */
     QString judgeBlankLine(QStringList list);                               /* 去除掉空行，显示有字体的行 */
     bool    substringSposition(QString formatBody, QStringList list);       /* 判断后面是否还有子串 */
@@ -136,7 +139,7 @@ signals:
     void EditConfirmButtonSignal(ClipboardWidgetEntry *, EditorWidget*);
 
 public slots:
-    void createWidgetEntry(const QMimeData *mimeData);
+    void createWidgetEntry();
     void popButtonSlots(ClipboardWidgetEntry *w);
     void editButtonSlots(ClipboardWidgetEntry *w);
     void removeButtonSlots(ClipboardWidgetEntry *w);

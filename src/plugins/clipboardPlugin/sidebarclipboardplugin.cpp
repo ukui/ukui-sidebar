@@ -79,11 +79,7 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
 
     /* 监听系统剪贴板 */
     m_pSidebarClipboard = QApplication::clipboard();
-    connect(m_pSidebarClipboard, &QClipboard::dataChanged, this, [=]() {
-       const QMimeData *mimeData = new QMimeData();
-       mimeData = m_pSidebarClipboard->mimeData();
-       createWidgetEntry(mimeData);
-    });
+    connect(m_pSidebarClipboard, &QClipboard::dataChanged, this, &SidebarClipboardPlugin::createWidgetEntry);
 
     /* 加载样式表 */
     QFile file(SIDEBAR_CLIPBOARD_QSS_PATH);
@@ -135,7 +131,7 @@ QMimeData * SidebarClipboardPlugin::copyMinedata(const QMimeData* mimeReference)
 //            format = format.mid(indexBegin, indexEnd - indexBegin);
 //        }
         mimecopy->setData(format, data);
-//        qDebug() << "剪贴板数据的格式" << format;
+        qDebug() << "剪贴板数据的格式" << format;
     }
 
     return mimecopy;
@@ -184,22 +180,37 @@ void SidebarClipboardPlugin::createFindClipboardWidgetItem()
 }
 
 /*创建Widgetitem条目*/
-void SidebarClipboardPlugin::createWidgetEntry(const QMimeData *mimeData)
+void SidebarClipboardPlugin::createWidgetEntry()
 {
+    const QMimeData *mimeData = m_pSidebarClipboard->mimeData();
     if (nullptr == mimeData) {
         qWarning() << "createWidgetEntry形参mimeData为空, 不创建";
         return;
     }
+    qDebug() << "剪贴板的数据" << mimeData;
     QString text;
     QString format;
     QList<QUrl> fileUrls;
     QListWidgetItem *pListWidgetItem = new QListWidgetItem;
     ClipboardWidgetEntry *w = new ClipboardWidgetEntry;
+    OriginalDataHashValue *s_pDataHashValue = new OriginalDataHashValue;
     w->setFixedSize(397, 42);
-    if (nullptr == mimeData->urls().value(0).toString()) {
+    if (mimeData->hasImage()) {
+        qDebug() << "数据类型---->图像";
+        s_pDataHashValue->p_pixmap = new QPixmap((qvariant_cast<QPixmap>(mimeData->imageData())));
+        s_pDataHashValue->DataFlag = 2;
+        text = mimeData->text();
+        qDebug() << "复制图片的名字，标志位-->" << mimeData->imageData();
+        format = "Image";
+        if (nullptr == s_pDataHashValue->p_pixmap) {
+           qWarning() << "构造数据类型有错误-->p_pixmap == nullptr";
+           return;
+        }
+    } else if (nullptr == mimeData->urls().value(0).toString()) {
         text = mimeData->text();
         format = "Text";
         qDebug() << "剪贴板中文本" << text;
+        s_pDataHashValue->DataFlag = 1;
     } else if(mimeData->urls().value(0).toString() != "") {
         fileUrls = mimeData->urls();
         format = "Url";
@@ -211,6 +222,7 @@ void SidebarClipboardPlugin::createWidgetEntry(const QMimeData *mimeData)
                 text += "\n" + fileUrls.value(i).toString();
             }
         }
+        s_pDataHashValue->DataFlag = 1;
     } else if(mimeData->hasHtml()) {
         qDebug() << "文本为Html";
     } else {
@@ -218,8 +230,8 @@ void SidebarClipboardPlugin::createWidgetEntry(const QMimeData *mimeData)
         return;
     }
 
-    if (text == "") {
-        qWarning() << "text文本为空";
+    if (text == "" && s_pDataHashValue->p_pixmap == nullptr) {
+        qWarning() << "text文本为空 或者 s_pDataHashValue->p_pixmap == nullptr";
         return ;
     }
 
@@ -228,11 +240,11 @@ void SidebarClipboardPlugin::createWidgetEntry(const QMimeData *mimeData)
         qDebug() << "此条内容已存在，就是当前置顶的条数";
         delete pListWidgetItem;
         delete w;
+        delete s_pDataHashValue;
         return;
     }
 
     /* hash插入QMimeData，保留原数据 */
-    OriginalDataHashValue *s_pDataHashValue = new OriginalDataHashValue;
     s_pDataHashValue->WidgetEntry  = w;
     s_pDataHashValue->MimeData = copyMinedata(mimeData);
     s_pDataHashValue->Clipbaordformat = format;
@@ -258,12 +270,16 @@ void SidebarClipboardPlugin::createWidgetEntry(const QMimeData *mimeData)
     pListWidgetItem->setSizeHint(QSize(397,42));
     pListWidgetItem->setFlags(Qt::NoItemFlags);
 
-    /* 设置...字样 */
-    w->m_pCopyDataLabal->setTextFormat(Qt::PlainText);
-    w->m_pCopyDataLabal->setText(SetFormatBody(text, w));
+    if (s_pDataHashValue->DataFlag == 1) {
+        /* 设置...字样 */
+        w->m_pCopyDataLabal->setTextFormat(Qt::PlainText);
+        w->m_pCopyDataLabal->setText(SetFormatBody(text, w));
+    } else if (s_pDataHashValue->DataFlag == 2) {
+        w->m_pCopyDataLabal->setPixmap(*s_pDataHashValue->p_pixmap);
+    }
     /* 将按钮与槽对应上 */
     connectWidgetEntryButton(w);
-
+    /* 插入剪贴板条码 */
     m_pShortcutOperationListWidget->insertItem(0, pListWidgetItem);
     m_pShortcutOperationListWidget->setItemWidget(pListWidgetItem, w);
     emit Itemchange();
@@ -536,6 +552,10 @@ QMimeData *SidebarClipboardPlugin::structureQmimeDate(OriginalDataHashValue *val
         }
         value->urls = urls;
         data->setUrls(value->urls);
+    } else if (value->Clipbaordformat == "Image") {
+        QVariant ImageDate = QVariant(*(value->p_pixmap));
+        data->setData("application/x-qt-image", isCutData.toByteArray());
+        data->setImageData(ImageDate);
     }
     return data;
 }
@@ -635,6 +655,24 @@ bool SidebarClipboardPlugin::booleanExistWidgetItem(QString Text)
             return false;
         }
     }
+    return false;
+}
+
+bool SidebarClipboardPlugin::booleanExistWidgetImagin(QPixmap Pixmap)
+{
+//    int tmp = m_pShortcutOperationListWidget->count();
+//    for (int i = 0; i < tmp; i++) {
+////        QString WidgetText = GetOriginalDataValue(m_pShortcutOperationListWidget->item(i))->text;
+//        QPixmap Hash_Piamap = *GetOriginalDataValue(m_pShortcutOperationListWidget->item(i))->p_pixmap;
+//        if (Hash_Piamap == Pixmap) {
+//            if(i == 0) {
+//                qDebug() << "当前的数据就是置顶数据";
+//                return true;
+//            }
+//            removeButtonSlots(GetOriginalDataValue(m_pShortcutOperationListWidget->item(i))->WidgetEntry);
+//            return false;
+//        }
+//    }
     return false;
 }
 
