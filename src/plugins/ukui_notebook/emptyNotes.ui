@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>tanchuang</class>
- <widget class="QDialog" name="tanchuang">
+ <class>emptyNotes</class>
+ <widget class="QDialog" name="emptyNotes">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -25,9 +25,9 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>40</x>
+      <x>95</x>
       <y>62</y>
-      <width>321</width>
+      <width>190</width>
       <height>22</height>
      </rect>
     </property>
@@ -41,15 +41,15 @@ opacity:0.97;
 </string>
     </property>
     <property name="text">
-     <string>Are you sure to exit the note book?</string>
+     <string>确定要清空便签本吗?</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="checkBox">
     <property name="geometry">
      <rect>
-      <x>40</x>
+      <x>95</x>
       <y>110</y>
-      <width>321</width>
+      <width>151</width>
       <height>28</height>
      </rect>
     </property>
@@ -61,7 +61,7 @@ line-height:40px;
 opacity:0.91;</string>
     </property>
     <property name="text">
-     <string>Close the desktop note page at the same time</string>
+     <string>不再询问</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton">
@@ -78,7 +78,7 @@ opacity:0.91;</string>
 line-height:24px;</string>
     </property>
     <property name="text">
-     <string>No</string>
+     <string>取消</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_2">
@@ -95,7 +95,7 @@ line-height:24px;</string>
 line-height:24px;</string>
     </property>
     <property name="text">
-     <string>Yes</string>
+     <string>确定</string>
     </property>
    </widget>
   </widget>

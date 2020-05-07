@@ -470,10 +470,14 @@ void DBManager::onCreateUpdateRequested(NoteData* note)
 {
     bool exists = isNoteExist(note);
 
-    if(exists)
+    if(exists){
+        qDebug() << "DBManager::updateNote";
         updateNote(note);
-    else
+    }
+    else{
+        qDebug() << "DBManager::addNote";
         addNote(note);
+    }
 }
 
 /*!

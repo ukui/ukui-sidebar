@@ -15,18 +15,26 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include "cai_tou.h"
-#include "ui_cai_tou.h"
+#ifndef PALETTEBUTTON_H
+#define PALETTEBUTTON_H
 
-cai_tou::cai_tou(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::cai_tou)
-{
-    ui->setupUi(this);
-    this->resize(250,8);
+#include <QWidget>
+
+namespace Ui {
+class paletteButton;
 }
 
-cai_tou::~cai_tou()
+class paletteButton : public QWidget
 {
-    delete ui;
-}
+    Q_OBJECT
+
+public:
+    explicit paletteButton(QWidget *parent = nullptr);
+    ~paletteButton();
+    Ui::paletteButton *ui;
+
+private:
+
+};
+
+#endif // PALETTEBUTTON_H

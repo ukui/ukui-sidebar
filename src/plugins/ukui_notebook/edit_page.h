@@ -25,7 +25,7 @@
 #include "text_editing.h"
 #include <QPainter>
 #include <QColor>
-#include "cai_tou.h"
+#include "noteHead.h"
 #include <QModelIndex>
 
 namespace Ui {
@@ -38,14 +38,15 @@ class Edit_page : public QWidget
     Q_OBJECT
 
 public:
-    Edit_page(Widget* p , const QModelIndex &index, QWidget *parent = nullptr);
+    Edit_page(Widget* p , int noteId, QWidget *parent = nullptr);
     ~Edit_page();
     Ui::Edit_page *ui;
     Widget* pNotebook;
     QColor m_editColor;
-    cai_tou *caitou;
+    noteHead *m_noteHead;
     QModelIndex m_index;
     int id;
+    int m_noteId;
 
 
     void contextMenuEvent(QContextMenuEvent *event);
@@ -63,7 +64,7 @@ private slots:
     void light_blue_btn_change();
     void light_green_btn_change();
     void yellow_btn_change();
-    void wight_btn_change();
+    void white_btn_change();
     void clear_the_page();
     void add_new_page();
     void show_note_page();
@@ -99,8 +100,8 @@ private:
 
 
 signals:
-    void texthasChanged(const QModelIndex &index, int id);
-    void colorhasChanged(const QColor &color);
+    void texthasChanged(int noteId, int id);
+    void colorhasChanged(const QColor &color,int);
 };
 
 #endif // EDIT_PAGE_H

@@ -15,34 +15,28 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#ifndef SET_FONT_SIZE_PAGE_H
-#define SET_FONT_SIZE_PAGE_H
+#ifndef EMPTYNOTES_H
+#define EMPTYNOTES_H
 
-#include <QWidget>
-#include <QListWidgetItem>
-#include <QLabel>
-#include "fontButton.h"
-#include "ui_fontButton.h"
+#include <QDialog>
 
 namespace Ui {
-class Set_font_size_page;
+class emptyNotes;
 }
 
-class Set_font_size_page : public QWidget
+class emptyNotes : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit Set_font_size_page(QWidget *parent = nullptr);
-    ~Set_font_size_page();
-    void set_listwidget();
-    Ui::Set_font_size_page *ui;
+    explicit emptyNotes(QWidget *parent = nullptr);
+    ~emptyNotes();
 
+private slots:
+    void on_pushButton_clicked();
 
-    QListWidgetItem *list_aItem[13];
-    //QWidget *list_page[13];
-    fontButton *list_page[13];
-    QLabel *label[13];
+private:
+    Ui::emptyNotes *ui;
 };
 
-#endif // SET_FONT_SIZE_PAGE_H
+#endif // EMPTY_NOTEPAD_H

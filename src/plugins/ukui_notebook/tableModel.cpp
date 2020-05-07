@@ -15,21 +15,21 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include "notemodel.h"
+#include "tableModel.h"
 #include <QDebug>
 
-NoteModel::NoteModel(QObject *parent)
-    : QAbstractListModel(parent)
+TableModel::TableModel(QObject *parent)
+    : QAbstractTableModel(parent)
 {
 
 }
 
-NoteModel::~NoteModel()
+TableModel::~TableModel()
 {
 
 }
 
-QModelIndex NoteModel::addNote(NoteData* note)
+QModelIndex TableModel::addNote(NoteData* note)
 {
     const int rowCnt = rowCount();
     //指定要插入的第一行和最后一行新行的行号，以及其父项的模型索引
@@ -40,7 +40,7 @@ QModelIndex NoteModel::addNote(NoteData* note)
     return createIndex(rowCnt, 0);
 }
 
-QModelIndex NoteModel::insertNote(NoteData *note, int row)
+QModelIndex TableModel::insertNote(NoteData *note, int row)
 {
     if(row >= rowCount()){
         return addNote(note);
@@ -53,7 +53,7 @@ QModelIndex NoteModel::insertNote(NoteData *note, int row)
     return createIndex(row,0);
 }
 
-NoteData* NoteModel::getNote(const QModelIndex& index)
+NoteData* TableModel::getNote(const QModelIndex& index)
 {
     if(index.isValid()){
         //返回列表中索引位置index.row处的项, index.row 必须是列表中有效的索引位置
@@ -63,7 +63,7 @@ NoteData* NoteModel::getNote(const QModelIndex& index)
     }
 }
 
-void NoteModel::addListNote(QList<NoteData *> noteList)
+void TableModel::addListNote(QList<NoteData *> noteList)
 {
     int start = rowCount();
     int end = start + noteList.count()-1;
@@ -72,7 +72,7 @@ void NoteModel::addListNote(QList<NoteData *> noteList)
     endInsertRows();
 }
 
-NoteData* NoteModel::removeNote(const QModelIndex &noteIndex)
+NoteData* TableModel::removeNote(const QModelIndex &noteIndex)
 {
     int row = noteIndex.row();
     beginRemoveRows(QModelIndex(), row, row);
@@ -82,7 +82,7 @@ NoteData* NoteModel::removeNote(const QModelIndex &noteIndex)
     return note;
 }
 
-bool NoteModel::moveRow(const QModelIndex &sourceParent, int sourceRow, const QModelIndex &destinationParent, int destinationChild)
+bool TableModel::moveRow(const QModelIndex &sourceParent, int sourceRow, const QModelIndex &destinationParent, int destinationChild)
 {
     if(sourceRow<0
             || sourceRow >= m_noteList.count()
@@ -102,7 +102,7 @@ bool NoteModel::moveRow(const QModelIndex &sourceParent, int sourceRow, const QM
     return true;
 }
 
-void NoteModel::clearNotes()
+void TableModel::clearNotes()
 {
     beginResetModel();
     m_noteList.clear();
@@ -110,7 +110,7 @@ void NoteModel::clearNotes()
 }
 
 //负责返回数据项对应于所述索引参数
-QVariant NoteModel::data(const QModelIndex &index, int role) const
+QVariant TableModel::data(const QModelIndex &index, int role) const
 {
     if (index.row() < 0 || index.row() >= m_noteList.count())
         return QVariant();
@@ -140,7 +140,7 @@ QVariant NoteModel::data(const QModelIndex &index, int role) const
 }
 
 //provide a way for the delegate to set the data in the model
-bool NoteModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool TableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (!index.isValid())
         return false;
@@ -170,30 +170,30 @@ bool NoteModel::setData(const QModelIndex &index, const QVariant &value, int rol
         return false;
     }
 
-    emit dataChanged(this->index(index.row()),
-                     this->index(index.row()),
-                     QVector<int>(1,role));
+//    emit dataChanged(this->index(index.row()),
+//                     this->index(index.row()),
+//                     QVector<int>(1,role));
 
     return true;
 }
 
-Qt::ItemFlags NoteModel::flags(const QModelIndex &index) const
+Qt::ItemFlags TableModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid())
         return Qt::ItemIsEnabled;
 
-    return QAbstractListModel::flags(index) | Qt::ItemIsEditable | Qt::ItemIsEditable ;
+    return QAbstractTableModel::flags(index) | Qt::ItemIsEditable | Qt::ItemIsEditable ;
 }
 
 //保持模型中的行数与字符串列表中的字符串数相同
-int NoteModel::rowCount(const QModelIndex &parent) const
+int TableModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
 
     return m_noteList.count();
 }
 
-void NoteModel::sort(int column, Qt::SortOrder order)
+void TableModel::sort(int column, Qt::SortOrder order)
 {
     Q_UNUSED(column)
     Q_UNUSED(order)
@@ -211,5 +211,5 @@ void NoteModel::sort(int column, Qt::SortOrder order)
     }
 
 
-    emit dataChanged(index(0), index(rowCount()-1));
+    //emit dataChanged(index(0), index(rowCount()-1));
 }

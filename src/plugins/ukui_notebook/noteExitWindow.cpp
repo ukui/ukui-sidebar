@@ -15,15 +15,17 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include "pop_up_exit.h"
-#include "ui_pop_up_exit.h"
 #include <QBitmap>
 #include <QPainter>
+
+#include "noteExitWindow.h"
+#include "ui_noteExitWindow.h"
 #include "widget.h"
 #include "ui_widget.h"
-Pop_ip_exit::Pop_ip_exit(Widget* page, QWidget *parent) :
+
+noteExitWindow::noteExitWindow(Widget* page, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::tanchuang)
+    ui(new Ui::noteExitWindow)
 {
     ui->setupUi(this);
     pNotebook = page;
@@ -42,31 +44,37 @@ Pop_ip_exit::Pop_ip_exit(Widget* page, QWidget *parent) :
     color_clicked();
 }
 
-Pop_ip_exit::~Pop_ip_exit()
+noteExitWindow::~noteExitWindow()
 {
     delete ui;
 }
 
-void Pop_ip_exit::on_pushButton_clicked()
+void noteExitWindow::on_pushButton_clicked()
 {
     this->close();
 }
 
-void Pop_ip_exit::on_pushButton_2_clicked()
+void noteExitWindow::on_pushButton_2_clicked()
 {
+    //qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
     this->close();
     pNotebook->close();
     if(ui->checkBox->isChecked()==true)
     {
+        //emit requestSetNoteNull();
         for (auto it = pNotebook->m_editors.begin(); it!= pNotebook->m_editors.end();it++) {
             (*it)->close();
+//            qDebug() << "before swap" << pNotebook->m_editors.size();
+//            std::vector<Edit_page*> tmp;
+//            pNotebook->m_editors.swap(tmp);
+//            qDebug() << "after swap" << pNotebook->m_editors.size();
         }
     }
 }
 
-void Pop_ip_exit::color_clicked()
+void noteExitWindow::color_clicked()
 {
-    if(!pNotebook->dack_wight_flag)
+    if(!pNotebook->m_isThemeChanged)
     {
         light_show();
     }else{
@@ -75,7 +83,7 @@ void Pop_ip_exit::color_clicked()
     }
 }
 
-void Pop_ip_exit::light_show()
+void noteExitWindow::light_show()
 {
     ui->widget->setStyleSheet("QWidget{background-color: rgba(255, 255, 255, 0.4);}");
 
@@ -98,7 +106,7 @@ void Pop_ip_exit::light_show()
                                                  "line-height:24px;"));
 }
 
-void Pop_ip_exit::black_show()
+void noteExitWindow::black_show()
 {
     ui->widget->setStyleSheet("QWidget{background-color: rgba(0, 0, 0, 0.4);}");
 

@@ -20,7 +20,7 @@
 
 #include <QObject>
 #include <QDateTime>
-
+#include "edit_page.h"
 class NoteData : public QObject
 {
     Q_OBJECT
@@ -62,7 +62,7 @@ public:
 
     QDateTime deletionDateTime() const;
     void setDeletionDateTime(const QDateTime& deletionDateTime);
-
+    Edit_page *m_note;
 
 private:
     int m_id;
@@ -76,6 +76,7 @@ private:
     bool m_isModified;
     bool m_isSelected;
     int m_scrollBarPosition;
+
 };
 
 QDataStream &operator<<(QDataStream &stream, const NoteData* noteData);

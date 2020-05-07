@@ -15,23 +15,23 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#ifndef CAI_TOU_H
-#define CAI_TOU_H
+#ifndef NOTEHEAD_H
+#define NOTEHEAD_H
 
 #include <QWidget>
 #include <QPainter>
 
 namespace Ui {
-class cai_tou;
+class noteHead;
 }
 
-class cai_tou : public QWidget
+class noteHead : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit cai_tou(QWidget *parent = nullptr);
-    ~cai_tou();
+    explicit noteHead(QWidget *parent = nullptr);
+    ~noteHead();
 
 
     void paintEvent(QPaintEvent *event)
@@ -56,7 +56,7 @@ public:
 
 
 private:
-    Ui::cai_tou *ui;
+    Ui::noteHead *ui;
 };
 
-#endif // CAI_TOU_H
+#endif // NOTEHEAD_H

@@ -32,6 +32,7 @@ public:
     ~NoteView();
 
     void animateAddedRow(const QModelIndex &parent, int start, int end);
+    void animateRemovedRow(const QModelIndex &parent, int start, int end);
     void setAnimationEnabled(bool isEnabled);
     void setCurrentRowActive(bool isActive);
 
