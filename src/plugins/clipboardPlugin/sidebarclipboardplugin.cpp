@@ -131,7 +131,7 @@ QMimeData * SidebarClipboardPlugin::copyMinedata(const QMimeData* mimeReference)
 //            format = format.mid(indexBegin, indexEnd - indexBegin);
 //        }
         mimecopy->setData(format, data);
-        qDebug() << "剪贴板数据的格式" << format;
+//        qDebug() << "剪贴板数据的格式" << format;
     }
 
     return mimecopy;
@@ -194,13 +194,10 @@ void SidebarClipboardPlugin::createWidgetEntry()
     QListWidgetItem *pListWidgetItem = new QListWidgetItem;
     ClipboardWidgetEntry *w = new ClipboardWidgetEntry;
     OriginalDataHashValue *s_pDataHashValue = new OriginalDataHashValue;
+    bool DeleteFlag = false;
     w->setFixedSize(397, 42);
     if (mimeData->hasImage()) {
-        qDebug() << "数据类型---->图像";
         s_pDataHashValue->p_pixmap = new QPixmap((qvariant_cast<QPixmap>(mimeData->imageData())));
-        s_pDataHashValue->DataFlag = 2;
-        text = mimeData->text();
-        qDebug() << "复制图片的名字，标志位-->" << mimeData->imageData();
         format = "Image";
         if (nullptr == s_pDataHashValue->p_pixmap) {
            qWarning() << "构造数据类型有错误-->p_pixmap == nullptr";
@@ -209,8 +206,6 @@ void SidebarClipboardPlugin::createWidgetEntry()
     } else if (nullptr == mimeData->urls().value(0).toString()) {
         text = mimeData->text();
         format = "Text";
-        qDebug() << "剪贴板中文本" << text;
-        s_pDataHashValue->DataFlag = 1;
     } else if(mimeData->urls().value(0).toString() != "") {
         fileUrls = mimeData->urls();
         format = "Url";
@@ -222,7 +217,6 @@ void SidebarClipboardPlugin::createWidgetEntry()
                 text += "\n" + fileUrls.value(i).toString();
             }
         }
-        s_pDataHashValue->DataFlag = 1;
     } else if(mimeData->hasHtml()) {
         qDebug() << "文本为Html";
     } else {
@@ -235,9 +229,19 @@ void SidebarClipboardPlugin::createWidgetEntry()
         return ;
     }
 
-    /* 当有重复的时候将会置顶 */
-    if(booleanExistWidgetItem(text)) {
-        qDebug() << "此条内容已存在，就是当前置顶的条数";
+    if (format == "Text" || format == "Url") {
+        /* 过滤重复文本 */
+        if(booleanExistWidgetItem(text)) {
+            DeleteFlag = true;
+        }
+    } else if (format == "Image") {
+        /* 过滤重复图片 */
+        if (booleanExistWidgetImagin(*s_pDataHashValue->p_pixmap)) {
+            DeleteFlag = true;
+        }
+    }
+    if (DeleteFlag) {
+        qDebug() << "此数据已存在，就是当前置顶的条数";
         delete pListWidgetItem;
         delete w;
         delete s_pDataHashValue;
@@ -270,11 +274,11 @@ void SidebarClipboardPlugin::createWidgetEntry()
     pListWidgetItem->setSizeHint(QSize(397,42));
     pListWidgetItem->setFlags(Qt::NoItemFlags);
 
-    if (s_pDataHashValue->DataFlag == 1) {
+    if (s_pDataHashValue->Clipbaordformat == "Text" || s_pDataHashValue->Clipbaordformat == "Url") {
         /* 设置...字样 */
         w->m_pCopyDataLabal->setTextFormat(Qt::PlainText);
         w->m_pCopyDataLabal->setText(SetFormatBody(text, w));
-    } else if (s_pDataHashValue->DataFlag == 2) {
+    } else if (s_pDataHashValue->Clipbaordformat == "Image") {
         w->m_pCopyDataLabal->setPixmap(*s_pDataHashValue->p_pixmap);
     }
     /* 将按钮与槽对应上 */
@@ -645,34 +649,74 @@ bool SidebarClipboardPlugin::booleanExistWidgetItem(QString Text)
 {
     int tmp = m_pShortcutOperationListWidget->count();
     for (int i = 0; i < tmp; i++) {
-        QString WidgetText = GetOriginalDataValue(m_pShortcutOperationListWidget->item(i))->text;
-        if (WidgetText == Text) {
-            if(i == 0) {
-                qDebug() << "当前的数据就是置顶数据";
-                return true;
+        OriginalDataHashValue *p = GetOriginalDataValue(m_pShortcutOperationListWidget->item(i));
+        if (p->Clipbaordformat == "Text" || p->Clipbaordformat == "Url") {
+            QString WidgetText = p->text;
+            if (WidgetText == Text) {
+                if(i == 0) {
+                    qDebug() << "当前的数据就是置顶数据";
+                    return true;
+                }
+                removeButtonSlots(GetOriginalDataValue(m_pShortcutOperationListWidget->item(i))->WidgetEntry);
+                return false;
             }
-            removeButtonSlots(GetOriginalDataValue(m_pShortcutOperationListWidget->item(i))->WidgetEntry);
-            return false;
         }
     }
     return false;
 }
 
+/* 判断图片是否在hash表中，如果存在，则删除，然后将图片重新写入到剪贴板中去 */
 bool SidebarClipboardPlugin::booleanExistWidgetImagin(QPixmap Pixmap)
 {
-//    int tmp = m_pShortcutOperationListWidget->count();
-//    for (int i = 0; i < tmp; i++) {
-////        QString WidgetText = GetOriginalDataValue(m_pShortcutOperationListWidget->item(i))->text;
-//        QPixmap Hash_Piamap = *GetOriginalDataValue(m_pShortcutOperationListWidget->item(i))->p_pixmap;
-//        if (Hash_Piamap == Pixmap) {
-//            if(i == 0) {
-//                qDebug() << "当前的数据就是置顶数据";
-//                return true;
-//            }
-//            removeButtonSlots(GetOriginalDataValue(m_pShortcutOperationListWidget->item(i))->WidgetEntry);
-//            return false;
-//        }
-//    }
+    //将从剪贴板拿到的数据转换成Bit位进行比较
+    QImage clipboardImage = Pixmap.toImage();
+    int Clipboard_hight = clipboardImage.height();
+    int Clipboard_width = clipboardImage.width();
+    unsigned char *clipboard_data = clipboardImage.bits();
+    int tmp = m_pShortcutOperationListWidget->count();
+    if (tmp == 0) {
+        qDebug() << "当前hash表中不存在数据， 直接返回即可";
+        return false;
+    }
+    unsigned char r1, g1, b1, r2, g2, b2;
+    int j;
+    for (int i = 0; i < tmp; i++) {
+        OriginalDataHashValue *p = GetOriginalDataValue(m_pShortcutOperationListWidget->item(i));
+        if (p->Clipbaordformat == "Image") {
+            //hash表中的Pixmap和刚从剪贴板中拿到的数据进行比较
+            QPixmap Hash_Pixmap = *(p->p_pixmap);
+            QImage Hash_Image = Hash_Pixmap.toImage();
+            if (Clipboard_hight == Hash_Image.height() && Clipboard_width == Hash_Image.width()) {
+                unsigned char *Hash_data = Hash_Image.bits();
+                for (j = 0; j < Clipboard_hight; j++) {
+                    for (int k = 0; k < Clipboard_width; k++) {
+                        r1 = *(Hash_data + 2);
+                        b1 = *(Hash_data + 1);
+                        g1 = *(Hash_data);
+                        r2 = *(clipboard_data + 2);
+                        b2 = *(clipboard_data + 1);
+                        g2 = *(clipboard_data);
+                        if (r1 == r2 && b1 == b2 && g1 == g2) {
+                            clipboard_data += 4;
+                            Hash_data += 4;
+                        } else {
+                            return false;   //比对图片像素点不相等直接返回false
+                        }
+                    }
+                }
+                if (j == Clipboard_hight) {
+                    //说明图片已经对比完成，且图片存在
+                    if (i == 0) {
+                        return true; //当前数据就是第一条数据， 不需要做其余处理，直接清理内存，退出；
+                    }
+                    /* 说明已存在此图片但是需要将该放置在第一个位置上去，同时写入剪贴板当中 */
+                    qDebug() << "说明已存在此图片但是需要将该放置在第一个位置上去，同时写入剪贴板当中";
+                    removeButtonSlots(GetOriginalDataValue(m_pShortcutOperationListWidget->item(i))->WidgetEntry);
+                    return false;
+                }
+            }
+        }
+    }
     return false;
 }
 
