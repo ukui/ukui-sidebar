@@ -15,17 +15,17 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include "color_mini.h"
-#include "ui_color_mini.h"
+#include "paletteButton.h"
+#include "ui_paletteButton.h"
 
-color_mini::color_mini(QWidget *parent) :
+paletteButton::paletteButton(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::color_mini)
+    ui(new Ui::paletteButton)
 {
     ui->setupUi(this);
 }
 
-color_mini::~color_mini()
+paletteButton::~paletteButton()
 {
     delete ui;
 }
