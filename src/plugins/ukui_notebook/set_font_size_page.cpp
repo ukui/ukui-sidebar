@@ -30,14 +30,12 @@ Set_font_size_page::Set_font_size_page(QWidget *parent) :
     set_listwidget();
     ui->listWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->listWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
 }
 
 Set_font_size_page::~Set_font_size_page()
 {
     delete ui;
 }
-
 
 void Set_font_size_page::set_listwidget()
 {

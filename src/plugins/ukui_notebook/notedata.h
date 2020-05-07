@@ -21,7 +21,6 @@
 #include <QObject>
 #include <QDateTime>
 #include "edit_page.h"
-
 class NoteData : public QObject
 {
     Q_OBJECT

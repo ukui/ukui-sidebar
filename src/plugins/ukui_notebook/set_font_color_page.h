@@ -47,7 +47,6 @@ public:
 
 private:
     void set_color();
-
 };
 
 #endif // SET_FONT_COLOR_PAGE_H
