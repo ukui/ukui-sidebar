@@ -138,6 +138,7 @@ void NoteWidgetDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     int m_noteColor{index.data(NoteModel::NoteColor).toInt()};
     painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     painter->setBrush(QBrush(intToQcolor(m_noteColor)));
+
     painter->setPen(Qt::transparent);
     opt.rect.setWidth(678);
     opt.rect.setHeight(opt.rect.height() - 5);

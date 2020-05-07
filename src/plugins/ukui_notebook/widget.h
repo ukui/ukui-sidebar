@@ -76,9 +76,9 @@ public:
     ~Widget();
 
     Ui::Widget *ui;                                                 //主ui
-    std::vector<Edit_page*> m_editors;
+    std::vector<Edit_page*> m_editors;                              //c++数组容器
 
-    int dack_wight_flag;
+    int m_isThemeChanged;                                           //主题
     void error_throw();                                             //异常处理抛出
 
 private:
@@ -103,7 +103,7 @@ private:
 
     int listflag;                                                   //平铺/展开列表切换
     int sortflag;                                                   //升降序切换
-    noteExitWindow* m_noteExitWindow=nullptr;                                      //退出弹窗
+    noteExitWindow* m_noteExitWindow=nullptr;                       //退出弹窗
     QAction *searchAction;                                          //搜索栏图标
     QAction *delAction;                                             //搜索栏删除图标
     QTimer* m_autoSaveTimer;                                        //自动保存定时器
@@ -115,7 +115,7 @@ private:
     QPushButton* m_sortLabel;                                       //升/降序按钮
     QPushButton* m_changePage;                                      //列表/平铺切换按钮
     NoteView* m_noteView;                                           //listview
-    QTableView* m_noteTable;                                          //tableview
+    QTableView* m_noteTable;                                        //tableview
     NoteModel* m_noteModel;                                         //便签模板
     NoteModel* m_deletedNotesModel;                                 //删除模板
     QSortFilterProxyModel* m_proxyModel;                            //对项目进行排序，过滤

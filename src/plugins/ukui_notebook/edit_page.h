@@ -64,7 +64,7 @@ private slots:
     void light_blue_btn_change();
     void light_green_btn_change();
     void yellow_btn_change();
-    void wight_btn_change();
+    void white_btn_change();
     void clear_the_page();
     void add_new_page();
     void show_note_page();

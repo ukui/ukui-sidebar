@@ -94,9 +94,6 @@ void NoteView::animateRemovedRow(const QModelIndex& parent, int start, int end)
     }
 }
 
-/**
- * @brief Reimplemented from QWidget::paintEvent()
- */
 void NoteView::paintEvent(QPaintEvent *e)
 {
     NoteWidgetDelegate* delegate = static_cast<NoteWidgetDelegate*>(itemDelegate());
@@ -106,9 +103,6 @@ void NoteView::paintEvent(QPaintEvent *e)
     QListView::paintEvent(e);
 }
 
-/**
- * @brief Reimplemented from QAbstractItemView::rowsInserted().
- */
 void NoteView::rowsInserted(const QModelIndex &parent, int start, int end)
 {
     qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
@@ -118,9 +112,6 @@ void NoteView::rowsInserted(const QModelIndex &parent, int start, int end)
     QListView::rowsInserted(parent, start, end);
 }
 
-/**
- * @brief Reimplemented from QAbstractItemView::rowsAboutToBeRemoved().
- */
 void NoteView::rowsAboutToBeRemoved(const QModelIndex &parent, int start, int end)
 {
     qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
@@ -356,9 +347,6 @@ void NoteView::setupSignalsSlots()
     });
 }
 
-/**
- * @brief setup styleSheet
- */
 void NoteView::setupStyleSheet()
 {
     QString ss = QString("QListView {background-color: rgb(255, 255, 255);} "
