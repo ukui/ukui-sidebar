@@ -51,6 +51,9 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
     /* 创建查找条目 */
     createFindClipboardWidgetItem();
 
+    /* 往文件类型链表中加入文件后缀类型 */
+    AddfileSuffix();
+
     /* 插件内部通信的信号类 */
     ClipBoardInternalSignal::initInternalSignal();
     ClipBoardInternalSignal *InternalSignal = ClipBoardInternalSignal::getGlobalInternalSignal();
@@ -192,10 +195,9 @@ void SidebarClipboardPlugin::createWidgetEntry()
     QString format;
     QList<QUrl> fileUrls;
     QListWidgetItem *pListWidgetItem = new QListWidgetItem;
-    ClipboardWidgetEntry *w = new ClipboardWidgetEntry;
     OriginalDataHashValue *s_pDataHashValue = new OriginalDataHashValue;
     bool DeleteFlag = false;
-    w->setFixedSize(397, 42);
+
     if (mimeData->hasImage()) {
         s_pDataHashValue->p_pixmap = new QPixmap((qvariant_cast<QPixmap>(mimeData->imageData())));
         format = "Image";
@@ -240,6 +242,10 @@ void SidebarClipboardPlugin::createWidgetEntry()
             DeleteFlag = true;
         }
     }
+
+    ClipboardWidgetEntry *w = new ClipboardWidgetEntry(format);
+    w->setFixedSize(397, 42);
+
     if (DeleteFlag) {
         qDebug() << "此数据已存在，就是当前置顶的条数";
         delete pListWidgetItem;
@@ -274,12 +280,26 @@ void SidebarClipboardPlugin::createWidgetEntry()
     pListWidgetItem->setSizeHint(QSize(397,42));
     pListWidgetItem->setFlags(Qt::NoItemFlags);
 
-    if (s_pDataHashValue->Clipbaordformat == "Text" || s_pDataHashValue->Clipbaordformat == "Url") {
+    if (s_pDataHashValue->Clipbaordformat == "Text") {
         /* 设置...字样 */
         w->m_pCopyDataLabal->setTextFormat(Qt::PlainText);
         w->m_pCopyDataLabal->setText(SetFormatBody(text, w));
     } else if (s_pDataHashValue->Clipbaordformat == "Image") {
         w->m_pCopyDataLabal->setPixmap(*s_pDataHashValue->p_pixmap);
+    } else if (s_pDataHashValue->Clipbaordformat == "Url") {
+        w->m_pCopyDataLabal->setTextFormat(Qt::PlainText);
+        w->m_pCopyDataLabal->setText(SetFormatBody(text, w));
+        if (s_pDataHashValue->urls.size() == 1) {
+            //判断文件类型，根据文件类型去读取主题图标
+            QIcon fileIcon(":/image/kylin-feedback.png");
+            fileSuffixGetsIcon(text);
+            QPixmap filePixmap = fileIcon.pixmap(QSize(34, 34));
+            w->m_pCopyFileIcon->setPixmap(filePixmap);
+        } else {
+            QIcon fileIcon(":/image/kylin-alarm-clock.svg");
+            QPixmap filePixmap = fileIcon.pixmap(QSize(34, 34));
+            w->m_pCopyFileIcon->setPixmap(filePixmap);
+        }
     }
     /* 将按钮与槽对应上 */
     connectWidgetEntryButton(w);
@@ -360,6 +380,75 @@ bool SidebarClipboardPlugin::substringSposition(QString formatBody, QStringList 
         }
     }
     return false;
+}
+
+/* 判断Url中当前后缀名，根据后缀名读取图标 */
+QIcon SidebarClipboardPlugin::fileSuffixGetsIcon(QString Url)
+{
+    if (Url == nullptr) {
+        qWarning() << "传入后缀名有错误， 为空";
+    }
+    int tmp = m_fileSuffix.size();
+    QStringList UrlList = Url.split(".");
+    qDebug() << "123123123" << UrlList;
+    if (UrlList.size() < 2) {
+        qDebug() << "此文件没有后缀";
+        return QIcon(":/image/kylin-feedback.png");
+    }
+    int cnt;
+    for(int i = 0; i < tmp; i++) {
+        if (m_fileSuffix[i] == UrlList[1]) {
+            cnt = i;
+            break;
+        }
+    }
+
+    switch (cnt) {
+    case Txt:
+        qDebug() << "Txt图标";
+        return QIcon(":/image/kylin-feedback.png");
+    case Svg:
+        qDebug() << "Svg图标";
+        return QIcon(":/image/kylin-feedback.png");
+    case Png:
+        qDebug() << "Png图标";
+        return QIcon(":/image/kylin-feedback.png");
+    case Bmp:
+        qDebug() << "Bmp图标";
+        return QIcon(":/image/kylin-feedback.png");
+    case Xml:
+        qDebug() << "Xml图标";
+        return QIcon(":/image/kylin-feedback.png");
+    case Docx:
+        qDebug() << "Docx图标";
+        return QIcon(":/image/kylin-feedback.png");
+    case Pptx:
+        qDebug() << "pptx图标";
+        return QIcon(":/image/kylin-feedback.png");
+    case Xlsx:
+        qDebug() << "Xlsx图标";
+        return QIcon(":/image/kylin-feedback.png");
+    case Zip:
+        qDebug() << "Zip图标";
+        return QIcon(":/image/kylin-feedback.png");
+    case Pdf:
+        qDebug() << "Pdf图标";
+        return QIcon(":/image/kylin-feedback.png");
+    case Pro:
+        qDebug() << "Pro图标";
+        return QIcon(":/image/kylin-feedback.png");
+    default:
+        //读取一个默认的图标
+        qDebug() << "读取一个默认的图标";
+        return QIcon(":/image/kylin-feedback.png");
+    }
+}
+
+/* 往链表中加入文件后缀 */
+void SidebarClipboardPlugin::AddfileSuffix()
+{
+    m_fileSuffix << "txt" << "svg" << "png" << "bmp" << "xml" << "docx" << "pptx" << "xlsx" << "zip" << "pdf" << "pro";
+    return;
 }
 
 void SidebarClipboardPlugin::connectWidgetEntryButton(ClipboardWidgetEntry *w)
@@ -779,7 +868,7 @@ void SidebarClipboardPlugin::searchClipboardLableTextSlots(QString Text)
     while (iter2 != m_pClipboardDataHash.constEnd()) {
         if (iter2.value()->text.contains(Text, Qt::CaseSensitive)) {
             m_pShortcutOperationListWidget->insertItem(0, iter2.key());
-            ClipboardWidgetEntry *w = new ClipboardWidgetEntry();
+            ClipboardWidgetEntry *w = new ClipboardWidgetEntry(iter2.value()->Clipbaordformat);
             w->setFixedSize(397, 42);
             connectWidgetEntryButton(w);
             QString Format = SetFormatBody(iter2.value()->text, w);
@@ -830,7 +919,7 @@ void SidebarClipboardPlugin::sortingEntryShow()
             qDebug() << "当前条目所处位置的位置-->Sequence -->" << iter1.value()->Sequence;
             if (index == iter1.value()->Sequence) {
                 m_pShortcutOperationListWidget->insertItem(0, iter1.key());
-                ClipboardWidgetEntry *w = new ClipboardWidgetEntry();
+                ClipboardWidgetEntry *w = new ClipboardWidgetEntry(iter1.value()->Clipbaordformat);
                 w->setFixedSize(397, 42);
                 connectWidgetEntryButton(w);
                 QString Format = SetFormatBody(iter1.value()->text, w);

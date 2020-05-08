@@ -46,9 +46,23 @@
 #include "clipboardlisetwidget.h"
 #include "cleanpromptbox.h"
 #include "clipBoardInternalSignal.h"
+//#include "clipbaordstructoriginaldata.h"
 #define  WIDGET_ENTRY_COUNT 10
 #define  SIDEBAR_CLIPBOARD_QSS_PATH  ":/qss/sidebarClipboard.css"
-
+enum fileType {
+    Txt,
+    Svg,
+    Png,
+    Bmp,
+    Xml,
+    Docx,
+    Pptx,
+    Xlsx,
+    Zip,
+    Pdf,
+    Pro,
+    Esle
+};
 typedef struct  clipboardOriginalDataHash {
     ClipboardWidgetEntry* WidgetEntry;
     const QMimeData* MimeData;
@@ -91,6 +105,7 @@ public:
     QGroupBox   *m_pSidebarClipboardBox;
     QWidget     *m_pSidebarClipboardWidget;
     QLabel      *m_pSideBarClipboardLable;
+    QStringList  m_fileSuffix;
     bool         m_bPromptBoxBool;
     bool         m_bsortEntryBool = true;
 
@@ -127,11 +142,13 @@ public:
     void createWidget();                                                    /* 创建剪贴板主Widget和搜索栏与条目的ListWidget界面 */
     void sortingEntryShow();                                                /* 將條目有序的展現出來 */
     bool booleanExistWidgetImagin(QPixmap Pixmap);
+    void AddfileSuffix();
+    QIcon fileSuffixGetsIcon(QString Url);
     QString SetFormatBody(QString text, ClipboardWidgetEntry *w);           /* 设置... */
     QString judgeBlankLine(QStringList list);                               /* 去除掉空行，显示有字体的行 */
     bool    substringSposition(QString formatBody, QStringList list);       /* 判断后面是否还有子串 */
     QListWidgetItem* iterationClipboardDataHash(ClipboardWidgetEntry *w);   /* 迭代Hash表m_pClipboardDataHash */
-    int iterationDataHashSearchSequence(int Index);                         /*  迭代Hash表查找其中的当前下标是否存在 */
+    int iterationDataHashSearchSequence(int Index);                         /* 迭代Hash表查找其中的当前下标是否存在 */
     QMimeData *copyMinedata(const QMimeData* mimeReference);                /* 拷贝QMimeData拷贝数据类型 */
     QMimeData *structureQmimeDate(OriginalDataHashValue *value);            /* 构造一个QMimeDate类型数据 */
 

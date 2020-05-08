@@ -24,9 +24,10 @@
 #include <QPainter>
 #include <QPalette>
 #include <QEvent>
-ClipboardWidgetEntry::ClipboardWidgetEntry(QWidget *parent)
+ClipboardWidgetEntry::ClipboardWidgetEntry(QString dataFormat, QWidget *parent)
 {
     Q_UNUSED(parent);
+    qDebug() << "dataFormat -->  " << dataFormat;
     status=NORMAL;
     this->setObjectName("WidgetEntry");
     this->setContentsMargins(0,0,0,0);
@@ -50,7 +51,9 @@ ClipboardWidgetEntry::ClipboardWidgetEntry(QWidget *parent)
     m_pEditButon->setFixedSize(34, 34);
     m_pEditButon->setIcon(EditIcon);
     m_pEditButon->setObjectName("EditButon");
-
+    if (dataFormat == "Url" || dataFormat == "Image") {
+        m_pEditButon->setEnabled(false);
+    }
     m_pRemoveButton  = new QPushButton();
     m_pRemoveButton->setStyle(new customstyle_clean_pushbutton("ukui-default"));
     m_pRemoveButton->setToolTip(QObject::tr("Remove"));
@@ -72,6 +75,13 @@ ClipboardWidgetEntry::ClipboardWidgetEntry(QWidget *parent)
     m_pHLayout       = new QHBoxLayout();
     m_pHLayout->setContentsMargins(0,0,0,0);
     m_pHLayout->addItem(new QSpacerItem(10,20));
+    if (dataFormat == "Url") {
+        m_pCopyFileIcon = new QLabel; //用来放置文件的图标
+        m_pCopyFileIcon->setContentsMargins(0, 0, 0, 0);
+        m_pCopyFileIcon->setFixedSize(34, 34);
+        m_pCopyDataLabal->setFixedSize(352, 34);
+        m_pHLayout->addWidget(m_pCopyFileIcon);
+    }
     m_pHLayout->addWidget(m_pCopyDataLabal);
     m_pHLayout->addWidget(m_pPopButton);
     m_pHLayout->addWidget(m_pEditButon);

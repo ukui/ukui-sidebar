@@ -13,5 +13,7 @@
         <file>translations/test_zh_CN.qm</file>
         <file>translations/qt_zh_CN.qm</file>
         <file>translations/widgets.qm</file>
+        <file>image/kylin-feedback.png</file>
+        <file>image/kylin-alarm-clock.svg</file>
     </qresource>
 </RCC>

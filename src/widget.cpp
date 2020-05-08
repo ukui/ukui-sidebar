@@ -144,7 +144,7 @@ bool Widget::loadNotificationPlugin()
 //加载剪贴板插件
 int Widget::ListenClipboardSignal()
 {
-    QDir pluginsDir("/usr/lib/ukui-sidebar/sidebar_clipboardPlugin_plugins");
+    QDir pluginsDir("./plugins/sidebar_clipboardPlugin_plugins");
     pluginsDir.setFilter(QDir::Files);
 
     QPluginLoader pluginLoader(pluginsDir.absoluteFilePath("libclipboardPlugin.so"));
@@ -661,10 +661,8 @@ void Widget::updateSmallPluginsClipboardWidget()
 /* 事件过滤器 */
 bool Widget::eventFilter(QObject *obj, QEvent *event)
 {
-    if (obj == this)
-    {
-        if (event->type() == QEvent::WindowDeactivate && true == m_bShowFlag && true == m_bClipboardFlag)
-        {
+    if (obj == this) {
+        if (event->type() == QEvent::WindowDeactivate && true == m_bShowFlag && true == m_bClipboardFlag) {
             qDebug() << "Widget::eventFilter 消失";
             mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
             hideAnimation();
@@ -676,8 +674,7 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
         }
     }
 
-    if (!isActiveWindow())
-    {
+    if (!isActiveWindow()) {
         activateWindow();
     }
     return false;
