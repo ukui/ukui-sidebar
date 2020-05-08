@@ -37,6 +37,7 @@
 #include <QLabel>
 #include <QByteArray>
 #include <QBitmap>
+#include <QFileInfo>
 #include "clipboardpluginiface.h"
 #include "clipboardwidgetentry.h"
 #include "sidebarclipboardsignal.h"

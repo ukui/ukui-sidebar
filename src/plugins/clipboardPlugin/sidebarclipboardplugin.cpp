@@ -272,7 +272,7 @@ void SidebarClipboardPlugin::createWidgetEntry()
     qDebug() << "hash表中的Sequence" << s_pDataHashValue->Sequence;
     registerWidgetOriginalDataHash(pListWidgetItem, s_pDataHashValue);
 
-    /* 当超过一定数目的WidgetItem数目时，删除最后一条消息 */
+    // 当超过一定数目的WidgetItem数目时，删除最后一条消息
     if (m_pShortcutOperationListWidget->count() >= WIDGET_ENTRY_COUNT) {
         removeLastWidgetItem();
     }
@@ -281,7 +281,7 @@ void SidebarClipboardPlugin::createWidgetEntry()
     pListWidgetItem->setFlags(Qt::NoItemFlags);
 
     if (s_pDataHashValue->Clipbaordformat == "Text") {
-        /* 设置...字样 */
+        // 设置...字样
         w->m_pCopyDataLabal->setTextFormat(Qt::PlainText);
         w->m_pCopyDataLabal->setText(SetFormatBody(text, w));
     } else if (s_pDataHashValue->Clipbaordformat == "Image") {
@@ -296,14 +296,15 @@ void SidebarClipboardPlugin::createWidgetEntry()
             QPixmap filePixmap = fileIcon.pixmap(QSize(34, 34));
             w->m_pCopyFileIcon->setPixmap(filePixmap);
         } else {
+            //当有多个图标时，显示特定图标
             QIcon fileIcon(":/image/kylin-alarm-clock.svg");
             QPixmap filePixmap = fileIcon.pixmap(QSize(34, 34));
             w->m_pCopyFileIcon->setPixmap(filePixmap);
         }
     }
-    /* 将按钮与槽对应上 */
+    //将按钮与槽对应上
     connectWidgetEntryButton(w);
-    /* 插入剪贴板条码 */
+    //插入剪贴板条码
     m_pShortcutOperationListWidget->insertItem(0, pListWidgetItem);
     m_pShortcutOperationListWidget->setItemWidget(pListWidgetItem, w);
     emit Itemchange();
@@ -320,7 +321,7 @@ QString SidebarClipboardPlugin::SetFormatBody(QString text, ClipboardWidgetEntry
         QStringList list = formatBody.split("\n");
         if (list.size() >= 2) {
             //当有几行时，只需要截取第一行就行，在第一行后面加...
-            /* 判断第一行是否是空行 */
+            // 判断第一行是否是空行
             formatBody = judgeBlankLine(list);
             formatBody = formatBody + "aa";
             int oneFontSize = fontMetrics.width(formatBody);
@@ -393,6 +394,16 @@ QIcon SidebarClipboardPlugin::fileSuffixGetsIcon(QString Url)
     qDebug() << "123123123" << UrlList;
     if (UrlList.size() < 2) {
         qDebug() << "此文件没有后缀";
+        QString  filePath = Url.mid(7);
+        QFileInfo fileinfo(filePath);
+        if (fileinfo.isFile()) {
+            qDebug() << "文件类型为普通文本";
+            //返回其余文本图标
+        } else if (fileinfo.isDir()){
+            //返回文件夹的图标
+            qDebug() << "文件类型为文件";
+        }
+        qDebug() << "FilePath ----> " << filePath;
         return QIcon(":/image/kylin-feedback.png");
     }
     int cnt;
@@ -560,7 +571,7 @@ void SidebarClipboardPlugin::moveOriginalDataFirstList(OriginalDataHashValue *va
 /* 将新置顶widget写入到剪贴板中去 */
 void SidebarClipboardPlugin::WhetherTopFirst()
 {
-    /* 获取第一个条目 当删除为第一项时，则自动将第二项置顶 */
+    // 获取第一个条目 当删除为第一项时，则自动将第二项置顶
     QListWidgetItem *PopWidgetItem =  m_pShortcutOperationListWidget->item(0);
     qDebug() << "QListWidgetItem *PopWidgetItem" << PopWidgetItem;
     if (PopWidgetItem == nullptr) {
@@ -616,7 +627,7 @@ void SidebarClipboardPlugin::popButtonSlots(ClipboardWidgetEntry *w)
         return;
     }
     QListWidgetItem *Item = iterationClipboardDataHash(w);
-    /* 构造QMimeData数据 */
+    // 构造QMimeData数据
     auto data= structureQmimeDate(GetOriginalDataValue(Item));
 
     removeOriginalDataHash(Item); //移除Hash表中的原始数据
@@ -666,7 +677,7 @@ void SidebarClipboardPlugin::removeButtonSlots(ClipboardWidgetEntry *w)
     removeOriginalDataHash(Item);
     QListWidgetItem *item =  m_pShortcutOperationListWidget->takeItem(tmp); //删除Item;
     delete item;
-    /* 判断当前删除的是不是第一个条目 */
+    // 判断当前删除的是不是第一个条目
     if (0 == tmp) {
         qDebug() << "删除当前的条目为第一个条目";
         WhetherTopFirst();
