@@ -20,7 +20,7 @@
 
 #include <QWidget>
 
-#define SHADOW_WIDTH 15                 // 窗口阴影宽度;
+#define SHADOW_WIDTH 1                  // 窗口阴影宽度;
 #define TRIANGLE_WIDTH 15               // 小三角的宽度;
 #define TRIANGLE_HEIGHT 10              // 小三角的高度;
 #define BORDER_RADIUS 5                 // 窗口边角的弧度;
@@ -37,10 +37,10 @@ public:
     explicit select_color_page(Widget* page , QWidget *parent = nullptr);
     ~select_color_page();
     void paintEvent(QPaintEvent *);
-     Ui::select_color_page *ui;
-      Widget* pNotebook;
+    Ui::select_color_page *ui;
+    Widget* pNotebook;
 private slots:
-      void color_clicked();
+    void color_clicked();
 
 private:
     void black_show();
@@ -51,7 +51,7 @@ private:
     // 小三角的宽度;
     int m_triangleWidth = 10;
     // 小三角高度;
-    int m_triangleHeight= 5 ;
+    int m_triangleHeight= 5;
     QTimer *timer;
 };
 

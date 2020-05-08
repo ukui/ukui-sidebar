@@ -63,7 +63,7 @@ void Set_font_color_page::set_listwidget()
 
         ui->listWidget->addItem(list_aItem[n]);
 
-        list_page[n] = new color_mini(this);
+        list_page[n] = new paletteButton(this);
         list_page[n]->resize(QSize(30,23));
 
         ui->listWidget->setItemWidget(list_aItem[n],list_page[n]);

@@ -73,30 +73,26 @@ void Text_editing::set_btn_image()
     pixmap5=QPixmap(":/image/1x/Symbol.png");
     pixmap6=QPixmap(":/image/1x/number.png");
 
-
- ui->BoldBtn->setIcon(pixmap1);
- ui->BoldBtn->setIconSize(QSize(36,36));
- ui->ItalicBtn->setIcon(pixmap2);
- ui->ItalicBtn->setIconSize(QSize(36,36));
- ui->underlineBtn->setIcon(pixmap3);
- ui->underlineBtn->setIconSize(QSize(36,36));
- ui->StrikeOutResolvedBtn->setIcon(pixmap4);
- ui->StrikeOutResolvedBtn->setIconSize(QSize(36,36));
- ui->showListBtn->setIcon(pixmap5);
- ui->showListBtn-> setIconSize(QSize(36,36));
- ui->showNUMList->setIcon(pixmap6);
- ui->showNUMList->setIconSize(QSize(36,36));
-
- //ui->light_blue_btn->setStyleSheet("background:rgba(255,255,255,1);");
+    ui->BoldBtn->setIcon(pixmap1);
+    ui->BoldBtn->setIconSize(QSize(36,36));
+    ui->ItalicBtn->setIcon(pixmap2);
+    ui->ItalicBtn->setIconSize(QSize(36,36));
+    ui->underlineBtn->setIcon(pixmap3);
+    ui->underlineBtn->setIconSize(QSize(36,36));
+    ui->StrikeOutResolvedBtn->setIcon(pixmap4);
+    ui->StrikeOutResolvedBtn->setIconSize(QSize(36,36));
+    ui->showListBtn->setIcon(pixmap5);
+    ui->showListBtn-> setIconSize(QSize(36,36));
+    ui->showNUMList->setIcon(pixmap6);
+    ui->showNUMList->setIconSize(QSize(36,36));
 }
-
 
 void Text_editing::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
-    if(pNotebook->dack_wight_flag){
+    if(pNotebook->m_isThemeChanged){
         painter.setBrush(QColor(0, 0, 0));
     }else{
         painter.setBrush(QColor(240, 240, 240));
@@ -113,7 +109,6 @@ void Text_editing::paintEvent(QPaintEvent *)
     painter.drawPath(drawPath);
 }
 
-
 void Text_editing::on_light_blue_btn_clicked()
 {
     QPointF position = this->pos();
@@ -127,7 +122,6 @@ void Text_editing::on_blue_btn_2_clicked()
     set_color_fort_page->move(position.x()+215,position.y()+40);
     set_color_fort_page->show();
 }
-
 
 void Text_editing::color_clicked()
 {
@@ -147,7 +141,7 @@ void Text_editing::light_show()
     ui->frame->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 0, 0);"));
     ui->showListBtn->setStyleSheet(QString::fromUtf8("background:rgba(240,240,240,0.9);"));
     ui->showNUMList->setStyleSheet(QString::fromUtf8("background:rgba(240,240,240,0.9);"));
-   // ui->blue_btn_2->setStyleSheet(QString::fromUtf8("background-color: rgb(245, 255, 180);\n"));
+    // ui->blue_btn_2->setStyleSheet(QString::fromUtf8("background-color: rgb(245, 255, 180);\n"));
     ui->blue_btn->setStyleSheet(QString::fromUtf8("background-color: rgb(167, 167, 167);\n"
                                                   "border-top-right-radius:4px;\n"
                                                   "border-top-left-radius:0px;\n"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>tui_chu_biab_qian_Dialog</class>
- <widget class="QDialog" name="tui_chu_biab_qian_Dialog">
+ <class>noteExitWindow</class>
+ <widget class="QDialog" name="noteExitWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -25,9 +25,9 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>95</x>
+      <x>40</x>
       <y>62</y>
-      <width>190</width>
+      <width>321</width>
       <height>22</height>
      </rect>
     </property>
@@ -41,15 +41,15 @@ opacity:0.97;
 </string>
     </property>
     <property name="text">
-     <string>确定要清空便签本吗?</string>
+     <string>Are you sure to exit the note book?</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="checkBox">
     <property name="geometry">
      <rect>
-      <x>95</x>
+      <x>40</x>
       <y>110</y>
-      <width>151</width>
+      <width>321</width>
       <height>28</height>
      </rect>
     </property>
@@ -61,7 +61,7 @@ line-height:40px;
 opacity:0.91;</string>
     </property>
     <property name="text">
-     <string>不再询问</string>
+     <string>Close the desktop note page at the same time</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton">
@@ -78,7 +78,7 @@ opacity:0.91;</string>
 line-height:24px;</string>
     </property>
     <property name="text">
-     <string>取消</string>
+     <string>No</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_2">
@@ -95,7 +95,7 @@ line-height:24px;</string>
 line-height:24px;</string>
     </property>
     <property name="text">
-     <string>确定</string>
+     <string>Yes</string>
     </property>
    </widget>
   </widget>

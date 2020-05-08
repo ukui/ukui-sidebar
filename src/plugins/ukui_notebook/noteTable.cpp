@@ -15,28 +15,25 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#ifndef TUI_CHU_BIAB_QIAN_DIALOG_H
-#define TUI_CHU_BIAB_QIAN_DIALOG_H
 
-#include <QDialog>
+#include "noteTable.h"
 
-namespace Ui {
-class tui_chu_biab_qian_Dialog;
+
+NoteTable::NoteTable(QWidget *parent)
+    : QTableView(parent)
+{
+    this->setAttribute(Qt::WA_MacShowFocusRect, 0);
+    setEditTriggers(QAbstractItemView::NoEditTriggers);
+    //一次性定时器,槽函数只处理一次
+    QTimer::singleShot(0, this, SLOT(init()));
 }
 
-class empty_notepad : public QDialog
+NoteTable::~NoteTable()
 {
-    Q_OBJECT
 
-public:
-    explicit empty_notepad(QWidget *parent = nullptr);
-    ~empty_notepad();
+}
 
-private slots:
-    void on_pushButton_clicked();
+void NoteTable::init()
+{
 
-private:
-    Ui::tui_chu_biab_qian_Dialog *ui;
-};
-
-#endif // TUI_CHU_BIAB_QIAN_DIALOG_H
+}

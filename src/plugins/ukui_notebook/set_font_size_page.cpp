@@ -17,8 +17,8 @@
 */
 #include "set_font_size_page.h"
 #include "ui_set_font_size_page.h"
-#include "form.h"
-#include "ui_form.h"
+#include "fontButton.h"
+#include "ui_fontButton.h"
 
 Set_font_size_page::Set_font_size_page(QWidget *parent) :
     QWidget(parent),
@@ -30,14 +30,12 @@ Set_font_size_page::Set_font_size_page(QWidget *parent) :
     set_listwidget();
     ui->listWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->listWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
 }
 
 Set_font_size_page::~Set_font_size_page()
 {
     delete ui;
 }
-
 
 void Set_font_size_page::set_listwidget()
 {
@@ -49,7 +47,7 @@ void Set_font_size_page::set_listwidget()
 
         ui->listWidget->addItem(list_aItem[n]);
 
-        list_page[n] = new Form(this);
+        list_page[n] = new fontButton(this);
         list_page[n]->resize(QSize(30,23));
 
         ui->listWidget->setItemWidget(list_aItem[n],list_page[n]);

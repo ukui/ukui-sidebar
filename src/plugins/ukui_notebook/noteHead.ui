@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>cai_tou</class>
- <widget class="QWidget" name="cai_tou">
+ <class>noteHead</class>
+ <widget class="QWidget" name="noteHead">
   <property name="geometry">
    <rect>
     <x>0</x>

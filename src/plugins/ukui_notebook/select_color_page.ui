@@ -145,7 +145,7 @@ border-radius:2px;</string>
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="wight_btn">
+   <widget class="QPushButton" name="white_btn">
     <property name="geometry">
      <rect>
       <x>230</x>
