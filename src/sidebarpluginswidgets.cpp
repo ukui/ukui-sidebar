@@ -43,6 +43,13 @@ sidebarPluginsWidgets::sidebarPluginsWidgets(QWidget *parent) : QWidget(parent)
     initUnGroupBox();
 
     initLableBackgroundAnimation();
+
+    /* 初始化desktop文件名称放入链表中 */
+//    addDesktopFileName();
+
+    /* 将闹钟、用户反馈等图标加入到界面 */
+//    parsingDesktopFile();
+
     QFile file(KYLIN_SIDEBAR_SMALL_PLUGINS);
     if (file.open(QFile::ReadOnly)) {
         QString strQss = QLatin1String(file.readAll());
@@ -274,6 +281,95 @@ void sidebarPluginsWidgets::setClipboardWidgetSize(int ClipHight)
     m_pClipboardWidget->setFixedSize(400, ClipHight - 50);
 
     return;
+}
+
+/* 解析Desktop文件，获取应用的图标 */
+QString sidebarPluginsWidgets::getAppIcon(QString desktopfp)
+{
+    GError** error=nullptr;
+    GKeyFileFlags flags=G_KEY_FILE_NONE;
+    GKeyFile* keyfile=g_key_file_new ();
+
+    QByteArray fpbyte=desktopfp.toLocal8Bit();
+    char* filepath=fpbyte.data();
+    g_key_file_load_from_file(keyfile,filepath,flags,error);
+    char* icon=g_key_file_get_locale_string(keyfile,"Desktop Entry","Icon", nullptr, nullptr);
+    g_key_file_free(keyfile);
+    return QString::fromLocal8Bit(icon);
+}
+
+/* 获取应用名称 */
+QString sidebarPluginsWidgets::getAppName(QString desktopfp)
+{
+    GError** error=nullptr;
+    GKeyFileFlags flags=G_KEY_FILE_NONE;
+    GKeyFile* keyfile=g_key_file_new ();
+
+    QByteArray fpbyte=desktopfp.toLocal8Bit();
+    char* filepath=fpbyte.data();
+    g_key_file_load_from_file(keyfile,filepath,flags,error);
+
+    char* name=g_key_file_get_locale_string(keyfile,"Desktop Entry","Name", nullptr, nullptr);
+    QString namestr=QString::fromLocal8Bit(name);
+    g_key_file_free(keyfile);
+    return namestr;
+}
+
+/* 将小插件desktop文件名称放入到desktopfpList中 */
+void sidebarPluginsWidgets::addDesktopFileName()
+{
+    m_desktopfpList << "kylin-assistant.desktop" << "kylin-video.desktop" << "kylin-update-manager.desktop";
+    return;
+}
+
+/* 解析链表中保存desktop文件 */
+void sidebarPluginsWidgets::parsingDesktopFile()
+{
+    int tmp = m_desktopfpList.size();
+    QSpacerItem *item1 = new QSpacerItem(10, 20);
+    int add_x = 0;
+    int add_y = 1;
+    for (int i = 0; i < tmp; i++) {
+        QString desktopfp = "/usr/share/applications/" + m_desktopfpList.at(i);
+        QString icon=getAppIcon(desktopfp);
+        QString name=getAppName(desktopfp);
+        QToolButton *p_button = StructToolButtol(icon, name);
+        m_pGroupBoxUnSmallPluginsGLayout->addItem(item1, add_x, add_y - 1);
+        m_pGroupBoxUnSmallPluginsGLayout->addWidget(p_button, add_x, add_y);
+        add_y += 2;
+        if (add_y > 8) {
+            add_x++;
+            add_y = 1;
+        }
+    }
+    QSpacerItem *item2 = new QSpacerItem(400 - 100*(add_y/2), 20);
+    m_pGroupBoxUnSmallPluginsGLayout->addItem(item2, add_x, add_y - 1);
+    m_pGroupBoxUnSmallPluginsGLayout->setContentsMargins(0, 19, 0, 250 - 90*(add_x + 1));
+    return;
+}
+
+/* 构建小插件图标 */
+QToolButton* sidebarPluginsWidgets::StructToolButtol(QString icon, QString name)
+{
+    QToolButton *p_ToolButton = new QToolButton();
+    p_ToolButton->setFixedSize(90,90);
+    QPixmap pixmap = QIcon::fromTheme(icon).pixmap(QSize(45, 45));
+    QLabel *IconLabel = new QLabel();
+    IconLabel->setFixedSize(45, 45);
+    IconLabel->setPixmap(pixmap);
+    QLabel *textLabel = new QLabel();
+    textLabel->setText(name);
+    QVBoxLayout *ToolButtonLaout = new QVBoxLayout();
+    ToolButtonLaout->setContentsMargins(0, 0, 0, 0);
+    ToolButtonLaout->addItem(new QSpacerItem(10, 12, QSizePolicy::Expanding));
+    ToolButtonLaout->addWidget(IconLabel, 0, Qt::AlignCenter);
+    ToolButtonLaout->addItem(new QSpacerItem(10, 9, QSizePolicy::Expanding));
+    ToolButtonLaout->addWidget(textLabel, 0, Qt::AlignCenter);
+    ToolButtonLaout->addSpacerItem(new QSpacerItem(10, 7));
+    p_ToolButton->setLayout(ToolButtonLaout);
+    p_ToolButton->setStyle(new CustomStyle("ukui-default"));
+    qDebug() << "插件接口名称" << name;
+    return p_ToolButton;
 }
 
 void sidebarPluginsWidgets::setButtonFont()

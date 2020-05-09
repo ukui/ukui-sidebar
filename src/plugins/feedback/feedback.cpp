@@ -196,7 +196,7 @@ void feedback::UI_init()
     QPalette palette_textedit = textEdit->palette();
     palette_textedit.setBrush(QPalette::Base,Qt::white);
     palette_textedit.setBrush(QPalette::Text,Qt::black);
-    palette_textedit.setBrush(QPalette::PlaceholderText,QColor("#CCCCCC"));
+//    palette_textedit.setBrush(QPalette::PlaceholderText,QColor("#CCCCCC"));
     textEdit->setPalette(palette_textedit);
     textEdit->setPlaceholderText(tr("请输入内容"));//设置详细输入框的提示信息
     textEdit->setStyle(new CustomStyle("ukui-light"));
@@ -234,7 +234,7 @@ void feedback::UI_init()
     lineEdit_2->setStyle(new CustomStyle("ukui"));
     QPalette palette_lineedit_2 = lineEdit_2->palette();
     palette_lineedit_2.setBrush(QPalette::Text,Qt::black);
-    palette_lineedit_2.setBrush(QPalette::PlaceholderText,QColor("#CCCCCC"));
+//    palette_lineedit_2.setBrush(QPalette::PlaceholderText,QColor("#CCCCCC"));
     lineEdit_2->setPalette(palette_lineedit_2);
 
     label_7 = new QLabel(centralwidget);
@@ -253,7 +253,7 @@ void feedback::UI_init()
     lineEdit->setStyle(new CustomStyle("ukui"));
     QPalette palette_lineedit = lineEdit->palette();
     palette_lineedit.setBrush(QPalette::Text,Qt::black);
-    palette_lineedit.setBrush(QPalette::PlaceholderText,QColor("#CCCCCC"));
+//    palette_lineedit.setBrush(QPalette::PlaceholderText,QColor("#CCCCCC"));
     lineEdit->setPalette(palette_lineedit);
 
     pushButton = new browse_button(centralwidget);

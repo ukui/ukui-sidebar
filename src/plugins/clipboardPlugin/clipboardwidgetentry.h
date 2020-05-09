@@ -32,6 +32,7 @@
 #include <QDebug>
 #include <QSpacerItem>
 #include "clipboardsignal.h"
+//#include "clipbaordstructoriginaldata.h"
 #define  EDIT_SVG_PATH  ":/image/editor.svg"
 #define  COPY_SVG_PATH  ":/image/copy.svg"
 #define  REMOVE_SVG_PATH  ":/image/delete.svg"
@@ -41,11 +42,12 @@ extern ClipboardSignal *globalClipboardSignal;
 class ClipboardWidgetEntry : public QWidget
 {
 public:
-    ClipboardWidgetEntry(QWidget *parent = nullptr);
+    ClipboardWidgetEntry(QString dataFormat, QWidget *parent = nullptr);
     QPushButton *m_pPopButton;
     QPushButton *m_pEditButon;
     QPushButton *m_pRemoveButton;
     QLabel      *m_pCopyDataLabal;
+    QLabel      *m_pCopyFileIcon;
     QHBoxLayout *m_pHLayout;
     QString      m_ptext;
     QString SetFormatBody(QString text);

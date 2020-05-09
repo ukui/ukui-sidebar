@@ -32,6 +32,7 @@
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QLabel>
+#include <glib.h>
 #include <QToolButton>
 #include <QStyle>
 #include "smallpluginsbutton.h"
@@ -60,6 +61,12 @@ public:
     void loadSmallPlugins();                                      //加载小插件，放置到sidebar界面
     void setButtonFont();
 
+    QString getAppIcon(QString desktopfp);                        //解析desktop文件，获取插件图标
+    QString getAppName(QString desktopfp);                        //获取插件名称
+    void    addDesktopFileName();                                 //将小插件desktop文件名称放入到desktopfpList中
+    void    parsingDesktopFile();                                 //解析desktop文件
+    QToolButton* StructToolButtol(QString icon, QString name);    //构建QToolButton
+    QStringList m_desktopfpList;                                  //保存当前小插件desktop文件名称
 
     QVBoxLayout *m_pWidgetOutVLayout;                             //最外层布局
     QHBoxLayout *m_pGrouBoxUpButtonHLayout;                       //GroupBox中Button中的布局

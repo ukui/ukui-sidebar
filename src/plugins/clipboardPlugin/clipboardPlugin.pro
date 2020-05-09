@@ -53,7 +53,8 @@ HEADERS += \
     editorwidget.h \
     searchwidgetitemcontent.h \
     ../../plugin-signals/sidebarclipboardsignal.h \
-    clipboardlisetwidget.h
+    clipboardlisetwidget.h \
+    clipbaordstructoriginaldata.h
 DISTFILES += clipboardPlugin.json 
 
 TRANSLATIONS += test_zh_CN.ts
