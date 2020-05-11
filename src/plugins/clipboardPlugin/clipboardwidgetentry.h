@@ -19,8 +19,8 @@
 
 #ifndef CLIPBOARDWIDGETENTRY_H
 #define CLIPBOARDWIDGETENTRY_H
-#include <QWidget>
 #include <QObject>
+#include <QWidget>
 #include <QPushButton>
 #include <QLineEdit>
 #include <QLabel>
@@ -31,8 +31,10 @@
 #include <QEvent>
 #include <QDebug>
 #include <QSpacerItem>
+#include <QMouseEvent>
 #include "clipboardsignal.h"
-//#include "clipbaordstructoriginaldata.h"
+#include "clipBoardInternalSignal.h"
+
 #define  EDIT_SVG_PATH  ":/image/editor.svg"
 #define  COPY_SVG_PATH  ":/image/copy.svg"
 #define  REMOVE_SVG_PATH  ":/image/delete.svg"
@@ -41,6 +43,7 @@
 extern ClipboardSignal *globalClipboardSignal;
 class ClipboardWidgetEntry : public QWidget
 {
+    Q_OBJECT
 public:
     ClipboardWidgetEntry(QString dataFormat, QWidget *parent = nullptr);
     QPushButton *m_pPopButton;
@@ -50,16 +53,20 @@ public:
     QLabel      *m_pCopyFileIcon;
     QHBoxLayout *m_pHLayout;
     QString      m_ptext;
+    QString      m_dataFormat;
     QString SetFormatBody(QString text);
     QString judgeBlankLine(QStringList list);                               /* 去除掉空行，显示有字体的行 */
     bool    substringSposition(QString formatBody, QStringList list);       /* 判断后面是否还有子串 */
-
     enum TaskWidgetStatus{NORMAL, HOVER, PRESS};
     TaskWidgetStatus status;
+
 protected:
     void enterEvent(QEvent *);                      //进入QWidget瞬间事件
     void leaveEvent(QEvent *);                      //离开QWidget瞬间事件
+    void mouseDoubleClickEvent(QMouseEvent *event); //双击事件
     void paintEvent(QPaintEvent *e);                //重绘事件
+signals:
+    void doubleClicksignals(QWidget *w);
 };
 
 #endif // CLIPBOARDWIDGETENTRY_H

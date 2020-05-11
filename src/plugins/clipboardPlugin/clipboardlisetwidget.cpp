@@ -28,10 +28,10 @@ ClipBoardLisetWidget::ClipBoardLisetWidget()
 
 void ClipBoardLisetWidget::mousePressEvent(QMouseEvent *event)
 {
-    if (event->buttons() == Qt::LeftButton) {
-        auto pos = event->pos();
-        if (!this->indexAt(pos).isValid())
-            //发送信号
-            emit globalClipboardSignal->ClipboardHideSignal();
-    }
+//    if (event->buttons() == Qt::LeftButton) {
+//        auto pos = event->pos();
+//        if (!this->indexAt(pos).isValid())
+//            //发送信号
+//            emit globalClipboardSignal->ClipboardHideSignal();
+//    }
 }

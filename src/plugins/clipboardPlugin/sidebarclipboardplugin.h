@@ -159,7 +159,7 @@ signals:
 
 public slots:
     void createWidgetEntry();
-    void popButtonSlots(ClipboardWidgetEntry *w);
+    void popButtonSlots(QWidget *w);
     void editButtonSlots(ClipboardWidgetEntry *w);
     void removeButtonSlots(ClipboardWidgetEntry *w);
     void removeAllWidgetItem();

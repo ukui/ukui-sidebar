@@ -55,7 +55,6 @@ PluginManager::PluginManager(QObject *parent) : QObject(parent)
         switch (pPluginInterface->pluginType()) {
             case PluginInterface::SmallPlugin: {
                 /* Plugins Num++, add Hash SmallPlugins pPluginInterface-->SmallPluginsInterface */
-                qDebug() << "Plugins Num++, add Hash SmallPlugins pPluginInterface-->SmallPluginsInterface";
                 SidebarSmallPluginInterface *p_SmallPluginsInterface = dynamic_cast<SidebarSmallPluginInterface*>(pPluginInterface);
                 SmallPluginsManage::getInstance()->registerSmallplugin(pPluginInterface, p_SmallPluginsInterface);
                 break;

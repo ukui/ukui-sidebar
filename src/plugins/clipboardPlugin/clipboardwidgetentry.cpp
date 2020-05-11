@@ -24,10 +24,12 @@
 #include <QPainter>
 #include <QPalette>
 #include <QEvent>
+
 ClipboardWidgetEntry::ClipboardWidgetEntry(QString dataFormat, QWidget *parent)
 {
     Q_UNUSED(parent);
-    qDebug() << "dataFormat -->  " << dataFormat;
+//    qDebug() << "dataFormat -->  " << dataFormat;
+    m_dataFormat = dataFormat;
     status=NORMAL;
     this->setObjectName("WidgetEntry");
     this->setContentsMargins(0,0,0,0);
@@ -51,9 +53,7 @@ ClipboardWidgetEntry::ClipboardWidgetEntry(QString dataFormat, QWidget *parent)
     m_pEditButon->setFixedSize(34, 34);
     m_pEditButon->setIcon(EditIcon);
     m_pEditButon->setObjectName("EditButon");
-    if (dataFormat == "Url" || dataFormat == "Image") {
-        m_pEditButon->setEnabled(false);
-    }
+
     m_pRemoveButton  = new QPushButton();
     m_pRemoveButton->setStyle(new customstyle_clean_pushbutton("ukui-default"));
     m_pRemoveButton->setToolTip(QObject::tr("Remove"));
@@ -84,7 +84,9 @@ ClipboardWidgetEntry::ClipboardWidgetEntry(QString dataFormat, QWidget *parent)
     }
     m_pHLayout->addWidget(m_pCopyDataLabal);
     m_pHLayout->addWidget(m_pPopButton);
-    m_pHLayout->addWidget(m_pEditButon);
+    if (!(m_dataFormat == "Url" || m_dataFormat == "Image")) {
+        m_pHLayout->addWidget(m_pEditButon);
+    }
     m_pHLayout->addWidget(m_pRemoveButton);
     m_pHLayout->addItem(new QSpacerItem(10,20));
     m_pHLayout->setSpacing(5);
@@ -104,8 +106,13 @@ void ClipboardWidgetEntry::enterEvent(QEvent *e)
     repaint();
 
     m_pCopyDataLabal->setFixedSize(260, 34);
+    if (m_dataFormat == "Url" || m_dataFormat == "Image") {
+        m_pCopyDataLabal->setFixedSize(260, 34);
+    } else {
+        m_pCopyDataLabal->setFixedSize(260, 34);
+        m_pEditButon->setVisible(true);
+    }
     m_pPopButton->setVisible(true);
-    m_pEditButon->setVisible(true);
     m_pRemoveButton->setVisible(true);
     m_ptext = this->m_pCopyDataLabal->text();
     QString format = SetFormatBody(m_ptext);
@@ -122,7 +129,21 @@ void ClipboardWidgetEntry::leaveEvent(QEvent *e)
     m_pEditButon->setVisible(false);
     m_pRemoveButton->setVisible(false);
     m_pCopyDataLabal->setFixedSize(386, 34);
-    this->m_pCopyDataLabal->setText(m_ptext);
+    if (m_ptext == "") {
+        return;
+    } else {
+        this->m_pCopyDataLabal->setText(m_ptext);
+    }
+}
+
+void ClipboardWidgetEntry::mouseDoubleClickEvent(QMouseEvent *event)
+{
+    m_ptext = this->m_pCopyDataLabal->text();
+    if (event->button() == Qt::LeftButton) {
+        emit doubleClicksignals(this);
+        return;
+    }
+    return;
 }
 
 QString ClipboardWidgetEntry::SetFormatBody(QString text)
@@ -131,7 +152,6 @@ QString ClipboardWidgetEntry::SetFormatBody(QString text)
     int LableWidth = this->m_pCopyDataLabal->width();
     int fontSize = fontMetrics.width(text);
     QString formatBody = text;
-//    qDebug() << "Lable象数点大小为" << LableWidth << "&&从编辑框返回的数据，象数点大小为-->" << fontSize;
     if(fontSize > (LableWidth - 10)) {
         QStringList list = formatBody.split("\n");
         if (list.size() >= 2) {
@@ -146,14 +166,12 @@ QString ClipboardWidgetEntry::SetFormatBody(QString text)
             } else {
                 if (!substringSposition(formatBody, list)) {
                     int oneFontSize = fontMetrics.width(formatBody);
-//                    qDebug () << "oneFontSize = fontMetrics.width(formatBody);" << oneFontSize;
                     formatBody = fontMetrics.elidedText(formatBody, Qt::ElideRight, oneFontSize - 1);
                     return formatBody;
                 }
             }
         } else {
             //说明只存在一行，在最后面加...就行
-//            qDebug() << "fontSize > (LableWidth - 10)" << LableWidth << "&&jiantieban---->" << fontSize;
             formatBody = fontMetrics.elidedText(formatBody, Qt::ElideRight, LableWidth - 10);
             return formatBody;
         }
@@ -165,7 +183,6 @@ QString ClipboardWidgetEntry::SetFormatBody(QString text)
             formatBody = formatBody + "aa";
             if (!substringSposition(formatBody, list)) {
                 int oneFontSize = fontMetrics.width(formatBody);
-//                qDebug () << "当前子串的大小" << oneFontSize << formatBody;
                 formatBody = fontMetrics.elidedText(formatBody, Qt::ElideRight, oneFontSize - 1);
             }
         }

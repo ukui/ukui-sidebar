@@ -671,6 +671,7 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
         } else if (event->type() == QEvent::StyleChange) {
             m_pUpdateSmallPluginsWidget->start(200);
             sidebarPluginsWidgets::getInstancePluinsWidgets()->setButtonFont();
+            return true;
         }
     }
 
