@@ -4,9 +4,9 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
 TARGET = feedback
-TEMPLATE = lib
-CONFIG += plugin
-QT += core gui sql network
+TEMPLATE = app
+
+QT += core gui  network
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -29,12 +29,13 @@ SOURCES += \
     feedback.cpp \
     fileitem_init.cpp \
     hidebtnhover.cpp \
+    main.cpp \
     submit_fail.cpp \
     submit_success.cpp \
     systeminfo_button.cpp \
-    feedback_plugin.cpp
 
-INCLUDEPATH    += ../../plugin-interface
+
+
 HEADERS += \
     browse_button.h \
     closeBtn_hover.h \
@@ -45,13 +46,8 @@ HEADERS += \
     submit_fail.h \
     submit_success.h \
     systeminfo_button.h \
-    feedback_plugin.h
 
-DESTDIR = ../sidebarSmallPlugins
 
-DISTFILES += feedback.json
-
-FORMS +=
 
 RESOURCES += \
     feedback.qrc
@@ -59,6 +55,11 @@ RESOURCES += \
 DISTFILES +=
 
 unix {
-    target.path = /usr/lib/ukui-sidebar/sidebarSmallPlugins
+    target.path = /usr/bin/
     INSTALLS += target
 }
+
+desktopfile.files = feedback.desktop
+desktopfile.path = /usr/share/applications/
+
+INSTALLS += desktopfile

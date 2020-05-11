@@ -1,0 +1,16 @@
+[Desktop Entry]
+Name=Ukui Notebook
+Name[zh_CN]=麒麟便签本
+GenericName=Ukui Notebook
+GenericName[zh_CN]=麒麟便签本
+Comment=Ukui Notebook
+Comment[zh_CN]=Notebook
+Keywords=guide;
+Exec=/usr/bin/ukui-notebook
+Icon=notebook
+Terminal=false
+Type=Application
+NoDisplay=false
+Categories=System;Utility;
+StartupNotify=false
+

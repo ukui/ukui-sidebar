@@ -1,0 +1,16 @@
+[Desktop Entry]
+Name=Ukui Clock
+Name[zh_CN]=闹钟
+GenericName=Ukui Clock
+GenericName[zh_CN]=闹钟
+Comment=Ukui Clock
+Comment[zh_CN]=闹钟
+Keywords=guide;
+Exec=/usr/bin/ukui-clock
+Icon=clock-alarm
+Terminal=false
+Type=Application
+NoDisplay=false
+Categories=System;Utility;
+StartupNotify=false
+

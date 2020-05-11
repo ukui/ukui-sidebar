@@ -8,9 +8,9 @@ QT       += core gui printsupport sql concurrent gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = ukui_notebook
-TEMPLATE = lib
-CONFIG += plugin
+TARGET = ukui-notebook
+TEMPLATE = app
+
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
@@ -25,11 +25,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
-DESTDIR = ../sidebarSmallPlugins
 
-INCLUDEPATH    += ../../plugin-interface
 
-DISTFILES += notebook.json
+
+
+
 
 TRANSLATIONS += \
         ukui_notebook_zh_CN.ts
@@ -39,11 +39,11 @@ SOURCES += \
     edit_page.cpp \
     emptyNotes.cpp \
     fontButton.cpp \
+    main.cpp \
     mythrow.cpp \
     noteExitWindow.cpp \
     noteHead.cpp \
     noteTable.cpp \
-    notebook_plugin.cpp \
     notedata.cpp \
     notemodel.cpp \
     noteview.cpp \
@@ -62,7 +62,6 @@ HEADERS += \
     emptyNotes.h \
     fontButton.h \
     mythrow.h \
-    notebook_plugin.h \
     noteExitWindow.h \
     noteHead.h \
     noteTable.h \
@@ -101,6 +100,11 @@ RESOURCES += \
 
 DISTFILES +=
 unix {
-    target.path = /usr/lib/ukui-sidebar/sidebarSmallPlugins
+    target.path = /usr/bin/
     INSTALLS += target
 }
+
+desktopfile.files = ukui_notebook.desktop
+desktopfile.path = /usr/share/applications/
+
+INSTALLS += desktopfile
