@@ -51,6 +51,13 @@ extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int tran
 feedback::feedback(QWidget *parent)
     : QMainWindow(parent)
 {
+    QTranslator *translator = new QTranslator;
+    QLocale locale;
+    //获取系统语言环境
+    if ( locale.language() == QLocale::English ) {
+        translator->load(QString("://translation/feedback_en_US.qm"));  //选择翻译文件
+        QApplication::installTranslator(translator);
+    }
 
     UI_init();
     feedback_init();
@@ -60,20 +67,20 @@ feedback::feedback(QWidget *parent)
 feedback::~feedback()
 {
 
-//    qDebug()<<"this is ~feedback";
-//    //程序结束时删除所有数据------
-//    if(submitting_timer != nullptr)
-//        delete submitting_timer;
-//    if(accessManager_file != nullptr)
-//        delete accessManager_file;
-//    if(multiPart != nullptr)
-//        delete multiPart;
-//    if(accessManager != nullptr)
-//        delete accessManager;
-//    if(success_dialog != nullptr)
-//        delete success_dialog;
-//    if(fail_dialog != nullptr)
-//        delete fail_dialog;
+    qDebug()<<"this is ~feedback";
+    //程序结束时删除所有数据------
+    if(submitting_timer != nullptr)
+        delete submitting_timer;
+    if(accessManager_file != nullptr)
+        delete accessManager_file;
+    if(multiPart != nullptr)
+        delete multiPart;
+    if(accessManager != nullptr)
+        delete accessManager;
+    if(success_dialog != nullptr)
+        delete success_dialog;
+    if(fail_dialog != nullptr)
+        delete fail_dialog;
     //************************** UI
     delete file_listwidget;
     delete pushButton_mix;
