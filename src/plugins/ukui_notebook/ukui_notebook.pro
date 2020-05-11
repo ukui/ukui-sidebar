@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui printsupport sql concurrent gui
+QT       += core gui printsupport sql concurrent gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -45,6 +45,7 @@ SOURCES += \
     select_color_page.cpp \
     set_font_color_page.cpp \
     set_font_size_page.cpp \
+    singleApplication.cpp \
     singleitemButton.cpp \
     tableModel.cpp \
     text_editing.cpp \
@@ -67,6 +68,7 @@ HEADERS += \
     select_color_page.h \
     set_font_color_page.h \
     set_font_size_page.h \
+    singleApplication.h \
     singleitemButton.h \
     tableModel.h \
     text_editing.h \
