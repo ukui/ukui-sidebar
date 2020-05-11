@@ -45,6 +45,14 @@ Widget::Widget(QWidget *parent) :
   , m_isColorModified(false)
   , m_isOperationRunning(false)
 {    
+    translator = new QTranslator;
+    QLocale locale;
+    //获取系统语言环境
+    if ( locale.language() == QLocale::Chinese ) {
+        qDebug() << "####";
+        translator->load(QString(":/translation/ukui_notebook_zh_CN.qm"));  //选择翻译文件
+        QApplication::installTranslator(translator);
+    }
     ui->setupUi(this);
     setupDatabases();
     setupModelView();
@@ -202,14 +210,9 @@ void Widget::kyNoteInit()
     m_sortLabel = ui->sort_btn;
     m_changePage = ui->change_page_btn;
 
-    //禁用双击编辑
-    ui->listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    ui->tableView->verticalHeader()->hide();
-    ui->tableView->horizontalHeader()->hide();
-    //隐藏滑动条
-    ui->listView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    ui->listView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    initListModel();
+    initTableModel();
+
     //窗口属性
     setWindowFlags(Qt::FramelessWindowHint);//开启窗口无边框
     //    setWindowOpacity(0.8);//窗口透明度
@@ -235,7 +238,6 @@ void Widget::kyNoteInit()
     p.drawRoundedRect(bmp.rect(),6,6);
     setMask(bmp);
 
-    ui->tableView->hide();
     ui->set_btn->hide();
     ui->change_page_btn->hide();
     ui->add_more_btn->move(575, 0);
@@ -404,6 +406,27 @@ void Widget::set_all_btn_attribute()
     ui->sort_2_btn->setToolTip(tr("Switching Themes"));
     ui->pushButton_Exit->setToolTip(tr("Exit"));
     ui->pushButton_Mini->setToolTip(tr("Mini"));
+}
+
+void Widget::initListModel()
+{
+    //禁用双击编辑
+    ui->listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    //隐藏滑动条
+    ui->listView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->listView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+}
+
+void Widget::initTableModel()
+{
+    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->tableView->setShowGrid(false);
+    ui->tableView->horizontalHeader()->setDefaultSectionSize(200);
+    ui->tableView->verticalHeader()->setDefaultSectionSize(6);
+    ui->tableView->verticalHeader()->hide();
+    ui->tableView->horizontalHeader()->hide();
+    ui->tableView->hide();
+    ui->tableView->setMinimumHeight(25);
 }
 
 void Widget::deleteNote(const QModelIndex &noteIndex, bool isFromUser)
@@ -905,7 +928,7 @@ void Widget::onColorChanged(const QColor &color,int noteId)
 
 void Widget::exitSlot()
 {
-    m_noteExitWindow->setWindowFlags(m_noteExitWindow->windowFlags() | Qt::WindowStaysOnTopHint);
+    //m_noteExitWindow->setWindowFlags(m_noteExitWindow->windowFlags() | Qt::WindowStaysOnTopHint);
     m_noteExitWindow->show();
     m_noteExitWindow->raise();
 }
