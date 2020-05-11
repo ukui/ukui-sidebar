@@ -45,10 +45,10 @@ sidebarPluginsWidgets::sidebarPluginsWidgets(QWidget *parent) : QWidget(parent)
     initLableBackgroundAnimation();
 
     /* 初始化desktop文件名称放入链表中 */
-//    addDesktopFileName();
+    addDesktopFileName();
 
     /* 将闹钟、用户反馈等图标加入到界面 */
-//    parsingDesktopFile();
+    parsingDesktopFile();
 
     QFile file(KYLIN_SIDEBAR_SMALL_PLUGINS);
     if (file.open(QFile::ReadOnly)) {
@@ -318,7 +318,7 @@ QString sidebarPluginsWidgets::getAppName(QString desktopfp)
 /* 将小插件desktop文件名称放入到desktopfpList中 */
 void sidebarPluginsWidgets::addDesktopFileName()
 {
-    m_desktopfpList << "kylin-assistant.desktop" << "kylin-video.desktop" << "kylin-update-manager.desktop";
+    m_desktopfpList << "feedback.desktop" << "ukui_notebook.desktop" << "feedback.desktop";
     return;
 }
 
