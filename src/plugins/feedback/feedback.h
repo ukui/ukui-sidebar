@@ -72,7 +72,6 @@ class QPushButton;
 class QLabel;
 
 using namespace std;
-extern bool window_is_close_flag;
 
 class feedback : public QMainWindow
 {
@@ -126,11 +125,11 @@ public:
     //*************************
 
     void UI_init();
-
-    void feedback_init();
     void systeminfo_show(QPointF pt);
     void systeminfo_hide();
     void add_systeminfo();
+
+    void feedback_init();
 
     void feedback_info_init();
 
@@ -148,8 +147,6 @@ public:
     void window_close();
     void resend_info_when_sendfail();
     void add_file_to_Part(QString filepath,QString file_type,QString file_name);
-
-    void feedback_quit();
 
     void finishedSlot(QNetworkReply*);
 
@@ -259,6 +256,8 @@ private:
 
     int pixmap_i = 0;
 
+    bool window_is_close_flag  = false;
+    bool file_send_failed_flag = true;
 
 };
 #endif // FEEDBACK_H

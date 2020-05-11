@@ -1,0 +1,16 @@
+[Desktop Entry]
+Name=Ukui Feedback
+Name[zh_CN]=用户反馈
+GenericName=Ukui Feedback
+GenericName[zh_CN]=用户反馈
+Comment=Ukui Feedback
+Comment[zh_CN]=用户反馈
+Keywords=guide;
+Exec=/usr/bin/feedback
+Icon=feedback
+Terminal=false
+Type=Application
+NoDisplay=false
+Categories=System;Utility;
+StartupNotify=false
+

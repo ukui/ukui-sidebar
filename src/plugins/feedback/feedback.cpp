@@ -46,7 +46,7 @@
 #include <QElapsedTimer>
 
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
-bool window_is_close_flag  = false;
+
 
 feedback::feedback(QWidget *parent)
     : QMainWindow(parent)
@@ -59,13 +59,21 @@ feedback::feedback(QWidget *parent)
 
 feedback::~feedback()
 {
-    //程序结束时删除所有数据------
-    delete submitting_timer;
-    delete accessManager_file;
-    delete multiPart;
-    delete accessManager;
-    delete success_dialog;
-    delete fail_dialog;
+
+//    qDebug()<<"this is ~feedback";
+//    //程序结束时删除所有数据------
+//    if(submitting_timer != nullptr)
+//        delete submitting_timer;
+//    if(accessManager_file != nullptr)
+//        delete accessManager_file;
+//    if(multiPart != nullptr)
+//        delete multiPart;
+//    if(accessManager != nullptr)
+//        delete accessManager;
+//    if(success_dialog != nullptr)
+//        delete success_dialog;
+//    if(fail_dialog != nullptr)
+//        delete fail_dialog;
     //************************** UI
     delete file_listwidget;
     delete pushButton_mix;
@@ -80,8 +88,8 @@ feedback::~feedback()
     delete label_8;
     delete label_10;
     delete label_11;
-    delete frame_2;
     delete effect;
+    delete frame_2;
     delete verticalWidget;
     delete pushButton_3;
     delete pushButton_2;
@@ -119,11 +127,6 @@ void feedback::UI_init()
     this->setFixedSize(600,550);
     this->setWindowIcon(QIcon(":/image/kylin-feedback.png"));
     this->setWindowFlags(Qt::FramelessWindowHint);//设置窗口无边框
-
-
-
-
-
 
     //--------设置圆角
     QBitmap bmp(this->size());
@@ -196,9 +199,11 @@ void feedback::UI_init()
     QPalette palette_textedit = textEdit->palette();
     palette_textedit.setBrush(QPalette::Base,Qt::white);
     palette_textedit.setBrush(QPalette::Text,Qt::black);
-//    palette_textedit.setBrush(QPalette::PlaceholderText,QColor("#CCCCCC"));
+    //    palette_textedit.setBrush(QPalette::PlaceholderText,QColor("#CCCCCC"));
     textEdit->setPalette(palette_textedit);
+#if QT_VERSION >= 0x050c00
     textEdit->setPlaceholderText(tr("请输入内容"));//设置详细输入框的提示信息
+#endif
     textEdit->setStyle(new CustomStyle("ukui-light"));
     textEdit->setAcceptRichText(false); //不接受富文本
 
@@ -234,7 +239,7 @@ void feedback::UI_init()
     lineEdit_2->setStyle(new CustomStyle("ukui"));
     QPalette palette_lineedit_2 = lineEdit_2->palette();
     palette_lineedit_2.setBrush(QPalette::Text,Qt::black);
-//    palette_lineedit_2.setBrush(QPalette::PlaceholderText,QColor("#CCCCCC"));
+    //    palette_lineedit_2.setBrush(QPalette::PlaceholderText,QColor("#CCCCCC"));
     lineEdit_2->setPalette(palette_lineedit_2);
 
     label_7 = new QLabel(centralwidget);
@@ -249,11 +254,13 @@ void feedback::UI_init()
     lineEdit->setGeometry(QRect(140, 367, 320, 30));
     lineEdit->setReadOnly(true);
     lineEdit->setFrame(true);
+#if QT_VERSION >= 0x050c00
     lineEdit->setPlaceholderText(tr("文件大小不能超过10MB"));
+#endif
     lineEdit->setStyle(new CustomStyle("ukui"));
     QPalette palette_lineedit = lineEdit->palette();
     palette_lineedit.setBrush(QPalette::Text,Qt::black);
-//    palette_lineedit.setBrush(QPalette::PlaceholderText,QColor("#CCCCCC"));
+    //    palette_lineedit.setBrush(QPalette::PlaceholderText,QColor("#CCCCCC"));
     lineEdit->setPalette(palette_lineedit);
 
     pushButton = new browse_button(centralwidget);
@@ -473,11 +480,6 @@ void feedback::submit_change_load_image()
     }
 
 }
-void feedback::feedback_quit()
-{
-    this->hide();
-    feedback_info_init();
-}
 //最小化窗口
 void feedback::on_pushButton_mix_clicked()
 {
@@ -489,16 +491,27 @@ void feedback::on_pushButton_mix_clicked()
 void feedback::on_pushButton_close_clicked()
 {
     pushButton_close->setStyleSheet("background-color:rgb(215,52,53);border-image:url(:/image/close_hover.png);border-radius:4px;");
-    this->hide();
-    accessManager->disconnect();
-    submitting_timer->stop();
-    feedback_info_init();
-    window_is_close_flag = true;
+    if(file_send_failed_flag)
+    {
+        this->close();
+    }
+    else{
+        this->hide();
+        accessManager->disconnect();
+        submitting_timer->stop();
+        feedback_info_init();
+        window_is_close_flag = true;
+    }
 }
 void feedback::window_close()
 {
+    if(file_send_failed_flag)
+    {
+        this->close();
+    }
     this->hide();
     feedback_info_init();
+    window_is_close_flag = true;
 }
 //发送失败后 重新发送
 void feedback::resend_info_when_sendfail()
@@ -959,6 +972,7 @@ void feedback::add_file_to_Part(QString filepath,QString file_type,QString file_
 }
 void feedback::send_file_httpserver(QString uid)
 {
+    file_send_failed_flag = false;
     qDebug()<<"this is send file httpserver";
     qDebug()<<"uid:"<<uid;
     //初始化http发送文件请求
@@ -1016,6 +1030,7 @@ void feedback::send_file_httpserver(QString uid)
 //发送文件请求结束槽函数
 void feedback::sendfile_finished(QNetworkReply* reply)
 {
+    file_send_failed_flag = true;
     qDebug()<<"this is send file finished";
 
     statusCode_file = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
@@ -1030,6 +1045,10 @@ void feedback::sendfile_finished(QNetworkReply* reply)
     //panduan ==200
     qDebug() << bytes_file;
 
+    if(window_is_close_flag)
+    {
+        this->close();
+    }
 
 }
 //邮箱是否填写

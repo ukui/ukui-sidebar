@@ -8,17 +8,17 @@ QT       += core gui multimedia sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = Clock_deamon
-TEMPLATE = lib
-CONFIG += plugin
+TARGET = ukui-clock
+TEMPLATE = app
+
 
 
 SOURCES += \
         clock.cpp \
-    clock_plugin.cpp \
     customstyle.cpp \
     delete_msg.cpp \
     item_new.cpp \
+    main.cpp \
     notice_alarm.cpp \
     notice_dialog.cpp \
     setuppage.cpp \
@@ -33,16 +33,7 @@ SOURCES += \
     QRoundProgressBar.cpp
 TRANSLATIONS = Clock.ts
 
-INCLUDEPATH    += ../../plugin-interface
-
-DESTDIR = ../sidebarSmallPlugins
-
-DISTFILES += Clock.json \
-    Clock.json
-
-
 HEADERS  += clock.h \
-    clock_plugin.h \
     connection.h \
     customstyle.h \
     debug.h \
@@ -74,6 +65,10 @@ RESOURCES += \
 RC_FILE = clock.rc
 
 unix {
-    target.path = /usr/lib/ukui-sidebar/sidebarSmallPlugins
+    target.path = /usr/bin/
     INSTALLS += target
 }
+desktopfile.files = clock.desktop
+desktopfile.path = /usr/share/applications/
+
+INSTALLS += desktopfile
