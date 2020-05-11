@@ -31,6 +31,7 @@
 #include <iostream>
 #include <QTranslator>
 #include <QStandardPaths>
+//#include <QStringLiteral>
 #include <QPushButton>
 #include <QSettings>
 #include <QThread>
@@ -76,6 +77,7 @@ public:
 
     Ui::Widget *ui;                                                 //主ui
     std::vector<Edit_page*> m_editors;                              //c++数组容器
+    QTranslator *translator;                                        //国际化
 
     int m_isThemeChanged;                                           //主题
     void error_throw();                                             //异常处理抛出
@@ -135,6 +137,8 @@ private:
 
     void kyNoteInit();                                              //加载界面组件
     void kyNoteConn();                                              //绑定槽函数
+    void initListModel();                                           //初始化列表
+    void initTableModel();                                          //初始化表格
     void black_show();                                              //黑色主题
     void light_show();                                              //白色主题
     void set_all_btn_attribute();                                   //初始化按钮
