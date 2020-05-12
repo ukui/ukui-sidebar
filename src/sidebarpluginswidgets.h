@@ -96,6 +96,8 @@ public:
     bool    SmallPluginsBool;                                     //插件按钮修改屏幕分辨率bool值
     int     m_statusFlag;                                         //状态机位置
     int     flagnumClipboardState;
+    int     m_add_x = 0;
+    int     m_add_y = 1;
 
 signals:
 

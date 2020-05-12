@@ -327,24 +327,24 @@ void sidebarPluginsWidgets::parsingDesktopFile()
 {
     int tmp = m_desktopfpList.size();
     QSpacerItem *item1 = new QSpacerItem(10, 20);
-    int add_x = 0;
-    int add_y = 1;
     for (int i = 0; i < tmp; i++) {
         QString desktopfp = "/usr/share/applications/" + m_desktopfpList.at(i);
         QString icon=getAppIcon(desktopfp);
         QString name=getAppName(desktopfp);
         QToolButton *p_button = StructToolButtol(icon, name);
-        m_pGroupBoxUnSmallPluginsGLayout->addItem(item1, add_x, add_y - 1);
-        m_pGroupBoxUnSmallPluginsGLayout->addWidget(p_button, add_x, add_y);
-        add_y += 2;
-        if (add_y > 8) {
-            add_x++;
-            add_y = 1;
+        if (p_button == nullptr) {
+            continue;
+            i--;
         }
+        m_pGroupBoxUnSmallPluginsGLayout->addItem(item1, m_add_x, m_add_y - 1);
+        m_pGroupBoxUnSmallPluginsGLayout->addWidget(p_button, m_add_x, m_add_y);
+        m_add_y += 2;
+        if (m_add_y > 8) {
+            m_add_x++;
+            m_add_y = 1;
+        }
+        qDebug() << "add_y" << m_add_y << "add_x" << m_add_x;
     }
-    QSpacerItem *item2 = new QSpacerItem(400 - 100*(add_y/2), 20);
-    m_pGroupBoxUnSmallPluginsGLayout->addItem(item2, add_x, add_y - 1);
-    m_pGroupBoxUnSmallPluginsGLayout->setContentsMargins(0, 19, 0, 250 - 90*(add_x + 1));
     return;
 }
 
@@ -410,8 +410,6 @@ void sidebarPluginsWidgets::loadSmallPlugins()
     int pluginsNum = SmallPluginsManage::getInstance()->m_PluginsNum;
     qDebug() << "加载插件的个数" << pluginsNum;
     int Sequence = 1;
-    int add_x = 0;
-    int add_y = 1;
     QSpacerItem *item1 = new QSpacerItem(10, 20);
     while (pluginsNum) {
         QHash<PluginInterface*, SidebarSmallPluginInterface*> ::const_iterator iter1 = SmallPluginsManage::getInstance()->m_pSmallPluginsHash.constBegin();
@@ -437,16 +435,16 @@ void sidebarPluginsWidgets::loadSmallPlugins()
                     p_ToolButton->setStyle(new CustomStyle("ukui-default"));
                     qDebug() << "插件接口名称" << iter1.value()->PluginButtonName();
                     p_ToolButton->setIconSize(QSize(iter1.value()->PluginIconSize_W(), iter1.value()->PluginIconSize_H()));
-                    m_pGroupBoxUnSmallPluginsGLayout->addItem(item1, add_x, add_y - 1);
-                    m_pGroupBoxUnSmallPluginsGLayout->addWidget(p_ToolButton, add_x, add_y);
+                    m_pGroupBoxUnSmallPluginsGLayout->addItem(item1, m_add_x, m_add_y - 1);
+                    m_pGroupBoxUnSmallPluginsGLayout->addWidget(p_ToolButton, m_add_x, m_add_y);
                     connect(p_ToolButton, &QToolButton::clicked, this, [=]() {
                         iter1.value()->PluginsShowInterface();
                     });
                     pluginsNum--;
-                    add_y += 2;
-                    if (add_y > 8) {
-                        add_x++;
-                        add_y = 1;
+                    m_add_y += 2;
+                    if (m_add_y > 8) {
+                        m_add_x++;
+                        m_add_y = 1;
                     }
                     break;
                 }
@@ -457,8 +455,8 @@ void sidebarPluginsWidgets::loadSmallPlugins()
             break;
         }
     }
-    qDebug() << "x -->" << add_x << "y -->" << add_y;
-    QSpacerItem *item2 = new QSpacerItem(400 - 100*(add_y/2), 20);
-    m_pGroupBoxUnSmallPluginsGLayout->addItem(item2, add_x, add_y - 1);
-    m_pGroupBoxUnSmallPluginsGLayout->setContentsMargins(0, 19, 0, 250 - 90*(add_x + 1));
+    qDebug() << "x -->" << m_add_x << "y -->" << m_add_y;
+    QSpacerItem *item2 = new QSpacerItem(400 - 100*(m_add_y/2), 20);
+    m_pGroupBoxUnSmallPluginsGLayout->addItem(item2, m_add_x, m_add_y - 1);
+    m_pGroupBoxUnSmallPluginsGLayout->setContentsMargins(0, 19, 0, 250 - 90*(m_add_x + 1));
 }
