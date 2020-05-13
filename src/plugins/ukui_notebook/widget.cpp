@@ -527,6 +527,35 @@ void Widget::showNoteInEditor(const QModelIndex &noteIndex)
     // set text and date
     m_notebook->ui->textEdit->setText(content);
     m_notebook->m_noteHead->color_widget = QColor(m_color);
+    m_notebook->m_noteHeadMenu->color_widget = QColor(m_color);
+    QString _Stylesheet;
+    QString _BgColor;
+    _BgColor = m_color.name();
+    _Stylesheet = "background-color: %1;";
+    _Stylesheet = _Stylesheet.arg(_BgColor);
+    m_notebook->m_noteHeadMenu->ui->pushButtonExit->setStyleSheet(_Stylesheet);
+    m_notebook->m_noteHeadMenu->ui->pushButtonMenu->setStyleSheet(_Stylesheet);
+    if(m_color == QColor(0,0,0))
+    {qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
+        QPixmap pixmap1;
+        QPixmap pixmap2;
+        pixmap1 = QPixmap(":/image/1x/close_light.png");
+        pixmap2 = QPixmap(":/image/1x/more_light.png");
+        m_notebook->m_noteHeadMenu->ui->pushButtonExit->setIcon(pixmap1);
+        m_notebook->m_noteHeadMenu->ui->pushButtonExit->setIconSize(QSize(20,20));
+        m_notebook->m_noteHeadMenu->ui->pushButtonMenu->setIcon(pixmap2);
+        m_notebook->m_noteHeadMenu->ui->pushButtonMenu->setIconSize(QSize(20,20));
+    }else
+    {qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
+        QPixmap pixmap1;
+        QPixmap pixmap2;
+        pixmap1 = QPixmap(":/image/1x/close_block.png");
+        pixmap2 = QPixmap(":/image/1x/more_block.png");
+        m_notebook->m_noteHeadMenu->ui->pushButtonExit->setIcon(pixmap1);
+        m_notebook->m_noteHeadMenu->ui->pushButtonExit->setIconSize(QSize(20,20));
+        m_notebook->m_noteHeadMenu->ui->pushButtonMenu->setIcon(pixmap2);
+        m_notebook->m_noteHeadMenu->ui->pushButtonMenu->setIconSize(QSize(20,20));
+    }
     m_notebook->update();
 
     QString noteDate = dateTime.toString(Qt::ISODate);
@@ -721,7 +750,7 @@ void Widget::searchInit()
     ui->SearchLine->addAction(searchAction,QLineEdit::LeadingPosition);  //图片在左侧
 
     delAction = new QAction(ui->SearchLine);
-    QPixmap  delActionimage =   pixmap2.scaled(QSize(16,16));
+    QPixmap  delActionimage = pixmap2.scaled(QSize(16,16));
     delAction->setIcon(delActionimage);
 
     connect(delAction, SIGNAL(triggered()), this, SLOT(delAction_del_SearchLine()));

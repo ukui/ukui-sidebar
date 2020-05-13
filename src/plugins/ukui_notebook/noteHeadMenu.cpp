@@ -15,24 +15,26 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include "noteHead.h"
-#include "ui_noteHead.h"
+#include "noteHeadMenu.h"
+#include "ui_noteHeadMenu.h"
 
-noteHead::noteHead(QWidget *parent) :
+noteHeadMenu::noteHeadMenu(QWidget *parent) :
     QWidget(parent)
+  , ui(new Ui::noteHeadMenu)
   , color_widget(15,161,90)
-  , ui(new Ui::noteHead)
+
 {
     ui->setupUi(this);
-    this->resize(250,8);
+    this->resize(250,20);
+    buttonInit();
 }
 
-noteHead::~noteHead()
+noteHeadMenu::~noteHeadMenu()
 {
     delete ui;
 }
 
-void noteHead::paintEvent(QPaintEvent *event)
+void noteHeadMenu::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
@@ -49,4 +51,18 @@ void noteHead::paintEvent(QPaintEvent *event)
         painter.drawPath(painterPath);
     }
     QWidget::paintEvent(event);
+}
+
+void noteHeadMenu::buttonInit()
+{
+    QPixmap pixmap1;
+    QPixmap pixmap2;
+    pixmap1 = QPixmap(":/image/1x/close_block.png");
+    pixmap2 = QPixmap(":/image/1x/more_block.png");
+    ui->pushButtonExit->setIcon(pixmap1);
+    ui->pushButtonExit->setIconSize(QSize(20,20));
+    ui->pushButtonMenu->setIcon(pixmap2);
+    ui->pushButtonMenu->setIconSize(QSize(20,20));
+
+    ui->pushButtonMenu->hide();
 }

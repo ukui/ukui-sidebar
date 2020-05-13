@@ -21,12 +21,15 @@
 #include <QWidget>
 #include <QPainter>
 #include <QMenu>
-#include "select_color_page.h"
-#include "text_editing.h"
 #include <QPainter>
 #include <QColor>
-#include "noteHead.h"
 #include <QModelIndex>
+
+#include "noteHead.h"
+#include "noteHeadMenu.h"
+#include "ui_noteHeadMenu.h"
+#include "select_color_page.h"
+#include "text_editing.h"
 
 namespace Ui {
 class Edit_page;
@@ -44,12 +47,15 @@ public:
     Widget* pNotebook;
     QColor m_editColor;
     noteHead *m_noteHead;
+    noteHeadMenu *m_noteHeadMenu;
     QModelIndex m_index;
     int id;
     int m_noteId;
 
 
     void contextMenuEvent(QContextMenuEvent *event);
+    void enterEvent(QEvent *);
+    void leaveEvent(QEvent *);
 
 private slots:
     void textChangedSlot();
@@ -65,7 +71,7 @@ private slots:
     void light_green_btn_change();
     void yellow_btn_change();
     void white_btn_change();
-    void clear_the_page();
+    void closeSlot();
     void add_new_page();
     void show_note_page();
     void color_clicked();
