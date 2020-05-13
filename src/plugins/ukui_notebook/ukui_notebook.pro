@@ -36,6 +36,7 @@ SOURCES += \
     mythrow.cpp \
     noteExitWindow.cpp \
     noteHead.cpp \
+    noteHeadMenu.cpp \
     noteTable.cpp \
     notedata.cpp \
     notemodel.cpp \
@@ -59,6 +60,7 @@ HEADERS += \
     mythrow.h \
     noteExitWindow.h \
     noteHead.h \
+    noteHeadMenu.h \
     noteTable.h \
     notedata.h \
     notemodel.h \
@@ -80,6 +82,7 @@ FORMS += \
     fontButton.ui \
     noteExitWindow.ui \
     noteHead.ui \
+    noteHeadMenu.ui \
     paletteButton.ui \
     select_color_page.ui \
     set_font_color_page.ui \

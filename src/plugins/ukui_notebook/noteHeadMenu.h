@@ -15,30 +15,30 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#ifndef NOTEHEAD_H
-#define NOTEHEAD_H
+#ifndef NOTEHEADMENU_H
+#define NOTEHEADMENU_H
 
 #include <QWidget>
 #include <QPainter>
 
 namespace Ui {
-class noteHead;
+class noteHeadMenu;
 }
 
-class noteHead : public QWidget
+class noteHeadMenu : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit noteHead(QWidget *parent = nullptr);
-    ~noteHead();
+    explicit noteHeadMenu(QWidget *parent = nullptr);
+    ~noteHeadMenu();
 
+    Ui::noteHeadMenu *ui;
     void paintEvent(QPaintEvent *event);
     QColor color_widget;
 
-
 private:
-    Ui::noteHead *ui;
+    void buttonInit();
 };
 
-#endif // NOTEHEAD_H
+#endif // NOTEHEADMENU_H
