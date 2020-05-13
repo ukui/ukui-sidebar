@@ -38,6 +38,8 @@
 #include <QByteArray>
 #include <QBitmap>
 #include <QFileInfo>
+#include <QThread>
+#include <QProcess>
 #include "clipboardpluginiface.h"
 #include "clipboardwidgetentry.h"
 #include "sidebarclipboardsignal.h"
@@ -47,6 +49,7 @@
 #include "clipboardlisetwidget.h"
 #include "cleanpromptbox.h"
 #include "clipBoardInternalSignal.h"
+#include "clipboarddb.h"
 //#include "clipbaordstructoriginaldata.h"
 #define  WIDGET_ENTRY_COUNT 10
 #define  SIDEBAR_CLIPBOARD_QSS_PATH  ":/qss/sidebarClipboard.css"
@@ -64,6 +67,7 @@ enum fileType {
     Pro,
     Esle
 };
+
 typedef struct  clipboardOriginalDataHash {
     ClipboardWidgetEntry* WidgetEntry;
     const QMimeData* MimeData;
@@ -72,7 +76,7 @@ typedef struct  clipboardOriginalDataHash {
     QString          Clipbaordformat;
     QList<QUrl>      urls;
     int              Sequence;
-//    int              DataFlag = 0;  //数据标记，判断该数据类型为Pixmap还是Text DataFlag = 1 --> 文本, DataFlag = 2 --> 图片
+    QString          associatedDb;
 } OriginalDataHashValue;
 
 //static SidebarClipboardPlugin *global_instance = nullptr;
@@ -118,6 +122,10 @@ public:
 
     QTranslator *translator;
 
+    clipboardDb *m_pClipboardDb;
+
+    QThread     *m_pThread;
+
     /* 注册Widget界面和Item/lable/剪贴板数据/的关系 */
     void registerWidgetOriginalDataHash(QListWidgetItem *key, OriginalDataHashValue *value);
     OriginalDataHashValue *GetOriginalDataValue(QListWidgetItem *key);
@@ -142,9 +150,11 @@ public:
     void createTipLable();                                                  /* 创建无剪贴板板字样 */
     void createWidget();                                                    /* 创建剪贴板主Widget和搜索栏与条目的ListWidget界面 */
     void sortingEntryShow();                                                /* 將條目有序的展現出來 */
-    bool booleanExistWidgetImagin(QPixmap Pixmap);
-    void AddfileSuffix();
-    QIcon fileSuffixGetsIcon(QString Url);
+    bool booleanExistWidgetImagin(QPixmap Pixmap);                          /* 判断图片是否在hash表中，如果存在，则删除，然后将图片重新写入到剪贴板中去 */
+    void AddfileSuffix();                                                   /* 往链表中加入文件后缀 */
+    void creatLoadClipboardDbData(OriginalDataHashValue *value);            /* 加载从数据库中拿到的数据，加入到剪贴板 */
+    bool judgeFileExit(QString fullFilePath);                               /* 判断此路径下该文件是否存在 */
+    QIcon fileSuffixGetsIcon(QString Url);                                  /* 判断Url中当前后缀名，根据后缀名读取图标 */
     QString SetFormatBody(QString text, ClipboardWidgetEntry *w);           /* 设置... */
     QString judgeBlankLine(QStringList list);                               /* 去除掉空行，显示有字体的行 */
     bool    substringSposition(QString formatBody, QStringList list);       /* 判断后面是否还有子串 */
@@ -152,6 +162,7 @@ public:
     int iterationDataHashSearchSequence(int Index);                         /* 迭代Hash表查找其中的当前下标是否存在 */
     QMimeData *copyMinedata(const QMimeData* mimeReference);                /* 拷贝QMimeData拷贝数据类型 */
     QMimeData *structureQmimeDate(OriginalDataHashValue *value);            /* 构造一个QMimeDate类型数据 */
+    void AddWidgetEntry(OriginalDataHashValue *s_pDataHashValue, ClipboardWidgetEntry *w, QString text);
 
 signals:
     void Itemchange();
@@ -159,12 +170,14 @@ signals:
 
 public slots:
     void createWidgetEntry();
-    void popButtonSlots(QWidget *w);
-    void editButtonSlots(ClipboardWidgetEntry *w);
-    void removeButtonSlots(ClipboardWidgetEntry *w);
-    void removeAllWidgetItem();
-    void searchClipboardLableTextSlots(QString Text);
-    void ItemNumchagedSlots();
+    void popButtonSlots(QWidget *w);                                        /* 置顶槽函数 */
+    void editButtonSlots(ClipboardWidgetEntry *w);                          /* 编辑槽函数 */
+    void removeButtonSlots(ClipboardWidgetEntry *w);                        /* 编辑槽函数 */
+    void fixedWidgetEntrySlots(ClipboardWidgetEntry *w);                    /* 固定槽函数 */
+    void removeAllWidgetItem();                                             /* 移除所有条目槽函数 */
+    void searchClipboardLableTextSlots(QString Text);                       /* 查找槽函数 */
+    void ItemNumchagedSlots();                                              /* Item条目发生改变槽函数 */
+    void loadClipboardDb();                                                 /* 加载数据Text线程槽函数 */
 };
 
 #endif // SIDEBARCLIPBOARDPLUGIN_H

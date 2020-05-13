@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui sql
 QT += widgets
 
 TARGET = clipboardPlugin
@@ -36,7 +36,8 @@ SOURCES += \
     clipboardwidgetentry.cpp \
     editorwidget.cpp \
     searchwidgetitemcontent.cpp \
-    clipboardlisetwidget.cpp
+    clipboardlisetwidget.cpp \
+    clipboarddb.cpp
 
 INCLUDEPATH    += ../../plugin-interface ../../plugin-signals
 
@@ -54,10 +55,12 @@ HEADERS += \
     searchwidgetitemcontent.h \
     ../../plugin-signals/sidebarclipboardsignal.h \
     clipboardlisetwidget.h \
-    clipbaordstructoriginaldata.h
+    clipbaordstructoriginaldata.h \
+    clipboarddb.h
 DISTFILES += clipboardPlugin.json 
 
 TRANSLATIONS += test_zh_CN.ts
+TRANSLATIONS += bo.ts
 
 unix {
     target.path = /usr/lib/ukui-sidebar/sidebar_clipboardPlugin_plugins

@@ -28,7 +28,6 @@
 ClipboardWidgetEntry::ClipboardWidgetEntry(QString dataFormat, QWidget *parent)
 {
     Q_UNUSED(parent);
-//    qDebug() << "dataFormat -->  " << dataFormat;
     m_dataFormat = dataFormat;
     status=NORMAL;
     this->setObjectName("WidgetEntry");
@@ -134,6 +133,7 @@ void ClipboardWidgetEntry::leaveEvent(QEvent *e)
     } else {
         this->m_pCopyDataLabal->setText(m_ptext);
     }
+    return;
 }
 
 void ClipboardWidgetEntry::mouseDoubleClickEvent(QMouseEvent *event)

@@ -60,6 +60,7 @@ HEADERS += \
 
 INCLUDEPATH +=./plugin-interface ./plugin-sub-manager
 TRANSLATIONS += Sidebar_zh_CN.ts
+TRANSLATIONS += bo.ts
 CONFIG += link_pkgconfig
 
 PKGCONFIG +=gio-2.0 glib-2.0 gio-unix-2.0
