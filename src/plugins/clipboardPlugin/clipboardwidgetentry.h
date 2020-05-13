@@ -40,6 +40,10 @@
 #define  REMOVE_SVG_PATH  ":/image/delete.svg"
 #define  SEARCH_SVG_CLEAN ":/image/button-close-hover-click-two.svg"
 #define  SEARCH_SVG_CLEAN_BACK ":/image/button-close-hover-click-add-background-one.svg"
+
+#define  ENTRYURL    "Url"
+#define  ENTRYIMAGE  "Image"
+
 extern ClipboardSignal *globalClipboardSignal;
 class ClipboardWidgetEntry : public QWidget
 {

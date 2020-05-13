@@ -74,7 +74,7 @@ ClipboardWidgetEntry::ClipboardWidgetEntry(QString dataFormat, QWidget *parent)
     m_pHLayout       = new QHBoxLayout();
     m_pHLayout->setContentsMargins(0,0,0,0);
     m_pHLayout->addItem(new QSpacerItem(10,20));
-    if (dataFormat == "Url") {
+    if (dataFormat == ENTRYURL) {
         m_pCopyFileIcon = new QLabel; //用来放置文件的图标
         m_pCopyFileIcon->setContentsMargins(0, 0, 0, 0);
         m_pCopyFileIcon->setFixedSize(34, 34);
@@ -83,7 +83,7 @@ ClipboardWidgetEntry::ClipboardWidgetEntry(QString dataFormat, QWidget *parent)
     }
     m_pHLayout->addWidget(m_pCopyDataLabal);
     m_pHLayout->addWidget(m_pPopButton);
-    if (!(m_dataFormat == "Url" || m_dataFormat == "Image")) {
+    if (!(m_dataFormat == ENTRYURL || m_dataFormat == ENTRYIMAGE)) {
         m_pHLayout->addWidget(m_pEditButon);
     }
     m_pHLayout->addWidget(m_pRemoveButton);
@@ -105,7 +105,7 @@ void ClipboardWidgetEntry::enterEvent(QEvent *e)
     repaint();
 
     m_pCopyDataLabal->setFixedSize(260, 34);
-    if (m_dataFormat == "Url" || m_dataFormat == "Image") {
+    if (m_dataFormat == ENTRYURL || m_dataFormat == ENTRYIMAGE) {
         m_pCopyDataLabal->setFixedSize(260, 34);
     } else {
         m_pCopyDataLabal->setFixedSize(260, 34);

@@ -53,6 +53,10 @@
 //#include "clipbaordstructoriginaldata.h"
 #define  WIDGET_ENTRY_COUNT 10
 #define  SIDEBAR_CLIPBOARD_QSS_PATH  ":/qss/sidebarClipboard.css"
+#define  TEXT   "Text"
+#define  URL    "Url"
+#define  IMAGE  "Image"
+#define  DBDATA "Dbdata"
 enum fileType {
     Txt,
     Svg,

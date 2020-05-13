@@ -206,17 +206,17 @@ void SidebarClipboardPlugin::createWidgetEntry()
 
     if (mimeData->hasImage()) {
         s_pDataHashValue->p_pixmap = new QPixmap((qvariant_cast<QPixmap>(mimeData->imageData())));
-        format = "Image";
+        format = IMAGE;
         if (nullptr == s_pDataHashValue->p_pixmap) {
            qWarning() << "构造数据类型有错误-->p_pixmap == nullptr";
            return;
         }
     } else if (nullptr == mimeData->urls().value(0).toString()) {
         text = mimeData->text();
-        format = "Text";
+        format = TEXT;
     } else if(mimeData->urls().value(0).toString() != "") {
         fileUrls = mimeData->urls();
-        format = "Url";
+        format = URL;
         qDebug() << "文件Url" << fileUrls;
         for (int i = 0; i < fileUrls.size(); ++i) {
             if (i == 0) {
@@ -237,12 +237,12 @@ void SidebarClipboardPlugin::createWidgetEntry()
         return ;
     }
 
-    if (format == "Text" || format == "Url") {
+    if (format == TEXT || format == URL) {
         /* 过滤重复文本 */
         if(booleanExistWidgetItem(text)) {
             DeleteFlag = true;
         }
-    } else if (format == "Image") {
+    } else if (format == IMAGE) {
         /* 过滤重复图片 */
         if (booleanExistWidgetImagin(*s_pDataHashValue->p_pixmap)) {
             DeleteFlag = true;
@@ -265,9 +265,9 @@ void SidebarClipboardPlugin::createWidgetEntry()
     s_pDataHashValue->MimeData = copyMinedata(mimeData);
     s_pDataHashValue->Clipbaordformat = format;
     s_pDataHashValue->associatedDb = "";
-    if (s_pDataHashValue->Clipbaordformat == "Text") {
+    if (s_pDataHashValue->Clipbaordformat == TEXT) {
         s_pDataHashValue->text     = text;
-    } else if (s_pDataHashValue->Clipbaordformat == "Url") {
+    } else if (s_pDataHashValue->Clipbaordformat == URL) {
         s_pDataHashValue->urls     = fileUrls;
         s_pDataHashValue->text     = text;
     }
@@ -279,7 +279,7 @@ void SidebarClipboardPlugin::createWidgetEntry()
     qDebug() << "hash表中的Sequence" << s_pDataHashValue->Sequence;
     registerWidgetOriginalDataHash(pListWidgetItem, s_pDataHashValue);
 
-    // 当超过一定数目的WidgetItem数目时，删除最后一条消息
+    /* 当超过一定数目的WidgetItem数目时，删除最后一条消息 */
     if (m_pShortcutOperationListWidget->count() >= WIDGET_ENTRY_COUNT) {
         removeLastWidgetItem();
     }
@@ -290,9 +290,9 @@ void SidebarClipboardPlugin::createWidgetEntry()
     /* 将text和图片写入到Widget */
     AddWidgetEntry(s_pDataHashValue, w, text);
 
-    //将按钮与槽对应上
+    /* 将按钮与槽对应上 */
     connectWidgetEntryButton(w);
-    //插入剪贴板条目
+    /* 插入剪贴板条目 */
     m_pShortcutOperationListWidget->insertItem(0, pListWidgetItem);
     m_pShortcutOperationListWidget->setItemWidget(pListWidgetItem, w);
     emit Itemchange();
@@ -300,13 +300,13 @@ void SidebarClipboardPlugin::createWidgetEntry()
 
 void SidebarClipboardPlugin::AddWidgetEntry(OriginalDataHashValue *s_pDataHashValue, ClipboardWidgetEntry *w, QString text)
 {
-    if (s_pDataHashValue->Clipbaordformat == "Text") {
+    if (s_pDataHashValue->Clipbaordformat == TEXT) {
         // 设置...字样
         w->m_pCopyDataLabal->setTextFormat(Qt::PlainText);
         w->m_pCopyDataLabal->setText(SetFormatBody(text, w));
-    } else if (s_pDataHashValue->Clipbaordformat == "Image") {
+    } else if (s_pDataHashValue->Clipbaordformat == IMAGE) {
         w->m_pCopyDataLabal->setPixmap(*s_pDataHashValue->p_pixmap);
-    } else if (s_pDataHashValue->Clipbaordformat == "Url") {
+    } else if (s_pDataHashValue->Clipbaordformat == URL) {
         w->m_pCopyDataLabal->setTextFormat(Qt::PlainText);
         w->m_pCopyDataLabal->setText(SetFormatBody(text, w));
         if (s_pDataHashValue->urls.size() == 1) {
@@ -413,7 +413,7 @@ QIcon SidebarClipboardPlugin::fileSuffixGetsIcon(QString Url)
         if (fileinfo.isFile()) {
             qDebug() << "文件类型为普通文本";
             //返回其余文本图标
-        } else if (fileinfo.isDir()){
+        } else if (fileinfo.isDir()) {
             //返回文件夹的图标
             qDebug() << "文件类型为文件";
         }
@@ -647,10 +647,10 @@ QMimeData *SidebarClipboardPlugin::structureQmimeDate(OriginalDataHashValue *val
     auto data = new QMimeData;
     bool isCut = false;
     QVariant isCutData = QVariant(isCut);
-    if (value->Clipbaordformat == "Text") {
+    if (value->Clipbaordformat == TEXT) {
         data->setData("text/plain", isCutData.toByteArray());
         data->setText(value->text);
-    } else if (value->Clipbaordformat == "Url") {
+    } else if (value->Clipbaordformat == URL) {
         data->setData("peony-qt/is-cut", isCutData.toByteArray());
         QList<QUrl> urls;
         QStringList uris = value->text.split("\n");
@@ -660,7 +660,7 @@ QMimeData *SidebarClipboardPlugin::structureQmimeDate(OriginalDataHashValue *val
         }
         value->urls = urls;
         data->setUrls(value->urls);
-    } else if (value->Clipbaordformat == "Image") {
+    } else if (value->Clipbaordformat == IMAGE) {
         QVariant ImageDate = QVariant(*(value->p_pixmap));
         data->setData("application/x-qt-image", isCutData.toByteArray());
         data->setImageData(ImageDate);
@@ -695,7 +695,7 @@ void SidebarClipboardPlugin::removeButtonSlots(ClipboardWidgetEntry *w)
     }
     QListWidgetItem *Item = iterationClipboardDataHash(w);
     OriginalDataHashValue *s_deleteDataHashValue = GetOriginalDataValue(Item);
-    if (s_deleteDataHashValue->Clipbaordformat == "Image" && s_deleteDataHashValue->associatedDb == "Dbdata") {
+    if (s_deleteDataHashValue->Clipbaordformat ==IMAGE && s_deleteDataHashValue->associatedDb == DBDATA) {
         QString DeleteFile = QStringLiteral("rm %1").arg(s_deleteDataHashValue->text.mid(7));
         QProcess::execute(DeleteFile);//删除保存在本地的文件
     }
@@ -746,7 +746,7 @@ void SidebarClipboardPlugin::editButtonSlots(ClipboardWidgetEntry *w)
             w->m_pCopyDataLabal->setText(formatBody);
             pOriginalData->text = EditWidget.m_pEditingArea->toPlainText();
             structureQmimeDate(pOriginalData);
-            if (pOriginalData->associatedDb == "Dbdata") {
+            if (pOriginalData->associatedDb == DBDATA) {
                 m_pClipboardDb->updateSqlClipboardDb(pOriginalData->text, pOriginalData->Clipbaordformat, pOriginalData->Sequence, text); //更新数据库表中的数据
             }
         }
@@ -770,17 +770,16 @@ void SidebarClipboardPlugin::fixedWidgetEntrySlots(ClipboardWidgetEntry *w)
         return;
     }
     QListWidgetItem *Item = iterationClipboardDataHash(w);
-    int tmp = m_pShortcutOperationListWidget->row(Item); //记录删除时哪一行
+    int tmp = m_pShortcutOperationListWidget->row(Item);             //记录删除时哪一行
     OriginalDataHashValue *s_pDataHashValue = GetOriginalDataValue(Item);
-    s_pDataHashValue->associatedDb = "Dbdata";
-
-    if (s_pDataHashValue->Clipbaordformat == "Text" || s_pDataHashValue->Clipbaordformat == "Url") {
+    s_pDataHashValue->associatedDb = DBDATA;
+    qDebug() << "s_pDataHashValue->Clipbaordformat" << s_pDataHashValue->Clipbaordformat;
+    if (s_pDataHashValue->Clipbaordformat == TEXT || s_pDataHashValue->Clipbaordformat == URL) {
         m_pClipboardDb->insertSqlClipbarodDb(s_pDataHashValue->text, s_pDataHashValue->Clipbaordformat, s_pDataHashValue->Sequence);
-    } else if (s_pDataHashValue->Clipbaordformat == "Image") {
-        //需要将QPixmap文件保存到本地， 从数据库中哪一个唯一Id，其中的最大值，+1作为该图片文件名字
+    } else if (s_pDataHashValue->Clipbaordformat == IMAGE) {
         int seq = m_pClipboardDb->SelectSqlClipbaordDbId();
         QString url_filepath =  QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + QStringLiteral("/%1.bmp").arg(seq + 1);
-        s_pDataHashValue->text = "file://" + url_filepath; //将文件路径已Url的方式保存
+        s_pDataHashValue->text = "file://" + url_filepath;          //将文件路径已Url的方式保存
         m_pClipboardDb->insertSqlClipbarodDb(s_pDataHashValue->text, s_pDataHashValue->Clipbaordformat, s_pDataHashValue->Sequence);
         s_pDataHashValue->p_pixmap->save(url_filepath, "bmp", 100);
     }
@@ -805,7 +804,7 @@ bool SidebarClipboardPlugin::booleanExistWidgetItem(QString Text)
     int tmp = m_pShortcutOperationListWidget->count();
     for (int i = 0; i < tmp; i++) {
         OriginalDataHashValue *p = GetOriginalDataValue(m_pShortcutOperationListWidget->item(i));
-        if (p->Clipbaordformat == "Text" || p->Clipbaordformat == "Url") {
+        if (p->Clipbaordformat == TEXT || p->Clipbaordformat == URL) {
             QString WidgetText = p->text;
             if (WidgetText == Text) {
                 if(i == 0) {
@@ -837,7 +836,7 @@ bool SidebarClipboardPlugin::booleanExistWidgetImagin(QPixmap Pixmap)
     int j;
     for (int i = 0; i < tmp; i++) {
         OriginalDataHashValue *p = GetOriginalDataValue(m_pShortcutOperationListWidget->item(i));
-        if (p->Clipbaordformat == "Image") {
+        if (p->Clipbaordformat == IMAGE) {
             //hash表中的Pixmap和刚从剪贴板中拿到的数据进行比较
             QPixmap Hash_Pixmap = *(p->p_pixmap);
             QImage Hash_Image = Hash_Pixmap.toImage();
@@ -900,10 +899,12 @@ void SidebarClipboardPlugin::removeAllWidgetItem()
         OriginalDataHashValue *p_deleteDataHashValue = GetOriginalDataValue(m_pShortcutOperationListWidget->item(0));
         removeOriginalDataHash(m_pShortcutOperationListWidget->item(0));
         QListWidgetItem *tmp = m_pShortcutOperationListWidget->takeItem(0);
-        if (p_deleteDataHashValue->associatedDb == "Dbdata") {
+        //删除保存在数据库的中的数据
+        if (p_deleteDataHashValue->associatedDb == DBDATA) {
             m_pClipboardDb->deleteSqlClipboardDb(p_deleteDataHashValue->text); //删除数据库中的数据
         }
-        if (p_deleteDataHashValue->Clipbaordformat == "Image" && p_deleteDataHashValue->associatedDb == "Dbdata") {
+        //图片且保存到数据库中，需要删除保存在本地的文件
+        if (p_deleteDataHashValue->Clipbaordformat == IMAGE && p_deleteDataHashValue->associatedDb == DBDATA) {
             QString DeleteFile = QStringLiteral("rm %1").arg(p_deleteDataHashValue->text.mid(7));
             QProcess::execute(DeleteFile);//删除保存在本地的文件
         }
@@ -916,7 +917,6 @@ void SidebarClipboardPlugin::removeAllWidgetItem()
 void SidebarClipboardPlugin::searchClipboardLableTextSlots(QString Text)
 {
     qDebug() << "hash表长度" << m_pClipboardDataHash.size();
-    qDebug() << "Text" << Text;
 
     /* 在清除条目前，先记住每一个当前的位置 */
     if (m_bsortEntryBool) {
@@ -985,7 +985,7 @@ void SidebarClipboardPlugin::loadClipboardDb()
         OriginalDataHashValue *p_DataHashValueDb = new OriginalDataHashValue();
         p_DataHashValueDb->text = query.value(1).toString();
         p_DataHashValueDb->Clipbaordformat = query.value(2).toString();
-        p_DataHashValueDb->associatedDb = "Dbdata";
+        p_DataHashValueDb->associatedDb = DBDATA;
         qDebug() << p_DataHashValueDb->text << p_DataHashValueDb->Clipbaordformat;
         creatLoadClipboardDbData(p_DataHashValueDb);
     }
@@ -1004,9 +1004,9 @@ void SidebarClipboardPlugin::creatLoadClipboardDbData(OriginalDataHashValue *val
     ClipboardWidgetEntry *w = new ClipboardWidgetEntry(value->Clipbaordformat);
 
     /* 判断文件是否存在 */
-    if (value->Clipbaordformat == "Text") {
+    if (value->Clipbaordformat == TEXT) {
         DeleteFlag = true;
-    } else if (value->Clipbaordformat == "Url" && judgeFileExit(value->text)) {
+    } else if (value->Clipbaordformat == URL && judgeFileExit(value->text)) {
         DeleteFlag = true;  //修改文件是否存在标志位
         QList<QUrl> urls;
         QStringList uris = value->text.split("\n");
@@ -1015,7 +1015,7 @@ void SidebarClipboardPlugin::creatLoadClipboardDbData(OriginalDataHashValue *val
             urls << uri;
         }
         value->urls = urls;
-    } else if (value->Clipbaordformat == "Image" && judgeFileExit(value->text)) {
+    } else if (value->Clipbaordformat == IMAGE && judgeFileExit(value->text)) {
         DeleteFlag = true;
         value->p_pixmap = new QPixmap(value->text.mid(7));
     }
