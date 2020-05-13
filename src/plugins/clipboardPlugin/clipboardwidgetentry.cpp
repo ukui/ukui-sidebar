@@ -35,7 +35,7 @@ ClipboardWidgetEntry::ClipboardWidgetEntry(QString dataFormat, QWidget *parent)
     QIcon EditIcon;
     EditIcon.addFile(EDIT_SVG_PATH);
     QIcon PopIcon;
-    PopIcon.addFile(COPY_SVG_PATH);
+    PopIcon.addFile(LOCK_SVG_PATH);
     QIcon RemoveIcon;
     RemoveIcon.addFile(REMOVE_SVG_PATH);
     m_pPopButton     = new QPushButton();
@@ -69,7 +69,12 @@ ClipboardWidgetEntry::ClipboardWidgetEntry(QString dataFormat, QWidget *parent)
     });
     m_pCopyDataLabal->setObjectName("EntryLable");
     m_pCopyDataLabal->setContentsMargins(3, 0, 0, 0);
-    m_pCopyDataLabal->setFixedSize(386, 34);
+
+    if (dataFormat == ENTRYURL || dataFormat == ENTRYTEXT) {
+        m_pCopyDataLabal->setFixedSize(386, 34);
+    } else if (dataFormat == ENTRYIMAGE){
+        m_pCopyDataLabal->setFixedSize(110, 75);
+    }
 
     m_pHLayout       = new QHBoxLayout();
     m_pHLayout->setContentsMargins(0,0,0,0);
@@ -82,6 +87,9 @@ ClipboardWidgetEntry::ClipboardWidgetEntry(QString dataFormat, QWidget *parent)
         m_pHLayout->addWidget(m_pCopyFileIcon);
     }
     m_pHLayout->addWidget(m_pCopyDataLabal);
+    if (dataFormat == ENTRYIMAGE) {
+        m_pHLayout->addItem(new QSpacerItem(276, 34));
+    }
     m_pHLayout->addWidget(m_pPopButton);
     if (!(m_dataFormat == ENTRYURL || m_dataFormat == ENTRYIMAGE)) {
         m_pHLayout->addWidget(m_pEditButon);
@@ -105,8 +113,10 @@ void ClipboardWidgetEntry::enterEvent(QEvent *e)
     repaint();
 
     m_pCopyDataLabal->setFixedSize(260, 34);
-    if (m_dataFormat == ENTRYURL || m_dataFormat == ENTRYIMAGE) {
+    if (m_dataFormat == ENTRYURL) {
         m_pCopyDataLabal->setFixedSize(260, 34);
+    } else if (m_dataFormat == ENTRYIMAGE) {
+        m_pCopyDataLabal->setFixedSize(110, 75);
     } else {
         m_pCopyDataLabal->setFixedSize(260, 34);
         m_pEditButon->setVisible(true);
@@ -127,7 +137,11 @@ void ClipboardWidgetEntry::leaveEvent(QEvent *e)
     m_pPopButton->setVisible(false);
     m_pEditButon->setVisible(false);
     m_pRemoveButton->setVisible(false);
-    m_pCopyDataLabal->setFixedSize(386, 34);
+    if (m_dataFormat == ENTRYURL || m_dataFormat == ENTRYTEXT) {
+        m_pCopyDataLabal->setFixedSize(386, 34);
+    } else if (m_dataFormat == ENTRYIMAGE) {
+        m_pCopyDataLabal->setFixedSize(110, 75);
+    }
     if (m_ptext == "") {
         return;
     } else {

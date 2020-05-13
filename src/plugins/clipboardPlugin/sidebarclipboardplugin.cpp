@@ -212,9 +212,11 @@ void SidebarClipboardPlugin::createWidgetEntry()
            return;
         }
     } else if (nullptr == mimeData->urls().value(0).toString()) {
+        s_pDataHashValue->p_pixmap = nullptr;
         text = mimeData->text();
         format = TEXT;
     } else if(mimeData->urls().value(0).toString() != "") {
+        s_pDataHashValue->p_pixmap = nullptr;
         fileUrls = mimeData->urls();
         format = URL;
         qDebug() << "文件Url" << fileUrls;
@@ -250,7 +252,7 @@ void SidebarClipboardPlugin::createWidgetEntry()
     }
 
     ClipboardWidgetEntry *w = new ClipboardWidgetEntry(format);
-    w->setFixedSize(397, 42);
+
 
     if (DeleteFlag) {
         qDebug() << "此数据已存在，就是当前置顶的条数";
@@ -284,7 +286,13 @@ void SidebarClipboardPlugin::createWidgetEntry()
         removeLastWidgetItem();
     }
 
-    pListWidgetItem->setSizeHint(QSize(397,42));
+    if (format == TEXT || format == URL) {
+        w->setFixedSize(397, 42);
+        pListWidgetItem->setSizeHint(QSize(397,42));
+    } else if (format == IMAGE) {
+        w->setFixedSize(397, 84);
+        pListWidgetItem->setSizeHint(QSize(397,84));
+    }
     pListWidgetItem->setFlags(Qt::NoItemFlags);
 
     /* 将text和图片写入到Widget */
@@ -305,7 +313,10 @@ void SidebarClipboardPlugin::AddWidgetEntry(OriginalDataHashValue *s_pDataHashVa
         w->m_pCopyDataLabal->setTextFormat(Qt::PlainText);
         w->m_pCopyDataLabal->setText(SetFormatBody(text, w));
     } else if (s_pDataHashValue->Clipbaordformat == IMAGE) {
-        w->m_pCopyDataLabal->setPixmap(*s_pDataHashValue->p_pixmap);
+        int with = w->m_pCopyDataLabal->width();
+        int height = w->m_pCopyDataLabal->height();
+        QPixmap fitpixmap = (*s_pDataHashValue->p_pixmap).scaled(with, height, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);  // 饱满填充
+        w->m_pCopyDataLabal->setPixmap(fitpixmap);
     } else if (s_pDataHashValue->Clipbaordformat == URL) {
         w->m_pCopyDataLabal->setTextFormat(Qt::PlainText);
         w->m_pCopyDataLabal->setText(SetFormatBody(text, w));
@@ -1038,9 +1049,15 @@ void SidebarClipboardPlugin::creatLoadClipboardDbData(OriginalDataHashValue *val
     AddWidgetEntry(value, w, value->text);
 
     value->WidgetEntry = w;
-    pListWidgetItem->setSizeHint(QSize(397,42));
+
+    if (value->Clipbaordformat == TEXT || value->Clipbaordformat == URL) {
+        w->setFixedSize(397, 42);
+        pListWidgetItem->setSizeHint(QSize(397,42));
+    } else if (value->Clipbaordformat == IMAGE) {
+        w->setFixedSize(397, 84);
+        pListWidgetItem->setSizeHint(QSize(397,84));
+    }
     pListWidgetItem->setFlags(Qt::NoItemFlags);
-    w->setFixedSize(397, 42);
 
     registerWidgetOriginalDataHash(pListWidgetItem, value);
 

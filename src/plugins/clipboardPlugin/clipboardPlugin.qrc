@@ -15,5 +15,7 @@
         <file>translations/widgets.qm</file>
         <file>image/kylin-feedback.png</file>
         <file>image/kylin-alarm-clock.svg</file>
+        <file>image/lock.svg</file>
+        <file>image/lock-fs.svg</file>
     </qresource>
 </RCC>
