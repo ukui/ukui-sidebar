@@ -1,3 +1,12 @@
+ukui-sidebar (1.1.0-1kylin1) V100; urgency=medium
+
+  * New upstream release.
+    - add image preview function
+    - add upload file doc
+    - modify small plugins clicked start process functional
+
+ -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
+
 ukui-sidebar (1.1.0-1) unstable; urgency=medium
 
   * New upstream release.
