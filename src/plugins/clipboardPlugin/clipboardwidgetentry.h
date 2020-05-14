@@ -40,8 +40,7 @@
 #define  REMOVE_SVG_PATH  ":/image/delete.svg"
 #define  SEARCH_SVG_CLEAN ":/image/button-close-hover-click-two.svg"
 #define  SEARCH_SVG_CLEAN_BACK ":/image/button-close-hover-click-add-background-one.svg"
-#define  LOCK_SVG_PATH    ":/image/lock.svg"
-#define  LOCKFS_SVG_PATH  ":/image/lock-fs.svg"
+#define  LOCK_SVG_PATH    ":/image/lock.png"
 
 #define  ENTRYURL    "Url"
 #define  ENTRYIMAGE  "Image"
