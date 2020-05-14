@@ -162,6 +162,13 @@ SidebarClipBoardSignal* SidebarClipboardPlugin :: createClipSignal()
 {
     m_pClipSignal = new ClipboardSignal;
     globalClipboardSignal = m_pClipSignal;
+    connect(m_pClipSignal, &ClipboardSignal::ClipboardPreviewSignal, this, [=](int width, int height, int x, int y, int taskHeight){
+        m_nScreenWidth = width;
+        m_nScreenHeight = height;
+        m_nclipboardsite_x = x;
+        m_nclipboardsite_y = y;
+        m_taskHeight = taskHeight;
+    });
     return m_pClipSignal;
 }
 
@@ -1102,17 +1109,17 @@ int SidebarClipboardPlugin::setClipBoardWidgetScaleFactor()
 {
     /* 获取当前屏幕分辨率 */
     QScreen* pScreen = QGuiApplication::primaryScreen();
-    QRect DeskSize   = pScreen->availableGeometry();
+    QRect DeskSize   = pScreen->geometry();
     m_nScreenWidth   = DeskSize.width();                      //桌面分辨率的宽
     m_nScreenHeight  = DeskSize.height();                     //桌面分辨率的高
     if (m_nScreenHeight >= 600 && m_nScreenHeight <= 768) {
-        return m_nScreenHeight/2 - 60;
+        return m_nScreenHeight - m_nScreenHeight/2 - 60 - m_taskHeight + m_nclipboardsite_y;
     } else if (m_nScreenHeight >= 900 && m_nScreenHeight <= 1080) {
-        return m_nScreenHeight/3;
+        return m_nScreenHeight - m_nScreenHeight/3 - m_taskHeight + m_nclipboardsite_y;
     } else if (m_nScreenHeight >= 1200 && m_nScreenHeight <= 2160) {
-        return m_nScreenHeight/4;
+        return m_nScreenHeight - m_nScreenHeight/4 - m_taskHeight + m_nclipboardsite_y;
     } else {
-        return m_nScreenHeight/2;
+        return m_nScreenHeight/2 - m_nScreenHeight + m_nclipboardsite_y;
     }
 }
 
@@ -1128,7 +1135,8 @@ void SidebarClipboardPlugin::previewShowImageSlots(QWidget *w)
     QListWidgetItem *Item = iterationClipboardDataHash(widget);
     OriginalDataHashValue* pOriginalData = GetOriginalDataValue(Item);
     m_pPreviewImage = new previewImageWidget(pOriginalData->p_pixmap);
-    m_pPreviewImage->move(m_nScreenWidth - 400 - 260, PreviewWidgetHeight);
+
+    m_pPreviewImage->move(m_nclipboardsite_x - 260, PreviewWidgetHeight);
     m_pPreviewImage->show();
 }
 
@@ -1137,6 +1145,10 @@ void SidebarClipboardPlugin::previewHideImageSlots(QWidget *w)
 {
     if (w == nullptr) {
         qWarning() << "置顶槽函数ClipboardWidgetEntry *w 为空";
+        return;
+    }
+    if (m_pPreviewImage == nullptr) {
+        qDebug() << "33333333333333333333333";
         return;
     }
     m_pPreviewImage->hide();

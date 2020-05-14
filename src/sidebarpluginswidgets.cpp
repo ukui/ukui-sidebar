@@ -478,7 +478,15 @@ void sidebarPluginsWidgets::loadSmallPlugins()
         }
     }
     qDebug() << "x -->" << m_add_x << "y -->" << m_add_y;
-    QSpacerItem *item2 = new QSpacerItem(400 - 100*(m_add_y/2), 20);
-    m_pGroupBoxUnSmallPluginsGLayout->addItem(item2, m_add_x, m_add_y - 1);
-    m_pGroupBoxUnSmallPluginsGLayout->setContentsMargins(0, 19, 0, 250 - 90*(m_add_x + 1));
+    if (m_add_x < 1) {
+        m_pGroupBoxUnSmallPluginsGLayout->addItem(new QSpacerItem(400 - 100*(m_add_y/2), 0), m_add_x, m_add_y - 1);
+        m_pGroupBoxUnSmallPluginsGLayout->setContentsMargins(0, 19, 0, 250 - 90*(m_add_x + 1));
+        m_pGroupBoxUnSmallPluginsGLayout->setVerticalSpacing(10);
+    } else {
+        m_pGroupBoxUnSmallPluginsGLayout->setContentsMargins(0, 19, 0, 30);
+    }
+//    m_pGroupBoxUnSmallPluginsGLayout->setVerticalSpacing(0);
+//    m_pGroupBoxUnSmallPluginsGLayout->setHorizontalSpacing(0);
+//    m_pGroupBoxUnSmallPluginsGLayout->setSpacing(0);
+    return;
 }

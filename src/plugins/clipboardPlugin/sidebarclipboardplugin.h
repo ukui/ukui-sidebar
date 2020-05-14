@@ -131,10 +131,13 @@ public:
 
     QThread     *m_pThread;
 
-    previewImageWidget *m_pPreviewImage;
+    previewImageWidget *m_pPreviewImage = nullptr;
 
     int m_nScreenWidth;
     int m_nScreenHeight;
+    int m_nclipboardsite_x;
+    int m_nclipboardsite_y;
+    int m_taskHeight;
 
     /* 注册Widget界面和Item/lable/剪贴板数据/的关系 */
     void registerWidgetOriginalDataHash(QListWidgetItem *key, OriginalDataHashValue *value);

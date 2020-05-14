@@ -609,26 +609,29 @@ void Widget::MostGrandWidgetCoordinates()
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight - connectTaskBarDbus());
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400, m_nScreen_y);
                 qDebug() << "m_nScreen_x + m_nScreenWidth - 400-->" << m_nScreen_x + m_nScreenWidth - 400 << "&&" << m_nScreen_x << "&&" << m_nScreenWidth;
+                emit m_pSidebarSignal->ClipboardPreviewSignal(400, m_nScreenHeight, m_nScreen_x + m_nScreenWidth - 400, m_nScreen_y, connectTaskBarDbus());
             }
             break;
         case Widget::PanelUp:
             {
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight - connectTaskBarDbus());
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400, connectTaskBarDbus() + m_nScreen_y);
+                emit m_pSidebarSignal->ClipboardPreviewSignal(400, m_nScreenHeight, m_nScreen_x + m_nScreenWidth - 400, connectTaskBarDbus() + m_nScreen_y, connectTaskBarDbus());
             }
             break;
         case Widget::PanelLeft:
             {
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight);
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400, m_nScreen_y);
-                qDebug() << m_nScreen_x << m_nScreenWidth;
-                qDebug() << "m_nScreen_x + m_nScreenWidth - 400" << m_nScreen_x + m_nScreenWidth - 400;
+                emit m_pSidebarSignal->ClipboardPreviewSignal(400, m_nScreenHeight, m_nScreen_x + m_nScreenWidth - 400, m_nScreen_y, 0);
+
             }
             break;
         case Widget::PanelRight:
             {
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight);
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400 - connectTaskBarDbus(), m_nScreen_y);
+                emit m_pSidebarSignal->ClipboardPreviewSignal(400, m_nScreenHeight, m_nScreen_x + m_nScreenWidth - 400 - connectTaskBarDbus(), m_nScreen_y, 0);
             }
             break;
         default:

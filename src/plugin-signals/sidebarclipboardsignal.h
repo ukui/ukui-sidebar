@@ -34,6 +34,7 @@ signals:
     void ClipboardHideSignal();
     void CLipBoardEditConfirmButtonSignal();
     void ClipBoardWidgetEntryEditButtonSignal();
+    void ClipboardPreviewSignal(int width, int height, int x, int y, int taskHeight);
 public slots:
 };
 #endif // SIDEBARCLIPBOARDSIGNAL_H
