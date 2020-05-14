@@ -313,9 +313,9 @@ void SidebarClipboardPlugin::AddWidgetEntry(OriginalDataHashValue *s_pDataHashVa
         w->m_pCopyDataLabal->setTextFormat(Qt::PlainText);
         w->m_pCopyDataLabal->setText(SetFormatBody(text, w));
     } else if (s_pDataHashValue->Clipbaordformat == IMAGE) {
-        int with = w->m_pCopyDataLabal->width();
+        int width = w->m_pCopyDataLabal->width();
         int height = w->m_pCopyDataLabal->height();
-        QPixmap fitpixmap = (*s_pDataHashValue->p_pixmap).scaled(with, height, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);  // 饱满填充
+        QPixmap fitpixmap = (*s_pDataHashValue->p_pixmap).scaled(width, height, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);  // 饱满填充
         w->m_pCopyDataLabal->setPixmap(fitpixmap);
     } else if (s_pDataHashValue->Clipbaordformat == URL) {
         w->m_pCopyDataLabal->setTextFormat(Qt::PlainText);
@@ -506,6 +506,12 @@ void SidebarClipboardPlugin::connectWidgetEntryButton(ClipboardWidgetEntry *w)
 
     /* 双击剪贴板条目，自动置顶 */
     connect(w, &ClipboardWidgetEntry::doubleClicksignals, this, &SidebarClipboardPlugin::popButtonSlots);
+
+    /* 进入图片条目，预览图片 */
+    connect(w, &ClipboardWidgetEntry::previewShowImage, this, &SidebarClipboardPlugin::previewShowImageSlots);
+
+    /* 移出图片条目时， 关闭预览窗口 */
+    connect(w, &ClipboardWidgetEntry::previewHideImage, this, &SidebarClipboardPlugin::previewHideImageSlots);
 }
 
 /* 将数据保存到Hash表中 */
@@ -1092,6 +1098,53 @@ bool SidebarClipboardPlugin::judgeFileExit(QString fullFilePath)
         }
     }
     return false;
+}
+
+int SidebarClipboardPlugin::setClipBoardWidgetScaleFactor()
+{
+    /* 获取当前屏幕分辨率 */
+    QScreen* pScreen = QGuiApplication::primaryScreen();
+    QRect DeskSize   = pScreen->availableGeometry();
+    m_nScreenWidth   = DeskSize.width();                      //桌面分辨率的宽
+    m_nScreenHeight  = DeskSize.height();                     //桌面分辨率的高
+    if (m_nScreenHeight >= 600 && m_nScreenHeight <= 768) {
+        return m_nScreenHeight/2 - 60;
+    } else if (m_nScreenHeight >= 900 && m_nScreenHeight <= 1080) {
+        return m_nScreenHeight/3;
+    } else if (m_nScreenHeight >= 1200 && m_nScreenHeight <= 2160) {
+        return m_nScreenHeight/4;
+    } else {
+        return m_nScreenHeight/2;
+    }
+}
+
+/* 加载预览图片窗口槽函数 */
+void SidebarClipboardPlugin::previewShowImageSlots(QWidget *w)
+{
+    if (w == nullptr) {
+        qWarning() << "置顶槽函数ClipboardWidgetEntry *w 为空";
+        return;
+    }
+    int PreviewWidgetHeight = setClipBoardWidgetScaleFactor();
+    ClipboardWidgetEntry *widget = dynamic_cast<ClipboardWidgetEntry*>(w);
+    QListWidgetItem *Item = iterationClipboardDataHash(widget);
+    OriginalDataHashValue* pOriginalData = GetOriginalDataValue(Item);
+    m_pPreviewImage = new previewImageWidget(pOriginalData->p_pixmap);
+    m_pPreviewImage->move(m_nScreenWidth - 400 - 260, PreviewWidgetHeight);
+    m_pPreviewImage->show();
+}
+
+/* 退出预览图片窗口槽函数 */
+void SidebarClipboardPlugin::previewHideImageSlots(QWidget *w)
+{
+    if (w == nullptr) {
+        qWarning() << "置顶槽函数ClipboardWidgetEntry *w 为空";
+        return;
+    }
+    m_pPreviewImage->hide();
+    delete m_pPreviewImage;
+    m_pPreviewImage = nullptr;
+    return;
 }
 
 void SidebarClipboardPlugin::sortingEntrySequence()

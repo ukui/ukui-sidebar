@@ -50,6 +50,7 @@
 #include "cleanpromptbox.h"
 #include "clipBoardInternalSignal.h"
 #include "clipboarddb.h"
+#include "previewimagewidget.h"
 //#include "clipbaordstructoriginaldata.h"
 #define  WIDGET_ENTRY_COUNT 10
 #define  SIDEBAR_CLIPBOARD_QSS_PATH  ":/qss/sidebarClipboard.css"
@@ -130,6 +131,11 @@ public:
 
     QThread     *m_pThread;
 
+    previewImageWidget *m_pPreviewImage;
+
+    int m_nScreenWidth;
+    int m_nScreenHeight;
+
     /* 注册Widget界面和Item/lable/剪贴板数据/的关系 */
     void registerWidgetOriginalDataHash(QListWidgetItem *key, OriginalDataHashValue *value);
     OriginalDataHashValue *GetOriginalDataValue(QListWidgetItem *key);
@@ -164,6 +170,7 @@ public:
     bool    substringSposition(QString formatBody, QStringList list);       /* 判断后面是否还有子串 */
     QListWidgetItem* iterationClipboardDataHash(ClipboardWidgetEntry *w);   /* 迭代Hash表m_pClipboardDataHash */
     int iterationDataHashSearchSequence(int Index);                         /* 迭代Hash表查找其中的当前下标是否存在 */
+    int setClipBoardWidgetScaleFactor();                                    /* 设置剪贴板的高度，用来作为预览窗体的显示位置 */
     QMimeData *copyMinedata(const QMimeData* mimeReference);                /* 拷贝QMimeData拷贝数据类型 */
     QMimeData *structureQmimeDate(OriginalDataHashValue *value);            /* 构造一个QMimeDate类型数据 */
     void AddWidgetEntry(OriginalDataHashValue *s_pDataHashValue, ClipboardWidgetEntry *w, QString text);
@@ -182,6 +189,8 @@ public slots:
     void searchClipboardLableTextSlots(QString Text);                       /* 查找槽函数 */
     void ItemNumchagedSlots();                                              /* Item条目发生改变槽函数 */
     void loadClipboardDb();                                                 /* 加载数据Text线程槽函数 */
+    void previewShowImageSlots(QWidget *w);                                 /* 加载预览图片窗口槽函数 */
+    void previewHideImageSlots(QWidget *w);                                 /* 退出预览图片窗口槽函数 */
 };
 
 #endif // SIDEBARCLIPBOARDPLUGIN_H

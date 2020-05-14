@@ -77,6 +77,8 @@ protected:
     void paintEvent(QPaintEvent *e);                //重绘事件
 signals:
     void doubleClicksignals(QWidget *w);
+    void previewShowImage(QWidget *w);
+    void previewHideImage(QWidget *w);
 };
 
 #endif // CLIPBOARDWIDGETENTRY_H

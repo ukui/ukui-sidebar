@@ -37,7 +37,8 @@ SOURCES += \
     editorwidget.cpp \
     searchwidgetitemcontent.cpp \
     clipboardlisetwidget.cpp \
-    clipboarddb.cpp
+    clipboarddb.cpp \
+    previewimagewidget.cpp
 
 INCLUDEPATH    += ../../plugin-interface ../../plugin-signals
 
@@ -56,7 +57,8 @@ HEADERS += \
     ../../plugin-signals/sidebarclipboardsignal.h \
     clipboardlisetwidget.h \
     clipbaordstructoriginaldata.h \
-    clipboarddb.h
+    clipboarddb.h \
+    previewimagewidget.h
 DISTFILES += clipboardPlugin.json 
 
 TRANSLATIONS += test_zh_CN.ts
