@@ -63,6 +63,7 @@ public:
 
     QString getAppIcon(QString desktopfp);                        //解析desktop文件，获取插件图标
     QString getAppName(QString desktopfp);                        //获取插件名称
+    QString getAppExec(QString desktopfp);                        //获取应用可执行文件路径
     void    addDesktopFileName();                                 //将小插件desktop文件名称放入到desktopfpList中
     void    parsingDesktopFile();                                 //解析desktop文件
     QToolButton* StructToolButtol(QString icon, QString name);    //构建QToolButton

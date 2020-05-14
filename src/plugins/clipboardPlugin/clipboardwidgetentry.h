@@ -63,7 +63,10 @@ public:
     QString      m_dataFormat;
     QString SetFormatBody(QString text);
     QString judgeBlankLine(QStringList list);                               /* 去除掉空行，显示有字体的行 */
+    void    initPushbutton();                                               /* 初始化三个按钮 */
+    void    initLable();                                                    /* 初始化Lable */
     bool    substringSposition(QString formatBody, QStringList list);       /* 判断后面是否还有子串 */
+
     enum TaskWidgetStatus{NORMAL, HOVER, PRESS};
     TaskWidgetStatus status;
 

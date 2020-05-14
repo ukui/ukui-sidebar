@@ -298,6 +298,21 @@ QString sidebarPluginsWidgets::getAppIcon(QString desktopfp)
     return QString::fromLocal8Bit(icon);
 }
 
+//获取应用命令
+QString sidebarPluginsWidgets::getAppExec(QString desktopfp)
+{
+    GError** error=nullptr;
+    GKeyFileFlags flags=G_KEY_FILE_NONE;
+    GKeyFile* keyfile=g_key_file_new ();
+
+    QByteArray fpbyte=desktopfp.toLocal8Bit();
+    char* filepath=fpbyte.data();
+    g_key_file_load_from_file(keyfile,filepath,flags,error);
+    char* exec=g_key_file_get_locale_string(keyfile,"Desktop Entry","Exec", nullptr, nullptr);
+    g_key_file_free(keyfile);
+    return QString::fromLocal8Bit(exec);
+}
+
 /* 获取应用名称 */
 QString sidebarPluginsWidgets::getAppName(QString desktopfp)
 {
@@ -318,7 +333,7 @@ QString sidebarPluginsWidgets::getAppName(QString desktopfp)
 /* 将小插件desktop文件名称放入到desktopfpList中 */
 void sidebarPluginsWidgets::addDesktopFileName()
 {
-    m_desktopfpList << "feedback.desktop" << "ukui_notebook.desktop" << "feedback.desktop";
+    m_desktopfpList << "clock.desktop" << "ukui_notebook.desktop" << "feedback.desktop";
     return;
 }
 
@@ -329,9 +344,16 @@ void sidebarPluginsWidgets::parsingDesktopFile()
     QSpacerItem *item1 = new QSpacerItem(10, 20);
     for (int i = 0; i < tmp; i++) {
         QString desktopfp = "/usr/share/applications/" + m_desktopfpList.at(i);
-        QString icon=getAppIcon(desktopfp);
-        QString name=getAppName(desktopfp);
+        QString icon = getAppIcon(desktopfp);
+        QString name = getAppName(desktopfp);
+        QString Exec = getAppExec(desktopfp);
         QToolButton *p_button = StructToolButtol(icon, name);
+        connect(p_button, &QToolButton::clicked, this, [=](){
+            QProcess p(0);
+            p.startDetached(Exec);
+            p.waitForStarted();
+            return;
+        });
         if (p_button == nullptr) {
             continue;
             i--;
