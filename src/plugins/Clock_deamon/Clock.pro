@@ -22,6 +22,7 @@ SOURCES += \
     notice_alarm.cpp \
     notice_dialog.cpp \
     setuppage.cpp \
+    singleApplication.cpp \
     stopwatch_item.cpp \
     verticalscroll_24.cpp \
     verticalscroll_60.cpp \
@@ -42,6 +43,7 @@ HEADERS  += clock.h \
     notice_alarm.h \
     notice_dialog.h \
     setuppage.h \
+    singleApplication.h \
     stopwatch_item.h \
     verticalscroll_24.h \
     verticalscroll_60.h \
