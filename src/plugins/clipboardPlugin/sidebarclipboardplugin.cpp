@@ -330,9 +330,8 @@ void SidebarClipboardPlugin::AddWidgetEntry(OriginalDataHashValue *s_pDataHashVa
         w->m_pCopyDataLabal->setText(SetFormatBody(text, w));
         if (s_pDataHashValue->urls.size() == 1) {
             //判断文件类型，根据文件类型去读取主题图标
-            QIcon fileIcon(":/image/kylin-feedback.png");
-            fileSuffixGetsIcon(text);
-            QPixmap filePixmap = fileIcon.pixmap(QSize(34, 34));
+            QIcon fileIcon = fileSuffixGetsIcon(text);
+            QPixmap filePixmap = fileIcon.pixmap(QSize(16, 16));
             w->m_pCopyFileIcon->setPixmap(filePixmap);
         } else {
             //当有多个图标时，显示特定图标
@@ -431,9 +430,9 @@ QIcon SidebarClipboardPlugin::fileSuffixGetsIcon(QString Url)
         QFileInfo fileinfo(filePath);
         if (fileinfo.isFile()) {
             qDebug() << "文件类型为普通文本";
-            //返回其余文本图标
+            return QIcon::fromTheme("unknown");//返回其余文本图标
         } else if (fileinfo.isDir()) {
-            //返回文件夹的图标
+            return QIcon::fromTheme("folder");//返回文件夹的图标
             qDebug() << "文件类型为文件";
         }
         qDebug() << "FilePath ----> " << filePath;
@@ -450,41 +449,38 @@ QIcon SidebarClipboardPlugin::fileSuffixGetsIcon(QString Url)
     switch (cnt) {
     case Txt:
         qDebug() << "Txt图标";
-        return QIcon(":/image/kylin-feedback.png");
+        return QIcon::fromTheme("text-x-generic");
     case Svg:
         qDebug() << "Svg图标";
-        return QIcon(":/image/kylin-feedback.png");
+        return QIcon::fromTheme("image-svg+xml");
     case Png:
         qDebug() << "Png图标";
-        return QIcon(":/image/kylin-feedback.png");
+        return QIcon::fromTheme("image-x-generic");
     case Bmp:
         qDebug() << "Bmp图标";
-        return QIcon(":/image/kylin-feedback.png");
+        return QIcon::fromTheme("image-x-generic");
     case Xml:
         qDebug() << "Xml图标";
-        return QIcon(":/image/kylin-feedback.png");
+        return QIcon::fromTheme("text-xml");
     case Docx:
         qDebug() << "Docx图标";
-        return QIcon(":/image/kylin-feedback.png");
+        return QIcon::fromTheme("document");
     case Pptx:
         qDebug() << "pptx图标";
-        return QIcon(":/image/kylin-feedback.png");
+        return QIcon::fromTheme("application-mspowerpoint");
     case Xlsx:
         qDebug() << "Xlsx图标";
-        return QIcon(":/image/kylin-feedback.png");
+        return QIcon::fromTheme("application-msexcel");
     case Zip:
         qDebug() << "Zip图标";
-        return QIcon(":/image/kylin-feedback.png");
+        return QIcon::fromTheme("application-zip");
     case Pdf:
         qDebug() << "Pdf图标";
-        return QIcon(":/image/kylin-feedback.png");
-    case Pro:
-        qDebug() << "Pro图标";
-        return QIcon(":/image/kylin-feedback.png");
+        return QIcon::fromTheme("application-pdf");
     default:
         //读取一个默认的图标
         qDebug() << "读取一个默认的图标";
-        return QIcon(":/image/kylin-feedback.png");
+        return QIcon::fromTheme("unknown");
     }
 }
 

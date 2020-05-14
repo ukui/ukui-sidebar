@@ -51,8 +51,8 @@ ClipboardWidgetEntry::ClipboardWidgetEntry(QString dataFormat, QWidget *parent)
     if (dataFormat == ENTRYURL) {
         m_pCopyFileIcon = new QLabel; //用来放置文件的图标
         m_pCopyFileIcon->setContentsMargins(0, 0, 0, 0);
-        m_pCopyFileIcon->setFixedSize(34, 34);
-        m_pCopyDataLabal->setFixedSize(352, 34);
+        m_pCopyFileIcon->setFixedSize(16, 16);
+        m_pCopyDataLabal->setFixedSize(380, 34);
         m_pHLayout->addWidget(m_pCopyFileIcon);
     }
 
@@ -133,7 +133,7 @@ void ClipboardWidgetEntry::enterEvent(QEvent *e)
 
     m_pCopyDataLabal->setFixedSize(260, 34);
     if (m_dataFormat == ENTRYURL) {
-        m_pCopyDataLabal->setFixedSize(260, 34);
+        m_pCopyDataLabal->setFixedSize(278, 34);
     } else if (m_dataFormat == ENTRYIMAGE) {
         m_pCopyDataLabal->setFixedSize(110, 75);
         emit previewShowImage(this);//发送预览信号
