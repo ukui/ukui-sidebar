@@ -168,6 +168,7 @@ SidebarClipBoardSignal* SidebarClipboardPlugin :: createClipSignal()
         m_nclipboardsite_x = x;
         m_nclipboardsite_y = y;
         m_taskHeight = taskHeight;
+        qDebug() << "sdasdas1111111111111" << width << height << x << taskHeight;
     });
     return m_pClipSignal;
 }
@@ -699,6 +700,10 @@ void SidebarClipboardPlugin::popButtonSlots(QWidget *w)
         qWarning() << "置顶槽函数ClipboardWidgetEntry *w 为空";
         return;
     }
+    if (m_pPreviewImage != nullptr) {
+        delete m_pPreviewImage;
+        m_pPreviewImage = nullptr;
+    }
     ClipboardWidgetEntry *widget = dynamic_cast<ClipboardWidgetEntry*>(w);
     QListWidgetItem *Item = iterationClipboardDataHash(widget);
     auto data= structureQmimeDate(GetOriginalDataValue(Item)); // 构造QMimeData数据
@@ -1130,6 +1135,7 @@ void SidebarClipboardPlugin::previewShowImageSlots(QWidget *w)
         qWarning() << "置顶槽函数ClipboardWidgetEntry *w 为空";
         return;
     }
+    qDebug() << "预览信号";
     int PreviewWidgetHeight = setClipBoardWidgetScaleFactor();
     ClipboardWidgetEntry *widget = dynamic_cast<ClipboardWidgetEntry*>(w);
     QListWidgetItem *Item = iterationClipboardDataHash(widget);
@@ -1137,6 +1143,7 @@ void SidebarClipboardPlugin::previewShowImageSlots(QWidget *w)
     m_pPreviewImage = new previewImageWidget(pOriginalData->p_pixmap);
 
     m_pPreviewImage->move(m_nclipboardsite_x - 260, PreviewWidgetHeight);
+    qDebug() << m_nclipboardsite_x - 260 << PreviewWidgetHeight;
     m_pPreviewImage->show();
 }
 
@@ -1151,6 +1158,7 @@ void SidebarClipboardPlugin::previewHideImageSlots(QWidget *w)
         qDebug() << "33333333333333333333333";
         return;
     }
+    qDebug() << "退出预览信号";
     m_pPreviewImage->hide();
     delete m_pPreviewImage;
     m_pPreviewImage = nullptr;

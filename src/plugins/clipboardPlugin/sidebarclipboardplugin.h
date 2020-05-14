@@ -135,9 +135,9 @@ public:
 
     int m_nScreenWidth;
     int m_nScreenHeight;
-    int m_nclipboardsite_x;
-    int m_nclipboardsite_y;
-    int m_taskHeight;
+    int m_nclipboardsite_x = 1200;
+    int m_nclipboardsite_y = 0;
+    int m_taskHeight = 46;
 
     /* 注册Widget界面和Item/lable/剪贴板数据/的关系 */
     void registerWidgetOriginalDataHash(QListWidgetItem *key, OriginalDataHashValue *value);
