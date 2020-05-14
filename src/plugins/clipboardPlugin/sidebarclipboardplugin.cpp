@@ -933,8 +933,6 @@ void SidebarClipboardPlugin::removeAllWidgetItem()
 /* 搜索 槽函数 */
 void SidebarClipboardPlugin::searchClipboardLableTextSlots(QString Text)
 {
-    qDebug() << "hash表长度" << m_pClipboardDataHash.size();
-
     /* 在清除条目前，先记住每一个当前的位置 */
     if (m_bsortEntryBool) {
         sortingEntrySequence();
@@ -978,7 +976,6 @@ void SidebarClipboardPlugin::searchClipboardLableTextSlots(QString Text)
 void SidebarClipboardPlugin::ItemNumchagedSlots()
 {
     int num = m_pClipboardDataHash.size();
-//    qDebug() << "Item数目发生变化， 当前Item数目" << num;
     if (num > 0) {
         m_pSideBarClipboardLable->setVisible(false);
         m_pShortcutOperationListWidget->setVisible(true);
@@ -1024,7 +1021,7 @@ void SidebarClipboardPlugin::creatLoadClipboardDbData(OriginalDataHashValue *val
     if (value->Clipbaordformat == TEXT) {
         DeleteFlag = true;
     } else if (value->Clipbaordformat == URL && judgeFileExit(value->text)) {
-        DeleteFlag = true;  //修改文件是否存在标志位
+        DeleteFlag = true;  //修改 文件是否存在标志位
         QList<QUrl> urls;
         QStringList uris = value->text.split("\n");
         qDebug() << "分解后Url的个数" << uris.count();
@@ -1100,6 +1097,7 @@ bool SidebarClipboardPlugin::judgeFileExit(QString fullFilePath)
     return false;
 }
 
+/* 设定预览窗口位置 */
 int SidebarClipboardPlugin::setClipBoardWidgetScaleFactor()
 {
     /* 获取当前屏幕分辨率 */
