@@ -281,12 +281,10 @@ void SidebarClipboardPlugin::createWidgetEntry()
         s_pDataHashValue->urls     = fileUrls;
         s_pDataHashValue->text     = text;
     }
-    if (m_pClipboardDataHash.count() == 0) {
-        s_pDataHashValue->Sequence = 0;
-    } else {
-        s_pDataHashValue->Sequence = iterationDataHashSearchSequence(m_pClipboardDataHash.count());
-    }
+
+    setOriginalDataSequence(s_pDataHashValue); //设置Sequence;
     qDebug() << "hash表中的Sequence" << s_pDataHashValue->Sequence;
+
     registerWidgetOriginalDataHash(pListWidgetItem, s_pDataHashValue);
 
     /* 当超过一定数目的WidgetItem数目时，删除最后一条消息 */
@@ -301,6 +299,7 @@ void SidebarClipboardPlugin::createWidgetEntry()
         w->setFixedSize(397, 84);
         pListWidgetItem->setSizeHint(QSize(397,84));
     }
+
     pListWidgetItem->setFlags(Qt::NoItemFlags);
 
     /* 将text和图片写入到Widget */
@@ -340,6 +339,12 @@ void SidebarClipboardPlugin::AddWidgetEntry(OriginalDataHashValue *s_pDataHashVa
             w->m_pCopyFileIcon->setPixmap(filePixmap);
         }
     }
+    if (s_pDataHashValue->associatedDb == DBDATA) {
+        w->m_bWhetherFix = true; //数据库加载的都需要置为已经固定
+        w->m_pPopButton->setVisible(false);
+        w->m_pCancelLockButton->setVisible(false);
+    }
+    return;
 }
 
 /* 设置...字样 */
@@ -385,6 +390,16 @@ QString SidebarClipboardPlugin::SetFormatBody(QString text, ClipboardWidgetEntry
         }
     }
     return formatBody;
+}
+
+void SidebarClipboardPlugin::setOriginalDataSequence(OriginalDataHashValue *value)
+{
+    if (m_pClipboardDataHash.count() == 0) {
+        value->Sequence = 0;
+    } else {
+        value->Sequence = iterationDataHashSearchSequence(m_pClipboardDataHash.count());
+    }
+    return;
 }
 
 /* 去除掉空行，显示有字体的行 */
@@ -498,6 +513,11 @@ void SidebarClipboardPlugin::connectWidgetEntryButton(ClipboardWidgetEntry *w)
         this->fixedWidgetEntrySlots(w);
     });
 
+    /* 取消固定按钮 */
+    connect(w->m_pCancelLockButton, &QPushButton::clicked, this, [=]() {
+        cancelFixedWidgetEntrySLots(w);
+    });
+
     /* 编辑按钮 */
     connect(w->m_pEditButon, &QPushButton::clicked, this, [=](){
         this->editButtonSlots(w);
@@ -508,7 +528,7 @@ void SidebarClipboardPlugin::connectWidgetEntryButton(ClipboardWidgetEntry *w)
         this->removeButtonSlots(w);
     });
 
-    /* 双击剪贴板条目，自动置顶 */
+    /* 单击剪贴板条目，自动置顶 */
     connect(w, &ClipboardWidgetEntry::doubleClicksignals, this, &SidebarClipboardPlugin::popButtonSlots);
 
     /* 进入图片条目，预览图片 */
@@ -689,6 +709,42 @@ QMimeData *SidebarClipboardPlugin::structureQmimeDate(OriginalDataHashValue *val
     return data;
 }
 
+OriginalDataHashValue *SidebarClipboardPlugin::saveOriginalData(OriginalDataHashValue *value)
+{
+    if (value == nullptr) {
+        qWarning() << "保存原有剪贴板数据 ---> 传入参数有误";
+        return nullptr;
+    }
+    OriginalDataHashValue *p_saveOriginalData= new OriginalDataHashValue;
+    if (value->Clipbaordformat == TEXT) {
+        p_saveOriginalData->text = value->text;
+        p_saveOriginalData->Clipbaordformat  = TEXT;
+        p_saveOriginalData->associatedDb = DBDATA;
+        p_saveOriginalData->p_pixmap = nullptr;
+        setOriginalDataSequence(p_saveOriginalData);
+        p_saveOriginalData->MimeData = nullptr;
+        p_saveOriginalData->WidgetEntry = nullptr;
+    } else if (value->Clipbaordformat == URL) {
+        p_saveOriginalData->text = value->text;
+        p_saveOriginalData->Clipbaordformat = URL;
+        p_saveOriginalData->MimeData = nullptr;
+        p_saveOriginalData->p_pixmap = nullptr;
+        setOriginalDataSequence(p_saveOriginalData);
+        p_saveOriginalData->urls = value->urls;
+        p_saveOriginalData->WidgetEntry = nullptr;
+        p_saveOriginalData->associatedDb = DBDATA;
+    } else if (value->Clipbaordformat == IMAGE) {
+        p_saveOriginalData->text = value->text;
+        p_saveOriginalData->Clipbaordformat = IMAGE;
+        p_saveOriginalData->MimeData = nullptr;
+        p_saveOriginalData->p_pixmap = new QPixmap(*(value->p_pixmap));
+        setOriginalDataSequence(p_saveOriginalData);
+        p_saveOriginalData->WidgetEntry = nullptr;
+        p_saveOriginalData->associatedDb = DBDATA;
+    }
+    return p_saveOriginalData;
+}
+
 /* 置顶槽函数 */
 void SidebarClipboardPlugin::popButtonSlots(QWidget *w)
 {
@@ -702,7 +758,19 @@ void SidebarClipboardPlugin::popButtonSlots(QWidget *w)
     }
     ClipboardWidgetEntry *widget = dynamic_cast<ClipboardWidgetEntry*>(w);
     QListWidgetItem *Item = iterationClipboardDataHash(widget);
-    auto data= structureQmimeDate(GetOriginalDataValue(Item)); // 构造QMimeData数据
+    OriginalDataHashValue *value = GetOriginalDataValue(Item);
+    qDebug() << value->associatedDb << value->text;
+    auto data= structureQmimeDate(value);  //构造QMimeData数据
+    if (value->associatedDb == DBDATA) {
+        OriginalDataHashValue *p = saveOriginalData(value);  //保存原有的数据类型
+        removeOriginalDataHash(Item); //移除Hash表中的原始数据
+        QListWidgetItem *deleteItem = m_pShortcutOperationListWidget->takeItem(m_pShortcutOperationListWidget->row(Item)); //删除Item;
+        delete deleteItem;
+        deleteItem = nullptr;
+        popCreatorDbHaveDate(p);
+        m_pSidebarClipboard->setMimeData(data); //将新的数据set剪贴板中
+        return;
+    }
     removeOriginalDataHash(Item); //移除Hash表中的原始数据
     QListWidgetItem *deleteItem = m_pShortcutOperationListWidget->takeItem(m_pShortcutOperationListWidget->row(Item)); //删除Item;
     delete deleteItem;
@@ -795,7 +863,6 @@ void SidebarClipboardPlugin::fixedWidgetEntrySlots(ClipboardWidgetEntry *w)
         return;
     }
     QListWidgetItem *Item = iterationClipboardDataHash(w);
-    int tmp = m_pShortcutOperationListWidget->row(Item);             //记录删除时哪一行
     OriginalDataHashValue *s_pDataHashValue = GetOriginalDataValue(Item);
     s_pDataHashValue->associatedDb = DBDATA;
     qDebug() << "s_pDataHashValue->Clipbaordformat" << s_pDataHashValue->Clipbaordformat;
@@ -808,6 +875,25 @@ void SidebarClipboardPlugin::fixedWidgetEntrySlots(ClipboardWidgetEntry *w)
         m_pClipboardDb->insertSqlClipbarodDb(s_pDataHashValue->text, s_pDataHashValue->Clipbaordformat, s_pDataHashValue->Sequence);
         s_pDataHashValue->p_pixmap->save(url_filepath, "bmp", 100);
     }
+    w->m_pPopButton->setVisible(false);
+    w->m_pCancelLockButton->setVisible(true);
+    w->m_bWhetherFix = true;
+    return;
+}
+
+/* 取消固定槽函数 */
+void SidebarClipboardPlugin::cancelFixedWidgetEntrySLots(ClipboardWidgetEntry *w)
+{
+    if (w == nullptr) {
+        qWarning() << "删除槽函数fixedWidgetEntrySlots *w 为空";
+        return;
+    }
+    QListWidgetItem *Item = iterationClipboardDataHash(w);
+    OriginalDataHashValue *s_pDataHashValue = GetOriginalDataValue(Item);
+    m_pClipboardDb->deleteSqlClipboardDb(s_pDataHashValue->text);  //删除数据库中此条数据
+    w->m_pPopButton->setVisible(true);
+    w->m_pCancelLockButton->setVisible(false);
+    w->m_bWhetherFix = false;
     return;
 }
 
@@ -963,15 +1049,13 @@ void SidebarClipboardPlugin::searchClipboardLableTextSlots(QString Text)
     /* 将包含有关键字的条目显示出来 */
     QHash<QListWidgetItem*, OriginalDataHashValue*>::const_iterator iter2 = m_pClipboardDataHash.constBegin();
     while (iter2 != m_pClipboardDataHash.constEnd()) {
-        if (iter2.value()->text.contains(Text, Qt::CaseSensitive)) {
+        if (iter2.value()->text.contains(Text, Qt::CaseSensitive) && iter2.value()->Clipbaordformat != IMAGE) {
             m_pShortcutOperationListWidget->insertItem(0, iter2.key());
             ClipboardWidgetEntry *w = new ClipboardWidgetEntry(iter2.value()->Clipbaordformat);
-            w->setFixedSize(397, 42);
-            connectWidgetEntryButton(w);
-            QString Format = SetFormatBody(iter2.value()->text, w);
-            w->m_pCopyDataLabal->setTextFormat(Qt::PlainText);
-            w->m_pCopyDataLabal->setText(Format);
             iter2.value()->WidgetEntry = w;
+            setEntryItemSize(iter2.value(), w, iter2.key());
+            AddWidgetEntry(iter2.value(), w, iter2.value()->text);
+            connectWidgetEntryButton(w);
             m_pShortcutOperationListWidget->setItemWidget(iter2.key(), w);
         }
         ++iter2;
@@ -1080,6 +1164,38 @@ void SidebarClipboardPlugin::creatLoadClipboardDbData(OriginalDataHashValue *val
     emit Itemchange();
 }
 
+void SidebarClipboardPlugin::popCreatorDbHaveDate(OriginalDataHashValue *value)
+{
+    if (value == nullptr) {
+        qWarning() << "popCreatorDbHaveDate ---> 传入形参错误";
+        return;
+    }
+    QListWidgetItem *pListWidgetItem = new QListWidgetItem;
+    ClipboardWidgetEntry *w = new ClipboardWidgetEntry(value->Clipbaordformat);
+
+    value->WidgetEntry = w;
+    AddWidgetEntry(value, w, value->text);
+
+    if (value->Clipbaordformat == TEXT || value->Clipbaordformat == URL) {
+        w->setFixedSize(397, 42);
+        pListWidgetItem->setSizeHint(QSize(397,42));
+    } else if (value->Clipbaordformat == IMAGE) {
+        w->setFixedSize(397, 84);
+        pListWidgetItem->setSizeHint(QSize(397,84));
+    }
+    pListWidgetItem->setFlags(Qt::NoItemFlags);
+
+    registerWidgetOriginalDataHash(pListWidgetItem, value);
+
+    //将按钮与槽对应上
+    connectWidgetEntryButton(w);
+    //插入剪贴板条目
+    m_pShortcutOperationListWidget->insertItem(0, pListWidgetItem);
+    m_pShortcutOperationListWidget->setItemWidget(pListWidgetItem, w);
+    emit Itemchange();
+    return;
+}
+
 /* 判断此路径下文件是否存在 */
 bool SidebarClipboardPlugin::judgeFileExit(QString fullFilePath)
 {
@@ -1170,6 +1286,22 @@ void SidebarClipboardPlugin::sortingEntrySequence()
     m_bsortEntryBool = false;
 }
 
+void SidebarClipboardPlugin::setEntryItemSize(OriginalDataHashValue* value, ClipboardWidgetEntry *w, QListWidgetItem *item)
+{
+    if (value == nullptr || w == nullptr || item == nullptr) {
+        qWarning() << "setEntryItemSize  ------> 设置条目大小和Item大小传入参数失败";
+        return;
+    }
+    if (value->Clipbaordformat == TEXT || value->Clipbaordformat == URL) {
+        w->setFixedSize(397, 42);
+        item->setSizeHint(QSize(397,42));
+    } else if (value->Clipbaordformat == IMAGE) {
+        w->setFixedSize(397, 84);
+        item->setSizeHint(QSize(397,84));
+    }
+    return;
+}
+
 void SidebarClipboardPlugin::sortingEntryShow()
 {
     int index = 0;
@@ -1184,12 +1316,11 @@ void SidebarClipboardPlugin::sortingEntryShow()
             if (index == iter1.value()->Sequence) {
                 m_pShortcutOperationListWidget->insertItem(0, iter1.key());
                 ClipboardWidgetEntry *w = new ClipboardWidgetEntry(iter1.value()->Clipbaordformat);
-                w->setFixedSize(397, 42);
-                connectWidgetEntryButton(w);
-                QString Format = SetFormatBody(iter1.value()->text, w);
-                w->m_pCopyDataLabal->setTextFormat(Qt::PlainText);
-                w->m_pCopyDataLabal->setText(Format);
                 iter1.value()->WidgetEntry = w;
+                setEntryItemSize(iter1.value(), w, iter1.key());
+                connectWidgetEntryButton(w);
+                iter1.value()->WidgetEntry = w;
+                AddWidgetEntry(iter1.value(), w, iter1.value()->text);
                 m_pShortcutOperationListWidget->setItemWidget(iter1.key(), w);
                 IndexFlag = false;
                 index++;

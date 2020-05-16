@@ -35,6 +35,7 @@
 #include <glib.h>
 #include <QToolButton>
 #include <QStyle>
+#include <QStackedWidget>
 #include "smallpluginsbutton.h"
 #include "smallpluginsmanage.h"
 #include "mostgrandwidget.h"
@@ -53,6 +54,8 @@ public:
     void initUpGroupBoxButton();                                  //上半部分 剪贴板 小插件 俩按钮 groupBox初始化布局
     void initUnGroupBox();                                        //下半部分 剪贴板的界面  小插件按钮详情界面 初始化
     void initLableBackgroundAnimation();                          //初始化动画
+    void initCliboardAnimation();                                 //初始化剪贴板动画类
+    void initSmallPluginsAnimation();                             //初始化小插件动画类
     void setClipboardButtonBackgroundIsBlue();                    //设置侧边栏按钮背景色为蓝色
     void setSmallPluginsButtonBackgroudIsBlue();                  //设置小插件按钮背景色为蓝色
     void setClipboardButtonBackgroundIsBlank();                   //设置侧边栏按钮背景色为空白
@@ -73,10 +76,13 @@ public:
     QHBoxLayout *m_pGrouBoxUpButtonHLayout;                       //GroupBox中Button中的布局
     QGridLayout *m_pGroupBoxUnSmallPluginsGLayout;                //闹钟，便签本布局
 
+    QStackedWidget  *m_pstackWidget;                              //放置剪贴板和小插件的容器窗口
     QWidget     *m_pButtonWidget;                                 //放置按钮Box
     QWidget     *m_pClipboardWidget;                              //放置剪贴板的Box
     QWidget     *m_pPluginsButtonWidget;                          //放置小插件按钮Box
 
+    QPushButton     *m_pFoldButton;                               //折叠按钮
+    QPushButton     *m_pSpreadButton;                             //展开按钮
     QPushButton      *m_pBlueBackgroundButton;                    //蓝色背景块
     SmallPluginsButton *m_pClipboardButton;                       //剪贴板 界面显示按钮
     SmallPluginsButton *m_pSidebarPluginButton;                   //插件 界面显示按钮
@@ -86,6 +92,8 @@ public:
 
     QPropertyAnimation *m_pAnimationLeftRight;
     QPropertyAnimation *m_pAnimationRightLeft;
+    QPropertyAnimation *m_pAnimationClipbarod;
+    QPropertyAnimation *m_pAnimationSmallWidget;
 
     //状态机
     QStateMachine *m_pMachine;                                    //状态机
@@ -99,12 +107,22 @@ public:
     int     flagnumClipboardState;
     int     m_add_x = 0;
     int     m_add_y = 1;
+    int     m_cliboardHight;                                          //剪贴板和小插件的高度
 
 signals:
 
 private slots:
     void m_pClipBoardStateSlots();
     void m_pSmallPluginsStateSlots();
+
+    void m_ClipboardButtonSlots();
+    void m_SidebarPluginButtonSlots();
+
+    void m_pFoldButtonSlots();
+    void m_pSpreadButtonSlots();
+
+    void m_AnimationClipbarodEndSlots();
+    void m_AnimationSmallWidgetEndSlots();
 protected:
     void paintEvent(QPaintEvent *e);
 

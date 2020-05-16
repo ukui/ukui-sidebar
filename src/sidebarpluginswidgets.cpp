@@ -43,6 +43,7 @@ sidebarPluginsWidgets::sidebarPluginsWidgets(QWidget *parent) : QWidget(parent)
     initUnGroupBox();
 
     initLableBackgroundAnimation();
+    initSmallPluginsAnimation();                               //初始化小插件动画类
 
     /* 初始化desktop文件名称放入链表中 */
     addDesktopFileName();
@@ -88,17 +89,33 @@ void sidebarPluginsWidgets::initUpGroupBoxButton()
     m_pGrouBoxUpButtonHLayout = new QHBoxLayout;
     m_pGrouBoxUpButtonHLayout->setContentsMargins(0,5,0,0);
 
+    //剪贴板按钮
     m_pClipboardButton = new SmallPluginsButton();
     m_pClipboardButton->setText(tr("Clipboard"));
     m_pClipboardButton->setObjectName("ClipboardButton");
     m_pClipboardButton->setFixedSize(90,34);
+    connect(m_pClipboardButton, &SmallPluginsButton::clicked, this, &sidebarPluginsWidgets::m_ClipboardButtonSlots);
 
-
+    //小插件按钮
     m_pSidebarPluginButton = new SmallPluginsButton();
     m_pSidebarPluginButton->setText(tr("Plugins"));
     m_pSidebarPluginButton->setObjectName("SidebarPluginButton");
     m_pSidebarPluginButton->setFixedSize(90,34);
+    connect(m_pSidebarPluginButton, &SmallPluginsButton::clicked, this, &sidebarPluginsWidgets::m_SidebarPluginButtonSlots);
 
+    setClipboardButtonBackgroundIsBlue();
+    setSmallPluginsButtonBackgroudIsBlank();
+
+    m_pFoldButton            = new QPushButton(QObject::tr("折叠"));
+    m_pFoldButton->setFixedSize(90, 34);
+    m_pSpreadButton          = new QPushButton(QObject::tr("展开"));
+    m_pSpreadButton->setFixedSize(90, 34);
+    m_pSpreadButton->setVisible(false);
+
+    connect(m_pFoldButton, &QPushButton::clicked, this, &sidebarPluginsWidgets::m_pFoldButtonSlots);
+    connect(m_pSpreadButton, &QPushButton::clicked, this, &sidebarPluginsWidgets::m_pSpreadButtonSlots);
+
+    //蓝色背景块按钮
     m_pBlueBackgroundButton = new QPushButton();
     m_pBlueBackgroundButton->setFixedSize(90, 34);
     m_pBlueBackgroundButton->setObjectName("BlueBackgroundButton");
@@ -106,19 +123,18 @@ void sidebarPluginsWidgets::initUpGroupBoxButton()
 
     m_pBlueBackgroundButton->setVisible(false);
 
-
-    QSpacerItem *item1 = new QSpacerItem(10, 20);
-    QSpacerItem *item2 = new QSpacerItem(10, 20);
-    QSpacerItem *item3 = new QSpacerItem(202,20);
-    m_pGrouBoxUpButtonHLayout->addItem(item1);
+    m_pGrouBoxUpButtonHLayout->addItem(new QSpacerItem(10, 20));
     m_pGrouBoxUpButtonHLayout->addWidget(m_pClipboardButton);
-    m_pGrouBoxUpButtonHLayout->addItem(item2);
+    m_pGrouBoxUpButtonHLayout->addItem(new QSpacerItem(10, 20));
     m_pGrouBoxUpButtonHLayout->addWidget(m_pSidebarPluginButton);
-    m_pGrouBoxUpButtonHLayout->addItem(item1);
+    m_pGrouBoxUpButtonHLayout->addItem(new QSpacerItem(10, 20));
+//    m_pGrouBoxUpButtonHLayout->addWidget(m_pFoldButton);
+//    m_pGrouBoxUpButtonHLayout->addWidget(m_pSpreadButton);
     m_pGrouBoxUpButtonHLayout->addWidget(m_pBlueBackgroundButton);
-    m_pGrouBoxUpButtonHLayout->addItem(item3);
+    m_pGrouBoxUpButtonHLayout->addItem(new QSpacerItem(202, 20, QSizePolicy::Expanding));
     m_pButtonWidget->setLayout(m_pGrouBoxUpButtonHLayout);
     m_pGrouBoxUpButtonHLayout->setSpacing(0);
+//    m_pButtonWidget->setStyleSheet("QWidget{ border: 1px solid rgba(255,255,0,1);}");
 }
 
 /* 显示插件的界面下半部分 */
@@ -139,86 +155,14 @@ void sidebarPluginsWidgets::initUnGroupBox()
 /* 最后将所有空间加入到Widget中 */
 void sidebarPluginsWidgets::AddPluginWidgetInterface()
 {
+    m_pstackWidget = new QStackedWidget();
+    m_pstackWidget->setContentsMargins(0, 0, 0, 0);
+    m_pstackWidget->addWidget(m_pClipboardWidget);                  //剪贴板Widget
+    m_pstackWidget->addWidget(m_pPluginsButtonWidget);              //显示小插件的Widget
     m_pWidgetOutVLayout->addWidget(m_pButtonWidget);                //加载俩个按钮界面
-    m_pWidgetOutVLayout->addWidget(m_pClipboardWidget);             //剪贴板Widget
-    m_pWidgetOutVLayout->addWidget(m_pPluginsButtonWidget);         //显示小插件的Widget
+    m_pWidgetOutVLayout->addWidget(m_pstackWidget);
     m_pWidgetOutVLayout->setSpacing(0);
     this->setLayout(m_pWidgetOutVLayout);
-
-    /* 状态机初始化 */
-    m_pMachine = new QStateMachine();
-    m_pClipBoardState = new QState(m_pMachine);
-    m_pSmallPluginsState = new QState(m_pMachine);
-
-    /* 给状态机分配属性 状态一，剪贴板状态 */
-    m_pClipBoardState->assignProperty(m_pClipboardWidget, "geometry", QRectF(0, 50, 400, 250));
-    m_pClipBoardState->assignProperty(m_pPluginsButtonWidget, "geometry", QRectF(400, 50, 400, 250));
-
-    /* 给状态机分配属性 状态二，小插件页面状态 */
-    m_pSmallPluginsState->assignProperty(m_pClipboardWidget, "geometry", QRectF(400, 50, 400, 250));
-    m_pSmallPluginsState->assignProperty(m_pPluginsButtonWidget, "geometry", QRectF(0, 50, 400, 250));
-
-    /* 给状态机配置状态转换信号 */
-    QAbstractTransition *t1 = m_pClipBoardState->addTransition(m_pSidebarPluginButton, SIGNAL(enterButtonSignal()), m_pSmallPluginsState);
-    t1->addAnimation(new QPropertyAnimation(m_pPluginsButtonWidget, "geometry"));
-
-    QAbstractTransition *t2 = m_pSmallPluginsState->addTransition(m_pClipboardButton, SIGNAL(enterButtonSignal()), m_pClipBoardState);
-    t2->addAnimation(new QPropertyAnimation(m_pClipboardWidget, "geometry"));
-
-    /* 初始化状态机时所要做的事情 */
-    connect(m_pClipBoardState, &QState::propertiesAssigned, this, [=]{
-        if (resizeFlagOne) {
-            m_pPluginsButtonWidget->setVisible(true);
-            m_pPluginsButtonWidget->show();
-            resizeFlagOne = false;
-            m_pSidebarPluginButton->SendSingal();
-            qDebug() << "剪贴板界面 --> 进入小插件界面";
-        }
-
-        if (ClipBoardBool) {
-            qDebug() << "修改分辨率后状态已转换完成，当前状态在剪贴板界面";
-            mostGrandWidget::getInstancemostGrandWidget()->hide();
-            ClipBoardBool = false;
-        }
-    });
-
-    connect(m_pSmallPluginsState, &QState::propertiesAssigned, this, [=]{
-        if (m_pBoolStates) {
-            m_pPluginsButtonWidget->setVisible(true);
-            m_pBoolStates = false;
-            m_pClipboardButton->SendSingal();
-            qDebug() << "小插件界面 --> 进入剪贴板界面";
-            mostGrandWidget::getInstancemostGrandWidget()->hide();
-        }
-
-        if (SmallPluginsBool) {
-            qDebug() << "修改分辨率后状态已转换完成，当前状态在小插件界面";
-            mostGrandWidget::getInstancemostGrandWidget()->hide();
-            SmallPluginsBool = false;
-        }
-    });
-
-    /* 进入状态机一需要将小插件按钮的背景设置成空白 */
-    connect(m_pClipBoardState, &QState::entered, this, [=](){
-        setSmallPluginsButtonBackgroudIsBlank();
-//        m_pSidebarPluginButton->setStyle(BlankButtonStyle);
-        m_pBlueBackgroundButton->setVisible(true);
-        m_pAnimationRightLeft->start();
-        m_statusFlag = KYLIN_STATE_CLIPBOARD;
-    });
-
-    /* 进入状态机二时将按钮小插件的背景设置成空白 */
-    connect(m_pSmallPluginsState, &QState::entered, this, [=](){
-        setClipboardButtonBackgroundIsBlank();
-//        m_pClipboardButton->setStyle(BlankButtonStyle);
-        m_pBlueBackgroundButton->setVisible(true);
-        m_pAnimationLeftRight->start();
-        m_statusFlag = KYLIN_STATE_SMALL_PLUGINS;
-    });
-
-    m_pPluginsButtonWidget->setVisible(false);
-    m_pMachine->setInitialState(m_pClipBoardState);
-    m_pMachine->start();
 }
 
 /* 移动到剪贴板按钮需要修改的界面 */
@@ -237,6 +181,56 @@ void sidebarPluginsWidgets::m_pSmallPluginsStateSlots()
     setSmallPluginsButtonBackgroudIsBlue();
 }
 
+/* 剪贴板按钮槽函数 */
+void sidebarPluginsWidgets::m_ClipboardButtonSlots()
+{
+    if (!ClipBoardBool) {
+        setSmallPluginsButtonBackgroudIsBlank();
+        m_pstackWidget->setCurrentIndex(0);
+        m_pAnimationClipbarod->start();
+        m_pBlueBackgroundButton->setVisible(true);
+        m_pAnimationRightLeft->start();
+        qDebug() << "点击剪贴板按钮需要做的事情";
+        SmallPluginsBool = false;
+        ClipBoardBool = true;
+    }
+    return;
+}
+
+/* 小插件按钮槽函数 */
+void sidebarPluginsWidgets::m_SidebarPluginButtonSlots()
+{
+    if (!SmallPluginsBool) {
+        setClipboardButtonBackgroundIsBlank();
+        m_pstackWidget->setCurrentIndex(1);
+        m_pAnimationSmallWidget->start();
+        m_pBlueBackgroundButton->setVisible(true);
+        m_pAnimationLeftRight->start();
+        qDebug() << "点击小插件按钮需要的事情";
+        ClipBoardBool = false;
+        SmallPluginsBool = true;
+    }
+    return;
+}
+
+/* 折叠按钮槽函数 */
+void sidebarPluginsWidgets::m_pFoldButtonSlots()
+{
+    m_pstackWidget->hide();
+    this->setFixedSize(400, 60);
+    m_pSpreadButton->setVisible(true);
+    m_pFoldButton->setVisible(false);
+}
+
+/* 展开按钮槽函数 */
+void sidebarPluginsWidgets::m_pSpreadButtonSlots()
+{
+    m_pstackWidget->show();
+    this->setFixedSize(400, m_cliboardHight);
+    m_pSpreadButton->setVisible(false);
+    m_pFoldButton->setVisible(true);
+}
+
 /* 新建Lable的动画类 */
 void sidebarPluginsWidgets::initLableBackgroundAnimation()
 {
@@ -250,6 +244,36 @@ void sidebarPluginsWidgets::initLableBackgroundAnimation()
     m_pAnimationRightLeft->setEndValue(QRect(10, 15, 90, 34));
     connect(m_pAnimationLeftRight, &QPropertyAnimation::finished, this, &sidebarPluginsWidgets::m_pSmallPluginsStateSlots);
     connect(m_pAnimationRightLeft, &QPropertyAnimation::finished, this, &sidebarPluginsWidgets::m_pClipBoardStateSlots);
+}
+
+/* 初始化剪贴板动画 */
+void sidebarPluginsWidgets::initCliboardAnimation()
+{
+   m_pAnimationClipbarod = new QPropertyAnimation(m_pClipboardWidget, "geometry");
+   m_pAnimationClipbarod->setDuration(300);
+   m_pAnimationClipbarod->setStartValue(QRect(400, 0, 400, m_cliboardHight));
+   m_pAnimationClipbarod->setEndValue(QRect(0, 0, 400, m_cliboardHight));
+   connect(m_pAnimationClipbarod, &QPropertyAnimation::finished, this, &sidebarPluginsWidgets::m_AnimationClipbarodEndSlots);
+}
+
+/* 初始化小插件动画 */
+void sidebarPluginsWidgets::initSmallPluginsAnimation()
+{
+    m_pAnimationSmallWidget = new QPropertyAnimation(m_pPluginsButtonWidget, "geometry");
+    m_pAnimationSmallWidget->setDuration(300);
+    m_pAnimationSmallWidget->setStartValue(QRect(400, 0, 400, m_cliboardHight));
+    m_pAnimationSmallWidget->setEndValue(QRect(0, 0, 400, m_cliboardHight));
+    connect(m_pAnimationSmallWidget, &QPropertyAnimation::finished, this, &sidebarPluginsWidgets::m_AnimationSmallWidgetEndSlots);
+}
+
+void sidebarPluginsWidgets::m_AnimationClipbarodEndSlots()
+{
+    qDebug() << "剪贴板动画结束需要做的事情";
+}
+
+void sidebarPluginsWidgets::m_AnimationSmallWidgetEndSlots()
+{
+    qDebug() << "小插件动画结束需要做的事情";
 }
 
 /* 设置侧边栏的按钮背景色为蓝色 */
@@ -276,10 +300,11 @@ void sidebarPluginsWidgets::setSmallPluginsButtonBackgroudIsBlank()
 /* 设置剪贴板的高度 */
 void sidebarPluginsWidgets::setClipboardWidgetSize(int ClipHight)
 {
+    m_cliboardHight = ClipHight;
     qDebug() << "设置小剪贴板的界面大小---->" << ClipHight;
     this->setFixedSize(400, ClipHight);
     m_pClipboardWidget->setFixedSize(400, ClipHight - 50);
-
+    m_pPluginsButtonWidget->setFixedSize(400, ClipHight - 50);
     return;
 }
 
@@ -480,10 +505,10 @@ void sidebarPluginsWidgets::loadSmallPlugins()
     qDebug() << "x -->" << m_add_x << "y -->" << m_add_y;
     if (m_add_x < 1) {
         m_pGroupBoxUnSmallPluginsGLayout->addItem(new QSpacerItem(400 - 100*(m_add_y/2), 0), m_add_x, m_add_y - 1);
-        m_pGroupBoxUnSmallPluginsGLayout->setContentsMargins(0, 19, 0, 250 - 90*(m_add_x + 1));
+        m_pGroupBoxUnSmallPluginsGLayout->setContentsMargins(0, 0, 0, 250 - 90*(m_add_x + 1));
         m_pGroupBoxUnSmallPluginsGLayout->setVerticalSpacing(10);
     } else {
-        m_pGroupBoxUnSmallPluginsGLayout->setContentsMargins(0, 19, 0, 30);
+        m_pGroupBoxUnSmallPluginsGLayout->setContentsMargins(0, 0, 0, 30);
     }
 //    m_pGroupBoxUnSmallPluginsGLayout->setVerticalSpacing(0);
 //    m_pGroupBoxUnSmallPluginsGLayout->setHorizontalSpacing(0);

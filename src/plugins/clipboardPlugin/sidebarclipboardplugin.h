@@ -153,8 +153,6 @@ public:
 
     //void FixOriginalDataFirstList(OriginalDataHashValue *value, QString text, const QMimeData mimedata);
 
-
-
     void removeLastWidgetItem();                                            /* 限制复制条数 */
     bool booleanExistWidgetItem(QString Text);                              /* 判断在ListWidget是否存在，如果不存在则返回fasle，创建，返回true，不创建 */
     void createFindClipboardWidgetItem();                                   /* 创建查找条目 */
@@ -167,6 +165,9 @@ public:
     void AddfileSuffix();                                                   /* 往链表中加入文件后缀 */
     void creatLoadClipboardDbData(OriginalDataHashValue *value);            /* 加载从数据库中拿到的数据，加入到剪贴板 */
     bool judgeFileExit(QString fullFilePath);                               /* 判断此路径下该文件是否存在 */
+    OriginalDataHashValue *saveOriginalData(OriginalDataHashValue *value);  /* 保存OriginalData数据 */
+    void setOriginalDataSequence(OriginalDataHashValue *value);             /* 设置条目的sequence */
+    void popCreatorDbHaveDate(OriginalDataHashValue *value);                /* 加入关联数据库的置顶条目 */
     QIcon fileSuffixGetsIcon(QString Url);                                  /* 判断Url中当前后缀名，根据后缀名读取图标 */
     QString SetFormatBody(QString text, ClipboardWidgetEntry *w);           /* 设置... */
     QString judgeBlankLine(QStringList list);                               /* 去除掉空行，显示有字体的行 */
@@ -176,7 +177,8 @@ public:
     int setClipBoardWidgetScaleFactor();                                    /* 设置剪贴板的高度，用来作为预览窗体的显示位置 */
     QMimeData *copyMinedata(const QMimeData* mimeReference);                /* 拷贝QMimeData拷贝数据类型 */
     QMimeData *structureQmimeDate(OriginalDataHashValue *value);            /* 构造一个QMimeDate类型数据 */
-    void AddWidgetEntry(OriginalDataHashValue *s_pDataHashValue, ClipboardWidgetEntry *w, QString text);
+    void AddWidgetEntry(OriginalDataHashValue *s_pDataHashValue, ClipboardWidgetEntry *w, QString text);     /* 将信息写入到WidgetEntry条目中去 */
+    void setEntryItemSize(OriginalDataHashValue* value, ClipboardWidgetEntry *w, QListWidgetItem *item);    /* 设置条目大小 */
 
 signals:
     void Itemchange();
@@ -188,6 +190,7 @@ public slots:
     void editButtonSlots(ClipboardWidgetEntry *w);                          /* 编辑槽函数 */
     void removeButtonSlots(ClipboardWidgetEntry *w);                        /* 编辑槽函数 */
     void fixedWidgetEntrySlots(ClipboardWidgetEntry *w);                    /* 固定槽函数 */
+    void cancelFixedWidgetEntrySLots(ClipboardWidgetEntry *w);              /* 取消固定槽函数 */
     void removeAllWidgetItem();                                             /* 移除所有条目槽函数 */
     void searchClipboardLableTextSlots(QString Text);                       /* 查找槽函数 */
     void ItemNumchagedSlots();                                              /* Item条目发生改变槽函数 */

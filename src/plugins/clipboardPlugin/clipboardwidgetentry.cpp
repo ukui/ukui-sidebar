@@ -63,7 +63,8 @@ ClipboardWidgetEntry::ClipboardWidgetEntry(QString dataFormat, QWidget *parent)
     }
 
     m_pHLayout->addWidget(m_pPopButton);
-
+    m_pHLayout->addWidget(m_pCancelLockButton);
+    m_pCancelLockButton->setVisible(false);
     if (!(m_dataFormat == ENTRYURL || m_dataFormat == ENTRYIMAGE)) {
         m_pHLayout->addWidget(m_pEditButon);
     }
@@ -85,6 +86,8 @@ void ClipboardWidgetEntry::initPushbutton()
     PopIcon.addFile(LOCK_SVG_PATH);
     QIcon RemoveIcon;
     RemoveIcon.addFile(REMOVE_SVG_PATH);
+    QIcon CancelIcon;
+    CancelIcon.addFile(CANCEL_LOCK_PNG_PATH);
     m_pPopButton     = new QPushButton();
     m_pPopButton->setStyle(new customstyle_clean_pushbutton("ukui-default"));
     m_pPopButton->setToolTip(QObject::tr("Pop"));
@@ -106,6 +109,13 @@ void ClipboardWidgetEntry::initPushbutton()
     m_pRemoveButton->setFixedSize(34, 34);
     m_pRemoveButton->setIcon(RemoveIcon);
     m_pRemoveButton->setObjectName("RemoveButton");
+
+    m_pCancelLockButton = new QPushButton();
+    m_pCancelLockButton->setStyle(new customstyle_clean_pushbutton("ukui-default"));
+    m_pCancelLockButton->setToolTip(QObject::tr("Cancel the fixed"));
+    m_pCancelLockButton->setFixedSize(34,34);
+    m_pCancelLockButton->setIcon(CancelIcon);
+    m_pCancelLockButton->setObjectName("cancel fixed the button");
     return;
 }
 
@@ -141,7 +151,11 @@ void ClipboardWidgetEntry::enterEvent(QEvent *e)
         m_pCopyDataLabal->setFixedSize(260, 34);
         m_pEditButon->setVisible(true);
     }
-    m_pPopButton->setVisible(true);
+    if (m_bWhetherFix) {
+        m_pCancelLockButton->setVisible(true);
+    } else {
+        m_pPopButton->setVisible(true);
+    }
     m_pRemoveButton->setVisible(true);
     m_ptext = this->m_pCopyDataLabal->text();
     QString format = SetFormatBody(m_ptext);
@@ -154,7 +168,11 @@ void ClipboardWidgetEntry::leaveEvent(QEvent *e)
         return;
     }
     status=NORMAL;
-    m_pPopButton->setVisible(false);
+    if (m_bWhetherFix) {
+        m_pCancelLockButton->setVisible(false);
+    } else {
+        m_pPopButton->setVisible(false);
+    }
     m_pEditButon->setVisible(false);
     m_pRemoveButton->setVisible(false);
     if (m_dataFormat == ENTRYURL || m_dataFormat == ENTRYTEXT) {
@@ -171,7 +189,7 @@ void ClipboardWidgetEntry::leaveEvent(QEvent *e)
     return;
 }
 
-void ClipboardWidgetEntry::mouseDoubleClickEvent(QMouseEvent *event)
+void ClipboardWidgetEntry::mousePressEvent(QMouseEvent *event)
 {
     m_ptext = this->m_pCopyDataLabal->text();
     if (event->button() == Qt::LeftButton) {
@@ -179,6 +197,11 @@ void ClipboardWidgetEntry::mouseDoubleClickEvent(QMouseEvent *event)
         return;
     }
     return;
+}
+
+void ClipboardWidgetEntry::mouseDoubleClickEvent(QMouseEvent *event)
+{
+
 }
 
 QString ClipboardWidgetEntry::SetFormatBody(QString text)

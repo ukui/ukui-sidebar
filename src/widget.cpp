@@ -100,6 +100,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
 
     connect(m_pAnimationHideSidebarWidget, &QPropertyAnimation::finished, this, &Widget::hideAnimationFinish);
     connect(m_pAnimationShowSidebarWidget, &QPropertyAnimation::valueChanged, this, &Widget::showAnimationAction);
+    connect(m_pAnimationShowSidebarWidget, &QPropertyAnimation::finished, this, &Widget::showAnimationFinish);
 
     /* 将托盘栏图标和widget联系起来 */
     connect(trayIcon, &QSystemTrayIcon::activated, this, &Widget::iconActivated);
@@ -168,6 +169,7 @@ int Widget::ListenClipboardSignal()
     connect(m_pSidebarSignal, &SidebarClipBoardSignal::ClipBoardWidgetEntryEditButtonSignal, this, &Widget::ClipboardShowSlots);
 
     sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pClipboardWidget = m_pSidebarClipboard->getClipbaordGroupBox();   /* 获取剪贴板的Widget指针; */
+    sidebarPluginsWidgets::getInstancePluinsWidgets()->initCliboardAnimation(); //初始化剪贴板动画
     int clipboardhight = setClipBoardWidgetScaleFactor();
     qDebug() << "剪贴板高度" << clipboardhight;
     sidebarPluginsWidgets::getInstancePluinsWidgets()->setClipboardWidgetSize(clipboardhight);      /* 设定剪贴板高度 */
@@ -406,6 +408,17 @@ void Widget::showAnimationAction(const QVariant &value)
     }
 }
 
+void Widget::showAnimationFinish()
+{
+    if (m_bfinish) {
+        mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
+        hideAnimation();
+        m_bfinish = false;
+        qDebug() << "m_bfinish = false;";
+    }
+    return;
+}
+
 //隐藏动画
 void Widget::hideAnimation()
 {
@@ -567,20 +580,6 @@ void Widget::ModifyScreenNeeds()
 
     qDebug() << "剪贴板高度" << clipboardhight;
     sidebarPluginsWidgets::getInstancePluinsWidgets()->setClipboardWidgetSize(clipboardhight); //设定剪贴板高度
-
-    /* 先将侧边栏show出来，改变一次状态机，将修改分辨率后，对布局的影响去掉 */
-    mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(-500, 0);
-    mostGrandWidget::getInstancemostGrandWidget()->setVisible(true);
-
-    if (sidebarPluginsWidgets::getInstancePluinsWidgets()->m_statusFlag == KYLIN_STATE_CLIPBOARD) {
-        sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pSidebarPluginButton->SendSingal();
-        sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pClipboardButton->SendSingal();
-        sidebarPluginsWidgets::getInstancePluinsWidgets()->ClipBoardBool = true;
-    } else if (sidebarPluginsWidgets::getInstancePluinsWidgets()->m_statusFlag == KYLIN_STATE_SMALL_PLUGINS) {
-        sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pClipboardButton->SendSingal();
-        sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pSidebarPluginButton->SendSingal();
-        sidebarPluginsWidgets::getInstancePluinsWidgets()->SmallPluginsBool = true;
-    }
 }
 
 /* 初始化主屏的X坐标 */

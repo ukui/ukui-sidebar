@@ -87,6 +87,7 @@ public:
     void MostGrandWidgetCoordinates();                                          //根据任务栏位置调整侧边栏位置
     void InitializeHomeScreenGeometry();                                        //初始化主屏的X坐标
 
+    bool m_bfinish;
 
 
 protected:
@@ -134,6 +135,7 @@ private slots :
     void onNewNotification();                                                   //当没展开时，来了新通知才提示
     void hideAnimationFinish();                                                 //隐藏动画完成
     void showAnimationAction(const QVariant &value);                            //展开动画开始
+    void showAnimationFinish();
     void primaryScreenChangedSLot();                                            //主屏发生变化
     void ClipboardShowSlots();                                                  //接受剪贴板信号，将boll值m_bClipboardFlag置为false;
     void ClipboardHideSlots();                                                  //接受剪贴板信号，将boll值m_bClipboardFlag置为true;

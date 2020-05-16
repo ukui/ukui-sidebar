@@ -41,6 +41,7 @@
 #define  SEARCH_SVG_CLEAN ":/image/button-close-hover-click-two.svg"
 #define  SEARCH_SVG_CLEAN_BACK ":/image/button-close-hover-click-add-background-one.svg"
 #define  LOCK_SVG_PATH    ":/image/lock.png"
+#define  CANCEL_LOCK_PNG_PATH ":/image/cancel-lock.png"
 
 #define  ENTRYURL    "Url"
 #define  ENTRYIMAGE  "Image"
@@ -55,16 +56,19 @@ public:
     QPushButton *m_pPopButton;
     QPushButton *m_pEditButon;
     QPushButton *m_pRemoveButton;
+    QPushButton *m_pCancelLockButton;
     QLabel      *m_pCopyDataLabal;
     QLabel      *m_pCopyFileIcon;
     QHBoxLayout *m_pHLayout;
     QString      m_ptext;
     QString      m_dataFormat;
+    bool         m_bWhetherFix = false;
     QString SetFormatBody(QString text);
     QString judgeBlankLine(QStringList list);                               /* 去除掉空行，显示有字体的行 */
     void    initPushbutton();                                               /* 初始化三个按钮 */
     void    initLable();                                                    /* 初始化Lable */
     bool    substringSposition(QString formatBody, QStringList list);       /* 判断后面是否还有子串 */
+
 
     enum TaskWidgetStatus{NORMAL, HOVER, PRESS};
     TaskWidgetStatus status;
@@ -73,7 +77,9 @@ protected:
     void enterEvent(QEvent *);                      //进入QWidget瞬间事件
     void leaveEvent(QEvent *);                      //离开QWidget瞬间事件
     void mouseDoubleClickEvent(QMouseEvent *event); //双击事件
+    void mousePressEvent(QMouseEvent *event);       //单击事件
     void paintEvent(QPaintEvent *e);                //重绘事件
+
 signals:
     void doubleClicksignals(QWidget *w);
     void previewShowImage(QWidget *w);
