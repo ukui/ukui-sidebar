@@ -546,7 +546,7 @@ void SidebarClipboardPlugin::registerWidgetOriginalDataHash(QListWidgetItem *key
 OriginalDataHashValue *SidebarClipboardPlugin::GetOriginalDataValue(QListWidgetItem *key)
 {
     if (key == nullptr) {
-        qWarning() << "获取：ClipboardWidgetEntry *key为空";
+        qWarning() << "GetOriginalDataValue -->获取：ClipboardWidgetEntry *key为空";
         return nullptr;
     }
 
@@ -561,7 +561,7 @@ OriginalDataHashValue *SidebarClipboardPlugin::GetOriginalDataValue(QListWidgetI
 void SidebarClipboardPlugin::removeOriginalDataHash(QListWidgetItem *key)
 {
     if (key == nullptr) {
-        qWarning() << "获取：ClipboardWidgetEntry *key为空";
+        qWarning() << "removeOriginalDataHash ----> 获取：ClipboardWidgetEntry *key为空";
         return;
     }
     if (m_pClipboardDataHash.contains(key))
@@ -893,9 +893,10 @@ void SidebarClipboardPlugin::removeLastWidgetItem()
 {
     ClipboardWidgetEntry *w = nullptr;
     QListWidgetItem *Item   = nullptr;
+    OriginalDataHashValue *value = nullptr;
     int tmp = m_pShortcutOperationListWidget->count()-1;
     int i;
-    for (i = tmp; i != 0; i--) {
+    for (i = tmp; i >= 0; i--) {
         w = (ClipboardWidgetEntry*)m_pShortcutOperationListWidget->itemWidget(m_pShortcutOperationListWidget->item(i));
         Item = iterationClipboardDataHash(w);
         OriginalDataHashValue *value = GetOriginalDataValue(Item);
@@ -903,10 +904,13 @@ void SidebarClipboardPlugin::removeLastWidgetItem()
             break;
         }
     }
-    if (i == 0) {
+    if (i == -1) {
         /* 说明全部都是固定的条目，删除最后一条固定条目 */
-        w = (ClipboardWidgetEntry*)m_pShortcutOperationListWidget->itemWidget(m_pShortcutOperationListWidget->item(i));
+        w = (ClipboardWidgetEntry*)m_pShortcutOperationListWidget->itemWidget(m_pShortcutOperationListWidget->item(tmp));
         Item = iterationClipboardDataHash(w);
+        value = GetOriginalDataValue(Item);
+        m_pClipboardDb->deleteSqlClipboardDb(value->text);
+        i = tmp;
     }
     removeOriginalDataHash(Item);
     QListWidgetItem *tmpItem = m_pShortcutOperationListWidget->takeItem(i);
@@ -924,7 +928,11 @@ bool SidebarClipboardPlugin::booleanExistWidgetItem(QString Text)
             QString WidgetText = p->text;
             if (WidgetText == Text) {
                 if(i == 0) {
-                    qDebug() << "当前的数据就是置顶数据";
+                    qDebug() << "当前的数据就是置顶数据------>booleanExistWidgetItem";
+                    return true;
+                }
+                if (p->associatedDb == DBDATA) {
+                    popButtonSlots(p->WidgetEntry);
                     return true;
                 }
                 removeButtonSlots(GetOriginalDataValue(m_pShortcutOperationListWidget->item(i))->WidgetEntry);
@@ -1100,6 +1108,7 @@ void SidebarClipboardPlugin::loadClipboardDb()
         qDebug() << p_DataHashValueDb->text << p_DataHashValueDb->Clipbaordformat;
         creatLoadClipboardDbData(p_DataHashValueDb);
     }
+    qDebug() << m_pClipboardDataHash;
     return;
 }
 
