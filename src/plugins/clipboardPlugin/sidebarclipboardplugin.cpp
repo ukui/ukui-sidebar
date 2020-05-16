@@ -246,7 +246,6 @@ void SidebarClipboardPlugin::createWidgetEntry()
         qWarning() << "text文本为空 或者 s_pDataHashValue->p_pixmap == nullptr";
         return ;
     }
-
     if (format == TEXT || format == URL) {
         /* 过滤重复文本 */
         if(booleanExistWidgetItem(text)) {
@@ -286,12 +285,10 @@ void SidebarClipboardPlugin::createWidgetEntry()
     qDebug() << "hash表中的Sequence" << s_pDataHashValue->Sequence;
 
     registerWidgetOriginalDataHash(pListWidgetItem, s_pDataHashValue);
-
     /* 当超过一定数目的WidgetItem数目时，删除最后一条消息 */
     if (m_pShortcutOperationListWidget->count() >= WIDGET_ENTRY_COUNT) {
         removeLastWidgetItem();
     }
-
     setEntryItemSize(s_pDataHashValue, w, pListWidgetItem);
     pListWidgetItem->setFlags(Qt::NoItemFlags);
 
@@ -535,11 +532,11 @@ void SidebarClipboardPlugin::connectWidgetEntryButton(ClipboardWidgetEntry *w)
 void SidebarClipboardPlugin::registerWidgetOriginalDataHash(QListWidgetItem *key, OriginalDataHashValue *value)
 {
     if (nullptr == key || nullptr == value) {
-        qWarning() << "注册：ClipboardWidgetEntry *key," << key << "OriginalDataHashValue *value值有问题"  << value;
+        qDebug() << "注册：ClipboardWidgetEntry *key," << key << "OriginalDataHashValue *value值有问题"  << value;
         return;
     }
     if (m_pClipboardDataHash.value(key)) {
-        qWarning() << "注册：value已存在";
+        qDebug() << "注册：value已存在";
         return;
     }
     m_pClipboardDataHash.insert(key, value);
@@ -884,6 +881,7 @@ void SidebarClipboardPlugin::cancelFixedWidgetEntrySLots(ClipboardWidgetEntry *w
     QListWidgetItem *Item = iterationClipboardDataHash(w);
     OriginalDataHashValue *s_pDataHashValue = GetOriginalDataValue(Item);
     m_pClipboardDb->deleteSqlClipboardDb(s_pDataHashValue->text);  //删除数据库中此条数据
+    s_pDataHashValue->associatedDb = "";
     w->m_pPopButton->setVisible(true);
     w->m_pCancelLockButton->setVisible(false);
     w->m_bWhetherFix = false;
@@ -893,13 +891,27 @@ void SidebarClipboardPlugin::cancelFixedWidgetEntrySLots(ClipboardWidgetEntry *w
 /* 当超过限制条数时删除最后一条消息 */
 void SidebarClipboardPlugin::removeLastWidgetItem()
 {
-    ClipboardWidgetEntry *w = (ClipboardWidgetEntry*)m_pShortcutOperationListWidget->itemWidget(m_pShortcutOperationListWidget->item(m_pShortcutOperationListWidget->count()-1));
-    qDebug() << "当前条目数目" << m_pShortcutOperationListWidget->count();
-
-    QListWidgetItem *Item = iterationClipboardDataHash(w);
+    ClipboardWidgetEntry *w = nullptr;
+    QListWidgetItem *Item   = nullptr;
+    int tmp = m_pShortcutOperationListWidget->count()-1;
+    int i;
+    for (i = tmp; i != 0; i--) {
+        w = (ClipboardWidgetEntry*)m_pShortcutOperationListWidget->itemWidget(m_pShortcutOperationListWidget->item(i));
+        Item = iterationClipboardDataHash(w);
+        OriginalDataHashValue *value = GetOriginalDataValue(Item);
+        if (value->associatedDb != DBDATA) {
+            break;
+        }
+    }
+    if (i == 0) {
+        /* 说明全部都是固定的条目，删除最后一条固定条目 */
+        w = (ClipboardWidgetEntry*)m_pShortcutOperationListWidget->itemWidget(m_pShortcutOperationListWidget->item(i));
+        Item = iterationClipboardDataHash(w);
+    }
     removeOriginalDataHash(Item);
-    QListWidgetItem *tmp = m_pShortcutOperationListWidget->takeItem(m_pShortcutOperationListWidget->count()-1);
-    delete tmp;
+    QListWidgetItem *tmpItem = m_pShortcutOperationListWidget->takeItem(i);
+    delete tmpItem;
+    return;
 }
 
 /* 判断在ListWidget是否存在，如果不存在则返回fasle，创建，返回true，不创建 */
@@ -1088,6 +1100,7 @@ void SidebarClipboardPlugin::loadClipboardDb()
         qDebug() << p_DataHashValueDb->text << p_DataHashValueDb->Clipbaordformat;
         creatLoadClipboardDbData(p_DataHashValueDb);
     }
+    return;
 }
 
 /* 加载从数据库中拿到的数据，加入到剪贴板 */
