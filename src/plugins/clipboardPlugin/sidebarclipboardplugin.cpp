@@ -292,14 +292,7 @@ void SidebarClipboardPlugin::createWidgetEntry()
         removeLastWidgetItem();
     }
 
-    if (format == TEXT || format == URL) {
-        w->setFixedSize(397, 42);
-        pListWidgetItem->setSizeHint(QSize(397,42));
-    } else if (format == IMAGE) {
-        w->setFixedSize(397, 84);
-        pListWidgetItem->setSizeHint(QSize(397,84));
-    }
-
+    setEntryItemSize(s_pDataHashValue, w, pListWidgetItem);
     pListWidgetItem->setFlags(Qt::NoItemFlags);
 
     /* 将text和图片写入到Widget */
@@ -1145,13 +1138,7 @@ void SidebarClipboardPlugin::creatLoadClipboardDbData(OriginalDataHashValue *val
 
     value->WidgetEntry = w;
 
-    if (value->Clipbaordformat == TEXT || value->Clipbaordformat == URL) {
-        w->setFixedSize(397, 42);
-        pListWidgetItem->setSizeHint(QSize(397,42));
-    } else if (value->Clipbaordformat == IMAGE) {
-        w->setFixedSize(397, 84);
-        pListWidgetItem->setSizeHint(QSize(397,84));
-    }
+    setEntryItemSize(value, w, pListWidgetItem);
     pListWidgetItem->setFlags(Qt::NoItemFlags);
 
     registerWidgetOriginalDataHash(pListWidgetItem, value);
