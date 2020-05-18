@@ -169,6 +169,7 @@ public:
     void setOriginalDataSequence(OriginalDataHashValue *value);             /* 设置条目的sequence */
     void popCreatorDbHaveDate(OriginalDataHashValue *value);                /* 加入关联数据库的置顶条目 */
     QIcon fileSuffixGetsIcon(QString Url);                                  /* 判断Url中当前后缀名，根据后缀名读取图标 */
+    QIcon fileSuffixeMatchIcon(int cnt);                                    /* 根据文件名后缀匹配对应的图标 */
     QString SetFormatBody(QString text, ClipboardWidgetEntry *w);           /* 设置... */
     QString judgeBlankLine(QStringList list);                               /* 去除掉空行，显示有字体的行 */
     bool    substringSposition(QString formatBody, QStringList list);       /* 判断后面是否还有子串 */

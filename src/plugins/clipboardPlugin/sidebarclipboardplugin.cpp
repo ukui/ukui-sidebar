@@ -428,7 +428,6 @@ QIcon SidebarClipboardPlugin::fileSuffixGetsIcon(QString Url)
     }
     int tmp = m_fileSuffix.size();
     QStringList UrlList = Url.split(".");
-    qDebug() << "123123123" << UrlList;
     if (UrlList.size() < 2) {
         qDebug() << "此文件没有后缀";
         QString  filePath = Url.mid(7);
@@ -437,8 +436,8 @@ QIcon SidebarClipboardPlugin::fileSuffixGetsIcon(QString Url)
             qDebug() << "文件类型为普通文本";
             return QIcon::fromTheme("unknown");//返回其余文本图标
         } else if (fileinfo.isDir()) {
-            return QIcon::fromTheme("folder");//返回文件夹的图标
             qDebug() << "文件类型为文件";
+            return QIcon::fromTheme("folder");//返回文件夹的图标
         }
         qDebug() << "FilePath ----> " << filePath;
         return QIcon(":/image/kylin-feedback.png");
@@ -450,7 +449,12 @@ QIcon SidebarClipboardPlugin::fileSuffixGetsIcon(QString Url)
             break;
         }
     }
+    return fileSuffixeMatchIcon(cnt);
+}
 
+/* 根据文件后缀找对应的图标 */
+QIcon SidebarClipboardPlugin::fileSuffixeMatchIcon(int cnt)
+{
     switch (cnt) {
     case Txt:
         qDebug() << "Txt图标";
