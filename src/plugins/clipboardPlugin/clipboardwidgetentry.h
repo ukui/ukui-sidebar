@@ -34,6 +34,7 @@
 #include <QMouseEvent>
 #include "clipboardsignal.h"
 #include "clipBoardInternalSignal.h"
+#include "pixmaplabel.h"
 
 #define  EDIT_SVG_PATH  ":/image/editor.svg"
 #define  COPY_SVG_PATH  ":/image/copy.svg"
@@ -58,12 +59,13 @@ public:
     QPushButton *m_pRemoveButton;
     QPushButton *m_pCancelLockButton;
     QLabel      *m_pCopyDataLabal;
-    QLabel      *m_pCopyFileIcon;
+    pixmapLabel *m_pCopyFileIcon;
     QHBoxLayout *m_pHLayout;
     QString      m_ptext;
     QString      m_dataFormat;
     bool         m_bWhetherFix = false;
     QString SetFormatBody(QString text);
+    QString setMiddleFormatBody(QString text);
     QString judgeBlankLine(QStringList list);                               /* 去除掉空行，显示有字体的行 */
     void    initPushbutton();                                               /* 初始化三个按钮 */
     void    initLable();                                                    /* 初始化Lable */

@@ -32,6 +32,7 @@ SOURCES += \
     customstyle_clean_pushbutton.cpp \
     customstyle_pushbutton_2.cpp \
     customstyle_search_pushbutton.cpp \
+    pixmaplabel.cpp \
         sidebarclipboardplugin.cpp \
     clipboardwidgetentry.cpp \
     editorwidget.cpp \
@@ -49,6 +50,7 @@ HEADERS += \
     customstyle_clean_pushbutton.h \
     customstyle_pushbutton_2.h \
     customstyle_search_pushbutton.h \
+    pixmaplabel.h \
         sidebarclipboardplugin.h \
     clipboardwidgetentry.h \
     clipboardsignal.h \

@@ -303,6 +303,7 @@ void SidebarClipboardPlugin::createWidgetEntry()
     emit Itemchange();
 }
 
+/* 根据剪贴板内容格式，写入到Label中 */
 void SidebarClipboardPlugin::AddWidgetEntry(OriginalDataHashValue *s_pDataHashValue, ClipboardWidgetEntry *w, QString text)
 {
     if (s_pDataHashValue->Clipbaordformat == TEXT) {
@@ -316,17 +317,19 @@ void SidebarClipboardPlugin::AddWidgetEntry(OriginalDataHashValue *s_pDataHashVa
         w->m_pCopyDataLabal->setPixmap(fitpixmap);
     } else if (s_pDataHashValue->Clipbaordformat == URL) {
         w->m_pCopyDataLabal->setTextFormat(Qt::PlainText);
-        w->m_pCopyDataLabal->setText(SetFormatBody(text, w));
         if (s_pDataHashValue->urls.size() == 1) {
             //判断文件类型，根据文件类型去读取主题图标
-            QIcon fileIcon = fileSuffixGetsIcon(text);
-            QPixmap filePixmap = fileIcon.pixmap(QSize(16, 16));
-            w->m_pCopyFileIcon->setPixmap(filePixmap);
+            QString filename = catUrlFileName(text);
+            filename = setMiddleFormatBody(filename, w);
+            w->m_pCopyDataLabal->setText(filename);
+            getPixmapListFileIcon(text, w->m_pCopyFileIcon);
         } else {
-            //当有多个图标时，显示特定图标
-            QIcon fileIcon(":/image/kylin-alarm-clock.svg");
-            QPixmap filePixmap = fileIcon.pixmap(QSize(34, 34));
-            w->m_pCopyFileIcon->setPixmap(filePixmap);
+            //当有多个文件时，显示特定图标，和特定的字符串显示
+            QString specificText = setSpecificString(text);
+            specificText = setMiddleFormatBody(specificText, w);
+            w->m_pCopyDataLabal->setText(specificText);
+            /* 获取QPixmap链表 */
+           getPixmapListFileIcon(text, w->m_pCopyFileIcon);
         }
     }
     if (s_pDataHashValue->associatedDb == DBDATA) {
@@ -382,6 +385,58 @@ QString SidebarClipboardPlugin::SetFormatBody(QString text, ClipboardWidgetEntry
     return formatBody;
 }
 
+void SidebarClipboardPlugin::getPixmapListFileIcon(QString UrlText, pixmapLabel *pixmapListclass)
+{
+    QStringList FileNameList = UrlText.split("\n");
+    QList<QPixmap> pixmapList;
+    int tmp = FileNameList.count();
+    int cnt = 1;
+    for (int i = 0; i < tmp; i++) {
+        QIcon icon = fileSuffixGetsIcon(FileNameList[i]);
+        QPixmap pixmap = icon.pixmap(QSize(16, 16));
+        pixmapList.append(pixmap);
+        if (cnt >= 3) {
+            break;
+        }
+        cnt++;
+    }
+    pixmapListclass->setPixmapList(pixmapList);
+    return;
+}
+
+/* 复制多文件文件的时候， 从文本中间插入...字样 */
+QString SidebarClipboardPlugin::setMiddleFormatBody(QString text, ClipboardWidgetEntry *w)
+{
+    QFontMetrics fontMetrics(w->m_pCopyDataLabal->font());
+    int LableWidth = w->m_pCopyDataLabal->width();
+    int fontSize = fontMetrics.width(text);
+    QString formatBody = text;
+    if (fontSize > (LableWidth - 20)) {
+        formatBody = fontMetrics.elidedText(formatBody, Qt::ElideMiddle, LableWidth - 20);
+        return formatBody;
+    }
+    return formatBody;
+}
+
+/* 复制多个文件时设置特定的字符串 */
+QString SidebarClipboardPlugin::setSpecificString(QString text)
+{
+    //对字符串进行截取
+    QStringList UrlList = text.split("\n");
+    int tmp = UrlList.count(); //记录文件个数
+    QString UrlOne = catUrlFileName(UrlList[0]);
+    QString specificText = UrlOne + QStringLiteral(" 等%1个文件").arg(tmp);
+    return specificText;
+}
+
+QString SidebarClipboardPlugin::catUrlFileName(QString Url)
+{
+    QStringList UrlList = Url.split("/");
+    int tmp = UrlList.count();
+    return UrlList[tmp - 1];
+}
+
+/* 设置每一个条目中的Sequence */
 void SidebarClipboardPlugin::setOriginalDataSequence(OriginalDataHashValue *value)
 {
     if (m_pClipboardDataHash.count() == 0) {
@@ -440,7 +495,7 @@ QIcon SidebarClipboardPlugin::fileSuffixGetsIcon(QString Url)
             return QIcon::fromTheme("folder");//返回文件夹的图标
         }
         qDebug() << "FilePath ----> " << filePath;
-        return QIcon(":/image/kylin-feedback.png");
+        return QIcon::fromTheme("unknown");;
     }
     int cnt;
     for(int i = 0; i < tmp; i++) {
@@ -1109,10 +1164,8 @@ void SidebarClipboardPlugin::loadClipboardDb()
         p_DataHashValueDb->text = query.value(1).toString();
         p_DataHashValueDb->Clipbaordformat = query.value(2).toString();
         p_DataHashValueDb->associatedDb = DBDATA;
-        qDebug() << p_DataHashValueDb->text << p_DataHashValueDb->Clipbaordformat;
         creatLoadClipboardDbData(p_DataHashValueDb);
     }
-    qDebug() << m_pClipboardDataHash;
     return;
 }
 
@@ -1135,7 +1188,6 @@ void SidebarClipboardPlugin::creatLoadClipboardDbData(OriginalDataHashValue *val
         DeleteFlag = true;  //修改 文件是否存在标志位
         QList<QUrl> urls;
         QStringList uris = value->text.split("\n");
-        qDebug() << "分解后Url的个数" << uris.count();
         for (auto uri : uris) {
             urls << uri;
         }
@@ -1228,6 +1280,8 @@ bool SidebarClipboardPlugin::judgeFileExit(QString fullFilePath)
             QFileInfo fileInfo(filePath[i].mid(7));
             if (fileInfo.exists() && i == tmp - 1) {
                 return true;
+            } else {
+                return false;
             }
         }
     }

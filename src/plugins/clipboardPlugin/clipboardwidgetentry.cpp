@@ -40,7 +40,7 @@ ClipboardWidgetEntry::ClipboardWidgetEntry(QString dataFormat, QWidget *parent)
 
     if (dataFormat == ENTRYURL || dataFormat == ENTRYTEXT) {
         m_pCopyDataLabal->setFixedSize(386, 34);
-    } else if (dataFormat == ENTRYIMAGE){
+    } else if (dataFormat == ENTRYIMAGE) {
         m_pCopyDataLabal->setFixedSize(110, 75);
     }
 
@@ -49,9 +49,10 @@ ClipboardWidgetEntry::ClipboardWidgetEntry(QString dataFormat, QWidget *parent)
     m_pHLayout->addItem(new QSpacerItem(10,20));
 
     if (dataFormat == ENTRYURL) {
-        m_pCopyFileIcon = new QLabel; //用来放置文件的图标
+        m_pCopyFileIcon = new pixmapLabel(); //用来放置文件的图标
         m_pCopyFileIcon->setContentsMargins(0, 0, 0, 0);
-        m_pCopyFileIcon->setFixedSize(16, 16);
+        m_pCopyFileIcon->setFixedSize(25, 25);
+//        m_pCopyFileIcon->setStyleSheet("QLabel{border: 1px solid rgba(255,0,0,1);}");
         m_pCopyDataLabal->setFixedSize(380, 34);
         m_pHLayout->addWidget(m_pCopyFileIcon);
     }
@@ -129,7 +130,11 @@ void ClipboardWidgetEntry::initLable()
         m_pCopyDataLabal->setFont(font);
     });
     m_pCopyDataLabal->setObjectName("EntryLable");
-    m_pCopyDataLabal->setContentsMargins(3, 0, 0, 0);
+    if (m_dataFormat == ENTRYTEXT || m_dataFormat == ENTRYIMAGE) {
+        m_pCopyDataLabal->setContentsMargins(3, 0, 0, 0);
+    } else {
+        m_pCopyDataLabal->setContentsMargins(0, 0, 0, 0);
+    }
 }
 
 void ClipboardWidgetEntry::enterEvent(QEvent *e)
@@ -147,6 +152,7 @@ void ClipboardWidgetEntry::enterEvent(QEvent *e)
     } else if (m_dataFormat == ENTRYIMAGE) {
         m_pCopyDataLabal->setFixedSize(110, 75);
         emit previewShowImage(this);//发送预览信号
+        return;
     } else {
         m_pCopyDataLabal->setFixedSize(260, 34);
         m_pEditButon->setVisible(true);
@@ -158,7 +164,12 @@ void ClipboardWidgetEntry::enterEvent(QEvent *e)
     }
     m_pRemoveButton->setVisible(true);
     m_ptext = this->m_pCopyDataLabal->text();
-    QString format = SetFormatBody(m_ptext);
+    QString format;
+    if (m_dataFormat == ENTRYURL) {
+        format = setMiddleFormatBody(m_ptext);
+    } else {
+        format = SetFormatBody(m_ptext);
+    }
     m_pCopyDataLabal->setText(format);
 }
 
@@ -244,6 +255,19 @@ QString ClipboardWidgetEntry::SetFormatBody(QString text)
                 formatBody = fontMetrics.elidedText(formatBody, Qt::ElideRight, oneFontSize - 1);
             }
         }
+    }
+    return formatBody;
+}
+
+QString ClipboardWidgetEntry::setMiddleFormatBody(QString text)
+{
+    QFontMetrics fontMetrics(m_pCopyDataLabal->font());
+    int LableWidth = m_pCopyDataLabal->width();
+    int fontSize = fontMetrics.width(text);
+    QString formatBody = text;
+    if (fontSize > (LableWidth - 20)) {
+        formatBody = fontMetrics.elidedText(formatBody, Qt::ElideMiddle, LableWidth - 20);
+        return formatBody;
     }
     return formatBody;
 }
