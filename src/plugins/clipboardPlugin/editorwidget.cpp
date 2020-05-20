@@ -141,5 +141,4 @@ void EditorWidget::paintEvent(QPaintEvent *)
 void EditorWidget::closeEvent(QCloseEvent *event)
 {
     Q_UNUSED(event);
-    qDebug() << "123123123123123123123123123123123";
 }

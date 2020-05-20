@@ -1314,7 +1314,6 @@ void SidebarClipboardPlugin::previewShowImageSlots(QWidget *w)
         qWarning() << "置顶槽函数ClipboardWidgetEntry *w 为空";
         return;
     }
-    qDebug() << "预览信号";
     int PreviewWidgetHeight = setClipBoardWidgetScaleFactor();
     ClipboardWidgetEntry *widget = dynamic_cast<ClipboardWidgetEntry*>(w);
     QListWidgetItem *Item = iterationClipboardDataHash(widget);
@@ -1334,10 +1333,8 @@ void SidebarClipboardPlugin::previewHideImageSlots(QWidget *w)
         return;
     }
     if (m_pPreviewImage == nullptr) {
-        qDebug() << "33333333333333333333333";
         return;
     }
-    qDebug() << "退出预览信号";
     m_pPreviewImage->hide();
     delete m_pPreviewImage;
     m_pPreviewImage = nullptr;
