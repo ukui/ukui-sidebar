@@ -48,7 +48,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
                                           "com.ukui.panel.plugins.taskbar", "sendToUkuiDEApp", this, SLOT(ClickPanelHideSidebarSlots(void)));
 
     /* 链接任务栏dgsetting接口 */
-    if(QGSettings::isSchemaInstalled(UKUI_PANEL_SETTING)){
+    if(QGSettings::isSchemaInstalled(UKUI_PANEL_SETTING)) {
         m_pPanelSetting = new QGSettings(UKUI_PANEL_SETTING);
     }
 

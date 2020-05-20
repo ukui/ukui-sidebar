@@ -52,7 +52,6 @@ ClipboardWidgetEntry::ClipboardWidgetEntry(QString dataFormat, QWidget *parent)
         m_pCopyFileIcon = new pixmapLabel(); //用来放置文件的图标
         m_pCopyFileIcon->setContentsMargins(0, 0, 0, 0);
         m_pCopyFileIcon->setFixedSize(25, 25);
-//        m_pCopyFileIcon->setStyleSheet("QLabel{border: 1px solid rgba(255,0,0,1);}");
         m_pCopyDataLabal->setFixedSize(380, 34);
         m_pHLayout->addWidget(m_pCopyFileIcon);
     }
@@ -152,7 +151,6 @@ void ClipboardWidgetEntry::enterEvent(QEvent *e)
     } else if (m_dataFormat == ENTRYIMAGE) {
         m_pCopyDataLabal->setFixedSize(110, 75);
         emit previewShowImage(this);//发送预览信号
-        return;
     } else {
         m_pCopyDataLabal->setFixedSize(260, 34);
         m_pEditButon->setVisible(true);

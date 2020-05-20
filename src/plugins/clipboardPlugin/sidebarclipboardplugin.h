@@ -170,7 +170,7 @@ public:
     void popCreatorDbHaveDate(OriginalDataHashValue *value);                /* 加入关联数据库的置顶条目 */
     QIcon fileSuffixGetsIcon(QString Url);                                  /* 判断Url中当前后缀名，根据后缀名读取图标 */
     QIcon fileSuffixeMatchIcon(int cnt);                                    /* 根据文件名后缀匹配对应的图标 */
-    void  getPixmapListFileIcon(QString UrlText, pixmapLabel *pixmapListclass);                 /* 多文件时，将图标加入到链表中 */
+    void  getPixmapListFileIcon(QString UrlText, pixmapLabel *pixmapListclass);  /* 多文件时，将图标加入到链表中 */
     QString SetFormatBody(QString text, ClipboardWidgetEntry *w);           /* 设置... */
     QString setMiddleFormatBody(QString text, ClipboardWidgetEntry *w);     /* 从文本中间设置... */
     QString setSpecificString(QString text);                                /* 复制多文件时，设置特殊的字符串 */
