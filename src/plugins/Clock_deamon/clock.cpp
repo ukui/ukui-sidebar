@@ -61,6 +61,7 @@
 #include "delete_msg.h"
 #include "ui_delete_msg.h"
 #include <QScroller>
+#include <QTranslator>
 
 const double PI=3.141592;
 
@@ -68,6 +69,14 @@ Clock::Clock(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Clock)
 {
+    QTranslator *translator = new QTranslator;
+    QLocale locale;
+    //获取系统语言环境
+    if ( locale.language() == QLocale::English ) {
+        translator->load(QString("://Clock.qm"));  //选择翻译文件
+        QApplication::installTranslator(translator);
+    }
+
     ui->setupUi(this);
     createConnection();
 
