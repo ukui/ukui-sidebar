@@ -60,18 +60,17 @@ SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
     m_pLineEditArea->setStyle(new CustomStyle("ukui-default"));
     m_pLineEditArea->setFixedSize(264, 30);
     m_pLineEditArea->setObjectName("SearchLabel");
-//    m_pLineEditArea->setContentsMargins(0,0,0,0);
     m_pLineEditArea->setTextMargins(8, 0, 0, 0);
     m_pLineEditArea->setPlaceholderText(tr("search..."));
 
     connect(m_pLineEditArea, &QLineEdit::textChanged, this, &SearchWidgetItemContent::textChageSlots);
     /* Sets the font color of the placeholder */
-
     QFont SearchLine;
     SearchLine = m_pLineEditArea->font();
     SearchLine.setPixelSize(14);
     SearchLine.setFamily("Noto Sans CJK SC");
     m_pLineEditArea->setFont(SearchLine);
+
 #if QT_VERSION >= 0x050c00
     QBrush LineEditBrush;
     QPalette paletteLineEdit;
@@ -91,7 +90,7 @@ SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
     });
     m_pHBoxLayout->addItem(new QSpacerItem(10,20));
     m_pHBoxLayout->addWidget(m_pLineEditArea);
-    m_pHBoxLayout->addItem(new QSpacerItem(26,20));
+    m_pHBoxLayout->addItem(new QSpacerItem(36,20));
     m_pHBoxLayout->addWidget(m_pClearListWidgetButton);
     m_pHBoxLayout->addItem(new QSpacerItem(10,20));
     m_pHBoxLayout->setSpacing(0);

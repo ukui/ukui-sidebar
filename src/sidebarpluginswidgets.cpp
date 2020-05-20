@@ -131,7 +131,7 @@ void sidebarPluginsWidgets::initUpGroupBoxButton()
 //    m_pGrouBoxUpButtonHLayout->addWidget(m_pFoldButton);
 //    m_pGrouBoxUpButtonHLayout->addWidget(m_pSpreadButton);
     m_pGrouBoxUpButtonHLayout->addWidget(m_pBlueBackgroundButton);
-    m_pGrouBoxUpButtonHLayout->addItem(new QSpacerItem(202, 20, QSizePolicy::Expanding));
+    m_pGrouBoxUpButtonHLayout->addItem(new QSpacerItem(202, 20));
     m_pButtonWidget->setLayout(m_pGrouBoxUpButtonHLayout);
     m_pGrouBoxUpButtonHLayout->setSpacing(0);
 //    m_pButtonWidget->setStyleSheet("QWidget{ border: 1px solid rgba(255,255,0,1);}");

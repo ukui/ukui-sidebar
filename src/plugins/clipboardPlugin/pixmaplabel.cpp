@@ -4,6 +4,7 @@ pixmapLabel::pixmapLabel()
 {
 
 }
+
 void pixmapLabel::setPixmapList(const QList<QPixmap> &list)
 {
     m_pixmapList = list;

@@ -119,7 +119,7 @@ void SidebarClipboardPlugin::createWidget()
 void SidebarClipboardPlugin::createTipLable()
 {
     m_pSideBarClipboardLable = new QLabel(tr("No clip content"));
-    m_pSideBarClipboardLable->setContentsMargins(165, 70, 132, 90);
+    m_pSideBarClipboardLable->setContentsMargins(165, 0, 0, 50);
     QTimer::singleShot(1, m_pSideBarClipboardLable, [=](){
         QFont font = m_pSideBarClipboardLable->font();
         font.setPixelSize(14);
@@ -168,7 +168,7 @@ SidebarClipBoardSignal* SidebarClipboardPlugin :: createClipSignal()
         m_nclipboardsite_x = x;
         m_nclipboardsite_y = y;
         m_taskHeight = taskHeight;
-        qDebug() << "sdasdas1111111111111" << width << height << x << taskHeight;
+        m_pSideBarClipboardLable->setFixedSize(400, m_pSidebarClipboardWidget->height() - m_pSearchWidgetListWidget->height());
     });
     return m_pClipSignal;
 }
