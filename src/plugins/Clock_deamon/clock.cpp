@@ -228,6 +228,7 @@ void Clock::stopwatch_init()
     ui->pushButton_Start->raise();
     ui->pushButton_ring->raise();
     ui->pushButton_timeselect->raise();
+    ui->pushButton_timeselect->hide();
 }
 
 void Clock::clock_init()
@@ -272,6 +273,8 @@ void Clock::clock_init()
     connect(ui->pushButton_17, SIGNAL(clicked()), this, SLOT(time_Music()) );
     connect(ui->pushButton_12, SIGNAL(clicked()), this, SLOT(set_up_page()) );
     connect(ui->pushButton_20, SIGNAL(clicked()), this, SLOT(countdown_music_sellect()));
+    connect(ui->pushButton_19, SIGNAL(clicked()), this, SLOT(countdown_music_sellect()));
+
 
     //单击时间提示计时器
     timer_Surplus = new QTimer();
@@ -282,6 +285,8 @@ void Clock::clock_init()
     connect(timer_set_page, SIGNAL(timeout()), this, SLOT(verticalscroll_ring_time()));
     timer_set_page->setInterval(100);
     updateAlarmClock();
+
+    listClickslot();
 }
 
 
@@ -381,10 +386,11 @@ void Clock::Count_down()
 void Clock::on_pushButton_Start_clicked()
 {
     if (!isStarted){
+        ui->pushButton_timeselect->hide();
         ui->pushButton_Start->setText(tr("暂停"));
         ui->pushButton_Start->setStyleSheet("QPushButton{color: rgb(255, 255, 255);\
                                             background-color: rgba(231,159,78,0.9);\
-                                            border-radius:34px;}\
+                                            border-radius:4px;}\
                                             QPushButton:hover{background:rgba(143, 97, 47, 0.6)}");
         ui->pushButton_ring->setStyleSheet("QPushButton{color: rgb(255, 255, 255);\
                                            background:rgba(44,44,46,1);\
@@ -416,11 +422,12 @@ void Clock::on_pushButton_Start_clicked()
             stopwatch_isStarted = 0;
         }
         isStarted=0;
+        ui->pushButton_timeselect->show();
         ui->pushButton_Start->setText(tr("继续"));
         ui->pushButton_Start->setStyleSheet("QPushButton{\
                                             color: rgb(255, 255, 255);\
                                             background-color: rgba(39,207,129,0.9);\
-                                            border-radius:34px;\
+                                            border-radius:4px;\
                                             }QPushButton:hover{background-color: rgb(27, 143, 89);}");
         ui->pushButton_ring->setStyleSheet("background:rgba(28,28,30,1);\
                                            border:1px solid rgba(52,52,56,1);\
@@ -452,8 +459,8 @@ void Clock::stopwatch_start_Animation()
 
     animation3 = new QPropertyAnimation(ui->listWidget_2, "geometry");
     animation3->setDuration(1000);
-    animation3->setKeyValueAt(0, QRect(39 ,230, 376, 251));
-    animation3->setEndValue(QRect(39, 130, 376, 251));
+    animation3->setKeyValueAt(0, QRect(39 ,230, 376, 287));
+    animation3->setEndValue(QRect(39, 130, 376, 287));
     animation3->start();
 }
 
@@ -541,7 +548,7 @@ void Clock::on_pushButton_timeselect_clicked()
         ui->pushButton_Start->setStyleSheet("QPushButton{\
                                             color: rgb(255, 255, 255);\
                                             background-color: rgba(39,207,129,0.9);\
-                                            border-radius:34px;\
+                                            border-radius:4px;\
                                             }QPushButton:hover{background-color: rgb(27, 143, 89);}");
         ui->pushButton_timeselect->setStyleSheet("background:rgba(28,28,30,1);\
                                            border:1px solid rgba(52,52,56,1);\
@@ -569,7 +576,7 @@ void Clock::on_pushButton_5_clicked()
     ui->pushButton_4->raise();
     ui->pushButton_5->raise();
     ui->pushButton_12->raise();
-    this->hide();
+    this->close();
 }
 
 //窗口最小化
@@ -1241,6 +1248,9 @@ void Clock::listClickslot()
         ui->label_7->setText(QApplication::translate("Clock", "\347\202\271\345\207\273\351\227\271\351\222\237\346\230\276\347\244\272\345\211\251\344\275\231\346\227\266\351\227\264", nullptr));
     }else{
         ui->label_7->setText(QString::number(x_h)+tr("小时")+QString::number(x_m)+tr("分钟后铃响"));
+    }
+    if(!(model->rowCount())){
+        ui->label_7->setText("");
     }
 }
 
@@ -1971,10 +1981,10 @@ void Clock::time_Music()
 
         QPointF position = this->pos();
         time_music->move(position.x()+87,position.y()+546);
-        time_music->listWidget->setFixedSize(280,180);
+        time_music->listWidget->setFixedSize(280,162);
         time_music->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
         time_music->setAttribute(Qt::WA_TranslucentBackground);
-        time_music->resize(280,180);
+        time_music->resize(280,162);
         time_music->listWidget->move(0,0);
         time_music->widget[0]->alarmLabel0->setText(tr("1分钟"));
         time_music->widget[1]->alarmLabel0->setText(tr("2分钟"));
@@ -2067,7 +2077,9 @@ void Clock::set_up_page()
         QPointF position = this->pos();
 
         setup_page->move(position.x()+38,position.y()+27);
-        setup_page->setWindowOpacity(0.95);
+        //setup_page->setStyleSheet("QWidget{background-color: rgba(36,36,37, 0);}");
+        //setup_page->ui->widget->setStyleSheet("QWidget{background-color: rgba(36,36,37, 0.9);}");
+        //setup_page->setWindowOpacity(0.95);
 
         //属性记忆重绘制
         if(model_setup->index(0, 0).data().toInt()){

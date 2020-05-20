@@ -28,7 +28,7 @@ border-radius:4px;
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgba(36,36,37, 0.9);
+    <string notr="true">background-color: rgba(36,36,37, 1);
 border-radius:4px;
 </string>
    </property>
