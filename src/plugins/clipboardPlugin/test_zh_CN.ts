@@ -2,66 +2,7 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN">
 <context>
-    <name>CleanPromptBox</name>
-    <message>
-        <source>Are you sure empty your clipboard history?</source>
-        <translation type="vanished">确认要清空剪贴板历史吗？</translation>
-    </message>
-    <message>
-        <source>Don&apos;t ask</source>
-        <translation type="vanished">不再询问</translation>
-    </message>
-    <message>
-        <source>Confirm</source>
-        <translation type="vanished">确认</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="vanished">取消</translation>
-    </message>
-</context>
-<context>
-    <name>ClipboardWidgetEntry</name>
-    <message>
-        <source>Pop</source>
-        <translation type="vanished">置顶</translation>
-    </message>
-    <message>
-        <source>EditButton</source>
-        <translation type="vanished">编辑</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">移除</translation>
-    </message>
-</context>
-<context>
-    <name>EditorWidget</name>
-    <message>
-        <source>Edit</source>
-        <translation type="vanished">编辑内容</translation>
-    </message>
-    <message>
-        <source>Confirm</source>
-        <translation type="vanished">确认</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="vanished">取消</translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
-    <message>
-        <location filename="sidebarclipboardplugin.h" line="89"/>
-        <source>ClipBoard</source>
-        <translation>剪贴板</translation>
-    </message>
-    <message>
-        <location filename="sidebarclipboardplugin.h" line="91"/>
-        <source>Show the folder children as icons.</source>
-        <translation></translation>
-    </message>
     <message>
         <location filename="cleanpromptbox.cpp" line="67"/>
         <source>Are you sure empty your clipboard history?</source>
@@ -85,24 +26,39 @@
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="clipboardwidgetentry.cpp" line="43"/>
+        <location filename="clipboardwidgetentry.cpp" line="93"/>
         <source>Pop</source>
-        <translation>置顶</translation>
+        <translation>固定</translation>
     </message>
     <message>
-        <location filename="clipboardwidgetentry.cpp" line="51"/>
+        <location filename="clipboardwidgetentry.cpp" line="101"/>
         <source>EditButton</source>
         <translation>编辑</translation>
     </message>
     <message>
-        <location filename="clipboardwidgetentry.cpp" line="58"/>
+        <location filename="clipboardwidgetentry.cpp" line="108"/>
         <source>Remove</source>
-        <translation>移除</translation>
+        <translation>删除</translation>
+    </message>
+    <message>
+        <location filename="clipboardwidgetentry.cpp" line="115"/>
+        <source>Cancel the fixed</source>
+        <translation>取消固定</translation>
     </message>
     <message>
         <location filename="editorwidget.cpp" line="80"/>
         <source>Edit</source>
-        <translation>编辑内容</translation>
+        <translation>编辑</translation>
+    </message>
+    <message>
+        <location filename="sidebarclipboardplugin.h" line="97"/>
+        <source>ClipBoard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="sidebarclipboardplugin.h" line="99"/>
+        <source>Show the folder children as icons.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -110,10 +66,10 @@
     <message>
         <location filename="searchwidgetitemcontent.cpp" line="39"/>
         <source>Clear</source>
-        <translation>清空</translation>
+        <translation>清除</translation>
     </message>
     <message>
-        <location filename="searchwidgetitemcontent.cpp" line="65"/>
+        <location filename="searchwidgetitemcontent.cpp" line="64"/>
         <source>search...</source>
         <translation>搜索...</translation>
     </message>
@@ -121,7 +77,7 @@
 <context>
     <name>SidebarClipboardPlugin</name>
     <message>
-        <location filename="sidebarclipboardplugin.cpp" line="116"/>
+        <location filename="sidebarclipboardplugin.cpp" line="121"/>
         <source>No clip content</source>
         <translation>无剪贴内容</translation>
     </message>

@@ -26,18 +26,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="clipboardwidgetentry.cpp" line="43"/>
+        <location filename="clipboardwidgetentry.cpp" line="93"/>
         <source>Pop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="clipboardwidgetentry.cpp" line="51"/>
+        <location filename="clipboardwidgetentry.cpp" line="101"/>
         <source>EditButton</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="clipboardwidgetentry.cpp" line="58"/>
+        <location filename="clipboardwidgetentry.cpp" line="108"/>
         <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="clipboardwidgetentry.cpp" line="115"/>
+        <source>Cancel the fixed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -46,12 +51,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="sidebarclipboardplugin.h" line="89"/>
+        <location filename="sidebarclipboardplugin.h" line="97"/>
         <source>ClipBoard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="sidebarclipboardplugin.h" line="91"/>
+        <location filename="sidebarclipboardplugin.h" line="99"/>
         <source>Show the folder children as icons.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -64,7 +69,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="searchwidgetitemcontent.cpp" line="65"/>
+        <location filename="searchwidgetitemcontent.cpp" line="64"/>
         <source>search...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -72,7 +77,7 @@
 <context>
     <name>SidebarClipboardPlugin</name>
     <message>
-        <location filename="sidebarclipboardplugin.cpp" line="116"/>
+        <location filename="sidebarclipboardplugin.cpp" line="121"/>
         <source>No clip content</source>
         <translation type="unfinished"></translation>
     </message>
