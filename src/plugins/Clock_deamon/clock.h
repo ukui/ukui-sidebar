@@ -220,6 +220,8 @@ private slots:
 
     void off_Alarm(int );                                                                //不重复时单独关闭闹钟
 
+    int get_alarm_clock_will_ring_days(int num);                                         //计算下次闹钟响起天数间隔
+
 
     QString change_NUM_to_str(int alarmHour);
 
