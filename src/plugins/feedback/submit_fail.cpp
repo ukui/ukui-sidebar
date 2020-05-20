@@ -121,6 +121,9 @@ void submit_fail::show_faillinfo(int error_code)
     case 4:
         label_3->setText(tr("与远程服务器的连接超时"));
         break;
+    case 99:
+        label_3->setText(tr("网络未连接"));
+        break;
     default:
         label_3->setText(tr("未知错误"));
         break;
