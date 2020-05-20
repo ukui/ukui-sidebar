@@ -16,13 +16,17 @@
 *
 */
 #include "clock.h"
-
+#include "singleApplication.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    Clock w;
-    w.show();
-    return a.exec();
+    SingleApplication a(argc, argv);
+    if(!a.isRunning()){
+        Clock w;
+        a.w = &w;
+        w.show();
+        return a.exec();
+    }
+    return 0;
 }
