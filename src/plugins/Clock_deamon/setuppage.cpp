@@ -107,29 +107,28 @@ void setuppage::Mute_starting()
 //默认工作日日期设置回调
 void setuppage::werk_day_set()
 {
-         dialog_werk_day->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
-         dialog_werk_day->setAttribute(Qt::WA_TranslucentBackground);
-         QPointF position = parentWidget()->pos();
-         dialog_werk_day->move(position.x()+83,position.y()+162);
-         dialog_werk_day->resize(280,225);
-         dialog_werk_day->listWidget->setFixedSize(280,225);
-         dialog_werk_day->widget[0]->alarmLabel0->setText(tr("周一"));
-         dialog_werk_day->widget[1]->alarmLabel0->setText(tr("周二"));
-         dialog_werk_day->widget[2]->alarmLabel0->setText(tr("周三"));
-         dialog_werk_day->widget[3]->alarmLabel0->setText(tr("周四"));
-         dialog_werk_day->widget[4]->alarmLabel0->setText(tr("周五"));
-         dialog_werk_day->widget[5]->alarmLabel0->setText(tr("周六"));
-         dialog_werk_day->widget[6]->alarmLabel0->setText(tr("周日"));
+     dialog_werk_day->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
+     dialog_werk_day->setAttribute(Qt::WA_TranslucentBackground);
+     QPointF position = parentWidget()->pos();
+     dialog_werk_day->move(position.x()+83,position.y()+162);
+     dialog_werk_day->resize(280,225);
+     dialog_werk_day->listWidget->setFixedSize(280,225);
+     dialog_werk_day->widget[0]->alarmLabel0->setText(tr("周一"));
+     dialog_werk_day->widget[1]->alarmLabel0->setText(tr("周二"));
+     dialog_werk_day->widget[2]->alarmLabel0->setText(tr("周三"));
+     dialog_werk_day->widget[3]->alarmLabel0->setText(tr("周四"));
+     dialog_werk_day->widget[4]->alarmLabel0->setText(tr("周五"));
+     dialog_werk_day->widget[5]->alarmLabel0->setText(tr("周六"));
+     dialog_werk_day->widget[6]->alarmLabel0->setText(tr("周日"));
 
-         for (int i=0; i<7; i++) {
-             if(model_setup->index(0, i+7).data().toInt())
-             {
-                 dialog_werk_day->widget[i]->alarmLabel1->setIcon(repeat_on_Pixmap);
-             }else{
-                 dialog_werk_day->widget[i]->alarmLabel1->setIcon(repeat_off_Pixmap);
-             }
+     for (int i=0; i<7; i++) {
+         if (model_setup->index(0, i+7).data().toInt()) {
+             dialog_werk_day->widget[i]->alarmLabel1->setIcon(repeat_on_Pixmap);
+         } else {
+             dialog_werk_day->widget[i]->alarmLabel1->setIcon(repeat_off_Pixmap);
          }
-         dialog_werk_day->show();
+     }
+     dialog_werk_day->show();
 }
 //工作日选择单击回调
 void setuppage::werk_day_listClickslot()
@@ -245,20 +244,20 @@ void setuppage::Time_format_set()
 {
 
 
-        Time_format->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
-        Time_format->setAttribute(Qt::WA_TranslucentBackground);
-        QPointF position = parentWidget()->pos();
-        Time_format->move(position.x()+83,position.y()+212);
-        Time_format->resize(280,110);
-        Time_format->listWidget->setFixedSize(280,110);
-        Time_format->widget[0]->alarmLabel0->setText(tr("跟随系统"));
-        Time_format->widget[0]->alarmLabel0->setFixedSize(200,17);
-        Time_format->widget[1]->alarmLabel0->setText(tr("24小时制(23:59:59)"));
-        Time_format->widget[1]->alarmLabel0->setFixedSize(200,17);
-        Time_format->widget[2]->alarmLabel0->setText(tr("12小时制(下午11:59:59)"));
-        Time_format->widget[2]->alarmLabel0->setFixedSize(200,17);
+    Time_format->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
+    Time_format->setAttribute(Qt::WA_TranslucentBackground);
+    QPointF position = parentWidget()->pos();
+    Time_format->move(position.x()+83,position.y()+212);
+    Time_format->resize(280,110);
+    Time_format->listWidget->setFixedSize(280,110);
+    Time_format->widget[0]->alarmLabel0->setText(tr("跟随系统"));
+    Time_format->widget[0]->alarmLabel0->setFixedSize(200,17);
+    Time_format->widget[1]->alarmLabel0->setText(tr("24小时制(23:59:59)"));
+    Time_format->widget[1]->alarmLabel0->setFixedSize(200,17);
+    Time_format->widget[2]->alarmLabel0->setText(tr("12小时制(下午11:59:59)"));
+    Time_format->widget[2]->alarmLabel0->setFixedSize(200,17);
 
-        Time_format->show();
+    Time_format->show();
 
 }
 

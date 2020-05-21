@@ -226,8 +226,15 @@ void Widget::iconActivated(QSystemTrayIcon::ActivationReason reason)
             }
             break;
         }
-        default:
-            break;
+    case QSystemTrayIcon::Context:
+        if (m_bShowFlag) {
+            trayIconMenu->hide();  //先隐藏菜单栏，不让其显示出来， 然后将sidebar隐藏
+            mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
+            hideAnimation();
+        }
+        break;
+   default:
+        break;
     }
 }
 

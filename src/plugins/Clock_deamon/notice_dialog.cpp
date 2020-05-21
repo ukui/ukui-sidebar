@@ -162,8 +162,8 @@ void Notice_Dialog::setupUi(QDialog *Notice_Dialog)
     label_2 = new QLabel(Notice_Dialog);
     label_2->setObjectName(QString::fromUtf8("label_2"));
     label_2->setStyleSheet(QString::fromUtf8("font: 25 28pt \"Noto Sans CJK SC\";\n"
-"color: rgb(39, 207, 129);\n"
-""));
+    "color: rgb(39, 207, 129);\n"
+    ""));
 
     horizontalLayout_5->addWidget(label_2);
 
@@ -177,9 +177,9 @@ void Notice_Dialog::setupUi(QDialog *Notice_Dialog)
     label = new QLabel(Notice_Dialog);
     label->setObjectName(QString::fromUtf8("label"));
     label->setStyleSheet(QString::fromUtf8("font: 87 28pt \"Noto Sans CJK SC\";\n"
-"color: rgb(39, 207, 129);\n"
-"\n"
-""));
+    "color: rgb(39, 207, 129);\n"
+    "\n"
+    ""));
 
     verticalLayout->addWidget(label);
 
