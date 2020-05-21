@@ -15,19 +15,19 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include "notewidgetdelegate.h"
-#include "noteview.h"
 #include <QPainter>
 #include <QEvent>
 #include <QDebug>
 #include <QApplication>
 #include <QFontDatabase>
 #include <QtMath>
+
 #include "notemodel.h"
 #include "widget.h"
+#include "listViewModeDelegate.h"
+#include "noteview.h"
 
-
-NoteWidgetDelegate::NoteWidgetDelegate(QObject *parent)
+listViewModeDelegate::listViewModeDelegate(QObject *parent)
     : QStyledItemDelegate(parent),
       m_titleFont(QStringLiteral(""), 14, 30),              //标题字体
       m_titleSelectedFont(QStringLiteral(""), 14),          //
@@ -70,7 +70,7 @@ NoteWidgetDelegate::NoteWidgetDelegate(QObject *parent)
     });
 }
 
-void NoteWidgetDelegate::setState(States NewState, QModelIndex index)
+void listViewModeDelegate::setState(States NewState, QModelIndex index)
 {
     m_animatedIndex = index;
 
@@ -101,12 +101,12 @@ void NoteWidgetDelegate::setState(States NewState, QModelIndex index)
     m_state = NewState;
 }
 
-void NoteWidgetDelegate::setAnimationDuration(const int duration)
+void listViewModeDelegate::setAnimationDuration(const int duration)
 {
     m_timeLine->setDuration(duration);
 }
 
-void NoteWidgetDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+void listViewModeDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     QStyleOptionViewItem opt = option;
     opt.rect.setWidth(option.rect.width() - m_rowRightOffset);      //678
@@ -170,7 +170,7 @@ void NoteWidgetDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     paintLabels(painter, option, index);
 }
 
-QSize NoteWidgetDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+QSize listViewModeDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     QSize result = QStyledItemDelegate::sizeHint(option, index);        //QSize(0, 23)
     if(index == m_animatedIndex){
@@ -188,12 +188,12 @@ QSize NoteWidgetDelegate::sizeHint(const QStyleOptionViewItem &option, const QMo
     return result;
 }
 
-QTimeLine::State NoteWidgetDelegate::animationState()
+QTimeLine::State listViewModeDelegate::animationState()
 {
     return m_timeLine->state();
 }
 
-void NoteWidgetDelegate::paintBackground(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+void listViewModeDelegate::paintBackground(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     QStyleOptionViewItem opt = option;
     opt.rect.setWidth(option.rect.width() - m_rowRightOffset);
@@ -266,7 +266,7 @@ void NoteWidgetDelegate::paintBackground(QPainter *painter, const QStyleOptionVi
 
 }
 
-void NoteWidgetDelegate::paintLabels(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+void listViewModeDelegate::paintLabels(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
     const int leftOffsetX = 20;
     const int topOffsetY = 18;   // 标题上方的空格
@@ -347,7 +347,7 @@ void NoteWidgetDelegate::paintLabels(QPainter* painter, const QStyleOptionViewIt
     }
 }
 
-void NoteWidgetDelegate::paintSeparator(QPainter*painter, const QStyleOptionViewItem&option, const QModelIndex&index) const
+void listViewModeDelegate::paintSeparator(QPainter*painter, const QStyleOptionViewItem&option, const QModelIndex&index) const
 {
     Q_UNUSED(index)
 
@@ -361,7 +361,7 @@ void NoteWidgetDelegate::paintSeparator(QPainter*painter, const QStyleOptionView
                       QPoint(posX2, posY));
 }
 
-QString NoteWidgetDelegate::parseDateTime(const QDateTime &dateTime) const
+QString listViewModeDelegate::parseDateTime(const QDateTime &dateTime) const
 {
     QLocale usLocale = QLocale::system();
     QString d;
@@ -384,33 +384,33 @@ QString NoteWidgetDelegate::parseDateTime(const QDateTime &dateTime) const
     return dateTime.toString("yyyy/MM/dd hh:mm");
 }
 
-void NoteWidgetDelegate::setActive(bool isActive)
+void listViewModeDelegate::setActive(bool isActive)
 {
     m_isActive = isActive;
 }
 
-void NoteWidgetDelegate::setRowRightOffset(int rowRightOffset)
+void listViewModeDelegate::setRowRightOffset(int rowRightOffset)
 {
     m_rowRightOffset = rowRightOffset;
 }
 
-void NoteWidgetDelegate::setHoveredIndex(const QModelIndex &hoveredIndex)
+void listViewModeDelegate::setHoveredIndex(const QModelIndex &hoveredIndex)
 {
     m_hoveredIndex = hoveredIndex;
 }
 
-void NoteWidgetDelegate::setCurrentSelectedIndex(const QModelIndex &currentSelectedIndex)
+void listViewModeDelegate::setCurrentSelectedIndex(const QModelIndex &currentSelectedIndex)
 {
     m_currentSelectedIndex = currentSelectedIndex;
 }
 
-int NoteWidgetDelegate::qcolorToInt(const QColor &color) const
+int listViewModeDelegate::qcolorToInt(const QColor &color) const
 {
     //将Color 从QColor 转换成 int
     return (int)(((unsigned int)color.blue()<< 16) | (unsigned short)(((unsigned short)color.green()<< 8) | color.red()));
 }
 
-QColor NoteWidgetDelegate::intToQcolor(int &intColor) const
+QColor listViewModeDelegate::intToQcolor(int &intColor) const
 {
     int red = intColor & 255;
     int green = intColor >> 8 & 255;

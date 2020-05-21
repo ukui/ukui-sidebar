@@ -84,7 +84,7 @@ private slots:
     void showList(bool );
     void showNUMList(bool);
     void showSizeSpinBix();
-    void showfortcolor();
+    void showFontColorSlot();
 
 private:
     void set_all_btn_attribute();

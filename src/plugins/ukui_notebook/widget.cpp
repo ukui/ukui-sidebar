@@ -17,7 +17,7 @@
 */
 #include "widget.h"
 #include "ui_widget.h"
-#include "notewidgetdelegate.h"
+#include "listViewModeDelegate.h"
 #include "edit_page.h"
 
 #define FIRST_LINE_MAX 80
@@ -55,7 +55,6 @@ Widget::Widget(QWidget *parent) :
     }
     ui->setupUi(this);
     setupDatabases();
-    setupModelView();
     kyNoteInit();
     kyNoteConn();
     QTimer::singleShot(200,this, SLOT(InitData()));
@@ -109,29 +108,39 @@ void Widget::InitData()
     }
 }
 
-void Widget::setupModelView()
+void Widget::setupListModeModel()
 {
-    m_noteView = static_cast<NoteView*>(ui->listView);
     m_proxyModel->setSourceModel(m_noteModel);          //代理真正的数据模型，对数据进行排序和过滤
     m_proxyModel->setFilterKeyColumn(0);                //此属性保存用于读取源模型内容的键的列,listview只有一列所以是0
     m_proxyModel->setFilterRole(NoteModel::NoteFullTitle);//此属性保留项目角色，该角色用于在过滤项目时查询源模型的数据
     m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);//
 
-    m_noteView->setItemDelegate(new NoteWidgetDelegate(m_noteView));    //安装定制delegate提供编辑功能
+    m_noteView->setItemDelegate(new listViewModeDelegate(m_noteView));    //安装定制delegate提供编辑功能
     m_noteView->setModel(m_proxyModel);//设置view的model是proxyModel，proxyModel作为view和QAbstractListModel的桥梁
 }
 
-void Widget::setupTableView()
+void Widget::setupIconModeModel()
 {
-    m_noteTable = static_cast<NoteTable*>(ui->tableView);
     m_proxyModel->setSourceModel(m_noteModel);          //代理真正的数据模型，对数据进行排序和过滤
-    m_proxyModel->setFilterKeyColumn(3);                //此属性保存用于读取源模型内容的键的列,listview只有一列所以是0
+    m_proxyModel->setFilterKeyColumn(0);                //此属性保存用于读取源模型内容的键的列,listview只有一列所以是0
     m_proxyModel->setFilterRole(NoteModel::NoteFullTitle);//此属性保留项目角色，该角色用于在过滤项目时查询源模型的数据
     m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);//
 
-    m_noteTable->setItemDelegate(new NoteWidgetDelegate(m_noteTable));    //安装定制delegate提供编辑功能
-    m_noteTable->setModel(m_proxyModel);//设置view的model是proxyModel，proxyModel作为view和QAbstractListModel的桥梁
+    m_noteView->setItemDelegate(new listViewModeDelegate(m_noteView));    //安装定制delegate提供编辑功能
+    m_noteView->setModel(m_proxyModel);//设置view的model是proxyModel，proxyModel作为view和QAbstractListModel的桥
 }
+
+//void Widget::setupTableView()
+//{
+//    m_noteTable = static_cast<NoteTable*>(ui->tableView);
+//    m_proxyModel->setSourceModel(m_noteModel);          //代理真正的数据模型，对数据进行排序和过滤
+//    m_proxyModel->setFilterKeyColumn(3);                //此属性保存用于读取源模型内容的键的列,listview只有一列所以是0
+//    m_proxyModel->setFilterRole(NoteModel::NoteFullTitle);//此属性保留项目角色，该角色用于在过滤项目时查询源模型的数据
+//    m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);//
+
+//    m_noteTable->setItemDelegate(new listViewModeDelegate(m_noteTable));    //安装定制delegate提供编辑功能
+//    m_noteTable->setModel(m_proxyModel);//设置view的model是proxyModel，proxyModel作为view和QAbstractListModel的桥梁
+//}
 
 void Widget::initializeSettingsDatabase()
 {
@@ -199,8 +208,9 @@ void Widget::error_throw()
 
 void Widget::kyNoteInit()
 {
+    qDebug() << "kyNote init";
     sortflag = 1;//排序
-    listflag = 1;//平铺\列表
+    m_listflag = 1;//平铺\列表
     m_isThemeChanged = -1;//主题
 
     m_ukui_SearchLine = ui->SearchLine;
@@ -210,9 +220,12 @@ void Widget::kyNoteInit()
     m_sortLabel = ui->sort_btn;
     m_changePage = ui->change_page_btn;
 
-    initListModel();
+    initListMode();
     initTableModel();
 
+    //设置鼠标追踪
+    ui->widget->setMouseTracking(true);
+    this->setMouseTracking(true);
     //窗口属性
     setWindowFlags(Qt::FramelessWindowHint);//开启窗口无边框
     //    setWindowOpacity(0.8);//窗口透明度
@@ -397,6 +410,7 @@ void Widget::set_all_btn_attribute()
 
     ui->sort_btn->setIcon(pixmap8);
     ui->sort_btn->setIconSize(QSize(36,36));
+
     ui->sort_2_btn->setIcon(pixmap9);
     ui->sort_2_btn->setIconSize(QSize(36,36));
 
@@ -408,13 +422,54 @@ void Widget::set_all_btn_attribute()
     ui->pushButton_Mini->setToolTip(tr("Mini"));
 }
 
-void Widget::initListModel()
+int Widget::getListFlag() const
 {
+    return m_listflag;
+}
+
+void Widget::setListFlag(const int &listflag)
+{
+    m_listflag = listflag;
+}
+
+void Widget::initIconMode()
+{
+    qDebug() << "init Icon Mode";
+    m_noteView = new NoteView(this);
+    m_noteView->setMinimumSize(686,480);
+    m_noteView->setViewMode(QListView::IconMode);
+    qDebug() << "initIconMode : current mode : " << m_noteView->viewMode();
+
+    m_noteView->setSelectionMode(QListView::ExtendedSelection);
+    m_noteView->setEditTriggers(QListView::NoEditTriggers);
+    m_noteView->setResizeMode(QListView::Adjust);
+    m_noteView->setMovement(QListView::Snap);
+    m_noteView->setContextMenuPolicy(Qt::CustomContextMenu);
+    m_noteView->setGridSize(QSize(115, 135));
+    m_noteView->setIconSize(QSize(64, 64));
+    setupIconModeModel();
+}
+
+void Widget::initListMode()
+{
+    qDebug() << "init List Mode";
+    m_noteView = static_cast<NoteView*>(ui->listView);
+    //列表模式
+    m_noteView->setViewMode(QListView::ListMode);
+    qDebug() << "initListMode : current mode : " << m_noteView->viewMode();
     //禁用双击编辑
-    ui->listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    m_noteView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     //隐藏滑动条
-    ui->listView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    ui->listView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_noteView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_noteView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_noteView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    //启用项的拖动
+    m_noteView->setDragEnabled(true);
+    //允许用户将内部或外部项拖放到视图中
+    //m_noteView->setAcceptDrops(true);
+    //显示当前拖动的项将被放在什么地方
+    m_noteView->setDropIndicatorShown(true);
+    setupListModeModel();
 }
 
 void Widget::initTableModel()
@@ -522,7 +577,7 @@ void Widget::showNoteInEditor(const QModelIndex &noteIndex)
     QString mdContent = noteIndex.data(NoteModel::NoteMdContent).toString();
 
     qDebug() << mdContent << "!!!!!!!!" << content;
-    const NoteWidgetDelegate delegate;
+    const listViewModeDelegate delegate;
     QColor m_color = delegate.intToQcolor(noteColor);
     // set text and date
     m_notebook->ui->textEdit->setText(content);
@@ -782,7 +837,7 @@ void Widget::black_show()
                                                     "color: rgb(255, 255, 255);\n"
                                                     "opacity:0.08;\n"
                                                     "border-radius:4px;"));
-    ui->listView->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255, 0);\n"
+    m_noteView->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255, 0);\n"
                                                   "selection-background-color:rgba(72,72,76,1);"));
     ui->label->setStyleSheet(QString::fromUtf8("background-color: rgb();\n"
                                                "color: rgb(126, 126, 126);"));
@@ -826,7 +881,7 @@ void Widget::light_show()
                                                     "color: rgb(0, 0, 0);\n"
                                                     "opacity:0.08;\n"
                                                     "border-radius:4px;"));
-    ui->listView->setStyleSheet(QString::fromUtf8("background-color: rgba(255, 255, 255, 0);\n"
+    m_noteView->setStyleSheet(QString::fromUtf8("background-color: rgba(255, 255, 255, 0);\n"
                                                   "selection-background-color:rgba(255, 255, 255, 0);"));
     ui->label->setStyleSheet(QString::fromUtf8("background-color: rgba();\n"
                                                "color: rgb(43,49,56);\n"
@@ -941,7 +996,7 @@ void Widget::onColorChanged(const QColor &color,int noteId)
     }
     qDebug() << "receive signal onColorChanged";
     if(m_tmpColorIndex.isValid()){
-        const NoteWidgetDelegate delegate;
+        const listViewModeDelegate delegate;
         int m_color = delegate.qcolorToInt(color);
         qDebug () << "m_color" << m_color;
         QMap<int, QVariant> dataValue;
@@ -1090,17 +1145,23 @@ void Widget::onSearchEditTextChanged(const QString& keyword)
 
 void Widget::changePageSlot()
 {
-    if(listflag != 0){
-        setupTableView();
-        ui->tableView->show();        
-        m_noteView->hide();
-        listflag = 0;
-    }else
+    if(getListFlag() != 0){
+        //IconMode
+        initIconMode();
+
+        //setupTableView();
+        //ui->tableView->show();
+        //m_noteView->hide();
+        setListFlag(0);
+    }else if(getListFlag() == 0)
     {
-        setupModelView();
-        ui->tableView->hide();
-        m_noteView->show();
-        listflag = 1;
+        //ListMode
+
+        initListMode();
+        //setupListModeModel();
+        //ui->tableView->hide();
+        //m_noteView->show();
+        setListFlag(1);
     }
 }
 

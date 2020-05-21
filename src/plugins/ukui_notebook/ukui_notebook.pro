@@ -32,6 +32,8 @@ SOURCES += \
     edit_page.cpp \
     emptyNotes.cpp \
     fontButton.cpp \
+    iconviewmodedelegate.cpp \
+    listViewModeDelegate.cpp \
     main.cpp \
     mythrow.cpp \
     noteExitWindow.cpp \
@@ -41,7 +43,6 @@ SOURCES += \
     notedata.cpp \
     notemodel.cpp \
     noteview.cpp \
-    notewidgetdelegate.cpp \
     paletteButton.cpp \
     select_color_page.cpp \
     set_font_color_page.cpp \
@@ -57,6 +58,8 @@ HEADERS += \
     edit_page.h \
     emptyNotes.h \
     fontButton.h \
+    iconviewmodedelegate.h \
+    listViewModeDelegate.h \
     mythrow.h \
     noteExitWindow.h \
     noteHead.h \
@@ -65,7 +68,6 @@ HEADERS += \
     notedata.h \
     notemodel.h \
     noteview.h \
-    notewidgetdelegate.h \
     paletteButton.h \
     select_color_page.h \
     set_font_color_page.h \
@@ -89,11 +91,6 @@ FORMS += \
     set_font_size_page.ui \
     text_editing.ui \
     widget.ui
-
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
     image.qrc

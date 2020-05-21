@@ -31,7 +31,6 @@
 #include <iostream>
 #include <QTranslator>
 #include <QStandardPaths>
-//#include <QStringLiteral>
 #include <QPushButton>
 #include <QSettings>
 #include <QThread>
@@ -81,6 +80,8 @@ public:
 
     int m_isThemeChanged;                                           //主题
     void error_throw();                                             //异常处理抛出
+    int getListFlag() const;                                        //获取列表切换标志位
+    void setListFlag(const int &listflag);                          //设置列表切换标志位
 
 private:
     Edit_page *m_notebook;                                          //新建便签指针
@@ -102,7 +103,7 @@ private:
     QPixmap pixmap15;
     QPixmap pixmap16;
 
-    int listflag;                                                   //平铺/展开列表切换
+    int m_listflag;                                                   //平铺/展开列表切换
     int sortflag;                                                   //升降序切换
     noteExitWindow* m_noteExitWindow=nullptr;                       //退出弹窗
     QAction *searchAction;                                          //搜索栏图标
@@ -137,7 +138,8 @@ private:
 
     void kyNoteInit();                                              //加载界面组件
     void kyNoteConn();                                              //绑定槽函数
-    void initListModel();                                           //初始化列表
+    void initIconMode();                                            //初始化图标
+    void initListMode();                                            //初始化列表
     void initTableModel();                                          //初始化表格
     void black_show();                                              //黑色主题
     void light_show();                                              //白色主题
@@ -149,8 +151,9 @@ private:
     void setupDatabases();                                          //配置数据库
     void initializeSettingsDatabase();                              //初始化配置文件
     void createNewNoteIfEmpty();                                    //初始时创建一个便签
-    void setupModelView();                                          //代理列表模板
-    void setupTableView();                                          //代理表格模板
+    void setupListModeModel();                                      //代理列表模板
+    void setupIconModeModel();                                      //代理图标模板
+    //void setupTableView();                                        //代理表格模板
     void saveNoteToDB(const QModelIndex& noteIndex);                //保存到数据库
     NoteData* generateNote(const int noteID);                       //新建便签时初始化
     QString getFirstLine(const QString& str);                       //获取文本内容第一行
