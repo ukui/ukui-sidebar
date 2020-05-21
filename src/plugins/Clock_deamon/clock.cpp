@@ -1290,19 +1290,19 @@ int Clock::get_alarm_clock_will_ring_days(int num)
     //判断星期
     QDateTime current_date_time = QDateTime::currentDateTime();
 
-    if(current_date_time.toString("ddd").compare(tr("周一"))==0 )
+    if(current_date_time.toString("ddd").compare("周一")==0 )
         today = 0;
-    else if(current_date_time.toString("ddd").compare(tr("周二"))==0 )
+    else if(current_date_time.toString("ddd").compare("周二")==0 )
         today = 1;
-    else if(current_date_time.toString("ddd").compare(tr("周三"))==0 )
+    else if(current_date_time.toString("ddd").compare("周三")==0 )
         today = 2;
-    else if(current_date_time.toString("ddd").compare(tr("周四"))==0 )
+    else if(current_date_time.toString("ddd").compare("周四")==0 )
         today = 3;
-    else if(current_date_time.toString("ddd").compare(tr("周五"))==0 )
+    else if(current_date_time.toString("ddd").compare("周五")==0 )
         today = 4;
-    else if(current_date_time.toString("ddd").compare(tr("周六"))==0 )
+    else if(current_date_time.toString("ddd").compare("周六")==0 )
         today = 5;
-    else if(current_date_time.toString("ddd").compare(tr("周日"))==0 )
+    else if(current_date_time.toString("ddd").compare("周日")==0 )
         today = 6;
 
     for(int i = today+1; i<7; i++){
