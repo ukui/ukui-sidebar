@@ -23,7 +23,7 @@
 
 class hideBtn_hover :public QPushButton
 {
-Q_OBJECT;
+    Q_OBJECT;
 public:
     hideBtn_hover(QWidget *parent = 0);
     ~hideBtn_hover();

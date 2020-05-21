@@ -26,7 +26,6 @@ void pixmapLabel::paintEvent(QPaintEvent *event)
     //drawPixmaps
     if (m_pixmapList.size() == 1) {
         QPixmap pix = m_pixmapList[0];
-
         if (!isEnabled())
             pix = style->generatedIconPixmap(QIcon::Disabled, pix, &opt);
         QPixmap newPix = pix.scaled(16, 16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);

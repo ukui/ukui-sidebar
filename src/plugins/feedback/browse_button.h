@@ -22,7 +22,7 @@
 
 class browse_button :public QPushButton
 {
-Q_OBJECT;
+    Q_OBJECT;
 public:
     browse_button(QWidget *parent = 0);
     ~browse_button();

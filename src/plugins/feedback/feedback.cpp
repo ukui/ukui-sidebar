@@ -118,6 +118,7 @@ feedback::~feedback()
     delete centralwidget;
     //---------------------------
 }
+
 void feedback::UI_init()
 {
 
@@ -464,29 +465,26 @@ void feedback::UI_init()
     add_systeminfo();//将系统信息添加到信息框
 
 }
+
 void feedback::feedback_init()
 {
     //http客户端初始化
     httpclient_init();
-
-
-
     submitting_timer = new QTimer();
-
     submitting_timer->setInterval(100);
     connect(submitting_timer,SIGNAL(timeout()),this,SLOT(submit_change_load_image()));
 }
+
 //点击提交之后按钮更换加载图片
 void feedback::submit_change_load_image()
 {
     pushButton_2->setText("");
     pushButton_2->setIcon(submitting_pixmap[pixmap_i]);
     pixmap_i++;
-    if(pixmap_i == 8 ){
+    if (pixmap_i == 8 )
         pixmap_i = 0;
-    }
-
 }
+
 //最小化窗口
 void feedback::on_pushButton_mix_clicked()
 {
@@ -494,15 +492,14 @@ void feedback::on_pushButton_mix_clicked()
     this->showNormal();
     this->showMinimized();
 }
+
 //关闭窗口
 void feedback::on_pushButton_close_clicked()
 {
     pushButton_close->setStyleSheet("background-color:rgb(215,52,53);border-image:url(:/image/close_hover.png);border-radius:4px;");
-    if(file_send_failed_flag)
-    {
+    if (file_send_failed_flag) {
         this->close();
-    }
-    else{
+    } else {
         this->hide();
         accessManager->disconnect();
         submitting_timer->stop();
@@ -510,21 +507,22 @@ void feedback::on_pushButton_close_clicked()
         window_is_close_flag = true;
     }
 }
+
 void feedback::window_close()
 {
-    if(file_send_failed_flag)
-    {
+    if (file_send_failed_flag)
         this->close();
-    }
     this->hide();
     feedback_info_init();
     window_is_close_flag = true;
 }
+
 //发送失败后 重新发送
 void feedback::resend_info_when_sendfail()
 {
     this->on_pushButton_2_clicked();
 }
+
 //获取图片
 void feedback::on_pushButton_clicked()
 {
@@ -533,30 +531,21 @@ void feedback::on_pushButton_clicked()
 
     if (filename.isEmpty())
         return;
-    //判断文件个数
-    if (file_name_list.size() ==0)
-    {
+    //判断文件个数， 最多传五个附件
+    if (file_name_list.size() ==0) {
         //添加附件框改变
         lineEdit->setText(filename);
         add_fileinfo_model();
-    }
-    //最多传五个附件
-    else if(file_name_list.size() >= 5)
-    {
+    } else if(file_name_list.size() >= 5) {
         return ;
-    }
-    else{
+    } else {
         int file_diff_flags = 0;
-        for(int fileNum=0; fileNum<file_path_list.size(); fileNum++)
-        {
-            if(filename.compare(file_path_list.at(fileNum)) == 0)
-            {
-                //添加的文件已经添加过
+        for (int fileNum = 0; fileNum < file_path_list.size(); fileNum++) {
+            //添加的文件已经添加过
+            if (filename.compare(file_path_list.at(fileNum)) == 0)
                 file_diff_flags++;
-            }
         }
-        if(file_diff_flags == 0)
-        {
+        if (file_diff_flags == 0) {
             //添加附件框改变
             lineEdit->setText(filename);
             add_fileinfo_model();
@@ -570,50 +559,44 @@ void feedback::on_textEdit_textChanged()
     textContent = textEdit->toPlainText();
     if (textContent.isEmpty()){
         describeflag = 0;
-    }
-    else
-
+    } else {
         describeflag = 1;//详细描述是否填写
-    if (emailflag == 1 && describeflag == 1){//邮箱和详细描述都已经填写
+    }
+    if (emailflag == 1 && describeflag == 1) {//邮箱和详细描述都已经填写
         pushButton_2->setEnabled(true);//设置提交按钮属性
         pushButton_2->setStyleSheet("font: 18px ;border-radius:4px;background-color:rgb(61,107,229);color: rgb(255, 255, 255)");
-    }
-    else
-    {
+    } else {
         pushButton_2->setEnabled(false);//设置提交按钮属性
         pushButton_2->setStyleSheet("font: 18px ;border-radius:4px;background-color:rgb(233, 233, 233);color: rgb(255, 255, 255)");
     }
-
     int length = textContent.count();
-
     int maxLength = 200; // 最大字符数
-
-    if(length > maxLength) {
+    if (length > maxLength) {
         QTextCursor cursor = textEdit->textCursor();
         cursor.movePosition(QTextCursor::End);
-        if(cursor.hasSelection()) {
+        if (cursor.hasSelection()) {
             cursor.clearSelection();
         }
         cursor.deletePreviousChar();
-        //设置当前的光标为更改后的光标ing>
-
-        textEdit->setTextCursor(cursor);
+        textEdit->setTextCursor(cursor); //设置当前的光标为更改后的光标ing>
     }
-
     length = textEdit->toPlainText().count();
 
 }
+
 //系统信息显示
 void feedback::systeminfo_show(QPointF pt)
 {
     verticalWidget->setGeometry(pt.x()+5,pt.y()+15,220,80);
     verticalWidget->show();
 }
+
 //系统信息隐藏
 void feedback::systeminfo_hide()
 {
     verticalWidget->hide();
 }
+
 //添加系统信息
 void feedback::add_systeminfo()
 {
@@ -621,7 +604,7 @@ void feedback::add_systeminfo()
     string desktop_info = "桌面环境: ";
     string os_info = "操作系统: ";
 
-    if((QLocale::system().name()) == "en_US"){
+    if ((QLocale::system().name()) == "en_US") {
         encoding_info = "Lang: ";
         desktop_info = "Deskenv: ";
         os_info= "Osrelease: ";
@@ -633,26 +616,23 @@ void feedback::add_systeminfo()
     string system_version_id;
     string s;
     ifstream fp("/etc/os-release");
-    if(!fp){
+    if (!fp) {
         system_info = "None";
-    }
-    else{
-        while (getline(fp,s)){
+    } else {
+        while (getline(fp,s)) {
             string::size_type idx;
             idx = s.find("=");//字符串中查找字符串
-            if (idx == string::npos){//不存在
-            }
-            else{
+            if (idx == string::npos) {
+                //不存在
+            } else {
                 string str2 = s.substr(0,idx);//截取字符串中=前面的内容
-                if(str2 == "NAME"){
+                if (str2 == "NAME") {
                     system_name = s.substr(5);//截取"NAME="后面的内容
-                }
-                else if(str2 =="VERSION_ID"){
+                } else if(str2 =="VERSION_ID") {
                     system_version_id = s.substr(11);//截取"VERSION_ID="后面的内容
                 }
             }
         }
-
         system_info = os_info +system_name +" " + system_version_id;
     }
     send_os_info = QString::fromStdString(system_name +" " + system_version_id);
@@ -689,85 +669,70 @@ void feedback::add_systeminfo()
 void feedback::on_checkBox_stateChanged(int state)
 {
 
-
-    if (state == Qt::Checked) // "选中"
-    {
+    // "选中" ----- 未选中 - Qt::Unchecked
+    if (state == Qt::Checked) {
         emit syslog();
         syslogflag = 1;
-    }
-    else // 未选中 - Qt::Unchecked
-    {
+    } else {
         syslogflag = 0;
     }
-
     //再次判断大小是否超过10M,如果不超过并且详细描述和邮箱都填写  激活提交
-    if((all_file_size_than_10M() == false) && describeflag == 1 && emailflag == 1 )
-    {
+    if ((all_file_size_than_10M() == false) && describeflag == 1 && emailflag == 1 ) {
         label_13->hide();
         file_listwidget->move(140,407);
         pushButton_2->setEnabled(true);
         pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(255, 255, 255)");
     }
 }
+
 //apport.log点选
 void feedback::on_checkBox_2_stateChanged(int state)
 {
-    if (state == Qt::Checked) // "选中"
-    {
+    // "选中-------未选中 - Qt::Unchecked"
+    if (state == Qt::Checked) {
         emit syslog();
         apportlogflag = 1;
-    }
-    else // 未选中 - Qt::Unchecked
-    {
+    } else {
         apportlogflag = 0;
     }
-
     //再次判断大小是否超过10M,如果不超过并且详细描述和邮箱都填写  激活提交
-    if((all_file_size_than_10M() == false) && describeflag == 1 && emailflag == 1 )
-    {
+    if ((all_file_size_than_10M() == false) && describeflag == 1 && emailflag == 1 ) {
         label_13->hide();
         file_listwidget->move(140,407);
         pushButton_2->setEnabled(true);
         pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(255, 255, 255)");
     }
-
 }
+
 //dpkglog点选
 void feedback::on_checkBox_3_stateChanged(int state)
 {
-    if (state == Qt::Checked) // "选中"
-    {
+    // "选中-------未选中 - Qt::Unchecked"
+    if (state == Qt::Checked) {
         emit syslog();
         dpkglogflag = 1;
-    }
-    else // 未选中 - Qt::Unchecked
-    {
+    } else {
         dpkglogflag = 0;
     }
-
-
     //再次判断大小是否超过10M,如果不超过并且详细描述和邮箱都填写  激活提交
-    if((all_file_size_than_10M() == false) && describeflag == 1 && emailflag == 1 )
-    {
+    if ((all_file_size_than_10M() == false) && describeflag == 1 && emailflag == 1 ) {
         label_13->hide();
         file_listwidget->move(140,407);
         pushButton_2->setEnabled(true);
         pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(255, 255, 255)");
     }
-
 }
 
 //是否获取系统信息
 void feedback::on_checkBox_4_stateChanged(int state)
 {
-    if (state == Qt::Checked) // "选中"
-    {
+    // "选中-------未选中 - Qt::Unchecked"
+    if (state == Qt::Checked) {
         get_systeminfoflag = 1;
-    }
-    else // 未选中 - Qt::Unchecked
-    {
+    } else {
         get_systeminfoflag = 0;
     }
+    return;
 }
 
 
@@ -777,6 +742,7 @@ void feedback::on_comboBox_currentIndexChanged(const QString &arg1)
     Q_UNUSED(arg1);
     feedback_type = comboBox->currentText();
 }
+
 //提交过程中所有控件不可以操作
 void feedback::set_all_disable_in_submit()
 {
@@ -789,11 +755,10 @@ void feedback::set_all_disable_in_submit()
     checkBox_4->setEnabled(false);
     pushButton->setEnabled(false);
     pushButton_2->setEnabled(false);
-    for (int filenum = 0; filenum< file_name_list.size();filenum++)
-    {
+    for (int filenum = 0; filenum < file_name_list.size(); filenum++)
         file_widget[filenum]->deletebtn0->setEnabled(false);
-    }
 }
+
 //提交完成后所有控件还原
 void feedback::set_all_enable_after_submit()
 {
@@ -819,10 +784,9 @@ void feedback::on_pushButton_2_clicked()
     QRegExp rx("^[\\w-]+(\\.[\\w-]+)*@[\\w-]+(\\.[\\w-]+)+");
     int pos=0;
     QRegExpValidator v(rx, 0);
-    if(2==v.validate(email_str,pos)){
+    if (2==v.validate(email_str,pos)) {
         email_err_msg_label->hide();
-    }
-    else{
+    } else {
         email_err_msg_label->show();
         pushButton_2->setEnabled(false);//设置提交按钮属性
         pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(233, 233, 233);color: rgb(255, 255, 255)");
@@ -830,8 +794,7 @@ void feedback::on_pushButton_2_clicked()
     }
 
     //判断文件总大小是否超过10M，如果超过，提示
-    if(all_file_size_than_10M() == true)
-    {
+    if (all_file_size_than_10M() == true) {
         label_13->show();
         file_listwidget->move(140,430);
         qDebug()<<"文件大小超过10M";
@@ -850,12 +813,10 @@ void feedback::on_pushButton_2_clicked()
 
     set_all_disable_in_submit();
 
-
     //超时
     QTimer timer_http;
     timer_http.setInterval(30000);  // 设置超时时间 30 秒
     timer_http.setSingleShot(true);  // 单次触发
-
 
     QJsonObject feedback_info_json;
     //反馈信息类型
@@ -865,12 +826,11 @@ void feedback::on_pushButton_2_clicked()
     //邮箱
     feedback_info_json.insert("email",email_str);
     //系统信息发送
-    if(get_systeminfoflag == 1){
+    if (get_systeminfoflag == 1) {
         feedback_info_json.insert("version",send_os_info);
         feedback_info_json.insert("desktop",send_dekstop_info);
         feedback_info_json.insert("language",send_encoding_info);
-    }
-    else{
+    } else {
         feedback_info_json.insert("version","");
         feedback_info_json.insert("desktop","");
         feedback_info_json.insert("language","");
@@ -880,14 +840,11 @@ void feedback::on_pushButton_2_clicked()
     //从配置文件中读服务器地址
     QFile  file_url(url_filepath);
     QFileInfo url_fileinfo(url_filepath);
-    if(!url_fileinfo.isFile())
-    {
+    if (!url_fileinfo.isFile()) {
         file_url.open(QIODevice::ReadWrite | QIODevice::Text);
         file_url.write("http://feedback.ubuntukylin.com/v1/issue/");
         urlstring.append("http://feedback.ubuntukylin.com/v1/issue/");
-
-    }
-    else{
+    } else {
         file_url.open(QIODevice::ReadWrite | QIODevice::Text);
         urlstring = file_url.readLine();
     }
@@ -915,12 +872,12 @@ void feedback::on_pushButton_2_clicked()
     loop.exec();  // 启动事件循环
 
     if (timer_http.isActive()) {  // 处理响应
-        if(window_is_close_flag == false){
+        if (window_is_close_flag == false) {
             timer_http.stop();
             finishedSlot(pReply);
         }
     } else {  // 处理超时
-        if (window_is_close_flag ==false){
+        if (window_is_close_flag ==false) {
             timeout_http_flag=true;
             finishedSlot(pReply);
             timer_http.stop();
@@ -932,16 +889,12 @@ void feedback::on_pushButton_2_clicked()
     }
 }
 
-
-
 //截取今天的syslog
 QByteArray feedback::get_today_syslog()
 {
     QDate date(QDate::currentDate());
-
     QList<QString> month_str = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
     QProcess process;
-
     QString shell ;
     shell.append("cat /var/log/syslog | grep ");
     shell.append("'");
@@ -950,7 +903,6 @@ QByteArray feedback::get_today_syslog()
     shell.append(QString::number(date.day()));
     shell.append("'");
 
-
     qDebug()<<"shell=========" <<shell;
     process.start(shell);
     process.waitForFinished();
@@ -958,25 +910,26 @@ QByteArray feedback::get_today_syslog()
 
     return output;
 }
+
 void feedback::add_file_to_Part(QString filepath,QString file_type,QString file_name)
 {
     qDebug()<<"this is add_file_to_Part";
     QHttpPart upload_part;
     upload_part.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant(QString("form-data; name=\"%1\";filename=\"%2\"").arg(file_type).arg(file_name)));
     QFile *upload_file =  new QFile(filepath);
-    if(!(upload_file->open(QIODevice::ReadOnly))){
+    if (!(upload_file->open(QIODevice::ReadOnly))) {
         qDebug()<<"file open fail";
     }
-    if(file_name.compare("syslog") == 0){
+    if (file_name.compare("syslog") == 0) {
         upload_part.setBody(get_today_syslog());
-    }
-    else{
+    } else {
         upload_part.setBody(upload_file->readAll());
     }
     multiPart->append(upload_part);
     delete upload_file;
     return ;
 }
+
 void feedback::send_file_httpserver(QString uid)
 {
     file_send_failed_flag = false;
@@ -1010,30 +963,28 @@ void feedback::send_file_httpserver(QString uid)
 
 
     //判断三个log文件哪个点选了
-    if(dpkglogflag ==1){
+    if (dpkglogflag ==1) {
         //var/log/dpkg.log
         add_file_to_Part("/var/log/dpkg.log","dpkg","dpkg.log");
 
     }
-    if(apportlogflag == 1){
+    if (apportlogflag == 1) {
         //var/log/apport.log
         add_file_to_Part("/var/log/apport.log","apport","apport.log");
 
     }
-    if(syslogflag== 1){
+    if (syslogflag== 1) {
         //var/log/syslog.log
         add_file_to_Part("/var/log/syslog","syslog","syslog");
-
     }
     //获取添加的附件，文件名
-    for(int filenum=0; filenum<file_path_list.size(); filenum++)
-    {
+    for (int filenum=0; filenum<file_path_list.size(); filenum++) {
         //发送文件
         add_file_to_Part(file_path_list.at(filenum),"img"+QString::number(filenum+1),file_name_list.at(filenum));
     }
-
     accessManager_file->post(request_file,multiPart);
 }
+
 //发送文件请求结束槽函数
 void feedback::sendfile_finished(QNetworkReply* reply)
 {
@@ -1041,39 +992,35 @@ void feedback::sendfile_finished(QNetworkReply* reply)
     qDebug()<<"this is send file finished";
 
     statusCode_file = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
-    if(statusCode_file.isValid())
+    if (statusCode_file.isValid())
         qDebug() << "status code file =" << statusCode_file.toInt();
 
     reason_file = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
-    if(reason_file.isValid())
+    if (reason_file.isValid())
         qDebug() << "reason file =" << reason_file.toString();
 
     bytes_file = reply->readAll();
     //panduan ==200
     qDebug() << bytes_file;
 
-    if(window_is_close_flag)
-    {
+    if (window_is_close_flag)
         this->close();
-    }
-
 }
+
 //邮箱是否填写
 void feedback::on_lineEdit_2_textChanged()
 {
     email_str = lineEdit_2->text();
-    if (email_str.isEmpty()){
+    if (email_str.isEmpty()) {
         emailflag = 0;
         email_err_msg_label->hide();
-    }
-    else
+    } else {
         emailflag =1;
-    if (describeflag == 1 && emailflag == 1){//邮箱和详细描述都已经填写
+    }
+    if (describeflag == 1 && emailflag == 1) {//邮箱和详细描述都已经填写
         pushButton_2->setEnabled(true);
         pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(255, 255, 255)");
-    }
-    else
-    {
+    } else {
         pushButton_2->setEnabled(false);//设置提交按钮属性
         pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(233, 233, 233);color: rgb(255, 255, 255)");
     }
@@ -1090,64 +1037,47 @@ void feedback::del_file_button_clicked()
 
     int listnum = file_name_list.size();
 
-    if( btn == file_widget[0]->deletebtn0 )
-    {
+    if ( btn == file_widget[0]->deletebtn0 ) {
         qDebug()<<file_name_list.size()<<"delete before";
         file_name_list.removeAt(0);
         file_size_list.removeAt(0);
         file_path_list.removeAt(0);
         qDebug()<<file_name_list.size()<<"delete after";
         qDebug() << "delete 0";
-    }
-    else if( btn == file_widget[1]->deletebtn0 )
-    {
+    } else if( btn == file_widget[1]->deletebtn0 ) {
         file_name_list.removeAt(1);
         file_size_list.removeAt(1);
         file_path_list.removeAt(1);
 
         qDebug() << "delete 1";
-    }
-    else if( btn == file_widget[2]->deletebtn0 )
-    {
+    } else if( btn == file_widget[2]->deletebtn0 ) {
         file_name_list.removeAt(2);
         file_size_list.removeAt(2);
         file_path_list.removeAt(2);
         qDebug() << "delete 2";
-    }
-    else if( btn == file_widget[3]->deletebtn0 )
-    {
+    } else if( btn == file_widget[3]->deletebtn0 ) {
         file_name_list.removeAt(3);
         file_size_list.removeAt(3);
         file_path_list.removeAt(3);
-    }
-    else if( btn == file_widget[4]->deletebtn0)
-    {
+    } else if( btn == file_widget[4]->deletebtn0) {
         file_name_list.removeAt(4);
         file_size_list.removeAt(4);
         file_path_list.removeAt(4);
     }
     qDebug()<<file_name_list.size()<<"-----after";
-    foreach(auto item,file_name_list)
-    {
+    foreach (auto item,file_name_list)
         qDebug()<<item<<"after";
-    }
-    for(int i=0; i<listnum; i++)
-    {
+    for (int i=0; i<listnum; i++) {
         delete file_listwidget_item[i];
         delete file_widget[i];
     }
 
-
-
     update_add_file_window();
-
-
     //删除文件后 把上传附件中内容更新
     update_linedit_add_or_del_file();
 
     //再次判断大小是否超过10M,如果不超过并且详细描述和邮箱都填写  激活提交
-    if((all_file_size_than_10M() == false) && describeflag == 1 && emailflag == 1 )
-    {
+    if ((all_file_size_than_10M() == false) && describeflag == 1 && emailflag == 1 ) {
         label_13->hide();
         file_listwidget->move(140,407);
         pushButton_2->setEnabled(true);
@@ -1155,10 +1085,9 @@ void feedback::del_file_button_clicked()
     }
 }
 
-
-
 //点击继续反馈信息之后 清空程序内所有信息
-void feedback::feedback_info_init(){
+void feedback::feedback_info_init()
+{
     set_all_enable_after_submit();
     comboBox->setCurrentIndex(0);
 
@@ -1166,21 +1095,17 @@ void feedback::feedback_info_init(){
 
     lineEdit_2->setText("");
 
-    for(int i=0; i<file_name_list.size(); i++)
-    {
+    for (int i = 0; i < file_name_list.size(); i++) {
         delete file_listwidget_item[i];
         delete file_widget[i];
     }
-    foreach(auto item,file_name_list)
-    {
+    foreach (auto item, file_name_list) {
         file_name_list.removeOne(item);
     }
-    foreach(auto item,file_size_list)
-    {
+    foreach (auto item,file_size_list) {
         file_size_list.removeOne(item);
     }
-    foreach(auto item,file_path_list)
-    {
+    foreach(auto item,file_path_list) {
         file_path_list.removeOne(item);
     }
     lineEdit->setText("");
@@ -1197,9 +1122,8 @@ void feedback::feedback_info_init(){
 //添加文件后把文件信息加入qlist
 void feedback::add_fileinfo_model()
 {
-    if(filename.isEmpty()){
+    if (filename.isEmpty())
         return;
-    }
     //获取文件名字
     int nIndex = filename.lastIndexOf('/');
     QString file_name = filename.mid(nIndex+1);
@@ -1214,12 +1138,10 @@ void feedback::add_fileinfo_model()
     if((float)info.size()/(float)1000 > 1000)
         file_size = QString::number((float)info.size()/(float)1048576,'f',1) + "M";
 
-
     //向stringlist 添加数据
     qDebug()<<"向stringlist 添加数据"<<file_name_list.size()<<"--"<<file_size_list.size()<<"---"<<file_path_list.size();
 
-    for(int i=0; i<file_name_list.size(); i++)
-    {
+    for (int i = 0; i < file_name_list.size(); i++) {
         file_listwidget->removeItemWidget(file_listwidget_item[i]);
         delete file_listwidget_item[i];
         file_listwidget_item[i] = nullptr;
@@ -1227,7 +1149,7 @@ void feedback::add_fileinfo_model()
         file_widget[i] = nullptr;
     }
     //限制添加的文件最多五个
-    if(file_name_list.size() < 5){
+    if (file_name_list.size() < 5) {
         file_name_list.append(file_name);
         file_size_list.append(file_size);
         file_path_list.append(filename);
@@ -1239,8 +1161,7 @@ void feedback::add_fileinfo_model()
 void feedback::update_add_file_window()
 {
     QString filename_labelstr;
-    for(int filenum=0; filenum<file_name_list.size(); filenum++)
-    {
+    for (int filenum = 0; filenum < file_name_list.size(); filenum++) {
         file_listwidget_item[filenum] = new QListWidgetItem;
         file_listwidget_item[filenum]->setSizeHint(QSize(320,20));
         file_listwidget->addItem(file_listwidget_item[filenum]);
@@ -1248,10 +1169,9 @@ void feedback::update_add_file_window()
         file_listwidget->setItemWidget(file_listwidget_item[filenum],file_widget[filenum]);
         filename_labelstr=file_name_list.at(filenum);
         //如果文件过长，只显示前30个字符，后面省略
-        if(file_name_list.at(filenum).length() > 33){
+        if (file_name_list.at(filenum).length() > 33) {
             filename_labelstr = file_name_list.at(filenum).left(30) + "...";
         }
-
 
         file_widget[filenum]->filename_label0->move(0,3);
         file_widget[filenum]->filename_label0->setText(filename_labelstr);
@@ -1275,17 +1195,15 @@ void feedback::update_add_file_window()
         file_widget[filenum]->deletebtn0->setFlat(true);
 
         connect( file_widget[filenum]->deletebtn0, SIGNAL(clicked()), this, SLOT(del_file_button_clicked()) );
-
     }
 }
 //在删除文件之后更新文件信息框
 void feedback::update_linedit_add_or_del_file()
 {
     int rowNum = file_name_list.size();
-    if (rowNum == 0){
+    if (rowNum == 0) {
         lineEdit->setText("");
-    }
-    else{
+    } else {
         lineEdit->setText(file_path_list.at(file_path_list.size()-1));
     }
 }
@@ -1294,31 +1212,28 @@ bool feedback::all_file_size_than_10M()
 {
     int all_filesize = 0;
     QFileInfo file_info;
-    for(int filenum=0; filenum<file_path_list.size(); filenum++)
-    {
+    for (int filenum = 0; filenum < file_path_list.size(); filenum++) {
         file_info.setFile(file_path_list.at(filenum));
         all_filesize += file_info.size();
-
     }
-    if(dpkglogflag ==1){
+    if (dpkglogflag == 1) {
         file_info.setFile("/var/log/dpkg.log");
         all_filesize += file_info.size();
     }
-    if(apportlogflag == 1){
+    if ( apportlogflag == 1) {
         file_info.setFile("/var/log/apport.log");
         all_filesize += file_info.size();
     }
-    if(syslogflag== 1){
+    if (syslogflag == 1) {
         file_info.setFile("/var/log/syslog");
         all_filesize += file_info.size();
     }
     //qDebug()<<all_filesize;
-    if(all_filesize >= 10*1024*1024)
-    {
+    if (all_filesize >= 10*1024*1024) {
         return true;
-    }
-    else
+    } else {
         return false;
+    }
 }
 //http客户端初始化
 void feedback::httpclient_init()
@@ -1340,17 +1255,16 @@ void feedback::finishedSlot(QNetworkReply *reply)
 
     set_all_enable_after_submit();
 
-    qDebug()<<"this is send feedbackinfo finished";
+    qDebug() << "this is send feedbackinfo finished";
 
     // 获取http状态码
     statusCode_info = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
-    if(statusCode_info.isValid())
+    if (statusCode_info.isValid())
         qDebug() << "status code info =" << statusCode_info.toInt();
-    if(statusCode_info.toInt() == 201){
+    if (statusCode_info.toInt() == 201) {
         reason_info = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
-        if(reason_info.isValid())
+        if (reason_info.isValid())
             qDebug() << "reason info =" << reason_info.toString();
-
         bytes_info = reply->readAll();
         //panduan ==200
         qDebug() << bytes_info;
@@ -1364,24 +1278,18 @@ void feedback::finishedSlot(QNetworkReply *reply)
         QJsonDocument document = QJsonDocument::fromJson(bytes_info,&jsonerror);
         qDebug()<<"this is send file _httpserver";
 
-        if(!document.isNull() &&(jsonerror.error == QJsonParseError::NoError))
-        {
-            if(document.isObject()){
+        if (!document.isNull() && (jsonerror.error == QJsonParseError::NoError)) {
+            if (document.isObject()) {
                 QJsonObject object = document.object();
                 uid_value = object["uid"].toString();
             }
         }
-
         //发送文件
         send_file_httpserver(uid_value);
-    }
-    else
-    {
-
+    } else {
         qDebug() << "finishedSlot errors here";
         qDebug( "found error .... code: %d\n", (int)reply->error());
         qDebug()<<qPrintable(reply->errorString());
-
         //判断错误类型
         fail_dialog = new submit_fail(this);
         if(!timeout_http_flag)
@@ -1394,6 +1302,7 @@ void feedback::finishedSlot(QNetworkReply *reply)
     timeout_http_flag=false;
     reply->deleteLater();
 }
+
 //http设置请求头(发送反馈信息)
 void feedback::set_request_header()
 {

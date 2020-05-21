@@ -24,19 +24,23 @@ systeminfo_button::systeminfo_button(QWidget* parent) :QPushButton(parent)
 {
 
 }
+
 systeminfo_button::~systeminfo_button()
 {
 
 }
+
 void systeminfo_button::enterEvent(QEvent *e)
 {
     QPointF position = QCursor::pos();
     pfeedback->systeminfo_show(position);
 }
+
 void systeminfo_button::leaveEvent(QEvent *e)
 {
     pfeedback->systeminfo_hide();
 }
+
 //Resource/feedback_en.qm
 void systeminfo_button::setFeedBack(feedback *p)
 {

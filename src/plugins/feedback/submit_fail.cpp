@@ -25,12 +25,9 @@ extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int tran
 submit_fail::submit_fail(QWidget *parent) :
     QDialog(parent)
 {
-
     UI_init();
     parentWnd = (feedback *)parent;
     setAttribute(Qt::WA_TranslucentBackground);
-
-
 }
 
 void submit_fail::UI_init()

@@ -23,7 +23,7 @@
 
 class closeBtn_hover :public QPushButton
 {
-Q_OBJECT;
+    Q_OBJECT;
 public:
     closeBtn_hover(QWidget *parent = 0);
     ~closeBtn_hover();

@@ -29,7 +29,7 @@ SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
     QLocale locale;
     //获取系统语言环境， 选择翻译文件
     if ( locale.language() == QLocale::Chinese ) {
-        translator->load(QString(":/translations/widgets.qm"));  //
+        translator->load(QString(":/translations/widgets.qm"));
         QApplication::installTranslator(translator);
     }
 

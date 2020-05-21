@@ -55,7 +55,7 @@ CustomStyle::CustomStyle(const QString &proxyStyleName, QObject *parent) : QProx
 }
 CustomStyle::~CustomStyle()
 {
-};
+}
 void CustomStyle::drawComBoxIndicator(SubControl which, const QStyleOptionComplex *option,
                                       QPainter *painter) const
 {
@@ -80,23 +80,18 @@ void CustomStyle::drawComplexControl(QStyle::ComplexControl cc, const QStyleOpti
     switch (cc) {
     case CC_ScrollBar:
     {
-        if(const QStyleOptionSlider* slider = qstyleoption_cast<const QStyleOptionSlider *>(option))
-        {
+        if (const QStyleOptionSlider* slider = qstyleoption_cast<const QStyleOptionSlider *>(option)) {
            QStyleOptionSlider sr = *slider;
            sr.palette.setBrush(QPalette::WindowText,QColor("#778899"));
            return QProxyStyle::drawComplexControl(cc, &sr, painter, widget);
-        }
-        else
-        {
+        } else {
             break;
         }
     }
     case CC_ComboBox:
     {
-        if(const QStyleOptionComboBox* combobox = qstyleoption_cast<const QStyleOptionComboBox *>(option))
-        {
-            if(!(option->state & State_Enabled))
-            {
+        if (const QStyleOptionComboBox* combobox = qstyleoption_cast<const QStyleOptionComboBox *>(option)) {
+            if (!(option->state & State_Enabled)) {
                 painter->save();
                 painter->setPen(QColor("#cfcfcf"));
                 painter->setBrush(Qt::white);
@@ -120,12 +115,9 @@ void CustomStyle::drawComplexControl(QStyle::ComplexControl cc, const QStyleOpti
             drawComBoxIndicator(SC_ComboBoxArrow,option,painter);
 
 
-            if((combobox->state & (State_Sunken | State_On)))
-            {
+            if ((combobox->state & (State_Sunken | State_On)))
 
-            }
-            if(combobox->state & State_MouseOver )
-            {
+            if (combobox->state & State_MouseOver ) {
                 painter->save();
                 painter->setBrush(Qt::NoBrush);
                 painter->setPen(QColor("#3D6BE5"));
@@ -147,46 +139,47 @@ void CustomStyle::drawComplexControl(QStyle::ComplexControl cc, const QStyleOpti
 void CustomStyle::drawControl(QStyle::ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const
 {
     switch(element){
-    case CE_ComboBoxLabel:
-    {
-        auto comboBoxOption = qstyleoption_cast<const QStyleOptionComboBox*>(option);
-        painter->save();
-        painter->setRenderHint(QPainter::Antialiasing,true);
-        //        painter->setPen(option->palette.color(QPalette::ButtonText));
-        painter->setPen(Qt::black);
-        //选中颜色
-        //        if (option->state & State_Selected) {
-        //            if (option->state & State_Sunken) {
-        //                painter->setPen(option->palette.color(QPalette::ButtonText));
-        //            } else {
-        //                painter->setPen(option->palette.color(QPalette::ButtonText));
-        //            }
-        //        }
-        painter->drawText(option->rect.adjusted(+4,+0,+0,+0), comboBoxOption->currentText, QTextOption(Qt::AlignVCenter));
-        painter->restore();
-        return;
-    }break;
-    case CE_PushButton:{
-        painter->save();
-        painter->setRenderHint(QPainter::TextAntialiasing,true);
-        painter->setPen(Qt::yellow);
-        painter->setBrush(Qt::red);
-        if (option->state & State_MouseOver) {
-            if (option->state & State_Sunken) {
-                painter->setRenderHint(QPainter::Antialiasing,true);
-                painter->setPen(Qt::NoPen);
-                painter->setBrush(Qt::white);
-                painter->drawRoundedRect(option->rect,6,6);
-            } else {
-                painter->setRenderHint(QPainter::Antialiasing,true);
-                painter->setPen(Qt::black);
-                painter->setBrush(Qt::red);
-                painter->drawRoundedRect(option->rect.adjusted(2,2,-2,-2),6,6);
-            }
+        case CE_ComboBoxLabel: {
+            auto comboBoxOption = qstyleoption_cast<const QStyleOptionComboBox*>(option);
+            painter->save();
+            painter->setRenderHint(QPainter::Antialiasing,true);
+            //        painter->setPen(option->palette.color(QPalette::ButtonText));
+            painter->setPen(Qt::black);
+            //选中颜色
+            //        if (option->state & State_Selected) {
+            //            if (option->state & State_Sunken) {
+            //                painter->setPen(option->palette.color(QPalette::ButtonText));
+            //            } else {
+            //                painter->setPen(option->palette.color(QPalette::ButtonText));
+            //            }
+            //        }
+            painter->drawText(option->rect.adjusted(+4,+0,+0,+0), comboBoxOption->currentText, QTextOption(Qt::AlignVCenter));
+            painter->restore();
+            return;
         }
-        painter->restore();
-        return;
-    }break;
+        break;
+        case CE_PushButton: {
+            painter->save();
+            painter->setRenderHint(QPainter::TextAntialiasing,true);
+            painter->setPen(Qt::yellow);
+            painter->setBrush(Qt::red);
+            if (option->state & State_MouseOver) {
+                if (option->state & State_Sunken) {
+                    painter->setRenderHint(QPainter::Antialiasing,true);
+                    painter->setPen(Qt::NoPen);
+                    painter->setBrush(Qt::white);
+                    painter->drawRoundedRect(option->rect,6,6);
+                } else {
+                    painter->setRenderHint(QPainter::Antialiasing,true);
+                    painter->setPen(Qt::black);
+                    painter->setBrush(Qt::red);
+                    painter->drawRoundedRect(option->rect.adjusted(2,2,-2,-2),6,6);
+                }
+            }
+            painter->restore();
+            return;
+        }
+        break;
     }
     return QProxyStyle::drawControl(element, option, painter, widget);
 }
@@ -205,162 +198,151 @@ void CustomStyle::drawItemText(QPainter *painter, const QRect &rectangle, int al
 void CustomStyle::drawPrimitive(QStyle::PrimitiveElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const
 {
     switch (element) {
-    case PE_PanelButtonCommand:{
-        painter->save();
-        painter->setRenderHint(QPainter::TextAntialiasing,true);
-        painter->setPen(Qt::black);
-        painter->setBrush(Qt::yellow);
-        if (option->state & State_MouseOver) {
-            if (option->state & State_Sunken) {
-                painter->setRenderHint(QPainter::Antialiasing,true);
-                painter->setPen(Qt::NoPen);
-                painter->setBrush(Qt::white);
-                painter->drawRoundedRect(option->rect,6,6);
-            } else {
-                painter->setRenderHint(QPainter::Antialiasing,true);
-                painter->setPen(Qt::black);
-                painter->setBrush(Qt::red);
-                painter->drawRoundedRect(option->rect.adjusted(2,2,-2,-2),6,6);
-            }
-        }
-        painter->restore();
-        return;
-    }break;
-
-    case PE_FrameLineEdit://UKUI Line edit style
-    {
-        // Conflict with qspinbox and so on, The widget text cannot use this style
-        if (widget) {
-            if (widget->parentWidget())
-                if (widget->parentWidget()->inherits("QDoubleSpinBox")|widget->parentWidget()->inherits("QSpinBox")|widget->parentWidget()->inherits("QComboBox")) {
-                    return;
-                }
-        }
-        painter->save();
-        if (const QStyleOptionFrame *panel = qstyleoption_cast<const QStyleOptionFrame *>(option)) {
-            painter->setRenderHint(QPainter::Antialiasing,true);
-            //Setpen is set to avoid a bug that collides with a white background
-            painter->setPen(QColor("#CFCFCF"));
-            //            painter->setBrush(option->palette.color(QPalette::Base));
-            painter->setBrush(Qt::red);
-            // if (panel->lineWidth > 0)
-            // proxy()->drawPrimitive(PE_FrameLineEdit, panel, painter, widget);
-            if (widget->isEnabled()) {
-                if (option->state &State_MouseOver) {
-                    painter->setBrush(option->palette.button().color().lighter());
-                }
-                if(option->state &State_HasFocus) {
-                    painter->setPen(QColor("#3D6BE5"));
-                    painter->setBrush(option->palette.color(QPalette::Base));
-                }
-            }
-            painter->drawRoundedRect(panel->rect,4,4);
-        }
-        painter->restore();
-        return;
-    }break;
-
-
-
-    case PE_PanelLineEdit://UKUI Line edit style
-    {
-        // Conflict with qspinbox and so on, The widget text cannot use this style
-
-        painter->save();
-        if (const QStyleOptionFrame *panel = qstyleoption_cast<const QStyleOptionFrame *>(option)) {
-            painter->setRenderHint(QPainter::Antialiasing,true);
-            //Setpen is set to avoid a bug that collides with a white background
-            painter->setPen(QColor("#CFCFCF"));
-            painter->setBrush(Qt::white);
-            QPalette *palete=new QPalette();
-            palete->setBrush(QPalette::Text, Qt::black);
-            // if (panel->lineWidth > 0)
-            // proxy()->drawPrimitive(PE_FrameLineEdit, panel, painter, widget);
-            if (widget->isEnabled()) {
-                if (option->state &State_MouseOver) {
-                    //                    painter->setBrush(option->palette.button().color().lighter());
-                    painter->setBrush(Qt::white);
-                }
-                if(option->state &State_HasFocus) {
-                    painter->setPen(QColor("#3D6BE5"));
-                    //                    painter->setBrush(option->palette.color(QPalette::Base));
-                    painter->setBrush(Qt::white);
-                }
-            }
-            painter->drawRoundedRect(panel->rect,4,4);
-        }
-        painter->restore();
-        return;
-    }break;
-    case PE_IndicatorArrowDown:
-    case PE_IndicatorArrowUp:
-    case PE_IndicatorArrowLeft:
-    case PE_IndicatorArrowRight:{
-        painter->save();
-        painter->setRenderHint(QPainter::Antialiasing,true);
-        painter->setBrush(Qt::NoBrush);
-        if(option->state & State_Enabled){
-            painter->setPen(QPen(Qt::black, 1.2));
+        case PE_PanelButtonCommand: {
+            painter->save();
+            painter->setRenderHint(QPainter::TextAntialiasing,true);
+            painter->setPen(Qt::black);
+            painter->setBrush(Qt::yellow);
             if (option->state & State_MouseOver) {
-                painter->setPen(QPen(Qt::black, 1.2));
+                if (option->state & State_Sunken) {
+                    painter->setRenderHint(QPainter::Antialiasing,true);
+                    painter->setPen(Qt::NoPen);
+                    painter->setBrush(Qt::white);
+                    painter->drawRoundedRect(option->rect,6,6);
+                } else {
+                    painter->setRenderHint(QPainter::Antialiasing,true);
+                    painter->setPen(Qt::black);
+                    painter->setBrush(Qt::red);
+                    painter->drawRoundedRect(option->rect.adjusted(2,2,-2,-2),6,6);
+                }
             }
-        }
-        else {
-            painter->setPen(QPen(option->palette.color(QPalette::Text), 1.1));
-        }
-
-
-        QPolygon points(4);
-        int x = option->rect.x();
-        int y = option->rect.y();
-        //If the height is too high, the arrow will be very ugly. If the height is too small, the arrow will not be painted
-//         int w = option->rect.width() / 3;
-//         int h =  option->rect.height() / 4;
-        int w = 8;
-        int h =  4;
-        x += (option->rect.width() - w) / 2;
-        y += (option->rect.height() - h) / 2;
-
-        //When the arrow is too small, you can not draw
-        if(option->rect.width() - w < 1 || option->rect.height() - h < 1){
+            painter->restore();
             return;
         }
-        else if (option->rect.width() - w <= 2 || option->rect.height() - h <= 2){
-            w = 5;
-            h =  3;
+        break;
+        case PE_FrameLineEdit: {
+            // Conflict with qspinbox and so on, The widget text cannot use this style
+            if (widget) {
+                if (widget->parentWidget())
+                    if (widget->parentWidget()->inherits("QDoubleSpinBox")
+                            |widget->parentWidget()->inherits("QSpinBox")
+                            |widget->parentWidget()->inherits("QComboBox")) {
+                        return;
+                    }
+            }
+            painter->save();
+            if (const QStyleOptionFrame *panel = qstyleoption_cast<const QStyleOptionFrame *>(option)) {
+                painter->setRenderHint(QPainter::Antialiasing,true);
+                //Setpen is set to avoid a bug that collides with a white background
+                painter->setPen(QColor("#CFCFCF"));
+                //            painter->setBrush(option->palette.color(QPalette::Base));
+                painter->setBrush(Qt::red);
+                // if (panel->lineWidth > 0)
+                // proxy()->drawPrimitive(PE_FrameLineEdit, panel, painter, widget);
+                if (widget->isEnabled()) {
+                    if (option->state &State_MouseOver) {
+                        painter->setBrush(option->palette.button().color().lighter());
+                    }
+                    if(option->state &State_HasFocus) {
+                        painter->setPen(QColor("#3D6BE5"));
+                        painter->setBrush(option->palette.color(QPalette::Base));
+                    }
+                }
+                painter->drawRoundedRect(panel->rect,4,4);
+            }
+            painter->restore();
+            return;
         }
+        break;
+        case PE_PanelLineEdit: {
+            painter->save();
+            if (const QStyleOptionFrame *panel = qstyleoption_cast<const QStyleOptionFrame *>(option)) {
+                painter->setRenderHint(QPainter::Antialiasing,true);
+                //Setpen is set to avoid a bug that collides with a white background
+                painter->setPen(QColor("#CFCFCF"));
+                painter->setBrush(Qt::white);
+                QPalette *palete=new QPalette();
+                palete->setBrush(QPalette::Text, Qt::black);
+                // if (panel->lineWidth > 0)
+                // proxy()->drawPrimitive(PE_FrameLineEdit, panel, painter, widget);
+                if (widget->isEnabled()) {
+                    if (option->state &State_MouseOver) {
+                        //                    painter->setBrush(option->palette.button().color().lighter());
+                        painter->setBrush(Qt::white);
+                    }
+                    if(option->state &State_HasFocus) {
+                        painter->setPen(QColor("#3D6BE5"));
+                        //                    painter->setBrush(option->palette.color(QPalette::Base));
+                        painter->setBrush(Qt::white);
+                    }
+                }
+                painter->drawRoundedRect(panel->rect,4,4);
+            }
+            painter->restore();
+            return;
+        }
+        break;
+        case PE_IndicatorArrowDown:
+        case PE_IndicatorArrowUp:
+        case PE_IndicatorArrowLeft:
+        case PE_IndicatorArrowRight: {
+            painter->save();
+            painter->setRenderHint(QPainter::Antialiasing,true);
+            painter->setBrush(Qt::NoBrush);
+            if(option->state & State_Enabled){
+                painter->setPen(QPen(Qt::black, 1.2));
+                if (option->state & State_MouseOver) {
+                    painter->setPen(QPen(Qt::black, 1.2));
+                }
+            }
+            else {
+                painter->setPen(QPen(option->palette.color(QPalette::Text), 1.1));
+            }
 
-        if (element == PE_IndicatorArrowDown) {
-            points[0] = QPoint(x-4, y);
-            points[1] = QPoint(x-4 + w / 2, y + h);
-            points[2] = QPoint(x-4 + w / 2, y + h);
-            points[3] = QPoint(x-4 + w, y);
-        }
+            QPolygon points(4);
+            int x = option->rect.x();
+            int y = option->rect.y();
+            //If the height is too high, the arrow will be very ugly. If the height is too small, the arrow will not be painted
+    //         int w = option->rect.width() / 3;
+    //         int h =  option->rect.height() / 4;
+            int w = 8;
+            int h =  4;
+            x += (option->rect.width() - w) / 2;
+            y += (option->rect.height() - h) / 2;
 
-        //When left and right, "W" and "H" are interchanged so that the arrow does not deform
-        else if (element == PE_IndicatorArrowUp) {
-            points[0] = QPoint(x, y + h);
-            points[1] = QPoint(x + w / 2, y);
-            points[2] = QPoint(x + w / 2, y);
-            points[3] = QPoint(x + w, y + h);
+            //When the arrow is too small, you can not draw
+            if (option->rect.width() - w < 1 || option->rect.height() - h < 1) {
+                return;
+            } else if (option->rect.width() - w <= 2 || option->rect.height() - h <= 2) {
+                w = 5;
+                h =  3;
+            }
+            if (element == PE_IndicatorArrowDown) {
+                points[0] = QPoint(x-4, y);
+                points[1] = QPoint(x-4 + w / 2, y + h);
+                points[2] = QPoint(x-4 + w / 2, y + h);
+                points[3] = QPoint(x-4 + w, y);
+            } else if (element == PE_IndicatorArrowUp) {
+                points[0] = QPoint(x, y + h);
+                points[1] = QPoint(x + w / 2, y);
+                points[2] = QPoint(x + w / 2, y);
+                points[3] = QPoint(x + w, y + h);
+            } else if (element == PE_IndicatorArrowLeft) {
+                points[0] = QPoint(x + h , y);
+                points[1] = QPoint(x, y+w/2);
+                points[2] = QPoint(x, y+w/2);
+                points[3] = QPoint(x + w , y + w);
+            } else if (element == PE_IndicatorArrowRight) {
+                points[0] = QPoint(x , y);
+                points[1] = QPoint(x+h, y+w/2);
+                points[2] = QPoint(x+h , y+w/2);
+                points[3] = QPoint(x, y+w);
+            }
+            painter->drawLine(points[0],  points[1] );
+            painter->drawLine(points[2],  points[3] );
+            painter->restore();
+            return;
         }
-        else if (element == PE_IndicatorArrowLeft) {
-            points[0] = QPoint(x + h , y);
-            points[1] = QPoint(x, y+w/2);
-            points[2] = QPoint(x, y+w/2);
-            points[3] = QPoint(x + w , y + w);
-        }
-        else if (element == PE_IndicatorArrowRight) {
-            points[0] = QPoint(x , y);
-            points[1] = QPoint(x+h, y+w/2);
-            points[2] = QPoint(x+h , y+w/2);
-            points[3] = QPoint(x, y+w);
-        }
-        painter->drawLine(points[0],  points[1] );
-        painter->drawLine(points[2],  points[3] );
-        painter->restore();
-        return;
-    }
     }
     return QProxyStyle::drawPrimitive(element, option, painter, widget);
 

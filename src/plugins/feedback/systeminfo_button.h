@@ -24,7 +24,7 @@ class feedback;
 
 class systeminfo_button :public QPushButton
 {
-Q_OBJECT;
+    Q_OBJECT;
 public:
     systeminfo_button(QWidget *parent = 0);
     ~systeminfo_button();
