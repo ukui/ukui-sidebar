@@ -17,12 +17,19 @@
 */
 #include "feedback.h"
 
-#include <QApplication>
+#include "singleApplication.h"
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    feedback w;
-    w.show();
-    return a.exec();
+    SingleApplication a(argc, argv);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
+    a.setAttribute(Qt::AA_UseHighDpiPixmaps,true);
+#endif
+    if(!a.isRunning()){
+        feedback w;
+        a.w = &w;
+        w.show();
+        return a.exec();
+    }
+
 }

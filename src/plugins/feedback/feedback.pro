@@ -30,6 +30,7 @@ SOURCES += \
     fileitem_init.cpp \
     hidebtnhover.cpp \
     main.cpp \
+    singleApplication.cpp \
     submit_fail.cpp \
     submit_success.cpp \
     systeminfo_button.cpp \
@@ -43,6 +44,7 @@ HEADERS += \
     feedback.h \
     fileitem_init.h \
     hidebtnhover.h \
+    singleApplication.h \
     submit_fail.h \
     submit_success.h \
     systeminfo_button.h \
