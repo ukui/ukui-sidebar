@@ -190,7 +190,6 @@ void sidebarPluginsWidgets::m_ClipboardButtonSlots()
         m_pAnimationClipbarod->start();
         m_pBlueBackgroundButton->setVisible(true);
         m_pAnimationRightLeft->start();
-        qDebug() << "点击剪贴板按钮需要做的事情";
         SmallPluginsBool = false;
         ClipBoardBool = true;
     }
@@ -206,7 +205,6 @@ void sidebarPluginsWidgets::m_SidebarPluginButtonSlots()
         m_pAnimationSmallWidget->start();
         m_pBlueBackgroundButton->setVisible(true);
         m_pAnimationLeftRight->start();
-        qDebug() << "点击小插件按钮需要的事情";
         ClipBoardBool = false;
         SmallPluginsBool = true;
     }
@@ -268,12 +266,10 @@ void sidebarPluginsWidgets::initSmallPluginsAnimation()
 
 void sidebarPluginsWidgets::m_AnimationClipbarodEndSlots()
 {
-    qDebug() << "剪贴板动画结束需要做的事情";
 }
 
 void sidebarPluginsWidgets::m_AnimationSmallWidgetEndSlots()
 {
-    qDebug() << "小插件动画结束需要做的事情";
 }
 
 /* 设置侧边栏的按钮背景色为蓝色 */

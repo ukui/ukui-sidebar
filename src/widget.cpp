@@ -125,14 +125,12 @@ bool Widget::loadNotificationPlugin()
     QPluginLoader pluginLoader(pluginsDir.absoluteFilePath("libnotification_plugin.so"));
 
     m_pNotificationPluginObject = pluginLoader.instance();
-    if(nullptr == m_pNotificationPluginObject)
-    {
+    if(nullptr == m_pNotificationPluginObject) {
         return false;
     }
 
     NotificationInterface* pNotificationPluginObject = qobject_cast<NotificationInterface*>(m_pNotificationPluginObject);
-    if(nullptr == pNotificationPluginObject)
-    {
+    if(nullptr == pNotificationPluginObject) {
         return false;
     }
 
@@ -186,7 +184,6 @@ void Widget::createAction()
 
     OpenSetUp = new QAction(QIcon::fromTheme("application-menu", QIcon(SETTING_ICON)), QObject::tr("Set up notification center"), this);
     connect(OpenSetUp, &QAction::triggered, this, &Widget::OpenControlCenterSettings);
-
 }
 
 //添加动作和创建 systray实例
@@ -204,8 +201,7 @@ void Widget::createSystray()
 
     trayIcon = new QSystemTrayIcon(this);
 
-    if (nullptr == trayIcon)
-    {
+    if (nullptr == trayIcon) {
         qWarning()<< "分配空间trayIcon失败";
         return ;
     }
@@ -284,15 +280,12 @@ int Widget::getPanelSite()
 void Widget::GetsAvailableAreaScreen()
 {
     //如果取不到任务栏的高度,还是优先获取桌面分辨率,可用区域
-    if((0 == connectTaskBarDbus()) && (0 == getPanelSite()))
-    {
+    if ((0 == connectTaskBarDbus()) && (0 == getPanelSite())) {
         QScreen* pScreen = QGuiApplication::primaryScreen();
         QRect DeskSize = pScreen->availableGeometry();
         m_nScreenWidth = DeskSize.width();                      //桌面分辨率的宽
         m_nScreenHeight = DeskSize.height();                    //桌面分辨率的高
-    }
-    else
-    {
+    } else {
         //如果取到任务栏的高度,则取屏幕分辨率的高度
         QRect screenRect = m_pDeskWgt->screenGeometry();
         m_nScreenWidth = screenRect.width();
