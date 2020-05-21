@@ -295,7 +295,8 @@ void Clock::clock_init()
     timer_set_page->setInterval(100);
     updateAlarmClock();
 
-    //listClickslot();
+    if(!model->rowCount())
+        ui->label_7->setText("");
 }
 
 
@@ -526,8 +527,6 @@ void Clock::on_pushButton_ring_clicked()
         stopwatch_hour = 0;
         stopwatch_minute = 0;
         stopwatch_second = 0;
-
-        qDebug()<< stopwatch_item_flag;
 
         stopwatch_item_flag++;
     }
@@ -1222,7 +1221,6 @@ void Clock::listClickslot()
     int x_h, x_m ;
     int num=ui->listWidget->currentRow();
     int day_next;
-    qDebug()<<num<<"@@@@@@@@@@@@@@@@@@";
     if(num >= 0)
         day_next = get_alarm_clock_will_ring_days(num);
     QTime time = QTime::currentTime();
@@ -1258,7 +1256,6 @@ void Clock::listClickslot()
     }
 
     if(x_h >= 24){
-        qDebug()<<x_h;
         day_next = x_h/24;
         x_h = x_h % 24;
     }else {
@@ -1312,7 +1309,6 @@ int Clock::get_alarm_clock_will_ring_days(int num)
         if(ring_day[i] == 1)
         {
             interval = i - today;
-            qDebug()<<interval;
             return interval;
         }
     }
