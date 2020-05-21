@@ -27,6 +27,7 @@
 
 NotificationPlugin::NotificationPlugin()
 {
+    m_bInitialFlag = false;
     m_bShowTakeIn = false;
     m_pMainWidget = new QWidget;
     m_pMainWidget->setObjectName("NotificationCenter");
@@ -53,6 +54,8 @@ NotificationPlugin::NotificationPlugin()
     QVBoxLayout* pNotificationVBoxLayout = new QVBoxLayout;
     pNotificationVBoxLayout->setContentsMargins(10,21,0,0);
     pNotificationVBoxLayout->setSpacing(0);
+
+    m_pMainWidget->setLayout(pNotificationVBoxLayout);
 
     //装第一行通知中心的Widget
     QWidget* pWidget1= new QWidget;
@@ -93,6 +96,8 @@ NotificationPlugin::NotificationPlugin()
     m_pTakeInCoutLabel->setObjectName("takeincout");
     m_pTakeInCoutLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     m_pTakeInCoutLabel->setVisible(false);
+
+    //添加24px的间距
     QSpacerItem* pVFixedSpacer = new QSpacerItem(10, 24, QSizePolicy::Fixed, QSizePolicy::Fixed);
     pNotificationVBoxLayout->addSpacerItem(pVFixedSpacer);
 
@@ -129,12 +134,29 @@ NotificationPlugin::NotificationPlugin()
     pWidget2->setLayout(pQHBoxLayout2);
     pNotificationVBoxLayout->addWidget(pWidget2, 0);
 
+    //消息列表部件，用于装消息列表的
+    m_pMsgListWidget = new QWidget;
+    pNotificationVBoxLayout->addWidget(m_pMsgListWidget, 1);
+
+    //消息列表部件，用于装两个消息列表的,浮动在m_pMsgListWidget里面
+    m_pMsgDoubleListWidget = new QWidget(m_pMsgListWidget);
+    QHBoxLayout* pMsgDoubleListHBoxLayout = new QHBoxLayout;
+    pMsgDoubleListHBoxLayout->setContentsMargins(0, 0, 0, 0);
+    pMsgDoubleListHBoxLayout->setSpacing(0);
+    m_pMsgDoubleListWidget->setLayout(pMsgDoubleListHBoxLayout);
+
+    //双列表部件切换动画
+    m_pSwitchAnimation = new QPropertyAnimation(m_pMsgDoubleListWidget, "geometry", this);
+    m_pSwitchAnimation->setDuration(300);
+    connect(m_pSwitchAnimation, SIGNAL(finished()), this, SLOT(onSwitchMsgBoxFinish()));
+
     //通知列表
     m_pQScrollAreaNotify = new ScrollAreaWidget();
     m_pQScrollAreaNotify->setStyleSheet("QWidget{background:transparent;}");
+    m_pQScrollAreaNotify->setFixedWidth(390);
 
     m_pScrollAreaNotifyVBoxLayout = new QVBoxLayout();
-    m_pScrollAreaNotifyVBoxLayout->setContentsMargins(0,0,0,0);
+    m_pScrollAreaNotifyVBoxLayout->setContentsMargins(0, 0, 0, 0);
     m_pScrollAreaNotifyVBoxLayout->setSpacing(0);
 
     //通知列表的最内层部件
@@ -149,11 +171,12 @@ NotificationPlugin::NotificationPlugin()
 
     QSpacerItem* pVSpacer = new QSpacerItem(10, 1, QSizePolicy::Fixed, QSizePolicy::Expanding);
     m_pScrollAreaNotifyVBoxLayout->addSpacerItem(pVSpacer);
-    pNotificationVBoxLayout->addWidget(m_pQScrollAreaNotify, 0);
+    pMsgDoubleListHBoxLayout->addWidget(m_pQScrollAreaNotify, 0);
 
     //收纳列表
     m_pQScrollAreaTakeIn = new ScrollAreaWidget();
     m_pQScrollAreaTakeIn->setStyleSheet("QWidget{background:transparent;}");
+    m_pQScrollAreaTakeIn->setFixedWidth(390);
 
     m_pScrollAreaTakeInVBoxLayout = new QVBoxLayout();
     m_pScrollAreaTakeInVBoxLayout->setContentsMargins(0,0,0,0);
@@ -164,7 +187,6 @@ NotificationPlugin::NotificationPlugin()
     pTakeInQWidget->setObjectName("QScrollAreaInQWidget");
     pTakeInQWidget->setLayout(m_pScrollAreaTakeInVBoxLayout);
     m_pQScrollAreaTakeIn->setWidget(pTakeInQWidget);
-    m_pQScrollAreaTakeIn->setVisible(false);
 
     m_pTakeinMessageCenterLabel = new QLabel(QObject::tr("No unimportant notice"));
     m_pTakeinMessageCenterLabel->setStyleSheet("QLabel{color:rgba(255,255,255,0.91);padding:119px 0px 0px 0px;font-size:14px;}");
@@ -172,13 +194,11 @@ NotificationPlugin::NotificationPlugin()
 
     QSpacerItem* pVSpacer2 = new QSpacerItem(10, 1, QSizePolicy::Fixed, QSizePolicy::Expanding);
     m_pScrollAreaTakeInVBoxLayout->addSpacerItem(pVSpacer2);
-    pNotificationVBoxLayout->addWidget(m_pQScrollAreaTakeIn, 0);
+    pMsgDoubleListHBoxLayout->addWidget(m_pQScrollAreaTakeIn, 0);
 
     //通知中心最底部固定9px的空白
     QSpacerItem* pVBottomSpacer = new QSpacerItem(9, 9, QSizePolicy::Fixed, QSizePolicy::Fixed);
-    pNotificationVBoxLayout->addSpacerItem(pVBottomSpacer);
-
-    m_pMainWidget->setLayout(pNotificationVBoxLayout);
+    pNotificationVBoxLayout->addSpacerItem(pVBottomSpacer);   
 
     //新建一个监控dbus消息的线程
     MonitorThread* pMonitorThread = new MonitorThread(this);
@@ -195,12 +215,21 @@ QWidget* NotificationPlugin::centerWidget()
 
 void NotificationPlugin::showNotification()
 {
+    if(false == m_bInitialFlag)
+    {
+        m_bInitialFlag = true;
+        qDebug()<<"NotificationPlugin::showNotification 通知列表的高度"<<m_pMsgListWidget->height() <<m_pMsgListWidget->width();
+        //m_pMsgDoubleListWidget->setFixedHeight(m_pMsgListWidget->height());
+        m_pMsgDoubleListWidget->setGeometry(0, 0, m_pMsgListWidget->width()*2, m_pMsgListWidget->height());
+    }
+
     //上面不需要判断，因为在隐藏时，已经切换至通知中心，m_bShowTakeIn为false
     for(int i = 0; i < m_listAppMsg.count(); i++)
     {
         AppMsg* pAppMsg = m_listAppMsg.at(i);
         pAppMsg->updateAppPushTime();
     }
+
 }
 
 void NotificationPlugin::hideNotification()
@@ -555,9 +584,24 @@ void NotificationPlugin::onShowTakeInMessage()
 {
     if(false == m_bShowTakeIn)
     {
+        m_pSwitchAnimation->setStartValue(QRect(0, 0, m_pMsgListWidget->width()*2, m_pMsgListWidget->height()));
+        m_pSwitchAnimation->setEndValue(QRect(0 - m_pMsgListWidget->width(), 0, m_pMsgListWidget->width()*2, m_pMsgListWidget->height()));
+        m_pSwitchAnimation->start();
+    }
+    else
+    {
+        m_pSwitchAnimation->setStartValue(QRect(0 - m_pMsgListWidget->width(), 0, m_pMsgListWidget->width()*2, m_pMsgListWidget->height()));
+        m_pSwitchAnimation->setEndValue(QRect(0, 0, m_pMsgListWidget->width()*2, m_pMsgListWidget->height()));
+        m_pSwitchAnimation->start();
+    }
+}
+
+//收纳盒按钮切换动画完成后处理
+void NotificationPlugin::onSwitchMsgBoxFinish()
+{
+    if(false == m_bShowTakeIn)
+    {
         m_bShowTakeIn = true;
-        m_pQScrollAreaNotify->setVisible(false);
-        m_pQScrollAreaTakeIn->setVisible(true);
         m_pNotificationLabel->setText(QObject::tr("Unimportant notice"));
 
         m_pSvgRender->load(QString(":/images/exitbox-24.svg"));
@@ -586,8 +630,6 @@ void NotificationPlugin::onShowTakeInMessage()
     else
     {
         m_bShowTakeIn = false;
-        m_pQScrollAreaNotify->setVisible(true);
-        m_pQScrollAreaTakeIn->setVisible(false);
         m_pNotificationLabel->setText(QObject::tr("Important notice"));
 
         m_pSvgRender->load(QString(":/images/box-24.svg"));
@@ -617,3 +659,6 @@ void NotificationPlugin::onShowTakeInMessage()
         }
     }
 }
+
+
+

@@ -95,8 +95,6 @@ protected:
 
 private:
     //主界面
-    QVBoxLayout*                m_pMainOuterBoxLayout;                          //主界面最外框布局器
-
     QVBoxLayout*                m_pMainQVBoxLayout;                             //主界面垂直布局器
     QDBusInterface*             m_pServiceInterface;                            //获取任务栏的高度
     bool                        m_bShowFlag;                                    //控制托盘栏点击事件的标志位

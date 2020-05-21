@@ -22,8 +22,6 @@
 #include <QWidget>
 #include <QLabel>
 
-
-class SingleMsg;
 class QSvgRenderer;
 
 class ButtonWidget : public QWidget

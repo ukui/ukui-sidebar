@@ -22,13 +22,11 @@
 #include <QWidget>
 #include <QLabel>
 #include <QDateTime>
-#include <QToolButton>
 #include <QVBoxLayout>
 
 
 class AppMsg;
 class ButtonWidget;
-class DiyPropertyAnimation;
 
 class SingleMsg : public QWidget
 {
@@ -58,6 +56,7 @@ protected:
     virtual void enterEvent(QEvent *event) override;
     virtual void leaveEvent(QEvent *event) override;
     virtual void mousePressEvent(QMouseEvent *event) override;
+    //virtual void resizeEvent(QResizeEvent *event) override;
 
 private:
     QVBoxLayout*    m_pAppVLaout;
@@ -76,6 +75,8 @@ private:
     QLabel*         m_pBodyLabel;                   //正文标签,收缩时,在动画中暂定高24px
     QWidget*        m_pShowLeftWidget;              //显示该应用未展开部件
     QLabel*         m_pShowLeftItemLabel;           //显示该应用未展开条数
+    QTimer*         m_pSetDeleDelayTimer;
+    QWidget*        m_pContextWidget;
 
 
 
@@ -108,15 +109,15 @@ public slots:
     void            onTakeIn();                     //通知中心消息收纳至收纳盒
     void            onRecover();                    //收纳盒消息恢复至通知中心
 
-    void            updateUnfoldMove(int x1, int y1, int x2, int y2);       //更新展开的移动数据
-    void            onUnfoldFinish();                                       //处理展开完成时的函数
-    void            updateFoldMove(int x1, int y1, int x2, int y2);         //更新折叠的移动数据
-    void            onFoldFinish();                                         //处理折叠完成时的函数
-    void            updateDeleLeftMove(int x1, int y1, int x2, int y2);     //更新删除左移时的移动数据
-    void            onDeleLeftMoveFinish();                                 //处理删除左移完成时的函数
-    void            updateDeleUpperMove(int x1, int y1, int x2, int y2);    //更新删除上移时的移动数据
-    void            onDeleUpperMoveFinish();                                //处理删除上移完成时的函数
-    void            startAnimationDeleLeftMove();                           //开启删除左移动画
+    void            updateUnfoldMove(const QVariant &value);        //更新展开的移动数据
+    void            onUnfoldFinish();                               //处理展开完成时的函数
+    void            updateFoldMove(const QVariant &value);          //更新折叠的移动数据
+    void            onFoldFinish();                                 //处理折叠完成时的函数
+    void            updateDeleLeftMove(const QVariant &value);      //更新删除左移时的移动数据
+    void            onDeleLeftMoveFinish();                         //处理删除左移完成时的函数
+    void            updateDeleUpperMove(const QVariant &value);     //更新删除上移时的移动数据
+    void            onDeleUpperMoveFinish();                        //处理删除上移完成时的函数
+    void            startAnimationDeleLeftMove();                   //开启删除左移动画
 
 };
 

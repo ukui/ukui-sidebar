@@ -24,9 +24,11 @@
 #include <QSvgRenderer>
 #include <QPixmap>
 #include <QPainter>
-#include "diypropertyanimation.h"
+#include <QPropertyAnimation>
 #include <QDebug>
 #include <QTimer>
+#include <QThread>
+
 
 SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, QString strSummary, QDateTime dateTime, QString strBody, bool bTakeInFlag)
 {
@@ -40,8 +42,6 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_uNotifyTime = dateTime.toTime_t();
     m_bTakeInFlag = bTakeInFlag;
     m_bTimeFormat = true;
-
-    this->adjustSize();
 
     connect(this, SIGNAL(Sig_setAppFoldFlag(bool)), pParent, SLOT(setAppFoldFlag(bool)));
     connect(this, SIGNAL(Sig_onDeleSingleMsg(SingleMsg*)), pParent, SLOT(onDeleSingleMsg(SingleMsg*)));
@@ -99,7 +99,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     QString formatAppName = fontMetrics1.elidedText(strAppName, Qt::ElideRight, pAppNameLabel->width());
     pAppNameLabel->setText(formatAppName);
 
-    //设置通知消息中的弹簧，水平任意伸缩使主题和时间分开
+    //设置通知消息中的弹簧，水平任意伸缩使应用名和时间分开
     QSpacerItem* pHExpandSpacer = new QSpacerItem(400, 10, QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     //放置时间和收纳删除按钮的窗口
@@ -176,8 +176,8 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     pMainVLaout->addWidget(m_pIconWidget, 0);
 
     //内容部件,将主题正文以及剩余条数显示装入内容部件
-    QWidget* pContextWidget = new QWidget;
-    pContextWidget->setStyleSheet("background-color:transparent;");
+    m_pContextWidget = new QWidget;
+    m_pContextWidget->setStyleSheet("background-color:transparent;");
 
     //内容部件的垂直布局器
     QVBoxLayout* pVContextLayout = new QVBoxLayout();
@@ -241,12 +241,15 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pShowLeftWidget->setLayout(pVShowLeftLayout);
     pVContextLayout->addWidget(m_pShowLeftWidget, 0, Qt::AlignLeft);
 
-    pContextWidget->setLayout(pVContextLayout);
-    pMainVLaout->addWidget(pContextWidget);
+    m_pContextWidget->setLayout(pVContextLayout);
+    pMainVLaout->addWidget(m_pContextWidget);
 
     m_pSingleWidget->setLayout(pMainVLaout);
     m_pAppVLaout->addWidget(m_pSingleWidget);
     this->setLayout(m_pAppVLaout);
+
+
+    m_pSetDeleDelayTimer = new QTimer(this);
 
     setStyleSheet("background-color:rgba(255,255,255,0.12);");
     return;
@@ -470,11 +473,27 @@ void SingleMsg::mousePressEvent(QMouseEvent *event)
                 m_pAppVLaout->setContentsMargins(0,0,0,6);  //假如展开，剩余条目显示不可见，则SingleMsg的内容空白恢复正常，即底部多出6个px的空隙
                 m_pShowLeftItemLabel->setVisible(false);
             }
+
             emit Sig_setAppFoldFlag(m_bFold);
         }
     }
     return;
 }
+
+//void SingleMsg::resizeEvent(QResizeEvent *event)
+//{
+//    QDateTime currentDateTime(QDateTime::currentDateTime());
+//    QString strCurrentTime = currentDateTime.toString("hh:mm:ss.zzz");
+
+//    if(true == m_bMain)
+//    {
+//        qDebug()<<strCurrentTime <<"SingleMsg::resizeEvent"<<this <<this->height() <<m_pSingleWidget->height() <<m_pIconWidget->height() <<m_pContextWidget->height() <<m_pShowLeftWidget->height();
+//    }
+//    else
+//    {
+//        qDebug()<<strCurrentTime <<"SingleMsg::resizeEvent11"<<this <<this->height() <<m_pSingleWidget->height() <<m_pIconWidget->height() <<m_pContextWidget->height() <<m_pShowLeftWidget->height();
+//    }
+//}
 
 void SingleMsg::mainMsgSetFold()
 {
@@ -492,6 +511,7 @@ void SingleMsg::mainMsgSetFold()
             m_pShowLeftItemLabel->setVisible(true);
         }
         emit Sig_setAppFoldFlag(true);
+        setStyleSheet("background-color:rgba(255,255,255,0.12);");  //对于主消息手动补一下背景色
     }
 }
 
@@ -501,25 +521,25 @@ void SingleMsg::startAnimationUnfold()
     int width = this->width();
     int height = this->height();
 
+    if(true == m_strBody.isEmpty())
+    {
+        height = 87;
+    }
+    else
+    {
+        height = 111;
+    }
+
     m_pAppVLaout->removeWidget(m_pSingleWidget);
     m_pAnimationBaseMapWidget->setFixedSize(width, 0);
     m_pAnimationBaseMapWidget->setVisible(true);
     m_pAppVLaout->addWidget(m_pAnimationBaseMapWidget, 0, Qt::AlignHCenter);
     this->setVisible(true);
 
-    if(true == m_strBody.isEmpty())
-    {
-        height = 90;
-    }
-    else
-    {
-        height = 114;
-    }
-
     //设置show动画
-    DiyPropertyAnimation* pAnimation = new DiyPropertyAnimation(m_pSingleWidget, "geometry");
+    QPropertyAnimation* pAnimation = new QPropertyAnimation(m_pSingleWidget, "geometry");
     pAnimation->setDuration(300);
-    connect(pAnimation, SIGNAL(Sig_currentRect(int, int, int, int)), this, SLOT(updateUnfoldMove(int, int, int, int)));
+    connect(pAnimation, &QPropertyAnimation::valueChanged, this, &SingleMsg::updateUnfoldMove);
     connect(pAnimation, SIGNAL(finished()), this, SLOT(onUnfoldFinish()));
 
     pAnimation->setStartValue(QRect(0, 0, width, height));
@@ -539,9 +559,9 @@ void SingleMsg::startAnimationFold()
     m_pAppVLaout->addWidget(m_pAnimationBaseMapWidget, 0, Qt::AlignHCenter);
 
     //设置show动画
-    DiyPropertyAnimation* pAnimation = new DiyPropertyAnimation(m_pSingleWidget, "geometry");
+    QPropertyAnimation* pAnimation = new QPropertyAnimation(m_pSingleWidget, "geometry");
     pAnimation->setDuration(300);
-    connect(pAnimation, SIGNAL(Sig_currentRect(int, int, int, int)), this, SLOT(updateFoldMove(int, int, int, int)));
+    connect(pAnimation, &QPropertyAnimation::valueChanged, this, &SingleMsg::updateFoldMove);
     connect(pAnimation, SIGNAL(finished()), this, SLOT(onFoldFinish()));
 
     pAnimation->setStartValue(QRect(0, 0, width, height));
@@ -566,9 +586,9 @@ void SingleMsg::startAnimationDeleLeftMove()
     m_pAppVLaout->addWidget(m_pAnimationBaseMapWidget, 0, Qt::AlignHCenter);
 
     //设置show动画
-    DiyPropertyAnimation* pAnimation = new DiyPropertyAnimation(m_pSingleWidget, "geometry");
+    QPropertyAnimation* pAnimation = new QPropertyAnimation(m_pSingleWidget, "geometry");
     pAnimation->setDuration(150);
-    connect(pAnimation, SIGNAL(Sig_currentRect(int, int, int, int)), this, SLOT(updateDeleLeftMove(int, int, int, int)));
+    connect(pAnimation, &QPropertyAnimation::valueChanged, this, &SingleMsg::updateDeleLeftMove);
     connect(pAnimation, SIGNAL(finished()), this, SLOT(onDeleLeftMoveFinish()));
 
     pAnimation->setStartValue(QRect(0, 0, nWidth, nHeight));
@@ -582,14 +602,11 @@ void SingleMsg::startAnimationDeleUpperMove()
 {
     int width = this->width();
     int height = this->height();
-    QDateTime currentDateTime(QDateTime::currentDateTime());
-    QString strCurrentTime = currentDateTime.toString("hh:mm:ss.zzz");
-    qDebug()<<strCurrentTime <<"SingleMsg::startAnimationDeleUpperMove"<<this <<width <<height;
 
     //设置show动画
-    DiyPropertyAnimation* pAnimation = new DiyPropertyAnimation(m_pAnimationBaseMapWidget, "geometry");
+    QPropertyAnimation* pAnimation = new QPropertyAnimation(m_pAnimationBaseMapWidget, "geometry");
     pAnimation->setDuration(150);
-    connect(pAnimation, SIGNAL(Sig_currentRect(int, int, int, int)), this, SLOT(updateDeleUpperMove(int, int, int, int)));
+    connect(pAnimation, &QPropertyAnimation::valueChanged, this, &SingleMsg::updateDeleUpperMove);
     connect(pAnimation, SIGNAL(finished()), this, SLOT(onDeleUpperMoveFinish()));
 
     pAnimation->setStartValue(QRect(0, 0, width, height));
@@ -606,10 +623,10 @@ void SingleMsg::onDele()
         emit Sig_notifyAppHideBaseMap();                    //通知隐藏应用的底图部件，但保留显示底部6px的空白
     }
 
-    QTimer* pSetDeleDelayTimer = new QTimer(this);
-    pSetDeleDelayTimer->setSingleShot(true);                //设置一个单次定时器,只为延迟2毫秒执行删除
-    connect(pSetDeleDelayTimer, SIGNAL(timeout()), this, SLOT(startAnimationDeleLeftMove()));
-    pSetDeleDelayTimer->start(2);
+
+    m_pSetDeleDelayTimer->setSingleShot(true);                //设置一个单次定时器,只为延迟2毫秒执行删除
+    connect(m_pSetDeleDelayTimer, SIGNAL(timeout()), this, SLOT(startAnimationDeleLeftMove()));
+    m_pSetDeleDelayTimer->start(2);
 
     return;
 }
@@ -645,9 +662,18 @@ void SingleMsg::onRecover()
 }
 
 //更新展开的移动数据
-void SingleMsg::updateUnfoldMove(int x1, int y1, int x2, int y2)
+void SingleMsg::updateUnfoldMove(const QVariant &value)
 {
-    Q_UNUSED(x1);
+    QRect Rect = value.value<QRect>();
+    int x1, y1, x2, y2;
+    Rect.getRect(&x1, &y1, &x2, &y2);
+
+    QDateTime currentDateTime(QDateTime::currentDateTime());
+    QString strCurrentTime = currentDateTime.toString("hh:mm:ss.zzz");
+//    QString LogInfo;
+//    LogInfo.sprintf("%p", QThread::currentThread());
+    qDebug()<<strCurrentTime <<"SingleMsg::updateUnfoldMove"<<this<<" x1=" <<x1<<" y1="<<y1<<" x2=" <<x2<<" y2="<<y2;
+
 
     //首先将填充控件的高度不断增加直至6
     if(y1 <= 6)
@@ -664,10 +690,12 @@ void SingleMsg::updateUnfoldMove(int x1, int y1, int x2, int y2)
     return;
 }
 
-//更新折叠的移动数据
-void SingleMsg::updateFoldMove(int x1, int y1, int x2, int y2)
+void SingleMsg::updateFoldMove(const QVariant &value)
 {
-    Q_UNUSED(x1);
+    QRect Rect = value.value<QRect>();
+    int x1, y1, x2, y2;
+    Rect.getRect(&x1, &y1, &x2, &y2);
+
     //m_pSingleWidget的本来高度
     int nHeight = y2 - 6;
 
@@ -692,7 +720,7 @@ void SingleMsg::onUnfoldFinish()
 {
     m_pAppVLaout->removeWidget(m_pAnimationBaseMapWidget);
     m_pAnimationBaseMapWidget->setVisible(false);
-    m_pAppVLaout->addWidget(m_pSingleWidget);
+    m_pAppVLaout->addWidget(m_pSingleWidget);   
 }
 
 //处理折叠完成时的函数
@@ -710,11 +738,13 @@ void SingleMsg::onFoldFinish()
 }
 
 //更新删除左移时的移动数据
-void SingleMsg::updateDeleLeftMove(int x1, int y1, int x2, int y2)
+void SingleMsg::updateDeleLeftMove(const QVariant &value)
 {
-    Q_UNUSED(y1);
-    m_pSingleWidget->setGeometry(x1, 0, x2, y2);
+    QRect Rect = value.value<QRect>();
+    int x1, y1, x2, y2;
+    Rect.getRect(&x1, &y1, &x2, &y2);
 
+    m_pSingleWidget->setGeometry(x1, 0, x2, y2);
 }
 
 //处理删除左移完成时的函数
@@ -724,9 +754,11 @@ void SingleMsg::onDeleLeftMoveFinish()
 }
 
 //更新删除上移时的移动数据
-void SingleMsg::updateDeleUpperMove(int x1, int y1, int x2, int y2)
+void SingleMsg::updateDeleUpperMove(const QVariant &value)
 {
-    Q_UNUSED(x1);
+    QRect Rect = value.value<QRect>();
+    int x1, y1, x2, y2;
+    Rect.getRect(&x1, &y1, &x2, &y2);
 
     //y2-6表示填充控件的高度，y1为负数，首先将填充控件的高度不断减少直至0
     if((y2 - 6 + y1) >= 0)

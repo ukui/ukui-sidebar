@@ -20,14 +20,13 @@
 #include "appmsg.h"
 #include "notification_plugin.h"
 #include "singlemsg.h"
-#include  "monitorthread.h"
+#include "monitorthread.h"
 AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
 {
     m_bFold = true;
     m_bTakeInFlag = bTakeInFlag;
     m_strAppName = strAppName;
     this->setFixedWidth(380);
-    this->adjustSize();
 
     m_nMaxCount = 20;
 
@@ -35,6 +34,13 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
     m_pMainVLaout = new QVBoxLayout();
     m_pMainVLaout->setContentsMargins(0,0,0,0);
     m_pMainVLaout->setSpacing(0);
+
+    //如果只有m_pMainVLaout一个管理所有消息列表，当应用消息动态展开时，0号消息会出现闪屏的情况
+    //为了规避上述情况，m_pMainVLaout中只防止0号消息，1号消息起全部放置m_pIndexFromOneVLaout中
+    m_pIndexFromOneVLaout = new QVBoxLayout();
+    m_pIndexFromOneVLaout->setContentsMargins(0,0,0,0);
+    m_pIndexFromOneVLaout->setSpacing(0);
+    m_pMainVLaout->addLayout(m_pIndexFromOneVLaout);
 
     //当出现多条消息时，增加底图
     m_pAppBaseMapWidget = new QWidget;
@@ -136,6 +142,7 @@ void AppMsg::addSingleMsg(QString strIconPath, QString strSummary, QDateTime dat
         SingleMsg* pFirstMsg = m_listSingleMsg.at(0);
         pFirstMsg->setMainFlag(false);
         pFirstMsg->setShowLeftItemFlag(false);
+        pFirstMsg->setStyleSheet("background-color:rgba(255,255,255,0.12);");
         //只有已经折叠的才需要将现有的正文设置为缩略显示
         if(true == m_bFold)
         {
@@ -144,6 +151,10 @@ void AppMsg::addSingleMsg(QString strIconPath, QString strSummary, QDateTime dat
             //将SingleMsg底部设置0px空隙,当其展开时，让他完全从0展开
             pFirstMsg->setSingleMsgContentsMargins(0, 0, 0, 0);
         }
+
+        //如果新增的消息将插入最顶部，则将老的顶部消息，先从m_pMainVLaout移除，再插入m_pIndexFromOneVLaout顶部
+        m_pMainVLaout->removeWidget(pFirstMsg);
+        m_pIndexFromOneVLaout->insertWidget(0, pFirstMsg);
     }
 
     //如果插入第0条,并且已展开,则将新增消息设置自动换行,并且折叠标志设为false
@@ -165,7 +176,16 @@ void AppMsg::addSingleMsg(QString strIconPath, QString strSummary, QDateTime dat
     }
 
     m_listSingleMsg.insert(uIndex, pSingleMsg);
-    m_pMainVLaout->insertWidget(uIndex, pSingleMsg);
+    if(0 != uIndex)
+    {
+        //假如新增消息不是插入最顶部，则直接插入m_pIndexFromOneVLaout中的uIndex - 1
+        m_pIndexFromOneVLaout->insertWidget(uIndex - 1, pSingleMsg);
+    }
+    else
+    {
+        //假如新增的消息将插入最顶部，由于上面已把老的顶部消息插入m_pIndexFromOneVLaout的顶部，所以此时直接插入m_pMainVLaout顶部
+        m_pMainVLaout->insertWidget(0, pSingleMsg);
+    }
 
     //当单个应用的消息达到设置的最大数目时，删除最早的消息并统计数目
     deleteExceedingMsg();
@@ -215,8 +235,15 @@ void AppMsg::onTakeinWholeApp()
     while(m_listSingleMsg.count() > 0)
     {
         SingleMsg* pSingleMsg = m_listSingleMsg.at(0);
-        m_pMainVLaout->removeWidget(pSingleMsg);
         m_listSingleMsg.removeAt(0);
+        m_pMainVLaout->removeWidget(pSingleMsg);
+        if(m_listSingleMsg.count() > 0)
+        {
+            SingleMsg* pTopSingleMsg = m_listSingleMsg.at(0);
+            m_pIndexFromOneVLaout->removeWidget(pTopSingleMsg);
+            m_pMainVLaout->insertWidget(0, pTopSingleMsg);
+        }
+
         emit Sig_SendTakeInSingleMsg(m_strAppName, pSingleMsg->getIcon(), pSingleMsg->getSummary(), pSingleMsg->getBody(), pSingleMsg->getPushDateTime(), 20, false);
     }
 
@@ -230,8 +257,15 @@ void AppMsg::onRecoverWholeApp()
     while(m_listSingleMsg.count() > 0)
     {
         SingleMsg* pSingleMsg = m_listSingleMsg.at(0);
-        m_pMainVLaout->removeWidget(pSingleMsg);
         m_listSingleMsg.removeAt(0);
+        m_pMainVLaout->removeWidget(pSingleMsg);
+        if(m_listSingleMsg.count() > 0)
+        {
+            SingleMsg* pTopSingleMsg = m_listSingleMsg.at(0);
+            m_pIndexFromOneVLaout->removeWidget(pTopSingleMsg);
+            m_pMainVLaout->insertWidget(0, pTopSingleMsg);
+        }
+
         emit Sig_SendAddSingleMsg(m_strAppName, pSingleMsg->getIcon(), pSingleMsg->getSummary(), pSingleMsg->getBody(), pSingleMsg->getPushDateTime(), 20, false);
     }
 
@@ -250,7 +284,20 @@ void AppMsg::onDeleSingleMsg(SingleMsg* pSingleMsg)
     }
 
     m_listSingleMsg.removeAt(nIndex);
-    m_pMainVLaout->removeWidget(pSingleMsg);
+    if(0 == nIndex)
+    {
+        m_pMainVLaout->removeWidget(pSingleMsg);
+        if(m_listSingleMsg.count() > 0)
+        {
+            SingleMsg* pTopSingleMsg = m_listSingleMsg.at(0);
+            m_pIndexFromOneVLaout->removeWidget(pTopSingleMsg);
+            m_pMainVLaout->insertWidget(0, pTopSingleMsg);
+        }
+    }
+    else
+    {
+        m_pIndexFromOneVLaout->removeWidget(pSingleMsg);
+    }
     pSingleMsg->deleteLater();
 
     //当本次删除为应用首条时,且该应用不止一条,则需将新的首条设置为顶部消息状态
@@ -312,7 +359,20 @@ void AppMsg::onTakeInSingleMsg(SingleMsg* pSingleMsg)
     }
 
     m_listSingleMsg.removeAt(nIndex);
-    m_pMainVLaout->removeWidget(pSingleMsg);
+    if(0 == nIndex)
+    {
+        m_pMainVLaout->removeWidget(pSingleMsg);
+        if(m_listSingleMsg.count() > 0)
+        {
+            SingleMsg* pTopSingleMsg = m_listSingleMsg.at(0);
+            m_pIndexFromOneVLaout->removeWidget(pTopSingleMsg);
+            m_pMainVLaout->insertWidget(0, pTopSingleMsg);
+        }
+    }
+    else
+    {
+        m_pIndexFromOneVLaout->removeWidget(pSingleMsg);
+    }
 
     emit Sig_SendTakeInSingleMsg(m_strAppName, pSingleMsg->getIcon(), pSingleMsg->getSummary(), pSingleMsg->getBody(), pSingleMsg->getPushDateTime(), 20, false);
     pSingleMsg->deleteLater();
@@ -343,7 +403,21 @@ void AppMsg::onRecoverSingleMsg(SingleMsg* pSingleMsg)
     }
 
     m_listSingleMsg.removeAt(nIndex);
-    m_pMainVLaout->removeWidget(pSingleMsg);
+    if(0 == nIndex)
+    {
+        m_pMainVLaout->removeWidget(pSingleMsg);
+        if(m_listSingleMsg.count() > 0)
+        {
+            SingleMsg* pTopSingleMsg = m_listSingleMsg.at(0);
+            m_pIndexFromOneVLaout->removeWidget(pTopSingleMsg);
+            m_pMainVLaout->insertWidget(0, pTopSingleMsg);
+        }
+    }
+    else
+    {
+        m_pIndexFromOneVLaout->removeWidget(pSingleMsg);
+    }
+
 
     emit Sig_SendAddSingleMsg(m_strAppName, pSingleMsg->getIcon(), pSingleMsg->getSummary(), pSingleMsg->getBody(), pSingleMsg->getPushDateTime(), 20, false);
     pSingleMsg->deleteLater();
@@ -377,6 +451,11 @@ void AppMsg::setAppFoldFlag(bool bFlag)
     if((false == m_bFold) || (m_listSingleMsg.count() <= 1))
     {
         m_pAppBaseMapWidget->setVisible(false);
+    }
+
+    if(m_listSingleMsg.count() <= 1)
+    {
+        return;
     }
 
     //false表示应用展开

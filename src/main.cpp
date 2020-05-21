@@ -85,7 +85,8 @@ int main(int argc, char *argv[])
     mostGrandWidget::getInstancemostGrandWidget()->LaoutSidebarWidget();
     mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(-500, 0);
     mostGrandWidget::getInstancemostGrandWidget()->setVisible(true);
-    w->showAnimation();
     w->m_bfinish = true;
+    w->showAnimation();
+
     return a.exec();
 }
