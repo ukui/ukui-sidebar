@@ -24,7 +24,6 @@
 #include <QtWidgets>
 
 class AppMsg;
-class SingleMsg;
 class ScrollAreaWidget;
 class QSvgRenderer;
 class TakeInBoxToolButton;
@@ -51,6 +50,9 @@ private:
     QWidget*                m_pMainWidget;
     QList<AppMsg*>          m_listAppMsg;                       //对于SingleMsg类对象用list表记录
     QList<AppMsg*>          m_listTakeInAppMsg;
+    QWidget*                m_pMsgListWidget;                   //消息列表部件，用于装消息的
+    QWidget*                m_pMsgDoubleListWidget;             //消息列表部件，用于装两个消息列表的
+    QPropertyAnimation*     m_pSwitchAnimation;
     ScrollAreaWidget*       m_pQScrollAreaNotify;               //通知列表ScrollAreaWidget
     QVBoxLayout*            m_pScrollAreaNotifyVBoxLayout;
     ScrollAreaWidget*       m_pQScrollAreaTakeIn;               //收纳列表ScrollAreaWidget
@@ -64,9 +66,10 @@ private:
     QPushButton*            m_pClearAllToolButton;
     QPixmap*                m_pPixmap;
     QLabel*                 m_pTakeInCoutLabel;                 //收纳盒计数统计Label
+    bool                    m_bInitialFlag;                     //初始化标志
 
 signals:
-    void    Sig_onNewNotification();
+    void Sig_onNewNotification();
 
 private slots:
     uint onAddSingleNotify(QString strAppName, QString strIconPath, QString strSummary, QString strBody, QDateTime dateTime, int maxNum, bool bNewNotificationFlag);    //处理新增单条通知
@@ -79,6 +82,7 @@ private slots:
     void onCountTakeInBitAndUpate();                            //统计收纳位数并更新至右上角提示
     void onCloseAppMsg(QString strAppName);                     //配置实时关闭通知消息
     void onUpdateAppMaxNum(QString strAppName, int maxNum);     //配置实时更新通知消息最大数
+    void onSwitchMsgBoxFinish();
 
 };
 

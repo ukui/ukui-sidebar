@@ -61,11 +61,6 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     InitializeHomeScreenGeometry();  /* 初始化主屏的X坐标 */
     GetsAvailableAreaScreen();       /* 获取屏幕可用高度区域 */
 
-    /* 主界面最外框布局器 */
-    m_pMainOuterBoxLayout = new QVBoxLayout;
-    m_pMainOuterBoxLayout->setContentsMargins(0,0,0,0);
-    m_pMainOuterBoxLayout->setSpacing(0);
-
     /* 主界面显示 */
     m_pMainQVBoxLayout = new QVBoxLayout;
     m_pMainQVBoxLayout->setContentsMargins(0,0,0,0);
@@ -313,7 +308,7 @@ int Widget::setClipBoardWidgetScaleFactor()
 void Widget::showAnimation()
 {
     NotificationInterface* pNotificationPluginObject = qobject_cast<NotificationInterface*>(m_pNotificationPluginObject);
-    if(nullptr != pNotificationPluginObject)
+    if(nullptr != pNotificationPluginObject && false == m_bfinish)
     {
         pNotificationPluginObject->showNotification();       //当动画展开时给插件一个通知
     }

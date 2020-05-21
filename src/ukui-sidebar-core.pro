@@ -32,7 +32,6 @@ SOURCES += \
         main.cpp \
         mostgrandwidget.cpp \
         pluginstoolbutton.cpp \
-        realtimepropertyanimation.cpp \
         sidebarpluginswidgets.cpp \
         smallpluginsbutton.cpp \
         smallpluginsmanage.cpp \
@@ -47,7 +46,6 @@ INCLUDEPATH += ./plugin-interface
 HEADERS += \
         mostgrandwidget.h \
         pluginstoolbutton.h \
-        realtimepropertyanimation.h \
         sidebarpluginswidgets.h \
         smallpluginsbutton.h \
         smallpluginsmanage.h \

@@ -55,6 +55,7 @@ public:
 
 private:
     QVBoxLayout*        m_pMainVLaout;                  //App信息中的总的垂直布局器
+    QVBoxLayout*        m_pIndexFromOneVLaout;
     QWidget*            m_pAppBaseMapWidget;            //多条消息时，底图部件包括底部6个px的空白
     QWidget*            m_pBaseMapWidget;               //多条消息时，底图部件不包括底部6个px的空白
     QList<SingleMsg*>   m_listSingleMsg;                //对于SingleMsg类对象用list表记录

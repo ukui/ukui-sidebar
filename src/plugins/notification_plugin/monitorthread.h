@@ -26,7 +26,6 @@
 
 class NotificationPlugin;
 class QProcess;
-class QTimer;
 
 class MonitorThread : public QThread
 {

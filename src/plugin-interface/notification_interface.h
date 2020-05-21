@@ -33,7 +33,7 @@ public:
     virtual void showNotification() = 0;
     //当侧边栏隐藏时给通知中心一个通知
     virtual void hideNotification() = 0;
-//    virtual void Notify(QString strAppName, QString strIconPath, QString strSummary, QString strTime, QString strBody) = 0;
+    //virtual void Notify(QString strAppName, QString strIconPath, QString strSummary, QString strTime, QString strBody) = 0;
 };
 
 //声明接口
