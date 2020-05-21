@@ -63,6 +63,7 @@ EditorWidget::EditorWidget()
     setAttribute(Qt::WA_TranslucentBackground);
 }
 
+/* 标题和编辑框界面 */
 void EditorWidget::editBox()
 {
     m_pEditingArea = new QTextEdit();
@@ -95,8 +96,10 @@ void EditorWidget::editBox()
     m_pEditWidget->setAttribute(Qt::WA_TranslucentBackground);
     m_pEditWidget->setLayout(m_pEditLaout);
     m_pEditLaout->setContentsMargins(0, 0, 0, 0);
+    return;
 }
 
+/* 确认和取消按钮 */
 void EditorWidget::operationBox()
 {
     m_pConfirmButton = new QPushButton(QObject::tr("Confirm"));
@@ -119,9 +122,11 @@ void EditorWidget::operationBox()
     m_pOperationWidget = new QWidget();
     m_pOperationWidget->setContentsMargins(0, 0, 0, 0);
     m_pOperationWidget->setLayout(m_pOperationLayout);
+    return;
 
 }
 
+/* 重绘时间 */
 void EditorWidget::paintEvent(QPaintEvent *)
 {
     QStyleOption opt;

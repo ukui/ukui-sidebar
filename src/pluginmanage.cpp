@@ -41,14 +41,11 @@ PluginManager::PluginManager(QObject *parent) : QObject(parent)
         qDebug() << pluginLoader.load();
         qDebug() << pluginLoader.errorString();
         QObject *pPlugin = pluginLoader.instance();
-        if (!pPlugin) {
+        if (!pPlugin)
             continue;
-        }
-        qDebug()<<"test start";
         PluginInterface *pPluginInterface = dynamic_cast<PluginInterface*>(pPlugin);
-        if (!pPluginInterface) {
+        if (!pPluginInterface)
             continue;
-        }
 
         qDebug()<<pPluginInterface->name();
         m_PluginInterfaceHash.insert(pPluginInterface->name(), pPluginInterface);
@@ -78,9 +75,8 @@ PluginManager::~PluginManager()
 
 PluginManager *PluginManager::getInstance()
 {
-    if (!global_instance) {
+    if (!global_instance)
         global_instance = new PluginManager;
-    }
     return global_instance;
 }
 

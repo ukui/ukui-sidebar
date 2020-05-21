@@ -27,10 +27,9 @@ SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
     Q_UNUSED(parent);
     translator = new QTranslator;
     QLocale locale;
-    //获取系统语言环境
+    //获取系统语言环境， 选择翻译文件
     if ( locale.language() == QLocale::Chinese ) {
-        qDebug() << "中文环境" ;
-        translator->load(QString(":/translations/widgets.qm"));  //选择翻译文件
+        translator->load(QString(":/translations/widgets.qm"));  //
         QApplication::installTranslator(translator);
     }
 

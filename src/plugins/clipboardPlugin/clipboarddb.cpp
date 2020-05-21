@@ -4,10 +4,9 @@ clipboardDb::clipboardDb(QObject *parent)
 {
     Q_UNUSED(parent);
     QString url_filepath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) +"/.config/Clipboard.db";
-    if (!connectClipboardDb(url_filepath)) {  //链接数据库
-        qWarning() << "创建数据库失败";
+    //链接数据库
+    if (!connectClipboardDb(url_filepath))
         return;
-    }
     creatClipboardDbTable(url_filepath); //创建表格
 }
 
@@ -35,7 +34,7 @@ bool clipboardDb::creatClipboardDbTable(QString DbName)
                               ");";
 
     query.exec(creatorSqlState);
-    qDebug()<<"-------------------------------------creatorSqlState";
+    qDebug()<<"------------------creatorSqlState-------------------";
     return true;
 }
 
@@ -47,6 +46,7 @@ void clipboardDb::insertSqlClipbarodDb(QString content, QString format, int Sequ
     QString insertSql = QStringLiteral("INSERT INTO Clipboard_table (content, format, Sequence) VALUES ('%1','%2',%3)").arg(content).arg(format).arg(Sequence);
     if (!query.exec(insertSql)) {
         qDebug() << "数据插入错误";
+        return;
     }
     query.finish();
     return;
@@ -95,8 +95,7 @@ int clipboardDb::SelectSqlClipbaordDbId()
         return -1;
     }
     int seq;
-    while (query.next()) {
+    while (query.next())
        seq = query.value(0).toDouble();
-    }
     return seq;
 }

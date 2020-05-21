@@ -45,9 +45,6 @@ SmallPluginsManage* SmallPluginsManage::getInstance()
 
 void SmallPluginsManage::registerSmallplugin(PluginInterface *key, SidebarSmallPluginInterface *value)
 {
-    qDebug() << "entre";
-    qDebug() << "key" << key;
-    qDebug() << "value" << value;
     if (key == nullptr || value == nullptr) {
         qDebug() << "registerSmallplugin --> key PluginInterface =nullptr || SidebarSmallPluginInterface = nullptr";
         return;
@@ -57,7 +54,6 @@ void SmallPluginsManage::registerSmallplugin(PluginInterface *key, SidebarSmallP
         qDebug() << "m_pSmallPluginsHash has key PluginInterface";
         return;
     }
-    qDebug() << "zhangsan";
     m_pSmallPluginsHash.insert(key, value);
     m_PluginsNum++;
     return;

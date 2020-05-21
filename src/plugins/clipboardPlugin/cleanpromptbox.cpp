@@ -40,6 +40,7 @@ CleanPromptBox::CleanPromptBox()
     this->setLayout(m_pHintWidgetVLaout);
     this->setWindowFlags(Qt::FramelessWindowHint);
     this->setAttribute(Qt::WA_TranslucentBackground);
+    return;
 }
 
 void CleanPromptBox::creatorHintInfomationWidget()
@@ -73,6 +74,7 @@ void CleanPromptBox::creatorHintInfomationWidget()
     m_pIconLableHLaout->addItem(new QSpacerItem(55, 20));
     m_pIconLableHLaout->setSpacing(0);
     m_pHintInformationWidget->setLayout(m_pIconLableHLaout);
+    return;
 }
 
 void CleanPromptBox::creatorCheckBoxWidget()
@@ -87,6 +89,7 @@ void CleanPromptBox::creatorCheckBoxWidget()
     m_pChechBoxHLaout->addWidget(m_pCheckBoxNoHint);
     m_pChechBoxHLaout->addItem(new QSpacerItem(220, 20));
     m_pCheckBoxWidget->setLayout(m_pChechBoxHLaout);
+    return;
 }
 
 void CleanPromptBox::creatorButtonWidget()
@@ -119,6 +122,7 @@ void CleanPromptBox::creatorButtonWidget()
     m_pButtonHLaout->addWidget(m_pConfirmButton);
     m_pButtonHLaout->addItem(new QSpacerItem(20, 10));
     m_pButtonWidget->setLayout(m_pButtonHLaout);
+    return;
 }
 
 
@@ -134,6 +138,7 @@ void CleanPromptBox::creatorCleanPromptBoxWidget()
     m_pHintWidgetVLaout->addItem(new QSpacerItem(10, 41));
     m_pHintWidgetVLaout->addWidget(m_pButtonWidget);
     m_pHintWidgetVLaout->addItem(new QSpacerItem(10, 18));
+    return;
 }
 
 void CleanPromptBox::paintEvent(QPaintEvent *)
@@ -150,6 +155,7 @@ void CleanPromptBox::paintEvent(QPaintEvent *)
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     p.drawRoundedRect(opt.rect,6,6);
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+    return;
 }
 
 void CleanPromptBox::ConfirmButtonSlots()
@@ -158,4 +164,5 @@ void CleanPromptBox::ConfirmButtonSlots()
         emit ClipBoardInternalSignal::getGlobalInternalSignal()->CheckBoxSelectedSignal();
         qDebug() << "是选中状态";
     }
+    return;
 }

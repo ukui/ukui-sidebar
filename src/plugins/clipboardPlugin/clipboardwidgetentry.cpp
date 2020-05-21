@@ -58,16 +58,16 @@ ClipboardWidgetEntry::ClipboardWidgetEntry(QString dataFormat, QWidget *parent)
 
     m_pHLayout->addWidget(m_pCopyDataLabal);
 
-    if (dataFormat == ENTRYIMAGE) {
+    if (dataFormat == ENTRYIMAGE)
         m_pHLayout->addItem(new QSpacerItem(276, 34));
-    }
 
     m_pHLayout->addWidget(m_pPopButton);
     m_pHLayout->addWidget(m_pCancelLockButton);
     m_pCancelLockButton->setVisible(false);
-    if (!(m_dataFormat == ENTRYURL || m_dataFormat == ENTRYIMAGE)) {
+    if (!(m_dataFormat == ENTRYURL
+          || m_dataFormat == ENTRYIMAGE))
         m_pHLayout->addWidget(m_pEditButon);
-    }
+
 
     m_pHLayout->addWidget(m_pRemoveButton);
     m_pHLayout->addItem(new QSpacerItem(10,20));
@@ -173,9 +173,8 @@ void ClipboardWidgetEntry::enterEvent(QEvent *e)
 
 void ClipboardWidgetEntry::leaveEvent(QEvent *e)
 {
-    if(e == nullptr) {
+    if (e == nullptr)
         return;
-    }
     status=NORMAL;
     if (m_bWhetherFix) {
         m_pCancelLockButton->setVisible(false);
@@ -277,9 +276,8 @@ QString ClipboardWidgetEntry::judgeBlankLine(QStringList list)
     for (int i = 0; i < tmp; i++) {
         QString dest = list.at(i);
         dest = dest.trimmed();
-        if (dest.size() != 0) {
+        if (dest.size() != 0)
            return list.at(i);
-        }
     }
     return list.at(0);
 }
@@ -290,10 +288,8 @@ bool ClipboardWidgetEntry::substringSposition(QString formatBody, QStringList li
     int tmp = list.count();
     for (int i = 0; i < tmp; i++) {
         QString dest = list.at(i);
-        if (dest == formatBody && i == tmp - 1) {
-            qDebug() << "后面没有字串，返回true";
+        if (dest == formatBody && i == tmp - 1)
             return true;
-        }
     }
     return false;
 }

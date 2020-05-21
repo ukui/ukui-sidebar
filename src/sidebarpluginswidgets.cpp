@@ -77,6 +77,7 @@ sidebarPluginsWidgets* sidebarPluginsWidgets::getInstancePluinsWidgets()
 void sidebarPluginsWidgets::initPluginsWidgets()
 {
     getInstancePluinsWidgets();
+    return;
 }
 
 /* 上半部分 剪贴板 小插件 俩按钮 groupBox初始化布局 */
@@ -135,6 +136,7 @@ void sidebarPluginsWidgets::initUpGroupBoxButton()
     m_pButtonWidget->setLayout(m_pGrouBoxUpButtonHLayout);
     m_pGrouBoxUpButtonHLayout->setSpacing(0);
 //    m_pButtonWidget->setStyleSheet("QWidget{ border: 1px solid rgba(255,255,0,1);}");
+    return;
 }
 
 /* 显示插件的界面下半部分 */
@@ -149,6 +151,7 @@ void sidebarPluginsWidgets::initUnGroupBox()
     m_pGroupBoxUnSmallPluginsGLayout = new QGridLayout();
     m_pPluginsButtonWidget->setLayout(m_pGroupBoxUnSmallPluginsGLayout);
     m_pGroupBoxUnSmallPluginsGLayout->setSpacing(0);
+    return;
 }
 
 
@@ -163,6 +166,7 @@ void sidebarPluginsWidgets::AddPluginWidgetInterface()
     m_pWidgetOutVLayout->addWidget(m_pstackWidget);
     m_pWidgetOutVLayout->setSpacing(0);
     this->setLayout(m_pWidgetOutVLayout);
+    return;
 }
 
 /* 移动到剪贴板按钮需要修改的界面 */
@@ -171,6 +175,7 @@ void sidebarPluginsWidgets::m_pClipBoardStateSlots()
     m_pBlueBackgroundButton->setVisible(false);
     setClipboardButtonBackgroundIsBlue();
     setSmallPluginsButtonBackgroudIsBlank();
+    return;
 }
 
 /* 移动到小插件界面按钮需要做的界面修改 */
@@ -179,6 +184,7 @@ void sidebarPluginsWidgets::m_pSmallPluginsStateSlots()
     m_pBlueBackgroundButton->setVisible(false);
     setClipboardButtonBackgroundIsBlank();
     setSmallPluginsButtonBackgroudIsBlue();
+    return;
 }
 
 /* 剪贴板按钮槽函数 */
@@ -218,6 +224,7 @@ void sidebarPluginsWidgets::m_pFoldButtonSlots()
     this->setFixedSize(400, 60);
     m_pSpreadButton->setVisible(true);
     m_pFoldButton->setVisible(false);
+    return;
 }
 
 /* 展开按钮槽函数 */
@@ -227,6 +234,7 @@ void sidebarPluginsWidgets::m_pSpreadButtonSlots()
     this->setFixedSize(400, m_cliboardHight);
     m_pSpreadButton->setVisible(false);
     m_pFoldButton->setVisible(true);
+    return;
 }
 
 /* 新建Lable的动画类 */
@@ -242,6 +250,7 @@ void sidebarPluginsWidgets::initLableBackgroundAnimation()
     m_pAnimationRightLeft->setEndValue(QRect(10, 15, 90, 34));
     connect(m_pAnimationLeftRight, &QPropertyAnimation::finished, this, &sidebarPluginsWidgets::m_pSmallPluginsStateSlots);
     connect(m_pAnimationRightLeft, &QPropertyAnimation::finished, this, &sidebarPluginsWidgets::m_pClipBoardStateSlots);
+    return;
 }
 
 /* 初始化剪贴板动画 */
@@ -252,6 +261,7 @@ void sidebarPluginsWidgets::initCliboardAnimation()
    m_pAnimationClipbarod->setStartValue(QRect(400, 0, 400, m_cliboardHight));
    m_pAnimationClipbarod->setEndValue(QRect(0, 0, 400, m_cliboardHight));
    connect(m_pAnimationClipbarod, &QPropertyAnimation::finished, this, &sidebarPluginsWidgets::m_AnimationClipbarodEndSlots);
+   return;
 }
 
 /* 初始化小插件动画 */
@@ -262,6 +272,7 @@ void sidebarPluginsWidgets::initSmallPluginsAnimation()
     m_pAnimationSmallWidget->setStartValue(QRect(400, 0, 400, m_cliboardHight));
     m_pAnimationSmallWidget->setEndValue(QRect(0, 0, 400, m_cliboardHight));
     connect(m_pAnimationSmallWidget, &QPropertyAnimation::finished, this, &sidebarPluginsWidgets::m_AnimationSmallWidgetEndSlots);
+    return;
 }
 
 void sidebarPluginsWidgets::m_AnimationClipbarodEndSlots()
@@ -451,13 +462,11 @@ void sidebarPluginsWidgets::loadSmallPlugins()
 {
     /* Iterative m_pSmallPluginsHash hash table */
     int pluginsNum = SmallPluginsManage::getInstance()->m_PluginsNum;
-    qDebug() << "加载插件的个数" << pluginsNum;
     int Sequence = 1;
     QSpacerItem *item1 = new QSpacerItem(10, 20);
     while (pluginsNum) {
         QHash<PluginInterface*, SidebarSmallPluginInterface*> ::const_iterator iter1 = SmallPluginsManage::getInstance()->m_pSmallPluginsHash.constBegin();
         while (iter1 != SmallPluginsManage::getInstance()->m_pSmallPluginsHash.constEnd()) {
-                qDebug() << "当前插件加载的序号 --> " << iter1.value()->pluginsLoadingSequence();
                 if (iter1.value()->pluginsLoadingSequence() == Sequence) {
                     QToolButton *p_ToolButton = new QToolButton();
                     p_ToolButton->setFixedSize(90,90);
@@ -476,7 +485,6 @@ void sidebarPluginsWidgets::loadSmallPlugins()
                     ToolButtonLaout->addSpacerItem(new QSpacerItem(10, 7));
                     p_ToolButton->setLayout(ToolButtonLaout);
                     p_ToolButton->setStyle(new CustomStyle("ukui-default"));
-                    qDebug() << "插件接口名称" << iter1.value()->PluginButtonName();
                     p_ToolButton->setIconSize(QSize(iter1.value()->PluginIconSize_W(), iter1.value()->PluginIconSize_H()));
                     m_pGroupBoxUnSmallPluginsGLayout->addItem(item1, m_add_x, m_add_y - 1);
                     m_pGroupBoxUnSmallPluginsGLayout->addWidget(p_ToolButton, m_add_x, m_add_y);

@@ -25,8 +25,7 @@ void ClipBoardInternalSignal::initInternalSignal()
 
 ClipBoardInternalSignal* ClipBoardInternalSignal::getGlobalInternalSignal()
 {
-    if (Global_internal_signal == nullptr) {
+    if (Global_internal_signal == nullptr)
         Global_internal_signal = new ClipBoardInternalSignal();
-    }
     return Global_internal_signal;
 }

@@ -33,10 +33,9 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
     Q_UNUSED(parent);
     translator = new QTranslator;
     QLocale locale;
-    //获取系统语言环境
+    //获取系统语言环境 选择翻译文件
     if ( locale.language() == QLocale::Chinese ) {
-        qDebug() << "中文环境" ;
-        translator->load(QString(":/translations/test_zh_CN.qm"));  //选择翻译文件
+        translator->load(QString(":/translations/test_zh_CN.qm"));
         QApplication::installTranslator(translator);
     }
     installEventFilter(this);
@@ -150,11 +149,9 @@ QMimeData * SidebarClipboardPlugin::copyMinedata(const QMimeData* mimeReference)
 /* 获取剪贴板的中widgetItem这一条目 */
 QListWidget* SidebarClipboardPlugin::getClipbaordListWidget()
 {
-    if (m_pShortcutOperationListWidget == nullptr) {
-        return nullptr;
-    } else {
+    if (m_pShortcutOperationListWidget != nullptr)
         return m_pShortcutOperationListWidget;
-    }
+    return nullptr;
 }
 
 /* 创建与侧边栏主app通信类 */
@@ -176,11 +173,9 @@ SidebarClipBoardSignal* SidebarClipboardPlugin :: createClipSignal()
 /* 侧边栏接口，将整个剪贴板界面set进入侧边栏 */
 QWidget* SidebarClipboardPlugin::getClipbaordGroupBox()
 {
-    if (m_pSidebarClipboardWidget == nullptr) {
-        return nullptr;
-    } else {
+    if (m_pSidebarClipboardWidget != nullptr)
         return m_pSidebarClipboardWidget;
-    }
+    return nullptr;
 }
 
 /* 创建查找条目 */
@@ -227,7 +222,6 @@ void SidebarClipboardPlugin::createWidgetEntry()
         s_pDataHashValue->p_pixmap = nullptr;
         fileUrls = mimeData->urls();
         format = URL;
-        qDebug() << "文件Url" << fileUrls;
         for (int i = 0; i < fileUrls.size(); ++i) {
             if (i == 0) {
                 text += fileUrls.value(i).toString();
@@ -484,17 +478,13 @@ QIcon SidebarClipboardPlugin::fileSuffixGetsIcon(QString Url)
     int tmp = m_fileSuffix.size();
     QStringList UrlList = Url.split(".");
     if (UrlList.size() < 2) {
-        qDebug() << "此文件没有后缀";
         QString  filePath = Url.mid(7);
         QFileInfo fileinfo(filePath);
         if (fileinfo.isFile()) {
-            qDebug() << "文件类型为普通文本";
             return QIcon::fromTheme("unknown");//返回其余文本图标
         } else if (fileinfo.isDir()) {
-            qDebug() << "文件类型为文件";
             return QIcon::fromTheme("folder");//返回文件夹的图标
         }
-        qDebug() << "FilePath ----> " << filePath;
         return QIcon::fromTheme("unknown");;
     }
     int cnt;
@@ -512,38 +502,26 @@ QIcon SidebarClipboardPlugin::fileSuffixeMatchIcon(int cnt)
 {
     switch (cnt) {
     case Txt:
-        qDebug() << "Txt图标";
         return QIcon::fromTheme("text-x-generic");
     case Svg:
-        qDebug() << "Svg图标";
         return QIcon::fromTheme("image-svg+xml");
     case Png:
-        qDebug() << "Png图标";
         return QIcon::fromTheme("image-x-generic");
     case Bmp:
-        qDebug() << "Bmp图标";
         return QIcon::fromTheme("image-x-generic");
     case Xml:
-        qDebug() << "Xml图标";
         return QIcon::fromTheme("text-xml");
     case Docx:
-        qDebug() << "Docx图标";
         return QIcon::fromTheme("document");
     case Pptx:
-        qDebug() << "pptx图标";
         return QIcon::fromTheme("application-mspowerpoint");
     case Xlsx:
-        qDebug() << "Xlsx图标";
         return QIcon::fromTheme("application-msexcel");
     case Zip:
-        qDebug() << "Zip图标";
         return QIcon::fromTheme("application-zip");
     case Pdf:
-        qDebug() << "Pdf图标";
         return QIcon::fromTheme("application-pdf");
     default:
-        //读取一个默认的图标
-        qDebug() << "读取一个默认的图标";
         return QIcon::fromTheme("unknown");
     }
 }
@@ -662,9 +640,8 @@ int SidebarClipboardPlugin::ItertionOriginalDataList(OriginalDataHashValue *valu
     //stl类型的迭代器
     int length = m_ListClipboardData.count();
     for (int i = 0; i < length; i++) {
-        if (m_ListClipboardData.at(i) == value) {
+        if (m_ListClipboardData.at(i) == value)
             return i;
-        }
     }
     return -1;
 }
@@ -704,9 +681,8 @@ QListWidgetItem* SidebarClipboardPlugin::iterationClipboardDataHash(ClipboardWid
 {
     QHash<QListWidgetItem*, OriginalDataHashValue*>::const_iterator iter2 = m_pClipboardDataHash.constBegin();
     while (iter2 != m_pClipboardDataHash.constEnd()) {
-        if (iter2.value()->WidgetEntry == w) {
+        if (iter2.value()->WidgetEntry == w)
             return iter2.key();
-        }
         ++iter2;
     }
     qDebug() << "没有找到Widget所对应的Item";
@@ -719,9 +695,8 @@ int SidebarClipboardPlugin::iterationDataHashSearchSequence(int Index)
     QHash<QListWidgetItem*, OriginalDataHashValue*>::const_iterator iter2 = m_pClipboardDataHash.constBegin();
     int max = iter2.value()->Sequence;
     while (iter2 != m_pClipboardDataHash.constEnd()) {
-        if (iter2.value()->Sequence > max) {
+        if (iter2.value()->Sequence > max)
             max = iter2.value()->Sequence;
-        }
         ++iter2;
     }
     return max + 1;
@@ -902,6 +877,7 @@ void SidebarClipboardPlugin::editButtonSlots(ClipboardWidgetEntry *w)
     } else if (nRet == QDialog::Rejected) {
         qDebug() << "编辑框取消操作";
     }
+    return;
 }
 
 /* 固定条目槽函数 */
@@ -1043,11 +1019,9 @@ bool SidebarClipboardPlugin::booleanExistWidgetImagin(QPixmap Pixmap)
                 }
                 if (j == Clipboard_hight) {
                     //说明图片已经对比完成，且图片存在
-                    if (i == 0) {
+                    if (i == 0)
                         return true; //当前数据就是第一条数据， 不需要做其余处理，直接清理内存，退出；
-                    }
                     /* 说明已存在此图片但是需要将该放置在第一个位置上去，同时写入剪贴板当中 */
-                    qDebug() << "说明已存在此图片但是需要将该放置在第一个位置上去，同时写入剪贴板当中";
                     removeButtonSlots(GetOriginalDataValue(m_pShortcutOperationListWidget->item(i))->WidgetEntry);
                     return false;
                 }
@@ -1100,9 +1074,8 @@ void SidebarClipboardPlugin::removeAllWidgetItem()
 void SidebarClipboardPlugin::searchClipboardLableTextSlots(QString Text)
 {
     /* 在清除条目前，先记住每一个当前的位置 */
-    if (m_bsortEntryBool) {
+    if (m_bsortEntryBool)
         sortingEntrySequence();
-    }
 
     /* 清空之前listWidget中的條目 */
     int tmp = m_pShortcutOperationListWidget->count();
@@ -1147,6 +1120,7 @@ void SidebarClipboardPlugin::ItemNumchagedSlots()
         m_pSideBarClipboardLable->setVisible(true);
         m_pShortcutOperationListWidget->setVisible(false);
     }
+    return;
 }
 
 /* 加载数据Text线程槽函数 */

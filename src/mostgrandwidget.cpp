@@ -42,9 +42,8 @@ void mostGrandWidget::mostGrandWidgetInit()
 
 mostGrandWidget* mostGrandWidget::getInstancemostGrandWidget()
 {
-    if (global_Most_Grand_Widgets_instance == nullptr) {
+    if (global_Most_Grand_Widgets_instance == nullptr)
         global_Most_Grand_Widgets_instance = new mostGrandWidget();
-    }
     return global_Most_Grand_Widgets_instance;
 }
 
