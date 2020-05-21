@@ -38,9 +38,9 @@ set_alarm_repeat_Dialog::set_alarm_repeat_Dialog(QWidget *parent , int rowNum ) 
 
 set_alarm_repeat_Dialog::~set_alarm_repeat_Dialog()
 {
-    for(int i =0 ; i <rowNum_all; i++){
-    delete widget[i];
-    delete aItem[i];
+    for (int i =0 ; i <rowNum_all; i++) {
+        delete widget[i];
+        delete aItem[i];
     }
     delete listWidget;
     qDebug()<<"-------set_alarm_repeat_Dialog---------";

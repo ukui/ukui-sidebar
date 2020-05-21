@@ -57,13 +57,9 @@ void VerticalScroll_24::setRange(int min, int max)
     m_minRange = min;
     m_maxRange = max;
     if (m_currentValue < min)
-    {
         m_currentValue = min;
-    }
     if (m_currentValue > max)
-    {
         m_currentValue = max;
-    }
     repaint();
 }
 //获取当前值
@@ -84,28 +80,20 @@ void VerticalScroll_24::mousePressEvent(QMouseEvent *e)
 
 void VerticalScroll_24::mouseMoveEvent(QMouseEvent *e)
 {
-    if (isDragging)
-    {
-        if( m_currentValue == m_minRange && e->pos().y() >= m_mouseSrcPos )
-        {
+    if (isDragging) {
+        if ( m_currentValue == m_minRange && e->pos().y() >= m_mouseSrcPos ) {
             m_currentValue = m_maxRange;
-        }
-        else if( m_currentValue == m_maxRange && e->pos().y() <= m_mouseSrcPos )
-        {
+        } else if( m_currentValue == m_maxRange && e->pos().y() <= m_mouseSrcPos ) {
             m_currentValue = m_minRange;
         }
 
         m_deviation = e->pos().y() - m_mouseSrcPos;
         //若移动速度过快，则进行限制
-        if (m_deviation > (height() - 1) / devide)
-        {
+        if (m_deviation > (height() - 1) / devide) {
             m_deviation = (height() - 1) / devide;
-        }
-        else if (m_deviation < -(height() - 1) / devide)
-        {
+        }  else if (m_deviation < -(height() - 1) / devide) {
             m_deviation = -( height() - 1) / devide;
         }
-
         emit deviationChange((int)m_deviation / ((height() - 1) / devide));
         repaint();
     }
@@ -113,8 +101,7 @@ void VerticalScroll_24::mouseMoveEvent(QMouseEvent *e)
 
 void VerticalScroll_24::mouseReleaseEvent(QMouseEvent *)
 {
-    if (isDragging)
-    {
+    if (isDragging) {
         isDragging = false;
         homing();
     }
@@ -122,20 +109,14 @@ void VerticalScroll_24::mouseReleaseEvent(QMouseEvent *)
 
 void VerticalScroll_24::wheelEvent(QWheelEvent *event)
 {
-    if(event->delta() > 0){
-
-         if(m_currentValue <= m_minRange)
-         {
+    if (event->delta() > 0){
+         if (m_currentValue <= m_minRange)
              m_currentValue = m_maxRange;
-         }
          else
-            m_currentValue-=1;
-    }else{
-
-        if(m_currentValue >= m_maxRange)
-        {
+             m_currentValue-=1;
+    } else {
+        if (m_currentValue >= m_maxRange)
             m_currentValue = m_minRange;
-        }
         else
             m_currentValue+=1;
     }
@@ -155,29 +136,26 @@ void VerticalScroll_24::paintEvent(QPaintEvent *)
     painter.setRenderHint(QPainter::Antialiasing, true);
     int Height = height() - 1;
 
-    if ( m_deviation >= Height / devide && m_currentValue > m_minRange )
-    {
+    if ( m_deviation >= Height / devide && m_currentValue > m_minRange ) {
         m_mouseSrcPos += Height / devide;
         m_deviation -= Height / devide;
         m_currentValue -= interval;
     }
 
-    if ( m_deviation <= -Height / devide && m_currentValue < m_maxRange )
-    {
+    if ( m_deviation <= -Height / devide && m_currentValue < m_maxRange ) {
         m_mouseSrcPos -= Height / devide;
         m_deviation += Height / devide;
         m_currentValue += interval;
     }
 
-    if( m_Pclock->model_setup->index(0, 2).data().toInt() == 1 )
-    {
+    if ( m_Pclock->model_setup->index(0, 2).data().toInt() == 1 ) {
         paintNum_24( painter, Height);
-    }else if( m_Pclock->model_setup->index(0, 2).data().toInt() == 2 ){
+    } else if ( m_Pclock->model_setup->index(0, 2).data().toInt() == 2 ) {
         paintNum_12( painter, Height);
-    }else{
-        if(str_output.compare("'24'\n") == 0){
+    } else {
+        if (str_output.compare("'24'\n") == 0) {
             paintNum_24( painter, Height);
-        }else{
+        } else {
             paintNum_12( painter, Height);
         }
     }
@@ -208,8 +186,7 @@ void VerticalScroll_24::paintNum(QPainter &painter, int num, int deviation)
     linearGradient.setColorAt(1.0, Qt::black);
     painter.setBrush(QBrush(linearGradient));
 
-    if ( y >= 0 && y + height < Height)
-    {
+    if ( y >= 0 && y + height < Height) {
         painter.drawText(QRectF(0, y, Width, height),
                          Qt::AlignCenter,
                          change_NUM_to_str(num));
@@ -220,10 +197,10 @@ void VerticalScroll_24::paintNum(QPainter &painter, int num, int deviation)
 QString VerticalScroll_24::change_NUM_to_str(int alarmHour)
 {
     QString str;
-    if(alarmHour < 10){
+    if (alarmHour < 10) {
         QString hours_str = QString::number(alarmHour);
         str = "0"+hours_str;
-    }else {
+    } else {
         str = QString::number(alarmHour);
     }
     return str;
@@ -235,17 +212,15 @@ void VerticalScroll_24::paintNum_24(QPainter &painter, int Height)
     paintNum(painter, m_currentValue, m_deviation);
 
     //两侧数字1
-    if (m_currentValue != m_minRange)
-    {
+    if (m_currentValue != m_minRange) {
         paintNum(painter, m_currentValue - interval, m_deviation - Height / devide);
-    }else {
+    } else {
         paintNum(painter, m_maxRange, m_deviation - Height / devide);
     }
 
-    if (m_currentValue != m_maxRange)
-    {
+    if (m_currentValue != m_maxRange) {
         paintNum(painter, m_currentValue + interval, m_deviation + Height / devide);
-    }else {
+    } else {
         paintNum(painter, m_minRange, m_deviation + Height / devide);
     }
     m_Pclock->ui->label_17->hide();
@@ -254,50 +229,45 @@ void VerticalScroll_24::paintNum_24(QPainter &painter, int Height)
 void VerticalScroll_24::paintNum_12(QPainter &painter, int Height)
 {
     int system_12_Value = m_currentValue;
-    if(m_currentValue > 12){
+    if (m_currentValue > 12) {
         system_12_Value = m_currentValue - 12;
         paintNum(painter, system_12_Value, m_deviation);
-    }else
-    {
-        if(m_currentValue == 0){
+    } else {
+        if (m_currentValue == 0) {
             system_12_Value = 12;
             paintNum(painter, system_12_Value, m_deviation);
-        }else{
+        } else {
             system_12_Value = m_currentValue;
             paintNum(painter, system_12_Value, m_deviation);
         }
     }
 
-    if (system_12_Value != m_minRange)
-    {
-        if(system_12_Value == 1){
+    if (system_12_Value != m_minRange) {
+        if (system_12_Value == 1) {
             paintNum(painter, 12, m_deviation - Height / devide);
-        }else{
+        } else {
             paintNum(painter, system_12_Value - interval, m_deviation - Height / devide);
         }
-    }
-    else{
+    } else {
         paintNum(painter, m_maxRange, m_deviation - Height / devide);
     }
 
 
-    if (system_12_Value != m_maxRange)
-    {
-        if(system_12_Value == 12){
+    if (system_12_Value != m_maxRange) {
+        if (system_12_Value == 12) {
             paintNum(painter, 1, m_deviation + Height / devide);
-        }else{
+        } else {
             paintNum(painter, system_12_Value + interval, m_deviation + Height / devide);
         }
-    }else {
+    } else {
         paintNum(painter, m_minRange, m_deviation + Height / devide);
     }
     m_Pclock->ui->label_17->show();
-    if(m_currentValue>=12){
+    if (m_currentValue>=12) {
         m_Pclock->ui->label_17->setText(tr("下午"));
-    }else{
+    } else {
         m_Pclock->ui->label_17->setText(tr("上午"));
     }
-
 }
 
 
@@ -306,24 +276,18 @@ void VerticalScroll_24::paintNum_12(QPainter &painter, int Height)
 */
 void VerticalScroll_24::homing()
 {
-    if ( m_deviation > height() / 10)
-    {
+    if ( m_deviation > height() / 10) {
         homingAni->setStartValue( ( height() - 1 ) / 8 - m_deviation);
         homingAni->setEndValue(0);
         m_currentValue -= interval;
-    }
-    else if ( m_deviation > -height() / 10 )
-    {
+    } else if ( m_deviation > -height() / 10 ) {
         homingAni->setStartValue(m_deviation);
         homingAni->setEndValue(0);
-    }
-    else if ( m_deviation < -height() / 10 )
-    {
+    } else if ( m_deviation < -height() / 10 ) {
         homingAni->setStartValue(-(height() - 1) / 8 - m_deviation);
         homingAni->setEndValue(0);
         m_currentValue += interval;
     }
-
     emit currentValueChanged(m_currentValue);
     homingAni->start();
 }

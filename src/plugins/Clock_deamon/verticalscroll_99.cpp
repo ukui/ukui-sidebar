@@ -61,13 +61,9 @@ void VerticalScroll_99::setRange(int min, int max)
     m_minRange = min;
     m_maxRange = max;
     if (m_currentValue < min)
-    {
         m_currentValue = min;
-    }
     if (m_currentValue > max)
-    {
         m_currentValue = max;
-    }
     repaint();
 }
 //获取当前值
@@ -85,7 +81,6 @@ void VerticalScroll_99::listClickslot()
 void VerticalScroll_99::mousePressEvent(QMouseEvent *e)
 {
     qDebug()<<"mouse pressed on vertical scroll";
-
     homingAni->stop();
     isDragging = true;
     m_mouseSrcPos = e->pos().y();
@@ -94,28 +89,20 @@ void VerticalScroll_99::mousePressEvent(QMouseEvent *e)
 
 void VerticalScroll_99::mouseMoveEvent(QMouseEvent *e)
 {
-    if (isDragging)
-    {
-        if( m_currentValue == m_minRange && e->pos().y() >= m_mouseSrcPos )
-        {
+    if (isDragging) {
+        if ( m_currentValue == m_minRange && e->pos().y() >= m_mouseSrcPos ) {
             m_currentValue = m_maxRange;
-        }
-        else if( m_currentValue == m_maxRange && e->pos().y() <= m_mouseSrcPos )
-        {
+        } else if( m_currentValue == m_maxRange && e->pos().y() <= m_mouseSrcPos ) {
             m_currentValue = m_minRange;
         }
 
         m_deviation = e->pos().y() - m_mouseSrcPos;
         //若移动速度过快，则进行限制
-        if (m_deviation > (height() - 1) / devide)
-        {
+        if (m_deviation > (height() - 1) / devide) {
             m_deviation = (height() - 1) / devide;
-        }
-        else if (m_deviation < -(height() - 1) / devide)
-        {
+        } else if (m_deviation < -(height() - 1) / devide) {
             m_deviation = -( height() - 1) / devide;
         }
-
         emit deviationChange((int)m_deviation / ((height() - 1) / devide));
         repaint();
     }
@@ -123,8 +110,7 @@ void VerticalScroll_99::mouseMoveEvent(QMouseEvent *e)
 
 void VerticalScroll_99::mouseReleaseEvent(QMouseEvent *)
 {
-    if (isDragging)
-    {
+    if (isDragging) {
         isDragging = false;
         homing();
     }
@@ -132,22 +118,16 @@ void VerticalScroll_99::mouseReleaseEvent(QMouseEvent *)
 
 void VerticalScroll_99::wheelEvent(QWheelEvent *event)
 {
-    if(event->delta() > 0){
-
-         if(m_currentValue <= m_minRange)
-         {
-             m_currentValue = m_maxRange;
-         }
-         else
-            m_currentValue-=1;
-    }else{
-
-        if(m_currentValue >= m_maxRange)
-        {
-            m_currentValue = m_minRange;
-        }
+    if (event->delta() > 0) {
+        if(m_currentValue <= m_minRange)
+           m_currentValue = m_maxRange;
         else
-            m_currentValue+=1;
+           m_currentValue-=1;
+    } else {
+        if(m_currentValue >= m_maxRange)
+           m_currentValue = m_minRange;
+        else
+           m_currentValue+=1;
     }
     update();
     event->accept();
@@ -159,15 +139,13 @@ void VerticalScroll_99::paintEvent(QPaintEvent *)
     painter.setRenderHint(QPainter::Antialiasing, true);
     int Height = height() - 1;
 
-    if ( m_deviation >= Height / devide && m_currentValue > m_minRange )
-    {
+    if ( m_deviation >= Height / devide && m_currentValue > m_minRange ) {
         m_mouseSrcPos += Height / devide;
         m_deviation -= Height / devide;
         m_currentValue -= interval;
     }
 
-    if ( m_deviation <= -Height / devide && m_currentValue < m_maxRange )
-    {
+    if ( m_deviation <= -Height / devide && m_currentValue < m_maxRange ) {
         m_mouseSrcPos -= Height / devide;
         m_deviation += Height / devide;
         m_currentValue += interval;
@@ -178,30 +156,21 @@ void VerticalScroll_99::paintEvent(QPaintEvent *)
 
     //两侧数字1
     if (m_currentValue != m_minRange)
-    {
         paintNum(painter, m_currentValue - interval, m_deviation - Height / devide);
-    }else {
+    else
         paintNum(painter, m_maxRange, m_deviation - Height / devide);
-}
 
     if (m_currentValue != m_maxRange)
-    {
         paintNum(painter, m_currentValue + interval, m_deviation + Height / devide);
-    }else {
+    else
         paintNum(painter, m_minRange, m_deviation + Height / devide);
-}
 
-    for (int i=2; i <= devide/2; ++i)
-    {
+
+    for (int i=2; i <= devide/2; ++i) {
         if (m_currentValue - interval * i >= m_minRange)
-        {
             paintNum(painter, m_currentValue - interval * i, m_deviation - Height / devide * i);
-        }
-
         if (m_currentValue + interval * i <= m_maxRange)
-        {
             paintNum(painter, m_currentValue + interval * i, m_deviation + Height / devide * i);
-        }
     }
 
 }
@@ -223,8 +192,7 @@ void VerticalScroll_99::paintNum(QPainter &painter, int num, int deviation)
     font.setPixelSize(size);
     painter.setFont(font);
     painter.setPen(QColor(255,255,255,transparency));
-    if ( y >= 0 && y + height < Height)
-    {
+    if ( y >= 0 && y + height < Height) {
         painter.drawText(QRectF(0, y, Width, height),
                          Qt::AlignCenter,
                          change_NUM_to_str(num));
@@ -235,10 +203,10 @@ void VerticalScroll_99::paintNum(QPainter &painter, int num, int deviation)
 QString VerticalScroll_99::change_NUM_to_str(int alarmHour)
 {
     QString str;
-    if(alarmHour < 10){
+    if (alarmHour < 10) {
         QString hours_str = QString::number(alarmHour);
         str = "0"+hours_str;
-    }else {
+    } else {
         str = QString::number(alarmHour);
     }
     return str;
@@ -249,24 +217,18 @@ QString VerticalScroll_99::change_NUM_to_str(int alarmHour)
 */
 void VerticalScroll_99::homing()
 {
-    if ( m_deviation > height() / 10)
-    {
+    if ( m_deviation > height() / 10) {
         homingAni->setStartValue( ( height() - 1 ) / 8 - m_deviation);
         homingAni->setEndValue(0);
         m_currentValue -= interval;
-    }
-    else if ( m_deviation > -height() / 10 )
-    {
+    } else if ( m_deviation > -height() / 10 ) {
         homingAni->setStartValue(m_deviation);
         homingAni->setEndValue(0);
-    }
-    else if ( m_deviation < -height() / 10 )
-    {
+    } else if ( m_deviation < -height() / 10 ) {
         homingAni->setStartValue(-(height() - 1) / 8 - m_deviation);
         homingAni->setEndValue(0);
         m_currentValue += interval;
     }
-
     emit currentValueChanged(m_currentValue);
     homingAni->start();
 }

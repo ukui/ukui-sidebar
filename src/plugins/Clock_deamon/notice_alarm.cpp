@@ -95,21 +95,21 @@ void Natice_alarm::natice_init()
     {
         if(model->index(num_flag, 2).data().toString().compare(tr("玻璃"))==0){
             playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/glass.ogg"));
-        }else if (model->index(num_flag, 2).data().toString().compare(tr("犬吠"))==0) {
+        } else if (model->index(num_flag, 2).data().toString().compare(tr("犬吠"))==0) {
             playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/bark.ogg"));
-        }else if (model->index(num_flag, 2).data().toString().compare(tr("声呐"))==0) {
+        } else if (model->index(num_flag, 2).data().toString().compare(tr("声呐"))==0) {
             playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/sonar.ogg"));
-        }else if (model->index(num_flag, 2).data().toString().compare(tr("雨滴"))==0){
+        } else if (model->index(num_flag, 2).data().toString().compare(tr("雨滴"))==0) {
             playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/drip.ogg"));
         }
-    }else{
-        if(model_setup->index(0, 19).data().toString().compare(tr("玻璃"))==0){
+    } else {
+        if (model_setup->index(0, 19).data().toString().compare(tr("玻璃"))==0) {
             playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/glass.ogg"));
-        }else if(model_setup->index(0, 19).data().toString().compare(tr("犬吠"))==0){
+        } else if(model_setup->index(0, 19).data().toString().compare(tr("犬吠"))==0) {
             playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/bark.ogg"));
-        }else if(model_setup->index(0, 19).data().toString().compare(tr("声呐"))==0){
+        } else if(model_setup->index(0, 19).data().toString().compare(tr("声呐"))==0) {
             playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/sonar.ogg"));
-        }else{
+        } else {
             playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/drip.ogg"));
         }
     }
@@ -131,8 +131,7 @@ void Natice_alarm::set_dialog_close()
 
 void Natice_alarm::close_music()
 {
-    if(timer_value == 0)
-    {
+    if (timer_value == 0) {
         set_dialog_close();
     }
         ui->label_4->setText(QString::number(timer_value)+tr("秒后自动关闭"));
@@ -141,8 +140,7 @@ void Natice_alarm::close_music()
 
 void Natice_alarm::paintEvent(QPaintEvent *)
 {
-    if(!full_flag)
-    {
+    if (!full_flag) {
         return;
     }
     QStyleOption opt;
@@ -162,15 +160,15 @@ void Natice_alarm::show_again()
 {
     this->hide();
     int remind = model_setup->index(0, 4).data().toInt();
-    if(remind == 0){
+    if (remind == 0) {
         ring_num = 120;
-    }else if(remind == 1){
+    } else if(remind == 1) {
         ring_num = 300;
-    }else if(remind == 2){
+    } else if(remind == 2) {
         ring_num = 600;
-    }else if(remind == 3){
+    } else if(remind == 3) {
         ring_num = 1800;
-    }else if(remind == 4){
+    } else if(remind == 4) {
         ring_num = 3600;
     }
     timer_value =  timer_value2;
@@ -182,7 +180,7 @@ void Natice_alarm::show_again()
 void Natice_alarm::ring()
 {
     ring_num--;
-    if(ring_num == 0){
+    if (ring_num == 0) {
         natice_init();
         this->show();
         timer->start();

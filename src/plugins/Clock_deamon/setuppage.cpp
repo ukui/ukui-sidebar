@@ -149,77 +149,70 @@ void setuppage::werk_day_listClickslot()
     switch (num)
     {
     case 0:
-        if(model_setup->index(0, 7).data().toInt() )
-        {
+        if (model_setup->index(0, 7).data().toInt() ) {
             model_setup->setData(model_setup->index(0, 7), 0);
             dialog_werk_day->widget[0]->alarmLabel1->setIcon(repeat_off_Pixmap);
-        }else {
+        } else {
             model_setup->setData(model_setup->index(0, 7), 1);
             dialog_werk_day->widget[0]->alarmLabel1->setIcon(repeat_on_Pixmap);
         }
         break;
 
     case 1:
-        if(model_setup->index(0, 8).data().toInt() )
-        {
+        if (model_setup->index(0, 8).data().toInt() ) {
             model_setup->setData(model_setup->index(0, 8), 0);
             dialog_werk_day->widget[1]->alarmLabel1->setIcon(repeat_off_Pixmap);
-        }else {
+        } else {
             model_setup->setData(model_setup->index(0, 8), 1);
             dialog_werk_day->widget[1]->alarmLabel1->setIcon(repeat_on_Pixmap);
         }
         break;
 
     case 2:
-        if(model_setup->index(0, 9).data().toInt() )
-        {
+        if (model_setup->index(0, 9).data().toInt() ) {
             model_setup->setData(model_setup->index(0, 9), 0);
             dialog_werk_day->widget[2]->alarmLabel1->setIcon(repeat_off_Pixmap);
-        }else {
+        } else {
             model_setup->setData(model_setup->index(0, 9), 1);
             dialog_werk_day->widget[2]->alarmLabel1->setIcon(repeat_on_Pixmap);
         }
         break;
 
     case 3:
-        if(model_setup->index(0, 10).data().toInt() )
-        {
+        if (model_setup->index(0, 10).data().toInt() ) {
             model_setup->setData(model_setup->index(0, 10), 0);
             dialog_werk_day->widget[3]->alarmLabel1->setIcon(repeat_off_Pixmap);
-        }else {
+        } else {
             model_setup->setData(model_setup->index(0, 10), 1);
             dialog_werk_day->widget[3]->alarmLabel1->setIcon(repeat_on_Pixmap);
         }
         break;
 
     case 4:
-        if(model_setup->index(0, 11).data().toInt() )
-        {
+        if (model_setup->index(0, 11).data().toInt()) {
             model_setup->setData(model_setup->index(0, 11), 0);
             dialog_werk_day->widget[4]->alarmLabel1->setIcon(repeat_off_Pixmap);
-        }else {
+        } else {
             model_setup->setData(model_setup->index(0, 11), 1);
             dialog_werk_day->widget[4]->alarmLabel1->setIcon(repeat_on_Pixmap);
         }
         break;
 
     case 5:
-        if(model_setup->index(0, 12).data().toInt() )
-        {
+        if (model_setup->index(0, 12).data().toInt() ) {
             model_setup->setData(model_setup->index(0, 12), 0);
             dialog_werk_day->widget[5]->alarmLabel1->setIcon(repeat_off_Pixmap);
-        }else {
+        } else {
             model_setup->setData(model_setup->index(0, 12), 1);
             dialog_werk_day->widget[5]->alarmLabel1->setIcon(repeat_on_Pixmap);
         }
         break;
 
     case 6:
-        if(model_setup->index(0, 13).data().toInt() )
-        {
+        if (model_setup->index(0, 13).data().toInt()) {
             model_setup->setData(model_setup->index(0, 13), 0);
             dialog_werk_day->widget[6]->alarmLabel1->setIcon(repeat_off_Pixmap);
-        }else {
+        } else {
             model_setup->setData(model_setup->index(0, 13), 1);
             dialog_werk_day->widget[6]->alarmLabel1->setIcon(repeat_on_Pixmap);
         }
@@ -230,15 +223,14 @@ void setuppage::werk_day_listClickslot()
     }
 
     for (int i=0; i<7; i++) {
-        if(model_setup->index(0, i+7).data().toInt())
-        {
+        if (model_setup->index(0, i+7).data().toInt()) {
             repeat_str=repeat_str+day[i];
         }
     }
-    if(model_setup->index(0, 7).data().toInt()&&model_setup->index(0, 8).data().toInt()\
+    if (model_setup->index(0, 7).data().toInt()&&model_setup->index(0, 8).data().toInt()\
             &&model_setup->index(0, 9).data().toInt()&&model_setup->index(0, 10).data().toInt() \
             &&model_setup->index(0, 11).data().toInt()&&model_setup->index(0, 12).data().toInt() \
-            &&model_setup->index(0, 13).data().toInt()){
+            &&model_setup->index(0, 13).data().toInt()) {
         repeat_str = tr("每天");
     }
     ui->pushButton_6->setText(repeat_str);
@@ -277,21 +269,20 @@ void setuppage::Time_format_listClickslot()
 
     int num=Time_format->listWidget->currentRow();
 
-    switch (num)
-    {
+    switch (num) {
     case 0:
-            model_setup->setData(model_setup->index(0, 2), 0);
-            model_setup->setData(model_setup->index(0, 15), tr("跟随系统"));
+        model_setup->setData(model_setup->index(0, 2), 0);
+        model_setup->setData(model_setup->index(0, 15), tr("跟随系统"));
         break;
 
     case 1:
-            model_setup->setData(model_setup->index(0, 2), 1);
-            model_setup->setData(model_setup->index(0, 15), tr("24小时制(23:59:59)"));
+        model_setup->setData(model_setup->index(0, 2), 1);
+        model_setup->setData(model_setup->index(0, 15), tr("24小时制(23:59:59)"));
         break;
 
     case 2:
-            model_setup->setData(model_setup->index(0, 2), 2);
-            model_setup->setData(model_setup->index(0, 15), tr("12小时制(上午11:59:59)"));
+        model_setup->setData(model_setup->index(0, 2), 2);
+        model_setup->setData(model_setup->index(0, 15), tr("12小时制(上午11:59:59)"));
         break;
     default:
         break;
@@ -305,30 +296,23 @@ void setuppage::Time_format_listClickslot()
 
 void setuppage::Pop_up_window_set()
 {
-
-
-        Pop_up_window->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
-        Pop_up_window->setAttribute(Qt::WA_TranslucentBackground);;
-        QPointF position = parentWidget()->pos();
-        Pop_up_window->move(position.x()+83,position.y()+262);
-        Pop_up_window->resize(280,75);
-        Pop_up_window->listWidget->setFixedSize(280,75);
-        Pop_up_window->widget[0]->alarmLabel0->setText(tr("通知栏弹窗"));
-        Pop_up_window->widget[1]->alarmLabel0->setText(tr("全屏弹窗"));
-        Pop_up_window->show();
-
-
-
+    Pop_up_window->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
+    Pop_up_window->setAttribute(Qt::WA_TranslucentBackground);;
+    QPointF position = parentWidget()->pos();
+    Pop_up_window->move(position.x()+83,position.y()+262);
+    Pop_up_window->resize(280,75);
+    Pop_up_window->listWidget->setFixedSize(280,75);
+    Pop_up_window->widget[0]->alarmLabel0->setText(tr("通知栏弹窗"));
+    Pop_up_window->widget[1]->alarmLabel0->setText(tr("全屏弹窗"));
+    Pop_up_window->show();
 }
 
 //弹窗方式选择单击回调
 void setuppage::Pop_up_window_listClickslot()
 {
     model_setup->select();
-
     int num=Pop_up_window->listWidget->currentRow();
-    switch (num)
-    {
+    switch (num) {
     case 0:
             model_setup->setData(model_setup->index(0, 3), 0);
         break;
@@ -339,10 +323,9 @@ void setuppage::Pop_up_window_listClickslot()
     default:
         break;
     }
-    if(!model_setup->index(0, 3).data().toInt())
-    {
+    if (!model_setup->index(0, 3).data().toInt()) {
         model_setup->setData(model_setup->index(0, 16), tr("通知栏弹窗"));
-    }else{
+    } else {
         model_setup->setData(model_setup->index(0, 16), tr("全屏弹窗"));
     }
     ui->pushButton_8->setText(model_setup->index(0, 16).data().toString());
@@ -353,63 +336,51 @@ void setuppage::Pop_up_window_listClickslot()
 
 void setuppage::Reminder_off_set()
 {
-
-
-        Reminder_off->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
-        Reminder_off->setAttribute(Qt::WA_TranslucentBackground);
-        QPointF position = parentWidget()->pos();
-        Reminder_off->move(position.x()+83,position.y()+312);
-        Reminder_off->resize(280,170);
-        Reminder_off->listWidget->setFixedSize(280,170);
-        Reminder_off->widget[0]->alarmLabel0->setFixedSize(200,17);
-        Reminder_off->widget[1]->alarmLabel0->setFixedSize(200,17);
-        Reminder_off->widget[2]->alarmLabel0->setFixedSize(200,17);
-        Reminder_off->widget[3]->alarmLabel0->setFixedSize(200,17);
-        Reminder_off->widget[4]->alarmLabel0->setFixedSize(200,17);
-        Reminder_off->widget[0]->alarmLabel0->setText(tr("2分钟后提醒"));
-        Reminder_off->widget[1]->alarmLabel0->setText(tr("5分钟后提醒"));
-        Reminder_off->widget[2]->alarmLabel0->setText(tr("10分钟后提醒"));
-        Reminder_off->widget[3]->alarmLabel0->setText(tr("30分钟后提醒"));
-        Reminder_off->widget[4]->alarmLabel0->setText(tr("60分钟后提醒"));
-        Reminder_off->show();
-
-
+    Reminder_off->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
+    Reminder_off->setAttribute(Qt::WA_TranslucentBackground);
+    QPointF position = parentWidget()->pos();
+    Reminder_off->move(position.x()+83,position.y()+312);
+    Reminder_off->resize(280,170);
+    Reminder_off->listWidget->setFixedSize(280,170);
+    Reminder_off->widget[0]->alarmLabel0->setFixedSize(200,17);
+    Reminder_off->widget[1]->alarmLabel0->setFixedSize(200,17);
+    Reminder_off->widget[2]->alarmLabel0->setFixedSize(200,17);
+    Reminder_off->widget[3]->alarmLabel0->setFixedSize(200,17);
+    Reminder_off->widget[4]->alarmLabel0->setFixedSize(200,17);
+    Reminder_off->widget[0]->alarmLabel0->setText(tr("2分钟后提醒"));
+    Reminder_off->widget[1]->alarmLabel0->setText(tr("5分钟后提醒"));
+    Reminder_off->widget[2]->alarmLabel0->setText(tr("10分钟后提醒"));
+    Reminder_off->widget[3]->alarmLabel0->setText(tr("30分钟后提醒"));
+    Reminder_off->widget[4]->alarmLabel0->setText(tr("60分钟后提醒"));
+    Reminder_off->show();
 }
 
 //提醒关闭选择单击回调
 void setuppage::Reminder_off_listClickslot()
 {
     model_setup->select();
-
     int num=Reminder_off->listWidget->currentRow();
     model_setup->setData(model_setup->index(0, 4), num);
 
-    switch (num)
-    {
+    switch (num) {
     case 0:
-            model_setup->setData(model_setup->index(0, 17), tr("2分钟后提醒"));
+        model_setup->setData(model_setup->index(0, 17), tr("2分钟后提醒"));
         break;
-
     case 1:
-            model_setup->setData(model_setup->index(0, 17), tr("5分钟后提醒"));
+        model_setup->setData(model_setup->index(0, 17), tr("5分钟后提醒"));
         break;
-
     case 2:
-            model_setup->setData(model_setup->index(0, 17), tr("10分钟后提醒"));
+        model_setup->setData(model_setup->index(0, 17), tr("10分钟后提醒"));
         break;
-
     case 3:
-            model_setup->setData(model_setup->index(0, 17), tr("30分钟后提醒"));
+        model_setup->setData(model_setup->index(0, 17), tr("30分钟后提醒"));
         break;
-
     case 4:
-            model_setup->setData(model_setup->index(0, 17), tr("60分钟后提醒"));
+        model_setup->setData(model_setup->index(0, 17), tr("60分钟后提醒"));
         break;
-
     default:
         break;
     }
-
     ui->pushButton_9->setText(model_setup->index(0, 17).data().toString());
     Reminder_off->hide();
     model_setup->submitAll();
@@ -418,17 +389,17 @@ void setuppage::Reminder_off_listClickslot()
 void setuppage::Default_ringtone_set()
 {
 
-        Default_ringtone->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
-        Default_ringtone->setAttribute(Qt::WA_TranslucentBackground);
-        QPointF position = parentWidget()->pos();
-        Default_ringtone->move(position.x()+83,position.y()+362);
-        Default_ringtone->resize(280,129);
-        Default_ringtone->listWidget->setFixedSize(280,129);
-        Default_ringtone->widget[0]->alarmLabel0->setText(tr("玻璃"));
-        Default_ringtone->widget[1]->alarmLabel0->setText(tr("犬吠"));
-        Default_ringtone->widget[2]->alarmLabel0->setText(tr("声呐"));
-        Default_ringtone->widget[3]->alarmLabel0->setText(tr("雨滴"));
-        Default_ringtone->show();
+    Default_ringtone->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
+    Default_ringtone->setAttribute(Qt::WA_TranslucentBackground);
+    QPointF position = parentWidget()->pos();
+    Default_ringtone->move(position.x()+83,position.y()+362);
+    Default_ringtone->resize(280,129);
+    Default_ringtone->listWidget->setFixedSize(280,129);
+    Default_ringtone->widget[0]->alarmLabel0->setText(tr("玻璃"));
+    Default_ringtone->widget[1]->alarmLabel0->setText(tr("犬吠"));
+    Default_ringtone->widget[2]->alarmLabel0->setText(tr("声呐"));
+    Default_ringtone->widget[3]->alarmLabel0->setText(tr("雨滴"));
+    Default_ringtone->show();
 
 }
 
@@ -442,25 +413,20 @@ void setuppage::Default_ringtone_listClickslot()
     switch (num)
     {
     case 0:
-            model_setup->setData(model_setup->index(0, 5), tr("玻璃"));
+        model_setup->setData(model_setup->index(0, 5), tr("玻璃"));
         break;
-
     case 1:
-            model_setup->setData(model_setup->index(0, 5), tr("犬吠"));
+        model_setup->setData(model_setup->index(0, 5), tr("犬吠"));
         break;
-
     case 2:
-            model_setup->setData(model_setup->index(0, 5), tr("声呐"));
+        model_setup->setData(model_setup->index(0, 5), tr("声呐"));
         break;
-
     case 3:
-            model_setup->setData(model_setup->index(0, 5), tr("雨滴"));
+        model_setup->setData(model_setup->index(0, 5), tr("雨滴"));
         break;
-
     default:
         break;
     }
-
     ui->pushButton_15->setText(model_setup->index(0, 5).data().toString());
     Default_ringtone->hide();
     model_setup->submitAll();
