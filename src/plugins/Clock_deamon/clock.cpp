@@ -295,7 +295,8 @@ void Clock::clock_init()
     timer_set_page->setInterval(100);
     updateAlarmClock();
 
-    listClickslot();
+    if(!model->rowCount())
+        ui->label_7->setText("");
 }
 
 
@@ -526,8 +527,6 @@ void Clock::on_pushButton_ring_clicked()
         stopwatch_hour = 0;
         stopwatch_minute = 0;
         stopwatch_second = 0;
-
-        qDebug()<< stopwatch_item_flag;
 
         stopwatch_item_flag++;
     }
@@ -1221,8 +1220,9 @@ void Clock::listClickslot()
     timer_Surplus->start();
     int x_h, x_m ;
     int num=ui->listWidget->currentRow();
-
-    int day_next = get_alarm_clock_will_ring_days(num);
+    int day_next;
+    if(num >= 0)
+        day_next = get_alarm_clock_will_ring_days(num);
     QTime time = QTime::currentTime();
     int timeH = time.hour();
     int timeM = time.minute();
@@ -1258,16 +1258,15 @@ void Clock::listClickslot()
     if(x_h >= 24){
         day_next = x_h/24;
         x_h = x_h % 24;
-    }else{
+    }else {
         day_next = 0;
     }
-
 
     if(num < 0){
         ui->label_7->setText(QApplication::translate("Clock", "\347\202\271\345\207\273\351\227\271\351\222\237\346\230\276\347\244\272\345\211\251\344\275\231\346\227\266\351\227\264", nullptr));
     }else{
         if(day_next){
-            ui->label_7->setText(QString::number(day_next)+tr("天")+QString::number(x_h)+tr("小时")+QString::number(x_m)+tr("分钟后铃响"));
+           ui->label_7->setText(QString::number(day_next)+tr("天")+QString::number(x_h)+tr("小时")+QString::number(x_m)+tr("分钟后铃响"));
         }else{
             ui->label_7->setText(QString::number(x_h)+tr("小时")+QString::number(x_m)+tr("分钟后铃响"));
         }
@@ -1281,29 +1280,29 @@ void Clock::listClickslot()
 //计算下次闹钟响起天数间隔
 int Clock::get_alarm_clock_will_ring_days(int num)
 {
-    model->select();
+    //model->select();
     int ring_day[7];
     int today ;
-    int interval = -1;
+    int interval = 1;
     for (int i=0; i<7; i++) {
         ring_day[i] = model->index(num, i+6).data().toInt();
     }
     //判断星期
     QDateTime current_date_time = QDateTime::currentDateTime();
 
-    if(current_date_time.toString("ddd").compare(tr("周一"))==0 )
+    if(current_date_time.toString("ddd").compare("周一")==0 )
         today = 0;
-    else if(current_date_time.toString("ddd").compare(tr("周二"))==0 )
+    else if(current_date_time.toString("ddd").compare("周二")==0 )
         today = 1;
-    else if(current_date_time.toString("ddd").compare(tr("周三"))==0 )
+    else if(current_date_time.toString("ddd").compare("周三")==0 )
         today = 2;
-    else if(current_date_time.toString("ddd").compare(tr("周四"))==0 )
+    else if(current_date_time.toString("ddd").compare("周四")==0 )
         today = 3;
-    else if(current_date_time.toString("ddd").compare(tr("周五"))==0 )
+    else if(current_date_time.toString("ddd").compare("周五")==0 )
         today = 4;
-    else if(current_date_time.toString("ddd").compare(tr("周六"))==0 )
+    else if(current_date_time.toString("ddd").compare("周六")==0 )
         today = 5;
-    else if(current_date_time.toString("ddd").compare(tr("周日"))==0 )
+    else if(current_date_time.toString("ddd").compare("周日")==0 )
         today = 6;
 
     for(int i = today+1; i<7; i++){
