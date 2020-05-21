@@ -293,6 +293,7 @@ void Clock::clock_init()
     timer_set_page = new QTimer();
     connect(timer_set_page, SIGNAL(timeout()), this, SLOT(verticalscroll_ring_time()));
     timer_set_page->setInterval(100);
+    text_timerUpdate();
     updateAlarmClock();
 
     if(!model->rowCount())
