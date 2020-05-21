@@ -68,14 +68,12 @@ Edit_page::Edit_page(Widget* page, int noteId, QWidget *parent) :
     m_noteHead = new noteHead(this);
     m_noteHeadMenu = new noteHeadMenu(this);
 
-    QPointF position = this->pos();
-    //m_noteHeadMenu->move(0,0);
-    qDebug() << "m_noteHeadMenu" << position.x() << position.y();
     m_noteHead->move(0,0);
     m_noteHeadMenu->move(0,0);
     m_noteHead->show();
     m_noteHeadMenu->hide();
     ui->textEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->textEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     connect(m_noteHeadMenu->ui->pushButtonExit,&QPushButton::clicked,this,&Edit_page::closeSlot);
     connect(ui->textEdit,&QTextEdit::textChanged,this,&Edit_page::textChangedSlot);
@@ -85,21 +83,17 @@ Edit_page::Edit_page(Widget* page, int noteId, QWidget *parent) :
 
 Edit_page::~Edit_page()
 {
-    qDebug()<<"aa"<<count--;
     delete ui;
 }
 
 void Edit_page::enterEvent(QEvent *)
 {
-    qDebug()<<"鼠标移入";
-
     m_noteHead->hide();
     m_noteHeadMenu->show();
 }
 
 void Edit_page::leaveEvent(QEvent *)
 {
-    qDebug()<<"鼠标移出";
     m_noteHeadMenu->hide();
     m_noteHead->show();
 }
@@ -125,7 +119,7 @@ void Edit_page::set_text_editing_page()
     text_edit_page = new Text_editing(pNotebook);
 
     connect(text_edit_page->set_size_page->ui->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(showSizeSpinBix()));
-    connect(text_edit_page->set_color_fort_page->ui->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(showfortcolor()));
+    connect(text_edit_page->set_color_fort_page->ui->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(showFontColorSlot()));
 
     connect(text_edit_page->ui->BoldBtn,SIGNAL(clicked()),this,SLOT(showBoldBtn()));
     connect(text_edit_page->ui->ItalicBtn,SIGNAL(clicked(bool)),this,SLOT(showItalicBtn()));
@@ -133,9 +127,6 @@ void Edit_page::set_text_editing_page()
     connect(text_edit_page->ui->StrikeOutResolvedBtn,SIGNAL(clicked(bool)),this,SLOT(showStrikeOutResolved()));
     connect(text_edit_page->ui->showListBtn,SIGNAL(clicked(bool)),this,SLOT(showList(bool)));
     connect(text_edit_page->ui->showNUMList,SIGNAL(clicked(bool)),this,SLOT(showNUMList(bool)));
-    // connect(text_edit_page->ui->light_blue_btn,SIGNAL(activated(int)),this,SLOT(showSizeSpinBix(int)));
-
-    //    connect(colorBtn,SIGNAL(clicked(bool)),this,SLOT(showColorBtn()));
 }
 
 
@@ -146,7 +137,7 @@ void Edit_page::textChangedSlot()
     emit texthasChanged(m_noteId, this->id);
 }
 
-//cu ti
+//加粗
 void Edit_page::showBoldBtn()
 {
     qDebug()<<"-------showBoldBtn------------";
@@ -162,7 +153,7 @@ void Edit_page::showBoldBtn()
 
     ui->textEdit->mergeCurrentCharFormat(fmt);
 }
-//xie ti
+//斜体
 void Edit_page::showItalicBtn()
 {
     qDebug()<<"-------showItalicBtn------------";
@@ -171,7 +162,7 @@ void Edit_page::showItalicBtn()
     ui->textEdit->mergeCurrentCharFormat(fmt);
 }
 
-//xia hua xian
+//下划线
 void Edit_page::showUnderlineBtn()
 {
     qDebug()<<"-------showUnderlineBtn------------";
@@ -179,7 +170,7 @@ void Edit_page::showUnderlineBtn()
     fmt.setFontUnderline(text_edit_page->ui->underlineBtn->isCheckable());// ? QFont::UnderlineResolved : QFont::Normal );
     ui->textEdit->mergeCurrentCharFormat(fmt);
 }
-//shan chu xian
+//删除线
 void Edit_page::showStrikeOutResolved()
 {
     qDebug()<<"-------showStrikeOutResolved------------";
@@ -188,7 +179,7 @@ void Edit_page::showStrikeOutResolved()
     ui->textEdit->mergeCurrentCharFormat(fmt);
 }
 
-//fu hao  suo jin
+//无序列表
 void Edit_page::showList(bool index)
 {
     Q_UNUSED(index);
@@ -219,7 +210,7 @@ void Edit_page::showList(bool index)
     cursor.endEditBlock();
 }
 
-//shu zi  suo jin
+//有序列表
 void Edit_page::showNUMList(bool index)
 {
     Q_UNUSED(index);
@@ -250,7 +241,7 @@ void Edit_page::showNUMList(bool index)
     cursor.endEditBlock();
 }
 
-// zi ti da xiao
+//字号
 void Edit_page::showSizeSpinBix()
 {
     qDebug()<<"--------------";
@@ -263,6 +254,7 @@ void Edit_page::showSizeSpinBix()
     ui->textEdit->mergeCurrentCharFormat(fmt);
 }
 
+//调色板
 void Edit_page::set_color()
 {
     color[0]="background:rgba(76,119,231,1);";
@@ -290,7 +282,7 @@ void Edit_page::set_color()
     color_num[10]=QColor(0,0,0);
 }
 
-void Edit_page::showfortcolor()
+void Edit_page::showFontColorSlot ()
 {
     qDebug()<<"--------------";
     int num = text_edit_page->set_color_fort_page->ui->listWidget->currentRow();

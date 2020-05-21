@@ -50,7 +50,6 @@ private:
     int m_rowHeight;
 
     void setupSignalsSlots();
-    void setupStyleSheet();
 
 public slots:
     void rowsAboutToBeMoved(const QModelIndex &sourceParent, int sourceStart, int sourceEnd,

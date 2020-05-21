@@ -16,7 +16,7 @@
 *
 */
 #include "noteview.h"
-#include "notewidgetdelegate.h"
+#include "listViewModeDelegate.h"
 #include <QDebug>
 #include <QPainter>
 #include <QApplication>
@@ -33,7 +33,7 @@ NoteView::NoteView(QWidget *parent)
     , m_isMousePressed(false)
     , m_rowHeight(38)
 {
-    this->setAttribute(Qt::WA_MacShowFocusRect, 0);
+    //不可编辑
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     //一次性定时器,槽函数只处理一次
     QTimer::singleShot(0, this, SLOT(init()));
@@ -57,9 +57,9 @@ void NoteView::animateAddedRow(const QModelIndex& parent, int start, int end)
     // select(): 使用指定的命令选择模型项索引，并发出selectionChanged（）
     selectionModel()->select(idx, QItemSelectionModel::ClearAndSelect);
 
-    NoteWidgetDelegate* delegate = static_cast<NoteWidgetDelegate*>(itemDelegate());
+    listViewModeDelegate* delegate = static_cast<listViewModeDelegate*>(itemDelegate());
     if(delegate != Q_NULLPTR){
-        delegate->setState( NoteWidgetDelegate::Insert, idx);
+        delegate->setState(listViewModeDelegate::Insert, idx);
 
         // TODO find a way to finish this function till the animation stops
         while(delegate->animationState() == QTimeLine::Running){
@@ -82,21 +82,21 @@ void NoteView::animateRemovedRow(const QModelIndex& parent, int start, int end)
     // select(): 使用指定的命令选择模型项索引，并发出selectionChanged（）
     selectionModel()->select(idx, QItemSelectionModel::ClearAndSelect);
 
-    NoteWidgetDelegate* delegate = static_cast<NoteWidgetDelegate*>(itemDelegate());
+    listViewModeDelegate* delegate = static_cast<listViewModeDelegate*>(itemDelegate());
     if(delegate != Q_NULLPTR){
         delegate->setCurrentSelectedIndex(QModelIndex());
-        delegate->setState( NoteWidgetDelegate::Remove, idx);
+        delegate->setState(listViewModeDelegate::Remove, idx);
 
         // TODO find a way to finish this function till the animation stops
-//        while(delegate->animationState() == QTimeLine::Running){
-//            qApp->processEvents();
-//        }
+        while(delegate->animationState() == QTimeLine::Running){
+            qApp->processEvents();
+        }
     }
 }
 
 void NoteView::paintEvent(QPaintEvent *e)
 {
-    NoteWidgetDelegate* delegate = static_cast<NoteWidgetDelegate*>(itemDelegate());
+    listViewModeDelegate* delegate = static_cast<listViewModeDelegate*>(itemDelegate());
     if(delegate != Q_NULLPTR)
         delegate->setCurrentSelectedIndex(currentIndex());
 
@@ -116,16 +116,16 @@ void NoteView::rowsAboutToBeRemoved(const QModelIndex &parent, int start, int en
 {
     qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
     if(start == end){
-        NoteWidgetDelegate* delegate = static_cast<NoteWidgetDelegate*>(itemDelegate());
+        listViewModeDelegate* delegate = static_cast<listViewModeDelegate*>(itemDelegate());
         if(delegate != Q_NULLPTR){
             QModelIndex idx = model()->index(start,0);
             delegate->setCurrentSelectedIndex(QModelIndex());
 
             if(m_animationEnabled){
                 qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
-                delegate->setState( NoteWidgetDelegate::Remove, idx);
+                delegate->setState(listViewModeDelegate::Remove, idx);
             }else{
-                delegate->setState( NoteWidgetDelegate::Normal, idx);
+                delegate->setState(listViewModeDelegate::Normal, idx);
             }
 
             // TODO find a way to finish this function till the animation stops
@@ -148,13 +148,13 @@ void NoteView::rowsAboutToBeMoved(const QModelIndex &sourceParent, int sourceSta
 
     if(model() != Q_NULLPTR){
         QModelIndex idx = model()->index(sourceStart,0);
-        NoteWidgetDelegate* delegate = static_cast<NoteWidgetDelegate*>(itemDelegate());
+        listViewModeDelegate* delegate = static_cast<listViewModeDelegate*>(itemDelegate());
         if(delegate != Q_NULLPTR){
 
             if(m_animationEnabled){
-                delegate->setState( NoteWidgetDelegate::MoveOut, idx);
+                delegate->setState(listViewModeDelegate::MoveOut, idx);
             }else{
-                delegate->setState( NoteWidgetDelegate::Normal, idx);
+                delegate->setState(listViewModeDelegate::Normal, idx);
             }
 
             // TODO find a way to finish this function till the animation stops
@@ -177,14 +177,14 @@ void NoteView::rowsMoved(const QModelIndex &parent, int start, int end,
     QModelIndex idx = model()->index(row,0);
     setCurrentIndex(idx);
 
-    NoteWidgetDelegate* delegate = static_cast<NoteWidgetDelegate*>(itemDelegate());
+    listViewModeDelegate* delegate = static_cast<listViewModeDelegate*>(itemDelegate());
     if(delegate == Q_NULLPTR)
         return;
 
     if(m_animationEnabled){
-        delegate->setState( NoteWidgetDelegate::MoveIn, idx );
+        delegate->setState(listViewModeDelegate::MoveIn, idx );
     }else{
-        delegate->setState( NoteWidgetDelegate::Normal, idx);
+        delegate->setState(listViewModeDelegate::Normal, idx);
     }
 
     // TODO find a way to finish this function till the animation stops
@@ -197,31 +197,32 @@ void NoteView::init()
 {
     setMouseTracking(true);
     setUpdatesEnabled(true);
+    //当鼠标进入或离开小部件时，强制Qt生成绘制事件
     viewport()->setAttribute(Qt::WA_Hover);
 
-    setupStyleSheet();
     setupSignalsSlots();
 }
 
-void NoteView::mouseMoveEvent(QMouseEvent*e)
+void NoteView::mouseMoveEvent(QMouseEvent* e)
 {
-    if(!m_isMousePressed)
+    if(!m_isMousePressed){
         QListView::mouseMoveEvent(e);
+    }
 }
 
-void NoteView::mousePressEvent(QMouseEvent*e)
+void NoteView::mousePressEvent(QMouseEvent* e)
 {
     m_isMousePressed = true;
     QListView::mousePressEvent(e);
 }
 
-void NoteView::mouseReleaseEvent(QMouseEvent*e)
+void NoteView::mouseReleaseEvent(QMouseEvent* e)
 {
     m_isMousePressed = false;
     QListView::mouseReleaseEvent(e);
 }
 
-bool NoteView::viewportEvent(QEvent*e)
+bool NoteView::viewportEvent(QEvent* e)
 {
     qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
     if(model() != Q_NULLPTR){
@@ -231,7 +232,7 @@ bool NoteView::viewportEvent(QEvent*e)
             QModelIndex index = indexAt(QPoint(10, pt.y()));
             if(index.row() > 0){
                 index = model()->index(index.row()-1, 0);
-                NoteWidgetDelegate* delegate = static_cast<NoteWidgetDelegate*>(itemDelegate());
+                listViewModeDelegate* delegate = static_cast<listViewModeDelegate*>(itemDelegate());
                 if(delegate != Q_NULLPTR){
                     delegate->setHoveredIndex(QModelIndex());
                     viewport()->update(visualRect(index));
@@ -262,7 +263,7 @@ bool NoteView::viewportEvent(QEvent*e)
 void NoteView::setCurrentRowActive(bool isActive)
 {
     qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
-    NoteWidgetDelegate* delegate = static_cast<NoteWidgetDelegate*>(itemDelegate());
+    listViewModeDelegate* delegate = static_cast<listViewModeDelegate*>(itemDelegate());
     if(delegate == Q_NULLPTR)
         return;
 
@@ -312,7 +313,7 @@ void NoteView::setupSignalsSlots()
                 viewport()->update(visualRect(prevIndex));
             }
 
-            NoteWidgetDelegate* delegate = static_cast<NoteWidgetDelegate *>(itemDelegate());
+            listViewModeDelegate* delegate = static_cast<listViewModeDelegate *>(itemDelegate());
             if(delegate != Q_NULLPTR)
                 delegate->setHoveredIndex(index);
         }
@@ -322,7 +323,7 @@ void NoteView::setupSignalsSlots()
     connect(this, &NoteView::viewportEntered,[this](){
         qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
         if(model() != Q_NULLPTR && model()->rowCount() > 1){
-            NoteWidgetDelegate* delegate = static_cast<NoteWidgetDelegate *>(itemDelegate());
+            listViewModeDelegate* delegate = static_cast<listViewModeDelegate *>(itemDelegate());
             if(delegate != Q_NULLPTR)
                 delegate->setHoveredIndex(QModelIndex());
 
@@ -335,7 +336,7 @@ void NoteView::setupSignalsSlots()
     connect(this->verticalScrollBar(), &QScrollBar::rangeChanged,[this](int min, int max){
         Q_UNUSED(min)
 
-        NoteWidgetDelegate* delegate = static_cast<NoteWidgetDelegate*>(itemDelegate());
+        listViewModeDelegate* delegate = static_cast<listViewModeDelegate*>(itemDelegate());
         if(delegate != Q_NULLPTR){
             if(max > 0){
                 delegate->setRowRightOffset(2);
@@ -347,18 +348,3 @@ void NoteView::setupSignalsSlots()
     });
 }
 
-void NoteView::setupStyleSheet()
-{
-    QString ss = QString("QListView {background-color: rgb(255, 255, 255);} "
-                         "QScrollBar {margin-right: 2px; background: transparent;} "
-                         "QScrollBar:hover { background-color: rgb(217, 217, 217);}"
-                         "QScrollBar:handle:vertical:hover { background: rgb(170, 170, 171); } "
-                         "QScrollBar:handle:vertical:pressed { background: rgb(149, 149, 149);}"
-                         "QScrollBar:vertical { border: none; width: 10px; border-radius: 4px;} "
-                         "QScrollBar::handle:vertical { border-radius: 4px; background: rgb(188, 188, 188); min-height: 20px; }  "
-                         "QScrollBar::add-line:vertical { height: 0px; subcontrol-position: bottom; subcontrol-origin: margin; }  "
-                         "QScrollBar::sub-line:vertical { height: 0px; subcontrol-position: top; subcontrol-origin: margin; }"
-                         );
-
-    setStyleSheet(ss);
-}

@@ -180,9 +180,9 @@ bool NoteModel::setData(const QModelIndex &index, const QVariant &value, int rol
 Qt::ItemFlags NoteModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid())
-        return Qt::ItemIsEnabled;
+        return Qt::ItemIsEnabled | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled;
 
-    return QAbstractListModel::flags(index) | Qt::ItemIsEditable | Qt::ItemIsEditable ;
+    return QAbstractListModel::flags(index) | Qt::ItemIsEditable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled ;
 }
 
 //保持模型中的行数与字符串列表中的字符串数相同
@@ -212,4 +212,9 @@ void NoteModel::sort(int column, Qt::SortOrder order)
 
 
     emit dataChanged(index(0), index(rowCount()-1));
+}
+
+Qt::DropActions NoteModel::supportedDropActions() const
+{
+    return Qt::CopyAction | Qt::MoveAction;
 }

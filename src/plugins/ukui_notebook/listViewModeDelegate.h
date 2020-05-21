@@ -15,18 +15,18 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#ifndef NOTEWIDGETDELEGATE_H
-#define NOTEWIDGETDELEGATE_H
+#ifndef LISTVIEWMODEDELEGATE_H
+#define LISTVIEWMODEDELEGATE_H
 
 #include <QStyledItemDelegate>
 #include <QTimeLine>
 
-class NoteWidgetDelegate : public QStyledItemDelegate
+class listViewModeDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 
 public:
-    NoteWidgetDelegate(QObject *parent = Q_NULLPTR);
+    listViewModeDelegate(QObject *parent = Q_NULLPTR);
 
     enum States{
         Normal,
@@ -89,4 +89,4 @@ signals:
     void update(const QModelIndex &index);
 };
 
-#endif // NOTEWIDGETDELEGATE_H
+#endif // LISTVIEWMODEDELEGATE_H
