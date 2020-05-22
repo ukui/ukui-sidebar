@@ -44,6 +44,7 @@
 #include "customstyle.h"
 #include <QStyleFactory>
 #include <QElapsedTimer>
+#include <QDesktopWidget>
 
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 
@@ -138,6 +139,9 @@ void feedback::UI_init()
     this->setFixedSize(600,550);
     this->setWindowIcon(QIcon(":/image/kylin-feedback.png"));
     this->setWindowFlags(Qt::FramelessWindowHint);//设置窗口无边框
+
+    QDesktopWidget *deskdop = QApplication::desktop();
+    move((deskdop->width() - this->width())/2, (deskdop->height() - this->height())/2);
 
     //--------设置圆角
     QBitmap bmp(this->size());
