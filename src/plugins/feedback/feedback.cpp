@@ -58,7 +58,10 @@ feedback::feedback(QWidget *parent)
         translator->load(QString("://translation/feedback_en_US.qm"));  //选择翻译文件
         QApplication::installTranslator(translator);
     }
-
+    else if ( locale.language() == QLocale::Chinese ) {
+        translator->load(QString("://translation/widgets.qm"));
+        QApplication::installTranslator(translator);
+    }
     UI_init();
     feedback_init();
     setAttribute(Qt::WA_TranslucentBackground);

@@ -16,5 +16,6 @@
         <file>image/conning-a/6.png</file>
         <file>image/conning-a/7.png</file>
         <file>image/conning-a/8.png</file>
+        <file>translation/widgets.qm</file>
     </qresource>
 </RCC>
