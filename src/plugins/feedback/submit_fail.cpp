@@ -38,9 +38,7 @@ void submit_fail::UI_init()
 
     this->resize(430, 260);
 
-    this->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);//设置窗口无边框
-
-    //--------设置圆角
+    this->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
     QBitmap bmp(this->size());
 
     bmp.fill();
@@ -154,7 +152,7 @@ void submit_fail::paintEvent(QPaintEvent *e)
     p.setRenderHint(QPainter::Antialiasing);
     QPainterPath rectPath;
     rectPath.addRoundedRect(this->rect().adjusted(10, 10, -10, -10), 5, 5);
-    // 画一个黑底
+
     QPixmap pixmap(this->rect().size());
     pixmap.fill(Qt::transparent);
     QPainter pixmapPainter(&pixmap);
@@ -164,11 +162,10 @@ void submit_fail::paintEvent(QPaintEvent *e)
     pixmapPainter.drawPath(rectPath);
     pixmapPainter.end();
 
-    // 模糊这个黑底
     QImage img = pixmap.toImage();
     qt_blurImage(img, 10, false, false);
 
-    // 挖掉中心
+
     pixmap = QPixmap::fromImage(img);
     QPainter pixmapPainter2(&pixmap);
     pixmapPainter2.setRenderHint(QPainter::Antialiasing);
@@ -177,10 +174,7 @@ void submit_fail::paintEvent(QPaintEvent *e)
     pixmapPainter2.setBrush(Qt::transparent);
     pixmapPainter2.drawPath(rectPath);
 
-    // 绘制阴影
     p.drawPixmap(this->rect(), pixmap, pixmap.rect());
-
-    // 随便绘制一个背景
     p.save();
     p.fillPath(rectPath, QColor(255, 255, 255));
     p.restore();

@@ -123,20 +123,15 @@ public:
     QPixmap submitting_pixmap[8];
 
     //*************************
-
     void UI_init();
     void systeminfo_show(QPointF pt);
     void systeminfo_hide();
     void add_systeminfo();
-
     void feedback_init();
-
     void feedback_info_init();
-
     void set_all_disable_in_submit();
     void set_all_enable_after_submit();
     QByteArray get_today_syslog();
-
     void add_fileinfo_model();
     void update_add_file_window();
     void update_linedit_add_or_del_file();
@@ -147,13 +142,11 @@ public:
     void window_close();
     void resend_info_when_sendfail();
     void add_file_to_Part(QString filepath,QString file_type,QString file_name);
-
     void finishedSlot(QNetworkReply*);
 
 
 protected:
     void paintEvent(QPaintEvent*);
-
 
 signals:
     void syslog();
@@ -161,9 +154,10 @@ signals:
 private slots:
     void on_pushButton_clicked();
 
-
     void on_textEdit_textChanged();
+
     void on_pushButton_mix_clicked();
+
     void on_pushButton_close_clicked();
 
     void on_checkBox_stateChanged(int state);
@@ -179,6 +173,7 @@ private slots:
     void on_pushButton_2_clicked();
 
     void on_lineEdit_2_textChanged();
+
     void del_file_button_clicked();
 
     void sendfile_finished(QNetworkReply* );
@@ -189,8 +184,6 @@ private:
 
     submit_fail *fail_dialog=nullptr;
     submit_success * success_dialog=nullptr;
-
-
 //logflag
     int syslogflag = 0;
     int apportlogflag = 0;
@@ -198,64 +191,45 @@ private:
     int describeflag = 0;
     int emailflag = 0;
     int get_systeminfoflag = 0;
-
     bool timeout_http_flag = false;
-
     QString feedback_type = "系统问题";  //反馈类型
     QString email_str;   //邮箱
     QString filename;
     QString textContent;// 详细描述
-
     QString system_info_str; //系统版本信息
     QString encoding_info_str; //系统编码格式
     QString desktop_info_str;  //系统桌面环境
-
     QTimer *submitting_timer=nullptr;
-
-
     QString send_os_info;
     QString send_encoding_info;
     QString send_dekstop_info;
-
     QPushButton *deletefileBtn[5];
     QLabel *filename_label[5];
     QLabel *filesize_label[5];
-
     //httpclient
     QNetworkAccessManager *accessManager=nullptr;
     QNetworkAccessManager *accessManager_file=nullptr;
     QNetworkRequest request;
     QNetworkRequest request_file;
     QString urlstring;//服务器地址
-
     QVariant statusCode_file;
     QVariant reason_file ;
     QVariant statusCode_info;
     QVariant reason_info ;
     QByteArray bytes_info;
     QByteArray bytes_file;
-
-
     QJsonObject feedback_info_json;
     QJsonDocument json_doc;
     QByteArray post_feedback_info_array;
-
-
     QString uid_value;
     QJsonParseError jsonerror;
     QJsonDocument document;
     QJsonObject object;
-
-
-
     QHttpMultiPart *multiPart=nullptr;
-
     QList<QString> file_name_list;
     QList<QString> file_size_list;
     QList<QString> file_path_list;
-
     int pixmap_i = 0;
-
     bool window_is_close_flag  = false;
     bool file_send_failed_flag = true;
 
