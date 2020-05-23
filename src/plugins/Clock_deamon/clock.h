@@ -95,6 +95,13 @@ public:
 protected:
     void paintEvent1(QPaintEvent *);
 
+public slots:
+    void on_pushButton_clicked();                                                        //倒计时切换
+                                                                                         // Countdown switch
+    void on_pushButton_2_clicked();                                                      //闹钟窗口切换
+                                                                                         // Alarm window switching
+    void on_pushButton_3_clicked();                                                      //秒表窗口切换
+                                                                                         // Stopwatch window switch
 private slots:
     void button_image_init();                                                            //闹钟按钮图片初始化
                                                                                          // Alarm button picture initialization
@@ -122,12 +129,6 @@ private slots:
                                                                                          // window closing
     void on_pushButton_4_clicked();                                                      //窗口最小化
                                                                                          // window minimizing
-    void on_pushButton_clicked();                                                        //倒计时切换
-                                                                                         // Countdown switch
-    void on_pushButton_2_clicked();                                                      //闹钟窗口切换
-                                                                                         // Alarm window switching
-    void on_pushButton_3_clicked();                                                      //秒表窗口切换
-                                                                                         // Stopwatch window switch
     void timerUpdate();                                                                  //动态监控闹钟与本地时间
                                                                                          // Dynamic monitoring alarm clock and local time
     void text_timerUpdate();                                                             //闹钟上方电子表
@@ -226,6 +227,7 @@ private slots:
                                                                                          // Calculate the next alarm ring interval
     QString change_NUM_to_str(int alarmHour);                                            //整型转字符
                                                                                          // Integer to character
+
 private:
     QPoint m_startPoint;
     QTimer *timer = nullptr;

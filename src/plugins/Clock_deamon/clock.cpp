@@ -63,6 +63,7 @@
 #include <QScroller>
 #include <QTranslator>
 #include <QDesktopWidget>
+#include "btn_new.h"
 
 const double PI=3.141592;
 
@@ -111,10 +112,8 @@ Clock::Clock(QWidget *parent) :
     setup_init();
     this->setFixedSize(454,660);
     this->setWindowOpacity(0.95);
-    //ui->listWidget_2->setMovement(QListView::Static);//禁止元素拖拽
-                                                       // Prohibit element dragging
-    //ui->listWidget_2->setMovement(QListView::Free);//元素可以自由拖拽
-                                                     // Elements can be dragged freely
+    //ui->listWidget_2->setMovement(QListView::Static);//禁止元素拖拽// Prohibit element dragging
+    //ui->listWidget_2->setMovement(QListView::Free);//元素可以自由拖拽// Elements can be dragged freely
     //ui->listWidget_2->setMovement(QListView::Snap);
     //实现鼠标左键滑动效果
     // Realize the sliding effect of left mouse button
@@ -125,6 +124,21 @@ Clock::Clock(QWidget *parent) :
 
     QDesktopWidget *deskdop = QApplication::desktop();
     move((deskdop->width() - this->width())/2, (deskdop->height() - this->height())/2);
+
+    QIcon bta_tool_count_icon = QIcon(":/icon-1.png");
+    Btn_new *bta_tool_count = new Btn_new(1, this, bta_tool_count_icon, tr("倒计时"), ui->page_7);
+    bta_tool_count->setFixedSize(90,60);
+    bta_tool_count->move(48,5);
+
+    QIcon bta_tool_clock_icon = QIcon(":/icon-4-16x16.png");
+    Btn_new *bta_tool_clock = new Btn_new(2, this, bta_tool_clock_icon, tr("闹钟"), ui->page_7);
+    bta_tool_clock->setFixedSize(90,60);
+    bta_tool_clock->move(182,5);
+
+    QIcon bta_tool_stop_icon = QIcon(":/icon-2.png");
+    Btn_new *bta_tool_stop = new Btn_new(3, this, bta_tool_stop_icon, tr("秒表"), ui->page_7);
+    bta_tool_stop->setFixedSize(90,60);
+    bta_tool_stop->move(317,5);
 }
 
 Clock::~Clock()

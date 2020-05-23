@@ -14,6 +14,7 @@ TEMPLATE = app
 
 
 SOURCES += \
+    btn_new.cpp \
         clock.cpp \
     customstyle.cpp \
     delete_msg.cpp \
@@ -35,6 +36,7 @@ SOURCES += \
 TRANSLATIONS = Clock.ts
 
 HEADERS  += clock.h \
+    btn_new.h \
     connection.h \
     customstyle.h \
     debug.h \
