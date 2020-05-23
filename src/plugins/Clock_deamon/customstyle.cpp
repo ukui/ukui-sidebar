@@ -46,13 +46,17 @@ static void drawArrow(const QStyle *style, const QStyleOptionToolButton *toolbut
     QStyleOption arrowOpt = *toolbutton;
     arrowOpt.rect = rect;
     style->drawPrimitive(pe, &arrowOpt, painter, widget);
+
 }
 //#endif // QT_CONFIG(toolbutton)
 
 
 CustomStyle::CustomStyle(const QString &proxyStyleName, QObject *parent) : QProxyStyle (proxyStyleName)
 {
-
+    model_setup = new QSqlTableModel(this);
+    model_setup->setTable("setup");
+    model_setup->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    model_setup->select();
 }
 CustomStyle::~CustomStyle()
 {
@@ -94,12 +98,18 @@ void CustomStyle::drawComplexControl(QStyle::ComplexControl cc, const QStyleOpti
                     painter->drawLine(QPointF(rectGroove.center().x(),  rectGroove.top()), QPointF(rectGroove.center().x(),  rectHandle.top()));
                 }
             }
-
+            //滑块颜色
             //Painting slider
             if (option->subControls & SC_SliderHandle) {
                 pen.setStyle(Qt::SolidLine);
                 painter->setPen(Qt::NoPen);
-                painter->setBrush(QColor(39,207,129));
+                model_setup->select();
+                if(model_setup->index(0, 1).data().toInt())
+                {
+                    painter->setBrush(QColor(61,61,65));
+                }else{
+                    painter->setBrush(QColor(39,207,129));
+                }
                 painter->drawEllipse(rectHandle);
             }
 
