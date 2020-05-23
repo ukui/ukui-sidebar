@@ -90,7 +90,9 @@ void Natice_alarm::natice_init()
         showFullScreen();
     }
     music = new QMediaPlayer(this);//初始化音乐
+                                   // Initialize music
     playlist = new QMediaPlaylist(this);//初始化播放列表
+                                        // Initialize playlist
     if(num_flag >= 0)
     {
         if(model->index(num_flag, 2).data().toString().compare(tr("玻璃"))==0){
@@ -115,12 +117,15 @@ void Natice_alarm::natice_init()
     }
 
     playlist->setPlaybackMode(QMediaPlaylist::Loop);//设置播放模式(顺序播放，单曲循环，随机播放等)
+                                                    // Set playback mode (sequential playback, single loop, random playback, etc.)
     music->setPlaylist(playlist);  //设置播放列表
+                                   // Set up playlist
     music->setVolume(  model_setup->index(0, 6).data().toInt() );
     music->play();
 }
 
-
+//窗口关闭
+//window closing
 void Natice_alarm::set_dialog_close()
 {
 
@@ -128,7 +133,8 @@ void Natice_alarm::set_dialog_close()
     timer->stop();
     music->stop();
 }
-
+//关闭音乐
+//Turn off music
 void Natice_alarm::close_music()
 {
     if (timer_value == 0) {
@@ -137,7 +143,8 @@ void Natice_alarm::close_music()
         ui->label_4->setText(QString::number(timer_value)+tr("秒后自动关闭"));
     timer_value--;
 }
-
+//绘制背景
+// Draw background
 void Natice_alarm::paintEvent(QPaintEvent *)
 {
     if (!full_flag) {
@@ -150,12 +157,13 @@ void Natice_alarm::paintEvent(QPaintEvent *)
     p.setOpacity(0.5);
     p.setPen(Qt::NoPen);
 
-    p.setRenderHint(QPainter::Antialiasing);                        //反锯齿
+    p.setRenderHint(QPainter::Antialiasing);//反锯齿  Antialiasing
     p.drawRoundedRect(opt.rect,0,0);
     p.drawRect(opt.rect);
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }
-
+//再次弹出
+//Eject again
 void Natice_alarm::show_again()
 {
     this->hide();
@@ -176,7 +184,8 @@ void Natice_alarm::show_again()
     timer->stop();
     music->stop();
 }
-
+//响铃
+//Ring a bell
 void Natice_alarm::ring()
 {
     ring_num--;

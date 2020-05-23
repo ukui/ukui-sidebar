@@ -28,6 +28,7 @@ item_new::item_new(QWidget *parent) :
     this->setFixedSize(376, 58);
 
     alarmLabel_w0 = new QLabel(this);//闹钟用途
+                                     //Alarm function
     alarmLabel_w0->move(22,4);
     alarmLabel_w0->setFixedSize(170, 25);
     alarmLabel_w0->setStyleSheet("font: 11pt 'Sans Serif';background-color: rgb();\
@@ -41,6 +42,7 @@ item_new::item_new(QWidget *parent) :
 
 
     alarmLabel_s0 = new QLabel( this);//闹钟重复
+                                      //Repetition of alarm clock
     alarmLabel_s0->move(24, 34);
     alarmLabel_s0->setFixedSize(170, 17);
     alarmLabel_s0->setStyleSheet("font: 9pt 'Sans Serif';color: rgb(148, 148, 148);background-color: rgb();\
@@ -62,6 +64,7 @@ item_new::item_new(QWidget *parent) :
 
 
     alarmLabel0 = new QLabel(this);//闹钟，音乐，
+                                   //Alarm clock, music,
     alarmLabel0->move(200,13);
     alarmLabel0->setFixedSize(89, 27);
     alarmLabel0->setStyleSheet("font: 17pt;background-color: rgb();\
@@ -74,7 +77,8 @@ item_new::item_new(QWidget *parent) :
     alarmLabel0->setVisible(true);
     alarmLabel0->show();
 
-    alarmLabel1 = new QLabel(this);//闹钟，音乐，
+    alarmLabel1 = new QLabel(this);//上下午
+                                   //Last afternoon
     alarmLabel1->move(170,0);
     alarmLabel1->setFixedSize(31, 56);
     alarmLabel1->setStyleSheet("font: 10pt;background-color: rgb();\
@@ -84,6 +88,7 @@ item_new::item_new(QWidget *parent) :
 
 
     alarm_on_off0 = new QPushButton(this);//闹钟开关
+                                          // Alarm switch
     alarm_on_off0->move(305,14);
     alarm_on_off0->setFixedSize(50, 24);
     alarm_on_off0->setFlat(true);

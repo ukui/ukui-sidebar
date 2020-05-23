@@ -35,6 +35,8 @@ public:
     QWidget * widget;
 
 protected:
+    //绘制虚线圈
+    // Draw a dashed circle
     virtual void paintEvent(QPaintEvent *event);
 
 private:

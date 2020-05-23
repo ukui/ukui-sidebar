@@ -24,14 +24,14 @@
 #include <QProcess>
 VerticalScroll_24::VerticalScroll_24(QWidget *parent, Clock *clock) :
     QWidget(parent),
-    m_minRange(0),      //最小值默认为0
-    m_maxRange(23),    //最大值默认24
-    m_currentValue(0), //当前值默认0
+    m_minRange(0),      //最小值默认为0   // The minimum value defaults to 0
+    m_maxRange(23),    //最大值默认24     // Max default 24
+    m_currentValue(0), //当前值默认0      // Current value defaults to 0
     isDragging(false),
-    m_deviation(0),     //默认偏移量为0
+    m_deviation(0),     //默认偏移量为0   // The default offset is 0
     m_numSize(4),
-    interval(1),      //间隔默认1
-    devide(4)           //默认分成4格
+    interval(1),      //间隔默认1         // Interval default 1
+    devide(4)           //默认分成4格     // Divided into 4 grids by default
 {
     setupUi(this);
     m_Pclock = clock;
@@ -48,7 +48,7 @@ VerticalScroll_24::~VerticalScroll_24()
     //delete ui;
 }
 /*
- * 设置范围
+ * 设置范围 set range
  * int min 最小值
  * int max 最大值
 */
@@ -63,11 +63,14 @@ void VerticalScroll_24::setRange(int min, int max)
     repaint();
 }
 //获取当前值
+//Get current value
 int VerticalScroll_24::readValue()
 {
     return m_currentValue;
 }
 
+//鼠标按压选择当前值
+// Press the mouse to select the current value
 void VerticalScroll_24::mousePressEvent(QMouseEvent *e)
 {
     qDebug()<<"mouse pressed on vertical scroll";
@@ -78,6 +81,8 @@ void VerticalScroll_24::mousePressEvent(QMouseEvent *e)
     QWidget::mousePressEvent(e);
 }
 
+//鼠标拖动，滚轮滚动
+//  Mouse drag, scroll wheel
 void VerticalScroll_24::mouseMoveEvent(QMouseEvent *e)
 {
     if (isDragging) {
@@ -89,6 +94,7 @@ void VerticalScroll_24::mouseMoveEvent(QMouseEvent *e)
 
         m_deviation = e->pos().y() - m_mouseSrcPos;
         //若移动速度过快，则进行限制
+        // If the movement speed is too fast, limit it
         if (m_deviation > (height() - 1) / devide) {
             m_deviation = (height() - 1) / devide;
         }  else if (m_deviation < -(height() - 1) / devide) {
@@ -99,6 +105,8 @@ void VerticalScroll_24::mouseMoveEvent(QMouseEvent *e)
     }
 }
 
+//鼠标释放，数值弹回正中间
+//  Release the mouse, and the value will bounce back to the middle
 void VerticalScroll_24::mouseReleaseEvent(QMouseEvent *)
 {
     if (isDragging) {
@@ -107,6 +115,8 @@ void VerticalScroll_24::mouseReleaseEvent(QMouseEvent *)
     }
 }
 
+//鼠标滑轮滚动，数值滚动
+//  Mouse wheel scrolling, numerical scrolling
 void VerticalScroll_24::wheelEvent(QWheelEvent *event)
 {
     if (event->delta() > 0){
@@ -124,6 +134,8 @@ void VerticalScroll_24::wheelEvent(QWheelEvent *event)
     event->accept();
 }
 
+//绘制当前数值轮画面
+// Draw the current numerical wheel screen
 void VerticalScroll_24::paintEvent(QPaintEvent *)
 {
     QProcess process;
@@ -163,6 +175,7 @@ void VerticalScroll_24::paintEvent(QPaintEvent *)
 
 /*
  * 根据偏移量描绘数字
+ * Drawing numbers
  * int num 需要显示的数字
  * int deviation 数字相对中间的偏移量
 */
@@ -171,6 +184,7 @@ void VerticalScroll_24::paintNum(QPainter &painter, int num, int deviation)
     int Width = width() - 1;
     int Height = height() - 1;
     int size = (Height - qAbs(deviation)) / m_numSize; //偏移量越大，数字越小
+                                                       //The larger the offset, the smaller the number
     int transparency = 255 - 255 * qAbs(deviation) / Height;
     int height = Height / devide;
     int y = Height / 2 + deviation - height / 2;
@@ -208,10 +222,12 @@ QString VerticalScroll_24::change_NUM_to_str(int alarmHour)
 
 void VerticalScroll_24::paintNum_24(QPainter &painter, int Height)
 {
+    // 中间数
     //middle number
     paintNum(painter, m_currentValue, m_deviation);
 
-    //两侧数字1
+    //两侧数字
+    // Numbers on both sides
     if (m_currentValue != m_minRange) {
         paintNum(painter, m_currentValue - interval, m_deviation - Height / devide);
     } else {
@@ -272,7 +288,8 @@ void VerticalScroll_24::paintNum_12(QPainter &painter, int Height)
 
 
 /*
- * 使选中的数字回到屏幕中间
+ *  使选中的数字回到屏幕中间
+ *  Bring the selected number back to the middle of the screen
 */
 void VerticalScroll_24::homing()
 {
@@ -292,11 +309,14 @@ void VerticalScroll_24::homing()
     homingAni->start();
 }
 
+//鼠标移动偏移量，默认为0
+// Mouse movement offset, default is 0
 int VerticalScroll_24::readDeviation()
 {
     return m_deviation;
 }
-
+//设置偏移量
+// Set offset
 void VerticalScroll_24::setDeviation(int n)
 {
     m_deviation = n;

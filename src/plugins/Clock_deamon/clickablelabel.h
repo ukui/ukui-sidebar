@@ -28,6 +28,8 @@ public:
 signals:
     void clicked();
 protected:
+    //鼠标事件
+    //Mouse events
     void mousePressEvent(QMouseEvent* event);};
 
 #endif // CLICKABLELABEL_H

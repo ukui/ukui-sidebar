@@ -31,6 +31,7 @@ Countdown_Animation::Countdown_Animation(QWidget *parent , int value) :
 
     QGradientStops gradientPoints;
     gradientPoints << QGradientStop(0.5, QColor(255, 160, 90)) << QGradientStop(1, QColor(180, 30, 10)); //渐变起止颜色设置
+                                                                                                         // Gradient start and stop color settings
     RoundBar3->setDataColors(gradientPoints);
     connectToSlider(RoundBar3);
 }
@@ -41,7 +42,8 @@ Countdown_Animation::~Countdown_Animation()
     delete RoundBar3;
     qDebug()<<"-------Countdown_Animation---------";
 }
-
+//设置动态光圈转动频率
+// Set dynamic diaphragm rotation frequency
 void Countdown_Animation::connectToSlider(QRoundProgressBar *bar)
 {
     timer = new QTimer();
