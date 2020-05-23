@@ -1864,10 +1864,10 @@ void Clock::alarm_set_start_time()
     min_ring->setStyleSheet("font: 13pt ;color: rgb(148, 148, 148);");
 
     timer_alarm_start24->move(161, 105);
-    hour_ring->move(161,100);
+    hour_ring->move(162,100);
     h_in_m->move(217,182);
     timer_alarm_start60->move(233, 105);
-    min_ring->move(233,100);
+    min_ring->move(235,100);
 }
 //闹钟初始化工作日选择界面绘制回调
 // Alarm clock initialization workday selection interface drawing callback
