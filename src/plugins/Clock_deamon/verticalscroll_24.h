@@ -41,29 +41,44 @@ public:
 
     ~VerticalScroll_24();
     //设置范围
+    // set range
     void setRange(int min, int max);
     //获取当前值
+    // Get current value
     int readValue();
-    int m_currentValue;  //当前选中的值
+    //当前选中的值
+    //Currently selected value
+    int m_currentValue;
     Clock *m_Pclock;
 
 protected:
+    //鼠标按压选择当前值
+    // Press the mouse to select the current value
     void mousePressEvent(QMouseEvent *);
-
+    //鼠标拖动，滚轮滚动
+    //  Mouse drag, scroll wheel
     void mouseMoveEvent(QMouseEvent *);
-
+    //鼠标释放，数值弹回正中间
+    //  Release the mouse, and the value will bounce back to the middle
     void mouseReleaseEvent(QMouseEvent *);
-
+    //鼠标滑轮滚动，数值滚动
+    //  Mouse wheel scrolling, numerical scrolling
     void wheelEvent(QWheelEvent *);
-
+    //绘制当前数值轮画面
+    // Draw the current numerical wheel screen
     void paintEvent(QPaintEvent *);
+
     //描绘数字
+    // Drawing numbers
     void paintNum(QPainter &painter, int num, int deviation);
     //使选中的数字回到屏幕中间
+    //Bring the selected number back to the middle of the screen
     void homing();
     //鼠标移动偏移量，默认为0
+    // Mouse movement offset, default is 0
     int readDeviation();
     //设置偏移量
+    // Set offset
     void setDeviation(int n);
 
     void setupUi(QWidget *VerticalScroll_24);
@@ -83,16 +98,16 @@ private:
     Ui::VerticalScroll_24 *ui;
 
 private:
-    int m_minRange;      //最小值
-    int m_maxRange;      //最大值
+    int m_minRange;      //最小值  // minimum value
+    int m_maxRange;      //最大值  // Maximum
 
-    bool isDragging;        //鼠标是否按下
-    int m_deviation;        //偏移量,记录鼠标按下后移动的垂直距离
+    bool isDragging;     //鼠标是否按下 // Muse down
+    int m_deviation;     //偏移量,记录鼠标按下后移动的垂直距离  // Offset, record the vertical distance after mouse is pressed
     int m_mouseSrcPos;
     int m_numSize;
     QPropertyAnimation *homingAni;
-    const int interval;  //间隔大小
-    const int devide;       //分隔数量
+    const int interval;  //间隔大小 // Interval size
+    const int devide;       //分隔数量 // Number of partitions
     void paintNum_24(QPainter &painter, int Height);
     void paintNum_12(QPainter &painter, int Height);
     QString change_NUM_to_str(int alarmHour);

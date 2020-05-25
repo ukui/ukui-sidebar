@@ -43,27 +43,27 @@ public:
 
 private slots:
     void Mute_starting();                                                                //静音开关回调
-
+                                                                                         // Mute switch callback
     void werk_day_set();                                                                 //默认工作日日期设置回调
-
+                                                                                         // Default workday date setting callback
     void Time_format_set();                                                              //时间格式设置回调
-
+                                                                                         // Time format callback
     void Pop_up_window_set();                                                            //弹窗方式设置回调
-
+                                                                                         // Pop up mode setting callback
     void Reminder_off_set();                                                             //提醒关闭回调
-
+                                                                                         // Reminder close callback
     void Default_ringtone_set();                                                         //默认铃声设置回调
-
+                                                                                         // Default ringtone setting callback
     void werk_day_listClickslot();                                                       //工作日选择单击回调
-
+                                                                                         // Weekday select click callback
     void Time_format_listClickslot();                                                    //时间格式选择单击回调
-
+                                                                                         // Time format selection click callback
     void Pop_up_window_listClickslot();                                                  //弹窗方式选择单击回调
-
+                                                                                         // Pop up mode select click callback
     void Reminder_off_listClickslot();                                                   //提醒关闭选择单击回调
-
+                                                                                         // Reminder off select click callback
     void Default_ringtone_listClickslot();                                               //默认铃声选择单击回调
-
+                                                                                         // Default ring tone selection click callback
 private:
     QSqlTableModel *model_setup;
     QPixmap repeat_on_Pixmap;

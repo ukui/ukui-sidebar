@@ -33,7 +33,8 @@ public:
     explicit delete_msg(QWidget *parent = nullptr);
     ~delete_msg();
     int close_sure;
-
+    //绘制底部阴影
+    // Draw bottom shadow
     void paintEvent(QPaintEvent *event)
     {
         QPainter painter(this);

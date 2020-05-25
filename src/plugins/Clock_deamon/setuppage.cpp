@@ -105,6 +105,7 @@ void setuppage::Mute_starting()
 
 }
 //默认工作日日期设置回调
+// Default workday date setting callback
 void setuppage::werk_day_set()
 {
      dialog_werk_day->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
@@ -131,6 +132,7 @@ void setuppage::werk_day_set()
      dialog_werk_day->show();
 }
 //工作日选择单击回调
+// Weekday select click callback
 void setuppage::werk_day_listClickslot()
 {
     model_setup->select();
@@ -240,10 +242,9 @@ void setuppage::werk_day_listClickslot()
 }
 
 //时间格式设置回调
+// Time format callback
 void setuppage::Time_format_set()
 {
-
-
     Time_format->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
     Time_format->setAttribute(Qt::WA_TranslucentBackground);
     QPointF position = parentWidget()->pos();
@@ -262,6 +263,7 @@ void setuppage::Time_format_set()
 }
 
 //时间格式选择单击回调
+// Time format selection click callback
 void setuppage::Time_format_listClickslot()
 {
     model_setup->select();
@@ -291,8 +293,8 @@ void setuppage::Time_format_listClickslot()
     Time_format->hide();
     model_setup->submitAll();
 }
-
-
+//弹窗方式设置回调
+// Pop up mode setting callback
 void setuppage::Pop_up_window_set()
 {
     Pop_up_window->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
@@ -307,6 +309,7 @@ void setuppage::Pop_up_window_set()
 }
 
 //弹窗方式选择单击回调
+// Pop up mode select click callback
 void setuppage::Pop_up_window_listClickslot()
 {
     model_setup->select();
@@ -332,7 +335,8 @@ void setuppage::Pop_up_window_listClickslot()
     model_setup->submitAll();
 }
 
-
+//提醒关闭回调
+// Reminder close callback
 void setuppage::Reminder_off_set()
 {
     Reminder_off->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
@@ -355,6 +359,7 @@ void setuppage::Reminder_off_set()
 }
 
 //提醒关闭选择单击回调
+// Reminder off select click callback
 void setuppage::Reminder_off_listClickslot()
 {
     model_setup->select();
@@ -384,10 +389,10 @@ void setuppage::Reminder_off_listClickslot()
     Reminder_off->hide();
     model_setup->submitAll();
 }
-
+//默认铃声设置回调
+// Default ringtone setting callback
 void setuppage::Default_ringtone_set()
 {
-
     Default_ringtone->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
     Default_ringtone->setAttribute(Qt::WA_TranslucentBackground);
     QPointF position = parentWidget()->pos();
@@ -403,6 +408,7 @@ void setuppage::Default_ringtone_set()
 }
 
 //默认铃声选择单击回调
+// Default ring tone selection click callback
 void setuppage::Default_ringtone_listClickslot()
 {
     model_setup->select();

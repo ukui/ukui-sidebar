@@ -41,12 +41,18 @@ public:
      Ui::Natice_alarm *ui;
 
 protected:
+     //绘制背景
+     // Draw background
     void paintEvent(QPaintEvent *);
 
 private slots:
+    //窗口关闭    window closing
     void set_dialog_close();
+    //关闭音乐    Turn off music
     void close_music();
+    //再次弹出    Eject again
     void show_again();
+    //响铃       Ring a bell
     void ring();
 
 private:

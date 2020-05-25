@@ -28,24 +28,33 @@ class SingleApplication : public QApplication {
 public:
     SingleApplication(int &argc, char **argv);
 
-    bool isRunning();               // 是否已經有实例在运行
+    bool isRunning();              //是否已经有实例在运行
+                                   //  Whether an instance is already running
     Clock *w;                      // Widget指针
+                                   // Widget pointer
 
 private slots:
     // 有新连接时触发
+    // Triggered when there is a new connection
     void _newLocalConnection();
 
 private:
     // 初始化本地连接
+    // Initialize local connection
     void _initLocalConnection();
     // 创建服务端
+    // Create server
     void _newLocalServer();
     // 激活窗口
+    // Activate window
     void _activateWindow();
 
     bool _isRunning;                // 是否已經有实例在运行
+                                    // Whether an instance is already running
     QLocalServer *_localServer;     // 本地socket Server
+                                    // Local socket server
     QString _serverName;            // 服务名称
+                                    // Service name
 };
 
 

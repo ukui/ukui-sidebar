@@ -22,14 +22,14 @@
 
 VerticalScroll_99::VerticalScroll_99(QWidget *parent) :
     QWidget(parent),
-    m_minRange(0),      //最小值默认为0
-    m_maxRange(48),    //最大值默认99
-    m_currentValue(0), //当前值默认0
+    m_minRange(0),     //最小值默认为0  // The minimum value defaults to 0
+    m_maxRange(48),    //最大值默认99   // Max default 24
+    m_currentValue(0), //当前值默认0    // Current value defaults to 0
     isDragging(false),
-    m_deviation(0),     //默认偏移量为0
+    m_deviation(0),   //默认偏移量为0   // The default offset is 0
     m_numSize(4),
-    interval(1),      //间隔默认1
-    devide(4)           //默认分成4格
+    interval(1),      //间隔默认1      // Interval default 1
+    devide(4)         //默认分成4格    // Divided into 4 grids by default
 {
     setupUi(this);
 
@@ -53,6 +53,7 @@ VerticalScroll_99::~VerticalScroll_99()
 }
 /*
  * 设置范围
+ * set range
  * int min 最小值
  * int max 最大值
 */
@@ -67,6 +68,7 @@ void VerticalScroll_99::setRange(int min, int max)
     repaint();
 }
 //获取当前值
+//Get current value
 int VerticalScroll_99::readValue()
 {
     return m_currentValue;
@@ -98,6 +100,7 @@ void VerticalScroll_99::mouseMoveEvent(QMouseEvent *e)
 
         m_deviation = e->pos().y() - m_mouseSrcPos;
         //若移动速度过快，则进行限制
+        // If the movement speed is too fast, limit it
         if (m_deviation > (height() - 1) / devide) {
             m_deviation = (height() - 1) / devide;
         } else if (m_deviation < -(height() - 1) / devide) {
@@ -151,10 +154,12 @@ void VerticalScroll_99::paintEvent(QPaintEvent *)
         m_currentValue += interval;
     }
 
+    // 中间数
     //middle number
     paintNum(painter, m_currentValue, m_deviation);
 
-    //两侧数字1
+    //两侧数字
+    // Numbers on both sides
     if (m_currentValue != m_minRange)
         paintNum(painter, m_currentValue - interval, m_deviation - Height / devide);
     else
@@ -176,6 +181,7 @@ void VerticalScroll_99::paintEvent(QPaintEvent *)
 }
 /*
  * 根据偏移量描绘数字
+ * Drawing numbers
  * int num 需要显示的数字
  * int deviation 数字相对中间的偏移量
 */
@@ -184,6 +190,7 @@ void VerticalScroll_99::paintNum(QPainter &painter, int num, int deviation)
     int Width = width() - 1;
     int Height = height() - 1;
     int size = (Height - qAbs(deviation)) / m_numSize; //偏移量越大，数字越小
+                                                       //The larger the offset, the smaller the number
     int transparency = 255 - 255 * qAbs(deviation) / Height;
     int height = Height / devide;
     int y = Height / 2 + deviation - height / 2;
@@ -200,6 +207,7 @@ void VerticalScroll_99::paintNum(QPainter &painter, int num, int deviation)
 }
 
 //单位变双位
+// Unit to double
 QString VerticalScroll_99::change_NUM_to_str(int alarmHour)
 {
     QString str;
@@ -214,6 +222,7 @@ QString VerticalScroll_99::change_NUM_to_str(int alarmHour)
 
 /*
  * 使选中的数字回到屏幕中间
+ * Bring the selected number back to the middle of the screen
 */
 void VerticalScroll_99::homing()
 {
@@ -233,11 +242,15 @@ void VerticalScroll_99::homing()
     homingAni->start();
 }
 
+//鼠标移动偏移量，默认为0
+// Mouse movement offset, default is 0
 int VerticalScroll_99::readDeviation()
 {
     return m_deviation;
 }
 
+//设置偏移量
+// Set offset
 void VerticalScroll_99::setDeviation(int n)
 {
     m_deviation = n;

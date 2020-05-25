@@ -43,11 +43,14 @@ public:
 
     ~VerticalScroll_99();
     //设置范围
+    // set range
     void setRange(int min, int max);
     //获取当前值
+    // Get current value
     int readValue();
-
-    int m_currentValue;  //当前选中的值
+    //当前选中的值
+    //Currently selected values
+    int m_currentValue;
 
     void setupUi(QWidget *VerticalScroll_99);
 
@@ -68,12 +71,16 @@ protected:
 
     void paintEvent(QPaintEvent *);
     //描绘数字
+    // Drawing numbers
     void paintNum(QPainter &painter, int num, int deviation);
     //使选中的数字回到屏幕中间
+    //Bring the selected number back to the middle of the screen
     void homing();
     //鼠标移动偏移量，默认为0
+    // Mouse movement offset, default is 0
     int readDeviation();
     //设置偏移量
+    // Set offset
     void setDeviation(int n);
 
 
@@ -89,16 +96,16 @@ private:
     QTimer *timer_21111;
 
 private:
-    int m_minRange;      //最小值
-    int m_maxRange;      //最大值
+    int m_minRange;      //最小值  // minimum value
+    int m_maxRange;      //最大值  // Maximum
 
-    bool isDragging;        //鼠标是否按下
-    int m_deviation;        //偏移量,记录鼠标按下后移动的垂直距离
+    bool isDragging;        //鼠标是否按下 // Muse down
+    int m_deviation;        //偏移量,记录鼠标按下后移动的垂直距离  // Offset, record the vertical distance after mouse is pressed
     int m_mouseSrcPos;
     int m_numSize;
     QPropertyAnimation *homingAni;
-    const int interval;  //间隔大小
-    const int devide;       //分隔数量
+    const int interval;  //间隔大小   // Interval size
+    const int devide;       //分隔数量   // Number of partitions
     QString change_NUM_to_str(int alarmHour);
 };
 

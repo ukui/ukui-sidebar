@@ -31,14 +31,15 @@ DotLineDemo::~DotLineDemo()
 
 }
 
-
+//绘制虚线圈
+// Draw a dashed circle
 void DotLineDemo::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
 
     QPainter painter(this);
 
-    // 反走样
+    // 反走样  antialiasing
     painter.setRenderHint(QPainter::Antialiasing, true);
 
     //color: rgb(148, 148, 148);   Qt::gray

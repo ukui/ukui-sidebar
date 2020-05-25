@@ -21,7 +21,8 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QStandardPaths>
-
+//创建或打开数据库
+//Create or open database
 static bool createConnection()
 {
 

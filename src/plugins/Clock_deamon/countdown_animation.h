@@ -44,6 +44,8 @@ public:
     int value_max=100;
 
 private:
+    //设置动态光圈转动频率
+    // Set dynamic diaphragm rotation frequency
     void connectToSlider(class QRoundProgressBar* bar);
 
     void con();

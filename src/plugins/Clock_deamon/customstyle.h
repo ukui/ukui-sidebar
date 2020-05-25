@@ -21,6 +21,7 @@
 
 #include <QProxyStyle>
 #include <QDebug>
+#include <QSqlTableModel>
 /*!
  * \brief The CustomStyle class
  * \details
@@ -151,6 +152,9 @@ public:
 signals:
 
 public slots:
+
+private:
+        QSqlTableModel *model_setup;
 };
 
 #endif // CUSTOMSTYLE_H

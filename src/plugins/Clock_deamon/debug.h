@@ -24,6 +24,8 @@
 #include <QMutex>
 #include <QTime>
 
+//输出消息
+// Output message
 static void outputMessage(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
     static QMutex mutex;
