@@ -431,15 +431,16 @@ void Clock::Count_down()
     } else {
         stopwatch_s = QString::number(second);
     }
-
     ui->label_4->setText(stopwatch_h+":"+stopwatch_m+"."+stopwatch_s);
 
     second++;
-    if (second==100)
+    if (second==100){
         minute++; second=0;
+    }
 
-    if (minute==60)
+    if (minute==60){
         hour++; minute=0;
+    }
 
 }
 //秒表开始暂停继续
