@@ -32,6 +32,7 @@ SOURCES += \
     edit_page.cpp \
     emptyNotes.cpp \
     fontButton.cpp \
+    headerbar.cpp \
     iconviewmodedelegate.cpp \
     listViewModeDelegate.cpp \
     main.cpp \
@@ -58,6 +59,7 @@ HEADERS += \
     edit_page.h \
     emptyNotes.h \
     fontButton.h \
+    headerbar.h \
     iconviewmodedelegate.h \
     listViewModeDelegate.h \
     mythrow.h \
