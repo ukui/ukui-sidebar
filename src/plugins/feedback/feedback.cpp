@@ -139,7 +139,7 @@ void feedback::UI_init()
     this->setSizeIncrement(QSize(0, 0));
     this->setWindowTitle(tr("用户反馈"));
     this->setFixedSize(600,550);
-    this->setWindowIcon(QIcon(":/image/kylin-feedback.png"));
+    this->setWindowIcon(QIcon::fromTheme("kylin-feedback",QIcon(":/image/kylin-feedback.png")));
     //设置窗口无边框
     //Set the window to be borderless.
     this->setWindowFlags(Qt::FramelessWindowHint);
