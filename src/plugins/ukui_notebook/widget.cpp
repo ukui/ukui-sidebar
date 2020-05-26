@@ -19,6 +19,7 @@
 #include "ui_widget.h"
 #include "listViewModeDelegate.h"
 #include "edit_page.h"
+#include "headerbar.h"
 
 #define FIRST_LINE_MAX 80
 int sink = 0;
@@ -235,7 +236,7 @@ void Widget::kyNoteInit()
     //标题
     this->setWindowTitle(tr("ukui-note"));
     //任务栏图标
-    setWindowIcon(QIcon(":/image/kylin-notebook.svg"));
+    setWindowIcon(QIcon::fromTheme("kylin-notebook",QIcon(":/image/kylin-notebook.svg")));
     //按钮
     set_all_btn_attribute();
     //搜索框
@@ -258,6 +259,9 @@ void Widget::kyNoteInit()
     setAttribute(Qt::WA_TranslucentBackground);
     //退出框
     m_noteExitWindow = new noteExitWindow(this);
+
+//    auto headerBar = new HeaderBar(this);
+//    headerBar->show();
 }
 
 void Widget::kyNoteConn()
