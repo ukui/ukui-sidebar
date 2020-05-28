@@ -65,7 +65,8 @@ HeaderBar::HeaderBar(Widget *parent) : QToolBar(parent)
     auto a = addAction(QIcon::fromTheme("view-grid-symbolic"), tr("View Type"));
     auto viewType = qobject_cast<QToolButton *>(widgetForAction(a));
     viewType->setAutoRaise(false);
-    viewType->setFixedSize(QSize(57, 40));
+//    viewType->setFixedSize(QSize(57, 40));
+    viewType->setFixedSize(QSize(32, 32));
     viewType->setIconSize(QSize(16, 16));
     viewType->setPopupMode(QToolButton::InstantPopup);
 
@@ -89,10 +90,12 @@ HeaderBar::HeaderBar(Widget *parent) : QToolBar(parent)
 
     addSpacing(2);
 
-    a = addAction(QIcon::fromTheme("view-sort-ascending-symbolic"), tr("Sort Type"));
+//    a = addAction(QIcon::fromTheme("view-sort-ascending-symbolic"), tr("Sort Type"));
+    a = addAction(QIcon(":/image/1x/array.png"), tr("Sort Type"));
     auto sortType = qobject_cast<QToolButton *>(widgetForAction(a));
+    //sortType->setStyleSheet("QToolButton{background-color:rgba(19,20,20,0);}");
     sortType->setAutoRaise(false);
-    sortType->setFixedSize(QSize(57, 40));
+    sortType->setFixedSize(QSize(32, 32));
     sortType->setIconSize(QSize(16, 16));
     sortType->setPopupMode(QToolButton::InstantPopup);
 
@@ -137,17 +140,6 @@ void HeaderBar::mouseMoveEvent(QMouseEvent *e)
     this->topLevelWidget()->setCursor(c);
 }
 
-void HeaderBar::updateIcons()
-{
-//    qDebug()<<m_window->getCurrentUri();
-//    qDebug()<<m_window->getCurrentSortColumn();
-//    qDebug()<<m_window->getCurrentSortOrder();
-//    m_view_type_menu->setCurrentDirectory(m_window->getCurrentUri());
-//    m_view_type_menu->setCurrentView(m_window->getCurrentPage()->getView()->viewId(), true);
-//    m_sort_type_menu->switchSortTypeRequest(m_window->getCurrentSortColumn());
-//    m_sort_type_menu->switchSortOrderRequest(m_window->getCurrentSortOrder());
-}
-
 //HeaderBarToolButton
 HeaderBarToolButton::HeaderBarToolButton(QWidget *parent) : QToolButton(parent)
 {
@@ -190,16 +182,16 @@ void HeaderBarStyle::drawComplexControl(QStyle::ComplexControl control, const QS
     //This is a "lie". We want to use instant popup menu for tool button, and we aslo
     //want use popup menu style with this tool button, so we change the related flags
     //to draw in our expected.
-    qDebug() << "drawComplexControl";
+    //qDebug() << "drawComplexControl";
     if (control == CC_ToolButton) {
-        qDebug() << "######";
+        //qDebug() << "######";
         QStyleOptionToolButton button = *qstyleoption_cast<const QStyleOptionToolButton *>(option);
         //The button has a popup menu.
         //if (button.features.testFlag(QStyleOptionToolButton::HasMenu)) {
-            qDebug() << "drawComplexControl 1111";
+            //qDebug() << "drawComplexControl 1111";
             button.features = QStyleOptionToolButton::None;
             if (!widget->property("isOptionButton").toBool()) {
-                qDebug() << "drawComplexControl 2222";
+                //qDebug() << "drawComplexControl 2222";
                 button.features |= QStyleOptionToolButton::HasMenu;
                 button.features |= QStyleOptionToolButton::MenuButtonPopup;
                 //QStyle::SubControls 此枚举描述可用的子控件
@@ -209,7 +201,7 @@ void HeaderBarStyle::drawComplexControl(QStyle::ComplexControl control, const QS
             return QProxyStyle::drawComplexControl(control, &button, painter, widget);
         //}
     }
-    qDebug() << "drawComplexControl 3333";
+    //qDebug() << "drawComplexControl 3333";
     return QProxyStyle::drawComplexControl(control, option, painter, widget);
 }
 

@@ -18,6 +18,7 @@
 #include "widget.h"
 #include "ui_widget.h"
 #include "listViewModeDelegate.h"
+#include "iconviewmodedelegate.h"
 #include "edit_page.h"
 #include "headerbar.h"
 
@@ -34,7 +35,7 @@ Widget::Widget(QWidget *parent) :
   , m_trashButton(Q_NULLPTR)
   , m_countLabel(Q_NULLPTR)
   , m_sortLabel(Q_NULLPTR)
-  , m_changePage(Q_NULLPTR)
+  , m_viewChangeButton(Q_NULLPTR)
   , m_noteView(Q_NULLPTR)
   , m_noteTable(Q_NULLPTR)
   , m_noteModel(new NoteModel(this))
@@ -127,21 +128,9 @@ void Widget::setupIconModeModel()
     m_proxyModel->setFilterRole(NoteModel::NoteFullTitle);//此属性保留项目角色，该角色用于在过滤项目时查询源模型的数据
     m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);//
 
-    m_noteView->setItemDelegate(new listViewModeDelegate(m_noteView));    //安装定制delegate提供编辑功能
+    m_noteView->setItemDelegate(new iconViewModeDelegate(m_noteView));    //安装定制delegate提供编辑功能
     m_noteView->setModel(m_proxyModel);//设置view的model是proxyModel，proxyModel作为view和QAbstractListModel的桥
 }
-
-//void Widget::setupTableView()
-//{
-//    m_noteTable = static_cast<NoteTable*>(ui->tableView);
-//    m_proxyModel->setSourceModel(m_noteModel);          //代理真正的数据模型，对数据进行排序和过滤
-//    m_proxyModel->setFilterKeyColumn(3);                //此属性保存用于读取源模型内容的键的列,listview只有一列所以是0
-//    m_proxyModel->setFilterRole(NoteModel::NoteFullTitle);//此属性保留项目角色，该角色用于在过滤项目时查询源模型的数据
-//    m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);//
-
-//    m_noteTable->setItemDelegate(new listViewModeDelegate(m_noteTable));    //安装定制delegate提供编辑功能
-//    m_noteTable->setModel(m_proxyModel);//设置view的model是proxyModel，proxyModel作为view和QAbstractListModel的桥梁
-//}
 
 void Widget::initializeSettingsDatabase()
 {
@@ -216,13 +205,12 @@ void Widget::kyNoteInit()
 
     m_ukui_SearchLine = ui->SearchLine;
     m_newKynote = ui->newKynote;
-    m_trashButton = ui->add_more_btn;
+    m_trashButton = ui->trashButton;
     m_countLabel = ui->label;
     m_sortLabel = ui->sort_btn;
-    m_changePage = ui->change_page_btn;
+    m_viewChangeButton = ui->viewChangeButton;
 
     initListMode();
-    initTableModel();
 
     //设置鼠标追踪
     ui->widget->setMouseTracking(true);
@@ -253,15 +241,17 @@ void Widget::kyNoteInit()
     setMask(bmp);
 
     ui->set_btn->hide();
-    ui->change_page_btn->hide();
-    ui->add_more_btn->move(575, 0);
+    //m_viewChangeButton->hide();
+    //m_trashButton->move(575, 0);
     ui->frame->hide();
     setAttribute(Qt::WA_TranslucentBackground);
     //退出框
     m_noteExitWindow = new noteExitWindow(this);
 
-//    auto headerBar = new HeaderBar(this);
-//    headerBar->show();
+    auto headerBar = new HeaderBar(this);
+    //headerBar->show();
+    headerBar->hide();
+    headerBar->move(550,5);
 }
 
 void Widget::kyNoteConn()
@@ -281,7 +271,7 @@ void Widget::kyNoteConn()
     //升/降序按钮
     connect(m_sortLabel,&QPushButton::clicked,this,&Widget::sortSlot);
     //列表平铺切换
-    connect(m_changePage,&QPushButton::clicked,this,&Widget::changePageSlot);
+    connect(m_viewChangeButton,&QPushButton::clicked,this,&Widget::changePageSlot);
     //搜索栏文本输入
     connect(m_ukui_SearchLine, &QLineEdit::textChanged, this, &Widget::onSearchEditTextChanged);
     //退出弹窗
@@ -408,9 +398,9 @@ void Widget::set_all_btn_attribute()
     ui->pushButton_Mini->setIcon(pixmap11);
     ui->set_btn->setIcon(pixmap12);
 
-    ui->change_page_btn->setIcon(pixmap5);
-    ui->add_more_btn->setIcon(pixmap6);
-    ui->add_more_btn->setIconSize(QSize(36,36));
+    m_viewChangeButton->setIcon(pixmap5);
+    m_trashButton->setIcon(pixmap6);
+    m_trashButton->setIconSize(QSize(36,36));
 
     ui->sort_btn->setIcon(pixmap8);
     ui->sort_btn->setIconSize(QSize(36,36));
@@ -419,7 +409,8 @@ void Widget::set_all_btn_attribute()
     ui->sort_2_btn->setIconSize(QSize(36,36));
 
     ui->newKynote->setToolTip(tr("Create New Note"));
-    ui->add_more_btn->setToolTip(tr("Delete Selected Note"));
+    m_trashButton->setToolTip(tr("Delete Selected Note"));
+    m_viewChangeButton->setToolTip(tr("Switch View"));
     ui->sort_btn->setToolTip(tr("Sort"));
     ui->sort_2_btn->setToolTip(tr("Switching Themes"));
     ui->pushButton_Exit->setToolTip(tr("Exit"));
@@ -439,18 +430,19 @@ void Widget::setListFlag(const int &listflag)
 void Widget::initIconMode()
 {
     qDebug() << "init Icon Mode";
-    m_noteView = new NoteView(this);
-    m_noteView->setMinimumSize(686,480);
+//    m_noteView = new NoteView(this);
+//    m_noteView->setMinimumSize(686,480);
+    m_noteView = static_cast<NoteView*>(ui->listView);
     m_noteView->setViewMode(QListView::IconMode);
     qDebug() << "initIconMode : current mode : " << m_noteView->viewMode();
 
     m_noteView->setSelectionMode(QListView::ExtendedSelection);
     m_noteView->setEditTriggers(QListView::NoEditTriggers);
     m_noteView->setResizeMode(QListView::Adjust);
-    m_noteView->setMovement(QListView::Snap);
+    //m_noteView->setMovement(QListView::Snap);
     m_noteView->setContextMenuPolicy(Qt::CustomContextMenu);
-    m_noteView->setGridSize(QSize(115, 135));
-    m_noteView->setIconSize(QSize(64, 64));
+    //m_noteView->setGridSize(QSize(227, 246));
+    //m_noteView->setIconSize(QSize(227, 246));
     setupIconModeModel();
 }
 
@@ -474,18 +466,6 @@ void Widget::initListMode()
     //显示当前拖动的项将被放在什么地方
     m_noteView->setDropIndicatorShown(true);
     setupListModeModel();
-}
-
-void Widget::initTableModel()
-{
-    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    ui->tableView->setShowGrid(false);
-    ui->tableView->horizontalHeader()->setDefaultSectionSize(200);
-    ui->tableView->verticalHeader()->setDefaultSectionSize(6);
-    ui->tableView->verticalHeader()->hide();
-    ui->tableView->horizontalHeader()->hide();
-    ui->tableView->hide();
-    ui->tableView->setMinimumHeight(25);
 }
 
 void Widget::deleteNote(const QModelIndex &noteIndex, bool isFromUser)
@@ -847,8 +827,8 @@ void Widget::black_show()
                                                "color: rgb(126, 126, 126);"));
     ui->sort_btn->setStyleSheet(QString::fromUtf8("background-color: rgba(19,20,20,0);"));
     ui->sort_2_btn->setStyleSheet(QString::fromUtf8("background-color: rgba(19,20,20,0);"));
-    ui->add_more_btn->setStyleSheet("background-color: rgb(43,49,56);\n");
-    ui->change_page_btn->setStyleSheet("background-color: rgb(43,49,56);\n");
+    m_trashButton->setStyleSheet("background-color: rgb(43,49,56);\n");
+    m_viewChangeButton->setStyleSheet("background-color: rgb(43,49,56);\n");
 
     ui->pushButton_Exit->setStyleSheet("background-color: rgba(19,20,20, 0);color: rgba(255, 255, 255,0.8);");
     ui->pushButton_Mini->setStyleSheet("background-color: rgba(19,20,20, 0);color: rgba(255, 255, 255,0.8);");
@@ -892,8 +872,8 @@ void Widget::light_show()
                                                "color: rgb(126, 126, 126);"));
     ui->sort_btn->setStyleSheet(QString::fromUtf8("background-color: rgba(233,233,233,0); color: rgba(0,0,0,0.8);"));
     ui->sort_2_btn->setStyleSheet(QString::fromUtf8("background-color: rgba(233,233,233,0);color: rgba(0,0,0,0.8);"));
-    ui->add_more_btn->setStyleSheet("background-color: rgba(198, 198, 198, 0.4);color: rgba(0,0,0,0.8);");
-    ui->change_page_btn->setStyleSheet("background-color: rgb(198, 198, 198);color: rgba(0,0,0,0.8);");
+    m_trashButton->setStyleSheet("background-color: rgba(198, 198, 198, 0.4);color: rgba(0,0,0,0.8);");
+    m_viewChangeButton->setStyleSheet("background-color: rgb(198, 198, 198);color: rgba(0,0,0,0.8);");
 
     ui->pushButton_Exit->setIcon(pixmap10);
     ui->pushButton_Exit->setIconSize(QSize(36,36));

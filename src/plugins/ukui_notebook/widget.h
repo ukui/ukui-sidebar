@@ -47,7 +47,6 @@
 
 #include "mythrow.h"
 #include "noteview.h"
-#include "noteTable.h"
 #include "notedata.h"
 #include "notemodel.h"
 #include "dbmanager.h"
@@ -115,7 +114,7 @@ private:
     QPushButton* m_trashButton;                                     //删除按钮
     QLabel* m_countLabel;                                           //item记数
     QPushButton* m_sortLabel;                                       //升/降序按钮
-    QPushButton* m_changePage;                                      //列表/平铺切换按钮
+    QPushButton* m_viewChangeButton;                                      //列表/平铺切换按钮
     NoteView* m_noteView;                                           //listview
     QTableView* m_noteTable;                                        //tableview
     NoteModel* m_noteModel;                                         //便签模板
@@ -140,7 +139,6 @@ private:
     void kyNoteConn();                                              //绑定槽函数
     void initIconMode();                                            //初始化图标
     void initListMode();                                            //初始化列表
-    void initTableModel();                                          //初始化表格
     void black_show();                                              //黑色主题
     void light_show();                                              //白色主题
     void set_all_btn_attribute();                                   //初始化按钮
@@ -153,7 +151,6 @@ private:
     void createNewNoteIfEmpty();                                    //初始时创建一个便签
     void setupListModeModel();                                      //代理列表模板
     void setupIconModeModel();                                      //代理图标模板
-    //void setupTableView();                                        //代理表格模板
     void saveNoteToDB(const QModelIndex& noteIndex);                //保存到数据库
     NoteData* generateNote(const int noteID);                       //新建便签时初始化
     QString getFirstLine(const QString& str);                       //获取文本内容第一行
