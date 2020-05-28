@@ -181,7 +181,7 @@ void Clock::button_image_init()
     off_pixmap = QPixmap(":/alarm_off.png");
     clock_icon = QPixmap(":/kylin-alarm-clock.svg");
     //this->setWindowIcon(clock_icon);
-    this->setWindowIcon(QIcon::fromTheme("kylin-clock",QIcon(":/kylin-alarm-clock.svg")));
+    this->setWindowIcon(QIcon::fromTheme("kylin-alarm-clock",QIcon(":/kylin-alarm-clock.svg")));
 
     ui->pushButton->setIcon(pixmap1);
     ui->pushButton_2->setIcon(pixmap4);
