@@ -110,7 +110,7 @@ void listViewModeDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
 {
     QStyleOptionViewItem opt = option;
     opt.rect.setWidth(option.rect.width() - m_rowRightOffset);      //678
-
+    qDebug() << "paint" << option.rect.width();
     int currentFrame = m_timeLine->currentFrame();                  //0
     double rate = (currentFrame/(m_maxFrame * 1.0));                //0
     double height = m_rowHeight * rate;                             //0
@@ -121,12 +121,14 @@ void listViewModeDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     case Remove:
     case MoveOut:
         if(index == m_animatedIndex){
+            qDebug() << "paint !!!!!!!!" << height;
             opt.rect.setHeight(int(height));
             //opt.backgroundBrush.setColor(m_notActiveColor);
         }
         break;
     case MoveIn:
         if(index == m_animatedIndex){
+            qDebug() << "paint@@@@" << height;
             opt.rect.setY(int(height));
         }
         break;
@@ -184,7 +186,7 @@ QSize listViewModeDelegate::sizeHint(const QStyleOptionViewItem &option, const Q
     }else{
         result.setHeight(m_rowHeight);
     }
-
+    //qDebug() << "sizeHint" << result;
     return result;
 }
 
@@ -268,9 +270,9 @@ void listViewModeDelegate::paintBackground(QPainter *painter, const QStyleOption
 
 void listViewModeDelegate::paintLabels(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-    const int leftOffsetX = 20;
+    const int leftOffsetX = 20;  // 左边距
     const int topOffsetY = 18;   // 标题上方的空格
-    const int spaceY = 5;       // 标题和日期之间的空格
+    const int spaceY = 5;        // 标题和日期之间的空格
 
     QString title{index.data(NoteModel::NoteFullTitle).toString()};
 

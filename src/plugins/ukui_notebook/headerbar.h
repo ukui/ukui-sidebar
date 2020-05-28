@@ -51,9 +51,6 @@ protected:
     void addSpacing(int pixel);
     void mouseMoveEvent(QMouseEvent *e);
 
-private Q_SLOTS:
-    void updateIcons();
-
 private:
     const QString m_uri;
     Widget *m_window;

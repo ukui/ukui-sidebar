@@ -40,7 +40,6 @@ SOURCES += \
     noteExitWindow.cpp \
     noteHead.cpp \
     noteHeadMenu.cpp \
-    noteTable.cpp \
     notedata.cpp \
     notemodel.cpp \
     noteview.cpp \
@@ -50,7 +49,6 @@ SOURCES += \
     set_font_size_page.cpp \
     singleApplication.cpp \
     singleitemButton.cpp \
-    tableModel.cpp \
     text_editing.cpp \
     widget.cpp
 
@@ -66,7 +64,6 @@ HEADERS += \
     noteExitWindow.h \
     noteHead.h \
     noteHeadMenu.h \
-    noteTable.h \
     notedata.h \
     notemodel.h \
     noteview.h \
@@ -76,7 +73,6 @@ HEADERS += \
     set_font_size_page.h \
     singleApplication.h \
     singleitemButton.h \
-    tableModel.h \
     text_editing.h \
     widget.h
 

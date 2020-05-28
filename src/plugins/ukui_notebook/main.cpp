@@ -43,6 +43,9 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
     case QtFatalMsg:
         strMsg = QString("Fatal:");
         break;
+    case QtInfoMsg:
+        strMsg = QString("Info:");
+        break;
     }
 
     // 设置输出信息格式
