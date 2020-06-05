@@ -32,7 +32,7 @@ color: rgb(255, 255, 255);
     <string notr="true">border-radius:7px;</string>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="page">
     <widget class="QPushButton" name="count_stat">
@@ -208,7 +208,7 @@ QPushButton:hover{background:rgba(143, 97, 47, 0.1)}</string>
        </property>
        <property name="styleSheet">
         <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(76, 76, 76);</string>
+background-color: rgba(255, 255, 255,0.04);</string>
        </property>
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -262,7 +262,7 @@ background-color: rgb(76, 76, 76);</string>
        </property>
        <property name="styleSheet">
         <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(76, 76, 76);</string>
+background-color: rgba(255, 255, 255,0.04);</string>
        </property>
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -474,7 +474,7 @@ QPushButton:hover{background-color: rgb(27, 143, 89);}
      <property name="styleSheet">
       <string notr="true">color: rgb(255, 255, 255);
 color: rgb(148, 148, 148);
-font: 12pt ;
+font: 13pt ;
 opacity:0.45;</string>
      </property>
      <property name="text">
@@ -493,7 +493,7 @@ opacity:0.45;</string>
      <property name="styleSheet">
       <string notr="true">selection-background-color:rgba(72,72,76,1);
 border-radius:0px 0px 6px 6px;
-border-radius:4px;</string>
+</string>
      </property>
     </widget>
     <widget class="Line" name="line_4">
@@ -507,7 +507,7 @@ border-radius:4px;</string>
      </property>
      <property name="styleSheet">
       <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(76, 76, 76);</string>
+background-color: rgba(255, 255, 255,0.04);</string>
      </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -650,8 +650,7 @@ border-radius:0px 0px 6px 6px;</string>
      </property>
      <property name="styleSheet">
       <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(76, 76, 76);
-</string>
+background-color: rgba(255, 255, 255,0.04);</string>
      </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -669,8 +668,8 @@ background-color: rgb(76, 76, 76);
   <widget class="QPushButton" name="pushButton_5">
    <property name="geometry">
     <rect>
-     <x>424</x>
-     <y>0</y>
+     <x>420</x>
+     <y>4</y>
      <width>30</width>
      <height>30</height>
     </rect>
@@ -682,8 +681,8 @@ background-color: rgb(76, 76, 76);
   <widget class="QPushButton" name="pushButton_4">
    <property name="geometry">
     <rect>
-     <x>394</x>
-     <y>0</y>
+     <x>386</x>
+     <y>4</y>
      <width>30</width>
      <height>30</height>
     </rect>
@@ -807,8 +806,7 @@ font: 10pt ;</string>
      </property>
      <property name="styleSheet">
       <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(102, 102, 102);
-</string>
+background-color: rgba(255, 255, 255,0.04);</string>
      </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -1240,8 +1238,8 @@ text-align: right</string>
   <widget class="QPushButton" name="pushButton_12">
    <property name="geometry">
     <rect>
-     <x>364</x>
-     <y>0</y>
+     <x>352</x>
+     <y>4</y>
      <width>30</width>
      <height>30</height>
     </rect>
@@ -1263,11 +1261,11 @@ text-align: right</string>
    </property>
   </action>
   <zorder>set_page</zorder>
-  <zorder>pushButton_5</zorder>
   <zorder>stackedWidget_3</zorder>
   <zorder>stackedWidget</zorder>
   <zorder>pushButton_12</zorder>
   <zorder>pushButton_4</zorder>
+  <zorder>pushButton_5</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>

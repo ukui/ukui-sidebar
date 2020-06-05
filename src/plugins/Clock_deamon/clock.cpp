@@ -938,6 +938,7 @@ void Clock::updateAlarmClock()
         aItem[alarmNum] =new QListWidgetItem;
         aItem[alarmNum]->setSizeHint(QSize(376,58));
         aItem[alarmNum]->setTextColor(QColor(255, 0, 0, 255));
+        //aItem[alarmNum]->set
         ui->listWidget->addItem(aItem[alarmNum]);
         ui->listWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         ui->listWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -1273,8 +1274,9 @@ void Clock::listClickslot()
     int x_h, x_m ;
     int num=ui->listWidget->currentRow();
     int day_next;
-    if(num >= 0)
+    if(num >= 0){
         day_next = get_alarm_clock_will_ring_days(num);
+    }
     QTime time = QTime::currentTime();
     int timeH = time.hour();
     int timeM = time.minute();
@@ -1287,11 +1289,7 @@ void Clock::listClickslot()
             day_next = 0;
     }
 
-    if (hour_time > timeH) {
-        x_h = hour_time - timeH;
-    } else {
         x_h = hour_time + 24*day_next - timeH;
-    }
 
     if (minute_time > timeM) {
         x_m = minute_time - timeM;
@@ -1308,6 +1306,9 @@ void Clock::listClickslot()
     if (x_h >= 24) {
         day_next = x_h/24;
         x_h = x_h % 24;
+        if(day_next >= 7){
+            day_next = 0;
+        }
     } else {
         day_next = 0;
     }
