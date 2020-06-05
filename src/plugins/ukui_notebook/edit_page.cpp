@@ -41,6 +41,7 @@ Edit_page::Edit_page(Widget* page, int noteId, QWidget *parent) :
   , ui(new Ui::Edit_page)
   , m_editColor(0,0,0)
   , m_noteId(noteId)
+  , m_lastBlockList(0)
 {
     qDebug()<<"aa"<<++count;
     ui->setupUi(this);
@@ -78,6 +79,8 @@ Edit_page::Edit_page(Widget* page, int noteId, QWidget *parent) :
     connect(m_noteHeadMenu->ui->pushButtonExit,&QPushButton::clicked,this,&Edit_page::closeSlot);
     connect(ui->textEdit,&QTextEdit::textChanged,this,&Edit_page::textChangedSlot);
     connect(pNotebook->ui->sort_2_btn,SIGNAL(clicked()),this,SLOT(color_clicked()));
+
+    fontChanged();
     color_clicked();
 }
 
@@ -117,7 +120,10 @@ void Edit_page::set_select_color_page()
 void Edit_page::set_text_editing_page()
 {
     text_edit_page = new Text_editing(pNotebook);
+    text_edit_page->ui->showListBtn->setCheckable(true);
+    text_edit_page->ui->showNUMList->setCheckable(true);
 
+    qDebug() << "text_edit_page->ui->showNUMList is checkable ? :" << text_edit_page->ui->showNUMList->isCheckable();
     connect(text_edit_page->set_size_page->ui->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(showSizeSpinBix()));
     connect(text_edit_page->set_color_fort_page->ui->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(showFontColorSlot()));
 
@@ -127,9 +133,55 @@ void Edit_page::set_text_editing_page()
     connect(text_edit_page->ui->StrikeOutResolvedBtn,SIGNAL(clicked(bool)),this,SLOT(showStrikeOutResolved()));
     connect(text_edit_page->ui->showListBtn,SIGNAL(clicked(bool)),this,SLOT(showList(bool)));
     connect(text_edit_page->ui->showNUMList,SIGNAL(clicked(bool)),this,SLOT(showNUMList(bool)));
+    connect(ui->textEdit,&QTextEdit::cursorPositionChanged,this,&Edit_page::slotCursorPositionChanged);
+
 }
 
+void Edit_page::fontChanged() {
+    qDebug() << "font Changed";
+    if (ui->textEdit->textCursor().currentList()) {
+        QTextListFormat lfmt = ui->textEdit->textCursor().currentList()->format();
+        if (lfmt.style() == QTextListFormat::ListDisc) {
+            text_edit_page->ui->showListBtn->setChecked(true);
+            text_edit_page->ui->showNUMList->setChecked(false);
+          } else if (lfmt.style() == QTextListFormat::ListDecimal) {
+            text_edit_page->ui->showListBtn->setChecked(false);
+            text_edit_page->ui->showNUMList->setChecked(true);
+          } else {
+            text_edit_page->ui->showListBtn->setChecked(false);
+            text_edit_page->ui->showNUMList->setChecked(false);
+            }
+      } else {
+        text_edit_page->ui->showListBtn->setChecked(false);
+        text_edit_page->ui->showNUMList->setChecked(false);
+      }
+}
 
+void Edit_page::slotCursorPositionChanged() {
+    qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
+    QTextList *l = ui->textEdit->textCursor().currentList();
+    if (m_lastBlockList && (l == m_lastBlockList || (l != 0 && m_lastBlockList != 0
+                                 && l->format().style() == m_lastBlockList->format().style()))) {
+        return;
+        }
+    m_lastBlockList = l;
+    if (l) {
+        QTextListFormat lfmt = l->format();
+        if (lfmt.style() == QTextListFormat::ListDisc) {
+            text_edit_page->ui->showListBtn->setChecked(true);
+            text_edit_page->ui->showNUMList->setChecked(false);
+          } else if (lfmt.style() == QTextListFormat::ListDecimal) {
+            text_edit_page->ui->showListBtn->setChecked(false);
+            text_edit_page->ui->showNUMList->setChecked(true);
+          } else {
+            text_edit_page->ui->showListBtn->setChecked(false);
+            text_edit_page->ui->showNUMList->setChecked(false);
+            }
+      } else {
+        text_edit_page->ui->showListBtn->setChecked(false);
+        text_edit_page->ui->showNUMList->setChecked(false);
+        }
+}
 
 void Edit_page::textChangedSlot()
 {
@@ -146,20 +198,40 @@ void Edit_page::showBoldBtn()
 
     QTextCursor cursor = ui->textEdit->textCursor();
     if (!cursor.hasSelection()){
+        qDebug()<<"-------showBoldBtn------------111";
         cursor.select(QTextCursor::WordUnderCursor);
-    }else{
-        cursor.mergeCharFormat(fmt);
     }
-
-    ui->textEdit->mergeCurrentCharFormat(fmt);
+    if(cursor.charFormat().fontWeight() == QFont::Bold)
+    {
+        qDebug() << "textfont bold";
+        fmt.setFontWeight(QFont::Normal);
+        ui->textEdit->mergeCurrentCharFormat(fmt);
+    }else{
+        qDebug() << "textfont bold222";
+        fmt.setFontWeight(QFont::Bold);
+        ui->textEdit->mergeCurrentCharFormat(fmt);
+    }
 }
+
 //斜体
 void Edit_page::showItalicBtn()
 {
     qDebug()<<"-------showItalicBtn------------";
     QTextCharFormat fmt;
     fmt.setFontItalic(text_edit_page->ui->ItalicBtn->isCheckable() );// ? QFont::StyleItalic : QFont::Normal);
-    ui->textEdit->mergeCurrentCharFormat(fmt);
+
+    QTextCursor cursor = ui->textEdit->textCursor();
+    qDebug() << cursor.charFormat().fontItalic();
+    if(cursor.charFormat().fontItalic())  //return boolProperty(FontItalic)
+    {
+        qDebug() << "italic true";
+        fmt.setFontItalic(QFont::StyleNormal);
+        ui->textEdit->mergeCurrentCharFormat(fmt);
+    }else{
+        qDebug() << "italic false";
+        fmt.setFontItalic(QFont::StyleItalic);
+        ui->textEdit->mergeCurrentCharFormat(fmt);
+    }
 }
 
 //下划线
@@ -168,76 +240,78 @@ void Edit_page::showUnderlineBtn()
     qDebug()<<"-------showUnderlineBtn------------";
     QTextCharFormat fmt;
     fmt.setFontUnderline(text_edit_page->ui->underlineBtn->isCheckable());// ? QFont::UnderlineResolved : QFont::Normal );
-    ui->textEdit->mergeCurrentCharFormat(fmt);
+
+    QTextCursor cursor = ui->textEdit->textCursor();
+    qDebug() << cursor.charFormat().fontItalic();
+    if(cursor.charFormat().fontUnderline())  //
+    {
+        fmt.setFontUnderline(QFont::StyleNormal);
+        ui->textEdit->mergeCurrentCharFormat(fmt);
+    }else{
+        ui->textEdit->mergeCurrentCharFormat(fmt);
+    }
 }
+
 //删除线
 void Edit_page::showStrikeOutResolved()
 {
     qDebug()<<"-------showStrikeOutResolved------------";
     QTextCharFormat fmt;
     fmt.setFontStrikeOut(text_edit_page->ui->StrikeOutResolvedBtn->isCheckable());// ? QFont::StrikeOutResolved : QFont::Normal );
-    ui->textEdit->mergeCurrentCharFormat(fmt);
+
+    QTextCursor cursor = ui->textEdit->textCursor();
+    qDebug() << cursor.charFormat().fontItalic();
+    if(cursor.charFormat().fontStrikeOut())  //
+    {
+        fmt.setFontStrikeOut(QFont::StyleNormal);
+        ui->textEdit->mergeCurrentCharFormat(fmt);
+    }else{
+        ui->textEdit->mergeCurrentCharFormat(fmt);
+    }
 }
 
 //无序列表
-void Edit_page::showList(bool index)
+void Edit_page::showList(bool checked)
 {
-    Q_UNUSED(index);
-    qDebug()<<"--------showList-----------";
-    QTextCursor cursor = ui->textEdit->textCursor();
-
-    QTextListFormat::Style style = QTextListFormat::ListDisc;
-
-    style = QTextListFormat::ListDisc;
-
-    cursor.beginEditBlock();    //设置缩进值
-
-    QTextBlockFormat blockFmt = cursor.blockFormat();
-    QTextListFormat listFmt;
-    if(cursor.currentList())
+    qDebug() << "showlist" << checked;
+    if(checked)
     {
-        listFmt = cursor.currentList()->format();
+        text_edit_page->ui->showListBtn->setChecked(false);
+        qDebug() << "show list set false" << checked;
+        qDebug() << "text_edit_page->ui->showNUMList is checked ? :" << text_edit_page->ui->showNUMList->isChecked();
     }
-    else
-    {
-        listFmt.setIndent(blockFmt.indent() + 1);
-        blockFmt.setIndent(0);
-        cursor.setBlockFormat(blockFmt);
-    }
-    listFmt.setStyle(style);
-    cursor.createList(listFmt);
-
-    cursor.endEditBlock();
+    list(checked, QTextListFormat::ListDisc);
+    qDebug() << "text_edit_page->ui->showNUMList is checked ? :" << text_edit_page->ui->showNUMList->isChecked();
 }
 
 //有序列表
-void Edit_page::showNUMList(bool index)
+void Edit_page::showNUMList(bool checked)
 {
-    Q_UNUSED(index);
-    qDebug()<<"--------showList-----------";
+    qDebug() << "show num list";
+    if (checked) {
+        text_edit_page->ui->showNUMList->setChecked(false);
+        }
+    list(checked, QTextListFormat::ListDecimal);
+}
+
+void Edit_page::list(bool checked, QTextListFormat::Style style) {
     QTextCursor cursor = ui->textEdit->textCursor();
-
-    QTextListFormat::Style style = QTextListFormat::ListDisc;
-
-    style = QTextListFormat::ListDecimal;
-
-    cursor.beginEditBlock();    //设置缩进值
-
-    QTextBlockFormat blockFmt = cursor.blockFormat();
-    QTextListFormat listFmt;
-    if(cursor.currentList())
-    {
-        listFmt = cursor.currentList()->format();
-    }
-    else
-    {
-        listFmt.setIndent(blockFmt.indent() + 1);
-        blockFmt.setIndent(0);
-        cursor.setBlockFormat(blockFmt);
-    }
-    listFmt.setStyle(style);
-    cursor.createList(listFmt);
-
+    cursor.beginEditBlock();
+    if (!checked) {
+        qDebug() << "unchecked";
+        QTextBlockFormat obfmt = cursor.blockFormat();
+        QTextBlockFormat bfmt;
+        bfmt.setIndent(obfmt.indent());
+        cursor.setBlockFormat(bfmt);
+      } else {
+        qDebug() << "checked";
+        QTextListFormat listFmt;
+        if (cursor.currentList()) {
+            listFmt = cursor.currentList()->format();
+            }
+        listFmt.setStyle(style);
+        cursor.createList(listFmt);
+        }
     cursor.endEditBlock();
 }
 

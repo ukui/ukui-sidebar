@@ -107,6 +107,9 @@ border-bottom-left-radius:0px;</string>
     <property name="text">
      <string/>
     </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QPushButton" name="underlineBtn">
     <property name="geometry">
@@ -135,6 +138,9 @@ border-bottom-left-radius:0px;</string>
     <property name="text">
      <string/>
     </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QPushButton" name="StrikeOutResolvedBtn">
     <property name="geometry">
@@ -162,6 +168,9 @@ border-bottom-left-radius:0px;</string>
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QFrame" name="frame">
@@ -195,7 +204,7 @@ border-bottom-left-radius:0px;</string>
      <enum>QFrame::Raised</enum>
     </property>
    </widget>
-   <widget class="QPushButton" name="showListBtn">
+   <widget class="QPushButton" name="showListBtn1">
     <property name="geometry">
      <rect>
       <x>120</x>
@@ -210,11 +219,20 @@ border-bottom-left-radius:0px;</string>
       <height>20</height>
      </size>
     </property>
+    <property name="focusPolicy">
+     <enum>Qt::ClickFocus</enum>
+    </property>
     <property name="styleSheet">
-     <string notr="true">background:rgba(19,20,20,0.9);</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+    <property name="autoExclusive">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="showNUMList">
@@ -237,6 +255,15 @@ border-bottom-left-radius:0px;</string>
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
+    <property name="autoExclusive">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="blue_btn_2">
@@ -289,6 +316,25 @@ border-bottom-right-radius:0px;
     </property>
     <property name="text">
      <string>22</string>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="showListBtn">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>10</y>
+      <width>26</width>
+      <height>29</height>
+     </rect>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::ClickFocus</enum>
+    </property>
+    <property name="text">
+     <string>...</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>

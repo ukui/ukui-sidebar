@@ -110,7 +110,7 @@ void listViewModeDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
 {
     QStyleOptionViewItem opt = option;
     opt.rect.setWidth(option.rect.width() - m_rowRightOffset);      //678
-    qDebug() << "paint" << option.rect.width();
+
     int currentFrame = m_timeLine->currentFrame();                  //0
     double rate = (currentFrame/(m_maxFrame * 1.0));                //0
     double height = m_rowHeight * rate;                             //0
