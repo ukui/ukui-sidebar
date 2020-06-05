@@ -32,7 +32,7 @@ color: rgb(255, 255, 255);
     <string notr="true">border-radius:7px;</string>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="page">
     <widget class="QPushButton" name="count_stat">
@@ -474,7 +474,7 @@ QPushButton:hover{background-color: rgb(27, 143, 89);}
      <property name="styleSheet">
       <string notr="true">color: rgb(255, 255, 255);
 color: rgb(148, 148, 148);
-font: 12pt ;
+font: 13pt ;
 opacity:0.45;</string>
      </property>
      <property name="text">
@@ -493,7 +493,7 @@ opacity:0.45;</string>
      <property name="styleSheet">
       <string notr="true">selection-background-color:rgba(72,72,76,1);
 border-radius:0px 0px 6px 6px;
-border-radius:4px;</string>
+selection-border-radius:4px;</string>
      </property>
     </widget>
     <widget class="Line" name="line_4">
@@ -636,6 +636,7 @@ color: rgb(65, 65, 65);
      </property>
      <property name="styleSheet">
       <string notr="true">selection-background-color:rgba(72,72,76,1);
+selection-border-radius:6px;
 border-radius:0px 0px 6px 6px;</string>
      </property>
     </widget>
