@@ -109,7 +109,8 @@ void iconViewModeDelegate::setAnimationDuration(const int duration)
 void iconViewModeDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     QStyleOptionViewItem opt = option;
-    qDebug() << "icon paint " << opt.rect.width() << opt.rect.height();
+    //qDebug() << "icon paint " << opt.rect.width() << opt.rect.height();
+
     //绘制第一层便签头背景
     int m_noteColor{index.data(NoteModel::NoteColor).toInt()};
     painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
@@ -148,7 +149,7 @@ void iconViewModeDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
 
 QSize iconViewModeDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    qDebug() << "icon sizeHint";
+    //qDebug() << "icon sizeHint";
     Q_UNUSED(option);
     Q_UNUSED(index);
     return QSize(227,246);
@@ -257,7 +258,7 @@ void iconViewModeDelegate::paintLabels(QPainter* painter, const QStyleOptionView
     double titleRectPosY = rowPosY;
     double titleRectWidth = rowWidth - 2.0 * leftOffsetX;
     double titleRectHeight = fmRectTitle.height() + topOffsetY;
-    qDebug() << "titleRectHeight" << titleRectHeight << fmRectTitle.height();
+    //qDebug() << "titleRectHeight" << titleRectHeight << fmRectTitle.height();
     double dateRectPosX = rowPosX + leftoffsetXdate;
     //double dateRectPosY = rowPosY + fmRectTitle.height() + topOffsetY;
     double dateRectPosY = rowPosY + 26 + topOffsetY;
@@ -287,7 +288,7 @@ void iconViewModeDelegate::paintLabels(QPainter* painter, const QStyleOptionView
 
             if((fmRectTitle.height() + topOffsetY) >= ((1.0 - rowRate) * m_rowHeight)){
                 titleRectHeight = (fmRectTitle.height() + topOffsetY) - (1.0 - rowRate) * m_rowHeight;
-                qDebug() << "dateRectHeight1111" << dateRectHeight;
+                //qDebug() << "dateRectHeight1111" << dateRectHeight;
             }else{
                 titleRectHeight = 0;
 

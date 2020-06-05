@@ -82,7 +82,7 @@ void Text_editing::set_btn_image()
     ui->StrikeOutResolvedBtn->setIcon(pixmap4);
     ui->StrikeOutResolvedBtn->setIconSize(QSize(36,36));
     ui->showListBtn->setIcon(pixmap5);
-    ui->showListBtn-> setIconSize(QSize(36,36));
+    ui->showListBtn->setIconSize(QSize(36,36));
     ui->showNUMList->setIcon(pixmap6);
     ui->showNUMList->setIconSize(QSize(36,36));
 }

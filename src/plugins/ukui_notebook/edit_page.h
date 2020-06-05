@@ -24,6 +24,8 @@
 #include <QPainter>
 #include <QColor>
 #include <QModelIndex>
+#include <QTextList>
+#include <QPointer>
 
 #include "noteHead.h"
 #include "noteHeadMenu.h"
@@ -58,6 +60,7 @@ public:
     void leaveEvent(QEvent *);
 
 private slots:
+    void slotCursorPositionChanged();
     void textChangedSlot();
 
     void on_color_btn_clicked();
@@ -81,8 +84,9 @@ private slots:
     void showUnderlineBtn();
     void showStrikeOutResolved();
     //void showCurrentFormatChanged(const QTextCharFormat &);
-    void showList(bool );
-    void showNUMList(bool);
+    void showList(bool checked);
+    void showNUMList(bool checked);
+    void list(bool checked, QTextListFormat::Style style);
     void showSizeSpinBix();
     void showFontColorSlot();
 
@@ -91,6 +95,7 @@ private:
     void palette_ui();
     void set_select_color_page();
     void set_text_editing_page();
+    void fontChanged();
     void light_show();
     void black_show();
     void set_color();
@@ -104,6 +109,7 @@ private:
     QString color[11];
     QColor color_num[11];
 
+    QPointer<QTextList> m_lastBlockList;
 
 signals:
     void texthasChanged(int noteId, int id);

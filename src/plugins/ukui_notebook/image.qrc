@@ -32,62 +32,6 @@
         <file>image/1x/window-close-symbolic.png</file>
         <file>image/1x/window-minimize-symbolic.png</file>
         <file>image/1x/withdraw.png</file>
-        <file>image/2x/下划线-new@2x.png</file>
-        <file>image/2x/便签颜色@2x.png</file>
-        <file>image/2x/列表模式@2x.png</file>
-        <file>image/2x/删除-new@2x.png</file>
-        <file>image/2x/删除线-new@2x.png</file>
-        <file>image/2x/剪切@2x.png</file>
-        <file>image/2x/加粗-new@2x.png</file>
-        <file>image/2x/勾选@2x.png</file>
-        <file>image/2x/图标模式@2x.png</file>
-        <file>image/2x/复制@2x.png</file>
-        <file>image/2x/复制为新便签@2x.png</file>
-        <file>image/2x/导出-new@2x.png</file>
-        <file>image/2x/恢复-new@2x.png</file>
-        <file>image/2x/打开便签本@2x.png</file>
-        <file>image/2x/排列-new@2x.png</file>
-        <file>image/2x/排序-小图标-逆序@2x.png</file>
-        <file>image/2x/排序-小图标-顺序@2x.png</file>
-        <file>image/2x/插入多选框-new@2x.png</file>
-        <file>image/2x/撤回-new@2x.png</file>
-        <file>image/2x/斜体-new@2x.png</file>
-        <file>image/2x/新建-new-big-点击@2x.png</file>
-        <file>image/2x/新建-new-big@2x.png</file>
-        <file>image/2x/新建-new@2x.png</file>
-        <file>image/2x/粘贴@2x.png</file>
-        <file>image/2x/编号 副本@2x.png</file>
-        <file>image/2x/调整@2x.png</file>
-        <file>image/2x/转换成便签页@2x.png</file>
-        <file>image/2x/项目符号-new@2x.png</file>
-        <file>image/SVG/下划线-new.svg</file>
-        <file>image/SVG/便签颜色.svg</file>
-        <file>image/SVG/列表模式.svg</file>
-        <file>image/SVG/删除-new.svg</file>
-        <file>image/SVG/删除线-new.svg</file>
-        <file>image/SVG/剪切.svg</file>
-        <file>image/SVG/加粗-new.svg</file>
-        <file>image/SVG/勾选.svg</file>
-        <file>image/SVG/图标模式.svg</file>
-        <file>image/SVG/复制.svg</file>
-        <file>image/SVG/复制为新便签.svg</file>
-        <file>image/SVG/导出-new.svg</file>
-        <file>image/SVG/恢复-new.svg</file>
-        <file>image/SVG/打开便签本.svg</file>
-        <file>image/SVG/排列-new.svg</file>
-        <file>image/SVG/排序-小图标-逆序.svg</file>
-        <file>image/SVG/排序-小图标-顺序.svg</file>
-        <file>image/SVG/插入多选框-new.svg</file>
-        <file>image/SVG/撤回-new.svg</file>
-        <file>image/SVG/斜体-new.svg</file>
-        <file>image/SVG/新建-new-big-点击.svg</file>
-        <file>image/SVG/新建-new-big.svg</file>
-        <file>image/SVG/新建-new.svg</file>
-        <file>image/SVG/粘贴.svg</file>
-        <file>image/SVG/编号 副本.svg</file>
-        <file>image/SVG/调整.svg</file>
-        <file>image/SVG/转换成便签页.svg</file>
-        <file>image/SVG/项目符号-new.svg</file>
         <file>image/kylin-notebook.svg</file>
         <file>image/1x/sourch.png</file>
         <file>image/1x/skin.png</file>
