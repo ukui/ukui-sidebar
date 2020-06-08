@@ -48,8 +48,8 @@ Edit_page::Edit_page(Widget* page, int noteId, QWidget *parent) :
     //标题
     this->setWindowTitle(tr("ukui-memo"));
     //任务栏图标
-    setWindowIcon(QIcon(":/image/kylin-notebook.svg"));
-
+    //setWindowIcon(QIcon(":/image/kylin-notebook.svg"));
+    setWindowIcon(QIcon::fromTheme("kylin-notebook"));
     QBitmap bmp(this->size());
     bmp.fill();
     QPainter p(&bmp);
@@ -105,16 +105,16 @@ void Edit_page::set_select_color_page()
 {
     color_page = new select_color_page(pNotebook);
     ui->textEdit->setFrameShape(QFrame::NoFrame);
-    connect(color_page->ui->blue_btn, SIGNAL(clicked()), this, SLOT(blue_btn_change()) );
-    connect(color_page->ui->pink_btn, SIGNAL(clicked()), this, SLOT(pink_btn_change()) );
-    connect(color_page->ui->dark_green_btn, SIGNAL(clicked()), this, SLOT(dark_green_btn_change()) );
-    connect(color_page->ui->orang_btn, SIGNAL(clicked()), this, SLOT(orang_btn_change()) );
-    connect(color_page->ui->Violet_btn, SIGNAL(clicked()), this, SLOT(Violet_btn_change()) );
-    connect(color_page->ui->Golden_btn, SIGNAL(clicked()), this, SLOT(Golden_btn_change()) );
-    connect(color_page->ui->light_blue_btn, SIGNAL(clicked()), this, SLOT(light_blue_btn_change()) );
-    connect(color_page->ui->light_green_btn, SIGNAL(clicked()), this, SLOT(light_green_btn_change()) );
-    connect(color_page->ui->yellow_btn, SIGNAL(clicked()), this, SLOT(yellow_btn_change()) );
-    connect(color_page->ui->white_btn, SIGNAL(clicked()), this, SLOT(white_btn_change()) );
+    connect(color_page->ui->blue_btn, SIGNAL(clicked()), this, SLOT(blue_btn_change()));
+    connect(color_page->ui->pink_btn, SIGNAL(clicked()), this, SLOT(pink_btn_change()));
+    connect(color_page->ui->dark_green_btn, SIGNAL(clicked()), this, SLOT(dark_green_btn_change()));
+    connect(color_page->ui->orang_btn, SIGNAL(clicked()), this, SLOT(orang_btn_change()));
+    connect(color_page->ui->Violet_btn, SIGNAL(clicked()), this, SLOT(Violet_btn_change()));
+    connect(color_page->ui->Golden_btn, SIGNAL(clicked()), this, SLOT(Golden_btn_change()));
+    connect(color_page->ui->light_blue_btn, SIGNAL(clicked()), this, SLOT(light_blue_btn_change()));
+    connect(color_page->ui->light_green_btn, SIGNAL(clicked()), this, SLOT(light_green_btn_change()));
+    connect(color_page->ui->yellow_btn, SIGNAL(clicked()), this, SLOT(yellow_btn_change()));
+    connect(color_page->ui->white_btn, SIGNAL(clicked()), this, SLOT(white_btn_change()));
 }
 
 void Edit_page::set_text_editing_page()
@@ -276,7 +276,7 @@ void Edit_page::showList(bool checked)
     qDebug() << "showlist" << checked;
     if(checked)
     {
-        text_edit_page->ui->showListBtn->setChecked(false);
+        text_edit_page->ui->showNUMList->setChecked(false);
         qDebug() << "show list set false" << checked;
         qDebug() << "text_edit_page->ui->showNUMList is checked ? :" << text_edit_page->ui->showNUMList->isChecked();
     }
@@ -289,7 +289,7 @@ void Edit_page::showNUMList(bool checked)
 {
     qDebug() << "show num list";
     if (checked) {
-        text_edit_page->ui->showNUMList->setChecked(false);
+        text_edit_page->ui->showListBtn->setChecked(false);
         }
     list(checked, QTextListFormat::ListDecimal);
 }

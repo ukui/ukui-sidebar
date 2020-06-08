@@ -224,7 +224,8 @@ void Widget::kyNoteInit()
     //标题
     this->setWindowTitle(tr("ukui-note"));
     //任务栏图标
-    setWindowIcon(QIcon::fromTheme("kylin-notebook",QIcon(":/image/kylin-notebook.svg")));
+    //setWindowIcon(QIcon::fromTheme("kylin-notebook",QIcon(":/image/kylin-notebook.svg")));
+    setWindowIcon(QIcon::fromTheme("kylin-notebook"));
     //按钮
     set_all_btn_attribute();
     //搜索框
