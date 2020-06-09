@@ -723,7 +723,7 @@ NoteData* Widget::generateNote(const int noteID)
     QDateTime noteDate = QDateTime::currentDateTime();
     newNote->setCreationDateTime(noteDate);
     newNote->setLastModificationDateTime(noteDate);
-    newNote->setFullTitle(QStringLiteral("New Note"));
+    newNote->setFullTitle(tr("Welcome to use Kylin system, you will experience more intimate service."));
     newNote->setNoteColor(16777215);
     newNote->m_note = nullptr;
     return newNote;
