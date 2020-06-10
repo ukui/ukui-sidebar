@@ -28,8 +28,11 @@ border-radius:4px;
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgba(36,36,37, 1);
+    <string notr="true">background-color: rgba(35,35,37, 1);
+border:1px solid rgba(47,47,51,1);
 border-radius:4px;
+box-shadow:0px 7px 45px 0px rgba(0, 0, 0, 1);
+
 </string>
    </property>
    <widget class="QLabel" name="label">
@@ -45,7 +48,7 @@ border-radius:4px;
      <string notr="true">width:56px;
 height:14px;
 font-size:14px;
-font-family:Source Han Sans CN;
+border:0px solid rgba();
 font-weight:400;
 color:rgba(255,255,255,1)</string>
     </property>
@@ -68,7 +71,7 @@ border-image: url(:/alarm_on.png);
 height:24px;
 background:linear-gradient(0deg,rgba(39,207,129,1) 0%,rgba(39,207,129,0.9) 100%);
 border-radius:6px;
-</string>
+border:0px solid rgba();</string>
     </property>
     <property name="text">
      <string/>
@@ -88,7 +91,7 @@ border-radius:6px;
 height:36px;
 background:rgba(48,48,51,1);
 border-radius:4px;
-</string>
+border:0px solid rgba();</string>
     </property>
     <widget class="QLabel" name="label_18">
      <property name="geometry">
@@ -163,7 +166,7 @@ text-align: right</string>
 height:36px;
 background:rgba(48,48,51,1);
 border-radius:4px;
-</string>
+border:0px solid rgba();</string>
     </property>
     <widget class="QLabel" name="label_19">
      <property name="geometry">
@@ -238,7 +241,7 @@ text-align: right</string>
 height:36px;
 background:rgba(48,48,51,1);
 border-radius:4px;
-</string>
+border:0px solid rgba();</string>
     </property>
     <widget class="QLabel" name="label_20">
      <property name="geometry">
@@ -313,7 +316,7 @@ text-align: right</string>
 height:36px;
 background:rgba(48,48,51,1);
 border-radius:4px;
-</string>
+border:0px solid rgba();</string>
     </property>
     <widget class="QLabel" name="label_21">
      <property name="geometry">
@@ -388,7 +391,7 @@ text-align: right</string>
 height:36px;
 background:rgba(48,48,51,1);
 border-radius:4px;
-</string>
+border:0px solid rgba();</string>
     </property>
     <widget class="QLabel" name="label_22">
      <property name="geometry">
@@ -462,7 +465,7 @@ text-align: right</string>
      <string notr="true">width:28px;
 height:14px;
 font-size:14px;
-
+border:0px solid rgba();
 font-weight:400;
 color:rgba(255,255,255,1)</string>
     </property>
@@ -485,7 +488,7 @@ border-image: url(:/alarm_off.png);
 height:24px;
 background:linear-gradient(0deg,rgba(39,207,129,1) 0%,rgba(39,207,129,0.9) 100%);
 border-radius:6px;
-</string>
+border:0px solid rgba();</string>
     </property>
     <property name="text">
      <string/>
@@ -502,7 +505,7 @@ border-radius:6px;
     </property>
     <property name="styleSheet">
      <string notr="true">font-size:14px;
-
+border:0px solid rgba();
 font-weight:300;
 color:rgba(255,255,255,1)</string>
     </property>
@@ -524,6 +527,7 @@ color:rgba(255,255,255,1)</string>
 border-left-color: rgb(85, 255, 0);
 border-bottom-color: rgb(85, 170, 0);
 border-radius:50%;
+border:0px solid rgba();
 
 
 </string>
@@ -543,7 +547,8 @@ border-radius:50%;
     </property>
     <property name="styleSheet">
      <string notr="true">font: 57 22pt &quot;Noto Sans Devanagari Md&quot;;
-color: rgba(39,207,129,0.9);</string>
+color: rgba(39,207,129,0.9);
+border:0px solid rgba();</string>
     </property>
     <property name="text">
      <string>默认设置</string>
