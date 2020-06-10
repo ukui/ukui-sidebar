@@ -89,11 +89,11 @@ item_new::item_new(QWidget *parent) :
 
     alarm_on_off0 = new QPushButton(this);//闹钟开关
                                           // Alarm switch
-    alarm_on_off0->move(305,14);
+    alarm_on_off0->move(305,17.5);
     alarm_on_off0->setFixedSize(50, 24);
     alarm_on_off0->setFlat(true);
     alarm_on_off0->setVisible(true);
-    alarm_on_off0->setStyleSheet("border-image: url(:/alarm_on.png);background-color: rgb();");
+    alarm_on_off0->setStyleSheet("border-image: url(:/alarm_on.png);background-color: rgb();border-radius:6px;");
 }
 
 item_new::~item_new()

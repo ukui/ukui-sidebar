@@ -31,7 +31,6 @@ border-radius:4px;
     <string notr="true">background-color: rgba(35,35,37, 1);
 border:1px solid rgba(47,47,51,1);
 border-radius:4px;
-box-shadow:0px 7px 45px 0px rgba(0, 0, 0, 1);
 
 </string>
    </property>
