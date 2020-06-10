@@ -49,11 +49,11 @@ stopwatch_item::stopwatch_item(QWidget *parent) :
 
 
     stopwatch_line = new QFrame(this);//线
-    stopwatch_line->move(13, 52);
+    stopwatch_line->move(13, 55);
     stopwatch_line->setFixedSize(350, 1);
     stopwatch_line->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);background-color: rgb(102, 102, 102);"));
     stopwatch3 = new QLabel(this);//记次时间
-    stopwatch3->move(239,15);
+    stopwatch3->move(239,12);
     stopwatch3->setFixedSize(115, 29);
     stopwatch3->setStyleSheet("font: 17pt ;background-color: rgb();width:114px;\
                               height:22px;\

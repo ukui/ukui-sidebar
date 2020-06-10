@@ -1258,12 +1258,12 @@ text-align: right</string>
     <string>On</string>
    </property>
   </action>
+  <zorder>set_page</zorder>
   <zorder>stackedWidget_3</zorder>
   <zorder>stackedWidget</zorder>
   <zorder>pushButton_12</zorder>
   <zorder>pushButton_4</zorder>
   <zorder>pushButton_5</zorder>
-  <zorder>set_page</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
