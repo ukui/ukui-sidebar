@@ -55,6 +55,7 @@ class QPushButton;
 class QMediaPlaylist;
 class QSqlTableModel;
 class QTimer;
+class Btn_new;
 
 namespace Ui {
 class Clock;
@@ -331,6 +332,9 @@ private:
     QPropertyAnimation *animation1;
     QPropertyAnimation *animation2;
     QPropertyAnimation *animation3;
+    Btn_new *bta_tool_count;
+    Btn_new *bta_tool_clock;
+    Btn_new *bta_tool_stop;
 };
 
 

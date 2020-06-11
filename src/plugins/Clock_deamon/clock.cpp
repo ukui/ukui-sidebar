@@ -134,19 +134,26 @@ Clock::Clock(QWidget *parent) :
     move((deskdop->width() - this->width())/2, (deskdop->height() - this->height())/2);
 
     QIcon bta_tool_count_icon = QIcon(":/icon-1.png");
-    Btn_new *bta_tool_count = new Btn_new(1, this, bta_tool_count_icon, tr("倒计时"), ui->page_7);
+    bta_tool_count = new Btn_new(1, this, bta_tool_count_icon, tr("倒计时"), ui->page_7);
     bta_tool_count->setFixedSize(90,60);
     bta_tool_count->move(48,5);
 
     QIcon bta_tool_clock_icon = QIcon(":/icon-4-16x16.png");
-    Btn_new *bta_tool_clock = new Btn_new(2, this, bta_tool_clock_icon, tr("闹钟"), ui->page_7);
+    bta_tool_clock = new Btn_new(2, this, bta_tool_clock_icon, tr("闹钟"), ui->page_7);
     bta_tool_clock->setFixedSize(90,60);
     bta_tool_clock->move(182,5);
 
     QIcon bta_tool_stop_icon = QIcon(":/icon-2.png");
-    Btn_new *bta_tool_stop = new Btn_new(3, this, bta_tool_stop_icon, tr("秒表"), ui->page_7);
+    bta_tool_stop = new Btn_new(3, this, bta_tool_stop_icon, tr("秒表"), ui->page_7);
     bta_tool_stop->setFixedSize(90,60);
     bta_tool_stop->move(317,5);
+
+    ui->pushButton->hide();
+    ui->pushButton_2->hide();
+    ui->pushButton_3->hide();
+
+    on_pushButton_2_clicked();//初始显示闹钟界面
+                              // Initial display alarm interface
 }
 
 Clock::~Clock()
@@ -265,8 +272,7 @@ void Clock::stopwatch_init()
     minute=0;
     second=0;
     pushflag=0 ;
-    on_pushButton_2_clicked();//初始显示闹钟界面
-                              // Initial display alarm interface
+
     //时间间隔定时器
     // Time interval timer
     timer_2 = new QTimer();
@@ -659,18 +665,12 @@ void Clock::on_pushButton_4_clicked()
 void Clock::on_pushButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(0);
-    ui->pushButton->setStyleSheet("background-color: rgba(39,207,129,0.9); border-radius:4px;");
-    ui->label->setStyleSheet("color: rgb(39, 207, 129);");
-    ui->pushButton_2->setStyleSheet("QPushButton{background-color: rgb(14, 19, 22);}"
-                                    "QPushButton:hover{background-color: rgb(27, 143, 89);border-radius:4px;}");
-    ui->label_2->setStyleSheet("color: rgb(255, 255, 255);");
-    ui->pushButton_3->setStyleSheet("QPushButton{background-color: rgb(14, 19, 22);}"
-                                    "QPushButton:hover{background-color: rgb(27, 143, 89);border-radius:4px;}");
-    ui->label_3->setStyleSheet("color: rgb(255, 255, 255);");
 
-    ui->pushButton->setFlat(0);
-    ui->pushButton_2->setFlat(1);
-    ui->pushButton_3->setFlat(1);
+    bta_tool_count->setStyleSheet("background-color: rgba(39,207,129,1); border-radius:4px;");
+    bta_tool_clock->setStyleSheet("QToolButton{background-color: rgb(14, 19, 22);}"
+                                  "QToolButton:hover{background-color: rgb(27, 143, 89);border-radius:4px;}");
+    bta_tool_stop->setStyleSheet("QToolButton{background-color: rgb(14, 19, 22);}"
+                                 "QToolButton:hover{background-color: rgb(27, 143, 89);border-radius:4px;}");
 }
 
 //闹钟窗口切换
@@ -678,18 +678,12 @@ void Clock::on_pushButton_clicked()
 void Clock::on_pushButton_2_clicked()
 {
     ui->stackedWidget->setCurrentIndex(1);
-    ui->pushButton_2->setStyleSheet("background-color: rgba(39,207,129,0.9); border-radius:4px;");
-    ui->label_2->setStyleSheet("color: rgb(39, 207, 129);");
-    ui->pushButton->setStyleSheet("QPushButton{background-color: rgb(14, 19, 22);}"
-                                  "QPushButton:hover{background-color: rgb(27, 143, 89);border-radius:4px;}");
-    ui->label->setStyleSheet("color: rgb(255, 255, 255);");
-    ui->pushButton_3->setStyleSheet("QPushButton{background-color: rgb(14, 19, 22);}"
-                                    "QPushButton:hover{background-color: rgb(27, 143, 89);border-radius:4px;}");
-    ui->label_3->setStyleSheet("color: rgb(255, 255, 255);");
 
-    ui->pushButton->setFlat(1);
-    ui->pushButton_2->setFlat(0);
-    ui->pushButton_3->setFlat(1);
+    bta_tool_clock->setStyleSheet("background-color: rgba(39,207,129,1); border-radius:4px;");
+    bta_tool_count->setStyleSheet("QToolButton{background-color: rgb(14, 19, 22);}"
+                                    "QToolButton:hover{background-color: rgb(27, 143, 89);border-radius:4px;}");
+    bta_tool_stop->setStyleSheet("QToolButton{background-color: rgb(14, 19, 22);}"
+                                    "QToolButton:hover{background-color: rgb(27, 143, 89);border-radius:4px;}");
 }
 
 //秒表窗口切换
@@ -697,18 +691,12 @@ void Clock::on_pushButton_2_clicked()
 void Clock::on_pushButton_3_clicked()
 {
     ui->stackedWidget->setCurrentIndex(2);
-    ui->pushButton_3->setStyleSheet("background-color:rgba(39,207,129,0.9); border-radius:4px;");
-    ui->label_3->setStyleSheet("color: rgb(39, 207, 129);");
-    ui->pushButton_2->setStyleSheet("QPushButton{background-color: rgb(14, 19, 22);}"
-                                    "QPushButton:hover{background-color: rgb(27, 143, 89);border-radius:4px;}");
-    ui->label_2->setStyleSheet("color: rgb(255, 255, 255);");
-    ui->pushButton->setStyleSheet("QPushButton{background-color: rgb(14, 19, 22);}"
-                                  "QPushButton:hover{background-color: rgb(27, 143, 89);border-radius:4px;}");
-    ui->label->setStyleSheet("color: rgb(255, 255, 255);");
 
-    ui->pushButton->setFlat(1);
-    ui->pushButton_2->setFlat(1);
-    ui->pushButton_3->setFlat(0);
+    bta_tool_stop->setStyleSheet("background-color: rgba(39,207,129,1); border-radius:4px;");
+    bta_tool_count->setStyleSheet("QToolButton{background-color: rgb(14, 19, 22);}"
+                                    "QToolButton:hover{background-color: rgb(27, 143, 89);border-radius:4px;}");
+    bta_tool_clock->setStyleSheet("QToolButton{background-color: rgb(14, 19, 22);}"
+                                    "QToolButton:hover{background-color: rgb(27, 143, 89);border-radius:4px;}");
 }
 
 //------------------------------------------------------闹钟------------------------------------------------------
