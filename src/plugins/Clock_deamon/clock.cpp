@@ -122,6 +122,14 @@ Clock::Clock(QWidget *parent) :
     ui->listWidget -> setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);  //设置像素级滑动    Set pixel level slide
     ui->listWidget_2 -> setVerticalScrollMode(QAbstractItemView::ScrollPerPixel); //设置像素级滑动  Set pixel level slide
 
+    ui->listWidget->setStyleSheet("QListWidget::item::selected{background-color:rgba(72,72,76,1);border-radius:4px;border:1px solid rgba(97,97,101,1);}\
+                                  QListWidget::item::selected:active{background-color:rgba(72,72,76,1);border-radius:4px;border:1px solid rgba(97,97,101,1);}\
+                                  QListWidget::item:hover{background-color:rgba(72,72,76,0.5);border-radius:4px;}");
+
+    ui->listWidget_2->setStyleSheet("QListWidget::item::selected{background-color:rgba(72,72,76,1);border-radius:4px;border:1px solid rgba(97,97,101,1);}\
+                                    QListWidget::item::selected:active{background-color:rgba(72,72,76,1);border-radius:4px;border:1px solid rgba(97,97,101,1);}\
+                                    QListWidget::item:hover{background-color:rgba(72,72,76,0.5);border-radius:4px;}");
+
     QDesktopWidget *deskdop = QApplication::desktop();
     move((deskdop->width() - this->width())/2, (deskdop->height() - this->height())/2);
 
@@ -973,9 +981,9 @@ void Clock::updateAlarmClock()
         //闹钟开关
         // Alarm switch
         if (model->index(alarmNum, 3).data().toInt() == 1) {
-            w1[alarmNum]->alarm_on_off0->setStyleSheet("border-image: url(:/alarm_off.png);background-color: rgb();");
+            w1[alarmNum]->alarm_on_off0->setStyleSheet("border-image: url(:/alarm_off.png);background-color: rgb();border-radius:6px;");
         } else {
-            w1[alarmNum]->alarm_on_off0->setStyleSheet("border-image: url(:/alarm_on.png);background-color: rgb();");
+            w1[alarmNum]->alarm_on_off0->setStyleSheet("border-image: url(:/alarm_on.png);background-color: rgb();border-radius:6px;");
         }
         w1[alarmNum]->alarmLabel_w0->setText(model->index(alarmNum, 14).data().toString());
         w1[alarmNum]->alarmLabel_s0->setText(model->index(alarmNum, 5).data().toString());
@@ -1445,7 +1453,7 @@ void Clock::On_Off_Alarm()
 // Turn off the alarm separately if it is not repeated
 void Clock::off_Alarm(int i)
 {
-    w1[i]->alarm_on_off0->setStyleSheet("border-image: url(:/alarm_off.png);background-color: rgb();");
+    w1[i]->alarm_on_off0->setStyleSheet("border-image: url(:/alarm_off.png);background-color: rgb();border-radius:6px;");
     qDebug() << "on";
 
     model->setData(model->index(i, 3), int(1));
@@ -2212,16 +2220,20 @@ void Clock::set_up_page()
             setup_page->ui->pushButton->setStyleSheet("border-image: url(:/alarm_off.png);");
         }
         if (model_setup->index(0, 1).data().toInt()) {
-            setup_page->ui->pushButton_2->setStyleSheet("border-image: url(:/alarm_on.png);");
+            setup_page->ui->pushButton_2->setStyleSheet("border-image: url(:/alarm_on.png);\
+                                                        border-radius:6px;\
+                                                        border:0px solid rgba();");
         } else {
-            setup_page->ui->pushButton_2->setStyleSheet("border-image: url(:/alarm_off.png);");
+            setup_page->ui->pushButton_2->setStyleSheet("border-image: url(:/alarm_off.png);\
+                                                        border-radius:6px;\
+                                                        border:0px solid rgba();");
         }
         setup_page->ui->horizontalSlider->setValue(model_setup->index(0, 6).data().toInt());
 
         if (model_setup->index(0, 1).data().toInt()) {
             grand->resize(197,24);
             grand->move(128,406);
-            grand->setStyleSheet("QWidget{background-color: rgba(14, 19, 22, 0);}");
+            grand->setStyleSheet("QWidget{background-color: rgba(14, 19, 22, 0);border:0px solid rgba();}");
             grand->show();
         } else {
             grand->hide();
@@ -2248,14 +2260,18 @@ void Clock::alarm_clcok_Self_starting()
 void Clock::Mute_starting()
 {
     if (model_setup->index(0, 1).data().toInt()) {
-        setup_page->ui->pushButton_2->setStyleSheet("border-image: url(:/alarm_off.png);");
+        setup_page->ui->pushButton_2->setStyleSheet("border-image: url(:/alarm_off.png);\
+                                                    border-radius:6px;\
+                                                    border:0px solid rgba();");
         model_setup->setData(model_setup->index(0, 1), 0);
         grand->hide();
         model_setup->setData(model_setup->index(0, 6),model_setup->index(0, 18).data().toInt());//滑动条记忆回复
                                                                                                 // Slider memory recall
         setup_page->ui->horizontalSlider->setValue(model_setup->index(0, 6).data().toInt());
     } else {
-        setup_page->ui->pushButton_2->setStyleSheet("border-image: url(:/alarm_on.png);");
+        setup_page->ui->pushButton_2->setStyleSheet("border-image: url(:/alarm_on.png);\
+                                                    border-radius:6px;\
+                                                    border:0px solid rgba();");
         model_setup->setData(model_setup->index(0, 1), 1);
 
         model_setup->setData(model_setup->index(0, 18),model_setup->index(0, 6).data().toInt());//记忆滑动条
@@ -2264,7 +2280,7 @@ void Clock::Mute_starting()
         setup_page->ui->horizontalSlider->setValue(0);
 
         grand->move(128,406);
-        grand->setStyleSheet("QWidget{background-color: rgba(14, 19, 22, 0);}");
+        grand->setStyleSheet("QWidget{background-color: rgba(14, 19, 22, 0);border:0px solid rgba();}");
         grand->show();
     }
     model_setup->submitAll();

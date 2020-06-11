@@ -28,7 +28,7 @@ set_alarm_repeat_Dialog::set_alarm_repeat_Dialog(QWidget *parent , int rowNum ) 
     QWidget(parent)
 {
     setupUi(this);
-    this->setStyleSheet("background:rgba(48,48,51,1);border-radius:4px;");
+    this->setStyleSheet("background:rgba(48,48,51,1);border-radius:4px;border:0px solid rgba();");
     this->setWindowOpacity(0.9);
     for (int i = 0; i < rowNum_all; i++) {
         set_aItem(i);
