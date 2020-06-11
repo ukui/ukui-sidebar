@@ -122,11 +122,13 @@ Clock::Clock(QWidget *parent) :
     ui->listWidget -> setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);  //设置像素级滑动    Set pixel level slide
     ui->listWidget_2 -> setVerticalScrollMode(QAbstractItemView::ScrollPerPixel); //设置像素级滑动  Set pixel level slide
 
-    ui->listWidget->setStyleSheet("QListWidget::item::selected:active{background-color:rgba(72,72,76,1);border-radius:4px;border:1px solid rgba(97,97,101,1);}\
+    ui->listWidget->setStyleSheet("QListWidget::item::selected{background-color:rgba(72,72,76,1);border-radius:4px;border:1px solid rgba(97,97,101,1);}\
+                                  QListWidget::item::selected:active{background-color:rgba(72,72,76,1);border-radius:4px;border:1px solid rgba(97,97,101,1);}\
                                   QListWidget::item:hover{background-color:rgba(72,72,76,0.5);border-radius:4px;}");
 
-    ui->listWidget_2->setStyleSheet("QListWidget::item::selected:active{background-color:rgba(72,72,76,1);border-radius:4px;border:1px solid rgba(97,97,101,1);}\
-                                  QListWidget::item:hover{background-color:rgba(72,72,76,0.5);border-radius:4px;}");
+    ui->listWidget_2->setStyleSheet("QListWidget::item::selected{background-color:rgba(72,72,76,1);border-radius:4px;border:1px solid rgba(97,97,101,1);}\
+                                    QListWidget::item::selected:active{background-color:rgba(72,72,76,1);border-radius:4px;border:1px solid rgba(97,97,101,1);}\
+                                    QListWidget::item:hover{background-color:rgba(72,72,76,0.5);border-radius:4px;}");
 
     QDesktopWidget *deskdop = QApplication::desktop();
     move((deskdop->width() - this->width())/2, (deskdop->height() - this->height())/2);

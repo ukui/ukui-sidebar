@@ -113,7 +113,7 @@ void item_new::setupUi(QWidget *item_new)
         item_new->setObjectName(QString::fromUtf8("item_new"));
     item_new->resize(376, 56);
     item_new->setStyleSheet(QString::fromUtf8("border-radius:12px;\n"
-""));
+                                              ""));
 
     retranslateUi(item_new);
 
