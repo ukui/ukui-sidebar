@@ -23,11 +23,9 @@ private:
     QLabel *textLabel;
     Clock * m_pclock;
     int clock_num;
+    int pressflag;
 protected:
-    void enterEvent(QEvent *event);//鼠标进入事件
-    void mousePressEvent(QMouseEvent *event);//鼠标按下事件
     void mouseReleaseEvent(QMouseEvent *event);//鼠标松开事件
-    void leaveEvent(QEvent *event);//鼠标离开事件
 };
 
 #endif // BTN_NEW_H
