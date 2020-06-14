@@ -12,12 +12,12 @@
         <location filename="../../src/plugins/notification_plugin/notification_plugin.cpp" line="107"/>
         <location filename="../../src/plugins/notification_plugin/notification_plugin.cpp" line="591"/>
         <source>Important notice</source>
-        <translation type="unfinished">Önemli uyarı</translation>
+        <translation type="unfinished">Önemli Uyarı</translation>
     </message>
     <message>
         <location filename="../../src/plugins/notification_plugin/notification_plugin.cpp" line="115"/>
         <source>Clean up</source>
-        <translation type="unfinished">Temizlemek</translation>
+        <translation type="unfinished">Temizle</translation>
     </message>
     <message>
         <location filename="../../src/plugins/notification_plugin/notification_plugin.cpp" line="122"/>
@@ -37,7 +37,7 @@
     <message>
         <location filename="../../src/plugins/notification_plugin/notification_plugin.cpp" line="561"/>
         <source>Unimportant notice</source>
-        <translation type="unfinished">Önemsiz bildirim</translation>
+        <translation type="unfinished">Önemsiz Bildirim</translation>
     </message>
 </context>
 <context>
@@ -45,7 +45,7 @@
     <message>
         <location filename="../../src/plugins/notification_plugin/singlemsg.cpp" line="117"/>
         <source>now</source>
-        <translation type="unfinished">şimdi</translation>
+        <translation type="unfinished">Şimdi</translation>
     </message>
     <message>
         <location filename="../../src/plugins/notification_plugin/singlemsg.cpp" line="281"/>
@@ -60,11 +60,11 @@
     <message>
         <location filename="../../src/plugins/notification_plugin/singlemsg.cpp" line="360"/>
         <source> notification</source>
-        <translation type="unfinished"> bildirim</translation>
+        <translation type="unfinished"> Bildirim</translation>
     </message>
     <message>
         <source>In addition</source>
-        <translation type="obsolete">tür</translation>
+        <translation type="obsolete">Tür</translation>
     </message>
 </context>
 <context>
@@ -72,12 +72,12 @@
     <message>
         <location filename="../../src/plugins/notification_plugin/takeinboxtoolbutton.cpp" line="36"/>
         <source>Enter unimportant news</source>
-        <translation type="unfinished">Önemsiz haberlere girin</translation>
+        <translation type="unfinished">Önemsiz haberlere gir</translation>
     </message>
     <message>
         <location filename="../../src/plugins/notification_plugin/takeinboxtoolbutton.cpp" line="41"/>
         <source>Quit unimportant news</source>
-        <translation type="unfinished">Önemsiz haberlerden çıkın</translation>
+        <translation type="unfinished">Önemsiz haberlerden çık</translation>
     </message>
 </context>
 </TS>
