@@ -96,23 +96,23 @@ void Natice_alarm::natice_init()
     if(num_flag >= 0)
     {
         if(model->index(num_flag, 2).data().toString().compare(tr("玻璃"))==0){
-            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/glass.ogg"));
+            playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/glass.ogg"));
         } else if (model->index(num_flag, 2).data().toString().compare(tr("犬吠"))==0) {
-            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/bark.ogg"));
+            playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/bark.ogg"));
         } else if (model->index(num_flag, 2).data().toString().compare(tr("声呐"))==0) {
-            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/sonar.ogg"));
+            playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/sonar.ogg"));
         } else if (model->index(num_flag, 2).data().toString().compare(tr("雨滴"))==0) {
-            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/drip.ogg"));
+            playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/drip.ogg"));
         }
     } else {
         if (model_setup->index(0, 19).data().toString().compare(tr("玻璃"))==0) {
-            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/glass.ogg"));
+            playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/glass.ogg"));
         } else if(model_setup->index(0, 19).data().toString().compare(tr("犬吠"))==0) {
-            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/bark.ogg"));
+            playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/bark.ogg"));
         } else if(model_setup->index(0, 19).data().toString().compare(tr("声呐"))==0) {
-            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/sonar.ogg"));
+            playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/sonar.ogg"));
         } else {
-            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/drip.ogg"));
+            playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/drip.ogg"));
         }
     }
 

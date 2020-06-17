@@ -71,8 +71,21 @@ RC_FILE = clock.rc
 unix {
     target.path = /usr/bin/
     INSTALLS += target
+
+    music.path = /usr/share/ukui-clock/
+    music.files += music/bark.ogg
+    music.files += music/drip.ogg
+    music.files += music/glass.ogg
+    music.files += music/sonar.ogg
+    INSTALLS += music
 }
 desktopfile.files = clock.desktop
 desktopfile.path = /usr/share/applications/
 
 INSTALLS += desktopfile
+
+DISTFILES += \
+    music/bark.ogg \
+    music/drip.ogg \
+    music/glass.ogg \
+    music/sonar.ogg
