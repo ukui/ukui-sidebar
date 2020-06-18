@@ -39,9 +39,9 @@ Set_font_size_page::~Set_font_size_page()
 
 void Set_font_size_page::set_listwidget()
 {
-    for(int i=22; i<35 ; i++ )
+    for(int i=10; i<37 ; i++ )
     {
-        int n = i-22;
+        int n = i-10;
         list_aItem[n] =new QListWidgetItem;
         list_aItem[n]->setSizeHint(QSize(30,27));
 

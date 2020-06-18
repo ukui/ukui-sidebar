@@ -50,6 +50,7 @@ Edit_page::Edit_page(Widget* page, int noteId, QWidget *parent) :
     //任务栏图标
     //setWindowIcon(QIcon(":/image/kylin-notebook.svg"));
     setWindowIcon(QIcon::fromTheme("kylin-notebook"));
+
     QBitmap bmp(this->size());
     bmp.fill();
     QPainter p(&bmp);
@@ -75,6 +76,7 @@ Edit_page::Edit_page(Widget* page, int noteId, QWidget *parent) :
     m_noteHeadMenu->hide();
     ui->textEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->textEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+//    ui->textEdit->setFontPointSize(14);
 
     connect(m_noteHeadMenu->ui->pushButtonExit,&QPushButton::clicked,this,&Edit_page::closeSlot);
     connect(ui->textEdit,&QTextEdit::textChanged,this,&Edit_page::textChangedSlot);
@@ -320,7 +322,7 @@ void Edit_page::showSizeSpinBix()
 {
     qDebug()<<"--------------";
     int num = text_edit_page->set_size_page->ui->listWidget->currentRow();
-    text_edit_page->ui->light_blue_btn->setText(QString::number(num+22));
+    text_edit_page->ui->light_blue_btn->setText(QString::number(num+10));
     text_edit_page->set_size_page->close();
 
     QTextCharFormat fmt;

@@ -460,6 +460,8 @@ void Widget::initListMode()
     m_noteView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_noteView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_noteView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    //视图将一次滚动一个像素的内容
+    m_noteView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     //启用项的拖动
     m_noteView->setDragEnabled(true);
     //允许用户将内部或外部项拖放到视图中
@@ -650,8 +652,8 @@ void Widget::createNewNote()
         saveNoteToDB(m_currentSelectedNoteProxy);
 
         qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
-        int row = m_currentSelectedNoteProxy.row();
-        m_noteView->animateAddedRow(QModelIndex(),row, row);
+        //int row = m_currentSelectedNoteProxy.row();
+        //m_noteView->animateAddedRow(QModelIndex(),row, row);
 
         qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
         //设置索引 m_currentSelectedNoteProxy 所在的页面为当前页面
