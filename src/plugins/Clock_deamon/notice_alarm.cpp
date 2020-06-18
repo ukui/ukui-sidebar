@@ -128,10 +128,9 @@ void Natice_alarm::natice_init()
 //window closing
 void Natice_alarm::set_dialog_close()
 {
-
-    this->close();
     timer->stop();
     music->stop();
+    this->close();
 }
 //关闭音乐
 //Turn off music

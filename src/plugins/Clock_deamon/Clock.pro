@@ -16,6 +16,7 @@ TEMPLATE = app
 SOURCES += \
     btn_new.cpp \
         clock.cpp \
+    close_or_hide.cpp \
     customstyle.cpp \
     delete_msg.cpp \
     item_new.cpp \
@@ -37,6 +38,7 @@ TRANSLATIONS = Clock.ts
 
 HEADERS  += clock.h \
     btn_new.h \
+    close_or_hide.h \
     connection.h \
     customstyle.h \
     debug.h \
@@ -58,6 +60,7 @@ HEADERS  += clock.h \
 
 
 FORMS    += clock.ui \
+    close_or_hide.ui \
     delete_msg.ui \
     notice_alarm.ui \
     setuppage.ui

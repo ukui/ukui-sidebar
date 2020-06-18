@@ -56,6 +56,7 @@ class QMediaPlaylist;
 class QSqlTableModel;
 class QTimer;
 class Btn_new;
+class close_or_hide;
 
 namespace Ui {
 class Clock;
@@ -335,6 +336,7 @@ private:
     Btn_new *bta_tool_count;
     Btn_new *bta_tool_clock;
     Btn_new *bta_tool_stop;
+    close_or_hide *close_or_hide_page;
 };
 
 

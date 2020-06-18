@@ -64,6 +64,7 @@
 #include <QTranslator>
 #include <QDesktopWidget>
 #include "btn_new.h"
+#include "close_or_hide.h"
 
 const double PI=3.141592;
 
@@ -154,6 +155,8 @@ Clock::Clock(QWidget *parent) :
 
     on_pushButton_2_clicked();//初始显示闹钟界面
                               // Initial display alarm interface
+
+    close_or_hide_page = new close_or_hide(this);
 }
 
 Clock::~Clock()
@@ -640,16 +643,20 @@ void Clock::on_pushButton_timeselect_clicked()
     }
 }
 
+
 //窗口关闭
 // window closing
 void Clock::on_pushButton_5_clicked()
 {
-    ui->stackedWidget_3->raise();
-    ui->stackedWidget->raise();
-    ui->pushButton_4->raise();
-    ui->pushButton_5->raise();
-    ui->pushButton_12->raise();
-    this->close();
+    QPointF position = this->pos();
+    close_or_hide_page->move(position.x()+67,position.y()+250);
+    close_or_hide_page->exec();
+
+    if(close_or_hide_page->close_flag==1){
+        exit(0);
+    }else if(close_or_hide_page->close_flag==2){
+        this->hide();
+    }
 }
 
 //窗口最小化

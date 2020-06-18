@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>delete_msg</class>
- <widget class="QDialog" name="delete_msg">
+ <class>close_or_hide</class>
+ <widget class="QDialog" name="close_or_hide">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -39,7 +39,8 @@ border-radius: 6px;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">border-image: url(:/image/close_light.png);</string>
+     <string notr="true">border-image: url(:/image/close_light.png);
+</string>
     </property>
     <property name="text">
      <string/>
@@ -87,23 +88,6 @@ QPushButton:hover{background:rgba(143, 97, 47, 0.1)}</string>
      <string>取消</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_5">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>30</y>
-      <width>221</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);
-font: 25 15pt &quot;Noto Sans CJK SC&quot;;</string>
-    </property>
-    <property name="text">
-     <string>您确定删除当前闹钟吗？</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
@@ -118,6 +102,40 @@ font: 25 15pt &quot;Noto Sans CJK SC&quot;;</string>
     </property>
     <property name="text">
      <string/>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radioButton">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>17</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);
+font: 25 14pt &quot;Noto Sans CJK SC&quot;;</string>
+    </property>
+    <property name="text">
+     <string>后台运行</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radioButton_2">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>60</y>
+      <width>108</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);
+font: 25 14pt &quot;Noto Sans CJK SC&quot;;</string>
+    </property>
+    <property name="text">
+     <string>直接退出</string>
     </property>
    </widget>
   </widget>
