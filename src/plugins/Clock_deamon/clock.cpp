@@ -1280,12 +1280,20 @@ void Clock::listClickslot()
     if(num >= 0){
         day_next = get_alarm_clock_will_ring_days(num);
     }
+
     QTime time = QTime::currentTime();
     int timeH = time.hour();
     int timeM = time.minute();
 
     int hour_time = model->index(num, 0).data().toInt();
     int minute_time= model->index(num, 1).data().toInt();
+
+    if(day_next == 1 && hour_time>=timeH && minute_time>=timeM  ){
+        int day_true = get_alarm_clock_will_ring_days(num);
+        if(day_true){
+            day_next=0;
+        }
+    }
 
     if (hour_time == timeH && day_next == 7) {
         if (minute_time > timeM)
@@ -1305,7 +1313,9 @@ void Clock::listClickslot()
         x_m = 0;
         x_h++;
     }
-
+    if(x_h<0){
+        x_h=x_h+24;
+    }
     if (x_h >= 24) {
         day_next = x_h/24;
         x_h = x_h % 24;
@@ -1315,6 +1325,7 @@ void Clock::listClickslot()
     } else {
         day_next = 0;
     }
+
 
     if (num < 0) {
         ui->label_7->setText(QApplication::translate("Clock", "\347\202\271\345\207\273\351\227\271\351\222\237\346\230\276\347\244\272\345\211\251\344\275\231\346\227\266\351\227\264", nullptr));
@@ -1373,6 +1384,40 @@ int Clock::get_alarm_clock_will_ring_days(int num)
             return interval;
         }
     }
+}
+
+int Clock::get_alarm_clock_will_ring_days_2(int num)
+{
+    //model->select();
+    int ring_day[7];
+    int today ;
+    for (int i = 0; i < 7; i++) {
+        ring_day[i] = model->index(num, i+6).data().toInt();
+    }
+    //判断星期
+    // Judgment week
+    QDateTime current_date_time = QDateTime::currentDateTime();
+
+    if(current_date_time.toString("ddd").compare("周一")==0 )
+        today = 0;
+    else if(current_date_time.toString("ddd").compare("周二")==0 )
+        today = 1;
+    else if(current_date_time.toString("ddd").compare("周三")==0 )
+        today = 2;
+    else if(current_date_time.toString("ddd").compare("周四")==0 )
+        today = 3;
+    else if(current_date_time.toString("ddd").compare("周五")==0 )
+        today = 4;
+    else if(current_date_time.toString("ddd").compare("周六")==0 )
+        today = 5;
+    else if(current_date_time.toString("ddd").compare("周日")==0 )
+        today = 6;
+
+        if (ring_day[today] == 1) {
+            return 1;
+        }else{
+            return 0;
+        }
 }
 
 
