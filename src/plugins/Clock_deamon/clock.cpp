@@ -1289,7 +1289,7 @@ void Clock::listClickslot()
     int minute_time= model->index(num, 1).data().toInt();
 
     if(day_next == 1 && hour_time>=timeH && minute_time>=timeM  ){
-        int day_true = get_alarm_clock_will_ring_days(num);
+        int day_true = get_alarm_clock_will_ring_days_2(num);
         if(day_true){
             day_next=0;
         }
