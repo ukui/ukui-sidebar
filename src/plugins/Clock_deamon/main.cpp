@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
     a.setAttribute(Qt::AA_UseHighDpiPixmaps,true);
 #endif
+    a.setQuitOnLastWindowClosed(false);
     if (!a.isRunning()) {
         Clock w;
         a.w = &w;
