@@ -309,7 +309,7 @@ private:
                                   // Whether to create or re edit the duplicate day is determined. The database numbers obtained by the two methods are different
     int stopwatch_Animation = 0;
     int system_time_flag;
-
+    int last_day_ring = 0;
 
     QTimer *timer_Surplus;
     QTimer *timer_set_page;
