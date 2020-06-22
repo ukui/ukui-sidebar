@@ -1417,8 +1417,7 @@ int Clock::get_alarm_clock_will_ring_days_2(int num)
         today = 5;
     else if(current_date_time.toString("ddd").compare("周日")==0 )
         today = 6;
-
-    if(today<<6)
+    
 
         if (ring_day[today] == 1) {
             return 1;
