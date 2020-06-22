@@ -1278,20 +1278,23 @@ void Clock::listClickslot()
     int num=ui->listWidget->currentRow();
     int day_next;
     if(num >= 0){
-        day_next = get_alarm_clock_will_ring_days(num);
+        day_next = get_alarm_clock_will_ring_days(num); //获取下次响铃天数
     }
 
     QTime time = QTime::currentTime();
     int timeH = time.hour();
     int timeM = time.minute();
-
+    int day_true;
     int hour_time = model->index(num, 0).data().toInt();
     int minute_time= model->index(num, 1).data().toInt();
-
-    if(day_next == 1 && hour_time>=timeH && minute_time>=timeM  ){
-        int day_true = get_alarm_clock_will_ring_days_2(num);
-        if(day_true){
-            day_next=0;
+    if(last_day_ring == 1&& hour_time>=timeH ){              //如果天数是下一天响，判断当天是否
+        if(hour_time == timeH && minute_time <= timeM ){
+            ;
+        }else{
+            day_true = get_alarm_clock_will_ring_days_2(num);
+            if(day_true){
+                day_next=0;
+            }
         }
     }
 
@@ -1374,12 +1377,14 @@ int Clock::get_alarm_clock_will_ring_days(int num)
 
     for (int i = today+1; i < 7; i++) {
         if (ring_day[i] == 1) {
+            last_day_ring = 1;
             interval = i - today;
             return interval;
         }
     }
     for (int i = 0; i<today+1; i++) {
         if (ring_day[i] == 1) {
+            last_day_ring = 0;
             interval = 7 - today + i;
             return interval;
         }
@@ -1412,6 +1417,8 @@ int Clock::get_alarm_clock_will_ring_days_2(int num)
         today = 5;
     else if(current_date_time.toString("ddd").compare("周日")==0 )
         today = 6;
+
+    if(today<<6)
 
         if (ring_day[today] == 1) {
             return 1;
