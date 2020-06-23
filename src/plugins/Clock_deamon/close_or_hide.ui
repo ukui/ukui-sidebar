@@ -109,13 +109,13 @@ QPushButton:hover{background:rgba(143, 97, 47, 0.1)}</string>
      <rect>
       <x>120</x>
       <y>17</y>
-      <width>131</width>
+      <width>161</width>
       <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">color: rgb(255, 255, 255);
-font: 25 14pt &quot;Noto Sans CJK SC&quot;;</string>
+font: 25 14pt ;</string>
     </property>
     <property name="text">
      <string>后台运行</string>
@@ -126,13 +126,13 @@ font: 25 14pt &quot;Noto Sans CJK SC&quot;;</string>
      <rect>
       <x>120</x>
       <y>60</y>
-      <width>108</width>
+      <width>161</width>
       <height>28</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">color: rgb(255, 255, 255);
-font: 25 14pt &quot;Noto Sans CJK SC&quot;;</string>
+font: 25 14pt ;</string>
     </property>
     <property name="text">
      <string>直接退出</string>
