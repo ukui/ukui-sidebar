@@ -82,6 +82,9 @@ public:
     int getListFlag() const;                                        //获取列表切换标志位
     void setListFlag(const int &listflag);                          //设置列表切换标志位
 
+protected:
+    void paintEvent(QPaintEvent*);
+
 private:
     Edit_page *m_notebook;                                          //新建便签指针
 
@@ -102,7 +105,7 @@ private:
     QPixmap pixmap15;
     QPixmap pixmap16;
 
-    int m_listflag;                                                   //平铺/展开列表切换
+    int m_listflag;                                                 //平铺/展开列表切换
     int sortflag;                                                   //升降序切换
     noteExitWindow* m_noteExitWindow=nullptr;                       //退出弹窗
     QAction *searchAction;                                          //搜索栏图标
@@ -114,7 +117,7 @@ private:
     QPushButton* m_trashButton;                                     //删除按钮
     QLabel* m_countLabel;                                           //item记数
     QPushButton* m_sortLabel;                                       //升/降序按钮
-    QPushButton* m_viewChangeButton;                                      //列表/平铺切换按钮
+    QPushButton* m_viewChangeButton;                                //列表/平铺切换按钮
     NoteView* m_noteView;                                           //listview
     QTableView* m_noteTable;                                        //tableview
     NoteModel* m_noteModel;                                         //便签模板
