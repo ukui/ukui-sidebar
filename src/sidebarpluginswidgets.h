@@ -83,7 +83,7 @@ public:
 
     QPushButton     *m_pFoldButton;                               //折叠按钮
     QPushButton     *m_pSpreadButton;                             //展开按钮
-    QPushButton      *m_pBlueBackgroundButton;                    //蓝色背景块
+    QPushButton     *m_pBlueBackgroundButton;                     //蓝色背景块
     SmallPluginsButton *m_pClipboardButton;                       //剪贴板 界面显示按钮
     SmallPluginsButton *m_pSidebarPluginButton;                   //插件 界面显示按钮
     QToolButton *m_pNotebookButton;                               //笔记本 按钮
@@ -107,7 +107,7 @@ public:
     int     flagnumClipboardState;
     int     m_add_x = 0;
     int     m_add_y = 1;
-    int     m_cliboardHight;                                          //剪贴板和小插件的高度
+    int     m_cliboardHight;                                      //剪贴板和小插件的高度
 
 signals:
 

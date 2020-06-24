@@ -62,7 +62,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
 
     /* 主界面显示 */
     m_pMainQVBoxLayout = new QVBoxLayout;
-    m_pMainQVBoxLayout->setContentsMargins(0,0,0,0);
+    m_pMainQVBoxLayout->setContentsMargins(0, 0, 0, 0);
     m_pMainQVBoxLayout->setSpacing(0);
 
     /* 初始化剪贴板与小插件界面 */
@@ -211,8 +211,7 @@ void Widget::setIcon(QIcon icon)
 void Widget::iconActivated(QSystemTrayIcon::ActivationReason reason)
 {
     switch (reason) {
-        case QSystemTrayIcon::Trigger:
-        {
+        case QSystemTrayIcon::Trigger: {
             if (m_bShowFlag) {
                 mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
                 hideAnimation();
