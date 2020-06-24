@@ -245,10 +245,10 @@ void Widget::kyNoteInit()
     //m_viewChangeButton->hide();
     //m_trashButton->move(575, 0);
     ui->frame->hide();
-    setAttribute(Qt::WA_TranslucentBackground);
+
     //退出框
     m_noteExitWindow = new noteExitWindow(this);
-
+    setAttribute(Qt::WA_TranslucentBackground);//开启毛玻璃效果
     auto headerBar = new HeaderBar(this);
     //headerBar->show();
     headerBar->hide();
@@ -900,8 +900,31 @@ void Widget::light_show()
     //    ui->newKynote->setStyleSheet("QPushButton{border-image: url(:/image/1x/new.png);background:rgba(61,107,229,1);color: rgb(255, 255, 255);}"
     //                                  "QPushButton:hover{border-image: url(:/image/1x/new-big.png);background:rgba(61,107,229,1);color: rgb(255, 255, 255);}"
     //                                  "QPushButton:pressed{border-image: url(:/image/1x/new-big-click.png);background:rgba(61,107,229,1);color: rgb(255, 255, 255);}");
+}
 
+void Widget::paintEvent(QPaintEvent *e)
+{
+//    Q_UNUSED(e);
+//    QStyleOption opt;
+//    opt.init(this);
+//    QPainter p(this);
 
+//    p.setBrush(opt.palette.color(QPalette::Base));
+//    qDebug() << "paintEvent" << p.brush().color().value();
+//    //系统默认 255 、 248  深色模式 30 34
+//    if(p.brush().color().value() == 255)
+//    {
+//        light_show();
+//    }else if(p.brush().color().value() == 248)
+//    {
+//        light_show();
+//    }else if(p.brush().color().value() == 30)
+//    {
+//        black_show();
+//    }else if(p.brush().color().value() == 34)
+//    {
+//        black_show();
+//    }
 }
 
 //********************Slots************************//
@@ -1189,8 +1212,6 @@ void Widget::on_sort_2_btn_clicked()
         m_isThemeChanged = 0;
         sink = 1;
     }else{
-
-
         black_show();
         m_isThemeChanged = 1;
         sink = 0;
