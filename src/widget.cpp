@@ -350,7 +350,7 @@ void Widget::showAnimation()
         case Widget::PanelLeft:
             {
                 //起始位置的坐标
-                AnimaStartSideBarSite[0] = 400;
+                AnimaStartSideBarSite[0] = -400;
                 AnimaStartSideBarSite[1] = 0;
                 AnimaStartSideBarSite[2] = 400;
                 AnimaStartSideBarSite[3] = m_nScreenHeight;
@@ -453,7 +453,7 @@ void Widget::hideAnimation()
                 AnimaStartSideBarSite[2] = 400;
                 AnimaStartSideBarSite[3] = m_nScreenHeight;
                 //结束位置坐标
-                AnimaStopSidebarSite[0]  = 450;
+                AnimaStopSidebarSite[0]  = -400;
                 AnimaStopSidebarSite[1]  = 0;
                 AnimaStopSidebarSite[2]  = 400;
                 AnimaStopSidebarSite[3]  = m_nScreenHeight;
@@ -611,8 +611,9 @@ void Widget::MostGrandWidgetCoordinates()
         case Widget::PanelLeft:
             {
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight);
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400, m_nScreen_y);
-                emit m_pSidebarSignal->ClipboardPreviewSignal(400, m_nScreenHeight, m_nScreen_x + m_nScreenWidth - 400, m_nScreen_y, 0);
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + connectTaskBarDbus(), m_nScreen_y);
+                emit m_pSidebarSignal->ClipboardPreviewSignal(400, m_nScreenHeight, m_nScreen_x + connectTaskBarDbus() + 400 + 260, m_nScreen_y, 0);
+                qDebug() << "当前 m_nScreen_x + m_nScreenWidth + connectTaskBarDbus()--》" << m_nScreen_x + connectTaskBarDbus() << "m_nScreen_y ----> "  << m_nScreen_y;
 
             }
             break;
