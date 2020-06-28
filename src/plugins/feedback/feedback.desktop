@@ -1,9 +1,9 @@
 [Desktop Entry]
-Name=Ukui Feedback
+Name=Kylin Feedback
 Name[zh_CN]=用户反馈
-GenericName=Ukui Feedback
+GenericName=Kylin Feedback
 GenericName[zh_CN]=用户反馈
-Comment=Ukui Feedback
+Comment=Kylin Feedback
 Comment[zh_CN]=用户反馈
 Keywords=guide;
 Exec=/usr/bin/feedback

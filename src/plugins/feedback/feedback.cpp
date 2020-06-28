@@ -230,7 +230,7 @@ void feedback::UI_init()
     label_4 = new QLabel(centralwidget);
     label_4->setText(tr("邮箱"));
     label_4->setObjectName(QString::fromUtf8("label_4"));
-    label_4->setGeometry(QRect(35, 275, 32, 23));
+    label_4->setGeometry(QRect(35, 275, 35, 23));
     label_4->setStyleSheet(QString::fromUtf8("font: 14px;\n"
                                              "color: rgb(68, 68, 68);\n"
                                              ""));
@@ -250,7 +250,7 @@ void feedback::UI_init()
     label_6 = new QLabel(centralwidget);
     label_6->setText(tr("*"));
     label_6->setObjectName(QString::fromUtf8("label_6"));
-    label_6->setGeometry(QRect(68, 277, 16, 16));
+    label_6->setGeometry(QRect(75, 277, 16, 16));
     label_6->setStyleSheet(QString::fromUtf8("font: 11pt \"Sans Serif\";\n"
                                              "color: rgb(255, 0, 0);"));
     lineEdit_2 = new QLineEdit(centralwidget);
@@ -375,7 +375,7 @@ void feedback::UI_init()
     label_9 = new QLabel(centralwidget);
     label_9->setText(tr("限200字"));
     label_9->setObjectName(QString::fromUtf8("label_9"));
-    label_9->setGeometry(QRect(470, 145, 50, 18));
+    label_9->setGeometry(QRect(470, 145, 60, 18));
     label_9->setStyleSheet(QString::fromUtf8("color: rgb(136, 136, 136);\n"
                                              "font: 12px;"));
 
