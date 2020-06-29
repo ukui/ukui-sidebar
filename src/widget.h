@@ -129,7 +129,7 @@ private:
     QTimer*                     m_pUpdateSmallPluginsWidget;
 
 private slots :
-    void onResolutionChanged(int);                                              //当改变屏幕分辨率时重新获取屏幕分辨率
+    void onResolutionChanged(const QRect argc);                                 //当改变屏幕分辨率时重新获取屏幕分辨率
     void onNewNotification();                                                   //当没展开时，来了新通知才提示
     void hideAnimationFinish();                                                 //隐藏动画完成
     void showAnimationAction(const QVariant &value);                            //展开动画开始

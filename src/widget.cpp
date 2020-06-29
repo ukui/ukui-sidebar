@@ -53,7 +53,8 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
 
     /* 监听屏幕分辨率是否变化 主频是否有变化 初始化屏幕宽高 和主屏起始X坐标值 */
     m_pDeskWgt = QApplication::desktop();
-    connect(m_pDeskWgt, SIGNAL(resized(int)), this, SLOT(onResolutionChanged(int)));
+//    connect(m_pDeskWgt, SIGNAL(resized(int)), this, SLOT(onResolutionChanged(int)));
+    connect(QApplication::primaryScreen(), &QScreen::geometryChanged, this, &Widget::onResolutionChanged);
     connect(m_pDeskWgt, &QDesktopWidget::primaryScreenChanged, this, &Widget::primaryScreenChangedSLot);
     connect(m_pDeskWgt, &QDesktopWidget::screenCountChanged, this, &Widget::screenCountChangedSlots);
 
@@ -489,7 +490,7 @@ void Widget::hideAnimationFinish()
 }
 
 //当改变屏幕分辨率时重新获取屏幕分辨率
-void Widget::onResolutionChanged(int argc)
+void Widget::onResolutionChanged(const QRect argc)
 {
     Q_UNUSED(argc);
     qDebug() << "屏幕分辨率发生变化";

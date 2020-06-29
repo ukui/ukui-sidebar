@@ -1,3 +1,79 @@
+ukui-sidebar (1.1.0-1kord2) juniper; urgency=medium
+
+  * New upstream release.
+    - Repair the alarm time, it should display the alarm of the day
+    - Change last commit error with clock
+    - Repair the alarm time, it should display the alarm of the day, but it should display the alarm bug of the day
+    - Alarm window closing add background operation and direct closing opt…
+    - Alarm window closing add background operation and direct closing options
+    - fix fontSize range && set scroll wheel in pixels && disable animation
+    - Add the installation default sound and fix the bug of no prompt soun…
+    - Add the installation default sound and fix the bug of no prompt sound in v10
+
+ -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
+
+ukui-sidebar (1.1.0-1kylin7) v101; urgency=medium
+
+  * New upstream release.
+    - Repair the alarm time, it should display the alarm of the day
+    - Change last commit error with clock
+    - Repair the alarm time, it should display the alarm of the day, but it should display the alarm bug of the day
+    - Alarm window closing add background operation and direct closing opt…
+    - Alarm window closing add background operation and direct closing options
+    - fix fontSize range && set scroll wheel in pixels && disable animation
+    - Add the installation default sound and fix the bug of no prompt soun…
+    - Add the installation default sound and fix the bug of no prompt sound in v10
+
+ -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
+
+ukui-sidebar (1.1.0-1kylin7) v100; urgency=medium
+
+  * New upstream release.
+    - Repair the alarm time, it should display the alarm of the day
+    - Change last commit error with clock
+    - Repair the alarm time, it should display the alarm of the day, but it should display the alarm bug of the day
+    - Alarm window closing add background operation and direct closing opt…
+    - Alarm window closing add background operation and direct closing options
+    - fix fontSize range && set scroll wheel in pixels && disable animation
+    - Add the installation default sound and fix the bug of no prompt soun…
+    - Add the installation default sound and fix the bug of no prompt sound in v10
+
+ -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
+
+ukui-sidebar (1.1.0-1kord1) juniper; urgency=medium
+
+  * New upstream release.
+    - Prompt time logic code change
+    - remove 2x SVG icon && fix font bug
+    - Achieve indent reversibility
+    - Achieve indent reversibility
+    - Modify note title
+    - Modify icon name
+    - Fix the stopwatch time immobility bug
+    - Fix the stopwatch time immobility bug
+    - Alarm initialization scroll wheel, minute second label moves one pixel to the right
+    - Page switch button to increase the suspension effect
+
+ -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
+
+
+ukui-sidebar (1.1.0-1kylin5) v100; urgency=medium
+
+  * New upstream release.
+    - Prompt time logic code change
+    - remove 2x SVG icon && fix font bug
+    - Achieve indent reversibility
+    - Achieve indent reversibility
+    - Modify note title
+    - Modify icon name
+    - Fix the stopwatch time immobility bug
+    - Fix the stopwatch time immobility bug
+    - Alarm initialization scroll wheel, minute second label moves one pixel to the right
+    - Page switch button to increase the suspension effect
+
+ -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
+
+
 ukui-sidebar (1.1.0-1kylin4) v101; urgency=medium
 
   * New upstream release.
