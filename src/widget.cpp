@@ -662,7 +662,8 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
         }
     }
 
-    if (!isActiveWindow()) {
+
+    if (!isActiveWindow() && true == m_bShowFlag) {
         activateWindow();
     }
     return false;
