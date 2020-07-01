@@ -3,7 +3,7 @@ Section: x11
 Priority: optional
 Maintainer: Kylin Team <team+kylin@tracker.debian.org>
 Uploaders: handsome_feng <jianfengli@ubuntukylin.com>,
-Build-Depends: debhelper,
+Build-Depends: debhelper-compat (= 12),
                libglib2.0-dev,
                qtbase5-dev,
                libqt5svg5-dev,
@@ -12,9 +12,10 @@ Build-Depends: debhelper,
 	       libgsettings-qt-dev,
 	       libdconf-dev
 Standards-Version: 4.5.0
+Rules-Requires-Root: no
 Homepage: https://github.com/ukui/ukui-sidebar.git
 Vcs-Git: https://github.com/ukui/ukui-sidebar.git
-vcs-Browser: https://github.com/ukui/ukui-sidebar
+Vcs-Browser: https://github.com/ukui/ukui-sidebar
 
 Package: ukui-sidebar
 Architecture: any
