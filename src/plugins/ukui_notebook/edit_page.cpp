@@ -34,8 +34,6 @@
 #include "edit_page.h"
 #include "ui_edit_page.h"
 
-static int count =0;
-
 Edit_page::Edit_page(Widget* page, int noteId, QWidget *parent) :
     QWidget(parent)
   , ui(new Ui::Edit_page)
@@ -43,7 +41,6 @@ Edit_page::Edit_page(Widget* page, int noteId, QWidget *parent) :
   , m_noteId(noteId)
   , m_lastBlockList(0)
 {
-    qDebug()<<"aa"<<++count;
     ui->setupUi(this);
     //标题
     this->setWindowTitle(tr("ukui-memo"));
@@ -80,7 +77,6 @@ Edit_page::Edit_page(Widget* page, int noteId, QWidget *parent) :
 
     connect(m_noteHeadMenu->ui->pushButtonExit,&QPushButton::clicked,this,&Edit_page::closeSlot);
     connect(ui->textEdit,&QTextEdit::textChanged,this,&Edit_page::textChangedSlot);
-    connect(pNotebook->ui->sort_2_btn,SIGNAL(clicked()),this,SLOT(color_clicked()));
 
     fontChanged();
     color_clicked();
@@ -89,6 +85,22 @@ Edit_page::Edit_page(Widget* page, int noteId, QWidget *parent) :
 Edit_page::~Edit_page()
 {
     delete ui;
+}
+
+void Edit_page::paintEvent(QPaintEvent *event)
+{
+    Q_UNUSED(event);
+    QStyleOption opt;
+    opt.init(this);
+    QPainter p(this);
+
+    p.setBrush(opt.palette.color(QPalette::Base));
+    //p.setOpacity(0.7);
+    p.setPen(Qt::NoPen);
+
+    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+    p.drawRoundedRect(opt.rect,6,6);
+    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }
 
 void Edit_page::enterEvent(QEvent *)
@@ -107,34 +119,34 @@ void Edit_page::set_select_color_page()
 {
     color_page = new select_color_page(pNotebook);
     ui->textEdit->setFrameShape(QFrame::NoFrame);
-    connect(color_page->ui->blue_btn, SIGNAL(clicked()), this, SLOT(blue_btn_change()));
-    connect(color_page->ui->pink_btn, SIGNAL(clicked()), this, SLOT(pink_btn_change()));
-    connect(color_page->ui->dark_green_btn, SIGNAL(clicked()), this, SLOT(dark_green_btn_change()));
-    connect(color_page->ui->orang_btn, SIGNAL(clicked()), this, SLOT(orang_btn_change()));
-    connect(color_page->ui->Violet_btn, SIGNAL(clicked()), this, SLOT(Violet_btn_change()));
-    connect(color_page->ui->Golden_btn, SIGNAL(clicked()), this, SLOT(Golden_btn_change()));
-    connect(color_page->ui->light_blue_btn, SIGNAL(clicked()), this, SLOT(light_blue_btn_change()));
-    connect(color_page->ui->light_green_btn, SIGNAL(clicked()), this, SLOT(light_green_btn_change()));
-    connect(color_page->ui->yellow_btn, SIGNAL(clicked()), this, SLOT(yellow_btn_change()));
-    connect(color_page->ui->white_btn, SIGNAL(clicked()), this, SLOT(white_btn_change()));
+    connect(color_page->paletteWidget->ui->blueBtn, SIGNAL(clicked()), this, SLOT(blue_btn_change()));
+    connect(color_page->paletteWidget->ui->pinkBtn, SIGNAL(clicked()), this, SLOT(pink_btn_change()));
+    connect(color_page->paletteWidget->ui->darkGreenBtn, SIGNAL(clicked()), this, SLOT(dark_green_btn_change()));
+    connect(color_page->paletteWidget->ui->orangeBtn, SIGNAL(clicked()), this, SLOT(orang_btn_change()));
+    connect(color_page->paletteWidget->ui->violetBtn, SIGNAL(clicked()), this, SLOT(Violet_btn_change()));
+    connect(color_page->paletteWidget->ui->goldenBtn, SIGNAL(clicked()), this, SLOT(Golden_btn_change()));
+    connect(color_page->paletteWidget->ui->lightBlueBtn, SIGNAL(clicked()), this, SLOT(light_blue_btn_change()));
+    connect(color_page->paletteWidget->ui->lightGreenBtn, SIGNAL(clicked()), this, SLOT(light_green_btn_change()));
+    connect(color_page->paletteWidget->ui->yellowBtn, SIGNAL(clicked()), this, SLOT(yellow_btn_change()));
+    connect(color_page->paletteWidget->ui->defaultBtn, SIGNAL(clicked()), this, SLOT(white_btn_change()));
 }
 
 void Edit_page::set_text_editing_page()
 {
     text_edit_page = new Text_editing(pNotebook);
-    text_edit_page->ui->showListBtn->setCheckable(true);
-    text_edit_page->ui->showNUMList->setCheckable(true);
+    text_edit_page->texteditwidget->ui->showListBtn->setCheckable(true);
+    text_edit_page->texteditwidget->ui->showNUMList->setCheckable(true);
 
-    qDebug() << "text_edit_page->ui->showNUMList is checkable ? :" << text_edit_page->ui->showNUMList->isCheckable();
+    qDebug() << "text_edit_page->ui->showNUMList is checkable ? :" << text_edit_page->texteditwidget->ui->showNUMList->isCheckable();
     connect(text_edit_page->set_size_page->ui->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(showSizeSpinBix()));
     connect(text_edit_page->set_color_fort_page->ui->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(showFontColorSlot()));
 
-    connect(text_edit_page->ui->BoldBtn,SIGNAL(clicked()),this,SLOT(showBoldBtn()));
-    connect(text_edit_page->ui->ItalicBtn,SIGNAL(clicked(bool)),this,SLOT(showItalicBtn()));
-    connect(text_edit_page->ui->underlineBtn,SIGNAL(clicked(bool)),this,SLOT(showUnderlineBtn()));
-    connect(text_edit_page->ui->StrikeOutResolvedBtn,SIGNAL(clicked(bool)),this,SLOT(showStrikeOutResolved()));
-    connect(text_edit_page->ui->showListBtn,SIGNAL(clicked(bool)),this,SLOT(showList(bool)));
-    connect(text_edit_page->ui->showNUMList,SIGNAL(clicked(bool)),this,SLOT(showNUMList(bool)));
+    connect(text_edit_page->texteditwidget->ui->BoldBtn,SIGNAL(clicked()),this,SLOT(showBoldBtn()));
+    connect(text_edit_page->texteditwidget->ui->ItalicBtn,SIGNAL(clicked(bool)),this,SLOT(showItalicBtn()));
+    connect(text_edit_page->texteditwidget->ui->underlineBtn,SIGNAL(clicked(bool)),this,SLOT(showUnderlineBtn()));
+    connect(text_edit_page->texteditwidget->ui->StrikeOutResolvedBtn,SIGNAL(clicked(bool)),this,SLOT(showStrikeOutResolved()));
+    connect(text_edit_page->texteditwidget->ui->showListBtn,SIGNAL(clicked(bool)),this,SLOT(showList(bool)));
+    connect(text_edit_page->texteditwidget->ui->showNUMList,SIGNAL(clicked(bool)),this,SLOT(showNUMList(bool)));
     connect(ui->textEdit,&QTextEdit::cursorPositionChanged,this,&Edit_page::slotCursorPositionChanged);
 
 }
@@ -144,18 +156,18 @@ void Edit_page::fontChanged() {
     if (ui->textEdit->textCursor().currentList()) {
         QTextListFormat lfmt = ui->textEdit->textCursor().currentList()->format();
         if (lfmt.style() == QTextListFormat::ListDisc) {
-            text_edit_page->ui->showListBtn->setChecked(true);
-            text_edit_page->ui->showNUMList->setChecked(false);
+            text_edit_page->texteditwidget->ui->showListBtn->setChecked(true);
+            text_edit_page->texteditwidget->ui->showNUMList->setChecked(false);
           } else if (lfmt.style() == QTextListFormat::ListDecimal) {
-            text_edit_page->ui->showListBtn->setChecked(false);
-            text_edit_page->ui->showNUMList->setChecked(true);
+            text_edit_page->texteditwidget->ui->showListBtn->setChecked(false);
+            text_edit_page->texteditwidget->ui->showNUMList->setChecked(true);
           } else {
-            text_edit_page->ui->showListBtn->setChecked(false);
-            text_edit_page->ui->showNUMList->setChecked(false);
+            text_edit_page->texteditwidget->ui->showListBtn->setChecked(false);
+            text_edit_page->texteditwidget->ui->showNUMList->setChecked(false);
             }
       } else {
-        text_edit_page->ui->showListBtn->setChecked(false);
-        text_edit_page->ui->showNUMList->setChecked(false);
+        text_edit_page->texteditwidget->ui->showListBtn->setChecked(false);
+        text_edit_page->texteditwidget->ui->showNUMList->setChecked(false);
       }
 }
 
@@ -170,18 +182,18 @@ void Edit_page::slotCursorPositionChanged() {
     if (l) {
         QTextListFormat lfmt = l->format();
         if (lfmt.style() == QTextListFormat::ListDisc) {
-            text_edit_page->ui->showListBtn->setChecked(true);
-            text_edit_page->ui->showNUMList->setChecked(false);
+            text_edit_page->texteditwidget->ui->showListBtn->setChecked(true);
+            text_edit_page->texteditwidget->ui->showNUMList->setChecked(false);
           } else if (lfmt.style() == QTextListFormat::ListDecimal) {
-            text_edit_page->ui->showListBtn->setChecked(false);
-            text_edit_page->ui->showNUMList->setChecked(true);
+            text_edit_page->texteditwidget->ui->showListBtn->setChecked(false);
+            text_edit_page->texteditwidget->ui->showNUMList->setChecked(true);
           } else {
-            text_edit_page->ui->showListBtn->setChecked(false);
-            text_edit_page->ui->showNUMList->setChecked(false);
+            text_edit_page->texteditwidget->ui->showListBtn->setChecked(false);
+            text_edit_page->texteditwidget->ui->showNUMList->setChecked(false);
             }
       } else {
-        text_edit_page->ui->showListBtn->setChecked(false);
-        text_edit_page->ui->showNUMList->setChecked(false);
+        text_edit_page->texteditwidget->ui->showListBtn->setChecked(false);
+        text_edit_page->texteditwidget->ui->showNUMList->setChecked(false);
         }
 }
 
@@ -196,7 +208,7 @@ void Edit_page::showBoldBtn()
 {
     qDebug()<<"-------showBoldBtn------------";
     QTextCharFormat fmt;
-    fmt.setFontWeight(text_edit_page->ui->BoldBtn->isCheckable() ? QFont::Bold : QFont::Normal);
+    fmt.setFontWeight(text_edit_page->texteditwidget->ui->BoldBtn->isCheckable() ? QFont::Bold : QFont::Normal);
 
     QTextCursor cursor = ui->textEdit->textCursor();
     if (!cursor.hasSelection()){
@@ -220,7 +232,7 @@ void Edit_page::showItalicBtn()
 {
     qDebug()<<"-------showItalicBtn------------";
     QTextCharFormat fmt;
-    fmt.setFontItalic(text_edit_page->ui->ItalicBtn->isCheckable() );// ? QFont::StyleItalic : QFont::Normal);
+    fmt.setFontItalic(text_edit_page->texteditwidget->ui->ItalicBtn->isCheckable() );// ? QFont::StyleItalic : QFont::Normal);
 
     QTextCursor cursor = ui->textEdit->textCursor();
     qDebug() << cursor.charFormat().fontItalic();
@@ -241,7 +253,7 @@ void Edit_page::showUnderlineBtn()
 {
     qDebug()<<"-------showUnderlineBtn------------";
     QTextCharFormat fmt;
-    fmt.setFontUnderline(text_edit_page->ui->underlineBtn->isCheckable());// ? QFont::UnderlineResolved : QFont::Normal );
+    fmt.setFontUnderline(text_edit_page->texteditwidget->ui->underlineBtn->isCheckable());// ? QFont::UnderlineResolved : QFont::Normal );
 
     QTextCursor cursor = ui->textEdit->textCursor();
     qDebug() << cursor.charFormat().fontItalic();
@@ -259,7 +271,7 @@ void Edit_page::showStrikeOutResolved()
 {
     qDebug()<<"-------showStrikeOutResolved------------";
     QTextCharFormat fmt;
-    fmt.setFontStrikeOut(text_edit_page->ui->StrikeOutResolvedBtn->isCheckable());// ? QFont::StrikeOutResolved : QFont::Normal );
+    fmt.setFontStrikeOut(text_edit_page->texteditwidget->ui->StrikeOutResolvedBtn->isCheckable());// ? QFont::StrikeOutResolved : QFont::Normal );
 
     QTextCursor cursor = ui->textEdit->textCursor();
     qDebug() << cursor.charFormat().fontItalic();
@@ -278,12 +290,12 @@ void Edit_page::showList(bool checked)
     qDebug() << "showlist" << checked;
     if(checked)
     {
-        text_edit_page->ui->showNUMList->setChecked(false);
+        text_edit_page->texteditwidget->ui->showNUMList->setChecked(false);
         qDebug() << "show list set false" << checked;
-        qDebug() << "text_edit_page->ui->showNUMList is checked ? :" << text_edit_page->ui->showNUMList->isChecked();
+        qDebug() << "text_edit_page->ui->showNUMList is checked ? :" << text_edit_page->texteditwidget->ui->showNUMList->isChecked();
     }
     list(checked, QTextListFormat::ListDisc);
-    qDebug() << "text_edit_page->ui->showNUMList is checked ? :" << text_edit_page->ui->showNUMList->isChecked();
+    qDebug() << "text_edit_page->ui->showNUMList is checked ? :" << text_edit_page->texteditwidget->ui->showNUMList->isChecked();
 }
 
 //有序列表
@@ -291,7 +303,7 @@ void Edit_page::showNUMList(bool checked)
 {
     qDebug() << "show num list";
     if (checked) {
-        text_edit_page->ui->showListBtn->setChecked(false);
+        text_edit_page->texteditwidget->ui->showListBtn->setChecked(false);
         }
     list(checked, QTextListFormat::ListDecimal);
 }
@@ -322,7 +334,7 @@ void Edit_page::showSizeSpinBix()
 {
     qDebug()<<"--------------";
     int num = text_edit_page->set_size_page->ui->listWidget->currentRow();
-    text_edit_page->ui->light_blue_btn->setText(QString::number(num+10));
+    text_edit_page->texteditwidget->ui->light_blue_btn->setText(QString::number(num+10));
     text_edit_page->set_size_page->close();
 
     QTextCharFormat fmt;
@@ -362,7 +374,7 @@ void Edit_page::showFontColorSlot ()
 {
     qDebug()<<"--------------";
     int num = text_edit_page->set_color_fort_page->ui->listWidget->currentRow();
-    text_edit_page->ui->blue_btn_2->setStyleSheet(color[num]+"border-radius:3px;");
+    text_edit_page->texteditwidget->ui->blue_btn_2->setStyleSheet(color[num]+"border-radius:3px;");
 
     QTextCharFormat fmt;
     fmt.setForeground(color_num[num]);
@@ -374,6 +386,7 @@ void Edit_page::showFontColorSlot ()
 void Edit_page::blue_btn_change()
 {
     m_editColor = QColor(76,119,231);
+    qDebug() << "blue btn click" << m_editColor.value();
     emit colorhasChanged(m_editColor,m_noteId);
     qDebug() << "emit colorhasChanged";
     m_noteHead->color_widget = QColor(76,119,231);
@@ -600,9 +613,9 @@ void Edit_page::yellow_btn_change()
 void Edit_page::white_btn_change()
 {
     if(pNotebook->m_isThemeChanged){
-        m_editColor = QColor(236,238,242);
-        m_noteHead->color_widget = QColor(236,238,242);
-        m_noteHeadMenu->color_widget = QColor(236,238,242);
+        m_editColor = QColor(255,255,255);
+        m_noteHead->color_widget = QColor(255,255,255);
+        m_noteHeadMenu->color_widget = QColor(255,255,255);
         QPixmap pixmap1;
         QPixmap pixmap2;
         pixmap1 = QPixmap(":/image/1x/close_block.png");
@@ -656,6 +669,15 @@ void Edit_page::set_all_btn_attribute()
     ui->chang_btn->setIconSize(QSize(36,36));
     ui->color_btn->setIcon(pixmap3);
     ui->color_btn->setIconSize(QSize(36,36));
+    QPalette palette = ui->color_btn->palette();
+    QColor ColorPlaceholderText(255,255,255,0);
+    QBrush brush;
+    brush.setColor(ColorPlaceholderText);
+    palette.setBrush(QPalette::Button, brush);
+    palette.setBrush(QPalette::ButtonText, brush);
+    //palette.setColor(QPalette::Highlight, Qt::transparent); /* 取消按钮高亮 */
+    ui->color_btn->setPalette(palette);
+    ui->chang_btn->setPalette(palette);
 }
 
 void Edit_page::on_color_btn_clicked()
@@ -665,15 +687,15 @@ void Edit_page::on_color_btn_clicked()
     color_page->move(position.x(),position.y()+224);
     if(sink){
         qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
-        color_page->ui->widget->setStyleSheet(QString::fromUtf8("background:rgb(240,240,240);\n"
-                                                    "border-radius:4px;"));
-        color_page->ui->white_btn->setStyleSheet(QString::fromUtf8("background:rgb(19,20,20);\n"
-                                                       "border-radius:2px;"));
+//        color_page->ui->widget->setStyleSheet(QString::fromUtf8("background:rgb(240,240,240);\n"
+//                                                    "border-radius:4px;"));
+//        color_page->ui->white_btn->setStyleSheet(QString::fromUtf8("background:rgb(19,20,20);\n"
+//                                                       "border-radius:2px;"));
     }else{
-        color_page->ui->widget->setStyleSheet(QString::fromUtf8("background:rgb(19,20,20);\n"
-                                                    "border-radius:4px;"));
-        color_page->ui->white_btn->setStyleSheet(QString::fromUtf8("background:rgba(236,238,242,1);\n"
-                                                       "border-radius:2px;"));
+//        color_page->ui->widget->setStyleSheet(QString::fromUtf8("background:rgb(19,20,20);\n"
+//                                                    "border-radius:4px;"));
+//        color_page->ui->white_btn->setStyleSheet(QString::fromUtf8("background:rgba(236,238,242,1);\n"
+//                                                       "border-radius:2px;"));
     }
     color_page->show();
 }
@@ -685,50 +707,50 @@ void Edit_page::on_chang_btn_clicked()
     text_edit_page->move(position.x(),position.y()+224);
     if(sink){
         //light theme
-        text_edit_page->ui->widget->setStyleSheet(QString::fromUtf8("background:rgb(240,240,240);\n""border-radius:4px;"));
-        text_edit_page->ui->BoldBtn->setStyleSheet(QString::fromUtf8("background:rgba(240,240,240,0.9);"));
-        text_edit_page->ui->ItalicBtn->setStyleSheet(QString::fromUtf8("background:rgb(240,240,240);"));
-        text_edit_page->ui->underlineBtn->setStyleSheet(QString::fromUtf8("background:rgba(240,240,240,0.9);"));
-        text_edit_page->ui->StrikeOutResolvedBtn->setStyleSheet(QString::fromUtf8("background:rgba(240,240,240,0.9);"));
-        text_edit_page->ui->frame->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 0, 0);"));
-        text_edit_page->ui->showListBtn->setStyleSheet(QString::fromUtf8("background:rgba(240,240,240,0.9);"));
-        text_edit_page->ui->showNUMList->setStyleSheet(QString::fromUtf8("background:rgba(240,240,240,0.9);"));
-        //text_edit_page->ui->blue_btn_2->setStyleSheet(QString::fromUtf8("background-color: rgb(245, 255, 180);\n"));
-        text_edit_page->ui->blue_btn->setStyleSheet(QString::fromUtf8("background-color: rgb(167, 167, 167);\n"
-                                                      "border-top-right-radius:4px;\n"
-                                                      "border-top-left-radius:0px;\n"
-                                                      "border-bottom-right-radius:4px;\n"
-                                                      "border-bottom-left-radius:0px;"));
-        text_edit_page->ui->light_blue_btn->setStyleSheet(QString::fromUtf8("\n"
-                                                            "background-color: rgb(167, 167, 167);\n"
-                                                            "color: rgba(145, 145, 145, 1);\n"
-                                                            "border-top-left-radius:4px;\n"
-                                                            "border-top-right-radius:0px;\n"
-                                                            "border-bottom-left-radius:4px;\n"
-                                                            "border-bottom-right-radius:0px;\n"));
+        //text_edit_page->ui->widget->setStyleSheet(QString::fromUtf8("background:rgb(240,240,240);\n""border-radius:4px;"));
+//        text_edit_page->texteditwidget->ui->BoldBtn->setStyleSheet(QString::fromUtf8("background:rgba(240,240,240,0.9);"));
+//        text_edit_page->texteditwidget->ui->ItalicBtn->setStyleSheet(QString::fromUtf8("background:rgb(240,240,240);"));
+//        text_edit_page->texteditwidget->ui->underlineBtn->setStyleSheet(QString::fromUtf8("background:rgba(240,240,240,0.9);"));
+//        text_edit_page->texteditwidget->ui->StrikeOutResolvedBtn->setStyleSheet(QString::fromUtf8("background:rgba(240,240,240,0.9);"));
+//        text_edit_page->texteditwidget->ui->frame->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 0, 0);"));
+//        text_edit_page->texteditwidget->ui->showListBtn->setStyleSheet(QString::fromUtf8("background:rgba(240,240,240,0.9);"));
+//        text_edit_page->texteditwidget->ui->showNUMList->setStyleSheet(QString::fromUtf8("background:rgba(240,240,240,0.9);"));
+//        //text_edit_page->ui->blue_btn_2->setStyleSheet(QString::fromUtf8("background-color: rgb(245, 255, 180);\n"));
+//        text_edit_page->texteditwidget->ui->blue_btn->setStyleSheet(QString::fromUtf8("background-color: rgb(167, 167, 167);\n"
+//                                                      "border-top-right-radius:4px;\n"
+//                                                      "border-top-left-radius:0px;\n"
+//                                                      "border-bottom-right-radius:4px;\n"
+//                                                      "border-bottom-left-radius:0px;"));
+//        text_edit_page->texteditwidget->ui->light_blue_btn->setStyleSheet(QString::fromUtf8("\n"
+//                                                            "background-color: rgb(167, 167, 167);\n"
+//                                                            "color: rgba(145, 145, 145, 1);\n"
+//                                                            "border-top-left-radius:4px;\n"
+//                                                            "border-top-right-radius:0px;\n"
+//                                                            "border-bottom-left-radius:4px;\n"
+//                                                            "border-bottom-right-radius:0px;\n"));
     }else{
         //dark theme
-        text_edit_page->ui->widget->setStyleSheet(QString::fromUtf8("background:rgb(19,20,20);\n""border-radius:4px;"));
-        text_edit_page->ui->BoldBtn->setStyleSheet(QString::fromUtf8("background:rgba(19,20,20,0.9);"));
-        text_edit_page->ui->ItalicBtn->setStyleSheet(QString::fromUtf8("background:rgb(19,20,20);"));
-        text_edit_page->ui->underlineBtn->setStyleSheet(QString::fromUtf8("background:rgba(19,20,20,0.9);"));
-        text_edit_page->ui->StrikeOutResolvedBtn->setStyleSheet(QString::fromUtf8("background:rgba(19,20,20,0.9);"));
-        text_edit_page->ui->frame->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 0, 0);"));
-        text_edit_page->ui->showListBtn->setStyleSheet(QString::fromUtf8("background:rgba(19,20,20,0.9);"));
-        text_edit_page->ui->showNUMList->setStyleSheet(QString::fromUtf8("background:rgba(19,20,20,0.9);"));
-        //text_edit_page->ui->blue_btn_2->setStyleSheet(QString::fromUtf8("background-color: rgb(245, 255, 180);\n"));
-        text_edit_page->ui->blue_btn->setStyleSheet(QString::fromUtf8("background-color: rgb(67, 67, 67);\n"
-                                                      "border-top-right-radius:4px;\n"
-                                                      "border-top-left-radius:0px;\n"
-                                                      "border-bottom-right-radius:4px;\n"
-                                                      "border-bottom-left-radius:0px;"));
-        text_edit_page->ui->light_blue_btn->setStyleSheet(QString::fromUtf8("\n"
-                                                            "background-color: rgb(67, 67, 67);\n"
-                                                            "color: rgba(145, 145, 145, 1);\n"
-                                                            "border-top-left-radius:4px;\n"
-                                                            "border-top-right-radius:0px;\n"
-                                                            "border-bottom-left-radius:4px;\n"
-                                                            "border-bottom-right-radius:0px;\n"));
+        //text_edit_page->ui->widget->setStyleSheet(QString::fromUtf8("background:rgb(19,20,20);\n""border-radius:4px;"));
+//        text_edit_page->texteditwidget->ui->BoldBtn->setStyleSheet(QString::fromUtf8("background:rgba(19,20,20,0.9);"));
+//        text_edit_page->texteditwidget->ui->ItalicBtn->setStyleSheet(QString::fromUtf8("background:rgb(19,20,20);"));
+//        text_edit_page->texteditwidget->ui->underlineBtn->setStyleSheet(QString::fromUtf8("background:rgba(19,20,20,0.9);"));
+//        text_edit_page->texteditwidget->ui->StrikeOutResolvedBtn->setStyleSheet(QString::fromUtf8("background:rgba(19,20,20,0.9);"));
+//        text_edit_page->texteditwidget->ui->frame->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 0, 0);"));
+//        text_edit_page->texteditwidget->ui->showListBtn->setStyleSheet(QString::fromUtf8("background:rgba(19,20,20,0.9);"));
+//        text_edit_page->texteditwidget->ui->showNUMList->setStyleSheet(QString::fromUtf8("background:rgba(19,20,20,0.9);"));
+//        //text_edit_page->ui->blue_btn_2->setStyleSheet(QString::fromUtf8("background-color: rgb(245, 255, 180);\n"));
+//        text_edit_page->texteditwidget->ui->blue_btn->setStyleSheet(QString::fromUtf8("background-color: rgb(67, 67, 67);\n"
+//                                                      "border-top-right-radius:4px;\n"
+//                                                      "border-top-left-radius:0px;\n"
+//                                                      "border-bottom-right-radius:4px;\n"
+//                                                      "border-bottom-left-radius:0px;"));
+//        text_edit_page->texteditwidget->ui->light_blue_btn->setStyleSheet(QString::fromUtf8("\n"
+//                                                            "background-color: rgb(67, 67, 67);\n"
+//                                                            "color: rgba(145, 145, 145, 1);\n"
+//                                                            "border-top-left-radius:4px;\n"
+//                                                            "border-top-right-radius:0px;\n"
+//                                                            "border-bottom-left-radius:4px;\n"
+//                                                            "border-bottom-right-radius:0px;\n"));
     }
     text_edit_page->show();
 }
@@ -794,28 +816,28 @@ void Edit_page::color_clicked()
 
 void Edit_page::light_show()
 {
-    this->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);\n"
-                                          "background:rgb(240, 240, 240);\n"
-                                          ""));
-    ui->widget_2->setStyleSheet(QString::fromUtf8("\n"
-                                                  "background:rgb(240, 240, 240);\n"
-                                                  ""));
-    ui->color_btn->setStyleSheet(QString::fromUtf8("image: url(:/image/1x/color.png);\n"
-                                                   "background:rgba(240, 240, 240,0.9);\n"
-                                                   ""));
-    ui->chang_btn->setStyleSheet(QString::fromUtf8(""));
-    ui->textEdit->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);"));
+//    this->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);\n"
+//                                          "background:rgb(240, 240, 240);\n"
+//                                          ""));
+//    ui->widget_2->setStyleSheet(QString::fromUtf8("\n"
+//                                                  "background:rgb(240, 240, 240);\n"
+//                                                  ""));
+//    ui->color_btn->setStyleSheet(QString::fromUtf8("image: url(:/image/1x/color.png);\n"
+//                                                   "background:rgba(240, 240, 240,0.9);\n"
+//                                                   ""));
+//    ui->chang_btn->setStyleSheet(QString::fromUtf8(""));
+//    ui->textEdit->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);"));
 }
 
 void Edit_page::black_show()
 {
-    this->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);\n"
-                                          "background:rgb(19,20,20);\n"
-                                          ""));
-    ui->widget_2->setStyleSheet(QString::fromUtf8("background:rgb(19,20,20);\n"));
-    ui->color_btn->setStyleSheet(QString::fromUtf8("image: url(:/image/1x/color.png);\n"
-                                                   "background:rgba(19,20,20,0.9);\n"
-                                                   ""));
-    ui->chang_btn->setStyleSheet(QString::fromUtf8(""));
-    ui->textEdit->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+//    this->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);\n"
+//                                          "background:rgb(19,20,20);\n"
+//                                          ""));
+//    ui->widget_2->setStyleSheet(QString::fromUtf8("background:rgb(19,20,20);\n"));
+//    ui->color_btn->setStyleSheet(QString::fromUtf8("image: url(:/image/1x/color.png);\n"
+//                                                   "background:rgba(19,20,20,0.9);\n"
+//                                                   ""));
+//    ui->chang_btn->setStyleSheet(QString::fromUtf8(""));
+//    ui->textEdit->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
 }

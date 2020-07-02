@@ -65,8 +65,13 @@ void SingleApplication::_initLocalConnection() {
         fprintf(stderr, "%s already running.\n",
                 _serverName.toLocal8Bit().constData());
         _isRunning = true;
+        qDebug() << _isRunning;
+        qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
         // 其他处理，如：将启动参数发送到服务端
         return;
+    }else
+    {
+        qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
     }
 
     //连接不上服务器，就创建一个

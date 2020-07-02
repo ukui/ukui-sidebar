@@ -34,20 +34,16 @@ public:
     explicit noteExitWindow(Widget* page,QWidget *parent=nullptr);
     ~noteExitWindow();
 
+    void paintEvent(QPaintEvent*);
+
 
 private slots:
     void on_pushButton_clicked();
 
     void on_pushButton_2_clicked();
 
-    void color_clicked();
-
 private:
     Ui::noteExitWindow *ui;
-
-    void light_show();
-    void black_show();
-
     Widget* pNotebook;
 
 signals:

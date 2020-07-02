@@ -185,7 +185,6 @@ private slots:
     void onSearchEditTextChanged(const QString& keyword);           //搜索栏文本改变槽函数
     void sortSlot();                                                //升/降序槽函数
     void changePageSlot();                                          //列表平铺切换槽函数
-    void on_sort_2_btn_clicked();                                   //主题切换槽函数
     void delAction_del_SearchLine();                                //搜索清空按钮槽函数
     void on_SearchLine_textChanged(const QString &arg1);            //搜索栏图标显示
     void setNoteNullSlot();                                         //便签页关闭置空槽函数

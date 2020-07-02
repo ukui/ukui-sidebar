@@ -35,6 +35,7 @@ NoteView::NoteView(QWidget *parent)
 {
     //不可编辑
     setEditTriggers(QAbstractItemView::NoEditTriggers);
+    setAttribute(Qt::WA_TranslucentBackground);//设置窗口透明显示(毛玻璃效果)
     //一次性定时器,槽函数只处理一次
     QTimer::singleShot(0, this, SLOT(init()));
 }
@@ -98,9 +99,23 @@ void NoteView::paintEvent(QPaintEvent *e)
 {
     listViewModeDelegate* delegate = static_cast<listViewModeDelegate*>(itemDelegate());
     if(delegate != Q_NULLPTR)
+    {
         delegate->setCurrentSelectedIndex(currentIndex());
+    }
 
-    QListView::paintEvent(e);
+    QStyleOption opt;
+    opt.init(this);
+    QPainter p(this);
+
+    p.setBrush(opt.palette.color(QPalette::Base));
+    //qDebug() << "paintEvent" << p.brush().color().value();
+    p.setOpacity(0.3);
+    p.setPen(Qt::NoPen);
+
+    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+    //p.drawRoundedRect(opt.rect,6,6);
+    //style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+    //QListView::paintEvent(e);
 }
 
 void NoteView::rowsInserted(const QModelIndex &parent, int start, int end)

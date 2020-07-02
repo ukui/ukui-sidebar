@@ -28,6 +28,7 @@ TRANSLATIONS += \
         ukui_notebook_zh_CN.ts
 
 SOURCES += \
+    customStyle.cpp \
     dbmanager.cpp \
     edit_page.cpp \
     emptyNotes.cpp \
@@ -44,15 +45,18 @@ SOURCES += \
     notemodel.cpp \
     noteview.cpp \
     paletteButton.cpp \
+    paletteWidget.cpp \
     select_color_page.cpp \
     set_font_color_page.cpp \
     set_font_size_page.cpp \
     singleApplication.cpp \
     singleitemButton.cpp \
+    textEditWidget.cpp \
     text_editing.cpp \
     widget.cpp
 
 HEADERS += \
+    customStyle.h \
     dbmanager.h \
     edit_page.h \
     emptyNotes.h \
@@ -68,11 +72,13 @@ HEADERS += \
     notemodel.h \
     noteview.h \
     paletteButton.h \
+    paletteWidget.h \
     select_color_page.h \
     set_font_color_page.h \
     set_font_size_page.h \
     singleApplication.h \
     singleitemButton.h \
+    textEditWidget.h \
     text_editing.h \
     widget.h
 
@@ -84,9 +90,11 @@ FORMS += \
     noteHead.ui \
     noteHeadMenu.ui \
     paletteButton.ui \
+    paletteWidget.ui \
     select_color_page.ui \
     set_font_color_page.ui \
     set_font_size_page.ui \
+    textEditWidget.ui \
     text_editing.ui \
     widget.ui
 

@@ -29,24 +29,30 @@ noteExitWindow::noteExitWindow(Widget* page, QWidget *parent) :
 {
     ui->setupUi(this);
     pNotebook = page;
-    QBitmap bmp(this->size());
-    bmp.fill();
-    QPainter p(&bmp);
-    p.setPen(Qt::NoPen);
-    p.setBrush(Qt::black);
-    p.setRenderHint(QPainter::Antialiasing);
-    p.drawRoundedRect(bmp.rect(),6,6);
-    setMask(bmp);
 
-    this->setAttribute(Qt::WA_TranslucentBackground);
+    setAttribute(Qt::WA_TranslucentBackground);
     setWindowFlags(Qt::FramelessWindowHint);
-    connect(pNotebook->ui->sort_2_btn,SIGNAL(clicked()),this,SLOT(color_clicked()));
-    color_clicked();
 }
 
 noteExitWindow::~noteExitWindow()
 {
     delete ui;
+}
+
+void noteExitWindow::paintEvent(QPaintEvent *event)
+{
+    Q_UNUSED(event);
+    QStyleOption opt;
+    opt.init(this);
+    QPainter p(this);
+
+    p.setBrush(opt.palette.color(QPalette::Base));
+    //p.setOpacity(0.3);
+    p.setPen(Qt::NoPen);
+
+    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+    p.drawRoundedRect(opt.rect,6,6);
+    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }
 
 void noteExitWindow::on_pushButton_clicked()
@@ -72,59 +78,4 @@ void noteExitWindow::on_pushButton_2_clicked()
     }
 }
 
-void noteExitWindow::color_clicked()
-{
-    if(!pNotebook->m_isThemeChanged)
-    {
-        light_show();
-    }else{
 
-        black_show();
-    }
-}
-
-void noteExitWindow::light_show()
-{
-    ui->widget->setStyleSheet("QWidget{background-color: rgba(255, 255, 255, 0.4);}");
-
-    ui->label->setStyleSheet("background-color: rgba();\
-                             font-size:20px;\
-                                font-weight:400;\
-                                color:rgba(40,40,40,1);\
-                                line-height:34px;\
-                                opacity:0.97;\
-                                 ");
-     ui->checkBox->setStyleSheet("background-color: rgba();\
-                                font-size:14px;\
-                                font-weight:400;\
-                                color:rgba(102,102,102,1);\
-                                line-height:40px;\
-                                opacity:0.91;");
-     ui->pushButton->setStyleSheet(QString::fromUtf8("color:rgba(102,102,102,1);\n"
-                                                 "line-height:24px;"));
-     ui->pushButton_2->setStyleSheet(QString::fromUtf8("color:rgba(102,102,102,1);\n"
-                                                 "line-height:24px;"));
-}
-
-void noteExitWindow::black_show()
-{
-    ui->widget->setStyleSheet("QWidget{background-color: rgba(0, 0, 0, 0.4);}");
-
-    ui->label->setStyleSheet("background-color: rgba();\
-                             font-size:20px;\
-                                font-weight:400;\
-                                color:rgba(255,255,255,1);\
-                                line-height:34px;\
-                                opacity:0.97;\
-                                 ");
-     ui->checkBox->setStyleSheet("background-color: rgba();\
-                                 font-size:14px;\
-                                 font-weight:400;\
-                                 color:rgba(255,255,255,1);\
-                                 line-height:40px;\
-                                 opacity:0.91;");
-     ui->pushButton->setStyleSheet(QString::fromUtf8("color:rgba(255,255,255,1);\n"
-                                                      "line-height:24px;"));
-     ui->pushButton_2->setStyleSheet(QString::fromUtf8("color:rgba(255,255,255,1);\n"
-                                                      "line-height:24px;"));
-}
