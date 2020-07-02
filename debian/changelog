@@ -1,3 +1,58 @@
+ukui-sidebar (1.1.0-1kylin9) v101; urgency=medium
+
+  * New upstream release.
+    - When modifying the sidebar to follow the task on the left, it pops up from the left(修改侧边栏跟着任务在左边时，从左边弹出)
+    - Optimize code format
+    - fix bug :word errors changed ukui-feedback to kylin-feedback
+    - Change ukui-clock to kylin-clock
+    - modify Bug V10 listen signal resized errorr
+
+ -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
+
+ukui-sidebar (1.1.0-1kylin9) v100; urgency=medium
+
+  * New upstream release.
+    - When modifying the sidebar to follow the task on the left, it pops up from the left(修改侧边栏跟着任务在左边时，从左边弹出)
+    - Optimize code format
+    - fix bug :word errors changed ukui-feedback to kylin-feedback
+    - Change ukui-clock to kylin-clock
+    - modify Bug V10 listen signal resized errorr
+
+ -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
+
+ukui-sidebar (1.1.0-1kord3) juniper; urgency=medium
+
+  * New upstream release.
+    - When modifying the sidebar to follow the task on the left, it pops up from the left(修改侧边栏跟着任务在左边时，从左边弹出)
+    - Optimize code format
+    - fix bug :word errors changed ukui-feedback to kylin-feedback
+    - Change ukui-clock to kylin-clock
+    - modify Bug V10 listen signal resized errorr
+
+ -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
+
+ukui-sidebar (1.1.0-1kylin8) v101; urgency=medium
+
+  * New upstream release.
+    - When modifying the sidebar to follow the task on the left, it pops up from the left(修改侧边栏跟着任务在左边时，从左边弹出)
+    - Optimize code format
+    - fix bug :word errors changed ukui-feedback to kylin-feedback
+    - Change ukui-clock to kylin-clock
+    - modify Bug V10 listen signal resized errorr
+
+ -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
+
+ukui-sidebar (1.1.0-1kylin8) v100; urgency=medium
+
+  * New upstream release.
+    - When modifying the sidebar to follow the task on the left, it pops up from the left(修改侧边栏跟着任务在左边时，从左边弹出)
+    - Optimize code format
+    - fix bug :word errors changed ukui-feedback to kylin-feedback
+    - Change ukui-clock to kylin-clock
+    - modify Bug V10 listen signal resized errorr
+
+ -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
+
 ukui-sidebar (1.1.0-1kord2) juniper; urgency=medium
 
   * New upstream release.

@@ -28,6 +28,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <syslog.h>
+#include <QGuiApplication>
 #include <QMessageLogContext>
 #include <QCommandLineParser>
 #include <QCommandLineOption>
@@ -56,7 +57,6 @@ int main(int argc, char *argv[])
     QCommandLineParser parser;
     QCommandLineOption debugOption({"d", "debug"}, QObject::tr("Display debug information"));
 
-
     parser.addOptions({debugOption});
     parser.process(a);
 
@@ -67,6 +67,9 @@ int main(int argc, char *argv[])
     } else {
         setLogLevel(QtWarningMsg);
     }
+
+    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 
     QApplication::setQuitOnLastWindowClosed(false);
     SmallPluginsManage::SmallPluginsManageInit();                   /* 初始化侧边栏小插件管理容器 */
