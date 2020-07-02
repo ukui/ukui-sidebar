@@ -1,14 +1,3 @@
-ukui-sidebar (1.1.0-1kylin9) v101; urgency=medium
-
-  * New upstream release.
-    - When modifying the sidebar to follow the task on the left, it pops up from the left(修改侧边栏跟着任务在左边时，从左边弹出)
-    - Optimize code format
-    - fix bug :word errors changed ukui-feedback to kylin-feedback
-    - Change ukui-clock to kylin-clock
-    - modify Bug V10 listen signal resized errorr
-
- -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
-
 ukui-sidebar (1.1.0-1kylin9) v100; urgency=medium
 
   * New upstream release.
@@ -53,7 +42,19 @@ ukui-sidebar (1.1.0-1kylin8) v100; urgency=medium
 
  -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
 
-ukui-sidebar (1.1.0-1kord2) juniper; urgency=medium
+  * New upstream release.
+    - Repair the alarm time, it should display the alarm of the day
+    - Change last commit error with clock
+    - Repair the alarm time, it should display the alarm of the day, but it should display the alarm bug of the day
+    - Alarm window closing add background operation and direct closing opt…
+    - Alarm window closing add background operation and direct closing options
+    - fix fontSize range && set scroll wheel in pixels && disable animation
+    - Add the installation default sound
+    - Fix the bug of no prompt sound in v10
+
+ -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
+
+ukui-sidebar (1.1.0-1kylin7) unstable; urgency=medium
 
   * New upstream release.
     - Repair the alarm time, it should display the alarm of the day
@@ -67,7 +68,7 @@ ukui-sidebar (1.1.0-1kord2) juniper; urgency=medium
 
  -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
 
-ukui-sidebar (1.1.0-1kylin7) v101; urgency=medium
+ukui-sidebar (1.1.0-1kylin7) unstable; urgency=medium
 
   * New upstream release.
     - Repair the alarm time, it should display the alarm of the day
@@ -81,21 +82,7 @@ ukui-sidebar (1.1.0-1kylin7) v101; urgency=medium
 
  -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
 
-ukui-sidebar (1.1.0-1kylin7) v100; urgency=medium
-
-  * New upstream release.
-    - Repair the alarm time, it should display the alarm of the day
-    - Change last commit error with clock
-    - Repair the alarm time, it should display the alarm of the day, but it should display the alarm bug of the day
-    - Alarm window closing add background operation and direct closing opt…
-    - Alarm window closing add background operation and direct closing options
-    - fix fontSize range && set scroll wheel in pixels && disable animation
-    - Add the installation default sound and fix the bug of no prompt soun…
-    - Add the installation default sound and fix the bug of no prompt sound in v10
-
- -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
-
-ukui-sidebar (1.1.0-1kord1) juniper; urgency=medium
+ukui-sidebar (1.1.0-1kord1) unstable; urgency=medium
 
   * New upstream release.
     - Prompt time logic code change
@@ -112,7 +99,7 @@ ukui-sidebar (1.1.0-1kord1) juniper; urgency=medium
  -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
 
 
-ukui-sidebar (1.1.0-1kylin5) v100; urgency=medium
+ukui-sidebar (1.1.0-1kylin5) unstable; urgency=medium
 
   * New upstream release.
     - Prompt time logic code change
@@ -129,7 +116,7 @@ ukui-sidebar (1.1.0-1kylin5) v100; urgency=medium
  -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
 
 
-ukui-sidebar (1.1.0-1kylin4) v101; urgency=medium
+ukui-sidebar (1.1.0-1kylin4) unstable; urgency=medium
 
   * New upstream release.
     - fix Bug When a qualified entry is exceeded, no fixed entry is deleted, and if all are fixed, the last entry is deleted
@@ -148,7 +135,7 @@ ukui-sidebar (1.1.0-1kylin4) v101; urgency=medium
  -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
 
 
-ukui-sidebar (1.1.0-1kylin4) v100; urgency=medium
+ukui-sidebar (1.1.0-1kylin4) unstable; urgency=medium
 
   * New upstream release.
     - fix Bug When a qualified entry is exceeded, no fixed entry is deleted, and if all are fixed, the last entry is deleted
@@ -167,7 +154,7 @@ ukui-sidebar (1.1.0-1kylin4) v100; urgency=medium
  -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
 
 
-ukui-sidebar (1.1.0-1kylin3) v101; urgency=medium
+ukui-sidebar (1.1.0-1kylin3) unstable; urgency=medium
 
   * New upstream release.
     - fix Bug When a qualified entry is exceeded, no fixed entry is deleted, and if all are fixed, the last entry is deleted
@@ -184,7 +171,7 @@ ukui-sidebar (1.1.0-1kylin3) v101; urgency=medium
  -- liushanwen <liushanwen@kylinos.cn>  Thu, 21 May 2020 16:24:48 +0800
 
 
-ukui-sidebar (1.1.0-1kylin3) v100; urgency=medium
+ukui-sidebar (1.1.0-1kylin3) unstable; urgency=medium
 
   * New upstream release.
     - fix Bug When a qualified entry is exceeded, no fixed entry is deleted, and if all are fixed, the last entry is deleted
@@ -200,7 +187,7 @@ ukui-sidebar (1.1.0-1kylin3) v100; urgency=medium
 
  -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
 
-ukui-sidebar (1.1.0-1kylin2) v100; urgency=medium
+ukui-sidebar (1.1.0-1kylin2) unstable; urgency=medium
 
   * New upstream release.
     - add image preview function
@@ -208,11 +195,11 @@ ukui-sidebar (1.1.0-1kylin2) v100; urgency=medium
     - modify small plugins clicked start process functional
 
  -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
-ukui-sidebar (1.1.0-1kylin2) v101; urgency=medium
+ukui-sidebar (1.1.0-1kylin2) unstable; urgency=medium
 
   * New upstream release.
     - add image preview function
-    - add upload file doc 
+    - add upload file doc
     - add sql
     - add fix button(增加固定按钮，重启后固定了的条目将会重新载入)
     - modify pop (改成单击置顶，去掉置顶按钮)
