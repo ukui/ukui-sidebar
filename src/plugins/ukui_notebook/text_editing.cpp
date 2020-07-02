@@ -27,36 +27,33 @@
 #include "text_editing.h"
 #include "ui_text_editing.h"
 
+
 #ifndef SHADOW_WIDTH
 #define SHADOW_WIDTH 0
 #endif
 
 Text_editing::Text_editing(Widget* page,QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::Text_editing)
+    ui(new Ui::Text_editing),
+    texteditwidget(new TextEditWidget(this))
 {
     ui->setupUi(this);
     pNotebook = page;
-    this->setAttribute(Qt::WA_TranslucentBackground);
+    setAttribute(Qt::WA_TranslucentBackground);
     setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
-
-    set_btn_image();
+    setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
 
     //ui->light_blue_btn->setStyle(new CustomStyle());
     //ui->colorBtn->setCheckable(true);
-    ui->BoldBtn->setCheckable(true);
-    ui->ItalicBtn->setCheckable(true);
-    ui->underlineBtn->setCheckable(true);
-    ui->StrikeOutResolvedBtn->setCheckable(true);
-    ui->showListBtn->setCheckable(true);
-    ui->showNUMList->setCheckable(true);
+    texteditwidget->setGeometry(QRect(0, 5, 250, 35));
+    texteditwidget->show();
 
     set_size_page = new Set_font_size_page(this);
     set_size_page->hide();
 
     set_color_fort_page = new Set_font_color_page(this);
     set_color_fort_page->hide();
-    connect(pNotebook->ui->sort_2_btn,SIGNAL(clicked()),this,SLOT(color_clicked()));
+    //connect(pNotebook->ui->sort_2_btn,SIGNAL(clicked()),this,SLOT(color_clicked()));
 }
 
 Text_editing::~Text_editing()
@@ -64,39 +61,15 @@ Text_editing::~Text_editing()
     delete ui;
 }
 
-void Text_editing::set_btn_image()
-{
-    pixmap1=QPixmap(":/image/1x/bold.png");
-    pixmap2=QPixmap(":/image/1x/Italic.png");
-    pixmap3=QPixmap(":/image/1x/under_line-new.png");
-    pixmap4=QPixmap(":/image/1x/del_line.png");
-    pixmap5=QPixmap(":/image/1x/Symbol.png");
-    pixmap6=QPixmap(":/image/1x/number.png");
-
-    ui->BoldBtn->setIcon(pixmap1);
-    ui->BoldBtn->setIconSize(QSize(36,36));
-    ui->ItalicBtn->setIcon(pixmap2);
-    ui->ItalicBtn->setIconSize(QSize(36,36));
-    ui->underlineBtn->setIcon(pixmap3);
-    ui->underlineBtn->setIconSize(QSize(36,36));
-    ui->StrikeOutResolvedBtn->setIcon(pixmap4);
-    ui->StrikeOutResolvedBtn->setIconSize(QSize(36,36));
-    ui->showListBtn->setIcon(pixmap5);
-    ui->showListBtn->setIconSize(QSize(36,36));
-    ui->showNUMList->setIcon(pixmap6);
-    ui->showNUMList->setIconSize(QSize(36,36));
-}
-
 void Text_editing::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
+    QStyleOption opt;
+    opt.init(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
-    if(pNotebook->m_isThemeChanged){
-        painter.setBrush(QColor(0, 0, 0));
-    }else{
-        painter.setBrush(QColor(240, 240, 240));
-    }
+    painter.setBrush(opt.palette.color(QPalette::Base));
+
     // 小三角区域;
     QPolygon trianglePolygon;
     trianglePolygon << QPoint(m_startX, m_triangleHeight + SHADOW_WIDTH);
@@ -133,52 +106,52 @@ void Text_editing::color_clicked()
 
 void Text_editing::light_show()
 {
-    ui->widget->setStyleSheet(QString::fromUtf8("background:rgb(240,240,240);\n""border-radius:4px;"));
-    ui->BoldBtn->setStyleSheet(QString::fromUtf8("background:rgba(240,240,240,0.9);"));
-    ui->ItalicBtn->setStyleSheet(QString::fromUtf8("background:rgb(240,240,240);"));
-    ui->underlineBtn->setStyleSheet(QString::fromUtf8("background:rgba(240,240,240,0.9);"));
-    ui->StrikeOutResolvedBtn->setStyleSheet(QString::fromUtf8("background:rgba(240,240,240,0.9);"));
-    ui->frame->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 0, 0);"));
-    ui->showListBtn->setStyleSheet(QString::fromUtf8("background:rgba(240,240,240,0.9);"));
-    ui->showNUMList->setStyleSheet(QString::fromUtf8("background:rgba(240,240,240,0.9);"));
-    // ui->blue_btn_2->setStyleSheet(QString::fromUtf8("background-color: rgb(245, 255, 180);\n"));
-    ui->blue_btn->setStyleSheet(QString::fromUtf8("background-color: rgb(167, 167, 167);\n"
-                                                  "border-top-right-radius:4px;\n"
-                                                  "border-top-left-radius:0px;\n"
-                                                  "border-bottom-right-radius:4px;\n"
-                                                  "border-bottom-left-radius:0px;"));
-    ui->light_blue_btn->setStyleSheet(QString::fromUtf8("\n"
-                                                        "background-color: rgb(167, 167, 167);\n"
-                                                        "color: rgba(145, 145, 145, 1);\n"
-                                                        "border-top-left-radius:4px;\n"
-                                                        "border-top-right-radius:0px;\n"
-                                                        "border-bottom-left-radius:4px;\n"
-                                                        "border-bottom-right-radius:0px;\n"));
+//    //ui->widget->setStyleSheet(QString::fromUtf8("background:rgb(240,240,240);\n""border-radius:4px;"));
+//    ui->BoldBtn->setStyleSheet(QString::fromUtf8("background:rgba(240,240,240,0.9);"));
+//    ui->ItalicBtn->setStyleSheet(QString::fromUtf8("background:rgb(240,240,240);"));
+//    ui->underlineBtn->setStyleSheet(QString::fromUtf8("background:rgba(240,240,240,0.9);"));
+//    ui->StrikeOutResolvedBtn->setStyleSheet(QString::fromUtf8("background:rgba(240,240,240,0.9);"));
+//    ui->frame->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 0, 0);"));
+//    ui->showListBtn->setStyleSheet(QString::fromUtf8("background:rgba(240,240,240,0.9);"));
+//    texteditwidget->ui->showNUMList->setStyleSheet(QString::fromUtf8("background:rgba(240,240,240,0.9);"));
+//    // ui->blue_btn_2->setStyleSheet(QString::fromUtf8("background-color: rgb(245, 255, 180);\n"));
+//    ui->blue_btn->setStyleSheet(QString::fromUtf8("background-color: rgb(167, 167, 167);\n"
+//                                                  "border-top-right-radius:4px;\n"
+//                                                  "border-top-left-radius:0px;\n"
+//                                                  "border-bottom-right-radius:4px;\n"
+//                                                  "border-bottom-left-radius:0px;"));
+//    ui->light_blue_btn->setStyleSheet(QString::fromUtf8("\n"
+//                                                        "background-color: rgb(167, 167, 167);\n"
+//                                                        "color: rgba(145, 145, 145, 1);\n"
+//                                                        "border-top-left-radius:4px;\n"
+//                                                        "border-top-right-radius:0px;\n"
+//                                                        "border-bottom-left-radius:4px;\n"
+//                                                        "border-bottom-right-radius:0px;\n"));
 }
 
 void Text_editing::black_show()
 {
-    ui->widget->setStyleSheet(QString::fromUtf8("background:rgb(19,20,20);\n""border-radius:4px;"));
-    ui->BoldBtn->setStyleSheet(QString::fromUtf8("background:rgba(19,20,20,0.9);"));
-    ui->ItalicBtn->setStyleSheet(QString::fromUtf8("background:rgb(19,20,20);"));
-    ui->underlineBtn->setStyleSheet(QString::fromUtf8("background:rgba(19,20,20,0.9);"));
-    ui->StrikeOutResolvedBtn->setStyleSheet(QString::fromUtf8("background:rgba(19,20,20,0.9);"));
-    ui->frame->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 0, 0);"));
-    ui->showListBtn->setStyleSheet(QString::fromUtf8("background:rgba(19,20,20,0.9);"));
-    ui->showNUMList->setStyleSheet(QString::fromUtf8("background:rgba(19,20,20,0.9);"));
-    //ui->blue_btn_2->setStyleSheet(QString::fromUtf8("background-color: rgb(245, 255, 180);\n"));
-    ui->blue_btn->setStyleSheet(QString::fromUtf8("background-color: rgb(67, 67, 67);\n"
-                                                  "border-top-right-radius:4px;\n"
-                                                  "border-top-left-radius:0px;\n"
-                                                  "border-bottom-right-radius:4px;\n"
-                                                  "border-bottom-left-radius:0px;"));
-    ui->light_blue_btn->setStyleSheet(QString::fromUtf8("\n"
-                                                        "background-color: rgb(67, 67, 67);\n"
-                                                        "color: rgba(145, 145, 145, 1);\n"
-                                                        "border-top-left-radius:4px;\n"
-                                                        "border-top-right-radius:0px;\n"
-                                                        "border-bottom-left-radius:4px;\n"
-                                                        "border-bottom-right-radius:0px;\n"));
+//    //ui->widget->setStyleSheet(QString::fromUtf8("background:rgb(19,20,20);\n""border-radius:4px;"));
+//    ui->BoldBtn->setStyleSheet(QString::fromUtf8("background:rgba(19,20,20,0.9);"));
+//    ui->ItalicBtn->setStyleSheet(QString::fromUtf8("background:rgb(19,20,20);"));
+//    ui->underlineBtn->setStyleSheet(QString::fromUtf8("background:rgba(19,20,20,0.9);"));
+//    ui->StrikeOutResolvedBtn->setStyleSheet(QString::fromUtf8("background:rgba(19,20,20,0.9);"));
+//    ui->frame->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 0, 0);"));
+//    ui->showListBtn->setStyleSheet(QString::fromUtf8("background:rgba(19,20,20,0.9);"));
+//    ui->showNUMList->setStyleSheet(QString::fromUtf8("background:rgba(19,20,20,0.9);"));
+//    //ui->blue_btn_2->setStyleSheet(QString::fromUtf8("background-color: rgb(245, 255, 180);\n"));
+//    ui->blue_btn->setStyleSheet(QString::fromUtf8("background-color: rgb(67, 67, 67);\n"
+//                                                  "border-top-right-radius:4px;\n"
+//                                                  "border-top-left-radius:0px;\n"
+//                                                  "border-bottom-right-radius:4px;\n"
+//                                                  "border-bottom-left-radius:0px;"));
+//    ui->light_blue_btn->setStyleSheet(QString::fromUtf8("\n"
+//                                                        "background-color: rgb(67, 67, 67);\n"
+//                                                        "color: rgba(145, 145, 145, 1);\n"
+//                                                        "border-top-left-radius:4px;\n"
+//                                                        "border-top-right-radius:0px;\n"
+//                                                        "border-bottom-left-radius:4px;\n"
+//                                                        "border-bottom-right-radius:0px;\n"));
 }
 
 

@@ -20,6 +20,8 @@
 
 #include <QWidget>
 
+#include "paletteWidget.h"
+
 #define SHADOW_WIDTH 1                  // 窗口阴影宽度;
 #define TRIANGLE_WIDTH 15               // 小三角的宽度;
 #define TRIANGLE_HEIGHT 10              // 小三角的高度;
@@ -36,16 +38,16 @@ class select_color_page : public QWidget
 public:
     explicit select_color_page(Widget* page , QWidget *parent = nullptr);
     ~select_color_page();
-    void paintEvent(QPaintEvent *);
+    void paintEvent(QPaintEvent *e);
     Ui::select_color_page *ui;
-    Widget* pNotebook;
+    Widget *pNotebook;
+    PaletteWidget *paletteWidget;
 private slots:
     void color_clicked();
 
 private:
     void black_show();
     void light_show();
-
     // 小三角起始位置;
     int m_startX = 180;
     // 小三角的宽度;

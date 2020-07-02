@@ -23,6 +23,9 @@
 #include <QTimer>
 #include <QTextCharFormat>
 
+#include "textEditWidget.h"
+#include "ui_textEditWidget.h"
+
 class Set_font_size_page;
 class Set_font_color_page;
 class Widget;
@@ -40,7 +43,7 @@ public:
     ~Text_editing();
 
     Widget* pNotebook;
-
+    TextEditWidget *texteditwidget;
     Ui::Text_editing *ui;
     void paintEvent(QPaintEvent *);
     Set_font_size_page *set_size_page = nullptr ;
@@ -53,7 +56,6 @@ private slots:
     void on_blue_btn_2_clicked();
 
 private:
-    void set_btn_image();
     void light_show();
     void black_show();
 
@@ -65,14 +67,7 @@ private:
     // 小三角高度;
     int m_triangleHeight= 5 ;
 
-    QPixmap pixmap1;
-    QPixmap pixmap2;
-    QPixmap pixmap3;
-    QPixmap pixmap4;
-    QPixmap pixmap5;
-    QPixmap pixmap6;
-    QPixmap pixmap7;
-    QPixmap pixmap8;
+
     QTimer *timer;
 
 };

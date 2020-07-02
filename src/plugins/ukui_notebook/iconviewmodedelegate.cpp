@@ -128,12 +128,28 @@ void iconViewModeDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
 
     //绘制第二层底色背景
     painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-    if(sink == 0)
+    painter->setBrush(opt.palette.color(QPalette::Base));
+
+    //系统默认 255 、 248  深色模式 34 30
+    if(painter->brush().color().value() == 255)
+    {
+        painter->setBrush(QColor(245,245,245));
+    }else if(painter->brush().color().value() == 248)
+    {
+        painter->setBrush(QColor(245,245,245));
+    }else if(painter->brush().color().value() == 30)
     {
         painter->setBrush(QColor(40,40,46));
-    }else{
-        painter->setBrush(QColor(245,245,245));
+    }else if(painter->brush().color().value() == 34)
+    {
+        painter->setBrush(QColor(40,40,46));
     }
+//    if(sink == 0)
+//    {
+//        painter->setBrush(QColor(40,40,46));
+//    }else{
+//        painter->setBrush(QColor(245,245,245));
+//    }
     painter->setPen(Qt::transparent);
     opt.rect.setHeight(opt.rect.height() - 0);
     opt.rect.setTop(opt.rect.top() + 5);
@@ -170,11 +186,22 @@ void iconViewModeDelegate::paintBackground(QPainter *painter, const QStyleOption
         if(qApp->applicationState() == Qt::ApplicationActive){      //返回应用程序的当前状态。
             if(m_isActive){//用指定的画笔填充给定的矩形。
                 painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-                if(sink == 0){
-                painter->setBrush(QBrush(m_selectColor));
-                }else{
-                    painter->setBrush(QBrush(QColor(255,255,255)));
+                painter->setBrush(opt.palette.color(QPalette::Base));
+
+                //系统默认 255 、 248  深色模式 34 30
+                if(painter->brush().color().value() == 255)
+                {
+                    painter->setBrush(QColor(255,255,255));
                 }
+                else if(painter->brush().color().value() == 34)
+                {
+                    painter->setBrush(QBrush(m_selectColor));
+                }
+//                if(sink == 0){
+//                painter->setBrush(QBrush(m_selectColor));
+//                }else{
+//                    painter->setBrush(QBrush(QColor(255,255,255)));
+//                }
                 painter->setPen(Qt::transparent);
                 QPainterPath painterPath;
                 painterPath.addRoundedRect(opt.rect, 0, 0);
@@ -182,11 +209,23 @@ void iconViewModeDelegate::paintBackground(QPainter *painter, const QStyleOption
                 //painter->fillRect(option.rect, QBrush(m_ActiveColor));//浅蓝
             }else{
                 painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-                if(sink == 0){
-                painter->setBrush(QBrush(m_selectColor));
-                }else{
-                    painter->setBrush(QBrush(QColor(255,255,255)));
-                }                painter->setPen(Qt::transparent);
+                painter->setBrush(opt.palette.color(QPalette::Base));
+
+                //系统默认 255 、 248  深色模式 34 30
+                if(painter->brush().color().value() == 255)
+                {
+                    painter->setBrush(QColor(255,255,255));
+                }
+                else if(painter->brush().color().value() == 34)
+                {
+                    painter->setBrush(QBrush(m_selectColor));
+                }
+//                if(sink == 0){
+//                painter->setBrush(QBrush(m_selectColor));
+//                }else{
+//                    painter->setBrush(QBrush(QColor(255,255,255)));
+//                }
+                painter->setPen(Qt::transparent);
                 QPainterPath painterPath;
                 painterPath.addRoundedRect(opt.rect, 0, 0);
                 painter->drawPath(painterPath);
@@ -195,12 +234,23 @@ void iconViewModeDelegate::paintBackground(QPainter *painter, const QStyleOption
             //应用程序可见，但未选择显示在前面
         }else if(qApp->applicationState() == Qt::ApplicationInactive){
             painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+            painter->setBrush(opt.palette.color(QPalette::Base));
 
-            if(sink == 0){
-            painter->setBrush(QBrush(m_selectColor));
-            }else{
-                painter->setBrush(QBrush(QColor(255,255,255)));
+            //系统默认 255 、 248  深色模式 34 30
+            if(painter->brush().color().value() == 255)
+            {
+                painter->setBrush(QColor(255,255,255));
             }
+            else if(painter->brush().color().value() == 34)
+            {
+                painter->setBrush(QBrush(m_selectColor));
+            }
+
+//            if(sink == 0){
+//            painter->setBrush(QBrush(m_selectColor));
+//            }else{
+//                painter->setBrush(QBrush(QColor(255,255,255)));
+//            }
             //painter->setBrush(QBrush(m_defaultColor));
             painter->setPen(Qt::transparent);
             QPainterPath painterPath;
@@ -214,11 +264,22 @@ void iconViewModeDelegate::paintBackground(QPainter *painter, const QStyleOption
     else if((option.state & QStyle::State_MouseOver) == QStyle::State_MouseOver){
         //qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
         painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-        if(sink == 0){
-        painter->setBrush(QBrush(m_hoverColor));
-        }else{
-           painter->setBrush(QBrush(QColor(205,205,205)));
+        painter->setBrush(opt.palette.color(QPalette::Base));
+
+        //系统默认 255 、 248  深色模式 34 30
+        if(painter->brush().color().value() == 255)
+        {
+            painter->setBrush(QColor(205,205,205));
         }
+        else if(painter->brush().color().value() == 34)
+        {
+            painter->setBrush(QBrush(m_hoverColor));
+        }
+//        if(sink == 0){
+//        painter->setBrush(QBrush(m_hoverColor));
+//        }else{
+//           painter->setBrush(QBrush(QColor(205,205,205)));
+//        }
         painter->setPen(Qt::transparent);
         QPainterPath painterPath;
         painterPath.addRoundedRect(opt.rect, 0, 0);
@@ -240,6 +301,7 @@ void iconViewModeDelegate::paintLabels(QPainter* painter, const QStyleOptionView
     const int topOffsetY = 18;         // 标题上方的空格
     const int spaceY = 160;            // 标题和日期之间的空格
 
+    QStyleOptionViewItem opt = option;
     QString title{index.data(NoteModel::NoteFullTitle).toString()};
 
     QFont titleFont = (option.state & QStyle::State_Selected) == QStyle::State_Selected ? m_titleSelectedFont : m_titleFont;
@@ -309,14 +371,27 @@ void iconViewModeDelegate::paintLabels(QPainter* painter, const QStyleOptionView
     // 绘图标题和日期
     // 超出字符串转换为...
     title = fmTitle.elidedText(title, Qt::ElideRight, int(titleRectWidth));
-    if(sink == 1)
+    painter->setBrush(opt.palette.color(QPalette::Base));
+
+    //系统默认 255 、 248  深色模式 34 30
+    if(painter->brush().color().value() == 255)
     {
         drawStr(titleRectPosX, titleRectPosY, titleRectWidth, titleRectHeight, QColor(0,0,0), titleFont, title);
         drawStr(dateRectPosX, dateRectPosY, dateRectWidth, dateRectHeight, QColor(0,0,0), m_dateFont, date);
-    }else{
+    }
+    else if(painter->brush().color().value() == 34)
+    {
         drawStr(titleRectPosX, titleRectPosY, titleRectWidth, titleRectHeight, QColor(244,244,244), titleFont, title);
         drawStr(dateRectPosX, dateRectPosY, dateRectWidth, dateRectHeight, QColor(244,244,244), m_dateFont, date);
     }
+//    if(sink == 1)
+//    {
+//        drawStr(titleRectPosX, titleRectPosY, titleRectWidth, titleRectHeight, QColor(0,0,0), titleFont, title);
+//        drawStr(dateRectPosX, dateRectPosY, dateRectWidth, dateRectHeight, QColor(0,0,0), m_dateFont, date);
+//    }else{
+//        drawStr(titleRectPosX, titleRectPosY, titleRectWidth, titleRectHeight, QColor(244,244,244), titleFont, title);
+//        drawStr(dateRectPosX, dateRectPosY, dateRectWidth, dateRectHeight, QColor(244,244,244), m_dateFont, date);
+//    }
 }
 
 void iconViewModeDelegate::paintSeparator(QPainter*painter, const QStyleOptionViewItem&option, const QModelIndex&index) const

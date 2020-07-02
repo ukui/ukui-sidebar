@@ -45,6 +45,9 @@
         <file>image/1x/close3.png</file>
         <file>image/1x/mini2.png</file>
         <file>image/1x/mini3.png</file>
+        <file>image/1x/sort-click.png</file>
+        <file>image/1x/sort-hover.png</file>
+        <file>image/1x/sort.png</file>
     </qresource>
     <qresource prefix="/translation">
         <file>ukui_notebook_zh_CN.qm</file>

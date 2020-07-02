@@ -10,6 +10,11 @@
     <height>218</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <pointsize>11</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
@@ -22,6 +27,11 @@
      <height>218</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
@@ -31,14 +41,31 @@
       <height>22</height>
      </rect>
     </property>
+    <property name="minimumSize">
+     <size>
+      <width>321</width>
+      <height>22</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>321</width>
+      <height>22</height>
+     </size>
+    </property>
+    <property name="font">
+     <font>
+      <family>Noto Sans CJK SC</family>
+      <pointsize>-1</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">font-size:20px;
-
 font-weight:400;
-color:rgba(40,40,40,1);
-line-height:34px;
 opacity:0.97;
-</string>
+line-height:34px;</string>
     </property>
     <property name="text">
      <string>Are you sure to exit the note book?</string>
@@ -53,10 +80,17 @@ opacity:0.97;
       <height>28</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>-1</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+      <kerning>true</kerning>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">font-size:14px;
 font-weight:400;
-color:rgba(102,102,102,1);
 line-height:40px;
 opacity:0.91;</string>
     </property>
@@ -74,8 +108,7 @@ opacity:0.91;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">color:rgba(102,102,102,1);
-line-height:24px;</string>
+     <string notr="true">line-height:24px;</string>
     </property>
     <property name="text">
      <string>No</string>
@@ -91,8 +124,7 @@ line-height:24px;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">color:rgba(102,102,102,1);
-line-height:24px;</string>
+     <string notr="true">line-height:24px;</string>
     </property>
     <property name="text">
      <string>Yes</string>

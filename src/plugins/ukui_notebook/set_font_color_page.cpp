@@ -24,7 +24,7 @@ Set_font_color_page::Set_font_color_page(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
-    //setAttribute(Qt::WA_TranslucentBackground);
+    setAttribute(Qt::WA_TranslucentBackground);
 
     ui->listWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->listWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);

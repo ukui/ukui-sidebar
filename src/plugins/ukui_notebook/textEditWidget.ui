@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TextEditWidget</class>
+ <widget class="QWidget" name="TextEditWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>250</width>
+    <height>35</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QPushButton" name="BoldBtn">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>6</y>
+     <width>24</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>24</width>
+     <height>24</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>24</width>
+     <height>24</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="showNUMList">
+   <property name="geometry">
+    <rect>
+     <x>145</x>
+     <y>6</y>
+     <width>24</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>24</width>
+     <height>24</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>24</width>
+     <height>24</height>
+    </size>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::ClickFocus</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="autoExclusive">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="StrikeOutResolvedBtn">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>6</y>
+     <width>24</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>24</width>
+     <height>24</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>24</width>
+     <height>24</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="showListBtn">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>6</y>
+     <width>24</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>24</width>
+     <height>24</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>24</width>
+     <height>24</height>
+    </size>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::ClickFocus</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="autoExclusive">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="light_blue_btn">
+   <property name="geometry">
+    <rect>
+     <x>183</x>
+     <y>5</y>
+     <width>30</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string>14</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="blue_btn">
+   <property name="geometry">
+    <rect>
+     <x>215</x>
+     <y>5</y>
+     <width>30</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>30</width>
+     <height>25</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>30</width>
+     <height>25</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="underlineBtn">
+   <property name="geometry">
+    <rect>
+     <x>55</x>
+     <y>6</y>
+     <width>24</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>24</width>
+     <height>24</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>24</width>
+     <height>24</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="blue_btn_2">
+   <property name="geometry">
+    <rect>
+     <x>222</x>
+     <y>9</y>
+     <width>17</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>17</width>
+     <height>17</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(245, 255, 180);
+</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QFrame" name="frame">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>8</y>
+     <width>1</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>1</width>
+     <height>20</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>1</width>
+     <height>20</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ItalicBtn">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>6</y>
+     <width>24</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>24</width>
+     <height>24</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>24</width>
+     <height>24</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -32,6 +32,8 @@
 #include "ui_noteHeadMenu.h"
 #include "select_color_page.h"
 #include "text_editing.h"
+#include "paletteWidget.h"
+#include "ui_paletteWidget.h"
 
 namespace Ui {
 class Edit_page;
@@ -54,7 +56,7 @@ public:
     int id;
     int m_noteId;
 
-
+    void paintEvent(QPaintEvent*);
     void contextMenuEvent(QContextMenuEvent *event);
     void enterEvent(QEvent *);
     void leaveEvent(QEvent *);
@@ -103,7 +105,8 @@ private:
     QPixmap pixmap1;
     QPixmap pixmap2;
     QPixmap pixmap3;
-    select_color_page *color_page ;
+    select_color_page *color_page;
+    PaletteWidget *paletteWidget;
     Text_editing *text_edit_page;
     QTimer *timer;
     QString color[11];
