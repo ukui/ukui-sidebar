@@ -26,6 +26,7 @@ CONFIG += c++11
 
 TRANSLATIONS += \
         ukui_notebook_zh_CN.ts
+        notebook_tr.ts
 
 SOURCES += \
     customStyle.cpp \
