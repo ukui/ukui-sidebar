@@ -31,8 +31,8 @@
     <message>
         <location filename="../feedback.cpp" line="161"/>
         <source>问题类型</source>
-        <translatorcomment>backtype</translatorcomment>
-        <translation>backtype</translation>
+        <translatorcomment>Backtype</translatorcomment>
+        <translation type="unfinished">Backtype</translation>
     </message>
     <message>
         <location filename="../feedback.cpp" line="168"/>
@@ -61,8 +61,8 @@
     <message>
         <location filename="../feedback.cpp" line="183"/>
         <source>问题描述</source>
-        <translatorcomment>description</translatorcomment>
-        <translation>description</translation>
+        <translatorcomment>Description</translatorcomment>
+        <translation type="unfinished">Description</translation>
     </message>
     <message>
         <location filename="../feedback.cpp" line="205"/>
@@ -73,8 +73,8 @@
     <message>
         <location filename="../feedback.cpp" line="211"/>
         <source>邮箱</source>
-        <translatorcomment>email</translatorcomment>
-        <translation>email</translation>
+        <translatorcomment>Email</translatorcomment>
+        <translation type="unfinished">Email</translation>
     </message>
     <message>
         <location filename="../feedback.cpp" line="219"/>
@@ -117,8 +117,8 @@
         <location filename="../feedback.cpp" line="1187"/>
         <location filename="../feedback.cpp" line="1326"/>
         <source>提交</source>
-        <translatorcomment>submit</translatorcomment>
-        <translation>submit</translation>
+        <translatorcomment>Submit</translatorcomment>
+        <translation type="unfinished">Submit</translation>
     </message>
     <message>
         <location filename="../feedback.cpp" line="294"/>
