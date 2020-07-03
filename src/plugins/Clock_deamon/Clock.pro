@@ -34,7 +34,8 @@ SOURCES += \
     set_alarm_repeat_dialog.cpp \
     countdown_animation.cpp \
     QRoundProgressBar.cpp
-TRANSLATIONS = Clock.ts
+TRANSLATIONS = Clock.ts \
+               Clock_tr.ts
 
 HEADERS  += clock.h \
     btn_new.h \
