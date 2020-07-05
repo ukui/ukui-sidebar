@@ -21,6 +21,7 @@
 #include <QDialog>
 #include <QStyleOption>
 #include <QPainter>
+#include <QPainterPath>
 namespace Ui {
 class delete_msg;
 }
