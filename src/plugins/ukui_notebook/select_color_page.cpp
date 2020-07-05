@@ -22,7 +22,7 @@
 #include "ui_widget.h"
 #include "paletteWidget.h"
 #include "ui_paletteWidget.h"
-
+#include <QPainterPath>
 #ifndef SHADOW_WIDTH
 #define SHADOW_WIDTH 0
 #endif
