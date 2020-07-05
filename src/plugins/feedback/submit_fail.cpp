@@ -18,7 +18,7 @@
 #include "submit_fail.h"
 #include "feedback.h"
 #include "browse_button.h"
-
+#include <QPainterPath>
 
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 
