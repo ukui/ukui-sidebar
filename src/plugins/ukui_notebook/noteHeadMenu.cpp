@@ -17,7 +17,7 @@
 */
 #include "noteHeadMenu.h"
 #include "ui_noteHeadMenu.h"
-
+#include <QPainterPath>
 noteHeadMenu::noteHeadMenu(QWidget *parent) :
     QWidget(parent)
   , ui(new Ui::noteHeadMenu)
