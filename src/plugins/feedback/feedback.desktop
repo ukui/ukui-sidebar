@@ -1,10 +1,13 @@
 [Desktop Entry]
 Name=Kylin Feedback
 Name[zh_CN]=用户反馈
+Name[tr_TR]=Geri Bildirim
 GenericName=Kylin Feedback
 GenericName[zh_CN]=用户反馈
+GenericName[tr_TR]=Ukui Geri Bildirim
 Comment=Kylin Feedback
 Comment[zh_CN]=用户反馈
+Comment[tr_TR]=Ukui Geri Bildirim
 Keywords=guide;
 Exec=/usr/bin/feedback
 Icon=kylin-feedback
