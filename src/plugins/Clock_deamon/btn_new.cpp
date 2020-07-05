@@ -2,6 +2,7 @@
 #include <QVBoxLayout>
 #include <QDebug>
 #include "clock.h"
+#include <QPainterPath>
 
 Btn_new::Btn_new(int num, Clock *widget, QIcon icon, QString name, QWidget *parent) :
     QToolButton(parent),
