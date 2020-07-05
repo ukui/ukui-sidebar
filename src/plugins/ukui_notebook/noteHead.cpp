@@ -17,7 +17,7 @@
 */
 #include "noteHead.h"
 #include "ui_noteHead.h"
-
+#include <QPainterPath>
 noteHead::noteHead(QWidget *parent) :
     QWidget(parent)
   , color_widget(15,161,90)
