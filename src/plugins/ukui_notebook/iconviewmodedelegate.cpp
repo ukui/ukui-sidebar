@@ -21,7 +21,7 @@
 #include <QApplication>
 #include <QFontDatabase>
 #include <QtMath>
-
+#include <QPainterPath>
 #include "notemodel.h"
 #include "widget.h"
 #include "iconviewmodedelegate.h"
