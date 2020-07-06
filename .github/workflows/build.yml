@@ -24,8 +24,5 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get install libglib2.0-dev qtbase5-dev libqt5svg5-dev qttools5-dev-tools
 
-      - name: QMake Configure
-        run: mkdir build && cd build && qmake ..
-      
-      - name: Make
-        run: make -j$(nproc)
+      - name: QMake configure & Make
+        run: mkdir build && cd build && qmake .. && make -j$(nproc)
