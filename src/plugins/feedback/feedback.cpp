@@ -45,7 +45,7 @@
 #include <QStyleFactory>
 #include <QElapsedTimer>
 #include <QDesktopWidget>
-
+#include <QPainterPath>
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 
 
