@@ -6,7 +6,7 @@
     <message>
         <location filename="clock.ui" line="14"/>
         <source>Clock</source>
-        <translation>Saat</translation>
+        <translation> Saat </translation>
     </message>
     <message>
         <location filename="clock.ui" line="57"/>
@@ -101,8 +101,8 @@
         <location filename="clock.ui" line="625"/>
         <location filename="clock.cpp" line="591"/>
         <source>计次</source>
-        <translatorcomment>Kez</translatorcomment>
-        <translation>Kez</translation>
+        <translatorcomment>İşaret </translatorcomment>
+        <translation>İşaret </translation>
     </message>
     <message>
         <location filename="clock.ui" line="850"/>
@@ -114,16 +114,16 @@
         <location filename="clock.ui" line="869"/>
         <location filename="clock.ui" line="932"/>
         <source>保存</source>
-        <translatorcomment>Koru</translatorcomment>
-        <translation>Sakla</translation>
+        <translatorcomment>Kaydet</translatorcomment>
+        <translation>Kaydet</translation>
     </message>
     <message>
         <location filename="clock.ui" line="739"/>
         <location filename="clock.cpp" line="138"/>
         <location filename="clock.cpp" line="1622"/>
         <source>倒计时</source>
-        <translatorcomment>Geri sayım</translatorcomment>
-        <translation>Geri sayım</translation>
+        <translatorcomment>Geri Sayım</translatorcomment>
+        <translation>Geri Sayım</translation>
     </message>
     <message>
         <location filename="clock.ui" line="756"/>
@@ -206,8 +206,8 @@
         <location filename="clock.cpp" line="961"/>
         <location filename="clock.cpp" line="1799"/>
         <source>下午</source>
-        <translatorcomment>ÖS</translatorcomment>
-        <translation>ÖS</translation>
+        <translatorcomment>ÖS </translatorcomment>
+        <translation>ÖS </translation>
     </message>
     <message>
         <location filename="clock.cpp" line="751"/>
@@ -219,8 +219,8 @@
         <location filename="clock.cpp" line="968"/>
         <location filename="clock.cpp" line="1801"/>
         <source>上午</source>
-        <translatorcomment>ÖÖ</translatorcomment>
-        <translation>ÖÖ</translation>
+        <translatorcomment>ÖÖ </translatorcomment>
+        <translation>ÖÖ </translation>
     </message>
     <message>
         <location filename="clock.cpp" line="837"/>
@@ -281,39 +281,39 @@
     <message>
         <location filename="clock.cpp" line="909"/>
         <source>秒后自动关闭</source>
-        <translatorcomment>Kapatılması gereken saniye</translatorcomment>
-        <translation>Kapatılması gereken saniye</translation>
+        <translatorcomment> saniye sonra kapanacak</translatorcomment>
+        <translation> saniye sonra kapanacak</translation>
     </message>
     <message>
         <location filename="clock.cpp" line="917"/>
         <location filename="clock.cpp" line="1631"/>
         <location filename="clock.cpp" line="2233"/>
         <source>2分钟后提醒</source>
-        <translation>2 dakika içinde uyarı</translation>
+        <translation>2 dakika içinde uyar</translation>
     </message>
     <message>
         <location filename="clock.cpp" line="919"/>
         <location filename="clock.cpp" line="1633"/>
         <source>5分钟后提醒</source>
-        <translation>5 dakika içinde uyarı</translation>
+        <translation>5 dakika içinde uyar</translation>
     </message>
     <message>
         <location filename="clock.cpp" line="921"/>
         <location filename="clock.cpp" line="1635"/>
         <source>10分钟后提醒</source>
-        <translation>10 dakika içinde uyarı</translation>
+        <translation>10 dakika içinde uyar</translation>
     </message>
     <message>
         <location filename="clock.cpp" line="923"/>
         <location filename="clock.cpp" line="1637"/>
         <source>30分钟后提醒</source>
-        <translation>30 dakika içinde uyarı</translation>
+        <translation>30 dakika içinde uyar</translation>
     </message>
     <message>
         <location filename="clock.cpp" line="925"/>
         <location filename="clock.cpp" line="1639"/>
         <source>60分钟后提醒</source>
-        <translation>60 dakika içinde uyarı</translation>
+        <translation>60 dakika içinde uyar</translation>
     </message>
     <message>
         <location filename="clock.cpp" line="1337"/>
@@ -329,8 +329,8 @@
         <location filename="clock.cpp" line="2221"/>
         <location filename="clock.cpp" line="2234"/>
         <source>玻璃</source>
-        <translatorcomment>Cam</translatorcomment>
-        <translation>Cam</translation>
+        <translatorcomment>Bardak</translatorcomment>
+        <translation>Bardak</translation>
     </message>
     <message>
         <location filename="clock.cpp" line="1530"/>
@@ -430,16 +430,16 @@
         <location filename="clock.cpp" line="1337"/>
         <location filename="clock.cpp" line="1339"/>
         <source>小时</source>
-        <translatorcomment>Saat</translatorcomment>
-        <translation>Saat</translation>
+        <translatorcomment> Saat </translatorcomment>
+        <translation> Saat </translation>
     </message>
     <message>
         <location filename="clock.cpp" line="1159"/>
         <location filename="clock.cpp" line="1337"/>
         <location filename="clock.cpp" line="1339"/>
         <source>分钟后铃响</source>
-        <translatorcomment>dk zili çalar</translatorcomment>
-        <translation>dk zili çalar</translation>
+        <translatorcomment> dk sonra alarm çalar</translatorcomment>
+        <translation> dk sonra alarm çalar</translation>
     </message>
     <message>
         <location filename="clock.cpp" line="1186"/>
@@ -450,12 +450,12 @@
     <message>
         <source>删除当前闹钟！</source>
         <translatorcomment>Çalar saati sil!</translatorcomment>
-        <translation type="vanished">Çalar saati sil!</translation>
+        <translation>Çalar saati sil!</translation>
     </message>
     <message>
         <source>您确定删除当前闹钟吗？</source>
         <translatorcomment>Emin misiniz?</translatorcomment>
-        <translation type="vanished">Emin misiniz?</translation>
+        <translation>Emin misiniz?</translation>
     </message>
     <message>
         <source>倒计时时间结束</source>
@@ -500,8 +500,8 @@
         <location filename="clock.cpp" line="1869"/>
         <location filename="clock.cpp" line="1917"/>
         <source>时</source>
-        <translatorcomment>Saat</translatorcomment>
-        <translation>Saat</translation>
+        <translatorcomment> Saat </translatorcomment>
+        <translation> Saat </translation>
     </message>
     <message>
         <location filename="clock.cpp" line="1872"/>
@@ -528,14 +528,14 @@
     <message>
         <location filename="clock.cpp" line="2109"/>
         <source>玻璃(默认)</source>
-        <translatorcomment>Cam(varsayılan)</translatorcomment>
-        <translation>Cam(varsayılan)</translation>
+        <translatorcomment>Bardak (varsayılan)</translatorcomment>
+        <translation>Bardak (varsayılan)</translation>
     </message>
     <message>
         <location filename="clock.cpp" line="2111"/>
         <source>犬吠(默认)</source>
         <translatorcomment>Havlama(varsayılan)</translatorcomment>
-        <translation>Havlama(varsayılan)</translation>
+        <translation>Havlama (varsayılan)</translation>
     </message>
     <message>
         <location filename="clock.cpp" line="2113"/>
@@ -552,17 +552,17 @@
     <message>
         <source>1分钟(默认)</source>
         <translatorcomment>1 dk(default)</translatorcomment>
-        <translation type="obsolete">1 dk(default)</translation>
+        <translation type="obsolete">1 dk(varsayılan)</translation>
     </message>
     <message>
         <source>2分钟(默认)</source>
         <translatorcomment>2 dk(default)</translatorcomment>
-        <translation type="obsolete">2 dk(default)</translation>
+        <translation type="obsolete">2 dk(varsayılan)</translation>
     </message>
     <message>
         <source>3分钟(默认)</source>
         <translatorcomment>3 dk(default)</translatorcomment>
-        <translation type="obsolete">3 dk(default)</translation>
+        <translation type="obsolete">3 dk(varsayılan)</translation>
     </message>
     <message>
         <source>4分钟(默认)</source>
@@ -572,7 +572,7 @@
     <message>
         <source>6分钟(默认)</source>
         <translatorcomment>6 dk(default)</translatorcomment>
-        <translation type="obsolete">6 dk(default)</translation>
+        <translation type="obsolete">6 dk(varsayılan)</translation>
     </message>
     <message>
         <location filename="clock.cpp" line="2230"/>
@@ -594,7 +594,7 @@
     <message>
         <source>一分钟后自动关闭</source>
         <translatorcomment>1 dakika sonra kapat</translatorcomment>
-        <translation type="obsolete">1 dakika sonra kapat</translation>
+        <translation>1 dakika sonra kapat</translation>
     </message>
 </context>
 <context>
@@ -615,12 +615,12 @@
     <message>
         <location filename="notice_alarm.ui" line="96"/>
         <source>闹钟</source>
-        <translation>Alarm saati</translation>
+        <translation>Alarm Saati</translation>
     </message>
     <message>
         <location filename="notice_alarm.ui" line="113"/>
         <source>工作会议</source>
-        <translation>İş toplantısı</translation>
+        <translation>Toplantı</translation>
     </message>
     <message>
         <location filename="notice_alarm.ui" line="130"/>
@@ -630,7 +630,7 @@
     <message>
         <location filename="notice_alarm.ui" line="151"/>
         <source>稍后提醒</source>
-        <translation>Daha sonra hatırlat</translation>
+        <translation>Hatırlat</translation>
     </message>
     <message>
         <location filename="notice_alarm.ui" line="172"/>
@@ -641,18 +641,18 @@
     <message>
         <location filename="notice_alarm.cpp" line="36"/>
         <source>响铃提示</source>
-        <translation>Çalma istemi</translation>
+        <translation>Çalma İsteği</translation>
     </message>
     <message>
         <source>5分钟后提醒</source>
-        <translatorcomment>Alert in 5 minutes</translatorcomment>
-        <translation type="vanished">Alert in 5 minutes</translation>
+        <translatorcomment>5 dakika içinde uyar</translatorcomment>
+        <translation type="vanished">5 dakika içinde uyar</translation>
     </message>
     <message>
         <location filename="notice_alarm.cpp" line="98"/>
         <location filename="notice_alarm.cpp" line="108"/>
         <source>玻璃</source>
-        <translation>Cam</translation>
+        <translation>Bardak</translation>
     </message>
     <message>
         <location filename="notice_alarm.cpp" line="100"/>
@@ -675,7 +675,7 @@
         <location filename="notice_alarm.cpp" line="142"/>
         <source>秒后自动关闭</source>
         <translatorcomment>Kapatılması gereken saniye</translatorcomment>
-        <translation>Kapatılması gereken saniye</translation>
+        <translation> dakika sonra kapanacak</translation>
     </message>
 </context>
 <context>
@@ -683,15 +683,15 @@
     <message>
         <location filename="notice_dialog.cpp" line="37"/>
         <source>响铃提示</source>
-        <translatorcomment>Çalma istemi</translatorcomment>
-        <translation>Çalma istemi</translation>
+        <translatorcomment>Çalma isteği</translatorcomment>
+        <translation>Çalma İsteği</translation>
     </message>
     <message>
         <location filename="notice_dialog.cpp" line="64"/>
         <location filename="notice_dialog.cpp" line="74"/>
         <source>玻璃</source>
-        <translatorcomment>Cam</translatorcomment>
-        <translation>Cam</translation>
+        <translatorcomment>Bardak</translatorcomment>
+        <translation>Bardak</translation>
     </message>
     <message>
         <location filename="notice_dialog.cpp" line="66"/>
@@ -728,7 +728,7 @@
         <location filename="notice_dialog.cpp" line="242"/>
         <source>秒后关闭铃声</source>
         <translatorcomment>Alarmı kapatmak için saniye</translatorcomment>
-        <translation>Alarmı kapatmak için saniye</translation>
+        <translation> dk sonra kapanacak</translation>
     </message>
     <message>
         <location filename="notice_dialog.cpp" line="243"/>
@@ -747,8 +747,8 @@
     <name>QObject</name>
     <message>
         <source>闹钟</source>
-        <translatorcomment>Saat</translatorcomment>
-        <translation type="vanished">Saat</translation>
+        <translatorcomment> Saat </translatorcomment>
+        <translation type="vanished"> Saat </translation>
     </message>
 </context>
 <context>
@@ -764,14 +764,14 @@
     <message>
         <location filename="verticalscroll_24.cpp" line="283"/>
         <source>下午</source>
-        <translatorcomment>ÖS</translatorcomment>
-        <translation>ÖS</translation>
+        <translatorcomment>ÖS </translatorcomment>
+        <translation>ÖS </translation>
     </message>
     <message>
         <location filename="verticalscroll_24.cpp" line="285"/>
         <source>上午</source>
-        <translatorcomment>ÖÖ</translatorcomment>
-        <translation>ÖÖ</translation>
+        <translatorcomment>ÖÖ </translatorcomment>
+        <translation>ÖÖ </translation>
     </message>
     <message>
         <location filename="verticalscroll_24.cpp" line="340"/>
@@ -805,7 +805,7 @@
     <message>
         <location filename="close_or_hide.ui" line="67"/>
         <source>确定</source>
-        <translation>Elbette</translation>
+        <translation>Tamam</translation>
     </message>
     <message>
         <location filename="close_or_hide.ui" line="88"/>
@@ -815,12 +815,12 @@
     <message>
         <location filename="close_or_hide.ui" line="121"/>
         <source>后台运行</source>
-        <translation>Arkada</translation>
+        <translation>Arka Çalış</translation>
     </message>
     <message>
         <location filename="close_or_hide.ui" line="138"/>
         <source>直接退出</source>
-        <translation>Programdan Çık</translation>
+        <translation>Kapat</translation>
     </message>
 </context>
 <context>
@@ -833,7 +833,7 @@
     <message>
         <location filename="delete_msg.ui" line="66"/>
         <source>确定</source>
-        <translation>Tabiki</translation>
+        <translation>Tamam</translation>
     </message>
     <message>
         <location filename="delete_msg.ui" line="87"/>
@@ -996,14 +996,14 @@
     <message>
         <location filename="setuppage.cpp" line="258"/>
         <source>12小时制(下午11:59:59)</source>
-        <translatorcomment>12 saat düzeni</translatorcomment>
-        <translation>12 saat düzeni</translation>
+        <translatorcomment>12 saat düzeni </translatorcomment>
+        <translation>12 saat düzeni </translation>
     </message>
     <message>
         <location filename="setuppage.cpp" line="286"/>
         <source>12小时制(上午11:59:59)</source>
-        <translatorcomment>12 saat düzeni</translatorcomment>
-        <translation>12 saat düzeni</translation>
+        <translatorcomment>12 saat düzeni </translatorcomment>
+        <translation>12 saat düzeni </translation>
     </message>
     <message>
         <location filename="setuppage.cpp" line="306"/>
@@ -1023,31 +1023,31 @@
         <location filename="setuppage.cpp" line="353"/>
         <location filename="setuppage.cpp" line="371"/>
         <source>2分钟后提醒</source>
-        <translation>2 dakika içinde uyarı</translation>
+        <translation>2 dakika içinde uyar</translation>
     </message>
     <message>
         <location filename="setuppage.cpp" line="354"/>
         <location filename="setuppage.cpp" line="374"/>
         <source>5分钟后提醒</source>
-        <translation>5 dakika içinde uyarı</translation>
+        <translation>5 dakika içinde uyar</translation>
     </message>
     <message>
         <location filename="setuppage.cpp" line="355"/>
         <location filename="setuppage.cpp" line="377"/>
         <source>10分钟后提醒</source>
-        <translation>10 dakika içinde uyarı</translation>
+        <translation>10 dakika içinde uyar</translation>
     </message>
     <message>
         <location filename="setuppage.cpp" line="356"/>
         <location filename="setuppage.cpp" line="380"/>
         <source>30分钟后提醒</source>
-        <translation>30 dakika içinde uyarı</translation>
+        <translation>30 dakika içinde uyar</translation>
     </message>
     <message>
         <location filename="setuppage.cpp" line="357"/>
         <location filename="setuppage.cpp" line="383"/>
         <source>60分钟后提醒</source>
-        <translation>60 dakika içinde uyarı</translation>
+        <translation>60 dakika içinde uyar</translation>
     </message>
     <message>
         <source>1分钟后自动关闭</source>
@@ -1078,8 +1078,8 @@
         <location filename="setuppage.cpp" line="402"/>
         <location filename="setuppage.cpp" line="421"/>
         <source>玻璃</source>
-        <translatorcomment>Cam</translatorcomment>
-        <translation>Cam</translation>
+        <translatorcomment>Bardak</translatorcomment>
+        <translation>Bardak</translation>
     </message>
     <message>
         <location filename="setuppage.cpp" line="403"/>
