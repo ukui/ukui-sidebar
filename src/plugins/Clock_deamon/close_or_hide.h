@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QStyleOption>
 #include <QPainter>
-
+#include <QPainterPath>
 namespace Ui {
 class close_or_hide;
 }
