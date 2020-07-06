@@ -17,7 +17,7 @@
 */
 #ifndef CLOCK_H
 #define CLOCK_H
-
+#include <QPainterPath>
 #include <QWidget>
 #include <QTimer>
 #include <QQueue>
