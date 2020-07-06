@@ -18,7 +18,7 @@
 #include "submit_success.h"
 #include "feedback.h"
 #include "browse_button.h"
-
+#include <QPainterPath>
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 submit_success::submit_success(QWidget *parent) :
     QDialog(parent)
