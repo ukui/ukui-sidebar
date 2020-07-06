@@ -26,7 +26,7 @@
 #include "ui_set_font_color_page.h"
 #include "text_editing.h"
 #include "ui_text_editing.h"
-
+#include <QPainterPath>
 
 #ifndef SHADOW_WIDTH
 #define SHADOW_WIDTH 0
