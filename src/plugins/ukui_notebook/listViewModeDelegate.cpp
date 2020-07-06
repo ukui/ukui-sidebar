@@ -23,7 +23,7 @@
 #include <QtMath>
 #include <QStyleOption>
 #include <QPainter>
-
+#include <QPainterPath>
 #include "notemodel.h"
 #include "widget.h"
 #include "listViewModeDelegate.h"
