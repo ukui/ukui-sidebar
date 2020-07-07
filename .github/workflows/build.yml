@@ -1,0 +1,27 @@
+name: ukui-sidebar build CI
+
+on:
+  push:
+    branches:
+      - master
+  
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout ukui-sidebar source
+        uses: actions/checkout@v2
+      
+      - name: Install Qt # default is Qt 5.12.9
+        uses: jurplel/install-qt-action@v2
+      
+      - name: Install dependencies
+        run: sudo apt-get install libglib2.0-dev qtbase5-dev libqt5svg5-dev qttools5-dev-tools libgsettings-qt-dev libdconf-dev
+
+      - name: QMake configure & Make
+        run: mkdir build && cd build && qmake .. && make -j$(nproc)
