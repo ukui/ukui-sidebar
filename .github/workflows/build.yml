@@ -18,7 +18,7 @@ jobs:
       - name: Checkout ukui-sidebar source
         uses: actions/checkout@v2
       
-      - name: Install Qt
+      - name: Install Qt # default is Qt 5.12.9
         uses: jurplel/install-qt-action@v2
       
       - name: Install dependencies
