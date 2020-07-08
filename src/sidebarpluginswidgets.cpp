@@ -446,6 +446,7 @@ void sidebarPluginsWidgets::paintEvent(QPaintEvent *)
      * 白字体 --> 黑背景
      * 黑字体 --> 白字体
     */
+//    p.setBrush(opt.palette.color(QPalette::Base).lighter(85));
     p.setBrush(opt.palette.color(QPalette::Base));
 //    p.setBrush(QBrush(QColor("#161617")));
     p.setOpacity(0.42);
