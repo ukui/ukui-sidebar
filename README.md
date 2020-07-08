@@ -1,4 +1,7 @@
 # ukui-sidebar
+
+![build](https://github.com/ukui/ukui-sidebar/workflows/build/badge.svg?branch=master)
+
 The sidebar mainly consists of two parts: notification center and cutting board. It starts from the start-up and is placed in the tray bar in the form of a tray. After clicking, it can pop up dynamically from the right side of the screen.
 
   + The notification center can display the pop-up messages sent by each application to mate notification teamon in a list form. Unimportant information can be stored in the storage box for viewing. At the same time, it can call the control panel directly.
