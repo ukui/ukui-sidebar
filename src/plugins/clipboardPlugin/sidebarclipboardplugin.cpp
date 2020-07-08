@@ -119,12 +119,12 @@ void SidebarClipboardPlugin::createTipLable()
 {
     m_pSideBarClipboardLable = new QLabel(tr("No clip content"));
     m_pSideBarClipboardLable->setContentsMargins(165, 0, 0, 50);
-    QTimer::singleShot(1, m_pSideBarClipboardLable, [=](){
-        QFont font = m_pSideBarClipboardLable->font();
-        font.setPixelSize(14);
-        font.setFamily("Noto Sans CJK SC");
-        m_pSideBarClipboardLable->setFont(font);
-    });
+//    QTimer::singleShot(1, m_pSideBarClipboardLable, [=](){
+//        QFont font = m_pSideBarClipboardLable->font();
+//        font.setPixelSize(14);
+//        font.setFamily("Noto Sans CJK SC");
+//        m_pSideBarClipboardLable->setFont(font);
+//    });
 }
 
 /* 构造原型的QMimeData数据类型 */

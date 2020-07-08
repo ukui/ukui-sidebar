@@ -67,7 +67,7 @@ SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
     QFont SearchLine;
     SearchLine = m_pLineEditArea->font();
     SearchLine.setPixelSize(14);
-    SearchLine.setFamily("Noto Sans CJK SC");
+//    SearchLine.setFamily("Noto Sans CJK SC");
     m_pLineEditArea->setFont(SearchLine);
 
 #if QT_VERSION >= 0x050c00
