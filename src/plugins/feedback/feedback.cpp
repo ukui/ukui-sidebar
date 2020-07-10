@@ -173,7 +173,7 @@ void feedback::UI_init()
     label->setText(tr("问题反馈"));
     label->setObjectName(QString::fromUtf8("label"));
     label->setGeometry(QRect(35, 40, 160, 41));
-    label->setStyleSheet(QString::fromUtf8("font: 24px \"Sans Serif\";\n"
+    label->setStyleSheet(QString::fromUtf8("font: 24px;\n"
                                            "color: rgb(68, 68, 68);"));
 
     label_2 = new QLabel(centralwidget);
