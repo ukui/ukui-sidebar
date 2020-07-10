@@ -1,6 +1,6 @@
 # ukui-sidebar
 
-![build](https://github.com/ukui/ukui-sidebar/workflows/build/badge.svg?branch=master)
+![build](https://github.com/ukui/ukui-sidebar/workflows/Check%20build/badge.svg?branch=master)
 
 The sidebar mainly consists of two parts: notification center and cutting board. It starts from the start-up and is placed in the tray bar in the form of a tray. After clicking, it can pop up dynamically from the right side of the screen.
 
