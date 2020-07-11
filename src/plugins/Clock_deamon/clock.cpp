@@ -1736,23 +1736,23 @@ void Clock::on_min_5btn_clicked()
     timer_ring60_2->m_currentValue = 0;
     setcoutdown_number(0, 5, 0);
 }
-//倒计时10分钟
+//倒计时15分钟
 // Countdown 10 minutes set callback
 void Clock::on_min_10btn_clicked()
 {
     timer_ring99->m_currentValue = 0;
-    timer_ring60->m_currentValue = 10;
+    timer_ring60->m_currentValue = 15;
     timer_ring60_2->m_currentValue = 0;
-    setcoutdown_number(0, 10, 0);
+    setcoutdown_number(0, 15, 0);
 }
-//倒计时20分钟
+//倒计时25分钟
 // Countdown 20 minutes set callback
 void Clock::on_min_20btn_clicked()
 {
     timer_ring99->m_currentValue = 0;
-    timer_ring60->m_currentValue = 20;
+    timer_ring60->m_currentValue = 25;
     timer_ring60_2->m_currentValue = 0;
-    setcoutdown_number(0, 20, 0);
+    setcoutdown_number(0, 25, 0);
 }
 //倒计时30分钟
 // Countdown 30 minutes set callback
