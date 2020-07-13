@@ -32,7 +32,7 @@ color: rgb(255, 255, 255);
     <string notr="true">border-radius:7px;</string>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="page">
     <widget class="QPushButton" name="count_stat">
@@ -128,7 +128,7 @@ border-radius:4px;}
 QPushButton:hover{background:rgba(143, 97, 47, 0.1)}</string>
        </property>
        <property name="text">
-        <string>10分钟</string>
+        <string>15分钟</string>
        </property>
       </widget>
       <widget class="QPushButton" name="min_20btn">
@@ -150,7 +150,7 @@ border-radius:4px;}
 QPushButton:hover{background:rgba(143, 97, 47, 0.1)}</string>
        </property>
        <property name="text">
-        <string>20分钟</string>
+        <string>25分钟</string>
        </property>
       </widget>
       <widget class="QPushButton" name="min_30btn">
