@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2019 Tianjin KYLIN Information Technology Co., Ltd.
+* Copyright (C) 2020 Tianjin KYLIN Information Technology Co., Ltd.
 *
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -15,6 +15,7 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
+
 #include "set_font_color_page.h"
 #include "ui_set_font_color_page.h"
 
@@ -23,7 +24,7 @@ Set_font_color_page::Set_font_color_page(QWidget *parent) :
     ui(new Ui::Set_font_color_page)
 {
     ui->setupUi(this);
-    this->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
+    setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
     setAttribute(Qt::WA_TranslucentBackground);
 
     ui->listWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -36,6 +37,25 @@ Set_font_color_page::Set_font_color_page(QWidget *parent) :
 Set_font_color_page::~Set_font_color_page()
 {
     delete ui;
+}
+
+void Set_font_color_page::paintEvent(QPaintEvent *event)
+{
+    Q_UNUSED(event);
+//    系统默认 255 、 248  深色模式 30 34
+    QStyleOption opt;
+    opt.init(this);
+    QPainter p(this);
+
+    p.setBrush(opt.palette.color(QPalette::Base));
+    //qDebug() << "paintEvent" << p.brush().color().value();
+    //p.setOpacity(0.3);
+    p.setOpacity(0.9);
+    p.setPen(Qt::NoPen);
+
+    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+    p.drawRoundedRect(opt.rect,6,6);
+    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }
 
 void Set_font_color_page::set_color()

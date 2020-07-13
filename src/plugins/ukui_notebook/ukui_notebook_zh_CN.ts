@@ -35,7 +35,7 @@
 <context>
     <name>HeaderBar</name>
     <message>
-        <location filename="headerbar.cpp" line="67"/>
+        <location filename="headerbar.cpp" line="53"/>
         <source>Sort Type</source>
         <translation type="unfinished"></translation>
     </message>
@@ -51,9 +51,9 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="widget.cpp" line="725"/>
-        <location filename="widget.cpp" line="1113"/>
+        <location filename="widget.cpp" line="734"/>
         <location filename="widget.cpp" line="1122"/>
+        <location filename="widget.cpp" line="1131"/>
         <source>%1 records in total</source>
         <translatorcomment>%1条记录</translatorcomment>
         <translation>%1条记录</translation>
@@ -110,37 +110,43 @@
         <translation>新建</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="227"/>
+        <location filename="widget.cpp" line="226"/>
         <source>ukui-note</source>
         <translatorcomment>麒麟便签本</translatorcomment>
         <translation>麒麟便签本</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="838"/>
+        <location filename="widget.cpp" line="847"/>
         <source>Search</source>
         <translatorcomment>搜索</translatorcomment>
         <translation>搜索</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="453"/>
+        <location filename="widget.cpp" line="462"/>
         <source>Create New Note</source>
         <translatorcomment>新建便签</translatorcomment>
         <translation>新建便签</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="454"/>
+        <location filename="widget.cpp" line="399"/>
+        <source>Empty Note</source>
+        <translatorcomment>清空便签本</translatorcomment>
+        <translation>清空便签本</translation>
+    </message>
+    <message>
+        <location filename="widget.cpp" line="463"/>
         <source>Delete Selected Note</source>
         <translatorcomment>删除</translatorcomment>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="455"/>
+        <location filename="widget.cpp" line="464"/>
         <source>Switch View</source>
         <translatorcomment>切换视图</translatorcomment>
         <translation>切换视图</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="456"/>
+        <location filename="widget.cpp" line="465"/>
         <source>Sort</source>
         <translatorcomment>排序</translatorcomment>
         <translation>排序</translation>
@@ -151,26 +157,26 @@
         <translation type="vanished">换肤</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="457"/>
+        <location filename="widget.cpp" line="466"/>
         <source>Exit</source>
         <translatorcomment>关闭</translatorcomment>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="458"/>
+        <location filename="widget.cpp" line="467"/>
         <source>Mini</source>
         <translatorcomment>最小化</translatorcomment>
         <translation>最小化</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="459"/>
+        <location filename="widget.cpp" line="468"/>
         <source>Menu</source>
         <translatorcomment>菜单</translatorcomment>
-        <translation type="unfinished">菜单</translation>
+        <translation>菜单</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="773"/>
-        <location filename="widget.cpp" line="815"/>
+        <location filename="widget.cpp" line="782"/>
+        <location filename="widget.cpp" line="824"/>
         <source>Welcome to use Kylin system, you will experience more intimate service.</source>
         <translatorcomment>欢迎使用优麒麟系统，您将体会到更贴心的服务。</translatorcomment>
         <translation>欢迎使用优麒麟系统，您将体会到更贴心的服务。</translation>
@@ -215,13 +221,13 @@
 <context>
     <name>iconViewModeDelegate</name>
     <message>
-        <location filename="iconviewmodedelegate.cpp" line="418"/>
+        <location filename="iconviewmodedelegate.cpp" line="420"/>
         <source>Today </source>
         <translatorcomment>今天</translatorcomment>
         <translation>今天</translation>
     </message>
     <message>
-        <location filename="iconviewmodedelegate.cpp" line="422"/>
+        <location filename="iconviewmodedelegate.cpp" line="424"/>
         <source>Yesterday </source>
         <translatorcomment>昨天</translatorcomment>
         <translation>昨天</translation>
@@ -230,13 +236,13 @@
 <context>
     <name>listViewModeDelegate</name>
     <message>
-        <location filename="listViewModeDelegate.cpp" line="453"/>
+        <location filename="listViewModeDelegate.cpp" line="454"/>
         <source>Today </source>
         <translatorcomment>今天</translatorcomment>
         <translation>今天</translation>
     </message>
     <message>
-        <location filename="listViewModeDelegate.cpp" line="457"/>
+        <location filename="listViewModeDelegate.cpp" line="458"/>
         <source>Yesterday </source>
         <translatorcomment>昨天</translatorcomment>
         <translation>昨天</translation>

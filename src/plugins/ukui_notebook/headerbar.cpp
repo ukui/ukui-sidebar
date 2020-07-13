@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2019 Tianjin KYLIN Information Technology Co., Ltd.
+* Copyright (C) 2020 Tianjin KYLIN Information Technology Co., Ltd.
 *
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -15,16 +15,6 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-//#include "view-type-menu.h"
-//#include "sort-type-menu.h"
-//#include "operation-menu.h"
-
-//#include "directory-view-container.h"
-//#include "directory-view-widget.h"
-//#include "advanced-location-bar.h"
-
-//#include "directory-view-factory-manager.h"
-//#include "directory-view-plugin-iface2.h"
 
 #include <QHBoxLayout>
 #include <QUrl>
@@ -33,14 +23,10 @@
 #include <QDir>
 #include <QStyleOptionToolButton>
 #include <QEvent>
-//#include <KWindowSystem>
 #include <QDebug>
-//#include <gio/gio.h>
 
 #include "headerbar.h"
 #include "widget.h"
-
-
 
 static HeaderBarStyle *global_instance = nullptr;
 static QString terminal_cmd = nullptr;

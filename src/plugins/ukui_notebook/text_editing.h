@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2019 Tianjin KYLIN Information Technology Co., Ltd.
+* Copyright (C) 2020 Tianjin KYLIN Information Technology Co., Ltd.
 *
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -15,6 +15,7 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
+
 #ifndef TEXT_EDITING_H
 #define TEXT_EDITING_H
 
@@ -42,23 +43,18 @@ public:
     explicit Text_editing(Widget* page,QWidget *parent = nullptr);
     ~Text_editing();
 
-    Widget* pNotebook;
-    TextEditWidget *texteditwidget;
     Ui::Text_editing *ui;
-    void paintEvent(QPaintEvent *);
+    Widget* pNotebook;
+    TextEditWidget *texteditwidget;      
     Set_font_size_page *set_size_page = nullptr ;
     Set_font_color_page *set_color_fort_page = nullptr ;
-private slots:
 
-    void color_clicked();
-    void on_light_blue_btn_clicked();
-
-    void on_blue_btn_2_clicked();
+protected:
+    void paintEvent(QPaintEvent *) override;
 
 private:
     void light_show();
     void black_show();
-
 
     // 小三角起始位置;
     int m_startX = 220;
@@ -67,9 +63,12 @@ private:
     // 小三角高度;
     int m_triangleHeight= 5 ;
 
-
     QTimer *timer;
 
+private slots:
+    void color_clicked();
+    void on_light_blue_btn_clicked();
+    void on_blue_btn_2_clicked();
 };
 
 #endif // TEXT_EDITING_H
