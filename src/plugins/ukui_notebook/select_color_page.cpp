@@ -55,6 +55,7 @@ select_color_page::~select_color_page()
 
 void select_color_page::paintEvent(QPaintEvent *e)
 {
+    Q_UNUSED(e);
     qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
     QPainter painter(this);
     QStyleOption opt;

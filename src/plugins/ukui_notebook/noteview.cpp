@@ -99,6 +99,7 @@ void NoteView::animateRemovedRow(const QModelIndex& parent, int start, int end)
 
 void NoteView::paintEvent(QPaintEvent *e)
 {
+    Q_UNUSED(e);
     listViewModeDelegate* delegate = static_cast<listViewModeDelegate*>(itemDelegate());
     if(delegate != Q_NULLPTR)
     {
