@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2019 Tianjin KYLIN Information Technology Co., Ltd.
+* Copyright (C) 2020 Tianjin KYLIN Information Technology Co., Ltd.
 *
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -15,14 +15,17 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include "select_color_page.h"
-#include "ui_select_color_page.h"
+
 #include <QPainter>
+#include <QPainterPath>
+
 #include "widget.h"
 #include "ui_widget.h"
 #include "paletteWidget.h"
 #include "ui_paletteWidget.h"
-#include <QPainterPath>
+#include "select_color_page.h"
+#include "ui_select_color_page.h"
+
 #ifndef SHADOW_WIDTH
 #define SHADOW_WIDTH 0
 #endif

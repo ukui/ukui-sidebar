@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2019 Tianjin KYLIN Information Technology Co., Ltd.
+* Copyright (C) 2020 Tianjin KYLIN Information Technology Co., Ltd.
 *
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -15,9 +15,12 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
+
 #include <QPainter>
 #include <QDebug>
 #include <QPointF>
+#include <QPainterPath>
+
 #include "widget.h"
 #include "ui_widget.h"
 #include "set_font_size_page.h"
@@ -26,7 +29,6 @@
 #include "ui_set_font_color_page.h"
 #include "text_editing.h"
 #include "ui_text_editing.h"
-#include <QPainterPath>
 
 #ifndef SHADOW_WIDTH
 #define SHADOW_WIDTH 0

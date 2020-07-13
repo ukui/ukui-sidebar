@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2019 Tianjin KYLIN Information Technology Co., Ltd.
+* Copyright (C) 2020 Tianjin KYLIN Information Technology Co., Ltd.
 *
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include <QPainter>
+
 #include <QEvent>
 #include <QDebug>
 #include <QApplication>
@@ -24,6 +24,7 @@
 #include <QStyleOption>
 #include <QPainter>
 #include <QPainterPath>
+
 #include "notemodel.h"
 #include "widget.h"
 #include "listViewModeDelegate.h"
@@ -427,6 +428,94 @@ void listViewModeDelegate::paintLabels(QPainter* painter, const QStyleOptionView
 //        drawStr(titleRectPosX, titleRectPosY, titleRectWidth, titleRectHeight, QColor(244,244,244), titleFont, title);
 //        drawStr(dateRectPosX, dateRectPosY, dateRectWidth, dateRectHeight, QColor(244,244,244), m_dateFont, date);
 //    }
+}
+
+void listViewModeDelegate::paintTitle(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+{
+    const int leftOffsetX = 20;  // 左边距
+    const int topOffsetY = 18;   // 标题上方的空格
+    const int spaceY = 5;        // 标题和日期之间的空格
+
+    QStyleOptionViewItem opt = option;
+    QString title{index.data(NoteModel::NoteFullTitle).toString()};
+
+    QFont titleFont = (option.state & QStyle::State_Selected) == QStyle::State_Selected ? m_titleSelectedFont : m_titleFont;
+    QFontMetrics fmTitle(titleFont);
+    QRect fmRectTitle = fmTitle.boundingRect(title);
+
+    QString date = parseDateTime(index.data(NoteModel::NoteLastModificationDateTime).toDateTime());
+    QFontMetrics fmDate(m_dateFont);
+    QRect fmRectDate = fmDate.boundingRect(title);
+
+    double rowPosX = option.rect.x();
+    double rowPosY = option.rect.y();
+    double rowWidth = option.rect.width();
+
+    double titleRectPosX = rowPosX + leftOffsetX;
+    double titleRectPosY = rowPosY;
+    double titleRectWidth = rowWidth - 2.0 * leftOffsetX;
+    double titleRectHeight = fmRectTitle.height() + topOffsetY;
+
+    double dateRectPosX = rowPosX + leftOffsetX;
+    double dateRectPosY = rowPosY + fmRectTitle.height() + topOffsetY;
+    double dateRectWidth = rowWidth - 2.0 * leftOffsetX;
+    double dateRectHeight = fmRectDate.height() + spaceY;
+
+    double rowRate = m_timeLine->currentFrame()/(m_maxFrame * 1.0);
+    double currRowHeight = m_rowHeight * rowRate;
+
+    auto drawStr = [painter](double posX, double posY, double width, double height, QColor color, QFont font, QString str){
+        QRectF rect(posX, posY, width, height);
+        painter->setPen(color);
+        painter->setFont(font);
+        painter->drawText(rect, Qt::AlignBottom, str);
+    };
+
+    // 设置标题和日期字符串的边界矩形
+    if(index.row() == m_animatedIndex.row()){
+        if(m_state == MoveIn){
+            titleRectHeight = topOffsetY + fmRectTitle.height() + currRowHeight;
+
+            dateRectPosY = titleRectHeight;
+            dateRectHeight = fmRectDate.height() + spaceY;
+
+        }else{
+
+            if((fmRectTitle.height() + topOffsetY) >= ((1.0 - rowRate) * m_rowHeight)){
+                titleRectHeight = (fmRectTitle.height() + topOffsetY) - (1.0 - rowRate) * m_rowHeight;
+            }else{
+                titleRectHeight = 0;
+
+                double labelsSumHeight = fmRectTitle.height() + topOffsetY + fmRectDate.height() + spaceY;
+                double bottomSpace = m_rowHeight - labelsSumHeight;
+
+                if(currRowHeight > bottomSpace){
+                    dateRectHeight = currRowHeight - bottomSpace;
+                }else{
+                    dateRectHeight = 0;
+                }
+            }
+
+            dateRectPosY = titleRectHeight + rowPosY;
+        }
+    }
+
+    // 绘图标题和日期
+    title = fmTitle.elidedText(title, Qt::ElideRight, int(titleRectWidth));
+
+    painter->setBrush(opt.palette.color(QPalette::Base));
+
+    //系统默认 255 、 248  深色模式 34 30
+    if(painter->brush().color().value() == 255)
+    {
+        drawStr(titleRectPosX, titleRectPosY, titleRectWidth, titleRectHeight, QColor(0,0,0), titleFont, title);
+        drawStr(dateRectPosX, dateRectPosY, dateRectWidth, dateRectHeight, QColor(0,0,0), m_dateFont, date);
+    }
+    else if(painter->brush().color().value() == 34)
+    {
+        drawStr(titleRectPosX, titleRectPosY, titleRectWidth, titleRectHeight, QColor(244,244,244), titleFont, title);
+        drawStr(dateRectPosX, dateRectPosY, dateRectWidth, dateRectHeight, QColor(244,244,244), m_dateFont, date);
+    }
 }
 
 void listViewModeDelegate::paintSeparator(QPainter*painter, const QStyleOptionViewItem&option, const QModelIndex&index) const

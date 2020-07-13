@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2019 Tianjin KYLIN Information Technology Co., Ltd.
+* Copyright (C) 2020 Tianjin KYLIN Information Technology Co., Ltd.
 *
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -15,6 +15,7 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
+
 #ifndef SINGLEITEMBUTTON_H
 #define SINGLEITEMBUTTON_H
 
@@ -22,6 +23,7 @@
 #include <QWidget>
 #include <QDebug>
 #include <QEvent>
+
 class singleitemButton : public QPushButton
 {
     Q_OBJECT

@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2019 Tianjin KYLIN Information Technology Co., Ltd.
+* Copyright (C) 2020 Tianjin KYLIN Information Technology Co., Ltd.
 *
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -15,6 +15,7 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
+
 #ifndef WIDGET_H
 #define WIDGET_H
 
@@ -129,6 +130,8 @@ private:
     QQueue<QString> m_searchQueue;                                  //搜索队列
     DBManager* m_dbManager;                                         //数据库
     QThread* m_dbThread;                                            //数据库线程
+    QMenu* m_menu;                                                  //菜单
+    QAction* m_menuAction;                                          //菜单动作
 
     int m_noteCounter;                                              //便签总数
     int m_trashCounter;                                             //废纸篓总数
@@ -188,6 +191,7 @@ private slots:
     void delAction_del_SearchLine();                                //搜索清空按钮槽函数
     void on_SearchLine_textChanged(const QString &arg1);            //搜索栏图标显示
     void setNoteNullSlot();                                         //便签页关闭置空槽函数
+    void emptyNoteSLot();                                           //清空便签槽函数
 
 signals:
     void requestNotesList();                                        //加载列表请求信号

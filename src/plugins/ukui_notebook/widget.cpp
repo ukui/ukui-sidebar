@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2019 Tianjin KYLIN Information Technology Co., Ltd.
+* Copyright (C) 2020 Tianjin KYLIN Information Technology Co., Ltd.
 *
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -15,6 +15,7 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
+
 #include "widget.h"
 #include "ui_widget.h"
 #include "listViewModeDelegate.h"
@@ -52,7 +53,6 @@ Widget::Widget(QWidget *parent) :
     QLocale locale;
     //获取系统语言环境
     if ( locale.language() == QLocale::Chinese ) {
-        qDebug() << "####";
         translator->load(QString(":/translation/ukui_notebook_zh_CN.qm"));  //选择翻译文件
         QApplication::installTranslator(translator);
     }
@@ -68,7 +68,6 @@ Widget::~Widget()
 {
     for (auto it = m_editors.begin(); it!= m_editors.end();it++) {
         delete *it;
-        qDebug()<<"aa-----------------------";
     }
     m_editors.clear();
     delete ui;
@@ -271,6 +270,8 @@ void Widget::kyNoteConn()
 //    connect(m_noteModel, &NoteModel::rowsMoved, m_noteView, &NoteView::rowsMoved);
     //升/降序按钮
     connect(m_sortLabel,&QPushButton::clicked,this,&Widget::sortSlot);
+    //清空便签
+    connect(m_menuAction,&QAction::triggered,this,&Widget::emptyNoteSLot);
     //列表平铺切换
     connect(m_viewChangeButton,&QPushButton::clicked,this,&Widget::changePageSlot);
     //搜索栏文本输入
@@ -393,6 +394,13 @@ void Widget::set_all_btn_attribute()
     pixmap15 = QPixmap(":/image/1x/close2.png");
     pixmap16 = QPixmap(":/image/1x/close3.png");
 
+    m_menu = new QMenu(this);
+    m_menuAction = new QAction(m_menu);
+    m_menuAction->setText(tr("Empty Note"));
+    //m_menu->addAction(tr("Empty Note"));
+    m_menu->addAction(m_menuAction);
+    ui->menuBtn->setMenu(m_menu);
+
 
 
     ui->newKynote->setIcon(pixmap1);
@@ -409,7 +417,8 @@ void Widget::set_all_btn_attribute()
     ui->sort_btn->setStyleSheet("QPushButton{border-image:url(:/image/1x/sort.png);}"
                                 "QPushButton:hover{border-image:url(:/image/1x/sort-hover.png);}"
                                 "QPushButton:pressed{border-image:url(:/image/1x/sort-click.png);}");
-
+    //隐藏menu下箭头
+    ui->menuBtn->setStyleSheet("QPushButton::menu-indicator{image:none}");
 
     ui->menuBtn->setIcon(QIcon::fromTheme("open-menu-symbolic"));
     m_viewChangeButton->setIcon(QIcon::fromTheme("view-grid-symbolic"));
@@ -536,6 +545,7 @@ void Widget::deleteNote(const QModelIndex &noteIndex, bool isFromUser)
                 m_currentSelectedNoteProxy = index;
                 qDebug() << m_currentSelectedNoteProxy;
             }else{
+                qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
                 m_currentSelectedNoteProxy = QModelIndex();
             }
         }
@@ -1251,6 +1261,15 @@ void Widget::sortSlot()
             m_noteModel->sort(0,Qt::AscendingOrder);
             sortflag = 1;
         }
+    }
+}
+
+void Widget::emptyNoteSLot()
+{
+    qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
+    while(m_currentSelectedNoteProxy.isValid())
+    {
+        deleteSelectedNote();
     }
 }
 
