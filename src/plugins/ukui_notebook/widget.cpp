@@ -418,7 +418,12 @@ void Widget::set_all_btn_attribute()
                                 "QPushButton:hover{border-image:url(:/image/1x/sort-hover.png);}"
                                 "QPushButton:pressed{border-image:url(:/image/1x/sort-click.png);}");
     //隐藏menu下箭头
-    ui->menuBtn->setStyleSheet("QPushButton::menu-indicator{image:none}");
+    //ui->menuBtn->setStyleSheet("QPushButton::menu-indicator{image:none}");
+    ui->menuBtn->setProperty("isOptionButton", true);
+    //设置是否自动凸起
+    ui->menuBtn->setAutoRaise(false);
+    ui->menuBtn->setIconSize(QSize(16, 16));
+    ui->menuBtn->setPopupMode(QToolButton::InstantPopup);
 
     ui->menuBtn->setIcon(QIcon::fromTheme("open-menu-symbolic"));
     m_viewChangeButton->setIcon(QIcon::fromTheme("view-grid-symbolic"));
