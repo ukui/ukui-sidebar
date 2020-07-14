@@ -181,44 +181,6 @@
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="menuBtn">
-       <property name="geometry">
-        <rect>
-         <x>586</x>
-         <y>0</y>
-         <width>32</width>
-         <height>32</height>
-        </rect>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>32</width>
-         <height>32</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>32</width>
-         <height>32</height>
-        </size>
-       </property>
-       <property name="cursor">
-        <cursorShape>ArrowCursor</cursorShape>
-       </property>
-       <property name="focusPolicy">
-        <enum>Qt::NoFocus</enum>
-       </property>
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>:/images/3dots_Regular.png</normaloff>:/images/3dots_Regular.png</iconset>
-       </property>
-      </widget>
       <widget class="QPushButton" name="pushButton_Mini">
        <property name="geometry">
         <rect>
@@ -298,6 +260,31 @@
        <property name="geometry">
         <rect>
          <x>120</x>
+         <y>0</y>
+         <width>32</width>
+         <height>32</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QToolButton" name="menuBtn">
+       <property name="geometry">
+        <rect>
+         <x>586</x>
          <y>0</y>
          <width>32</width>
          <height>32</height>
