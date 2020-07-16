@@ -21,6 +21,8 @@
         <file>kylin-alarm-clock.svg</file>
         <file>Clock.ts</file>
         <file>Clock.qm</file>
+        <file>Clock_tr.ts</file>
+        <file>Clock_tr.qm</file>
         <file>image/close_light.png</file>
         <file>image/close2.png</file>
         <file>image/close3.png</file>
