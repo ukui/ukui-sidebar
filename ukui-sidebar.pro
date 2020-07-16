@@ -1,5 +1,11 @@
 #! [0]
 TEMPLATE    =   subdirs
+
+TRANSLATIONS += \
+    src/Sidebar_zh_CN.ts \
+    src/Sidebar_tr.ts \
+    src/bo.ts
+    
 SUBDIRS	    =   ./src/ukui-sidebar-core.pro \
                 ./src/plugins/notification_plugin/notification_plugin.pro \
                 ./src/plugins/clipboardPlugin/clipboardPlugin.pro \
