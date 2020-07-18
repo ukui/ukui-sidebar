@@ -21,10 +21,11 @@
 
 int main(int argc, char *argv[])
 {
-    SingleApplication a(argc, argv);
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
-    a.setAttribute(Qt::AA_UseHighDpiPixmaps,true);
+   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+   QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 #endif
+    SingleApplication a(argc, argv);
     if(!a.isRunning()){
         feedback w;
         a.w = &w;

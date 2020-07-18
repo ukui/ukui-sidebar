@@ -68,6 +68,10 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 
 int main(int argc, char *argv[])
 {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
+   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+   QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+#endif
     //自定义消息处理
     //qInstallMessageHandler(myMessageOutput);
     SingleApplication a(argc, argv);
