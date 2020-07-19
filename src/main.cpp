@@ -37,12 +37,7 @@
 #include "mostgrandwidget.h"
 int main(int argc, char *argv[])
 {
-    if(QApplication::desktop()->width() >= 2560){
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
-        QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-        QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-#endif
-    }
+
     /* 如果系统中有实例在运行则退出 */
     QStringList strlistHomePath = QStandardPaths::standardLocations(QStandardPaths::HomeLocation);
     QString strLockPath = strlistHomePath.at(0) + "/.config/ukui-sidebar";
@@ -59,7 +54,12 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-
+    if(QApplication::desktop()->width() >= 2560){
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
+        QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+        QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+#endif
+    }
     QCommandLineParser parser;
     QCommandLineOption debugOption({"d", "debug"}, QObject::tr("Display debug information"));
 
