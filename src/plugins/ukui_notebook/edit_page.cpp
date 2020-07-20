@@ -73,6 +73,7 @@ Edit_page::Edit_page(Widget* page, int noteId, QWidget *parent) :
     m_noteHeadMenu->hide();
     ui->textEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->textEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->textEdit->setContextMenuPolicy(Qt::NoContextMenu);
 //    ui->textEdit->setFontPointSize(14);
 
     connect(m_noteHeadMenu->ui->pushButtonExit,&QPushButton::clicked,this,&Edit_page::closeSlot);
@@ -785,7 +786,7 @@ void Edit_page::contextMenuEvent(QContextMenuEvent *event)
 //    connect(t1, SIGNAL(triggered()), this, SLOT(add_new_page()));
 //    menu->addAction(t1);
     menu->move(cursor().pos()); //让菜单显示的位置在鼠标的坐标上
-    menu->show();
+    //menu->show();
 #endif
 }
 
