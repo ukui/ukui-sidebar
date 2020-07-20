@@ -785,7 +785,7 @@ NoteData* Widget::generateNote(const int noteID)
     QDateTime noteDate = QDateTime::currentDateTime();
     newNote->setCreationDateTime(noteDate);
     newNote->setLastModificationDateTime(noteDate);
-    newNote->setFullTitle(tr("Welcome to use Kylin system, you will experience more intimate service."));
+    newNote->setFullTitle(tr("Welcome to use Kylin Note."));
     //newNote->setNoteColor(16777215);
     newNote->setNoteColor(15169356);//15169356  //231
     newNote->m_note = nullptr;
@@ -827,7 +827,7 @@ QString Widget::getFirstLine(const QString& str)
 {
     if(str.simplified().isEmpty())
     {
-        return tr("Welcome to use Kylin system, you will experience more intimate service.");
+        return tr("Welcome to use Kylin Note.");
     }
 
     QString text = str.trimmed();
@@ -1276,6 +1276,7 @@ void Widget::emptyNoteSLot()
     {
         deleteSelectedNote();
     }
+    m_countLabel->setText(QObject::tr("%1 records in total").arg(m_proxyModel->rowCount()));
 }
 
 void Widget::delAction_del_SearchLine()

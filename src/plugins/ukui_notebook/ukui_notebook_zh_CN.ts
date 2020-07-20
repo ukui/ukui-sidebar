@@ -51,9 +51,10 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="widget.cpp" line="734"/>
-        <location filename="widget.cpp" line="1122"/>
-        <location filename="widget.cpp" line="1131"/>
+        <location filename="widget.cpp" line="740"/>
+        <location filename="widget.cpp" line="1128"/>
+        <location filename="widget.cpp" line="1137"/>
+        <location filename="widget.cpp" line="1279"/>
         <source>%1 records in total</source>
         <translatorcomment>%1条记录</translatorcomment>
         <translation>%1条记录</translation>
@@ -116,13 +117,20 @@
         <translation>麒麟便签本</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="847"/>
+        <location filename="widget.cpp" line="788"/>
+        <location filename="widget.cpp" line="830"/>
+        <source>Welcome to use Kylin Note.</source>
+        <translatorcomment>欢迎使用麒麟便签本。</translatorcomment>
+        <translation>欢迎使用麒麟便签本。</translation>
+    </message>
+    <message>
+        <location filename="widget.cpp" line="853"/>
         <source>Search</source>
         <translatorcomment>搜索</translatorcomment>
         <translation>搜索</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="462"/>
+        <location filename="widget.cpp" line="467"/>
         <source>Create New Note</source>
         <translatorcomment>新建便签</translatorcomment>
         <translation>新建便签</translation>
@@ -134,19 +142,19 @@
         <translation>清空便签本</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="463"/>
+        <location filename="widget.cpp" line="468"/>
         <source>Delete Selected Note</source>
         <translatorcomment>删除</translatorcomment>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="464"/>
+        <location filename="widget.cpp" line="469"/>
         <source>Switch View</source>
         <translatorcomment>切换视图</translatorcomment>
         <translation>切换视图</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="465"/>
+        <location filename="widget.cpp" line="470"/>
         <source>Sort</source>
         <translatorcomment>排序</translatorcomment>
         <translation>排序</translation>
@@ -157,29 +165,27 @@
         <translation type="vanished">换肤</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="466"/>
+        <location filename="widget.cpp" line="471"/>
         <source>Exit</source>
         <translatorcomment>关闭</translatorcomment>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="467"/>
+        <location filename="widget.cpp" line="472"/>
         <source>Mini</source>
         <translatorcomment>最小化</translatorcomment>
         <translation>最小化</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="468"/>
+        <location filename="widget.cpp" line="473"/>
         <source>Menu</source>
         <translatorcomment>菜单</translatorcomment>
         <translation>菜单</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="782"/>
-        <location filename="widget.cpp" line="824"/>
         <source>Welcome to use Kylin system, you will experience more intimate service.</source>
         <translatorcomment>欢迎使用优麒麟系统，您将体会到更贴心的服务。</translatorcomment>
-        <translation>欢迎使用优麒麟系统，您将体会到更贴心的服务。</translation>
+        <translation type="vanished">欢迎使用优麒麟系统，您将体会到更贴心的服务。</translation>
     </message>
 </context>
 <context>
@@ -236,13 +242,13 @@
 <context>
     <name>listViewModeDelegate</name>
     <message>
-        <location filename="listViewModeDelegate.cpp" line="454"/>
+        <location filename="listViewModeDelegate.cpp" line="542"/>
         <source>Today </source>
         <translatorcomment>今天</translatorcomment>
         <translation>今天</translation>
     </message>
     <message>
-        <location filename="listViewModeDelegate.cpp" line="458"/>
+        <location filename="listViewModeDelegate.cpp" line="546"/>
         <source>Yesterday </source>
         <translatorcomment>昨天</translatorcomment>
         <translation>昨天</translation>
