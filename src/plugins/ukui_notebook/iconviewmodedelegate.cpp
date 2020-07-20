@@ -299,7 +299,7 @@ void iconViewModeDelegate::paintBackground(QPainter *painter, const QStyleOption
 void iconViewModeDelegate::paintLabels(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
     const int leftOffsetX = 20;        // 标题左边距
-    const int leftoffsetXdate = 75;    // 日期左边距
+    //const int leftoffsetXdate = 75;    // 日期左边距
     const int topOffsetY = 18;         // 标题上方的空格
     const int spaceY = 160;            // 标题和日期之间的空格
 
@@ -312,7 +312,7 @@ void iconViewModeDelegate::paintLabels(QPainter* painter, const QStyleOptionView
 
     QString date = parseDateTime(index.data(NoteModel::NoteLastModificationDateTime).toDateTime());
     QFontMetrics fmDate(m_dateFont);
-    QRect fmRectDate = fmDate.boundingRect(title);
+    QRect fmRectDate = fmDate.boundingRect(date);
 
     double rowPosX = option.rect.x();
     double rowPosY = option.rect.y();
@@ -323,10 +323,10 @@ void iconViewModeDelegate::paintLabels(QPainter* painter, const QStyleOptionView
     double titleRectWidth = rowWidth - 2.0 * leftOffsetX;
     double titleRectHeight = fmRectTitle.height() + topOffsetY;
     //qDebug() << "titleRectHeight" << titleRectHeight << fmRectTitle.height();
-    double dateRectPosX = rowPosX + leftoffsetXdate;
+    double dateRectPosX = rowPosX + (rowWidth / 2 - fmRectDate.width() / 2);
     //double dateRectPosY = rowPosY + fmRectTitle.height() + topOffsetY;
     double dateRectPosY = rowPosY + 26 + topOffsetY;
-    double dateRectWidth = rowWidth - 2.0 * leftoffsetXdate;
+    double dateRectWidth = rowWidth;
     //double dateRectHeight = fmRectDate.height() + spaceY;
     double dateRectHeight = 18 + spaceY;
 
