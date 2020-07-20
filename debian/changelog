@@ -1,3 +1,29 @@
+ukui-sidebar (1.1.0-1kylin10) v101; urgency=medium
+
+  * New upstream release.
+    - Change scheme cancel menu arrow
+    - Add plugins and clipboard adaptation to 4K screen
+    - Increase screen resolution judgment
+    - change 4K code location
+    - fix the record will not be refreshed
+    - Incomplete display of repair time
+    - Complete the function of clearing notes
+
+ -- liushanwen <liushanwen@kylinos.cn>  Mon, 20 Jul 2020 13:02:39 +0800
+
+ukui-sidebar (1.1.0-1kylin10) v100; urgency=medium
+
+  * New upstream release.
+    - Change scheme cancel menu arrow
+    - Add plugins and clipboard adaptation to 4K screen
+    - Increase screen resolution judgment
+    - change 4K code location
+    - fix the record will not be refreshed
+    - Incomplete display of repair time
+    - Complete the function of clearing notes
+
+ -- liushanwen <liushanwen@kylinos.cn>  Mon, 20 Jul 2020 13:02:39 +0800
+
 ukui-sidebar (1.1.0-1kylin9) v100; urgency=medium
 
   * New upstream release.
