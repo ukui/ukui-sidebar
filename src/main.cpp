@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
 
     if (parser.isSet(debugOption)) {                                    /* 根据命令行设定日志等级 */
         setLogLevel(QtDebugMsg);
-        setLogPath(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + LOG_FILE_NAME);                        /* 绑定打印日志文件路径 */
+        setLogPath(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + LOG_FILE_NAME);  /* 绑定打印日志文件路径 */
         qInstallMessageHandler(customLogMessageHandler);
     } else {
         setLogLevel(QtWarningMsg);
