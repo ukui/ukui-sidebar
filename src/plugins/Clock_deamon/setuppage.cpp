@@ -81,11 +81,11 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     ui->pushButton_9->setText(model_setup->index(0, 17).data().toString());
     ui->pushButton_15->setText(model_setup->index(0, 5).data().toString());
 
-      dialog_werk_day->hide();
-      Time_format->hide() ;
-      Pop_up_window->hide() ;
-      Reminder_off->hide() ;
-      Default_ringtone->hide() ;
+    dialog_werk_day->hide();
+    Time_format->hide() ;
+    Pop_up_window->hide() ;
+    Reminder_off->hide() ;
+    Default_ringtone->hide() ;
 }
 
 setuppage::~setuppage()
@@ -97,7 +97,7 @@ setuppage::~setuppage()
     delete  Reminder_off ;
     delete  Default_ringtone ;
     delete  ui;
-     qDebug()<<"-------setuppage-----2----";
+    qDebug()<<"-------setuppage-----2----";
 }
 
 void setuppage::Mute_starting()
@@ -108,28 +108,28 @@ void setuppage::Mute_starting()
 // Default workday date setting callback
 void setuppage::werk_day_set()
 {
-     dialog_werk_day->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
-     dialog_werk_day->setAttribute(Qt::WA_TranslucentBackground);
-     QPointF position = parentWidget()->pos();
-     dialog_werk_day->move(position.x()+83,position.y()+162);
-     dialog_werk_day->resize(280,225);
-     dialog_werk_day->listWidget->setFixedSize(280,225);
-     dialog_werk_day->widget[0]->alarmLabel0->setText(tr("周一"));
-     dialog_werk_day->widget[1]->alarmLabel0->setText(tr("周二"));
-     dialog_werk_day->widget[2]->alarmLabel0->setText(tr("周三"));
-     dialog_werk_day->widget[3]->alarmLabel0->setText(tr("周四"));
-     dialog_werk_day->widget[4]->alarmLabel0->setText(tr("周五"));
-     dialog_werk_day->widget[5]->alarmLabel0->setText(tr("周六"));
-     dialog_werk_day->widget[6]->alarmLabel0->setText(tr("周日"));
+    dialog_werk_day->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
+    dialog_werk_day->setAttribute(Qt::WA_TranslucentBackground);
+    QPointF position = parentWidget()->pos();
+    dialog_werk_day->move(position.x()+83,position.y()+162);
+    dialog_werk_day->resize(280,225);
+    dialog_werk_day->listWidget->setFixedSize(280,225);
+    dialog_werk_day->widget[0]->alarmLabel0->setText(tr("周一"));
+    dialog_werk_day->widget[1]->alarmLabel0->setText(tr("周二"));
+    dialog_werk_day->widget[2]->alarmLabel0->setText(tr("周三"));
+    dialog_werk_day->widget[3]->alarmLabel0->setText(tr("周四"));
+    dialog_werk_day->widget[4]->alarmLabel0->setText(tr("周五"));
+    dialog_werk_day->widget[5]->alarmLabel0->setText(tr("周六"));
+    dialog_werk_day->widget[6]->alarmLabel0->setText(tr("周日"));
 
-     for (int i=0; i<7; i++) {
-         if (model_setup->index(0, i+7).data().toInt()) {
-             dialog_werk_day->widget[i]->alarmLabel1->setIcon(repeat_on_Pixmap);
-         } else {
-             dialog_werk_day->widget[i]->alarmLabel1->setIcon(repeat_off_Pixmap);
-         }
-     }
-     dialog_werk_day->show();
+    for (int i=0; i<7; i++) {
+        if (model_setup->index(0, i+7).data().toInt()) {
+            dialog_werk_day->widget[i]->alarmLabel1->setIcon(repeat_on_Pixmap);
+        } else {
+            dialog_werk_day->widget[i]->alarmLabel1->setIcon(repeat_off_Pixmap);
+        }
+    }
+    dialog_werk_day->show();
 }
 //工作日选择单击回调
 // Weekday select click callback
@@ -150,40 +150,75 @@ void setuppage::werk_day_listClickslot()
     switch (num)
     {
     case 0:
-        if (model_setup->index(0, 7).data().toInt() ) {
-            model_setup->setData(model_setup->index(0, 7), 0);
-            dialog_werk_day->widget[0]->alarmLabel1->setIcon(repeat_off_Pixmap);
-        } else {
+        if (model_setup->index(0, 7).data().toInt() ){
+            if(model_setup->index(0, 8).data().toInt()==0&&
+                    model_setup->index(0, 9).data().toInt()==0&&
+                    model_setup->index(0, 10).data().toInt()==0&&
+                    model_setup->index(0, 11).data().toInt()==0&&
+                    model_setup->index(0, 12).data().toInt()==0&&
+                    model_setup->index(0, 13).data().toInt()==0){
+            }else{
+                model_setup->setData(model_setup->index(0, 7), 0);
+                dialog_werk_day->widget[0]->alarmLabel1->setIcon(repeat_off_Pixmap);
+            }
+        }else{
             model_setup->setData(model_setup->index(0, 7), 1);
             dialog_werk_day->widget[0]->alarmLabel1->setIcon(repeat_on_Pixmap);
         }
+
         break;
 
     case 1:
-        if (model_setup->index(0, 8).data().toInt() ) {
-            model_setup->setData(model_setup->index(0, 8), 0);
-            dialog_werk_day->widget[1]->alarmLabel1->setIcon(repeat_off_Pixmap);
-        } else {
+        if (model_setup->index(0, 8).data().toInt() ){
+            if(model_setup->index(0, 7).data().toInt()==0& \
+                    model_setup->index(0, 9).data().toInt()==0& \
+                    model_setup->index(0, 10).data().toInt()==0& \
+                    model_setup->index(0, 11).data().toInt()==0& \
+                    model_setup->index(0, 12).data().toInt()==0& \
+                    model_setup->index(0, 13).data().toInt()==0 ){
+            }else{
+                model_setup->setData(model_setup->index(0, 8), 0);
+                dialog_werk_day->widget[1]->alarmLabel1->setIcon(repeat_off_Pixmap);
+            }
+        }else{
             model_setup->setData(model_setup->index(0, 8), 1);
             dialog_werk_day->widget[1]->alarmLabel1->setIcon(repeat_on_Pixmap);
         }
+
         break;
 
     case 2:
-        if (model_setup->index(0, 9).data().toInt() ) {
-            model_setup->setData(model_setup->index(0, 9), 0);
-            dialog_werk_day->widget[2]->alarmLabel1->setIcon(repeat_off_Pixmap);
-        } else {
+        if (model_setup->index(0, 9).data().toInt() ){
+            if(model_setup->index(0, 8).data().toInt()==0& \
+                    model_setup->index(0, 7).data().toInt()==0& \
+                    model_setup->index(0, 10).data().toInt()==0& \
+                    model_setup->index(0, 11).data().toInt()==0& \
+                    model_setup->index(0, 12).data().toInt()==0& \
+                    model_setup->index(0, 13).data().toInt()==0 ){
+            }else{
+                model_setup->setData(model_setup->index(0, 9), 0);
+                dialog_werk_day->widget[2]->alarmLabel1->setIcon(repeat_off_Pixmap);
+            }
+        }else{
             model_setup->setData(model_setup->index(0, 9), 1);
             dialog_werk_day->widget[2]->alarmLabel1->setIcon(repeat_on_Pixmap);
         }
+
         break;
 
     case 3:
-        if (model_setup->index(0, 10).data().toInt() ) {
-            model_setup->setData(model_setup->index(0, 10), 0);
-            dialog_werk_day->widget[3]->alarmLabel1->setIcon(repeat_off_Pixmap);
-        } else {
+        if (model_setup->index(0, 10).data().toInt() ){
+            if(model_setup->index(0, 8).data().toInt()==0& \
+                    model_setup->index(0, 9).data().toInt()==0& \
+                    model_setup->index(0, 7).data().toInt()==0& \
+                    model_setup->index(0, 11).data().toInt()==0& \
+                    model_setup->index(0, 12).data().toInt()==0& \
+                    model_setup->index(0, 13).data().toInt()==0 ){
+            }else{
+                model_setup->setData(model_setup->index(0, 10), 0);
+                dialog_werk_day->widget[3]->alarmLabel1->setIcon(repeat_off_Pixmap);
+            }
+        }else{
             model_setup->setData(model_setup->index(0, 10), 1);
             dialog_werk_day->widget[3]->alarmLabel1->setIcon(repeat_on_Pixmap);
         }
@@ -191,8 +226,16 @@ void setuppage::werk_day_listClickslot()
 
     case 4:
         if (model_setup->index(0, 11).data().toInt()) {
-            model_setup->setData(model_setup->index(0, 11), 0);
-            dialog_werk_day->widget[4]->alarmLabel1->setIcon(repeat_off_Pixmap);
+            if(model_setup->index(0, 8).data().toInt()==0& \
+                    model_setup->index(0, 9).data().toInt()==0& \
+                    model_setup->index(0, 10).data().toInt()==0& \
+                    model_setup->index(0, 7).data().toInt()==0& \
+                    model_setup->index(0, 12).data().toInt()==0& \
+                    model_setup->index(0, 13).data().toInt()==0 ){
+            }else{
+                model_setup->setData(model_setup->index(0, 11), 0);
+                dialog_werk_day->widget[4]->alarmLabel1->setIcon(repeat_off_Pixmap);
+            }
         } else {
             model_setup->setData(model_setup->index(0, 11), 1);
             dialog_werk_day->widget[4]->alarmLabel1->setIcon(repeat_on_Pixmap);
@@ -201,8 +244,16 @@ void setuppage::werk_day_listClickslot()
 
     case 5:
         if (model_setup->index(0, 12).data().toInt() ) {
-            model_setup->setData(model_setup->index(0, 12), 0);
-            dialog_werk_day->widget[5]->alarmLabel1->setIcon(repeat_off_Pixmap);
+            if(model_setup->index(0, 8).data().toInt()==0& \
+                    model_setup->index(0, 9).data().toInt()==0& \
+                    model_setup->index(0, 10).data().toInt()==0& \
+                    model_setup->index(0, 11).data().toInt()==0& \
+                    model_setup->index(0, 7).data().toInt()==0& \
+                    model_setup->index(0, 13).data().toInt()==0 ){
+            }else{
+                model_setup->setData(model_setup->index(0, 12), 0);
+                dialog_werk_day->widget[5]->alarmLabel1->setIcon(repeat_off_Pixmap);
+            }
         } else {
             model_setup->setData(model_setup->index(0, 12), 1);
             dialog_werk_day->widget[5]->alarmLabel1->setIcon(repeat_on_Pixmap);
@@ -211,8 +262,16 @@ void setuppage::werk_day_listClickslot()
 
     case 6:
         if (model_setup->index(0, 13).data().toInt()) {
-            model_setup->setData(model_setup->index(0, 13), 0);
-            dialog_werk_day->widget[6]->alarmLabel1->setIcon(repeat_off_Pixmap);
+            if(model_setup->index(0, 8).data().toInt()==0& \
+                    model_setup->index(0, 9).data().toInt()==0& \
+                    model_setup->index(0, 10).data().toInt()==0& \
+                    model_setup->index(0, 11).data().toInt()==0& \
+                    model_setup->index(0, 12).data().toInt()==0& \
+                    model_setup->index(0, 7).data().toInt()==0 ){
+            }else{
+                model_setup->setData(model_setup->index(0, 13), 0);
+                dialog_werk_day->widget[6]->alarmLabel1->setIcon(repeat_off_Pixmap);
+            }
         } else {
             model_setup->setData(model_setup->index(0, 13), 1);
             dialog_werk_day->widget[6]->alarmLabel1->setIcon(repeat_on_Pixmap);
@@ -316,11 +375,11 @@ void setuppage::Pop_up_window_listClickslot()
     int num=Pop_up_window->listWidget->currentRow();
     switch (num) {
     case 0:
-            model_setup->setData(model_setup->index(0, 3), 0);
+        model_setup->setData(model_setup->index(0, 3), 0);
         break;
 
     case 1:
-            model_setup->setData(model_setup->index(0, 3), 1);
+        model_setup->setData(model_setup->index(0, 3), 1);
         break;
     default:
         break;

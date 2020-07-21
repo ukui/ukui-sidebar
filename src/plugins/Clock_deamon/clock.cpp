@@ -2012,8 +2012,12 @@ void Clock::repeat_listClickslot()
             repeat_day[0] = 1;
             dialog_repeat->widget[2]->alarmLabel1->setIcon(repeat_on_Pixmap);
         } else {
+            if(repeat_day[1]== 0 & repeat_day[2]== 0 & repeat_day[3]== 0 & repeat_day[4]== 0 & repeat_day[5]== 0 & repeat_day[6]== 0){
+                 //防止全部勾选被取消
+            }else{
             repeat_day[0] = 0;
             dialog_repeat->widget[2]->alarmLabel1->setIcon(repeat_off_Pixmap);
+            }
         }
         break;
     case 3:
@@ -2021,8 +2025,12 @@ void Clock::repeat_listClickslot()
             repeat_day[1] = 1;
             dialog_repeat->widget[3]->alarmLabel1->setIcon(repeat_on_Pixmap);
         } else {
+            if(repeat_day[0]== 0 & repeat_day[2]== 0 & repeat_day[3]== 0 & repeat_day[4]== 0 & repeat_day[5]== 0 & repeat_day[6]== 0){
+
+            }else{
             repeat_day[1] = 0;
             dialog_repeat->widget[3]->alarmLabel1->setIcon(repeat_off_Pixmap);
+            }
         }
         break;
     case 4:
@@ -2030,8 +2038,12 @@ void Clock::repeat_listClickslot()
             repeat_day[2] = 1;
             dialog_repeat->widget[4]->alarmLabel1->setIcon(repeat_on_Pixmap);
         } else {
+            if(repeat_day[1]== 0 & repeat_day[0]== 0 & repeat_day[3]== 0 & repeat_day[4]== 0 & repeat_day[5]== 0 & repeat_day[6]== 0){
+
+            }else{
             repeat_day[2] = 0;
             dialog_repeat->widget[4]->alarmLabel1->setIcon(repeat_off_Pixmap);
+            }
         }
         break;
     case 5:
@@ -2039,8 +2051,12 @@ void Clock::repeat_listClickslot()
             repeat_day[3] = 1;
             dialog_repeat->widget[5]->alarmLabel1->setIcon(repeat_on_Pixmap);
         } else {
+            if(repeat_day[1]== 0 & repeat_day[2]== 0 & repeat_day[0]== 0 & repeat_day[4]== 0 & repeat_day[5]== 0 & repeat_day[6]== 0){
+
+            }else{
             repeat_day[3] = 0;
             dialog_repeat->widget[5]->alarmLabel1->setIcon(repeat_off_Pixmap);
+            }
         }
         break;
     case 6:
@@ -2048,8 +2064,12 @@ void Clock::repeat_listClickslot()
             repeat_day[4] = 1;
             dialog_repeat->widget[6]->alarmLabel1->setIcon(repeat_on_Pixmap);
         } else {
+            if(repeat_day[1]== 0 & repeat_day[2]== 0 & repeat_day[3]== 0 & repeat_day[0]== 0 & repeat_day[5]== 0 & repeat_day[6]== 0){
+
+            }else{
             repeat_day[4] = 0;
             dialog_repeat->widget[6]->alarmLabel1->setIcon(repeat_off_Pixmap);
+            }
         }
         break;
     case 7:
@@ -2057,8 +2077,12 @@ void Clock::repeat_listClickslot()
             repeat_day[5] = 1;
             dialog_repeat->widget[7]->alarmLabel1->setIcon(repeat_on_Pixmap);
         } else {
+            if(repeat_day[1]== 0 & repeat_day[2]== 0 & repeat_day[3]== 0 & repeat_day[4]== 0 & repeat_day[0]== 0 & repeat_day[6]== 0){
+
+            }else{
             repeat_day[5] = 0;
             dialog_repeat->widget[7]->alarmLabel1->setIcon(repeat_off_Pixmap);
+            }
         }
         break;
     case 8:
@@ -2066,8 +2090,12 @@ void Clock::repeat_listClickslot()
             repeat_day[6] = 1;
             dialog_repeat->widget[8]->alarmLabel1->setIcon(repeat_on_Pixmap);
         } else {
+            if(repeat_day[1]== 0 & repeat_day[2]== 0 & repeat_day[3]== 0 & repeat_day[4]== 0 & repeat_day[5]== 0 & repeat_day[0]== 0){
+
+            }else{
             repeat_day[6] = 0;
             dialog_repeat->widget[8]->alarmLabel1->setIcon(repeat_off_Pixmap);
+            }
         }
         break;
     default:
