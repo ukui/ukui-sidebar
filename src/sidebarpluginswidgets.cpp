@@ -27,6 +27,8 @@ sidebarPluginsWidgets::sidebarPluginsWidgets(QWidget *parent) : QWidget(parent)
     this->setStyleSheet("QWidget{background:rgba(255, 255, 0, 0);}");
     flagnumClipboardState = 0;
 
+    m_tranSparency = 0.42;  //初始化透明度
+
     m_pBoolStates = true;
     resizeFlagOne = true;
 
@@ -453,7 +455,7 @@ void sidebarPluginsWidgets::paintEvent(QPaintEvent *)
 //    p.setBrush(opt.palette.color(QPalette::Base).lighter(85));
     p.setBrush(opt.palette.color(QPalette::Base));
 //    p.setBrush(QBrush(QColor("#161617")));
-    p.setOpacity(0.42);
+    p.setOpacity(m_tranSparency);
     p.setPen(Qt::NoPen);
 
     p.setRenderHint(QPainter::Antialiasing);                        //反锯齿

@@ -96,18 +96,19 @@ public:
     QPropertyAnimation *m_pAnimationSmallWidget;
 
     //状态机
-    QStateMachine *m_pMachine;                                    //状态机
-    QState *m_pClipBoardState;                                    //剪贴板状态
-    QState *m_pSmallPluginsState;                                 //小插件状态
-    bool    m_pBoolStates;                                        //第一次初始化状态机bool值
-    bool    resizeFlagOne;                                        //第一次初始化状态机bool值
-    bool    ClipBoardBool;                                        //剪贴板修改屏幕分辨率bool值
-    bool    SmallPluginsBool;                                     //插件按钮修改屏幕分辨率bool值
-    int     m_statusFlag;                                         //状态机位置
+    QStateMachine *m_pMachine;                                    // 状态机
+    QState *m_pClipBoardState;                                    // 剪贴板状态
+    QState *m_pSmallPluginsState;                                 // 小插件状态
+    bool    m_pBoolStates;                                        // 第一次初始化状态机bool值
+    bool    resizeFlagOne;                                        // 第一次初始化状态机bool值
+    bool    ClipBoardBool;                                        // 剪贴板修改屏幕分辨率bool值
+    bool    SmallPluginsBool;                                     // 插件按钮修改屏幕分辨率bool值
+    int     m_statusFlag;                                         // 状态机位置
     int     flagnumClipboardState;
     int     m_add_x = 0;
     int     m_add_y = 1;
-    int     m_cliboardHight;                                      //剪贴板和小插件的高度
+    int     m_cliboardHight;                                      // 剪贴板和小插件的高度
+    float   m_tranSparency;                                       // 插件的界面的透明度
 
 signals:
 
