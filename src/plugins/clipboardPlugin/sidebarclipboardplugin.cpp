@@ -1288,6 +1288,10 @@ void SidebarClipboardPlugin::previewShowImageSlots(QWidget *w)
         qWarning() << "置顶槽函数ClipboardWidgetEntry *w 为空";
         return;
     }
+    if (m_pPreviewImage != nullptr) {
+        delete m_pPreviewImage;
+        m_pPreviewImage = nullptr;
+    }
     int PreviewWidgetHeight = setClipBoardWidgetScaleFactor();
     ClipboardWidgetEntry *widget = dynamic_cast<ClipboardWidgetEntry*>(w);
     QListWidgetItem *Item = iterationClipboardDataHash(widget);
