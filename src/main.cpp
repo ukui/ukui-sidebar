@@ -90,9 +90,6 @@ int main(int argc, char *argv[])
         setLogLevel(QtWarningMsg);
     }
 
-    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-
     QApplication::setQuitOnLastWindowClosed(false);
     SmallPluginsManage::SmallPluginsManageInit();                   /* 初始化侧边栏小插件管理容器 */
     PluginManager::init();                                          /* 初始化插件管理器 */

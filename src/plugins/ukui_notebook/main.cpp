@@ -20,7 +20,7 @@
 
 #include "widget.h"
 #include "singleApplication.h"
-
+#include <X11/Xlib.h>
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
     // 加锁
@@ -66,17 +66,34 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
     mutex.unlock();
 }
 
+int getScreenWidth() {
+    Display *disp = XOpenDisplay(NULL);
+    Screen *scrn = DefaultScreenOfDisplay(disp);
+    if (NULL == scrn) {
+        return 0;
+    }
+    int width = scrn->width;
+
+    if (NULL != disp) {
+        XCloseDisplay(disp);
+    }
+    return width;
+}
+
 int main(int argc, char *argv[])
 {
     //自定义消息处理
     //qInstallMessageHandler(myMessageOutput);
-    SingleApplication a(argc, argv);
-    if(QApplication::desktop()->width() >= 2560){
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
-        QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-        QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-#endif
+
+    if (getScreenWidth() > 2560) {
+        #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
+                QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+                QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+        #endif
     }
+
+    SingleApplication a(argc, argv);
+
     if(!a.isRunning()){
         Widget w;
         a.w = &w;

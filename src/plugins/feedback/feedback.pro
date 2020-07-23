@@ -6,6 +6,8 @@ CONFIG += c++11
 TARGET = feedback
 TEMPLATE = app
 
+LIBS    +=  -lX11
+
 QT += core gui  network
 
 # The following define makes your compiler emit warnings if you use

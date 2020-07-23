@@ -11,7 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = kylin-clock
 TEMPLATE = app
 
-
+LIBS    +=  -lX11
 
 SOURCES += \
     btn_new.cpp \
