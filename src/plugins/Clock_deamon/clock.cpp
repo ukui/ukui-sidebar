@@ -912,18 +912,6 @@ void Clock::notice_dialog_show(int close_time, int alarm_num)
     } else {
         dialog1->move(screen_width-450,screen_height-300);
     }
-    int remind = model_setup->index(0, 4).data().toInt();
-    if (remind == 0) {
-        dialog1->ui->pushButton_2->setToolTip(tr("2分钟后提醒"));
-    } else if(remind == 1) {
-        dialog1->ui->pushButton_2->setToolTip(tr("5分钟后提醒"));
-    } else if(remind == 2) {
-        dialog1->ui->pushButton_2->setToolTip(tr("10分钟后提醒"));
-    } else if(remind == 3) {
-        dialog1->ui->pushButton_2->setToolTip(tr("30分钟后提醒"));
-    } else if(remind == 4) {
-        dialog1->ui->pushButton_2->setToolTip(tr("60分钟后提醒"));
-    }
     Qt::WindowFlags m_flags = windowFlags();
     dialog1->setWindowFlags(m_flags | Qt::WindowStaysOnTopHint);
     dialog1->show();
@@ -1626,18 +1614,7 @@ void Clock::countdown_notice_dialog_show()
     } else {
         dialog1->move(screen_width-450,screen_height-300);
     }
-    int remind = model_setup->index(0, 4).data().toInt();
-    if (remind == 0) {
-        dialog1->ui->pushButton_2->setToolTip(tr("2分钟后提醒"));
-    } else if (remind == 1) {
-        dialog1->ui->pushButton_2->setToolTip(tr("5分钟后提醒"));
-    } else if (remind == 2) {
-        dialog1->ui->pushButton_2->setToolTip(tr("10分钟后提醒"));
-    } else if (remind == 3) {
-        dialog1->ui->pushButton_2->setToolTip(tr("30分钟后提醒"));
-    } else if (remind == 4) {
-        dialog1->ui->pushButton_2->setToolTip(tr("60分钟后提醒"));
-    }
+
     Qt::WindowFlags m_flags = windowFlags();
     dialog1->setWindowFlags(m_flags | Qt::WindowStaysOnTopHint);
     dialog1->show();
