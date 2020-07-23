@@ -169,6 +169,7 @@ void ClipboardWidgetEntry::enterEvent(QEvent *e)
         format = SetFormatBody(m_ptext);
     }
     m_pCopyDataLabal->setText(format);
+    this->update();
 }
 
 void ClipboardWidgetEntry::leaveEvent(QEvent *e)
@@ -188,12 +189,14 @@ void ClipboardWidgetEntry::leaveEvent(QEvent *e)
     } else if (m_dataFormat == ENTRYIMAGE) {
         m_pCopyDataLabal->setFixedSize(110, 75);
         emit previewHideImage(this);//发送退出预览信号
+        this->update();
     }
     if (m_ptext == "") {
         return;
     } else {
         this->m_pCopyDataLabal->setText(m_ptext);
     }
+    this->update();
     return;
 }
 
