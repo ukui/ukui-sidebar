@@ -192,6 +192,7 @@ void ClipboardWidgetEntry::leaveEvent(QEvent *e)
         this->update();
     }
     if (m_ptext == "") {
+        this->update();
         return;
     } else {
         this->m_pCopyDataLabal->setText(m_ptext);
