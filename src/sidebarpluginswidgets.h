@@ -36,12 +36,16 @@
 #include <QToolButton>
 #include <QStyle>
 #include <QStackedWidget>
+#include <QGSettings>
 #include "smallpluginsbutton.h"
 #include "smallpluginsmanage.h"
 #include "mostgrandwidget.h"
 #include "pluginstoolbutton.h"
 #include "customstyle_clean_pushbutton.h"
 #include "customstyle.h"
+
+#define UKUI_TRANSPARENCY_SETTING "org.ukui.control-center.personalise"
+
 class sidebarPluginsWidgets : public QWidget
 {
     Q_OBJECT
@@ -56,6 +60,7 @@ public:
     void initLableBackgroundAnimation();                          //初始化动画
     void initCliboardAnimation();                                 //初始化剪贴板动画类
     void initSmallPluginsAnimation();                             //初始化小插件动画类
+    void initTransparencyGsetting();                              //初始化gsetting值
     void setClipboardButtonBackgroundIsBlue();                    //设置侧边栏按钮背景色为蓝色
     void setSmallPluginsButtonBackgroudIsBlue();                  //设置小插件按钮背景色为蓝色
     void setClipboardButtonBackgroundIsBlank();                   //设置侧边栏按钮背景色为空白
@@ -95,6 +100,8 @@ public:
     QPropertyAnimation *m_pAnimationClipbarod;
     QPropertyAnimation *m_pAnimationSmallWidget;
 
+    QGSettings      *m_pTransparency = nullptr;                  //透明度gsetting值
+
     //状态机
     QStateMachine *m_pMachine;                                    // 状态机
     QState *m_pClipBoardState;                                    // 剪贴板状态
@@ -124,6 +131,7 @@ private slots:
 
     void m_AnimationClipbarodEndSlots();
     void m_AnimationSmallWidgetEndSlots();
+    void getTransparencyValue(const QString key);                                                //获取个gsetting值
 protected:
     void paintEvent(QPaintEvent *e);
 

@@ -117,6 +117,7 @@ private:
     QDesktopWidget              *m_pDeskWgt;                                    //桌面问题
     QGSettings                  *m_pPanelSetting = nullptr;
 
+
     //快捷操作面板
     ClipboardInterface*         m_pSidebarClipboard;                            //侧边栏剪贴板指针
     SidebarClipBoardSignal*     m_pSidebarSignal;                               //剪贴板通信类
