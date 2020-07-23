@@ -73,6 +73,7 @@ Edit_page::Edit_page(Widget* page, int noteId, QWidget *parent) :
     m_noteHeadMenu->hide();
     ui->textEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->textEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    // 禁用右键菜单
     ui->textEdit->setContextMenuPolicy(Qt::NoContextMenu);
 //    ui->textEdit->setFontPointSize(14);
 

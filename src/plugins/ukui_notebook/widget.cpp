@@ -488,7 +488,7 @@ void Widget::initIconMode()
     qDebug() << "init Icon Mode";
 //    m_noteView = new NoteView(this);
 //    m_noteView->setMinimumSize(686,480);
-    m_noteView = static_cast<NoteView*>(ui->listView);
+    //m_noteView = static_cast<NoteView*>(ui->listView);
     m_noteView->setViewMode(QListView::IconMode);
     qDebug() << "initIconMode : current mode : " << m_noteView->viewMode();
 
@@ -522,11 +522,11 @@ void Widget::initListMode()
     m_noteView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     m_noteView->setFrameShape(QListView::NoFrame);
     //启用项的拖动
-    m_noteView->setDragEnabled(true);
+    //m_noteView->setDragEnabled(true);
     //允许用户将内部或外部项拖放到视图中
     //m_noteView->setAcceptDrops(true);
     //显示当前拖动的项将被放在什么地方
-    m_noteView->setDropIndicatorShown(true);
+    //m_noteView->setDropIndicatorShown(true);
     setupListModeModel();
 }
 
@@ -850,6 +850,8 @@ void Widget::findNotesContain(const QString& keyword)
 
 void Widget::searchInit()
 {
+    // 禁用右键菜单
+    ui->SearchLine->setContextMenuPolicy(Qt::NoContextMenu);
     ui->SearchLine->setPlaceholderText(tr("Search"));//设置详细输入框的提示信息
     searchAction = new QAction(ui->SearchLine);
     //searchAction->setIcon(QIcon(":/image/1x/sourch.png"));
