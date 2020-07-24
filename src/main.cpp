@@ -33,6 +33,7 @@
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 #include <X11/Xlib.h>
+#include <KWindowEffects>
 #include "sidebarpluginswidgets.h"
 #include "smallpluginsmanage.h"
 #include "mostgrandwidget.h"
@@ -104,6 +105,7 @@ int main(int argc, char *argv[])
     mostGrandWidget::getInstancemostGrandWidget()->LaoutSidebarWidget();
     mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(-500, 0);
     mostGrandWidget::getInstancemostGrandWidget()->setVisible(true);
+    KWindowEffects::enableBlurBehind(mostGrandWidget::getInstancemostGrandWidget()->winId(), true);
     w->m_bfinish = true;
     w->showAnimation();
 
