@@ -104,8 +104,9 @@ int main(int argc, char *argv[])
 
     mostGrandWidget::getInstancemostGrandWidget()->LaoutSidebarWidget();
     mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(-500, 0);
+    mostGrandWidget::getInstancemostGrandWidget()->setProperty("useSystemStyleBlur", true);
     mostGrandWidget::getInstancemostGrandWidget()->setVisible(true);
-    KWindowEffects::enableBlurBehind(mostGrandWidget::getInstancemostGrandWidget()->winId(), true);
+//    KWindowEffects::enableBlurBehind(mostGrandWidget::getInstancemostGrandWidget()->winId(), true);
     w->m_bfinish = true;
     w->showAnimation();
 
