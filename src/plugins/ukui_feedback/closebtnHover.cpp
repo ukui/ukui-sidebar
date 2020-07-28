@@ -15,36 +15,28 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include"systeminfo_button.h"
-#include "feedback.h"
-#include <QPointF>
-
-
-systeminfo_button::systeminfo_button(QWidget* parent) :QPushButton(parent)
+#include"closebtnHover.h"
+#include <QStyleOption>
+#include <QPainter>
+#include <QDebug>
+closeBtn_hover::closeBtn_hover(QWidget* parent) :QPushButton(parent)
 {
 
 }
-
-systeminfo_button::~systeminfo_button()
+closeBtn_hover::~closeBtn_hover()
 {
 
 }
-
-void systeminfo_button::enterEvent(QEvent *e)
+void closeBtn_hover::enterEvent(QEvent *e)
 {
-    QPointF position = QCursor::pos();
-    pfeedback->systeminfo_show(position);
+    Q_UNUSED(e);
+    setStyleSheet("background-color:rgb(240,65,52);border-image:url(:/image/close_hover.png);border-radius:4px;");
+
 }
-
-void systeminfo_button::leaveEvent(QEvent *e)
+void closeBtn_hover::leaveEvent(QEvent *e)
 {
-    pfeedback->systeminfo_hide();
-}
-
-//Resource/feedback_en.qm
-void systeminfo_button::setFeedBack(feedback *p)
-{
-    pfeedback = p;
+    Q_UNUSED(e);
+    setStyleSheet("background-color:rgb(255,255,255);border-image:url(:/image/close_default.png);border-radius:4px;");
 }
 
 

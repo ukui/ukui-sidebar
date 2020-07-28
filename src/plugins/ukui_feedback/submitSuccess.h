@@ -15,43 +15,47 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#ifndef SUBMIT_FAIL_H
-#define SUBMIT_FAIL_H
+#ifndef SUBMIT_SUCCESS_H
+#define SUBMIT_SUCCESS_H
 
 #include <QDialog>
 #include <QPushButton>
 #include <QLabel>
-#include "closeBtn_hover.h"
+#include "closebtnHover.h"
+
 class feedback;
 
-class submit_fail : public QDialog
+
+class submit_success : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit submit_fail(QWidget *parent = nullptr);
-    ~submit_fail();
-
-    void show_faillinfo(int errorcode);
+    explicit submit_success(QWidget *parent = nullptr);
+    ~submit_success();
 
 private slots:
     void on_pushButton_2_clicked();
-    void close_fail_window();
-    void resend_feedbackinfo();
+
+    void on_pushButton_clicked();
+    void succ_close_window();
+
 
 protected:
     void paintEvent(QPaintEvent*);
 
+
 private:
+    feedback *parentWnd;
 
     void UI_init();
-    feedback *parentWnd;
+
     QLabel *label;
+    closeBtn_hover * succ_closeBtn;
+    QPushButton *pushButton;
     QPushButton *pushButton_2;
-    closeBtn_hover * fail_closeBtn;
-    QPushButton * resendBtn;
     QLabel *label_2;
-    QLabel *label_3;
+
 };
 
-#endif // SUBMIT_FAIL_H
+#endif // SUBMIT_SUCCESS_H

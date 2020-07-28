@@ -15,47 +15,36 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#ifndef SUBMIT_SUCCESS_H
-#define SUBMIT_SUCCESS_H
-
-#include <QDialog>
-#include <QPushButton>
-#include <QLabel>
-#include "closeBtn_hover.h"
-
-class feedback;
+#include"systeminfoButton.h"
+#include "ukuiFeedback.h"
+#include <QPointF>
 
 
-class submit_success : public QDialog
+systeminfo_button::systeminfo_button(QWidget* parent) :QPushButton(parent)
 {
-    Q_OBJECT
 
-public:
-    explicit submit_success(QWidget *parent = nullptr);
-    ~submit_success();
+}
 
-private slots:
-    void on_pushButton_2_clicked();
+systeminfo_button::~systeminfo_button()
+{
 
-    void on_pushButton_clicked();
-    void succ_close_window();
+}
+
+void systeminfo_button::enterEvent(QEvent *e)
+{
+    QPointF position = QCursor::pos();
+    pfeedback->systeminfo_show(position);
+}
+
+void systeminfo_button::leaveEvent(QEvent *e)
+{
+    pfeedback->systeminfo_hide();
+}
+
+//Resource/feedback_en.qm
+void systeminfo_button::setFeedBack(feedback *p)
+{
+    pfeedback = p;
+}
 
 
-protected:
-    void paintEvent(QPaintEvent*);
-
-
-private:
-    feedback *parentWnd;
-
-    void UI_init();
-
-    QLabel *label;
-    closeBtn_hover * succ_closeBtn;
-    QPushButton *pushButton;
-    QPushButton *pushButton_2;
-    QLabel *label_2;
-
-};
-
-#endif // SUBMIT_SUCCESS_H
