@@ -29,7 +29,7 @@
 #include <QWidgetAction>
 #include <QTranslator>
 #include "customstyle.h"
-#include "customstyle_search_pushbutton.h"
+#include "customstyleSearchPushbutton.h"
 #include "clipboardwidgetentry.h"
 #include "clipboardsignal.h"
 extern ClipboardSignal *globalClipboardSignal;

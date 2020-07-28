@@ -17,7 +17,7 @@
 */
 #include "cleanpromptbox.h"
 #include "customstyle.h"
-#include "customstyle_pushbutton_2.h"
+#include "customstylePushbutton2.h"
 #include <QDebug>
 CleanPromptBox::CleanPromptBox()
 {

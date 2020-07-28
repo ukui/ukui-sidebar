@@ -11,7 +11,7 @@ TARGET = clipboardPlugin
 TEMPLATE = lib
 CONFIG += plugin
 
-DESTDIR = ../sidebar_clipboardPlugin_plugins
+DESTDIR = ../sidebar-clipboardPlugin-plugins
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
@@ -29,9 +29,9 @@ SOURCES += \
     cleanpromptbox.cpp \
     clipBoardInternalSignal.cpp \
     customstyle.cpp \
-    customstyle_clean_pushbutton.cpp \
-    customstyle_pushbutton_2.cpp \
-    customstyle_search_pushbutton.cpp \
+    customstyleCleanPushbutton.cpp \
+    customstylePushbutton2.cpp \
+    customstyleSearchPushbutton.cpp \
     pixmaplabel.cpp \
     sidebarclipboardplugin.cpp \
     clipboardwidgetentry.cpp \
@@ -47,9 +47,9 @@ HEADERS += \
     cleanpromptbox.h \
     clipBoardInternalSignal.h \
     customstyle.h \
-    customstyle_clean_pushbutton.h \
-    customstyle_pushbutton_2.h \
-    customstyle_search_pushbutton.h \
+    customstyleCleanPushbutton.h \
+    customstylePushbutton2.h \
+    customstyleSearchPushbutton.h \
     pixmaplabel.h \
     sidebarclipboardplugin.h \
     clipboardwidgetentry.h \
