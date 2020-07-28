@@ -15,7 +15,7 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include "customstyle_clean_pushbutton.h"
+#include "customstyleCleanPushbutton.h"
 #include <QWidget>
 
 #include <QStyleOption>

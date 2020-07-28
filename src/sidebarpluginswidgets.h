@@ -41,7 +41,7 @@
 #include "smallpluginsmanage.h"
 #include "mostgrandwidget.h"
 #include "pluginstoolbutton.h"
-#include "customstyle_clean_pushbutton.h"
+#include "customstyleCleanPushbutton.h"
 #include "customstyle.h"
 
 #define UKUI_TRANSPARENCY_SETTING "org.ukui.control-center.personalise"

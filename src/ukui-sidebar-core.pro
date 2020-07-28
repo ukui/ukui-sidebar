@@ -41,7 +41,7 @@ SOURCES += \
         pluginmanage.cpp \
         sidebar_app_log.cpp \
         customstyle.cpp \
-        customstyle_clean_pushbutton.cpp
+        customstyleCleanPushbutton.cpp
 
 INCLUDEPATH += ./plugin-interface
 
@@ -55,7 +55,7 @@ HEADERS += \
         pluginmanage.h \
         sidebar_app_log.h \
         customstyle.h \
-        customstyle_clean_pushbutton.h
+        customstyleCleanPushbutton.h
 
 
 INCLUDEPATH +=./plugin-interface ./plugin-sub-manager

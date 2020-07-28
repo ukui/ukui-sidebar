@@ -18,7 +18,7 @@
 
 
 #include "clipboardwidgetentry.h"
-#include "customstyle_clean_pushbutton.h"
+#include "customstyleCleanPushbutton.h"
 #include <QTimer>
 #include <QStyleOption>
 #include <QPainter>
