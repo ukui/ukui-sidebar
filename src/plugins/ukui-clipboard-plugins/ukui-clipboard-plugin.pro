@@ -33,7 +33,7 @@ SOURCES += \
     customstyle_pushbutton_2.cpp \
     customstyle_search_pushbutton.cpp \
     pixmaplabel.cpp \
-        sidebarclipboardplugin.cpp \
+    sidebarclipboardplugin.cpp \
     clipboardwidgetentry.cpp \
     editorwidget.cpp \
     searchwidgetitemcontent.cpp \
@@ -51,7 +51,7 @@ HEADERS += \
     customstyle_pushbutton_2.h \
     customstyle_search_pushbutton.h \
     pixmaplabel.h \
-        sidebarclipboardplugin.h \
+    sidebarclipboardplugin.h \
     clipboardwidgetentry.h \
     clipboardsignal.h \
     editorwidget.h \
