@@ -19,8 +19,8 @@
 #define FEEDBACK_H
 
 
-#include "submit_fail.h"
-#include "submit_success.h"
+#include "submitFail.h"
+#include "submitSuccess.h"
 #include <QMainWindow>
 #include <QLabel>
 #include <QDialog>
@@ -53,16 +53,16 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QWidget>
-#include <browse_button.h>
-#include <systeminfo_button.h>
-#include "closeBtn_hover.h"
+#include <browseButton.h>
+#include <systeminfoButton.h>
+#include "closebtnHover.h"
 #include  <QListWidget>
 #include <QStyleOption>
 #include <QPainter>
 #include <QPixmap>
-#include "fileitem_init.h"
+#include "fileitemInit.h"
 #include <QTimer>
-#include"hidebtnhover.h"
+#include"hidebtnHover.h"
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QBitmap>

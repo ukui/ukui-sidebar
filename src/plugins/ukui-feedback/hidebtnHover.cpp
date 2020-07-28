@@ -15,7 +15,7 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include"hidebtnhover.h"
+#include"hidebtnHover.h"
 #include <QStyleOption>
 #include <QPainter>
 #include <QDebug>

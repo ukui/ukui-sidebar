@@ -16,7 +16,7 @@
  *
  */
 
-#include "customstyle.h"
+#include "customStyle.h"
 
 #include <QStyleOptionToolButton>
 #include <QPainter>

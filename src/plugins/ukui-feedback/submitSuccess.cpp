@@ -15,30 +15,26 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include "submit_fail.h"
-#include "feedback.h"
-#include "browse_button.h"
+#include "submitSuccess.h"
+#include "ukuiFeedback.h"
+#include "browseButton.h"
 #include <QPainterPath>
-
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
-
-submit_fail::submit_fail(QWidget *parent) :
+submit_success::submit_success(QWidget *parent) :
     QDialog(parent)
 {
-    UI_init();
     parentWnd = (feedback *)parent;
-    setAttribute(Qt::WA_TranslucentBackground);
+    UI_init();
 }
-
-void submit_fail::UI_init()
+void submit_success::UI_init()
 {
     if (this->objectName().isEmpty())
-        this->setObjectName(QString::fromUtf8("submit_fail"));
-    setWindowTitle(tr("提交失败"));
-
+        this->setObjectName(QString::fromUtf8("submit_success"));
     this->resize(430, 260);
-
+    setWindowTitle(tr("提交成功 "));
+    this->setAttribute(Qt::WA_TranslucentBackground);
     this->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
+
     QBitmap bmp(this->size());
 
     bmp.fill();
@@ -56,97 +52,69 @@ void submit_fail::UI_init()
     setMask(bmp);
     //----- ------------------------
 
-
     label = new QLabel(this);
-    label->setText(tr("问题提交失败"));
+    label->setText(tr("问题提交成功"));
     label->setObjectName(QString::fromUtf8("label"));
-    label->setGeometry(QRect(130, 85, 281, 60));
+    label->setGeometry(QRect(130, 85, 291, 60));
     label->setStyleSheet(QString::fromUtf8("font: 30px;\n"
                                            "color: rgb(68, 68, 68);"));
 
 
-    fail_closeBtn = new closeBtn_hover(this);
-    fail_closeBtn->setGeometry(QRect(386, 14, 30, 30));
-    fail_closeBtn->setStyleSheet("background-color: rgb(255,255,255);border-image:url(:/image/close_default.png);border-radius:4px;");
 
-    connect(fail_closeBtn,SIGNAL(clicked()),this,SLOT(close_fail_window()));
+    succ_closeBtn = new closeBtn_hover(this);
+    succ_closeBtn->setGeometry(QRect(386, 14, 30, 30));
+    succ_closeBtn->setStyleSheet("background-color: rgb(255,255,255);border-image:url(:/image/close_default.png);border-radius:4px;");
+    connect(succ_closeBtn,SIGNAL(clicked()),this,SLOT(succ_close_window()));
 
-    resendBtn = new QPushButton(this);
-    resendBtn->setGeometry(QRect(130, 160, 60, 26));
-    resendBtn->setText(tr("重新发送"));
-    resendBtn->setFlat(false);
-    resendBtn->setStyleSheet(QString::fromUtf8("QPushButton{color: rgb(61, 107, 229);background-color:rgb(255,255,255)}"
-                                               "QPushButton:hover {color: rgb(255,255,255);background-color:rgb(107,142,235)}"
-                                               ""));
-    connect(resendBtn,SIGNAL(clicked()),this,SLOT(resend_feedbackinfo()));
-
+    pushButton = new QPushButton(this);
+    pushButton->setText(tr("继续反馈问题"));
+    pushButton->setObjectName(QString::fromUtf8("pushButton"));
+    pushButton->setGeometry(QRect(110, 165, 131, 26));
+    pushButton->setFlat(false);
+    pushButton->setStyleSheet(QString::fromUtf8("QPushButton{color: rgb(61, 107, 229);background-color:rgb(255,255,255)}"
+                                                  "QPushButton:hover {color: rgb(255,255,255);background-color:rgb(107,142,235)}"
+                                                  ""));
     pushButton_2 = new QPushButton(this);
     pushButton_2->setText(tr("退出"));
     pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
-    pushButton_2->setGeometry(QRect(220, 160, 40, 26));
+    pushButton_2->setGeometry(QRect(270, 165, 81, 26));
     pushButton_2->setFlat(false);
     pushButton_2->setStyleSheet(QString::fromUtf8("QPushButton{color: rgb(61, 107, 229);background-color:rgb(255,255,255)}"
                                                   "QPushButton:hover {color: rgb(255,255,255);background-color:rgb(107,142,235)}"
                                                   ""));
-
     label_2 = new QLabel(this);
     label_2->setObjectName(QString::fromUtf8("label_2"));
     label_2->setGeometry(QRect(70, 94, 50, 50));
-    label_2->setStyleSheet(QString::fromUtf8("background-image: url(://fail.png);"));
-    label_3 = new QLabel(this);
-    label_3->setObjectName(QString::fromUtf8("label_3"));
-    label_3->setGeometry(QRect(130, 140, 291, 16));
-    label_3->setStyleSheet(QString::fromUtf8("font: 12px;\n"
-                                             "color: rgb(33, 33, 33);"));
+    label_2->setStyleSheet(QString::fromUtf8("background-image: url(:/image/success.png);"));
 
+    connect(pushButton,SIGNAL(clicked()),this,SLOT(on_pushButton_clicked()));
     connect(pushButton_2,SIGNAL(clicked()),this,SLOT(on_pushButton_2_clicked()));
+    qDebug()<<"submit_success::UI_init()";
+    this->show();
 }
-void submit_fail::show_faillinfo(int error_code)
+submit_success::~submit_success()
 {
-    switch (error_code) {
-    case 1:
-        label_3->setText(tr("远程服务器拒绝连接"));
-        break;
-    case 2:
-        label_3->setText(tr("服务器关闭"));
-        break;
-    case 3:
-        label_3->setText(tr("找不到远程主机名（无效的主机名）"));
-        break;
-    case 4:
-        label_3->setText(tr("与远程服务器的连接超时"));
-        break;
-    case 99:
-        label_3->setText(tr("网络未连接"));
-        break;
-    default:
-        label_3->setText(tr("未知错误"));
-        break;
-    }
-}
-submit_fail::~submit_fail()
-{
+
 }
 
-void submit_fail::on_pushButton_2_clicked()
+void submit_success::on_pushButton_2_clicked()
 {
-    this->hide();
+    this->close();
     parentWnd->window_close();
 }
-void submit_fail::close_fail_window()
-{
-    this->hide();
-}
-void submit_fail::resend_feedbackinfo()
-{
-    close();
-    parentWnd->resend_info_when_sendfail();
 
+void submit_success::on_pushButton_clicked()
+{
+    parentWnd ->feedback_info_init();
+    close();
 }
-void submit_fail::paintEvent(QPaintEvent *e)
+void submit_success::succ_close_window()
+{
+    this->close();
+}
+void submit_success::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e);
-
 
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);
@@ -165,7 +133,6 @@ void submit_fail::paintEvent(QPaintEvent *e)
     QImage img = pixmap.toImage();
     qt_blurImage(img, 10, false, false);
 
-
     pixmap = QPixmap::fromImage(img);
     QPainter pixmapPainter2(&pixmap);
     pixmapPainter2.setRenderHint(QPainter::Antialiasing);
@@ -175,6 +142,7 @@ void submit_fail::paintEvent(QPaintEvent *e)
     pixmapPainter2.drawPath(rectPath);
 
     p.drawPixmap(this->rect(), pixmap, pixmap.rect());
+
     p.save();
     p.fillPath(rectPath, QColor(255, 255, 255));
     p.restore();

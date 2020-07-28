@@ -22,39 +22,39 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 
-TRANSLATIONS += translation/feedback_en_US.ts
+TRANSLATIONS += translation/ukui-feedback_tr.ts
 
 SOURCES += \
-    browse_button.cpp \
-    closeBtn_hover.cpp \
-    customstyle.cpp \
-    feedback.cpp \
-    fileitem_init.cpp \
-    hidebtnhover.cpp \
+    browseButton.cpp \
+    closebtnHover.cpp \
+    customStyle.cpp \
+    fileitemInit.cpp \
+    hidebtnHover.cpp \
     main.cpp \
     singleApplication.cpp \
-    submit_fail.cpp \
-    submit_success.cpp \
-    systeminfo_button.cpp \
+    submitFail.cpp \
+    submitSuccess.cpp \
+    systeminfoButton.cpp \
+    ukuiFeedback.cpp
 
 
 
 HEADERS += \
-    browse_button.h \
-    closeBtn_hover.h \
-    customstyle.h \
-    feedback.h \
-    fileitem_init.h \
-    hidebtnhover.h \
+    browseButton.h \
+    closebtnHover.h \
+    customStyle.h \
+    fileitemInit.h \
+    hidebtnHover.h \
     singleApplication.h \
-    submit_fail.h \
-    submit_success.h \
-    systeminfo_button.h \
+    submitFail.h \
+    submitSuccess.h \
+    systeminfoButton.h \
+    ukuiFeedback.h
 
 
 
 RESOURCES += \
-    feedback.qrc
+    ukuiFeedback.qrc
 
 DISTFILES +=
 

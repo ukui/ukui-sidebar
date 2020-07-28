@@ -15,28 +15,19 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include"closeBtn_hover.h"
-#include <QStyleOption>
-#include <QPainter>
-#include <QDebug>
-closeBtn_hover::closeBtn_hover(QWidget* parent) :QPushButton(parent)
-{
+#include "fileitemInit.h"
+#include <QWidget>
 
-}
-closeBtn_hover::~closeBtn_hover()
+fileitem_init::fileitem_init(QWidget *parent) :
+    QWidget(parent)
 {
-
-}
-void closeBtn_hover::enterEvent(QEvent *e)
-{
-    Q_UNUSED(e);
-    setStyleSheet("background-color:rgb(240,65,52);border-image:url(:/image/close_hover.png);border-radius:4px;");
-
-}
-void closeBtn_hover::leaveEvent(QEvent *e)
-{
-    Q_UNUSED(e);
-    setStyleSheet("background-color:rgb(255,255,255);border-image:url(:/image/close_default.png);border-radius:4px;");
+    if (this->objectName().isEmpty())
+        this->setObjectName(QString::fromUtf8("fileitem_init"));
+    deletebtn0 = new QPushButton(this);
+    filename_label0 = new QLabel(this);
+    filesize_label0 = new QLabel(this);
 }
 
-
+fileitem_init::~fileitem_init()
+{
+}

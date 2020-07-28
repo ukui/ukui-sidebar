@@ -15,7 +15,7 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include "feedback.h"
+#include "ukuiFeedback.h"
 
 #include "singleApplication.h"
 #include <QDesktopWidget>

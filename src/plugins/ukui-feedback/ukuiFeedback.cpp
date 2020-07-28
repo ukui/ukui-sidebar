@@ -15,9 +15,9 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include "feedback.h"
-#include "submit_fail.h"
-#include "submit_success.h"
+#include "ukuiFeedback.h"
+#include "submitFail.h"
+#include "submitSuccess.h"
 #include <QFileDialog>
 #include <QApplication>
 #include <QDebug>
@@ -39,9 +39,9 @@
 #include <QTranslator>
 #include <QLocale>
 #include <QStandardPaths>
-#include "fileitem_init.h"
+#include "fileitemInit.h"
 #include <QTimer>
-#include "customstyle.h"
+#include "customStyle.h"
 #include <QStyleFactory>
 #include <QElapsedTimer>
 #include <QDesktopWidget>
@@ -57,11 +57,11 @@ feedback::feedback(QWidget *parent)
     //获取系统语言环境
     //Get the system language environment
     if ( locale.language() == QLocale::English ) {
-        translator->load(QString("://translation/feedback_en_US.qm"));
+        translator->load(QString("://translation/ukui-feedback_tr.qm "));
         QApplication::installTranslator(translator);
     }
     else if ( locale.language() == QLocale::Chinese ) {
-        translator->load(QString("://translation/widgets.qm"));
+        translator->load(QString("://translation/ukui-feedback_widget_tr.qm"));
         QApplication::installTranslator(translator);
     }
     UI_init();

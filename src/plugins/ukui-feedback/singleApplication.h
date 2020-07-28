@@ -21,7 +21,7 @@
 #include <QObject>
 #include <QApplication>
 #include <QtNetwork/QLocalServer>
-#include "feedback.h"
+#include "ukuiFeedback.h"
 
 class SingleApplication : public QApplication {
     Q_OBJECT

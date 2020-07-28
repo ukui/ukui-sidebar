@@ -15,7 +15,7 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include"browse_button.h"
+#include"browseButton.h"
 
 browse_button::browse_button(QWidget* parent) :QPushButton(parent)
 {
