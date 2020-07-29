@@ -28,7 +28,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    notification_plugin.cpp \
+    notificationPlugin.cpp \
     appmsg.cpp \
     scrollareawidget.cpp \
     takeinboxtoolbutton.cpp \
@@ -39,14 +39,14 @@ SOURCES += \
 INCLUDEPATH    += ../../plugin-interface \
                  /usr/include/dconf
 HEADERS += \
-    notification_plugin.h \
+    notificationPlugin.h \
     appmsg.h \
     scrollareawidget.h \
     takeinboxtoolbutton.h \
     monitorthread.h \
     singlemsg.h \
     buttonwidget.h
-DISTFILES += notification_plugin.json  
+DISTFILES += notificationPlugin.json
 
 unix {
     target.path = /usr/lib/ukui-sidebar/notification
@@ -60,4 +60,4 @@ unix {
 
 TRANSLATIONS += ../../../translations/notification_plugin/language.ts
 RESOURCES += \
-    notification_plugin.qrc
+    notificationPlugin.qrc

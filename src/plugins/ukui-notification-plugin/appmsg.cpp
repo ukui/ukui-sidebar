@@ -18,7 +18,7 @@
 
 
 #include "appmsg.h"
-#include "notification_plugin.h"
+#include "notificationPlugin.h"
 #include "singlemsg.h"
 #include "monitorthread.h"
 AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)

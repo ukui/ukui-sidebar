@@ -34,7 +34,7 @@ class NotificationPlugin : public QObject, public NotificationInterface
     //Q_INTERFACES宏用于告诉Qt该类实现的接口
     Q_INTERFACES(NotificationInterface)
     //Q_PLUGIN_METADATA宏用于描述插件元数据
-    Q_PLUGIN_METADATA(IID NotificationInterface_iid FILE "notification_plugin.json")
+    Q_PLUGIN_METADATA(IID NotificationInterface_iid FILE "notificationPlugin.json")
     //申明该类有D-BUS服务接口
     //Q_CLASSINFO("D-Bus Interface", "com.scorpio.test.value")
 

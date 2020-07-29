@@ -16,7 +16,7 @@
 *
 */
 
-#include "notification_plugin.h"
+#include "notificationPlugin.h"
 #include "appmsg.h"
 #include "scrollareawidget.h"
 #include "takeinboxtoolbutton.h"
@@ -42,7 +42,7 @@ NotificationPlugin::NotificationPlugin()
     }
 
     //加载样式表
-    QFile file(":/qss/notification_plugin.css");
+    QFile file(":/qss/notificationPlugin.css");
     if (file.open(QFile::ReadOnly))
     {
         QString strQss = QLatin1String(file.readAll());
