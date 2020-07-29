@@ -33,7 +33,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     QLocale locale;
     /* 获取系统语言环境, 选择翻译文件 */
     if( locale.language() == QLocale::Chinese ) {
-        m_pTranslator->load(QString(":/sidebartranslat/Sidebar_zh_CN.qm"));
+        m_pTranslator->load(QString(":/sidebartranslat/sidebarZhCn.qm"));
         QApplication::installTranslator(m_pTranslator);
     }
     m_bShowFlag = false;

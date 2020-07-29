@@ -8,7 +8,7 @@
         <file>data/images/kylin-notebook.svg</file>
         <file>data/images/kylin-feedback.png</file>
         <file>data/images/application-menu.svg</file>
-        <file>sidebartranslat/Sidebar_zh_CN.qm</file>
-        <file>sidebartranslat/Sidebar_tr.ts</file>
+        <file>sidebartranslat/sidebarZhCn.qm</file>
+        <file>sidebartranslat/SidebarTr.ts</file>
     </qresource>
 </RCC>

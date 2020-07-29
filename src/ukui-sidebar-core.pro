@@ -39,7 +39,7 @@ SOURCES += \
         smallpluginsmanage.cpp \
         widget.cpp \
         pluginmanage.cpp \
-        sidebar_app_log.cpp \
+        sidebarAppLog.cpp \
         customstyle.cpp \
         customstyleCleanPushbutton.cpp
 
@@ -53,7 +53,7 @@ HEADERS += \
         smallpluginsmanage.h \
         widget.h \
         pluginmanage.h \
-        sidebar_app_log.h \
+        sidebarAppLog.h \
         customstyle.h \
         customstyleCleanPushbutton.h
 

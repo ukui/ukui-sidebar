@@ -19,7 +19,7 @@
 
 #include "widget.h"
 #include "pluginmanage.h"
-#include "sidebar_app_log.h"
+#include "sidebarAppLog.h"
 #include <stdio.h>
 #include <sys/file.h>
 #include <unistd.h>

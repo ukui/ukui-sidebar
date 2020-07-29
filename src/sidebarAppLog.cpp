@@ -17,7 +17,7 @@
 */
 
 
-#include "sidebar_app_log.h"
+#include "sidebarAppLog.h"
 #include <QFile>
 #include <QFileInfo>
 #include <QDir>
