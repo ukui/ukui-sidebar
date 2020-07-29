@@ -22,6 +22,8 @@
 #include <QWidget>
 #include <QStyleOption>
 #include <QPainter>
+#include <QPainterPath>
+#include <QBitmap>
 
 namespace Ui {
 class PaletteWidget;

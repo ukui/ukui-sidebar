@@ -98,7 +98,7 @@ void Edit_page::paintEvent(QPaintEvent *event)
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
 
     QPainterPath rectPath;
-    rectPath.addRoundedRect(this->rect().adjusted(2, 2, -2, -2), 6, 6);
+    rectPath.addRoundedRect(this->rect().adjusted(1, 1, -1, -1), 6, 6);
 
     // 画一个黑底
     QPixmap pixmap(this->rect().size());
