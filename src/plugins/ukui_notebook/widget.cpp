@@ -26,6 +26,7 @@
 
 #define FIRST_LINE_MAX 80
 int sink = 0;
+extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
@@ -232,14 +233,15 @@ void Widget::kyNoteInit()
     //搜索框
     searchInit();//搜索栏属性
 
-//    QBitmap bmp(this->size());
-//    bmp.fill();
-//    QPainter p(&bmp);
-//    p.setPen(Qt::NoPen);
-//    p.setBrush(Qt::black);
-//    p.setRenderHint(QPainter::Antialiasing);
-//    p.drawRoundedRect(bmp.rect(),6,6);
-//    setMask(bmp);
+    QBitmap bmp(this->size());
+    bmp.fill();
+    QPainter p(&bmp);
+    p.setPen(Qt::NoPen);
+    p.setBrush(Qt::black);
+    p.setRenderHint(QPainter::Antialiasing);
+    p.drawRoundedRect(bmp.rect(),6,6);
+    setMask(bmp);
+
 
     //ui->set_btn->hide();
     //m_viewChangeButton->hide();
@@ -856,8 +858,8 @@ void Widget::searchInit()
     searchAction = new QAction(ui->SearchLine);
     //searchAction->setIcon(QIcon(":/image/1x/sourch.png"));
     searchAction->setIcon(QIcon::fromTheme("system-search-symbolic"));
-    searchAction->setProperty("useIconHighlightEffect", true);
-    searchAction->setProperty("iconHighlightEffectMode", 1);
+    ui->SearchLine->setProperty("useIconHighlightEffect", true);
+    ui->SearchLine->setProperty("iconHighlightEffectMode", 1);
     ui->SearchLine->addAction(searchAction,QLineEdit::LeadingPosition);  //图片在左侧
 
 //    ui->searchBtn->setIcon(QIcon::fromTheme("system-search-symbolic"));
@@ -977,33 +979,50 @@ void Widget::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e);
 //    系统默认 255 、 248  深色模式 30 34
-
-
-    QStyleOption opt;
-    opt.init(this);
+//    QStyleOption opt;
+//    opt.init(this);
     QPainter p(this);
-
-    p.setBrush(opt.palette.color(QPalette::Base));
-    //qDebug() << "paintEvent" << p.brush().color().value();
-    //p.setOpacity(0.3);
-    p.setPen(Qt::NoPen);
-
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-    p.drawRoundedRect(opt.rect,6,6);
-    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
-    if(p.brush().color().value() == 255)
-    {
-        m_isThemeChanged = 1;
-    }/*else if(p.brush().color().value() == 248)
-    {
-        light_show();
-    }else if(p.brush().color().value() == 30)
-    {
-        black_show();
-    }*/else if(p.brush().color().value() == 34)
-    {
-        m_isThemeChanged = 0;
-    }
+//    p.setBrush(opt.palette.color(QPalette::Base));
+//    //qDebug() << "paintEvent" << p.brush().color().value();
+//    //p.setOpacity(0.3);
+//    p.setPen(Qt::NoPen);
+//    p.drawRoundedRect(opt.rect,6,6);
+//    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+
+    QPainterPath rectPath;
+    rectPath.addRoundedRect(this->rect().adjusted(6, 6, -6, -6), 6, 6);
+
+    // 画一个黑底
+    QPixmap pixmap(this->rect().size());
+    pixmap.fill(Qt::transparent);
+    QPainter pixmapPainter(&pixmap);
+    pixmapPainter.setRenderHint(QPainter::Antialiasing);
+    pixmapPainter.setPen(Qt::transparent);
+    pixmapPainter.setBrush(Qt::black);
+    pixmapPainter.drawPath(rectPath);
+    pixmapPainter.end();
+
+    // 模糊这个黑底
+    QImage img = pixmap.toImage();
+    qt_blurImage(img, 10, false, false);
+
+    // 挖掉中心
+    pixmap = QPixmap::fromImage(img);
+    QPainter pixmapPainter2(&pixmap);
+    pixmapPainter2.setRenderHint(QPainter::Antialiasing);
+    pixmapPainter2.setCompositionMode(QPainter::CompositionMode_Clear);
+    pixmapPainter2.setPen(Qt::transparent);
+    pixmapPainter2.setBrush(Qt::transparent);
+    pixmapPainter2.drawPath(rectPath);
+
+    // 绘制阴影
+    p.drawPixmap(this->rect(), pixmap, pixmap.rect());
+
+    // 绘制一个背景
+    p.save();
+    p.fillPath(rectPath,palette().color(QPalette::Base));
+    p.restore();
 }
 
 //********************Slots************************//
