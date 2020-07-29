@@ -19,11 +19,22 @@
 #include "paletteWidget.h"
 #include "ui_paletteWidget.h"
 
+extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
+
 PaletteWidget::PaletteWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PaletteWidget)
 {
     ui->setupUi(this);
+
+    QBitmap bmp(this->size());
+    bmp.fill();
+    QPainter p(&bmp);
+    p.setPen(Qt::NoPen);
+    p.setBrush(Qt::black);
+    p.setRenderHint(QPainter::Antialiasing);
+    p.drawRoundedRect(bmp.rect(),6,6);
+    setMask(bmp);
 }
 
 PaletteWidget::~PaletteWidget()
@@ -34,15 +45,40 @@ PaletteWidget::~PaletteWidget()
 void PaletteWidget::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
-    QStyleOption opt;
-    opt.init(this);
     QPainter p(this);
-
-    p.setBrush(opt.palette.color(QPalette::Base));
-    p.setOpacity(0.9);
-    p.setPen(Qt::NoPen);
-
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-    p.drawRoundedRect(opt.rect,6,6);
-    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+
+    QPainterPath rectPath;
+    rectPath.addRoundedRect(this->rect().adjusted(1, 1, -1, -1), 6, 6);
+
+    // 画一个黑底
+    QPixmap pixmap(this->rect().size());
+    pixmap.fill(Qt::transparent);
+    QPainter pixmapPainter(&pixmap);
+    pixmapPainter.setRenderHint(QPainter::Antialiasing);
+    pixmapPainter.setPen(Qt::transparent);
+    pixmapPainter.setBrush(Qt::black);
+    pixmapPainter.drawPath(rectPath);
+    pixmapPainter.end();
+
+    // 模糊这个黑底
+    QImage img = pixmap.toImage();
+    qt_blurImage(img, 10, false, false);
+
+    // 挖掉中心
+    pixmap = QPixmap::fromImage(img);
+    QPainter pixmapPainter2(&pixmap);
+    pixmapPainter2.setRenderHint(QPainter::Antialiasing);
+    pixmapPainter2.setCompositionMode(QPainter::CompositionMode_Clear);
+    pixmapPainter2.setPen(Qt::transparent);
+    pixmapPainter2.setBrush(Qt::transparent);
+    pixmapPainter2.drawPath(rectPath);
+
+    // 绘制阴影
+    p.drawPixmap(this->rect(), pixmap, pixmap.rect());
+
+    // 绘制一个背景
+    p.save();
+    p.fillPath(rectPath,palette().color(QPalette::Base));
+    p.restore();
 }

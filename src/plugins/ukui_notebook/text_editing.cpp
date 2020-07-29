@@ -71,7 +71,7 @@ void Text_editing::paintEvent(QPaintEvent *)
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
     painter.setBrush(opt.palette.color(QPalette::Base));
-
+    painter.setOpacity(0.9);
     // 小三角区域;
     QPolygon trianglePolygon;
     trianglePolygon << QPoint(m_startX, m_triangleHeight + SHADOW_WIDTH);
