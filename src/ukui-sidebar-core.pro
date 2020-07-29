@@ -59,8 +59,8 @@ HEADERS += \
 
 
 INCLUDEPATH +=./plugin-interface ./plugin-sub-manager
-TRANSLATIONS += Sidebar_zh_CN.ts
-TRANSLATIONS += Sidebar_tr.ts
+TRANSLATIONS += sidebarZhCn.ts
+TRANSLATIONS += sidebarTr.ts
 TRANSLATIONS += bo.ts
 CONFIG += link_pkgconfig
 
