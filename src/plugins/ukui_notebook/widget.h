@@ -45,6 +45,7 @@
 #include <QBitmap>
 #include <vector>
 #include <QTableView>
+#include <QPainterPath>
 
 #include "mythrow.h"
 #include "noteview.h"

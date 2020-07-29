@@ -21,6 +21,8 @@
 
 #include <QDialog>
 #include <QPainter>
+#include <QPainterPath>
+#include <QBitmap>
 
 class Widget;
 namespace Ui {
