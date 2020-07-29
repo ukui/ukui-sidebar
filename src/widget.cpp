@@ -114,7 +114,7 @@ Widget::~Widget()
 //加载通知中心插件
 bool Widget::loadNotificationPlugin()
 {
-    QDir pluginsDir("/usr/lib/ukui-sidebar/notification");
+    QDir pluginsDir("./plugins/notification-plugins");
     QPluginLoader pluginLoader(pluginsDir.absoluteFilePath("libnotification_plugin.so"));
 
     m_pNotificationPluginObject = pluginLoader.instance();
@@ -136,7 +136,7 @@ bool Widget::loadNotificationPlugin()
 //加载剪贴板插件
 int Widget::ListenClipboardSignal()
 {
-    QDir pluginsDir("/usr/lib/ukui-sidebar/sidebar_clipboardPlugin_plugins");
+    QDir pluginsDir("./plugins/sidebar-clipboardPlugin-plugins");
     pluginsDir.setFilter(QDir::Files);
 
     QPluginLoader pluginLoader(pluginsDir.absoluteFilePath("libclipboardPlugin.so"));

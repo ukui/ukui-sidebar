@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>qss/notification_plugin.css</file>
+        <file>qss/notificationPlugin.css</file>
         <file>images/hover.svg</file>
         <file>images/hover-translucent.svg</file>
         <file>images/box-14-translucent.svg</file>

@@ -10,7 +10,7 @@
         <file>qss/sidebarClipboard.css</file>
         <file>qss/sideBarEditArea.css</file>
         <file>qss/sideBarSearchArea.css</file>
-        <file>translations/test_zh_CN.qm</file>
+        <file>translations/sidebarZhCn.qm</file>
         <file>translations/qt_zh_CN.qm</file>
         <file>translations/widgets.qm</file>
         <file>image/kylin-feedback.png</file>

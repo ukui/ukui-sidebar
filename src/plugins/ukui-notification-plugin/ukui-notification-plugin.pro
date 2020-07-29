@@ -11,7 +11,7 @@ TEMPLATE = lib
 CONFIG += plugin \
           link_pkgconfig
 
-DESTDIR = ../notification_plugins
+DESTDIR = ../notification-plugins
 
 PKGCONFIG += gsettings-qt \
              glib-2.0

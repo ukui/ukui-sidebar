@@ -63,11 +63,11 @@ HEADERS += \
     previewimagewidget.h
 DISTFILES += clipboardPlugin.json 
 
-TRANSLATIONS += test_zh_CN.ts
+TRANSLATIONS += sidebarZhCn.ts
 TRANSLATIONS += bo.ts
 TRANSLATIONS += tr.ts
 
 unix {
-    target.path = /usr/lib/ukui-sidebar/sidebar_clipboardPlugin_plugins
+    target.path = /usr/lib/ukui-sidebar/ukui-sidebar-clipboardPlugin-plugins
     INSTALLS += target
 }
