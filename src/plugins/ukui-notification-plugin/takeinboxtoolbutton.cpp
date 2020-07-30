@@ -60,6 +60,7 @@ void TakeInBoxToolButton::leaveEvent(QEvent *event)
 //鼠标点击事件
 void TakeInBoxToolButton::mousePressEvent(QMouseEvent *event)
 {
+    this->setStyleSheet("QToolButton{background-color:rgba(255,255,255,0.08);}");
     if (event->buttons() == Qt::LeftButton)
     {
         setIconSize(QSize(20,20));

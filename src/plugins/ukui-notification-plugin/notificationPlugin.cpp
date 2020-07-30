@@ -60,7 +60,7 @@ NotificationPlugin::NotificationPlugin()
     //装第一行通知中心的Widget
     QWidget* pWidget1= new QWidget;
     pWidget1->setObjectName("NotificationName");
-
+    pWidget1->setStyleSheet("QWidget{background-color:transparent ;}");
     //第一行通知中心标题栏，左侧标题“通知中心”，右侧收纳按钮
     QHBoxLayout* pQHBoxLayout1 = new QHBoxLayout;
     pQHBoxLayout1->setContentsMargins(11,0,28,0);
@@ -71,10 +71,11 @@ NotificationPlugin::NotificationPlugin()
 
     //收纳按钮
     m_pTakeInBoxToolButton = new TakeInBoxToolButton();
-    m_pTakeInBoxToolButton->setObjectName("takein");
+//    m_pTakeInBoxToolButton->setObjectName("takein");
+//    m_pTakeInBoxToolButton->setStyleSheet("QToolButton{background-color:rgba(0,0,255,0);}");
+    m_pTakeInBoxToolButton->setStyleSheet("QToolButton:hover{background-color:rgba(255,0,0,1);}");
     connect(m_pTakeInBoxToolButton, SIGNAL(Sig_clicked()), this, SLOT(onShowTakeInMessage()));
-
-    //QToolButton添加svg图片
+       //QToolButton添加svg图片
     m_pSvgRender = new QSvgRenderer(pWidget1);
     m_pSvgRender->load(QString(":/images/box-24.svg"));
     m_pTakeInBoxToolButton->setFixedSize(24,24);
@@ -89,6 +90,7 @@ NotificationPlugin::NotificationPlugin()
     pQHBoxLayout1->addWidget(pLabel, 0, Qt::AlignLeft);
     pQHBoxLayout1->addWidget(m_pTakeInBoxToolButton, 0, Qt::AlignRight);
     pWidget1->setLayout(pQHBoxLayout1);
+//    pWidget1->setStyleSheet("QWidget{background-color:rgba(0,255,0,0);}");
     pNotificationVBoxLayout->addWidget(pWidget1);
 
     //悬浮收纳数标签
@@ -96,7 +98,9 @@ NotificationPlugin::NotificationPlugin()
     m_pTakeInCoutLabel->setObjectName("takeincout");
     m_pTakeInCoutLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     m_pTakeInCoutLabel->setVisible(false);
-
+    m_pTakeInCoutLabel->setStyleSheet("QLabel{font-size:11px;"
+                                      "background-color:rgba(61,107,229,1);"
+                                      "border-radius:6px;}");
     //添加24px的间距
     QSpacerItem* pVFixedSpacer = new QSpacerItem(10, 24, QSizePolicy::Fixed, QSizePolicy::Fixed);
     pNotificationVBoxLayout->addSpacerItem(pVFixedSpacer);
@@ -118,33 +122,81 @@ NotificationPlugin::NotificationPlugin()
     m_pClearAllToolButton->setObjectName("clearall");
     connect(m_pClearAllToolButton, SIGNAL(clicked()), this, SLOT(onClearAllMessage()));
     m_pClearAllToolButton->setText(QObject::tr("Clean up"));
+//    m_pClearAllToolButton->setStyleSheet("QPushButton{color:rgba(255,255,255,0.91);}"
+    m_pClearAllToolButton->setStyleSheet("QPushButton{"
+                                         "color:rgba(255,255,255,0.91);"
+                                         "font-weight:400;border:0px;"
+                                         "line-height:24px;"
+                                         "font-size:14px;"
+                                         " width:80px;"
+                                         "height:34px;}"
+                                         "QPushButton:hover{"
+                                         "color:rgba(255,255,255,0.91);"
+                                         "background:rgba(255,255,255,0.12);"
+                                         "font-weight:400;border:0px;"
+                                         "line-height:24px;"
+                                         "font-size:14px;"
+                                         " width:80px;"
+                                         "height:34px;}"
 
+                                         "QPushButton:pressed#clearall{"
+                                         "color:rgba(255,255,255,0.91);"
+                                         "background:rgba(255,255,255,0.08);"
+                                         "font-weight:400;border:0px;"
+                                         "line-height:24px;"
+                                         "font-size:14px;"
+                                         " width:80px;"
+                                         "height:34px;}");
     QSpacerItem* pFixSpacer = new QSpacerItem(5, 10, QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     QPushButton* pSettingToolButton = new QPushButton();
     pSettingToolButton->setObjectName("setting");
     connect(pSettingToolButton, SIGNAL(clicked()), this, SLOT(onCallControlPanel()));
     pSettingToolButton->setText(QObject::tr("Set up"));
+    pSettingToolButton->setStyleSheet("QPushButton{"
+                                    "color:rgba(255,255,255,0.91);"
+                                    "font-weight:400;border:0px;"
+                                    "line-height:24px;"
+                                    "font-size:14px;"
+                                    " width:80px;"
+                                    "height:34px;}"
+                                    "QPushButton:hover{"
+                                    "color:rgba(255,255,255,0.91);"
+                                    "background:rgba(255,255,255,0.12);"
+                                    "font-weight:400;border:0px;"
+                                    "line-height:24px;"
+                                    "font-size:14px;"
+                                    " width:80px;"
+                                    "height:34px;}"
 
+                                    "QPushButton:pressed{"
+                                    "color:rgba(255,255,255,0.91);"
+                                    "background:rgba(255,255,255,0.08);"
+                                    "font-weight:400;border:0px;"
+                                    "line-height:24px;"
+                                    "font-size:14px;"
+                                    " width:80px;"
+                                    "height:34px;}");
     pQHBoxLayout2->addWidget(m_pNotificationLabel, 0, Qt::AlignLeft);
     pQHBoxLayout2->addSpacerItem(pHSpacer);
     pQHBoxLayout2->addWidget(m_pClearAllToolButton, 0, Qt::AlignRight);
     pQHBoxLayout2->addSpacerItem(pFixSpacer);
     pQHBoxLayout2->addWidget(pSettingToolButton, 0, Qt::AlignRight);
     pWidget2->setLayout(pQHBoxLayout2);
+    pWidget2->setStyleSheet("QWidget{background-color:transparent ;}");
     pNotificationVBoxLayout->addWidget(pWidget2, 0);
 
     //消息列表部件，用于装消息列表的
     m_pMsgListWidget = new QWidget;
     pNotificationVBoxLayout->addWidget(m_pMsgListWidget, 1);
-
+    m_pMsgListWidget->setStyleSheet("QWidget{background-color:transparent ;}");
     //消息列表部件，用于装两个消息列表的,浮动在m_pMsgListWidget里面
     m_pMsgDoubleListWidget = new QWidget(m_pMsgListWidget);
     QHBoxLayout* pMsgDoubleListHBoxLayout = new QHBoxLayout;
     pMsgDoubleListHBoxLayout->setContentsMargins(0, 0, 0, 0);
     pMsgDoubleListHBoxLayout->setSpacing(0);
     m_pMsgDoubleListWidget->setLayout(pMsgDoubleListHBoxLayout);
-
+    m_pMsgDoubleListWidget->setStyleSheet("QWidget{background-color:transparent ;}");
     //双列表部件切换动画
     m_pSwitchAnimation = new QPropertyAnimation(m_pMsgDoubleListWidget, "geometry", this);
     m_pSwitchAnimation->setDuration(300);
@@ -163,10 +215,11 @@ NotificationPlugin::NotificationPlugin()
     QWidget* pInQWidget = new QWidget();
     pInQWidget->setObjectName("QScrollAreaInQWidget");
     pInQWidget->setLayout(m_pScrollAreaNotifyVBoxLayout);
+    pInQWidget->setStyleSheet("QWidget{background-color:transparent ;}");
     m_pQScrollAreaNotify->setWidget(pInQWidget);
 
     m_pMessageCenterLabel = new QLabel(QObject::tr("No new notifications"));
-    m_pMessageCenterLabel->setStyleSheet("QLabel{color:rgba(255,255,255,0.91);padding:119px 0px 0px 0px;font-size:14px;}");
+    m_pMessageCenterLabel->setStyleSheet("QLabel{color:rgba(255,255,255,0.91);background-color:transparent;padding:119px 0px 0px 0px;font-size:14px;}");
     m_pScrollAreaNotifyVBoxLayout->addWidget(m_pMessageCenterLabel, 0, Qt::AlignHCenter);
 
     QSpacerItem* pVSpacer = new QSpacerItem(10, 1, QSizePolicy::Fixed, QSizePolicy::Expanding);
@@ -189,7 +242,7 @@ NotificationPlugin::NotificationPlugin()
     m_pQScrollAreaTakeIn->setWidget(pTakeInQWidget);
 
     m_pTakeinMessageCenterLabel = new QLabel(QObject::tr("No unimportant notice"));
-    m_pTakeinMessageCenterLabel->setStyleSheet("QLabel{color:rgba(255,255,255,0.91);padding:119px 0px 0px 0px;font-size:14px;}");
+    m_pTakeinMessageCenterLabel->setStyleSheet("QLabel{color:rgba(255,255,255,0.91);background-color:transparent; padding:119px 0px 0px 0px;font-size:14px;}");
     m_pScrollAreaTakeInVBoxLayout->addWidget(m_pTakeinMessageCenterLabel, 0, Qt::AlignHCenter);
 
     QSpacerItem* pVSpacer2 = new QSpacerItem(10, 1, QSizePolicy::Fixed, QSizePolicy::Expanding);
@@ -222,7 +275,6 @@ void NotificationPlugin::showNotification()
         //m_pMsgDoubleListWidget->setFixedHeight(m_pMsgListWidget->height());
         m_pMsgDoubleListWidget->setGeometry(0, 0, m_pMsgListWidget->width()*2, m_pMsgListWidget->height());
     }
-
     //上面不需要判断，因为在隐藏时，已经切换至通知中心，m_bShowTakeIn为false
     for(int i = 0; i < m_listAppMsg.count(); i++)
     {
@@ -659,6 +711,4 @@ void NotificationPlugin::onSwitchMsgBoxFinish()
         }
     }
 }
-
-
 

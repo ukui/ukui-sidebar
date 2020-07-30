@@ -72,7 +72,6 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
     //图标和时间行的水平布局部件
     m_pIconWidget = new QWidget;
-    m_pIconWidget->setStyleSheet("background:transparent;");
 
     //图标和时间行的水平布局器
     m_pIconHLayout = new QHBoxLayout();
@@ -155,6 +154,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     pTimeLableHLayout->setContentsMargins(0, 0, 0, 0);
     pTimeLableHLayout->setSpacing(0);
     m_pTimeLabelWidget->setLayout(pTimeLableHLayout);
+    m_pTimeLabelWidget->setStyleSheet("QWidget{background-color:transparent;}");
 
     //收纳和删除按钮布局
     pStorageDeleteButtonHLaout->addItem(new QSpacerItem(1, 10, QSizePolicy::Expanding, QSizePolicy::Fixed));
@@ -174,10 +174,11 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pIconHLayout->addWidget(m_pStorageDeleteButtonWidget);
     m_pIconWidget->setLayout(m_pIconHLayout);
     pMainVLaout->addWidget(m_pIconWidget, 0);
-
+    m_pIconWidget->setStyleSheet("QWidget{background-color:rgba(255,0,0,0);}");
+    m_pStorageDeleteButtonWidget->setStyleSheet("QWidget{background-color:transparent;}");
     //内容部件,将主题正文以及剩余条数显示装入内容部件
     m_pContextWidget = new QWidget;
-    m_pContextWidget->setStyleSheet("background-color:transparent;");
+//    m_pContextWidget->setStyleSheet("background-color:transparent;");
 
     //内容部件的垂直布局器
     QVBoxLayout* pVContextLayout = new QVBoxLayout();
@@ -243,11 +244,10 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
     m_pContextWidget->setLayout(pVContextLayout);
     pMainVLaout->addWidget(m_pContextWidget);
-
+    m_pContextWidget->setStyleSheet("QWidget{background-color:transparent;}");
     m_pSingleWidget->setLayout(pMainVLaout);
     m_pAppVLaout->addWidget(m_pSingleWidget);
     this->setLayout(m_pAppVLaout);
-
 
     m_pSetDeleDelayTimer = new QTimer(this);
 

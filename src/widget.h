@@ -40,7 +40,7 @@
 #define PANEL_DBUS_SERVICE "com.ukui.panel.desktop"
 #define PANEL_DBUS_PATH "/"
 #define PANEL_DBUS_INTERFACE "com.ukui.panel.desktop"
-
+#define UKUI_TRANSPARENCY_SETTING "org.ukui.control-center.personalise"
 #define UKUI_PANEL_SETTING "org.ukui.panel.settings"
 
 class QGroupBox;
@@ -128,6 +128,8 @@ private:
     QAction*                    Open;
     QAction*                    OpenSetUp;
     QTimer*                     m_pUpdateSmallPluginsWidget;
+
+    QGSettings                  *m_pTransparency;                                       // 插件的界面的透明度
 
 private slots :
     void onResolutionChanged(const QRect argc);                                 //当改变屏幕分辨率时重新获取屏幕分辨率

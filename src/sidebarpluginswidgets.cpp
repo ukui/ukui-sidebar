@@ -16,6 +16,7 @@
 *
 */
 #include "sidebarpluginswidgets.h"
+extern double tranSparency;
 
 static sidebarPluginsWidgets *global_Plugin_Widgets_instance = nullptr;
 sidebarPluginsWidgets::sidebarPluginsWidgets(QWidget *parent) : QWidget(parent)
@@ -27,7 +28,6 @@ sidebarPluginsWidgets::sidebarPluginsWidgets(QWidget *parent) : QWidget(parent)
     this->setStyleSheet("QWidget{background:rgba(255, 255, 0, 0);}");
     flagnumClipboardState = 0;
 
-    m_tranSparency = 0.7;  //初始化透明度
 
     m_pBoolStates = true;
     resizeFlagOne = true;
@@ -52,8 +52,6 @@ sidebarPluginsWidgets::sidebarPluginsWidgets(QWidget *parent) : QWidget(parent)
 
     /* 将闹钟、用户反馈等图标加入到界面 */
     parsingDesktopFile();
-
-    initTransparencyGsetting();
 
     QFile file(KYLIN_SIDEBAR_SMALL_PLUGINS);
     if (file.open(QFile::ReadOnly)) {
@@ -279,31 +277,12 @@ void sidebarPluginsWidgets::initSmallPluginsAnimation()
     return;
 }
 
-void sidebarPluginsWidgets::initTransparencyGsetting()
-{
-    if (QGSettings::isSchemaInstalled(UKUI_TRANSPARENCY_SETTING)) {
-        qDebug() << "分配gsetting值";
-        m_pTransparency = new QGSettings(UKUI_TRANSPARENCY_SETTING);
-        connect(m_pTransparency, &QGSettings::changed, this, &sidebarPluginsWidgets::getTransparencyValue);
-    }
-}
-
 void sidebarPluginsWidgets::m_AnimationClipbarodEndSlots()
 {
 }
 
 void sidebarPluginsWidgets::m_AnimationSmallWidgetEndSlots()
 {
-}
-
-/* 获取Getting值 */
-void sidebarPluginsWidgets::getTransparencyValue(const QString key)
-{
-    if (key == "transparency") {
-        m_tranSparency = m_pTransparency->get("transparency").toFloat();
-        qDebug() << "获取到的值为----->" << m_tranSparency;
-    }
-    return;
 }
 
 /* 设置侧边栏的按钮背景色为蓝色 */
@@ -476,7 +455,7 @@ void sidebarPluginsWidgets::paintEvent(QPaintEvent *)
 //    p.setBrush(opt.palette.color(QPalette::Base).lighter(85));
     p.setBrush(opt.palette.color(QPalette::Base));
 //    p.setBrush(QBrush(QColor("#161617")));
-    p.setOpacity(m_tranSparency);
+    p.setOpacity(tranSparency);
     p.setPen(Qt::NoPen);
 
     p.setRenderHint(QPainter::Antialiasing);                        //反锯齿

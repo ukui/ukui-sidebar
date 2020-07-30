@@ -44,8 +44,6 @@
 #include "customstyleCleanPushbutton.h"
 #include "customstyle.h"
 
-#define UKUI_TRANSPARENCY_SETTING "org.ukui.control-center.personalise"
-
 class sidebarPluginsWidgets : public QWidget
 {
     Q_OBJECT
@@ -60,7 +58,7 @@ public:
     void initLableBackgroundAnimation();                          //初始化动画
     void initCliboardAnimation();                                 //初始化剪贴板动画类
     void initSmallPluginsAnimation();                             //初始化小插件动画类
-    void initTransparencyGsetting();                              //初始化gsetting值
+//    void initTransparencyGsetting();                              //初始化gsetting值
     void setClipboardButtonBackgroundIsBlue();                    //设置侧边栏按钮背景色为蓝色
     void setSmallPluginsButtonBackgroudIsBlue();                  //设置小插件按钮背景色为蓝色
     void setClipboardButtonBackgroundIsBlank();                   //设置侧边栏按钮背景色为空白
@@ -115,7 +113,6 @@ public:
     int     m_add_x = 0;
     int     m_add_y = 1;
     int     m_cliboardHight;                                      // 剪贴板和小插件的高度
-    float   m_tranSparency;                                       // 插件的界面的透明度
 
 signals:
 

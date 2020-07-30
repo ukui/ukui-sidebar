@@ -26,6 +26,7 @@
 #include <QGuiApplication>
 #include "customstyle.h"
 
+double tranSparency = 0.7;
 
 Widget::Widget(QWidget *parent) : QWidget (parent)
 {
@@ -99,6 +100,12 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     connect(trayIcon, &QSystemTrayIcon::activated, this, &Widget::iconActivated);
     trayIcon->setVisible(true);
 
+    if (QGSettings::isSchemaInstalled(UKUI_TRANSPARENCY_SETTING)) {
+        qDebug() << "分配gsetting值";
+        m_pTransparency = new QGSettings(UKUI_TRANSPARENCY_SETTING);
+//        connect(m_pTransparency, &QGSettings::changed, this, &sidebarPluginsWidgets::getTransparencyValue);
+    }
+
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
     qInfo() << "---------------------------主界面加载完毕---------------------------";
 
@@ -129,7 +136,6 @@ bool Widget::loadNotificationPlugin()
 
     connect(m_pNotificationPluginObject, SIGNAL(Sig_onNewNotification()), this, SLOT(onNewNotification()));
     m_pMainQVBoxLayout->addWidget(pNotificationPluginObject->centerWidget(), 1);
-
     return true;
 }
 
@@ -211,6 +217,13 @@ void Widget::setIcon(QIcon icon)
 //设置activated信号
 void Widget::iconActivated(QSystemTrayIcon::ActivationReason reason)
 {
+    //获取透明度
+    if (QGSettings::isSchemaInstalled(UKUI_TRANSPARENCY_SETTING)){
+        if (m_pTransparency->keys().contains("transparency")) {
+            tranSparency = m_pTransparency->get("transparency").toDouble();
+        }
+    }
+    qDebug() << "获取的透明度为:" << tranSparency;
     switch (reason) {
         case QSystemTrayIcon::Trigger: {
             if (m_bShowFlag) {
@@ -309,6 +322,9 @@ int Widget::setClipBoardWidgetScaleFactor()
 void Widget::showAnimation()
 {
     NotificationInterface* pNotificationPluginObject = qobject_cast<NotificationInterface*>(m_pNotificationPluginObject);
+    QWidget *widget = pNotificationPluginObject->centerWidget();
+    QString sheet = QString("QWidget{background-color:rgba(19,19,20,%1);}").arg(tranSparency);
+    widget->setStyleSheet(sheet);
     if (nullptr != pNotificationPluginObject && false == m_bfinish)
         pNotificationPluginObject->showNotification();       //当动画展开时给插件一个通知
 
@@ -402,6 +418,16 @@ void Widget::showAnimationFinish()
         mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
         hideAnimation();
         m_bfinish = false;
+    }
+    return;
+}
+
+/* 获取Getting值 */
+void sidebarPluginsWidgets::getTransparencyValue(const QString key)
+{
+    if (key == "transparency") {
+        tranSparency = m_pTransparency->get("transparency").toFloat();
+        qDebug() << "获取到的值为----->" << tranSparency;
     }
     return;
 }
