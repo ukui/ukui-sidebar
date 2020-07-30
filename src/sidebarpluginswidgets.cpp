@@ -370,7 +370,7 @@ void sidebarPluginsWidgets::addDesktopFileName()
     m_desktopfpList.append("clock.desktop");
     m_desktopfpList.append("ukui_notebook.desktop");
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 7, 0))
-    m_desktopfpList.append("feedback.desktop");
+    m_desktopfpList.append("ukuiFeedback.desktop");
 #endif
     return;
 }
@@ -379,6 +379,7 @@ void sidebarPluginsWidgets::addDesktopFileName()
 void sidebarPluginsWidgets::parsingDesktopFile()
 {
     int tmp = m_desktopfpList.size();
+    qDebug() << "当前链表中保存了几个desktop文件---->" << tmp << m_desktopfpList;
     QSpacerItem *item1 = new QSpacerItem(10, 20);
     for (int i = 0; i < tmp; i++) {
         QString desktopfp = "/usr/share/applications/" + m_desktopfpList.at(i);

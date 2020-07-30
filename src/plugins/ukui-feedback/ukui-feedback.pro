@@ -63,7 +63,7 @@ unix {
     INSTALLS += target
 }
 
-desktopfile.files = feedback.desktop
+desktopfile.files = ukuiFeedback.desktop
 desktopfile.path = /usr/share/applications/
 
 INSTALLS += desktopfile
