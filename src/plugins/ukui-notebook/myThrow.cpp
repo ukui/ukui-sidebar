@@ -22,7 +22,7 @@
 #include <iostream>
 #include <sstream>
 
-#include "mythrow.h"
+#include "myThrow.h"
 
 using namespace std;
 

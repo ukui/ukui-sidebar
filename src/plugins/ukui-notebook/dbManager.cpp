@@ -23,7 +23,7 @@
 #include <QSqlError>
 #include <QtConcurrent>
 
-#include "dbmanager.h"
+#include "dbManager.h"
 
 /*!
  * \brief DBManager::DBManager

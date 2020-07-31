@@ -25,7 +25,7 @@
 #include <QTimer>
 #include <QScrollBar>
 
-#include "noteview.h"
+#include "noteView.h"
 #include "listViewModeDelegate.h"
 
 NoteView::NoteView(QWidget *parent)

@@ -22,17 +22,17 @@
 #include <QTextList>
 #include <QDebug>
 
-#include "ui_text_editing.h"
-#include "set_font_size_page.h"
-#include "ui_set_font_size_page.h"
-#include "set_font_color_page.h"
-#include "ui_set_font_color_page.h"
-#include "ui_select_color_page.h"
+#include "ui_textEditing.h"
+#include "setFontSizePage.h"
+#include "ui_setFontSizePage.h"
+#include "setFontColorPage.h"
+#include "ui_setFontColorPage.h"
+#include "ui_selectColorPage.h"
 #include "noteHead.h"
 #include "widget.h"
 #include "ui_widget.h"
-#include "edit_page.h"
-#include "ui_edit_page.h"
+#include "editPage.h"
+#include "ui_editPage.h"
 
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 

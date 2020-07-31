@@ -22,7 +22,7 @@
 #include <QObject>
 #include <QDateTime>
 
-#include "edit_page.h"
+#include "editPage.h"
 
 class NoteData : public QObject
 {

@@ -23,8 +23,8 @@
 #include "ui_widget.h"
 #include "paletteWidget.h"
 #include "ui_paletteWidget.h"
-#include "select_color_page.h"
-#include "ui_select_color_page.h"
+#include "selectColorPage.h"
+#include "ui_selectColorPage.h"
 
 #ifndef SHADOW_WIDTH
 #define SHADOW_WIDTH 0

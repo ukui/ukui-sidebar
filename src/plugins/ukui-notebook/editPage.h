@@ -31,8 +31,8 @@
 #include "noteHead.h"
 #include "noteHeadMenu.h"
 #include "ui_noteHeadMenu.h"
-#include "select_color_page.h"
-#include "text_editing.h"
+#include "selectColorPage.h"
+#include "textEditing.h"
 #include "paletteWidget.h"
 #include "ui_paletteWidget.h"
 

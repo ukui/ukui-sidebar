@@ -16,29 +16,30 @@
 *
 */
 
-#include "set_font_size_page.h"
-#include "ui_set_font_size_page.h"
-#include "fontButton.h"
-#include "ui_fontButton.h"
+#include "setFontColorPage.h"
+#include "ui_setFontColorPage.h"
 
-Set_font_size_page::Set_font_size_page(QWidget *parent) :
+Set_font_color_page::Set_font_color_page(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::Set_font_size_page)
+    ui(new Ui::Set_font_color_page)
 {
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
     setAttribute(Qt::WA_TranslucentBackground);
-    set_listwidget();
+
     ui->listWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->listWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    set_color();
+    set_listwidget();
 }
 
-Set_font_size_page::~Set_font_size_page()
+Set_font_color_page::~Set_font_color_page()
 {
     delete ui;
 }
 
-void Set_font_size_page::paintEvent(QPaintEvent *event)
+void Set_font_color_page::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
 //    系统默认 255 、 248  深色模式 30 34
@@ -57,20 +58,35 @@ void Set_font_size_page::paintEvent(QPaintEvent *event)
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }
 
-void Set_font_size_page::set_listwidget()
+void Set_font_color_page::set_color()
 {
-    for(int i=10; i<37 ; i++ )
+    color[0]="background:rgba(76,119,231,1);";
+    color[1]="background:rgba(250,108,99,1);";
+    color[2]="background:rgba(15,161,90,1);";
+    color[3]="background:rgba(255,151,47,1);";
+    color[4]="background:rgba(186,123,216,1);";
+    color[5]="background:rgba(248,209,93,1);";
+    color[6]="background:rgba(42,162,217,1);";
+    color[7]="background:rgba(110,207,67,1);";
+    color[8]="background:rgba(250,243,175,1);";
+    color[9]="background:rgba(236,238,242,1);";
+    color[10]="background:rgba(0,0,0,1);";
+}
+
+void Set_font_color_page::set_listwidget()
+{
+    for(int i=22; i<32 ; i++ )
     {
-        int n = i-10;
-        list_aItem[n] =new QListWidgetItem;
+        int n = i-22;
+        list_aItem[n] = new QListWidgetItem;
         list_aItem[n]->setSizeHint(QSize(30,27));
 
         ui->listWidget->addItem(list_aItem[n]);
 
-        list_page[n] = new fontButton(this);
+        list_page[n] = new paletteButton(this);
         list_page[n]->resize(QSize(30,23));
 
         ui->listWidget->setItemWidget(list_aItem[n],list_page[n]);
-        list_page[n]->ui->label->setText(QString::number(i));
+        list_page[n]->ui->label->setStyleSheet(color[n]+"border-radius:3px;");
     }
 }

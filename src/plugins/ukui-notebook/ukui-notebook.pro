@@ -27,66 +27,66 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 TRANSLATIONS += \
-        ukui_notebook_zh_CN.ts
-        notebook_tr.ts
+        ../../../translations/ukui-notebook/ukui-notebook_zh_CN.ts
+        ../../../translations/ukui-notebook/ukui-notebook_tr.ts
 
 SOURCES += \
     customStyle.cpp \
-    dbmanager.cpp \
-    edit_page.cpp \
+    dbManager.cpp \
+    editPage.cpp \
     emptyNotes.cpp \
     fontButton.cpp \
     headerbar.cpp \
-    iconviewmodedelegate.cpp \
+    iconViewModeDelegate.cpp \
     listViewModeDelegate.cpp \
     main.cpp \
-    mythrow.cpp \
+    myThrow.cpp \
+    noteData.cpp \
     noteExitWindow.cpp \
     noteHead.cpp \
     noteHeadMenu.cpp \
-    notedata.cpp \
-    notemodel.cpp \
-    noteview.cpp \
+    noteModel.cpp \
+    noteView.cpp \
     paletteButton.cpp \
     paletteWidget.cpp \
-    select_color_page.cpp \
-    set_font_color_page.cpp \
-    set_font_size_page.cpp \
+    selectColorPage.cpp \
+    setFontColorPage.cpp \
+    setFontSizePage.cpp \
     singleApplication.cpp \
     singleitemButton.cpp \
     textEditWidget.cpp \
-    text_editing.cpp \
+    textEditing.cpp \
     widget.cpp
 
 HEADERS += \
     customStyle.h \
-    dbmanager.h \
-    edit_page.h \
+    dbManager.h \
+    editPage.h \
     emptyNotes.h \
     fontButton.h \
     headerbar.h \
-    iconviewmodedelegate.h \
+    iconViewModeDelegate.h \
     listViewModeDelegate.h \
-    mythrow.h \
+    myThrow.h \
+    noteData.h \
     noteExitWindow.h \
     noteHead.h \
     noteHeadMenu.h \
-    notedata.h \
-    notemodel.h \
-    noteview.h \
+    noteModel.h \
+    noteView.h \
     paletteButton.h \
     paletteWidget.h \
-    select_color_page.h \
-    set_font_color_page.h \
-    set_font_size_page.h \
+    selectColorPage.h \
+    setFontColorPage.h \
+    setFontSizePage.h \
     singleApplication.h \
     singleitemButton.h \
     textEditWidget.h \
-    text_editing.h \
+    textEditing.h \
     widget.h
 
 FORMS += \
-    edit_page.ui \
+    editPage.ui \
     emptyNotes.ui \
     fontButton.ui \
     noteExitWindow.ui \
@@ -94,11 +94,11 @@ FORMS += \
     noteHeadMenu.ui \
     paletteButton.ui \
     paletteWidget.ui \
-    select_color_page.ui \
-    set_font_color_page.ui \
-    set_font_size_page.ui \
+    selectColorPage.ui \
+    setFontColorPage.ui \
+    setFontSizePage.ui \
     textEditWidget.ui \
-    text_editing.ui \
+    textEditing.ui \
     widget.ui
 
 RESOURCES += \
@@ -108,9 +108,13 @@ DISTFILES +=
 unix {
     target.path = /usr/bin/
     INSTALLS += target
+
+    translation.path = /usr/share/ukui-sidebar/ukui-notebook
+    translation.files += ../../../translations/ukui-notebook/*.qm
+    INSTALLS += translation
 }
 
-desktopfile.files = ukui_notebook.desktop
+desktopfile.files = ukui-notebook.desktop
 desktopfile.path = /usr/share/applications/
 
 INSTALLS += desktopfile

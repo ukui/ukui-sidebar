@@ -23,12 +23,12 @@
 
 #include "widget.h"
 #include "ui_widget.h"
-#include "set_font_size_page.h"
-#include "ui_set_font_size_page.h"
-#include "set_font_color_page.h"
-#include "ui_set_font_color_page.h"
-#include "text_editing.h"
-#include "ui_text_editing.h"
+#include "setFontSizePage.h"
+#include "ui_setFontSizePage.h"
+#include "setFontColorPage.h"
+#include "ui_setFontColorPage.h"
+#include "textEditing.h"
+#include "ui_textEditing.h"
 
 #ifndef SHADOW_WIDTH
 #define SHADOW_WIDTH 0
