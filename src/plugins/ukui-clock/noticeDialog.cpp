@@ -15,7 +15,7 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include "notice_dialog.h"
+#include "noticeDialog.h"
 #include <QSqlTableModel>
 #include <QMediaPlayer>
 #include <QMediaPlaylist>

@@ -1,4 +1,4 @@
-﻿/*
+/*
 * Copyright (C) 2019 Tianjin KYLIN Information Technology Co., Ltd.
 *
 * This program is free software; you can redistribute it and/or modify
@@ -15,72 +15,61 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include "verticalscroll_99.h"
+#include "verticalScroll60.h"
 #include <QMouseEvent>
 #include <QDebug>
 #include <QApplication>
 
-VerticalScroll_99::VerticalScroll_99(QWidget *parent) :
+VerticalScroll_60::VerticalScroll_60(QWidget *parent) :
     QWidget(parent),
-    m_minRange(0),     //最小值默认为0  // The minimum value defaults to 0
-    m_maxRange(48),    //最大值默认99   // Max default 24
-    m_currentValue(0), //当前值默认0    // Current value defaults to 0
+    m_minRange(0),      //最小值默认为0   // The minimum value defaults to 0
+    m_maxRange(59),    //最大值默认60     // Max default 24
+    m_currentValue(0), //当前值默认0     // Current value defaults to 0
     isDragging(false),
-    m_deviation(0),   //默认偏移量为0   // The default offset is 0
+    m_deviation(0),     //默认偏移量为0    // The default offset is 0
     m_numSize(4),
-    interval(1),      //间隔默认1      // Interval default 1
-    devide(4)         //默认分成4格    // Divided into 4 grids by default
+    interval(1),      //间隔默认1        // Interval default 1
+    devide(4)           //默认分成4格    // Divided into 4 grids by default
 {
+
     setupUi(this);
 
     homingAni = new QPropertyAnimation(this, "deviation");
     homingAni->setDuration(300);
     homingAni->setEasingCurve(QEasingCurve::OutQuad);
-
-    timer_21111 = new QTimer();
-    connect(timer_21111, SIGNAL(timeout()), this, SLOT(listClickslot()));
-    timer_21111->setInterval(1000);
-    qDebug() << "11111111111111";
-    qDebug() << m_currentValue;
 }
 
-VerticalScroll_99::~VerticalScroll_99()
+VerticalScroll_60::~VerticalScroll_60()
 {
-    delete timer_21111;
     delete homingAni;
-    qDebug()<<"-------VerticalScroll_99---------";
+    qDebug()<<"-------VerticalScroll_60---------";
 
+    //delete ui;
 }
 /*
- * 设置范围
- * set range
+ * 设置范围  set range
  * int min 最小值
  * int max 最大值
 */
-void VerticalScroll_99::setRange(int min, int max)
+void VerticalScroll_60::setRange(int min, int max)
 {
     m_minRange = min;
     m_maxRange = max;
     if (m_currentValue < min)
         m_currentValue = min;
+
     if (m_currentValue > max)
         m_currentValue = max;
     repaint();
 }
 //获取当前值
 //Get current value
-int VerticalScroll_99::readValue()
+int VerticalScroll_60::readValue()
 {
     return m_currentValue;
 }
 
-void VerticalScroll_99::listClickslot()
-{
-    qDebug() << "11111111111111";
-    qDebug() << m_currentValue;
-}
-
-void VerticalScroll_99::mousePressEvent(QMouseEvent *e)
+void VerticalScroll_60::mousePressEvent(QMouseEvent *e)
 {
     qDebug()<<"mouse pressed on vertical scroll";
     homingAni->stop();
@@ -89,10 +78,10 @@ void VerticalScroll_99::mousePressEvent(QMouseEvent *e)
     QWidget::mousePressEvent(e);
 }
 
-void VerticalScroll_99::mouseMoveEvent(QMouseEvent *e)
+void VerticalScroll_60::mouseMoveEvent(QMouseEvent *e)
 {
     if (isDragging) {
-        if ( m_currentValue == m_minRange && e->pos().y() >= m_mouseSrcPos ) {
+        if( m_currentValue == m_minRange && e->pos().y() >= m_mouseSrcPos ) {
             m_currentValue = m_maxRange;
         } else if( m_currentValue == m_maxRange && e->pos().y() <= m_mouseSrcPos ) {
             m_currentValue = m_minRange;
@@ -111,7 +100,7 @@ void VerticalScroll_99::mouseMoveEvent(QMouseEvent *e)
     }
 }
 
-void VerticalScroll_99::mouseReleaseEvent(QMouseEvent *)
+void VerticalScroll_60::mouseReleaseEvent(QMouseEvent *)
 {
     if (isDragging) {
         isDragging = false;
@@ -119,24 +108,24 @@ void VerticalScroll_99::mouseReleaseEvent(QMouseEvent *)
     }
 }
 
-void VerticalScroll_99::wheelEvent(QWheelEvent *event)
+void VerticalScroll_60::wheelEvent(QWheelEvent *event)
 {
     if (event->delta() > 0) {
-        if(m_currentValue <= m_minRange)
-           m_currentValue = m_maxRange;
-        else
-           m_currentValue-=1;
+         if(m_currentValue <= m_minRange)
+            m_currentValue = m_maxRange;
+         else
+            m_currentValue-=1;
     } else {
-        if(m_currentValue >= m_maxRange)
-           m_currentValue = m_minRange;
+        if (m_currentValue >= m_maxRange)
+            m_currentValue = m_minRange;
         else
-           m_currentValue+=1;
+            m_currentValue+=1;
     }
     update();
     event->accept();
 }
 
-void VerticalScroll_99::paintEvent(QPaintEvent *)
+void VerticalScroll_60::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
@@ -160,16 +149,17 @@ void VerticalScroll_99::paintEvent(QPaintEvent *)
 
     //两侧数字
     // Numbers on both sides
-    if (m_currentValue != m_minRange)
+    if (m_currentValue != m_minRange) {
         paintNum(painter, m_currentValue - interval, m_deviation - Height / devide);
-    else
+    } else {
         paintNum(painter, m_maxRange, m_deviation - Height / devide);
+    }
 
-    if (m_currentValue != m_maxRange)
+    if (m_currentValue != m_maxRange) {
         paintNum(painter, m_currentValue + interval, m_deviation + Height / devide);
-    else
+    } else {
         paintNum(painter, m_minRange, m_deviation + Height / devide);
-
+    }
 
     for (int i=2; i <= devide/2; ++i) {
         if (m_currentValue - interval * i >= m_minRange)
@@ -185,7 +175,7 @@ void VerticalScroll_99::paintEvent(QPaintEvent *)
  * int num 需要显示的数字
  * int deviation 数字相对中间的偏移量
 */
-void VerticalScroll_99::paintNum(QPainter &painter, int num, int deviation)
+void VerticalScroll_60::paintNum(QPainter &painter, int num, int deviation)
 {
     int Width = width() - 1;
     int Height = height() - 1;
@@ -208,10 +198,10 @@ void VerticalScroll_99::paintNum(QPainter &painter, int num, int deviation)
 
 //单位变双位
 // Unit to double
-QString VerticalScroll_99::change_NUM_to_str(int alarmHour)
+QString VerticalScroll_60::change_NUM_to_str(int alarmHour)
 {
     QString str;
-    if (alarmHour < 10) {
+    if(alarmHour < 10){
         QString hours_str = QString::number(alarmHour);
         str = "0"+hours_str;
     } else {
@@ -224,7 +214,7 @@ QString VerticalScroll_99::change_NUM_to_str(int alarmHour)
  * 使选中的数字回到屏幕中间
  * Bring the selected number back to the middle of the screen
 */
-void VerticalScroll_99::homing()
+void VerticalScroll_60::homing()
 {
     if ( m_deviation > height() / 10) {
         homingAni->setStartValue( ( height() - 1 ) / 8 - m_deviation);
@@ -242,33 +232,29 @@ void VerticalScroll_99::homing()
     homingAni->start();
 }
 
-//鼠标移动偏移量，默认为0
-// Mouse movement offset, default is 0
-int VerticalScroll_99::readDeviation()
+int VerticalScroll_60::readDeviation()
 {
     return m_deviation;
 }
 
-//设置偏移量
-// Set offset
-void VerticalScroll_99::setDeviation(int n)
+void VerticalScroll_60::setDeviation(int n)
 {
     m_deviation = n;
     repaint();
 }
 
-void VerticalScroll_99::setupUi(QWidget *VerticalScroll_99)
+void VerticalScroll_60::setupUi(QWidget *VerticalScroll_60)
 {
-    if (VerticalScroll_99->objectName().isEmpty())
-        VerticalScroll_99->setObjectName(QString::fromUtf8("VerticalScroll_99"));
-    VerticalScroll_99->resize(53, 200);
+    if (VerticalScroll_60->objectName().isEmpty())
+        VerticalScroll_60->setObjectName(QString::fromUtf8("VerticalScroll_60"));
+    VerticalScroll_60->resize(53, 200);
 
-    retranslateUi(VerticalScroll_99);
+    retranslateUi(VerticalScroll_60);
 
-    QMetaObject::connectSlotsByName(VerticalScroll_99);
+    QMetaObject::connectSlotsByName(VerticalScroll_60);
 } // setupUi
 
-void VerticalScroll_99::retranslateUi(QWidget *VerticalScroll_99)
+void VerticalScroll_60::retranslateUi(QWidget *VerticalScroll_60)
 {
-    VerticalScroll_99->setWindowTitle(QApplication::translate("VerticalScroll_99", "VerticalScroll_99", nullptr));
+    VerticalScroll_60->setWindowTitle(QApplication::translate("VerticalScroll_60", "VerticalScroll_60", nullptr));
 } // retranslateUi

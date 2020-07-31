@@ -1,4 +1,4 @@
-#include "btn_new.h"
+#include "btnNew.h"
 #include <QVBoxLayout>
 #include <QDebug>
 #include "clock.h"

@@ -15,7 +15,7 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include "stopwatch_item.h"
+#include "stopwatchItem.h"
 #include<QApplication>
 #include <QDebug>
 

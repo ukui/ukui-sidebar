@@ -49,22 +49,24 @@
 #include <QTime>
 #include "connection.h"
 #include <QMessageBox>
-#include "item_new.h"
+#include "itemNew.h"
 #include "set_clock.h"
-#include "stopwatch_item.h"
-#include "notice_dialog.h"
+#include "stopwatchItem.h"
+#include "noticeDialog.h"
 #include <QBitmap>
 #include <QProcess>
-#include<QScreen>
-#include "notice_alarm.h"
-#include "ui_notice_alarm.h"
-#include "delete_msg.h"
-#include "ui_delete_msg.h"
+#include <QScreen>
+#include "noticeAlarm.h"
+#include "ui_noticeAlarm.h"
+#include "deleteMsg.h"
+#include "ui_deleteMsg.h"
 #include <QScroller>
 #include <QTranslator>
 #include <QDesktopWidget>
-#include "btn_new.h"
-#include "close_or_hide.h"
+#include "btnNew.h"
+#include "closeOrHide.h"
+#include "ui_setupPage.h"
+
 
 const double PI=3.141592;
 

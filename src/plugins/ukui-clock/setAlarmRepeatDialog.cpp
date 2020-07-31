@@ -15,7 +15,7 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include "set_alarm_repeat_dialog.h"
+#include "setAlarmRepeatDialog.h"
 #include <QLabel>
 #include <QPushButton>
 #include <QApplication>

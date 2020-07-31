@@ -14,56 +14,56 @@ TEMPLATE = app
 LIBS    +=  -lX11
 
 SOURCES += \
-    btn_new.cpp \
+    btnNew.cpp \
+    clickableLabel.cpp \
         clock.cpp \
-    close_or_hide.cpp \
-    customstyle.cpp \
-    delete_msg.cpp \
-    item_new.cpp \
+    closeOrHide.cpp \
+    countdownAnimation.cpp \
+    customStyle.cpp \
+    deleteMsg.cpp \
+    dotlineDemo.cpp \
+    itemNew.cpp \
     main.cpp \
-    notice_alarm.cpp \
-    notice_dialog.cpp \
-    setuppage.cpp \
+    noticeAlarm.cpp \
+    noticeDialog.cpp \
+    qroundProgressBar.cpp \
+    setAlarmRepeatDialog.cpp \
+    setupPage.cpp \
     singleApplication.cpp \
-    stopwatch_item.cpp \
-    verticalscroll_24.cpp \
-    verticalscroll_60.cpp \
-    verticalscroll_99.cpp \
-    clickablelabel.cpp \
-    DotLineDemo.cpp \
-    set_alarm_repeat_dialog.cpp \
-    countdown_animation.cpp \
-    QRoundProgressBar.cpp
+    stopwatchItem.cpp \
+    verticalScroll24.cpp \
+    verticalScroll60.cpp \
+    verticalScroll99.cpp
 TRANSLATIONS = Clock.ts
 
 HEADERS  += clock.h \
-    btn_new.h \
-    close_or_hide.h \
+    btnNew.h \
+    clickableLabel.h \
+    closeOrHide.h \
     connection.h \
-    customstyle.h \
+    countdownAnimation.h \
+    customStyle.h \
     debug.h \
-    delete_msg.h \
-    item_new.h \
-    notice_alarm.h \
-    notice_dialog.h \
-    setuppage.h \
+    deleteMsg.h \
+    dotlineDemo.h \
+    itemNew.h \
+    noticeAlarm.h \
+    noticeDialog.h \
+    qroundProgressBar.h \
+    setAlarmRepeatDialog.h \
+    setupPage.h \
     singleApplication.h \
-    stopwatch_item.h \
-    verticalscroll_24.h \
-    verticalscroll_60.h \
-    verticalscroll_99.h \
-    clickablelabel.h \
-    DotLineDemo.h \
-    set_alarm_repeat_dialog.h \
-    countdown_animation.h \
-    QRoundProgressBar.h
+    stopwatchItem.h \
+    verticalScroll24.h \
+    verticalScroll60.h \
+    verticalScroll99.h
 
 
 FORMS    += clock.ui \
-    close_or_hide.ui \
-    delete_msg.ui \
-    notice_alarm.ui \
-    setuppage.ui
+    closeOrHide.ui \
+    deleteMsg.ui \
+    noticeAlarm.ui \
+    setupPage.ui
 
 
 RESOURCES += \

@@ -19,7 +19,7 @@
 #define TESTWIDGET_H
 
 #include <QWidget>
-#include <QRoundProgressBar.h>
+#include <qroundProgressBar.h>
 
 namespace Ui {
 class Countdown_Animation;

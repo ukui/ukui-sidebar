@@ -15,8 +15,8 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include "notice_alarm.h"
-#include "ui_notice_alarm.h"
+#include "noticeAlarm.h"
+#include "ui_noticeAlarm.h"
 #include <QPalette>
 #include <QSqlTableModel>
 #include <QMediaPlayer>

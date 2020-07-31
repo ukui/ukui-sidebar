@@ -15,7 +15,7 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include "clickablelabel.h"
+#include "clickableLabel.h"
 
 ClickableLabel::ClickableLabel( QWidget* parent)
     : QLabel(parent)

@@ -17,7 +17,7 @@
  */
 
 
-#include "QRoundProgressBar.h"
+#include "qroundProgressBar.h"
 
 #include <QtGui/QPainter>
 #include <QtGui/QPainterPath>
