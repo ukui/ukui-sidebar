@@ -15,11 +15,11 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include "countdown_animation.h"
+#include "countdownAnimation.h"
 #include <QTimer>
 #include <unistd.h>
 #include <QDebug>
-#include <QRoundProgressBar.h>
+#include <qroundProgressBar.h>
 #include <QApplication>
 
 

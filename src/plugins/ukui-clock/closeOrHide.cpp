@@ -1,5 +1,5 @@
-#include "close_or_hide.h"
-#include "ui_close_or_hide.h"
+#include "closeOrHide.h"
+#include "ui_closeOrHide.h"
 
 close_or_hide::close_or_hide(QWidget *parent) :
     QDialog(parent),
