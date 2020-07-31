@@ -31,12 +31,10 @@ double tranSparency = 0.7;
 Widget::Widget(QWidget *parent) : QWidget (parent)
 {
     m_pTranslator = new QTranslator;
-    QLocale locale;
-    /* 获取系统语言环境, 选择翻译文件 */
-    if( locale.language() == QLocale::Chinese ) {
-        m_pTranslator->load(QString(":/sidebartranslat/sidebarZhCn.qm"));
+    if (m_pTranslator->load(QLocale(), QLatin1String("ukui-sidebar"), QLatin1String("_"), QLatin1String(":/")))
         QApplication::installTranslator(m_pTranslator);
-    }
+    else
+        qDebug() << "cannot load translator " << QLocale::system().name() << ".qm!";
     m_bShowFlag = false;
     m_bClipboardFlag = true;
 
@@ -121,8 +119,8 @@ Widget::~Widget()
 //加载通知中心插件
 bool Widget::loadNotificationPlugin()
 {
-    QDir pluginsDir("/usr/lib/ukui-sidebar/notification");
-    QPluginLoader pluginLoader(pluginsDir.absoluteFilePath("libnotification_plugin.so"));
+    QString lib_notification_file = QString(PLUGIN_INSTALL_DIRS) + "/libnotification_plugin.so";
+    QPluginLoader pluginLoader(lib_notification_file);
 
     m_pNotificationPluginObject = pluginLoader.instance();
     if(nullptr == m_pNotificationPluginObject) {
@@ -142,10 +140,8 @@ bool Widget::loadNotificationPlugin()
 //加载剪贴板插件
 int Widget::ListenClipboardSignal()
 {
-    QDir pluginsDir("/usr/lib/ukui-sidebar/ukui-sidebar-clipboardPlugin-plugins");
-    pluginsDir.setFilter(QDir::Files);
-
-    QPluginLoader pluginLoader(pluginsDir.absoluteFilePath("libclipboardPlugin.so"));
+    QString lib_clipboard_file = QString(PLUGIN_INSTALL_DIRS) + "/libclipboardPlugin.so";
+    QPluginLoader pluginLoader(lib_clipboard_file);
     QObject *pClipPlugin = pluginLoader.instance();
 
     m_pSidebarClipboard = dynamic_cast<ClipboardInterface *>(pClipPlugin);                          /* 获取剪贴版插件指针; */

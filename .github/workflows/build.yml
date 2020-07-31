@@ -60,10 +60,6 @@ jobs:
         uses: actions/checkout@v2
       - name: Install curl and patch
         run: dnf install --refresh -y curl patch
-      - name: Download and apply patch for Fedora
-        run: |
-          curl -O https://raw.githubusercontent.com/jenningsloy318/ukui-rpm-packaging/master/ukui-sidebar/ukui-sidebar-plugin-libdir.patch;
-          patch -s -p0 < ukui-sidebar-plugin-libdir.patch;
       - name: Install build dependencies
         run: dnf install -y which gcc gcc-c++ make cmake cmake-rpm-macros autoconf automake intltool rpm-build qt5-rpm-macros  qt5-qtbase-devel qt5-qttools-devel glib2-devel qt5-qtbase-devel qt5-qtsvg-devel dconf-devel gsettings-qt-devel qt5-qtmultimedia-devel kf5-kwindowsystem-devel
       - name: QMake configure & Make

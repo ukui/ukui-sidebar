@@ -13,9 +13,11 @@ CONFIG += plugin \
 
 DESTDIR = ../notification-plugins
 
+include(../../env.pri)
+
 PKGCONFIG += gsettings-qt \
              glib-2.0
-LIBS          +=  -L/usr/lib/  -ldconf
+LIBS          +=  -L$$[QT_INSTALL_LIBS] -ldconf
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -49,7 +51,7 @@ HEADERS += \
 DISTFILES += notificationPlugin.json
 
 unix {
-    target.path = /usr/lib/ukui-sidebar/notification
+    target.path = $${PLUGIN_INSTALL_DIRS}
     INSTALLS += target
 
     translation.path = /usr/share/ukui-sidebar-notification
