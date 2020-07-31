@@ -24,10 +24,10 @@
 #include <QtMath>
 #include <QPainterPath>
 
-#include "notemodel.h"
+#include "noteModel.h"
 #include "widget.h"
-#include "iconviewmodedelegate.h"
-#include "noteview.h"
+#include "iconViewModeDelegate.h"
+#include "noteView.h"
 
 iconViewModeDelegate::iconViewModeDelegate(QObject *parent)
     : QStyledItemDelegate(parent),

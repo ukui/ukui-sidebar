@@ -21,6 +21,7 @@
 #include "widget.h"
 #include "singleApplication.h"
 #include <X11/Xlib.h>
+
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
     // 加锁

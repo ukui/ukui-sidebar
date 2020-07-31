@@ -21,7 +21,7 @@
 
 #include <QAbstractListModel>
 
-#include "notedata.h"
+#include "noteData.h"
 
 class NoteModel : public QAbstractListModel
 {

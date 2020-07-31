@@ -18,7 +18,7 @@
 
 #include <QDebug>
 
-#include "notemodel.h"
+#include "noteModel.h"
 
 NoteModel::NoteModel(QObject *parent)
     : QAbstractListModel(parent)

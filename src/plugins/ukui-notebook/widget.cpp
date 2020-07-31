@@ -19,8 +19,8 @@
 #include "widget.h"
 #include "ui_widget.h"
 #include "listViewModeDelegate.h"
-#include "iconviewmodedelegate.h"
-#include "edit_page.h"
+#include "iconViewModeDelegate.h"
+#include "editPage.h"
 #include "headerbar.h"
 #include "customStyle.h"
 
@@ -54,7 +54,7 @@ Widget::Widget(QWidget *parent) :
     QLocale locale;
     //获取系统语言环境
     if ( locale.language() == QLocale::Chinese ) {
-        translator->load(QString(":/translation/ukui_notebook_zh_CN.qm"));  //选择翻译文件
+        translator->load(QString("/usr/share/ukui-sidebar/ukui-notebook/ukui-notebook_zh_CN.qm"));  //选择翻译文件
         QApplication::installTranslator(translator);
     }
     ui->setupUi(this);

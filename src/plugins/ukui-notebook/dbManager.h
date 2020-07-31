@@ -22,7 +22,7 @@
 #include <QObject>
 #include <QtSql/QSqlDatabase>
 
-#include "notedata.h"
+#include "noteData.h"
 
 class DBManager : public QObject
 {

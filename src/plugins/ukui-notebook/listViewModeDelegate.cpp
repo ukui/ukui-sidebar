@@ -25,10 +25,10 @@
 #include <QPainter>
 #include <QPainterPath>
 
-#include "notemodel.h"
+#include "noteModel.h"
 #include "widget.h"
 #include "listViewModeDelegate.h"
-#include "noteview.h"
+#include "noteView.h"
 
 listViewModeDelegate::listViewModeDelegate(QObject *parent)
     : QStyledItemDelegate(parent),

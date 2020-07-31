@@ -47,14 +47,14 @@
 #include <QTableView>
 #include <QPainterPath>
 
-#include "mythrow.h"
-#include "noteview.h"
-#include "notedata.h"
-#include "notemodel.h"
-#include "dbmanager.h"
-#include "edit_page.h"
+#include "myThrow.h"
+#include "noteView.h"
+#include "noteData.h"
+#include "noteModel.h"
+#include "dbManager.h"
+#include "editPage.h"
 #include "noteExitWindow.h"
-#include "ui_edit_page.h"
+#include "ui_editPage.h"
 
 extern int sink;
 
