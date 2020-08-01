@@ -15,13 +15,13 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include "setuppage.h"
-#include "ui_setuppage.h"
+#include "setupPage.h"
+#include "ui_setupPage.h"
 #include "QSlider"
 #include <QPixmap>
-#include "set_alarm_repeat_dialog.h"
+#include "setAlarmRepeatDialog.h"
 #include <QDebug>
-#include "customstyle.h"
+#include "customStyle.h"
 
 setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     QWidget(parent),

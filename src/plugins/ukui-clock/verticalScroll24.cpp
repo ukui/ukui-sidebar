@@ -15,7 +15,7 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include "verticalscroll_24.h"
+#include "verticalScroll24.h"
 #include <QMouseEvent>
 #include <QDebug>
 #include <QApplication>

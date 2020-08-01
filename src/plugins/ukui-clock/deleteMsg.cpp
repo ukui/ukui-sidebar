@@ -15,35 +15,38 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include "DotLineDemo.h"
-#include <QDebug>
+#include "deleteMsg.h"
+#include "ui_deleteMsg.h"
 
-DotLineDemo::DotLineDemo(QWidget *parent):
-     QWidget(parent)
+delete_msg::delete_msg(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::delete_msg)
 {
-    this->resize(454, 403);
+    ui->setupUi(this);
+    this->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
+    setAttribute(Qt::WA_TranslucentBackground);
+    this->setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
 }
 
-DotLineDemo::~DotLineDemo()
+delete_msg::~delete_msg()
 {
-    //delete widget;
-    qDebug()<<"-------DotLineDemo---------";
-
+    delete ui;
 }
 
-//绘制虚线圈
-// Draw a dashed circle
-void DotLineDemo::paintEvent(QPaintEvent *event)
+void delete_msg::on_closebtn_clicked()
 {
-    Q_UNUSED(event);
+    close_sure = 0;
+    this->close();
+}
 
-    QPainter painter(this);
+void delete_msg::on_surebtn_clicked()
+{
+    close_sure = 1;
+    this->close();
+}
 
-    // 反走样  antialiasing
-    painter.setRenderHint(QPainter::Antialiasing, true);
-
-    //color: rgb(148, 148, 148);   Qt::gray
-    painter.setPen(QPen(QColor(60, 60, 60), 4, Qt::DotLine, Qt::RoundCap, Qt::RoundJoin));
-    painter.setBrush(Qt::NoBrush);
-    painter.drawEllipse(QPointF(226, 215), 170, 170);
+void delete_msg::on_cancelbtn_clicked()
+{
+    close_sure = 0;
+    this->close();
 }

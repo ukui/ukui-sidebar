@@ -19,8 +19,8 @@
 #define SETUPPAGE_H
 
 #include <QWidget>
-#include "ui_setuppage.h"
-#include "set_alarm_repeat_dialog.h"
+#include "setupPage.h"
+#include "setAlarmRepeatDialog.h"
 #include <QSqlTableModel>
 namespace Ui {
 class setuppage;

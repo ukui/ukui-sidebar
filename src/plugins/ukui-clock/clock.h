@@ -30,18 +30,18 @@
 #include <QLCDNumber>
 #include <QMediaPlayer>
 #include <QFrame>
-#include <item_new.h>
+#include <itemNew.h>
 #include <QListWidgetItem>
-#include "stopwatch_item.h"
+#include "stopwatchItem.h"
 #include <QPaintEvent>
-#include "verticalscroll_24.h"
-#include "verticalscroll_60.h"
-#include "verticalscroll_99.h"
-#include "DotLineDemo.h"
-#include "set_alarm_repeat_dialog.h"
+#include "verticalScroll24.h"
+#include "verticalScroll60.h"
+#include "verticalScroll99.h"
+#include "dotlineDemo.h"
+#include "setAlarmRepeatDialog.h"
 #include <QPointF>
 #include <QLineEdit>
-#include "setuppage.h"
+#include "setupPage.h"
 #include <QPropertyAnimation>
 
 class QSpinBox;
