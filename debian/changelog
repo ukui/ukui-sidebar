@@ -1,238 +1,27 @@
-ukui-sidebar (1.1.0-1kylin10) v101; urgency=medium
+ukui-sidebar (3.0.0-1) unstable; urgency=medium
 
   * New upstream release.
-    - Change scheme cancel menu arrow
-    - Add plugins and clipboard adaptation to 4K screen
-    - Increase screen resolution judgment
-    - change 4K code location
-    - fix the record will not be refreshed
-    - Incomplete display of repair time
-    - Complete the function of clearing notes
 
- -- liushanwen <liushanwen@kylinos.cn>  Mon, 20 Jul 2020 13:02:39 +0800
+ -- handsome_feng <jianfengli@ubuntukylin.com>  Sat, 01 Aug 2020 02:46:00 +0000
 
-ukui-sidebar (1.1.0-1kylin10) v100; urgency=medium
+ukui-sidebar (1.1.2-1) unstable; urgency=medium
 
-  * New upstream release.
-    - Change scheme cancel menu arrow
-    - Add plugins and clipboard adaptation to 4K screen
-    - Increase screen resolution judgment
-    - change 4K code location
-    - fix the record will not be refreshed
-    - Incomplete display of repair time
-    - Complete the function of clearing notes
+  * New upstream bugfix release:
+    - Fix the bug that clipboard and plugin overlap.
+    - Fix the wrong position on multi-screen.
+    - Fix that the label disappear.
+    - Fix that the feedback failed to submit.
+    - Fix the icon error.
+    - Fix the i18n issue.
+    - Fix the inaccurate time.
 
- -- liushanwen <liushanwen@kylinos.cn>  Mon, 20 Jul 2020 13:02:39 +0800
+ -- handsome_feng <jianfengli@ubuntukylin.com>  Mon, 06 Apr 2020 16:18:36 +0800
 
-ukui-sidebar (1.1.0-1kylin9) v100; urgency=medium
+ukui-sidebar (1.1.1-1) unstable; urgency=medium
 
-  * New upstream release.
-    - When modifying the sidebar to follow the task on the left, it pops up from the left(修改侧边栏跟着任务在左边时，从左边弹出)
-    - Optimize code format
-    - fix bug :word errors changed ukui-feedback to kylin-feedback
-    - Change ukui-clock to kylin-clock
-    - modify Bug V10 listen signal resized errorr
+  * New upstream bugfix release.
 
- -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
-
-ukui-sidebar (1.1.0-1kord3) juniper; urgency=medium
-
-  * New upstream release.
-    - When modifying the sidebar to follow the task on the left, it pops up from the left(修改侧边栏跟着任务在左边时，从左边弹出)
-    - Optimize code format
-    - fix bug :word errors changed ukui-feedback to kylin-feedback
-    - Change ukui-clock to kylin-clock
-    - modify Bug V10 listen signal resized errorr
-
- -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
-
-ukui-sidebar (1.1.0-1kylin8) v101; urgency=medium
-
-  * New upstream release.
-    - When modifying the sidebar to follow the task on the left, it pops up from the left(修改侧边栏跟着任务在左边时，从左边弹出)
-    - Optimize code format
-    - fix bug :word errors changed ukui-feedback to kylin-feedback
-    - Change ukui-clock to kylin-clock
-    - modify Bug V10 listen signal resized errorr
-
- -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
-
-ukui-sidebar (1.1.0-1kylin8) v100; urgency=medium
-
-  * New upstream release.
-    - When modifying the sidebar to follow the task on the left, it pops up from the left(修改侧边栏跟着任务在左边时，从左边弹出)
-    - Optimize code format
-    - fix bug :word errors changed ukui-feedback to kylin-feedback
-    - Change ukui-clock to kylin-clock
-    - modify Bug V10 listen signal resized errorr
-
- -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
-
-  * New upstream release.
-    - Repair the alarm time, it should display the alarm of the day
-    - Change last commit error with clock
-    - Repair the alarm time, it should display the alarm of the day, but it should display the alarm bug of the day
-    - Alarm window closing add background operation and direct closing opt…
-    - Alarm window closing add background operation and direct closing options
-    - fix fontSize range && set scroll wheel in pixels && disable animation
-    - Add the installation default sound
-    - Fix the bug of no prompt sound in v10
-
- -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
-
-ukui-sidebar (1.1.0-1kylin7) unstable; urgency=medium
-
-  * New upstream release.
-    - Repair the alarm time, it should display the alarm of the day
-    - Change last commit error with clock
-    - Repair the alarm time, it should display the alarm of the day, but it should display the alarm bug of the day
-    - Alarm window closing add background operation and direct closing opt…
-    - Alarm window closing add background operation and direct closing options
-    - fix fontSize range && set scroll wheel in pixels && disable animation
-    - Add the installation default sound and fix the bug of no prompt soun…
-    - Add the installation default sound and fix the bug of no prompt sound in v10
-
- -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
-
-ukui-sidebar (1.1.0-1kylin7) unstable; urgency=medium
-
-  * New upstream release.
-    - Repair the alarm time, it should display the alarm of the day
-    - Change last commit error with clock
-    - Repair the alarm time, it should display the alarm of the day, but it should display the alarm bug of the day
-    - Alarm window closing add background operation and direct closing opt…
-    - Alarm window closing add background operation and direct closing options
-    - fix fontSize range && set scroll wheel in pixels && disable animation
-    - Add the installation default sound and fix the bug of no prompt soun…
-    - Add the installation default sound and fix the bug of no prompt sound in v10
-
- -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
-
-ukui-sidebar (1.1.0-1kord1) unstable; urgency=medium
-
-  * New upstream release.
-    - Prompt time logic code change
-    - remove 2x SVG icon && fix font bug
-    - Achieve indent reversibility
-    - Achieve indent reversibility
-    - Modify note title
-    - Modify icon name
-    - Fix the stopwatch time immobility bug
-    - Fix the stopwatch time immobility bug
-    - Alarm initialization scroll wheel, minute second label moves one pixel to the right
-    - Page switch button to increase the suspension effect
-
- -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
-
-
-ukui-sidebar (1.1.0-1kylin5) unstable; urgency=medium
-
-  * New upstream release.
-    - Prompt time logic code change
-    - remove 2x SVG icon && fix font bug
-    - Achieve indent reversibility
-    - Achieve indent reversibility
-    - Modify note title
-    - Modify icon name
-    - Fix the stopwatch time immobility bug
-    - Fix the stopwatch time immobility bug
-    - Alarm initialization scroll wheel, minute second label moves one pixel to the right
-    - Page switch button to increase the suspension effect
-
- -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
-
-
-ukui-sidebar (1.1.0-1kylin4) unstable; urgency=medium
-
-  * New upstream release.
-    - fix Bug When a qualified entry is exceeded, no fixed entry is deleted, and if all are fixed, the last entry is deleted
-    - fix Bug After the last item is out of clipboard control, delete the priority change for the item (修复Bug --> 复制超出剪贴板控制的最后一条后，删除条目的优先级改动)
-    - The auto-matching icon is pulled out separately as a function based on the file type(将根据文件类型自动匹配图标单独拉出来作为一个函数)
-    - modify file Url mid ..., add pixmap fold
-    - fix bug : add network unconnected judgment
-    - modify entry widget no delete fixed button
-    - Fix alarm clock stuck due to prompt time
-    - add switch function animation effect and optimaze animation effect of unfolding
-    - The remaining time of alarm clock is not displayed correctly
-    - Get time format before drawing alarm list
-    - Modify code specification
-    - Fixed Bug with no icon on alarm clock
-
- -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
-
-
-ukui-sidebar (1.1.0-1kylin4) unstable; urgency=medium
-
-  * New upstream release.
-    - fix Bug When a qualified entry is exceeded, no fixed entry is deleted, and if all are fixed, the last entry is deleted
-    - fix Bug After the last item is out of clipboard control, delete the priority change for the item (修复Bug --> 复制超出剪贴板控制的最后一条后，删除条目的优先级改动)
-    - The auto-matching icon is pulled out separately as a function based on the file type(将根据文件类型自动匹配图标单独拉出来作为一个函数)
-    - modify file Url mid ..., add pixmap fold
-    - fix bug : add network unconnected judgment
-    - modify entry widget no delete fixed button
-    - Fix alarm clock stuck due to prompt time
-    - add switch function animation effect and optimaze animation effect of unfolding
-    - The remaining time of alarm clock is not displayed correctly
-    - Get time format before drawing alarm list
-    - Modify code specification
-    - Fixed Bug with no icon on alarm clock
-
- -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
-
-
-ukui-sidebar (1.1.0-1kylin3) unstable; urgency=medium
-
-  * New upstream release.
-    - fix Bug When a qualified entry is exceeded, no fixed entry is deleted, and if all are fixed, the last entry is deleted
-    - fix Bug After the last item is out of clipboard control, delete the priority change for the item (修复Bug --> 复制超出剪贴板控制的最后一条后，删除条目的优先级改动)
-    - The auto-matching icon is pulled out separately as a function based on the file type(将根据文件类型自动匹配图标单独拉出来作为一个函数)
-    - modify file Url mid ..., add pixmap fold
-    - fix bug : add network unconnected judgment
-    - modify entry widget no delete fixed button
-    - Fix alarm clock stuck due to prompt time
-    - add switch function animation effect and optimaze animation effect of unfolding
-    - The remaining time of alarm clock is not displayed correctly
-    - Get time format before drawing alarm list
-
- -- liushanwen <liushanwen@kylinos.cn>  Thu, 21 May 2020 16:24:48 +0800
-
-
-ukui-sidebar (1.1.0-1kylin3) unstable; urgency=medium
-
-  * New upstream release.
-    - fix Bug When a qualified entry is exceeded, no fixed entry is deleted, and if all are fixed, the last entry is deleted
-    - fix Bug After the last item is out of clipboard control, delete the priority change for the item (修复Bug --> 复制超出剪贴板控制的最后一条后，删除条目的优先级改动)
-    - The auto-matching icon is pulled out separately as a function based on the file type(将根据文件类型自动匹配图标单独拉出来作为一个函数)
-    - modify file Url mid ..., add pixmap fold
-    - fix bug : add network unconnected judgment
-    - modify entry widget no delete fixed button
-    - Fix alarm clock stuck due to prompt time
-    - add switch function animation effect and optimaze animation effect of unfolding
-    - The remaining time of alarm clock is not displayed correctly
-    - Get time format before drawing alarm list
-
- -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
-
-ukui-sidebar (1.1.0-1kylin2) unstable; urgency=medium
-
-  * New upstream release.
-    - add image preview function
-    - add upload file doc
-    - modify small plugins clicked start process functional
-
- -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
-ukui-sidebar (1.1.0-1kylin2) unstable; urgency=medium
-
-  * New upstream release.
-    - add image preview function
-    - add upload file doc
-    - add sql
-    - add fix button(增加固定按钮，重启后固定了的条目将会重新载入)
-    - modify pop (改成单击置顶，去掉置顶按钮)
-    - modify small plugins clicked start process functional
-    - modify fix Button Bug
-
- -- liushanwen <liushanwen@kylinos.cn>  Thu, 14 May 2020 11:41:48 +0800
+ -- handsome_feng <jianfengli@ubuntukylin.com>  Mon, 30 Mar 2020 21:58:48 +0800
 
 ukui-sidebar (1.1.0-1) unstable; urgency=medium
 
