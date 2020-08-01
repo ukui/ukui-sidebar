@@ -13,9 +13,8 @@
         <file>image/conning-a/6.png</file>
         <file>image/conning-a/7.png</file>
         <file>image/conning-a/8.png</file>
-        <file>translation/ukui-feedback_widget_tr.qm</file>
-        <file>translation/ukui-feedback_tr.qm</file>
         <file>image/fail.png</file>
         <file>image/success.png</file>
+        <file alias="ukui-feedback_en.qm">../../../translations/ukui-feedback/ukui-feedback_en.qm</file>
     </qresource>
 </RCC>

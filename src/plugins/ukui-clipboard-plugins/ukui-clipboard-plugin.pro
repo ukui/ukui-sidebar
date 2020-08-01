@@ -11,8 +11,6 @@ TARGET = clipboardPlugin
 TEMPLATE = lib
 CONFIG += plugin
 
-DESTDIR = ../ukui-clipboard
-
 include(../../env.pri)
 
 DEFINES += QT_DEPRECATED_WARNINGS

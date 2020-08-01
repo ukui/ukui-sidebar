@@ -7,4 +7,4 @@ SUBDIRS	    =   ./src/ukui-sidebar-core.pro \
                 ./src/plugins/ukui-clock/ukui-clock.pro \
                 ./src/plugins/ukui-notebook/ukui-notebook.pro
 
-greaterThan(QT_PATCH_VERSION, 5.7): SUBDIRS     +=  ./src/plugins/ukui-feedback/ukui-feedback.pro
+greaterThan(QT_MINOR_VERSION, 7): SUBDIRS     +=  ./src/plugins/ukui-feedback/ukui-feedback.pro

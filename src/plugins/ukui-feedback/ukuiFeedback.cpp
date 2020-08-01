@@ -53,17 +53,10 @@ feedback::feedback(QWidget *parent)
     : QMainWindow(parent)
 {
     QTranslator *translator = new QTranslator;
-    QLocale locale;
-    //获取系统语言环境
-    //Get the system language environment
-    if ( locale.language() == QLocale::English ) {
-        translator->load(QString("://translation/ukui-feedback_tr.qm "));
+    if (translator->load(QLocale(), QLatin1String("ukui-feedback"), QLatin1String("_"), QLatin1String(":/")))
         QApplication::installTranslator(translator);
-    }
-    else if ( locale.language() == QLocale::Chinese ) {
-        translator->load(QString("://translation/ukui-feedback_widget_tr.qm"));
-        QApplication::installTranslator(translator);
-    }
+    else
+        qDebug() << "cannot load translator ukui-feedback_" << QLocale::system().name() << ".qm!";
     UI_init();
     feedback_init();
     setAttribute(Qt::WA_TranslucentBackground);
@@ -71,7 +64,6 @@ feedback::feedback(QWidget *parent)
 
 feedback::~feedback()
 {
-
     qDebug()<<"this is ~feedback";
     //程序结束时删除所有数据------
     //Delete all data at the end of the program
@@ -122,7 +114,6 @@ feedback::~feedback()
     delete comboBox;
     delete label;
     delete centralwidget;
-    //---------------------------
 }
 
 void feedback::UI_init()

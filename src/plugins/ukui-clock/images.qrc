@@ -19,8 +19,6 @@
         <file>go-bottom-symbolic.png</file>
         <file>clock.ico</file>
         <file>kylin-alarm-clock.svg</file>
-        <file>Clock.ts</file>
-        <file>Clock.qm</file>
         <file>image/close_light.png</file>
         <file>image/close2.png</file>
         <file>image/close3.png</file>
@@ -31,5 +29,7 @@
         <file>image/more2.png</file>
         <file>image/more3.png</file>
         <file>image/aptdaemon-error.png</file>
+        <file alias="ukui-clock_en.qm">../../../translations/ukui-clock/ukui-clock_en.qm</file>
+        <file alias="ukui-clock_tr.qm">../../../translations/ukui-clock/ukui-clock_tr.qm</file>
     </qresource>
 </RCC>

@@ -75,14 +75,11 @@ Clock::Clock(QWidget *parent) :
     ui(new Ui::Clock)
 {
     QTranslator *translator = new QTranslator;
-    QLocale locale;
-    //获取系统语言环境
     // Get system locale
-    if ( locale.language() == QLocale::English ) {
-        translator->load(QString("://Clock.qm"));  //选择翻译文件
-                                                   // Select translation file
+    if (translator->load(QLocale(), QLatin1String("ukui-clock"), QLatin1String("_"), QLatin1String(":/")))
         QApplication::installTranslator(translator);
-    }
+    else
+        qDebug() << "cannot load translator ukui-clock_" << QLocale::system().name() << ".qm!";
 
     ui->setupUi(this);
     createConnection();

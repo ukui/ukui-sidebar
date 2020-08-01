@@ -16,7 +16,7 @@ LIBS    +=  -lX11
 SOURCES += \
     btnNew.cpp \
     clickableLabel.cpp \
-        clock.cpp \
+    clock.cpp \
     closeOrHide.cpp \
     countdownAnimation.cpp \
     customStyle.cpp \
@@ -34,7 +34,9 @@ SOURCES += \
     verticalScroll24.cpp \
     verticalScroll60.cpp \
     verticalScroll99.cpp
-TRANSLATIONS = Clock.ts
+
+TRANSLATIONS += ../../../translations/ukui-clock/ukui-clock_en.ts \
+                ../../../translations/ukui-clock/ukui-clock_tr.ts
 
 HEADERS  += clock.h \
     btnNew.h \
