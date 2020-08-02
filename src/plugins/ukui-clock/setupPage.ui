@@ -111,7 +111,7 @@ color:rgba(255,255,255,1);
 </string>
      </property>
      <property name="text">
-      <string>work</string>
+      <string>  work</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_10">
@@ -186,7 +186,7 @@ color:rgba(255,255,255,1);
 </string>
      </property>
      <property name="text">
-      <string>Time</string>
+      <string>  Time</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_11">
@@ -261,7 +261,7 @@ color:rgba(255,255,255,1);
 </string>
      </property>
      <property name="text">
-      <string>Pop-up</string>
+      <string>  Pop-up</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_12">
@@ -336,7 +336,7 @@ color:rgba(255,255,255,1);
 </string>
      </property>
      <property name="text">
-      <string>duration</string>
+      <string>  duration</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_13">
@@ -411,7 +411,7 @@ color:rgba(255,255,255,1);
 </string>
      </property>
      <property name="text">
-      <string>ringtone</string>
+      <string>  ringtone</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_14">
@@ -469,7 +469,7 @@ font-weight:400;
 color:rgba(255,255,255,1)</string>
     </property>
     <property name="text">
-     <string>Mute</string>
+     <string>  Mute</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_2">

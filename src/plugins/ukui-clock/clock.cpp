@@ -833,20 +833,20 @@ void Clock::timerUpdate()
         // Judgment week
         QDateTime current_date_time = QDateTime::currentDateTime();
 
-        if (current_date_time.toString("ddd").compare(tr("Mon"))==0 &&  model->index(i, 6).data().toInt() == 0)
-            continue;
-        if (current_date_time.toString("ddd").compare(tr("Tue"))==0 &&  model->index(i, 7).data().toInt() == 0)
-            continue;
-        if (current_date_time.toString("ddd").compare(tr("Wed"))==0 &&  model->index(i, 8).data().toInt() == 0)
-            continue;
-        if (current_date_time.toString("ddd").compare(tr("Thu"))==0 &&  model->index(i, 9).data().toInt() == 0)
-            continue;
-        if (current_date_time.toString("ddd").compare(tr("Fri"))==0 &&  model->index(i, 10).data().toInt() == 0)
-            continue;
-        if (current_date_time.toString("ddd").compare(tr("Sat"))==0 &&  model->index(i, 11).data().toInt() == 0)
-            continue;
-        if (current_date_time.toString("ddd").compare(tr("Sun"))==0 &&  model->index(i, 12).data().toInt() == 0)
-            continue;
+        if (current_date_time.toString("ddd").compare("周一")==0 &&  model->index(i, 6).data().toInt() == 0)
+             continue;
+         if (current_date_time.toString("ddd").compare("周二")==0 &&  model->index(i, 7).data().toInt() == 0)
+             continue;
+         if (current_date_time.toString("ddd").compare("周三")==0 &&  model->index(i, 8).data().toInt() == 0)
+             continue;
+         if (current_date_time.toString("ddd").compare("周四")==0 &&  model->index(i, 9).data().toInt() == 0)
+             continue;
+         if (current_date_time.toString("ddd").compare("周五")==0 &&  model->index(i, 10).data().toInt() == 0)
+             continue;
+         if (current_date_time.toString("ddd").compare("周六")==0 &&  model->index(i, 11).data().toInt() == 0)
+             continue;
+         if (current_date_time.toString("ddd").compare("周日")==0 &&  model->index(i, 12).data().toInt() == 0)
+             continue;
 
         //判断开关
         // Judgment switch
@@ -1347,19 +1347,19 @@ int Clock::get_alarm_clock_will_ring_days(int num)
     // Judgment week
     QDateTime current_date_time = QDateTime::currentDateTime();
 
-    if(current_date_time.toString("ddd").compare("Mon")==0 )
+    if(current_date_time.toString("ddd").compare("周一")==0 )
         today = 0;
-    else if(current_date_time.toString("ddd").compare("Tue")==0 )
+    else if(current_date_time.toString("ddd").compare("周二")==0 )
         today = 1;
-    else if(current_date_time.toString("ddd").compare("Wed")==0 )
+    else if(current_date_time.toString("ddd").compare("周三")==0 )
         today = 2;
-    else if(current_date_time.toString("ddd").compare("Thu")==0 )
+    else if(current_date_time.toString("ddd").compare("周四")==0 )
         today = 3;
-    else if(current_date_time.toString("ddd").compare("Fri")==0 )
+    else if(current_date_time.toString("ddd").compare("周五")==0 )
         today = 4;
-    else if(current_date_time.toString("ddd").compare("Sat")==0 )
+    else if(current_date_time.toString("ddd").compare("周六")==0 )
         today = 5;
-    else if(current_date_time.toString("ddd").compare("Sun")==0 )
+    else if(current_date_time.toString("ddd").compare("周日")==0 )
         today = 6;
 
     for (int i = today+1; i < 7; i++) {
@@ -1390,19 +1390,19 @@ int Clock::get_alarm_clock_will_ring_days_2(int num)
     // Judgment week
     QDateTime current_date_time = QDateTime::currentDateTime();
 
-    if(current_date_time.toString("ddd").compare("Mon")==0 )
+    if(current_date_time.toString("ddd").compare("周一")==0 )
         today = 0;
-    else if(current_date_time.toString("ddd").compare("Tue")==0 )
+    else if(current_date_time.toString("ddd").compare("周二")==0 )
         today = 1;
-    else if(current_date_time.toString("ddd").compare("Wed")==0 )
+    else if(current_date_time.toString("ddd").compare("周三")==0 )
         today = 2;
-    else if(current_date_time.toString("ddd").compare("Thu")==0 )
+    else if(current_date_time.toString("ddd").compare("周四")==0 )
         today = 3;
-    else if(current_date_time.toString("ddd").compare("Fri")==0 )
+    else if(current_date_time.toString("ddd").compare("周五")==0 )
         today = 4;
-    else if(current_date_time.toString("ddd").compare("Sat")==0 )
+    else if(current_date_time.toString("ddd").compare("周六")==0 )
         today = 5;
-    else if(current_date_time.toString("ddd").compare("Sun")==0 )
+    else if(current_date_time.toString("ddd").compare("周日")==0 )
         today = 6;
     
 

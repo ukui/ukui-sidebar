@@ -1171,7 +1171,7 @@ border-radius:4px;
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>61</width>
+       <width>71</width>
        <height>31</height>
       </rect>
      </property>
@@ -1184,7 +1184,7 @@ color:rgba(255,255,255,1);
 </string>
      </property>
      <property name="text">
-      <string> ring time</string>
+      <string>  ring time</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_16">
@@ -1262,12 +1262,12 @@ text-align: right</string>
     <string>On</string>
    </property>
   </action>
-  <zorder>set_page</zorder>
   <zorder>stackedWidget_3</zorder>
   <zorder>stackedWidget</zorder>
   <zorder>pushButton_12</zorder>
   <zorder>pushButton_4</zorder>
   <zorder>pushButton_5</zorder>
+  <zorder>set_page</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
