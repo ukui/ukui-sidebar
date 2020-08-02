@@ -1318,7 +1318,7 @@ void Clock::listClickslot()
 
 
     if (num < 0) {
-        ui->label_7->setText(QApplication::translate("Clock", "\347\202\271\345\207\273\351\227\271\351\222\237\346\230\276\347\244\272\345\211\251\344\275\231\346\227\266\351\227\264", nullptr));
+        ui->label_7->setText(tr("Remaining time"));
     } else {
         if (day_next) {
            ui->label_7->setText(QString::number(day_next)+tr(" days ")+QString::number(x_h)+tr(" hour ")+QString::number(x_m)+tr(" min bell rings"));

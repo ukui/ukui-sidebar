@@ -83,6 +83,7 @@
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.ui" line="481"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1321"/>
         <source>Remaining time</source>
         <translation>Kalan süre</translation>
     </message>
@@ -272,9 +273,8 @@
         <translation>Alarm saatini düzenle</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1321"/>
         <source>点击闹钟显示剩余时间</source>
-        <translation>Alarm saatini düzenle</translation>
+        <translation type="vanished">Alarm saatini düzenle</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1324"/>

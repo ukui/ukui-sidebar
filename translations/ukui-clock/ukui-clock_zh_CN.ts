@@ -79,6 +79,7 @@
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.ui" line="481"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1321"/>
         <source>Remaining time</source>
         <translation>点击闹钟显示剩余时间</translation>
     </message>
@@ -364,10 +365,9 @@
         <translation>编辑闹钟</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1321"/>
         <source>点击闹钟显示剩余时间</source>
         <translatorcomment>Remaining time</translatorcomment>
-        <translation>Remaining time</translation>
+        <translation type="vanished">Remaining time</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1324"/>
