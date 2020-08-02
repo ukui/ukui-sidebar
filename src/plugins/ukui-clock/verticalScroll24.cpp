@@ -280,9 +280,9 @@ void VerticalScroll_24::paintNum_12(QPainter &painter, int Height)
     }
     m_Pclock->ui->label_17->show();
     if (m_currentValue>=12) {
-        m_Pclock->ui->label_17->setText(tr("下午"));
+        m_Pclock->ui->label_17->setText(tr("PM"));
     } else {
-        m_Pclock->ui->label_17->setText(tr("上午"));
+        m_Pclock->ui->label_17->setText(tr("AM"));
     }
 }
 

@@ -93,7 +93,7 @@ border-radius: 6px;
          <string notr="true">color: rgb(255, 255, 255);</string>
         </property>
         <property name="text">
-         <string>闹钟</string>
+         <string>Alarm clock</string>
         </property>
        </widget>
        <widget class="QLabel" name="label_2">
@@ -148,7 +148,7 @@ border-radius:4px;}
 QPushButton:hover{background:rgba(143, 97, 47, 0.1)}</string>
         </property>
         <property name="text">
-         <string>稍后提醒</string>
+         <string>Remind later</string>
         </property>
        </widget>
        <widget class="QPushButton" name="pushButton_3">
@@ -169,7 +169,7 @@ QPushButton:hover{background-color: rgb(27, 143, 89);}
 </string>
         </property>
         <property name="text">
-         <string>关闭</string>
+         <string>close</string>
         </property>
        </widget>
        <widget class="QLabel" name="label_4">

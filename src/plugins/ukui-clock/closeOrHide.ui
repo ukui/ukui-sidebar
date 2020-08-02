@@ -64,7 +64,7 @@ QPushButton:hover{background-color: rgb(27, 143, 89);}
 </string>
     </property>
     <property name="text">
-     <string>确定</string>
+     <string>sure</string>
     </property>
    </widget>
    <widget class="QPushButton" name="cancelbtn">
@@ -85,7 +85,7 @@ border-radius:4px;}
 QPushButton:hover{background:rgba(143, 97, 47, 0.1)}</string>
     </property>
     <property name="text">
-     <string>取消</string>
+     <string>cancel</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_6">
@@ -118,7 +118,7 @@ QPushButton:hover{background:rgba(143, 97, 47, 0.1)}</string>
 font: 25 14pt ;</string>
     </property>
     <property name="text">
-     <string>后台运行</string>
+     <string>backstage</string>
     </property>
    </widget>
    <widget class="QRadioButton" name="radioButton_2">
@@ -135,7 +135,7 @@ font: 25 14pt ;</string>
 font: 25 14pt ;</string>
     </property>
     <property name="text">
-     <string>直接退出</string>
+     <string> Exit program </string>
     </property>
    </widget>
   </widget>
