@@ -12,7 +12,7 @@ QT += core gui  network
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
-TRANSLATIONS += ../../../translations/ukui-feedback/ukui-feedback_en.ts
+TRANSLATIONS += ../../../translations/ukui-feedback/ukui-feedback_zh.ts
 
 SOURCES += \
     browseButton.cpp \
@@ -48,6 +48,16 @@ unix {
     target.path = /usr/bin/
     INSTALLS += target
 }
+
+unix {
+    target.path = /usr/bin/
+    INSTALLS += target
+
+    translation.path = /usr/share/ukui-sidebar/ukui-feedback
+    translation.files += ../../../translations/ukui-feedback/*.qm
+    INSTALLS += translation
+}
+
 
 desktopfile.files = ukui-feedback.desktop
 desktopfile.path = /usr/share/applications/

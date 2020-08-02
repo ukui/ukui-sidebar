@@ -53,7 +53,7 @@ feedback::feedback(QWidget *parent)
     : QMainWindow(parent)
 {
     QTranslator *translator = new QTranslator;
-    if (translator->load(QLocale(), QLatin1String("ukui-feedback"), QLatin1String("_"), QLatin1String(":/")))
+    if (translator->load(QString("/usr/share/ukui-sidebar/ukui-feedback/ukui-feedback_zh.qm")))
         QApplication::installTranslator(translator);
     else
         qDebug() << "cannot load translator ukui-feedback_" << QLocale::system().name() << ".qm!";
@@ -128,7 +128,7 @@ void feedback::UI_init()
     sizePolicy.setHeightForWidth(this->sizePolicy().hasHeightForWidth());
     this->setSizePolicy(sizePolicy);
     this->setSizeIncrement(QSize(0, 0));
-    this->setWindowTitle(tr("用户反馈"));
+    this->setWindowTitle(tr("FeedBack"));
     this->setFixedSize(600,550);
     this->setWindowIcon(QIcon::fromTheme("kylin-feedback",QIcon(":/image/kylin-feedback.png")));
     //设置窗口无边框
@@ -161,24 +161,24 @@ void feedback::UI_init()
     centralwidget->setAttribute(Qt::WA_TranslucentBackground);
 
     label = new QLabel(centralwidget);
-    label->setText(tr("问题反馈"));
+    label->setText(tr("feedback"));
     label->setObjectName(QString::fromUtf8("label"));
     label->setGeometry(QRect(35, 40, 160, 41));
     label->setStyleSheet(QString::fromUtf8("font: 24px;\n"
                                            "color: rgb(68, 68, 68);"));
 
     label_2 = new QLabel(centralwidget);
-    label_2->setText(tr("问题类型"));
+    label_2->setText(tr("Backtype"));
     label_2->setObjectName(QString::fromUtf8("label_2"));
     label_2->setGeometry(QRect(35, 105, 61, 20));
     label_2->setStyleSheet(QString::fromUtf8("font: 14px;\n"
                                              "color: rgb(68, 68, 68);\n"
                                              ""));
     comboBox = new QComboBox(centralwidget);
-    comboBox->addItem(QString(tr("系统问题")));
-    comboBox->addItem(QString(tr("意见建议")));
-    comboBox->addItem(QString(tr("商务合作")));
-    comboBox->addItem(QString(tr("其他")));
+    comboBox->addItem(QString(tr("system issue")));
+    comboBox->addItem(QString(tr("suggestions")));
+    comboBox->addItem(QString(tr("Business Cooperation")));
+    comboBox->addItem(QString(tr("other")));
     comboBox->setObjectName(QString::fromUtf8("comboBox"));
     comboBox->setGeometry(QRect(140, 105, 320, 30));
     comboBox->setStyle(new CustomStyle());
@@ -189,7 +189,7 @@ void feedback::UI_init()
     comboBox->setView(new QListView());
 
     label_3 = new QLabel(centralwidget);
-    label_3->setText(tr("问题描述"));
+    label_3->setText(tr("Description"));
     label_3->setObjectName(QString::fromUtf8("label_3"));
     label_3->setGeometry(QRect(35, 145, 75, 20));
     label_3->setStyleSheet(QString::fromUtf8("font: 14px ;\n"
@@ -211,7 +211,7 @@ void feedback::UI_init()
     //    palette_textedit.setBrush(QPalette::PlaceholderText,QColor("#CCCCCC"));
     textEdit->setPalette(palette_textedit);
 #if QT_VERSION >= 0x050c00
-    textEdit->setPlaceholderText(tr("请输入内容"));
+    textEdit->setPlaceholderText(tr("Please enter content"));
 #endif
     textEdit->setStyle(new CustomStyle("ukui-light"));
     //不接受富文本
@@ -219,7 +219,7 @@ void feedback::UI_init()
     textEdit->setAcceptRichText(false);
 
     label_4 = new QLabel(centralwidget);
-    label_4->setText(tr("邮箱"));
+    label_4->setText(tr("Email"));
     label_4->setObjectName(QString::fromUtf8("label_4"));
     label_4->setGeometry(QRect(35, 275, 35, 23));
     label_4->setStyleSheet(QString::fromUtf8("font: 14px;\n"
@@ -227,7 +227,7 @@ void feedback::UI_init()
                                              ""));
 
     email_err_msg_label = new QLabel(centralwidget);
-    email_err_msg_label->setText(tr("邮箱格式输入不正确"));
+    email_err_msg_label->setText(tr("Email format is incorrect"));
     email_err_msg_label->setGeometry(QRect(140,305,240,15));
     email_err_msg_label->setStyleSheet(QString::fromUtf8("color: rgb(255, 0, 0);"));
     email_err_msg_label->hide();
@@ -254,7 +254,7 @@ void feedback::UI_init()
     lineEdit_2->setPalette(palette_lineedit_2);
 
     label_7 = new QLabel(centralwidget);
-    label_7->setText(tr("上传附件"));
+    label_7->setText(tr("Upload"));
     label_7->setObjectName(QString::fromUtf8("label_7"));
     label_7->setGeometry(QRect(35,365, 61, 30));
     label_7->setStyleSheet(QString::fromUtf8("font: 14px ;\n"
@@ -266,7 +266,7 @@ void feedback::UI_init()
     lineEdit->setReadOnly(true);
     lineEdit->setFrame(true);
 #if QT_VERSION >= 0x050c00
-    lineEdit->setPlaceholderText(tr("文件大小不能超过10MB"));
+    lineEdit->setPlaceholderText(tr("File size cannot exceed 10MB"));
 #endif
     lineEdit->setStyle(new CustomStyle("ukui"));
     QPalette palette_lineedit = lineEdit->palette();
@@ -275,7 +275,7 @@ void feedback::UI_init()
     lineEdit->setPalette(palette_lineedit);
 
     pushButton = new browse_button(centralwidget);
-    pushButton->setText(tr("浏览..."));
+    pushButton->setText(tr("Browse"));
     pushButton->setObjectName(QString::fromUtf8("pushButton"));
     pushButton->setGeometry(QRect(470, 367, 80, 30));
     pushButton->setStyleSheet(QString::fromUtf8("font: 14px;\n"
@@ -283,7 +283,7 @@ void feedback::UI_init()
                                                 "color: rgb(68, 68, 68);\n"
                                                 "border:4px ;"));
     checkBox_4 = new QCheckBox(centralwidget);
-    checkBox_4->setText(tr("同意获取我的"));
+    checkBox_4->setText(tr("get mine"));
     checkBox_4->setObjectName(QString::fromUtf8("checkBox_4"));
     checkBox_4->setGeometry(QRect(35, 490, 121, 24));
     checkBox_4->setStyleSheet(" spacing: 6px;");
@@ -293,7 +293,7 @@ void feedback::UI_init()
     checkBox_4->setPalette(palette_checkbox);
 
     pushButton_2 = new QPushButton(centralwidget);
-    pushButton_2->setText(tr("提交"));
+    pushButton_2->setText(tr("Submit"));
     pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
     pushButton_2->setGeometry(QRect(440, 475, 120, 45));
     pushButton_2->setEnabled(false);
@@ -302,7 +302,7 @@ void feedback::UI_init()
                                                   "background-color: rgb(233, 233, 233);\n"
                                                   "border:4px ;"));
     pushButton_3 = new systeminfo_button(centralwidget);
-    pushButton_3->setText(tr("系统信息"));
+    pushButton_3->setText(tr("osinfo"));
     pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
     pushButton_3->setGeometry(QRect(140, 490, 68, 24));
     pushButton_3->setFeedBack(this);
@@ -357,14 +357,14 @@ void feedback::UI_init()
     label_11->setStyleSheet(QString::fromUtf8("border-color: rgb(255, 255, 255);color:rgb(0,0,0);font:12px;"));
 
     label_8 = new QLabel(centralwidget);
-    label_8->setText(tr("日志文件"));
+    label_8->setText(tr("Log file"));
     label_8->setObjectName(QString::fromUtf8("label_8"));
     label_8->setGeometry(QRect(35, 325, 71, 23));
     label_8->setStyleSheet(QString::fromUtf8("font: 14px;\n"
                                              "color: rgb(68, 68, 68);\n"
                                              ""));
     label_9 = new QLabel(centralwidget);
-    label_9->setText(tr("限200字"));
+    label_9->setText(tr("200 words"));
     label_9->setObjectName(QString::fromUtf8("label_9"));
     label_9->setGeometry(QRect(470, 145, 60, 18));
     label_9->setStyleSheet(QString::fromUtf8("color: rgb(136, 136, 136);\n"
@@ -411,7 +411,7 @@ void feedback::UI_init()
 
 
     label_13 = new QLabel(centralwidget);
-    label_13->setText(tr("文件大小超过了10MB或文件格式不支持"));
+    label_13->setText(tr("File size exceeds 10MB or file format is not supported"));
     label_13->setObjectName(QString::fromUtf8("label_13"));
     label_13->setGeometry(QRect(140, 407, 300, 16));
     label_13->hide();
@@ -533,7 +533,7 @@ void feedback::resend_info_when_sendfail()
 void feedback::on_pushButton_clicked()
 {
     pushButton->setStyleSheet("font: 14px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(68, 68, 68)");
-    filename=QFileDialog::getOpenFileName(this,tr("选择附件"),"/","(*.gif *.jpg *.png *.pptx *.wps *.xlsx *.pdf *.txt *.docx)",0);
+    filename=QFileDialog::getOpenFileName(this,tr("select file"),"/","(*.gif *.jpg *.png *.pptx *.wps *.xlsx *.pdf *.txt *.docx)",0);
 
     if (filename.isEmpty())
         return;
@@ -1170,7 +1170,7 @@ void feedback::feedback_info_init()
     checkBox_3->setChecked(false);
     checkBox_4->setChecked(false);
     pushButton_2->setIcon(QIcon());
-    pushButton_2->setText(tr("提交"));
+    pushButton_2->setText(tr("submit"));
 
 }
 //添加文件后把文件信息加入qlist
@@ -1240,7 +1240,7 @@ void feedback::update_add_file_window()
         int filesize_width = file_widget[filenum]->filesize_label0->geometry().width();
 
         file_widget[filenum]->deletebtn0->setGeometry(filename_width+filesize_width+20,0,35,25);
-        file_widget[filenum]->deletebtn0->setText(tr("删除"));
+        file_widget[filenum]->deletebtn0->setText(tr("del"));
         file_widget[filenum]->deletebtn0->setStyleSheet("QPushButton{font: 12px ;color: rgb(61,107,229);background-color:rgb(255,255,255)}"
                                                         "");
         file_widget[filenum]->deletebtn0->setStyle(new CustomStyle("ukui"));

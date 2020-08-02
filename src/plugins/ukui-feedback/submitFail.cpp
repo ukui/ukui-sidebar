@@ -34,7 +34,7 @@ void submit_fail::UI_init()
 {
     if (this->objectName().isEmpty())
         this->setObjectName(QString::fromUtf8("submit_fail"));
-    setWindowTitle(tr("提交失败"));
+    setWindowTitle(tr("submit fail"));
 
     this->resize(430, 260);
 
@@ -58,7 +58,7 @@ void submit_fail::UI_init()
 
 
     label = new QLabel(this);
-    label->setText(tr("问题提交失败"));
+    label->setText(tr("issue submitfail"));
     label->setObjectName(QString::fromUtf8("label"));
     label->setGeometry(QRect(130, 85, 281, 60));
     label->setStyleSheet(QString::fromUtf8("font: 30px;\n"
@@ -73,7 +73,7 @@ void submit_fail::UI_init()
 
     resendBtn = new QPushButton(this);
     resendBtn->setGeometry(QRect(130, 160, 60, 26));
-    resendBtn->setText(tr("重新发送"));
+    resendBtn->setText(tr("resend"));
     resendBtn->setFlat(false);
     resendBtn->setStyleSheet(QString::fromUtf8("QPushButton{color: rgb(61, 107, 229);background-color:rgb(255,255,255)}"
                                                "QPushButton:hover {color: rgb(255,255,255);background-color:rgb(107,142,235)}"
@@ -81,7 +81,7 @@ void submit_fail::UI_init()
     connect(resendBtn,SIGNAL(clicked()),this,SLOT(resend_feedbackinfo()));
 
     pushButton_2 = new QPushButton(this);
-    pushButton_2->setText(tr("退出"));
+    pushButton_2->setText(tr("exit"));
     pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
     pushButton_2->setGeometry(QRect(220, 160, 40, 26));
     pushButton_2->setFlat(false);
@@ -105,22 +105,22 @@ void submit_fail::show_faillinfo(int error_code)
 {
     switch (error_code) {
     case 1:
-        label_3->setText(tr("远程服务器拒绝连接"));
+        label_3->setText(tr("The remote server refused the connection"));
         break;
     case 2:
-        label_3->setText(tr("服务器关闭"));
+        label_3->setText(tr("Server down"));
         break;
     case 3:
-        label_3->setText(tr("找不到远程主机名（无效的主机名）"));
+        label_3->setText(tr("Cannot find remote host name (invalid host name)"));
         break;
     case 4:
-        label_3->setText(tr("与远程服务器的连接超时"));
+        label_3->setText(tr("Connection to remote server timed out"));
         break;
     case 99:
-        label_3->setText(tr("网络未连接"));
+        label_3->setText(tr("net no connect"));
         break;
     default:
-        label_3->setText(tr("未知错误"));
+        label_3->setText(tr("unknown mistake"));
         break;
     }
 }

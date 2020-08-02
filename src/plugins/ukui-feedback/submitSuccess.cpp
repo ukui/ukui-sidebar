@@ -31,7 +31,7 @@ void submit_success::UI_init()
     if (this->objectName().isEmpty())
         this->setObjectName(QString::fromUtf8("submit_success"));
     this->resize(430, 260);
-    setWindowTitle(tr("提交成功 "));
+    setWindowTitle(tr("Submitted success "));
     this->setAttribute(Qt::WA_TranslucentBackground);
     this->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
 
@@ -53,7 +53,7 @@ void submit_success::UI_init()
     //----- ------------------------
 
     label = new QLabel(this);
-    label->setText(tr("问题提交成功"));
+    label->setText(tr("submitted success"));
     label->setObjectName(QString::fromUtf8("label"));
     label->setGeometry(QRect(130, 85, 291, 60));
     label->setStyleSheet(QString::fromUtf8("font: 30px;\n"
@@ -67,7 +67,7 @@ void submit_success::UI_init()
     connect(succ_closeBtn,SIGNAL(clicked()),this,SLOT(succ_close_window()));
 
     pushButton = new QPushButton(this);
-    pushButton->setText(tr("继续反馈问题"));
+    pushButton->setText(tr("Continue"));
     pushButton->setObjectName(QString::fromUtf8("pushButton"));
     pushButton->setGeometry(QRect(110, 165, 131, 26));
     pushButton->setFlat(false);
@@ -75,7 +75,7 @@ void submit_success::UI_init()
                                                   "QPushButton:hover {color: rgb(255,255,255);background-color:rgb(107,142,235)}"
                                                   ""));
     pushButton_2 = new QPushButton(this);
-    pushButton_2->setText(tr("退出"));
+    pushButton_2->setText(tr("exit"));
     pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
     pushButton_2->setGeometry(QRect(270, 165, 81, 26));
     pushButton_2->setFlat(false);
