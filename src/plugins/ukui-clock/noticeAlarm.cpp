@@ -33,7 +33,7 @@ Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
     setAttribute(Qt::WA_TranslucentBackground);
     ui->setupUi(this);
     QPixmap dialogPixmap = QPixmap(":/clock.ico");
-    this->setWindowTitle(tr("响铃提示"));
+    this->setWindowTitle(tr("Ring prompt"));
     this->setWindowIcon(dialogPixmap);
     ui->label->setAlignment(Qt::AlignHCenter);
     ui->label_2->setAlignment(Qt::AlignHCenter);
@@ -95,21 +95,21 @@ void Natice_alarm::natice_init()
                                         // Initialize playlist
     if(num_flag >= 0)
     {
-        if(model->index(num_flag, 2).data().toString().compare(tr("玻璃"))==0){
+        if(model->index(num_flag, 2).data().toString().compare(tr("glass"))==0){
             playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/glass.ogg"));
-        } else if (model->index(num_flag, 2).data().toString().compare(tr("犬吠"))==0) {
+        } else if (model->index(num_flag, 2).data().toString().compare(tr("bark"))==0) {
             playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/bark.ogg"));
-        } else if (model->index(num_flag, 2).data().toString().compare(tr("声呐"))==0) {
+        } else if (model->index(num_flag, 2).data().toString().compare(tr("sonar"))==0) {
             playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/sonar.ogg"));
-        } else if (model->index(num_flag, 2).data().toString().compare(tr("雨滴"))==0) {
+        } else if (model->index(num_flag, 2).data().toString().compare(tr("drip"))==0) {
             playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/drip.ogg"));
         }
     } else {
-        if (model_setup->index(0, 19).data().toString().compare(tr("玻璃"))==0) {
+        if (model_setup->index(0, 19).data().toString().compare(tr("glass"))==0) {
             playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/glass.ogg"));
-        } else if(model_setup->index(0, 19).data().toString().compare(tr("犬吠"))==0) {
+        } else if(model_setup->index(0, 19).data().toString().compare(tr("bark"))==0) {
             playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/bark.ogg"));
-        } else if(model_setup->index(0, 19).data().toString().compare(tr("声呐"))==0) {
+        } else if(model_setup->index(0, 19).data().toString().compare(tr("sonar"))==0) {
             playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/sonar.ogg"));
         } else {
             playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/drip.ogg"));
@@ -139,7 +139,7 @@ void Natice_alarm::close_music()
     if (timer_value == 0) {
         set_dialog_close();
     }
-        ui->label_4->setText(QString::number(timer_value)+tr("秒后自动关闭"));
+        ui->label_4->setText(QString::number(timer_value)+tr(" Seconds to close"));
     timer_value--;
 }
 //绘制背景

@@ -32,7 +32,7 @@ color: rgb(255, 255, 255);
     <string notr="true">border-radius:7px;</string>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="page">
     <widget class="QPushButton" name="count_stat">
@@ -54,7 +54,7 @@ QPushButton:hover{background-color: rgb(27, 143, 89);}
 </string>
      </property>
      <property name="text">
-      <string>开始</string>
+      <string>start</string>
      </property>
     </widget>
     <widget class="QStackedWidget" name="stackedWidget_4">
@@ -106,7 +106,7 @@ QPushButton:hover{background:rgba(143, 97, 47, 0.1)}
 </string>
        </property>
        <property name="text">
-        <string>5分钟</string>
+        <string>5min</string>
        </property>
       </widget>
       <widget class="QPushButton" name="min_10btn">
@@ -128,7 +128,7 @@ border-radius:4px;}
 QPushButton:hover{background:rgba(143, 97, 47, 0.1)}</string>
        </property>
        <property name="text">
-        <string>15分钟</string>
+        <string>15min</string>
        </property>
       </widget>
       <widget class="QPushButton" name="min_20btn">
@@ -150,7 +150,7 @@ border-radius:4px;}
 QPushButton:hover{background:rgba(143, 97, 47, 0.1)}</string>
        </property>
        <property name="text">
-        <string>25分钟</string>
+        <string>25min</string>
        </property>
       </widget>
       <widget class="QPushButton" name="min_30btn">
@@ -172,7 +172,7 @@ border-radius:4px;}
 QPushButton:hover{background:rgba(143, 97, 47, 0.1)}</string>
        </property>
        <property name="text">
-        <string>30分钟</string>
+        <string>30min</string>
        </property>
       </widget>
       <widget class="QPushButton" name="min_60btn">
@@ -194,7 +194,7 @@ border-radius:4px;}
 QPushButton:hover{background:rgba(143, 97, 47, 0.1)}</string>
        </property>
        <property name="text">
-        <string>60分钟</string>
+        <string>60min</string>
        </property>
       </widget>
       <widget class="Line" name="line">
@@ -248,7 +248,7 @@ background-color: rgba(255, 255, 255,0.04);</string>
  QPushButton:hover{background:rgba(143, 97, 47, 0.6)}</string>
        </property>
        <property name="text">
-        <string>暂停</string>
+        <string>suspend</string>
        </property>
       </widget>
       <widget class="Line" name="line_3">
@@ -302,7 +302,7 @@ color:rgba(255,255,255,1);
 </string>
         </property>
         <property name="text">
-         <string>  提醒铃声</string>
+         <string>Remind</string>
         </property>
        </widget>
        <widget class="QPushButton" name="pushButton_19">
@@ -399,7 +399,7 @@ opacity:0.45;
 </string>
           </property>
           <property name="text">
-           <string>下午05:31</string>
+           <string>PM</string>
           </property>
          </widget>
         </item>
@@ -459,7 +459,7 @@ QPushButton:hover{background-color: rgb(27, 143, 89);}
 </string>
      </property>
      <property name="text">
-      <string>添加闹钟</string>
+      <string>add alarm</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_7">
@@ -478,7 +478,7 @@ font: 13pt ;
 opacity:0.45;</string>
      </property>
      <property name="text">
-      <string>点击闹钟显示剩余时间</string>
+      <string>Remaining time</string>
      </property>
     </widget>
     <widget class="QListWidget" name="listWidget">
@@ -547,7 +547,7 @@ QPushButton:hover{background-color: rgb(27, 143, 89);}
 </string>
      </property>
      <property name="text">
-      <string>开始</string>
+      <string>start</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_5">
@@ -602,7 +602,7 @@ border-radius:4px;
 color: rgb(65, 65, 65);</string>
      </property>
      <property name="text">
-      <string>复位</string>
+      <string>reset</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_ring">
@@ -622,7 +622,7 @@ color: rgb(65, 65, 65);
 </string>
      </property>
      <property name="text">
-      <string>计次</string>
+      <string>count</string>
      </property>
     </widget>
     <widget class="QListWidget" name="listWidget_2">
@@ -736,7 +736,7 @@ background-color: rgba(255, 255, 255,0.04);</string>
 font: 10pt ;</string>
      </property>
      <property name="text">
-      <string>倒计时</string>
+      <string>Count down</string>
      </property>
     </widget>
     <widget class="ClickableLabel" name="label_2">
@@ -753,7 +753,7 @@ font: 10pt ;</string>
 font: 10pt ;</string>
      </property>
      <property name="text">
-      <string>闹钟</string>
+      <string>Alarm</string>
      </property>
     </widget>
     <widget class="ClickableLabel" name="label_3">
@@ -770,7 +770,7 @@ font: 10pt ;</string>
 font: 10pt ;</string>
      </property>
      <property name="text">
-      <string>秒表</string>
+      <string>Stopwatch</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton">
@@ -847,7 +847,7 @@ border-radius:4px;}
 QPushButton:hover{background:rgba(143, 97, 47, 0.1)}</string>
     </property>
     <property name="text">
-     <string>删除闹铃</string>
+     <string>deletealarm</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_9">
@@ -866,7 +866,7 @@ border-radius:4px;}
 QPushButton:hover{background-color: rgb(27, 143, 89);}</string>
     </property>
     <property name="text">
-     <string>保存</string>
+     <string>Preservation</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_12">
@@ -888,7 +888,7 @@ opacity:0.45;
 </string>
     </property>
     <property name="text">
-     <string>12小时43分后铃声响</string>
+     <string>12hour43minThe bell rings</string>
     </property>
    </widget>
    <widget class="QPushButton" name="set_alarm_cancelbtn">
@@ -910,7 +910,7 @@ border-radius:4px;}
 QPushButton:hover{background:rgba(143, 97, 47, 0.1)}</string>
     </property>
     <property name="text">
-     <string>取消</string>
+     <string>cancel</string>
     </property>
    </widget>
    <widget class="QPushButton" name="set_alarm_savebtn">
@@ -929,7 +929,7 @@ border-radius:4px;}
 QPushButton:hover{background-color: rgb(27, 143, 89);}</string>
     </property>
     <property name="text">
-     <string>保存</string>
+     <string>Preservation</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_13">
@@ -950,7 +950,7 @@ color:rgba(255,255,255,1);
 </string>
     </property>
     <property name="text">
-     <string>新建闹钟</string>
+     <string>New alarm</string>
     </property>
    </widget>
    <widget class="QWidget" name="widget" native="true">
@@ -987,7 +987,7 @@ color:rgba(255,255,255,1);
 </string>
      </property>
      <property name="text">
-      <string>  闹钟名</string>
+      <string>  Name</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit">
@@ -1038,7 +1038,7 @@ color:rgba(255,255,255,1);
 </string>
      </property>
      <property name="text">
-      <string>  重复</string>
+      <string>  repeat</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_10">
@@ -1111,7 +1111,7 @@ color:rgba(255,255,255,1);
 </string>
      </property>
      <property name="text">
-      <string>  提醒铃声</string>
+      <string>  Remind</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_7">
@@ -1184,7 +1184,7 @@ color:rgba(255,255,255,1);
 </string>
      </property>
      <property name="text">
-      <string>  铃声时长</string>
+      <string> ring time</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_16">

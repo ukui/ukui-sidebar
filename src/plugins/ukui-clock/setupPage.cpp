@@ -114,13 +114,13 @@ void setuppage::werk_day_set()
     dialog_werk_day->move(position.x()+83,position.y()+162);
     dialog_werk_day->resize(280,225);
     dialog_werk_day->listWidget->setFixedSize(280,225);
-    dialog_werk_day->widget[0]->alarmLabel0->setText(tr("周一"));
-    dialog_werk_day->widget[1]->alarmLabel0->setText(tr("周二"));
-    dialog_werk_day->widget[2]->alarmLabel0->setText(tr("周三"));
-    dialog_werk_day->widget[3]->alarmLabel0->setText(tr("周四"));
-    dialog_werk_day->widget[4]->alarmLabel0->setText(tr("周五"));
-    dialog_werk_day->widget[5]->alarmLabel0->setText(tr("周六"));
-    dialog_werk_day->widget[6]->alarmLabel0->setText(tr("周日"));
+    dialog_werk_day->widget[0]->alarmLabel0->setText(tr("Mon"));
+    dialog_werk_day->widget[1]->alarmLabel0->setText(tr("Tue"));
+    dialog_werk_day->widget[2]->alarmLabel0->setText(tr("Wed"));
+    dialog_werk_day->widget[3]->alarmLabel0->setText(tr("Thu"));
+    dialog_werk_day->widget[4]->alarmLabel0->setText(tr("Fri"));
+    dialog_werk_day->widget[5]->alarmLabel0->setText(tr("Sat"));
+    dialog_werk_day->widget[6]->alarmLabel0->setText(tr("Sun"));
 
     for (int i=0; i<7; i++) {
         if (model_setup->index(0, i+7).data().toInt()) {
@@ -139,13 +139,13 @@ void setuppage::werk_day_listClickslot()
     QString repeat_str;
     int num=dialog_werk_day->listWidget->currentRow();
     QString day[7] ;
-    day[0]= tr("周一");
-    day[1] = tr("周二");
-    day[2] = tr("周三");
-    day[3] = tr("周四");
-    day[4] = tr("周五");
-    day[5] = tr("周六");
-    day[6] = tr("周日");
+    day[0]= tr("Mon");
+    day[1] = tr("Tue");
+    day[2] = tr("Wed");
+    day[3] = tr("Thu");
+    day[4] = tr("Fri");
+    day[5] = tr("Sat");
+    day[6] = tr("Sun");
 
     switch (num)
     {
@@ -170,11 +170,11 @@ void setuppage::werk_day_listClickslot()
 
     case 1:
         if (model_setup->index(0, 8).data().toInt() ){
-            if(model_setup->index(0, 7).data().toInt()==0& \
-                    model_setup->index(0, 9).data().toInt()==0& \
-                    model_setup->index(0, 10).data().toInt()==0& \
-                    model_setup->index(0, 11).data().toInt()==0& \
-                    model_setup->index(0, 12).data().toInt()==0& \
+            if(model_setup->index(0, 7).data().toInt()==0&&
+                    model_setup->index(0, 9).data().toInt()==0&&
+                    model_setup->index(0, 10).data().toInt()==0&&
+                    model_setup->index(0, 11).data().toInt()==0&&
+                    model_setup->index(0, 12).data().toInt()==0&&
                     model_setup->index(0, 13).data().toInt()==0 ){
             }else{
                 model_setup->setData(model_setup->index(0, 8), 0);
@@ -189,11 +189,11 @@ void setuppage::werk_day_listClickslot()
 
     case 2:
         if (model_setup->index(0, 9).data().toInt() ){
-            if(model_setup->index(0, 8).data().toInt()==0& \
-                    model_setup->index(0, 7).data().toInt()==0& \
-                    model_setup->index(0, 10).data().toInt()==0& \
-                    model_setup->index(0, 11).data().toInt()==0& \
-                    model_setup->index(0, 12).data().toInt()==0& \
+            if(model_setup->index(0, 8).data().toInt()==0&&
+                    model_setup->index(0, 7).data().toInt()==0&&
+                    model_setup->index(0, 10).data().toInt()==0&&
+                    model_setup->index(0, 11).data().toInt()==0&&
+                    model_setup->index(0, 12).data().toInt()==0&&
                     model_setup->index(0, 13).data().toInt()==0 ){
             }else{
                 model_setup->setData(model_setup->index(0, 9), 0);
@@ -208,11 +208,11 @@ void setuppage::werk_day_listClickslot()
 
     case 3:
         if (model_setup->index(0, 10).data().toInt() ){
-            if(model_setup->index(0, 8).data().toInt()==0& \
-                    model_setup->index(0, 9).data().toInt()==0& \
-                    model_setup->index(0, 7).data().toInt()==0& \
-                    model_setup->index(0, 11).data().toInt()==0& \
-                    model_setup->index(0, 12).data().toInt()==0& \
+            if(model_setup->index(0, 8).data().toInt()==0&&
+                    model_setup->index(0, 9).data().toInt()==0&&
+                    model_setup->index(0, 7).data().toInt()==0&&
+                    model_setup->index(0, 11).data().toInt()==0&&
+                    model_setup->index(0, 12).data().toInt()==0&&
                     model_setup->index(0, 13).data().toInt()==0 ){
             }else{
                 model_setup->setData(model_setup->index(0, 10), 0);
@@ -226,11 +226,11 @@ void setuppage::werk_day_listClickslot()
 
     case 4:
         if (model_setup->index(0, 11).data().toInt()) {
-            if(model_setup->index(0, 8).data().toInt()==0& \
-                    model_setup->index(0, 9).data().toInt()==0& \
-                    model_setup->index(0, 10).data().toInt()==0& \
-                    model_setup->index(0, 7).data().toInt()==0& \
-                    model_setup->index(0, 12).data().toInt()==0& \
+            if(model_setup->index(0, 8).data().toInt()==0&&
+                    model_setup->index(0, 9).data().toInt()==0&&
+                    model_setup->index(0, 10).data().toInt()==0&&
+                    model_setup->index(0, 7).data().toInt()==0&&
+                    model_setup->index(0, 12).data().toInt()==0&&
                     model_setup->index(0, 13).data().toInt()==0 ){
             }else{
                 model_setup->setData(model_setup->index(0, 11), 0);
@@ -244,11 +244,11 @@ void setuppage::werk_day_listClickslot()
 
     case 5:
         if (model_setup->index(0, 12).data().toInt() ) {
-            if(model_setup->index(0, 8).data().toInt()==0& \
-                    model_setup->index(0, 9).data().toInt()==0& \
-                    model_setup->index(0, 10).data().toInt()==0& \
-                    model_setup->index(0, 11).data().toInt()==0& \
-                    model_setup->index(0, 7).data().toInt()==0& \
+            if(model_setup->index(0, 8).data().toInt()==0&&
+                    model_setup->index(0, 9).data().toInt()==0&&
+                    model_setup->index(0, 10).data().toInt()==0&&
+                    model_setup->index(0, 11).data().toInt()==0&&
+                    model_setup->index(0, 7).data().toInt()==0&&
                     model_setup->index(0, 13).data().toInt()==0 ){
             }else{
                 model_setup->setData(model_setup->index(0, 12), 0);
@@ -262,11 +262,11 @@ void setuppage::werk_day_listClickslot()
 
     case 6:
         if (model_setup->index(0, 13).data().toInt()) {
-            if(model_setup->index(0, 8).data().toInt()==0& \
-                    model_setup->index(0, 9).data().toInt()==0& \
-                    model_setup->index(0, 10).data().toInt()==0& \
-                    model_setup->index(0, 11).data().toInt()==0& \
-                    model_setup->index(0, 12).data().toInt()==0& \
+            if(model_setup->index(0, 8).data().toInt()==0&&
+                    model_setup->index(0, 9).data().toInt()==0&&
+                    model_setup->index(0, 10).data().toInt()==0&&
+                    model_setup->index(0, 11).data().toInt()==0&&
+                    model_setup->index(0, 12).data().toInt()==0&&
                     model_setup->index(0, 7).data().toInt()==0 ){
             }else{
                 model_setup->setData(model_setup->index(0, 13), 0);
@@ -291,7 +291,7 @@ void setuppage::werk_day_listClickslot()
             &&model_setup->index(0, 9).data().toInt()&&model_setup->index(0, 10).data().toInt() \
             &&model_setup->index(0, 11).data().toInt()&&model_setup->index(0, 12).data().toInt() \
             &&model_setup->index(0, 13).data().toInt()) {
-        repeat_str = tr("每天");
+        repeat_str = tr("Every day");
     }
     ui->pushButton_6->setText(repeat_str);
     model_setup->setData(model_setup->index(0, 14), repeat_str);
@@ -310,11 +310,11 @@ void setuppage::Time_format_set()
     Time_format->move(position.x()+83,position.y()+212);
     Time_format->resize(280,110);
     Time_format->listWidget->setFixedSize(280,110);
-    Time_format->widget[0]->alarmLabel0->setText(tr("跟随系统"));
+    Time_format->widget[0]->alarmLabel0->setText(tr("Following system"));
     Time_format->widget[0]->alarmLabel0->setFixedSize(200,17);
-    Time_format->widget[1]->alarmLabel0->setText(tr("24小时制(23:59:59)"));
+    Time_format->widget[1]->alarmLabel0->setText(tr("24 hour system"));
     Time_format->widget[1]->alarmLabel0->setFixedSize(200,17);
-    Time_format->widget[2]->alarmLabel0->setText(tr("12小时制(下午11:59:59)"));
+    Time_format->widget[2]->alarmLabel0->setText(tr("12 hour system"));
     Time_format->widget[2]->alarmLabel0->setFixedSize(200,17);
 
     Time_format->show();
@@ -332,17 +332,17 @@ void setuppage::Time_format_listClickslot()
     switch (num) {
     case 0:
         model_setup->setData(model_setup->index(0, 2), 0);
-        model_setup->setData(model_setup->index(0, 15), tr("跟随系统"));
+        model_setup->setData(model_setup->index(0, 15), tr("Following system"));
         break;
 
     case 1:
         model_setup->setData(model_setup->index(0, 2), 1);
-        model_setup->setData(model_setup->index(0, 15), tr("24小时制(23:59:59)"));
+        model_setup->setData(model_setup->index(0, 15), tr("24 hour system"));
         break;
 
     case 2:
         model_setup->setData(model_setup->index(0, 2), 2);
-        model_setup->setData(model_setup->index(0, 15), tr("12小时制(上午11:59:59)"));
+        model_setup->setData(model_setup->index(0, 15), tr("12 hour system"));
         break;
     default:
         break;
@@ -362,8 +362,8 @@ void setuppage::Pop_up_window_set()
     Pop_up_window->move(position.x()+83,position.y()+262);
     Pop_up_window->resize(280,75);
     Pop_up_window->listWidget->setFixedSize(280,75);
-    Pop_up_window->widget[0]->alarmLabel0->setText(tr("通知栏弹窗"));
-    Pop_up_window->widget[1]->alarmLabel0->setText(tr("全屏弹窗"));
+    Pop_up_window->widget[0]->alarmLabel0->setText(tr("Notification"));
+    Pop_up_window->widget[1]->alarmLabel0->setText(tr("Full screen"));
     Pop_up_window->show();
 }
 
@@ -385,9 +385,9 @@ void setuppage::Pop_up_window_listClickslot()
         break;
     }
     if (!model_setup->index(0, 3).data().toInt()) {
-        model_setup->setData(model_setup->index(0, 16), tr("通知栏弹窗"));
+        model_setup->setData(model_setup->index(0, 16), tr("Notification"));
     } else {
-        model_setup->setData(model_setup->index(0, 16), tr("全屏弹窗"));
+        model_setup->setData(model_setup->index(0, 16), tr("Full screen"));
     }
     ui->pushButton_8->setText(model_setup->index(0, 16).data().toString());
     Pop_up_window->hide();
@@ -409,11 +409,11 @@ void setuppage::Reminder_off_set()
     Reminder_off->widget[2]->alarmLabel0->setFixedSize(200,17);
     Reminder_off->widget[3]->alarmLabel0->setFixedSize(200,17);
     Reminder_off->widget[4]->alarmLabel0->setFixedSize(200,17);
-    Reminder_off->widget[0]->alarmLabel0->setText(tr("2分钟后提醒"));
-    Reminder_off->widget[1]->alarmLabel0->setText(tr("5分钟后提醒"));
-    Reminder_off->widget[2]->alarmLabel0->setText(tr("10分钟后提醒"));
-    Reminder_off->widget[3]->alarmLabel0->setText(tr("30分钟后提醒"));
-    Reminder_off->widget[4]->alarmLabel0->setText(tr("60分钟后提醒"));
+    Reminder_off->widget[0]->alarmLabel0->setText(tr("Alert in 2 minutes"));
+    Reminder_off->widget[1]->alarmLabel0->setText(tr("Alert in 5 minutes"));
+    Reminder_off->widget[2]->alarmLabel0->setText(tr("Alert in 10 minutes"));
+    Reminder_off->widget[3]->alarmLabel0->setText(tr("Alert in 30 minutes"));
+    Reminder_off->widget[4]->alarmLabel0->setText(tr("Alert in 60 minutes"));
     Reminder_off->show();
 }
 
@@ -427,19 +427,19 @@ void setuppage::Reminder_off_listClickslot()
 
     switch (num) {
     case 0:
-        model_setup->setData(model_setup->index(0, 17), tr("2分钟后提醒"));
+        model_setup->setData(model_setup->index(0, 17), tr("Alert in 2 minutes"));
         break;
     case 1:
-        model_setup->setData(model_setup->index(0, 17), tr("5分钟后提醒"));
+        model_setup->setData(model_setup->index(0, 17), tr("Alert in 5 minutes"));
         break;
     case 2:
-        model_setup->setData(model_setup->index(0, 17), tr("10分钟后提醒"));
+        model_setup->setData(model_setup->index(0, 17), tr("Alert in 10 minutes"));
         break;
     case 3:
-        model_setup->setData(model_setup->index(0, 17), tr("30分钟后提醒"));
+        model_setup->setData(model_setup->index(0, 17), tr("Alert in 30 minutes"));
         break;
     case 4:
-        model_setup->setData(model_setup->index(0, 17), tr("60分钟后提醒"));
+        model_setup->setData(model_setup->index(0, 17), tr("Alert in 60 minutes"));
         break;
     default:
         break;
@@ -458,10 +458,10 @@ void setuppage::Default_ringtone_set()
     Default_ringtone->move(position.x()+83,position.y()+362);
     Default_ringtone->resize(280,129);
     Default_ringtone->listWidget->setFixedSize(280,129);
-    Default_ringtone->widget[0]->alarmLabel0->setText(tr("玻璃"));
-    Default_ringtone->widget[1]->alarmLabel0->setText(tr("犬吠"));
-    Default_ringtone->widget[2]->alarmLabel0->setText(tr("声呐"));
-    Default_ringtone->widget[3]->alarmLabel0->setText(tr("雨滴"));
+    Default_ringtone->widget[0]->alarmLabel0->setText(tr("glass"));
+    Default_ringtone->widget[1]->alarmLabel0->setText(tr("bark"));
+    Default_ringtone->widget[2]->alarmLabel0->setText(tr("sonar"));
+    Default_ringtone->widget[3]->alarmLabel0->setText(tr("drip"));
     Default_ringtone->show();
 
 }
@@ -477,16 +477,16 @@ void setuppage::Default_ringtone_listClickslot()
     switch (num)
     {
     case 0:
-        model_setup->setData(model_setup->index(0, 5), tr("玻璃"));
+        model_setup->setData(model_setup->index(0, 5), tr("glass"));
         break;
     case 1:
-        model_setup->setData(model_setup->index(0, 5), tr("犬吠"));
+        model_setup->setData(model_setup->index(0, 5), tr("bark"));
         break;
     case 2:
-        model_setup->setData(model_setup->index(0, 5), tr("声呐"));
+        model_setup->setData(model_setup->index(0, 5), tr("sonar"));
         break;
     case 3:
-        model_setup->setData(model_setup->index(0, 5), tr("雨滴"));
+        model_setup->setData(model_setup->index(0, 5), tr("drip"));
         break;
     default:
         break;

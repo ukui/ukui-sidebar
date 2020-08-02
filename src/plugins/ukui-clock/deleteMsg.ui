@@ -63,7 +63,7 @@ QPushButton:hover{background-color: rgb(27, 143, 89);}
 </string>
     </property>
     <property name="text">
-     <string>确定</string>
+     <string>sure</string>
     </property>
    </widget>
    <widget class="QPushButton" name="cancelbtn">
@@ -84,7 +84,7 @@ border-radius:4px;}
 QPushButton:hover{background:rgba(143, 97, 47, 0.1)}</string>
     </property>
     <property name="text">
-     <string>取消</string>
+     <string>cancel</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_5">
@@ -101,7 +101,7 @@ QPushButton:hover{background:rgba(143, 97, 47, 0.1)}</string>
 font: 25 15pt &quot;Noto Sans CJK SC&quot;;</string>
     </property>
     <property name="text">
-     <string>您确定删除当前闹钟吗？</string>
+     <string>are you sure ?</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_6">
