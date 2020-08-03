@@ -59,6 +59,10 @@ TRANSLATIONS += ../../../translations/ukui-sidebar-clipboard/ukui-sidebar-clipbo
                 ../../../translations/ukui-sidebar-clipboard/ukui-sidebar-clipboard_tr.ts
 
 unix {
+    translation.path = /usr/share/ukui-sidebar/ukui-sidebar-clipboard
+    translation.files += ../../../translations/ukui-sidebar-clipboard/*.qm
+    INSTALLS += translation
+
     target.path = $${PLUGIN_INSTALL_DIRS}
     INSTALLS += target
 }
