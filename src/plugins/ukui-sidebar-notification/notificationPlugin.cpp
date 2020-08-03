@@ -252,7 +252,22 @@ NotificationPlugin::NotificationPlugin()
 
     //新建一个监控dbus消息的线程
     MonitorThread* pMonitorThread = new MonitorThread(this);
+    m_pEnablenotice = new QGSettings("org.ukui.control-center.notice");
+    if(m_pEnablenotice->get("enable-notice").toBool())
     pMonitorThread->start();
+
+    connect(m_pEnablenotice,&QGSettings::changed,[=](){
+    if(m_pEnablenotice->get("enable-notice").toBool())
+    {
+        if(!pMonitorThread->isRunning())
+            pMonitorThread->start();
+    }
+    else
+    {
+        if(pMonitorThread->isRunning())
+            pMonitorThread->exit();
+    }
+    });
 
     return;
 }
