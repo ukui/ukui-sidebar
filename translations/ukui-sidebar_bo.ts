@@ -4,25 +4,35 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="main.cpp" line="60"/>
+        <location filename="../src/main.cpp" line="81"/>
         <source>Display debug information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="182"/>
+        <location filename="../src/widget.cpp" line="177"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="185"/>
+        <location filename="../src/widget.cpp" line="180"/>
         <source>Set up notification center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/sidebarpluginswidgets.cpp" line="112"/>
+        <source>折叠</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/sidebarpluginswidgets.cpp" line="114"/>
+        <source>展开</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Widget</name>
     <message>
-        <location filename="widget.cpp" line="218"/>
+        <location filename="../src/widget.cpp" line="210"/>
         <source>Sidebar</source>
         <translation type="unfinished"></translation>
     </message>
@@ -30,12 +40,12 @@
 <context>
     <name>sidebarPluginsWidgets</name>
     <message>
-        <location filename="sidebarpluginswidgets.cpp" line="92"/>
+        <location filename="../src/sidebarpluginswidgets.cpp" line="97"/>
         <source>Clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="sidebarpluginswidgets.cpp" line="98"/>
+        <location filename="../src/sidebarpluginswidgets.cpp" line="104"/>
         <source>Plugins</source>
         <translation type="unfinished"></translation>
     </message>

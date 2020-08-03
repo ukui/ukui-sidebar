@@ -367,7 +367,7 @@ QString sidebarPluginsWidgets::getAppName(QString desktopfp)
 /* 将小插件desktop文件名称放入到desktopfpList中 */
 void sidebarPluginsWidgets::addDesktopFileName()
 {
-    m_desktopfpList.append("clock.desktop");
+    m_desktopfpList.append("ukui-clock.desktop");
     m_desktopfpList.append("ukui-notebook.desktop");
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 7, 0))
     m_desktopfpList.append("ukui-feedback.desktop");

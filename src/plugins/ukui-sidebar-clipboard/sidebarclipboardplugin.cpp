@@ -32,12 +32,12 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
 {
     Q_UNUSED(parent);
     translator = new QTranslator;
-    QLocale locale;
     //获取系统语言环境 选择翻译文件
-    if ( locale.language() == QLocale::Chinese ) {
-        translator->load(QString(":/translations/sidebarZhCn.qm"));
+    if (translator->load(QLocale(), QLatin1String("ukui-clipboard"), QLatin1String("_"), QLatin1String(":/")))
         QApplication::installTranslator(translator);
-    }
+    else
+        qDebug() << "cannot load translator ukui-clipboard_" << QLocale::system().name() << ".qm!";
+
     installEventFilter(this);
     m_bPromptBoxBool = true;
 

@@ -10,12 +10,12 @@
         <file>qss/sidebarClipboard.css</file>
         <file>qss/sideBarEditArea.css</file>
         <file>qss/sideBarSearchArea.css</file>
-        <file>translations/sidebarZhCn.qm</file>
-        <file>translations/qt_zh_CN.qm</file>
-        <file>translations/widgets.qm</file>
         <file>image/kylin-feedback.png</file>
         <file>image/kylin-alarm-clock.svg</file>
         <file>image/lock.png</file>
         <file>image/cancel-lock.png</file>
+        <file alias="ukui-sidebar-clipboard_bo.qm">../../../translations/ukui-sidebar-clipboard/ukui-sidebar-clipboard_bo.qm</file>
+        <file alias="ukui-sidebar-clipboard_tr.qm">../../../translations/ukui-sidebar-clipboard/ukui-sidebar-clipboard_tr.qm</file>
+        <file alias="ukui-sidebar-clipboard_zh_CN.qm">../../../translations/ukui-sidebar-clipboard/ukui-sidebar-clipboard_zh_CN.qm</file>
     </qresource>
 </RCC>

@@ -54,9 +54,9 @@ HEADERS += \
     previewimagewidget.h
 DISTFILES += clipboardPlugin.json 
 
-TRANSLATIONS += sidebarZhCn.ts
-TRANSLATIONS += bo.ts
-TRANSLATIONS += tr.ts
+TRANSLATIONS += ../../../translations/ukui-sidebar-clipboard/ukui-sidebar-clipboard_zh_CN.ts \
+                ../../../translations/ukui-sidebar-clipboard/ukui-sidebar-clipboard_bo.ts \
+                ../../../translations/ukui-sidebar-clipboard/ukui-sidebar-clipboard_tr.ts
 
 unix {
     target.path = $${PLUGIN_INSTALL_DIRS}

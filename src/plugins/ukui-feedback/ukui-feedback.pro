@@ -12,7 +12,12 @@ QT += core gui  network
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
+<<<<<<< HEAD
 TRANSLATIONS += ../../../translations/ukui-feedback/ukui-feedback_en.ts
+=======
+TRANSLATIONS += ../../../translations/ukui-feedback/ukui-feedback_zh_CN.ts \
+                ../../../translations/ukui-feedback/ukui-feedback_tr.ts
+>>>>>>> 36bd1f5... Adjust the file structure
 
 SOURCES += \
     browseButton.cpp \

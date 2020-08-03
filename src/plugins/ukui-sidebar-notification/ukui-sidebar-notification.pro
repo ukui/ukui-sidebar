@@ -44,12 +44,13 @@ unix {
     target.path = $${PLUGIN_INSTALL_DIRS}
     INSTALLS += target
 
-    translation.path = /usr/share/ukui-sidebar-notification
-    translation.files += ../../../translations/notification_plugin/*.ts
-    translation.files += ../../../translations/notification_plugin/*.qm
+    translation.path = /usr/share/ukui-sidebar/ukui-sidebar-notification
+    translation.files += ../../../translations/ukui-sidebar-notification/*.qm
     INSTALLS += translation
 }
 
-TRANSLATIONS += ../../../translations/notification_plugin/language.ts
+TRANSLATIONS += ../../../translations/ukui-sidebar-notification/ukui-sidebar-notification_zh_CN.ts \
+                ../../../translations/ukui-sidebar-notification/ukui-sidebar-notification_tr.ts
+
 RESOURCES += \
     notificationPlugin.qrc

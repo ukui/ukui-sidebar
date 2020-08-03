@@ -58,8 +58,7 @@ feedback::feedback(QWidget *parent)
         QApplication::installTranslator(translator);
     else
         qDebug() << "cannot load translator ukui-feedback_" << QLocale::system().name() << ".qm!";
-    translator_widget->load(QString("/usr/share/ukui-sidebar/ukui-feedback/widgets.qm"));
-    QApplication::installTranslator(translator_widget);
+
     UI_init();
     feedback_init();
     setAttribute(Qt::WA_TranslucentBackground);
