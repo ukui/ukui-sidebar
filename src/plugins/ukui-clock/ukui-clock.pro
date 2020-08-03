@@ -8,7 +8,7 @@ QT       += core gui multimedia sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = kylin-clock
+TARGET = ukui-clock
 TEMPLATE = app
 
 LIBS    +=  -lX11
@@ -88,7 +88,7 @@ unix {
     translation.files += ../../../translations/ukui-clock/*.qm
     INSTALLS += translation
 }
-desktopfile.files = clock.desktop
+desktopfile.files = ukui-clock.desktop
 desktopfile.path = /usr/share/applications/
 
 INSTALLS += desktopfile

@@ -49,9 +49,9 @@ HEADERS += \
         customstyleCleanPushbutton.h
 
 INCLUDEPATH +=./plugin-interface ./plugin-sub-manager
-TRANSLATIONS += ukui-sidebar_bo.ts \
-                ukui-sidebar_tr.ts \
-                ukui-sidebar_zh_CN.ts
+TRANSLATIONS += ../translations/ukui-sidebar_bo.ts \
+                ../translations/ukui-sidebar_tr.ts \
+                ../translations/ukui-sidebar_zh_CN.ts
 CONFIG += link_pkgconfig
 
 PKGCONFIG +=gio-2.0 glib-2.0 gio-unix-2.0

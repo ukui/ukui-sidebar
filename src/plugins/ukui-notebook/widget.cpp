@@ -51,12 +51,11 @@ Widget::Widget(QWidget *parent) :
   , m_isOperationRunning(false)
 {    
     translator = new QTranslator;
-    QLocale locale;
-    //获取系统语言环境
-    if ( locale.language() == QLocale::Chinese ) {
-        translator->load(QString("/usr/share/ukui-sidebar/ukui-notebook/ukui-notebook_zh_CN.qm"));  //选择翻译文件
+    if (translator->load(QLocale(), QLatin1String("ukui-notebook"), QLatin1String("_"), QLatin1String("/usr/share/ukui-sidebar/ukui-notebook")))
         QApplication::installTranslator(translator);
-    }
+    else
+        qDebug() << "cannot load translator ukui-notebook_" << QLocale::system().name() << ".qm!";
+
     ui->setupUi(this);
     setupDatabases();
     kyNoteInit();

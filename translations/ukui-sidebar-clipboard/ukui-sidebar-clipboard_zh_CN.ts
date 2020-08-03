@@ -4,59 +4,59 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="cleanpromptbox.cpp" line="67"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="68"/>
         <source>Are you sure empty your clipboard history?</source>
         <translation>确认要清空剪贴板历史吗？</translation>
     </message>
     <message>
-        <location filename="cleanpromptbox.cpp" line="81"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="83"/>
         <source>Don&apos;t ask</source>
         <translation>不再询问</translation>
     </message>
     <message>
-        <location filename="cleanpromptbox.cpp" line="94"/>
-        <location filename="editorwidget.cpp" line="102"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="97"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/editorwidget.cpp" line="105"/>
         <source>Confirm</source>
         <translation>确认</translation>
     </message>
     <message>
-        <location filename="cleanpromptbox.cpp" line="96"/>
-        <location filename="editorwidget.cpp" line="106"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="99"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/editorwidget.cpp" line="109"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="clipboardwidgetentry.cpp" line="93"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/clipboardwidgetentry.cpp" line="93"/>
         <source>Pop</source>
         <translation>固定</translation>
     </message>
     <message>
-        <location filename="clipboardwidgetentry.cpp" line="101"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/clipboardwidgetentry.cpp" line="101"/>
         <source>EditButton</source>
         <translation>编辑</translation>
     </message>
     <message>
-        <location filename="clipboardwidgetentry.cpp" line="108"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/clipboardwidgetentry.cpp" line="108"/>
         <source>Remove</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="clipboardwidgetentry.cpp" line="115"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/clipboardwidgetentry.cpp" line="115"/>
         <source>Cancel the fixed</source>
         <translation>取消固定</translation>
     </message>
     <message>
-        <location filename="editorwidget.cpp" line="80"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/editorwidget.cpp" line="81"/>
         <source>Edit</source>
         <translation>编辑</translation>
     </message>
     <message>
-        <location filename="sidebarclipboardplugin.h" line="97"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/sidebarclipboardplugin.h" line="97"/>
         <source>ClipBoard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="sidebarclipboardplugin.h" line="99"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/sidebarclipboardplugin.h" line="99"/>
         <source>Show the folder children as icons.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -64,12 +64,12 @@
 <context>
     <name>SearchWidgetItemContent</name>
     <message>
-        <location filename="searchwidgetitemcontent.cpp" line="39"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/searchwidgetitemcontent.cpp" line="31"/>
         <source>Clear</source>
         <translation>清除</translation>
     </message>
     <message>
-        <location filename="searchwidgetitemcontent.cpp" line="64"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/searchwidgetitemcontent.cpp" line="56"/>
         <source>search...</source>
         <translation>搜索...</translation>
     </message>
@@ -77,7 +77,7 @@
 <context>
     <name>SidebarClipboardPlugin</name>
     <message>
-        <location filename="sidebarclipboardplugin.cpp" line="121"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/sidebarclipboardplugin.cpp" line="120"/>
         <source>No clip content</source>
         <translation>无剪贴内容</translation>
     </message>

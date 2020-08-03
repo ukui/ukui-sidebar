@@ -4,19 +4,29 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="main.cpp" line="60"/>
+        <location filename="../src/main.cpp" line="81"/>
         <source>Display debug information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="182"/>
+        <location filename="../src/widget.cpp" line="177"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="185"/>
+        <location filename="../src/widget.cpp" line="180"/>
         <source>Set up notification center</source>
         <translation>设置通知中心</translation>
+    </message>
+    <message>
+        <location filename="../src/sidebarpluginswidgets.cpp" line="112"/>
+        <source>折叠</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/sidebarpluginswidgets.cpp" line="114"/>
+        <source>展开</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -26,7 +36,7 @@
         <translation type="vanished">剪贴板</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="218"/>
+        <location filename="../src/widget.cpp" line="210"/>
         <source>Sidebar</source>
         <translation>侧边栏</translation>
     </message>
@@ -34,12 +44,12 @@
 <context>
     <name>sidebarPluginsWidgets</name>
     <message>
-        <location filename="sidebarpluginswidgets.cpp" line="92"/>
+        <location filename="../src/sidebarpluginswidgets.cpp" line="97"/>
         <source>Clipboard</source>
         <translation>剪贴板</translation>
     </message>
     <message>
-        <location filename="sidebarpluginswidgets.cpp" line="98"/>
+        <location filename="../src/sidebarpluginswidgets.cpp" line="104"/>
         <source>Plugins</source>
         <translation>小插件</translation>
     </message>
