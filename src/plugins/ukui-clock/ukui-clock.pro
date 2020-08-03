@@ -35,8 +35,8 @@ SOURCES += \
     verticalScroll60.cpp \
     verticalScroll99.cpp
 
-TRANSLATIONS += ../../../translations/ukui-clock/ukui-clock_en.ts \
-                ../../../translations/ukui-clock/ukui-clock_tr.ts
+TRANSLATIONS += ../../../translations/ukui-clock/ukui-clock_tr.ts \
+                ../../../translations/ukui-clock/ukui-clock_zh_CN.ts
 
 HEADERS  += clock.h \
     btnNew.h \
@@ -83,6 +83,10 @@ unix {
     music.files += music/glass.ogg
     music.files += music/sonar.ogg
     INSTALLS += music
+
+    translation.path = /usr/share/ukui-sidebar/ukui-clock
+    translation.files += ../../../translations/ukui-clock/*.qm
+    INSTALLS += translation
 }
 desktopfile.files = clock.desktop
 desktopfile.path = /usr/share/applications/

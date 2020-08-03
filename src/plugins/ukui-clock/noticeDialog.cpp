@@ -34,7 +34,7 @@ Notice_Dialog::Notice_Dialog(QWidget *parent, int close_time, int num) :
     QPixmap bgPixmap = QPixmap(":/window-close-symbolic.png");
     QPixmap dialogPixmap = QPixmap(":/clock.ico");
 
-    this->setWindowTitle(tr("响铃提示"));
+    this->setWindowTitle(tr("Ring prompt"));
     this->setWindowIcon(dialogPixmap);
 
     pushButton->setIcon(bgPixmap);
@@ -61,21 +61,21 @@ Notice_Dialog::Notice_Dialog(QWidget *parent, int close_time, int num) :
     music = new QMediaPlayer(this);//初始化音乐
     playlist = new QMediaPlaylist(this);//初始化播放列表
     if(num >= 0) {
-        if(model->index(num, 2).data().toString().compare(tr("玻璃"))==0){
+        if(model->index(num, 2).data().toString().compare(tr("glass"))==0){
             playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/glass.ogg"));
-        }else if (model->index(num, 2).data().toString().compare(tr("犬吠"))==0) {
+        }else if (model->index(num, 2).data().toString().compare(tr("bark"))==0) {
             playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/bark.ogg"));
-        }else if (model->index(num, 2).data().toString().compare(tr("声呐"))==0) {
+        }else if (model->index(num, 2).data().toString().compare(tr("sonar"))==0) {
             playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/sonar.ogg"));
-        }else if (model->index(num, 2).data().toString().compare(tr("雨滴"))==0) {
+        }else if (model->index(num, 2).data().toString().compare(tr("drip"))==0) {
             playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/drip.ogg"));
         }
     } else {
-        if (model_setup->index(0, 19).data().toString().compare(tr("玻璃"))==0) {
+        if (model_setup->index(0, 19).data().toString().compare(tr("glass"))==0) {
             playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/glass.ogg"));
-        } else if (model_setup->index(0, 19).data().toString().compare(tr("犬吠"))==0) {
+        } else if (model_setup->index(0, 19).data().toString().compare(tr("bark"))==0) {
             playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/bark.ogg"));
-        } else if (model_setup->index(0, 19).data().toString().compare(tr("声呐"))==0) {
+        } else if (model_setup->index(0, 19).data().toString().compare(tr("sonar"))==0) {
             playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/sonar.ogg"));
         } else {
             playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/drip.ogg"));
@@ -132,7 +132,7 @@ void Notice_Dialog::close_music()
     if (num_flag >= 0) {
         label_2->setText(QString::number(timer_value));
     } else {
-        label_2->setText(tr("倒计时时间结束"));
+        label_2->setText(tr("End of countdown time"));
     }
     timer_value--;
 }
