@@ -71,6 +71,7 @@ private:
 
     double                  transparency = 0.7;
     QGSettings              *m_pTransparency = nullptr;                  //透明度gsetting值
+    QGSettings              *m_pEnablenotice = nullptr;         //通知中心开关
 signals:
     void Sig_onNewNotification();
 
