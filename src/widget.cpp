@@ -119,8 +119,16 @@ Widget::~Widget()
 //加载通知中心插件
 bool Widget::loadNotificationPlugin()
 {
-    QString lib_notification_file = QString(PLUGIN_INSTALL_DIRS) + "/libnotification_plugin.so";
-    QPluginLoader pluginLoader(lib_notification_file);
+    QDir pluginsDir;
+    static bool installed = (QCoreApplication::applicationDirPath() == QDir(("/usr/bin")).canonicalPath());
+
+    if (installed)
+        pluginsDir = QDir(PLUGIN_INSTALL_DIRS);
+    else
+        pluginsDir = QDir(qApp->applicationDirPath() + "/plugins/ukui-sidebar-notification");
+
+    pluginsDir.setFilter(QDir::Files);
+    QPluginLoader pluginLoader(pluginsDir.absoluteFilePath("libnotification_plugin.so"));
 
     m_pNotificationPluginObject = pluginLoader.instance();
     if(nullptr == m_pNotificationPluginObject) {
@@ -140,8 +148,16 @@ bool Widget::loadNotificationPlugin()
 //加载剪贴板插件
 int Widget::ListenClipboardSignal()
 {
-    QString lib_clipboard_file = QString(PLUGIN_INSTALL_DIRS) + "/libclipboardPlugin.so";
-    QPluginLoader pluginLoader(lib_clipboard_file);
+    QDir pluginsDir;
+    static bool installed = (QCoreApplication::applicationDirPath() == QDir(("/usr/bin")).canonicalPath());
+
+    if (installed)
+        pluginsDir = QDir(PLUGIN_INSTALL_DIRS);
+    else
+        pluginsDir = QDir(qApp->applicationDirPath() + "/plugins/ukui-sidebar-clipboard");
+
+    pluginsDir.setFilter(QDir::Files);
+    QPluginLoader pluginLoader(pluginsDir.absoluteFilePath("libclipboardPlugin.so"));
     QObject *pClipPlugin = pluginLoader.instance();
 
     m_pSidebarClipboard = dynamic_cast<ClipboardInterface *>(pClipPlugin);                          /* 获取剪贴版插件指针; */
