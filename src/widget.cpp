@@ -31,7 +31,7 @@ double tranSparency = 0.7;
 Widget::Widget(QWidget *parent) : QWidget (parent)
 {
     m_pTranslator = new QTranslator;
-    if (m_pTranslator->load(QLocale(), QLatin1String("ukui-sidebar"), QLatin1String("_"), QLatin1String(":/")))
+    if (m_pTranslator->load(QLocale(), QLatin1String("ukui-sidebar"), QLatin1String("_"), QLatin1String("/usr/share/ukui-sidebar")))
         QApplication::installTranslator(m_pTranslator);
     else
         qDebug() << "cannot load translator " << QLocale::system().name() << ".qm!";

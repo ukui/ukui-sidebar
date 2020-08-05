@@ -53,8 +53,13 @@ feedback::feedback(QWidget *parent)
     : QMainWindow(parent)
 {
     QTranslator *translator = new QTranslator;
+    QTranslator *translator_qt = new QTranslator;
     if (translator->load(QLocale(), QLatin1String("ukui-feedback"), QLatin1String("_"), QLatin1String("/usr/share/ukui-sidebar/ukui-feedback")))
         QApplication::installTranslator(translator);
+    else
+        qDebug() << "cannot load translator ukui-feedback_" << QLocale::system().name() << ".qm!";
+    if (translator_qt->load("/usr/share/qt5/translations/qt_"+QLocale::system().name()))
+        QApplication::installTranslator(translator_qt);
     else
         qDebug() << "cannot load translator ukui-feedback_" << QLocale::system().name() << ".qm!";
 

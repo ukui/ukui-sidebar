@@ -8,8 +8,5 @@
         <file>data/images/kylin-notebook.svg</file>
         <file>data/images/kylin-feedback.png</file>
         <file>data/images/application-menu.svg</file>
-        <file alias="ukui-sidebar_bo.qm">../translations/ukui-sidebar_bo.qm</file>
-        <file alias="ukui-sidebar_tr.qm">../translations/ukui-sidebar_tr.qm</file>
-        <file alias="ukui-sidebar_zh_CN.qm">../translations/ukui-sidebar_zh_CN.qm</file>
     </qresource>
 </RCC>

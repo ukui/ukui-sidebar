@@ -52,6 +52,13 @@ INCLUDEPATH +=./plugin-interface ./plugin-sub-manager
 TRANSLATIONS += ../translations/ukui-sidebar_bo.ts \
                 ../translations/ukui-sidebar_tr.ts \
                 ../translations/ukui-sidebar_zh_CN.ts
+
+unix {
+    translation.path = /usr/share/ukui-sidebar/
+    translation.files += ../../../translations/*.qm
+    INSTALLS += translation
+}
+
 CONFIG += link_pkgconfig
 
 PKGCONFIG +=gio-2.0 glib-2.0 gio-unix-2.0
