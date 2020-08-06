@@ -76,7 +76,7 @@ Clock::Clock(QWidget *parent) :
 {
     QTranslator *translator = new QTranslator;
     // Get system locale
-    if (translator->load(QLocale(), QLatin1String("ukui-clock"), QLatin1String("_"), QLatin1String(":/")))
+    if (translator->load(QLocale(), QLatin1String("ukui-clock"), QLatin1String("_"), QLatin1String("/usr/share/ukui-sidebar/ukui-clock")))
         QApplication::installTranslator(translator);
     else
         qDebug() << "cannot load translator ukui-clock_" << QLocale::system().name() << ".qm!";
