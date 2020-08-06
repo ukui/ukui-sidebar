@@ -55,7 +55,7 @@ TRANSLATIONS += ../translations/ukui-sidebar_bo.ts \
 
 unix {
     translation.path = /usr/share/ukui-sidebar/
-    translation.files += ../../../translations/*.qm
+    translation.files += ../translations/*.qm
     INSTALLS += translation
 }
 
