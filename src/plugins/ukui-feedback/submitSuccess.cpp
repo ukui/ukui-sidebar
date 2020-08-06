@@ -30,7 +30,7 @@ void submit_success::UI_init()
 {
     if (this->objectName().isEmpty())
         this->setObjectName(QString::fromUtf8("submit_success"));
-    this->resize(430, 260);
+    this->resize(350, 230);
     setWindowTitle(tr("Submitted success "));
     this->setAttribute(Qt::WA_TranslucentBackground);
     this->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
@@ -55,9 +55,9 @@ void submit_success::UI_init()
     label = new QLabel(this);
     label->setText(tr("submitted success"));
     label->setObjectName(QString::fromUtf8("label"));
-    label->setGeometry(QRect(130, 85, 291, 60));
-    label->setStyleSheet(QString::fromUtf8("font: 30px;\n"
-                                           "color: rgb(68, 68, 68);"));
+    label->setGeometry(QRect(111, 70, 168, 31));
+//    label->setStyleSheet(QString::fromUtf8("font: 30px;\n"
+//                                           "color: rgb(68, 68, 68);"));
 
 
 
@@ -71,24 +71,34 @@ void submit_success::UI_init()
     pushButton->setObjectName(QString::fromUtf8("pushButton"));
     pushButton->setGeometry(QRect(110, 165, 131, 26));
     pushButton->setFlat(false);
-    pushButton->setStyleSheet(QString::fromUtf8("QPushButton{color: rgb(61, 107, 229);background-color:rgb(255,255,255)}"
-                                                  "QPushButton:hover {color: rgb(255,255,255);background-color:rgb(107,142,235)}"
-                                                  ""));
+    pushButton->hide();
+//    pushButton->setStyleSheet(QString::fromUtf8("QPushButton{color: rgb(61, 107, 229);background-color:rgb(255,255,255)}"
+//                                                  "QPushButton:hover {color: rgb(255,255,255);background-color:rgb(107,142,235)}"
+//                                                  ""));
+
+    QPalette palette;
+    QColor ColorPlaceholderText(255,255,255,0);
+    QBrush brush;
+    brush.setColor(ColorPlaceholderText);
+    palette.setBrush(QPalette::Button, brush);
+    palette.setBrush(QPalette::ButtonText, brush);
+
     pushButton_2 = new QPushButton(this);
-    pushButton_2->setText(tr("exit"));
+    pushButton_2->setText(tr("Sure"));
     pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
-    pushButton_2->setGeometry(QRect(270, 165, 81, 26));
-    pushButton_2->setFlat(false);
-    pushButton_2->setStyleSheet(QString::fromUtf8("QPushButton{color: rgb(61, 107, 229);background-color:rgb(255,255,255)}"
-                                                  "QPushButton:hover {color: rgb(255,255,255);background-color:rgb(107,142,235)}"
-                                                  ""));
+    pushButton_2->setGeometry(QRect(249, 180, 80, 30));
+    pushButton_2->setPalette(palette);
+//    pushButton_2->setStyleSheet(QString::fromUtf8("QPushButton{color: rgb(61, 107, 229);background-color:rgb(255,255,255)}"
+//                                                  "QPushButton:hover {color: rgb(255,255,255);background-color:rgb(107,142,235)}"
+//                                                  ""));
     label_2 = new QLabel(this);
     label_2->setObjectName(QString::fromUtf8("label_2"));
-    label_2->setGeometry(QRect(70, 94, 50, 50));
-    label_2->setStyleSheet(QString::fromUtf8("background-image: url(:/image/success.png);"));
+    label_2->setGeometry(QRect(71, 71, 30, 30));
+    label_2->setPixmap(QPixmap(":/image/success.png"));
+//    label_2->setStyleSheet(QString::fromUtf8("background-image: url(:/image/success.png);"));
 
-    connect(pushButton,SIGNAL(clicked()),this,SLOT(on_pushButton_clicked()));
-    connect(pushButton_2,SIGNAL(clicked()),this,SLOT(on_pushButton_2_clicked()));
+//    connect(pushButton,SIGNAL(clicked()),this,SLOT(on_pushButton_clicked()));
+    connect(pushButton_2,SIGNAL(clicked()),this,SLOT(on_pushButton_clicked()));
     qDebug()<<"submit_success::UI_init()";
     this->show();
 }

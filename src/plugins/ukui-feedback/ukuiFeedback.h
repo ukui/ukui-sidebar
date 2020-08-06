@@ -95,7 +95,8 @@ public:
     QLabel *email_err_msg_label;
     QLineEdit *lineEdit_2;
     QLabel *label_7;
-    QLineEdit *lineEdit;
+    QLabel *addfile_label;
+    QLabel *tip_label;
     browse_button *pushButton;
     QCheckBox *checkBox_4;
     QPushButton *pushButton_2;
@@ -115,8 +116,8 @@ public:
     QLabel *label_8;
     QLabel *label_9;
     QLabel *label_13;
-    hideBtn_hover *pushButton_mix;
-    closeBtn_hover *pushButton_close;
+    QPushButton *pushButton_mix;
+    QPushButton *pushButton_close;
     QListWidget * file_listwidget;
     QListWidgetItem * file_listwidget_item[5];
     fileitem_init* file_widget[5];

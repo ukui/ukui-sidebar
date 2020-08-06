@@ -106,7 +106,7 @@ feedback::~feedback()
     delete pushButton_2;
     delete checkBox_4;
     delete pushButton;
-    delete lineEdit;
+
     delete lineEdit_2;
     delete textEdit;
     delete label_7;
@@ -127,7 +127,7 @@ void feedback::UI_init()
 
     if (this->objectName().isEmpty())
         this->setObjectName(QString::fromUtf8("feedback"));
-    this->resize(600, 917);
+    this->resize(600, 600);
     QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     sizePolicy.setHorizontalStretch(0);
     sizePolicy.setVerticalStretch(0);
@@ -135,7 +135,7 @@ void feedback::UI_init()
     this->setSizePolicy(sizePolicy);
     this->setSizeIncrement(QSize(0, 0));
     this->setWindowTitle(tr("FeedBack"));
-    this->setFixedSize(600,550);
+//    this->setFixedSize(600,550);
     this->setWindowIcon(QIcon::fromTheme("kylin-feedback",QIcon(":/image/kylin-feedback.png")));
     //设置窗口无边框
     //Set the window to be borderless.
@@ -161,6 +161,13 @@ void feedback::UI_init()
 
     setMask(bmp);
     //----- ------------------------
+    //取消button灰色背景
+    QPalette palette;
+    QColor ColorPlaceholderText(255,255,255,0);
+    QBrush brush;
+    brush.setColor(ColorPlaceholderText);
+    palette.setBrush(QPalette::Button, brush);
+    palette.setBrush(QPalette::ButtonText, brush);
 
     centralwidget = new QWidget(this);
     centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
@@ -266,32 +273,27 @@ void feedback::UI_init()
     label_7->setStyleSheet(QString::fromUtf8("font: 14px ;\n"
                                              "color: rgb(68, 68, 68);\n"
                                              ""));
-    lineEdit = new QLineEdit(centralwidget);
-    lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
-    lineEdit->setGeometry(QRect(140, 367, 320, 30));
-    lineEdit->setReadOnly(true);
-    lineEdit->setFrame(true);
-#if QT_VERSION >= 0x050c00
-    lineEdit->setPlaceholderText(tr("File size cannot exceed 10MB"));
-#endif
-    lineEdit->setStyle(new CustomStyle("ukui"));
-    QPalette palette_lineedit = lineEdit->palette();
-    palette_lineedit.setBrush(QPalette::Text,Qt::black);
-    //    palette_lineedit.setBrush(QPalette::PlaceholderText,QColor("#CCCCCC"));
-    lineEdit->setPalette(palette_lineedit);
+
+    addfile_label = new QLabel(centralwidget);
+    addfile_label->setGeometry(QRect(140,373,16,16));
+    addfile_label->setPixmap(QPixmap("://image/addfile.png"));
+
+    tip_label = new QLabel(centralwidget);
+    tip_label->setText(tr("(File size cannot exceed 10MB)"));
+    tip_label->setGeometry(QRect(250,367,230,30));
+    tip_label->setEnabled(false);
 
     pushButton = new browse_button(centralwidget);
-    pushButton->setText(tr("Browse"));
-    pushButton->setObjectName(QString::fromUtf8("pushButton"));
-    pushButton->setGeometry(QRect(470, 367, 80, 30));
-    pushButton->setStyleSheet(QString::fromUtf8("font: 14px;\n"
-                                                "background-color: rgb(233, 233, 233);\n"
-                                                "color: rgb(68, 68, 68);\n"
-                                                "border:4px ;"));
+    pushButton->setText(tr("add file"));
+    pushButton->setGeometry(QRect(160, 367, 80, 30));
+    pushButton->setFlat(true);
+
+
+
     checkBox_4 = new QCheckBox(centralwidget);
     checkBox_4->setText(tr("get mine"));
     checkBox_4->setObjectName(QString::fromUtf8("checkBox_4"));
-    checkBox_4->setGeometry(QRect(35, 490, 121, 24));
+    checkBox_4->setGeometry(QRect(34, 536, 110, 19));
     checkBox_4->setStyleSheet(" spacing: 6px;");
     checkBox_4->setStyleSheet(QString::fromUtf8("font: 14px;color:rgb(0,0,0)"));
     QPalette palette_checkbox = checkBox_4->palette();
@@ -301,7 +303,7 @@ void feedback::UI_init()
     pushButton_2 = new QPushButton(centralwidget);
     pushButton_2->setText(tr("Submit"));
     pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
-    pushButton_2->setGeometry(QRect(440, 475, 120, 45));
+    pushButton_2->setGeometry(QRect(444, 526, 120, 40));
     pushButton_2->setEnabled(false);
     pushButton_2->setStyleSheet(QString::fromUtf8("font: 18px;\n"
                                                   "color: rgb(255, 255, 255);\n"
@@ -309,8 +311,7 @@ void feedback::UI_init()
                                                   "border:4px ;"));
     pushButton_3 = new systeminfo_button(centralwidget);
     pushButton_3->setText(tr("osinfo"));
-    pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
-    pushButton_3->setGeometry(QRect(140, 490, 68, 24));
+    pushButton_3->setGeometry(QRect(138, 534, 68, 24));
     pushButton_3->setFeedBack(this);
     pushButton_3->setFlat(true);
     pushButton_3->setEnabled(false);
@@ -425,19 +426,20 @@ void feedback::UI_init()
     this->setCentralWidget(centralwidget);
 
 
-    pushButton_mix = new hideBtn_hover(centralwidget);
+    pushButton_mix = new QPushButton(centralwidget);
     pushButton_mix->setGeometry(QRect(520, 14, 30, 30));
-    pushButton_mix->setStyleSheet("background-color: rgb(255,255,255);border-image:url(:/image/mix_default.png);border-radius:4px;");
-
+    pushButton_mix->setIcon(QIcon::fromTheme("window-minimize-symbolic"));
+    pushButton_mix->setPalette(palette);
 
     connect(pushButton_mix,SIGNAL(clicked()),this,SLOT(on_pushButton_mix_clicked()));
 
-    pushButton_close = new closeBtn_hover(centralwidget);
+    pushButton_close = new QPushButton(centralwidget);
     pushButton_close->setGeometry(QRect(554, 14, 30, 30));
-    pushButton_close->setStyleSheet("background-color: rgb(255,255,255);border-image:url(:/image/close_default.png);border-radius:4px;");
+    pushButton_close->setIcon(QIcon::fromTheme("window-close-symbolic"));
+    pushButton_close->setPalette(palette);
 
     file_listwidget = new QListWidget(this);
-    file_listwidget->setGeometry(QRect(140,407,320,40));
+    file_listwidget->setGeometry(QRect(140,407,320,100));
 
     file_listwidget->setStyleSheet("selection-background-color: rgb(255,255,255);");
 
@@ -548,7 +550,6 @@ void feedback::on_pushButton_clicked()
     if (file_name_list.size() ==0) {
         //添加附件框改变
         //Add attachment box changes
-        lineEdit->setText(filename);
         add_fileinfo_model();
     } else if(file_name_list.size() >= 5) {
         return ;
@@ -563,7 +564,6 @@ void feedback::on_pushButton_clicked()
         if (file_diff_flags == 0) {
             //添加附件框改变
             //Add attachment box changes
-            lineEdit->setText(filename);
             add_fileinfo_model();
         }
     }
@@ -1168,7 +1168,6 @@ void feedback::feedback_info_init()
     foreach(auto item,file_path_list) {
         file_path_list.removeOne(item);
     }
-    lineEdit->setText("");
     label_13->hide();
     email_err_msg_label->hide();
     checkBox->setChecked(false);
@@ -1261,9 +1260,7 @@ void feedback::update_linedit_add_or_del_file()
 {
     int rowNum = file_name_list.size();
     if (rowNum == 0) {
-        lineEdit->setText("");
     } else {
-        lineEdit->setText(file_path_list.at(file_path_list.size()-1));
     }
 }
 //判断总文件大小是否超过10M
