@@ -1806,6 +1806,7 @@ void Clock::on_count_push_clicked()
         ui->page_5->timer->start();
         countdown_isStarted_2=0;
 
+        get_countdown_over_time();
     } else {
         ui->count_push->setText(tr("Continue"));
         ui->count_push->setStyleSheet("QPushButton{\
