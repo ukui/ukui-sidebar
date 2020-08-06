@@ -76,7 +76,7 @@ Clock::Clock(QWidget *parent) :
 {
     QTranslator *translator = new QTranslator;
     // Get system locale
-    if (translator->load(QLocale(), QLatin1String("ukui-clock"), QLatin1String("_"), QLatin1String(":/")))
+    if (translator->load(QLocale(), QLatin1String("ukui-clock"), QLatin1String("_"), QLatin1String("/usr/share/ukui-sidebar/ukui-clock")))
         QApplication::installTranslator(translator);
     else
         qDebug() << "cannot load translator ukui-clock_" << QLocale::system().name() << ".qm!";
@@ -587,7 +587,7 @@ void Clock::on_pushButton_ring_clicked()
         ui->listWidget_2->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         stopwatch_w[stopwatch_item_flag] = new stopwatch_item(ui->listWidget_2);
 
-        stopwatch_w[stopwatch_item_flag]->stopwatch1->setText(tr("count")+QString::number(stopwatch_item_flag));
+        stopwatch_w[stopwatch_item_flag]->stopwatch1->setText(tr("count")+QString::number(stopwatch_item_flag+1));
         stopwatch_w[stopwatch_item_flag]->stopwatch2->setText(tr("interval ")+stopwatch_jg_h+":"+stopwatch_jg_m+"."+stopwatch_jg_s);
         stopwatch_w[stopwatch_item_flag]->stopwatch3->setText(stopwatch_h+":"+stopwatch_m+"."+stopwatch_s);
 
@@ -1806,6 +1806,7 @@ void Clock::on_count_push_clicked()
         ui->page_5->timer->start();
         countdown_isStarted_2=0;
 
+        get_countdown_over_time();
     } else {
         ui->count_push->setText(tr("Continue"));
         ui->count_push->setStyleSheet("QPushButton{\
