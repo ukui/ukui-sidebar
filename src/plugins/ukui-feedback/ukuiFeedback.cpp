@@ -169,11 +169,18 @@ void feedback::UI_init()
     palette.setBrush(QPalette::ButtonText, brush);
 
     //set submit button palette
+    QString style_name = style_settings->get("style-name").toString();
+    if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0)){
+        palette_gray.setBrush(QPalette::Button, QColor(233,233,233));
+        palette_gray.setBrush(QPalette::ButtonText, QColor(255,255,255));
+
+    }else if((style_name.compare("ukui-dark")==0) || (style_name.compare("ukui-black")==0)){
+        palette_gray.setBrush(QPalette::Button, QColor(57,58,62));
+        palette_gray.setBrush(QPalette::ButtonText, QColor(255,255,255));
+    }
 
     palette_blue.setBrush(QPalette::Button, QColor(61,107,229));
-    palette_gray.setBrush(QPalette::Button, QColor(233,233,233));
     palette_blue.setBrush(QPalette::ButtonText, QColor(255,255,255));
-    palette_gray.setBrush(QPalette::ButtonText, QColor(255,255,255));
 
     centralwidget = new QWidget(this);
     centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
@@ -238,16 +245,16 @@ void feedback::UI_init()
                                              ""));
 
     email_err_msg_label = new QLabel(centralwidget);
-    email_err_msg_label->setText(tr("Email format is incorrect"));
-    email_err_msg_label->setGeometry(QRect(140,305,240,15));
-    email_err_msg_label->setStyleSheet(QString::fromUtf8("color: rgb(255, 0, 0);"));
+    email_err_msg_label->setText(tr("wrong format"));
+    email_err_msg_label->setGeometry(QRect(470,275,100,25));
+    email_err_msg_label->setStyleSheet(QString::fromUtf8("font: 14px;color: rgb(255, 0, 0);"));
     email_err_msg_label->hide();
 
     label_5 = new QLabel(centralwidget);
     label_5->setText(tr("*"));
     label_5->setObjectName(QString::fromUtf8("label_5"));
     label_5->setGeometry(QRect(110, 143, 16, 16));
-    label_5->setStyleSheet(QString::fromUtf8("font: 11pt \"Sans Serif\";\n"
+    label_5->setStyleSheet(QString::fromUtf8("font: 11px;\n"
                                              "color: rgb(255, 0, 0);"));
     label_6 = new QLabel(centralwidget);
     label_6->setText(tr("*"));
@@ -341,7 +348,7 @@ void feedback::UI_init()
     label_11->setGeometry(QRect(15, 50, 200, 20));
     qDebug()<<"22222";
 
-    QString style_name = style_settings->get("style-name").toString();
+
     qDebug()<<"@22222";
     if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0)){
         verticalWidget->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);\n"
@@ -498,6 +505,14 @@ void feedback::feedback_init()
 void feedback::style_changed(QString)
 {
     QString style_name =  style_settings->get("style-name").toString();
+    if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0)){
+        palette_gray.setBrush(QPalette::Button, QColor(233,233,233));
+        palette_gray.setBrush(QPalette::ButtonText, QColor(255,255,255));
+
+    }else if((style_name.compare("ukui-dark")==0) || (style_name.compare("ukui-black")==0)){
+        palette_gray.setBrush(QPalette::Button, QColor(57,58,62));
+        palette_gray.setBrush(QPalette::ButtonText, QColor(255,255,255));
+    }
     if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0)){
         verticalWidget->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);\n"
                                                         "border-top-left-radius:4px;\n"
@@ -894,6 +909,7 @@ void feedback::on_pushButton_2_clicked()
         lineEdit_2->setStyle(new CustomStyle("ukui"));
         pushButton_2->setEnabled(false);
         pushButton_2->setPalette(palette_gray);
+        email_err_msg_label->show();
         return ;
     }
 

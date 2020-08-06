@@ -10,86 +10,85 @@
         <translation>Geri bildirim</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="183"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="190"/>
         <source>feedback</source>
         <translatorcomment>Geri</translatorcomment>
         <translation>Geri</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="189"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="196"/>
         <source>Backtype</source>
         <translatorcomment>Backtype</translatorcomment>
         <translation>Backtype</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="195"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="202"/>
         <source>system issue</source>
         <translatorcomment>sistem sorunu</translatorcomment>
         <translation>sistem sorunu</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="196"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="203"/>
         <source>suggestions</source>
         <translatorcomment>öneriler</translatorcomment>
         <translation>öneriler</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="197"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="204"/>
         <source>Business Cooperation</source>
         <translatorcomment>İşbirliği</translatorcomment>
         <translation>İşbirliği</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="198"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="205"/>
         <source>other</source>
         <translatorcomment>diğer</translatorcomment>
         <translation>diğer</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="209"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="216"/>
         <source>Description</source>
         <translatorcomment>Açıklama</translatorcomment>
         <translation>Açıklama</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="226"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="233"/>
         <source>Please enter content</source>
         <translatorcomment>Lütfen içerik girin</translatorcomment>
         <translation>Lütfen içerik girin</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="234"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="241"/>
         <source>Email</source>
         <translatorcomment>E-posta</translatorcomment>
         <translation>E-posta</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="241"/>
         <source>Email format is incorrect</source>
         <translatorcomment>E-posta biçimi yanlış</translatorcomment>
-        <translation>E-posta biçimi yanlış</translation>
+        <translation type="vanished">E-posta biçimi yanlış</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="247"/>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="253"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="254"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="260"/>
         <source>*</source>
         <translatorcomment>*</translatorcomment>
         <translation>*</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="264"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="271"/>
         <source>Upload</source>
         <translatorcomment>yükleme</translatorcomment>
         <translation>yükleme</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="275"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="282"/>
         <source>(File size cannot exceed 10MB)</source>
         <translatorcomment>Dosya boyutu 10 MB&apos;ı aşıyor veya dosya biçimi desteklenmiyor</translatorcomment>
         <translation type="unfinished">Dosya boyutu 10 MB&apos;ı aşıyor veya dosya biçimi desteklenmiyor</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="280"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="287"/>
         <source>add file</source>
         <translatorcomment>dosya Ekle</translatorcomment>
         <translation type="unfinished">dosya Ekle</translation>
@@ -105,74 +104,80 @@
         <translation type="vanished">Araştır</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="288"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="248"/>
+        <source>wrong format</source>
+        <translatorcomment>yanlış format</translatorcomment>
+        <translation type="unfinished">yanlış format</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="295"/>
         <source>get mine</source>
         <translatorcomment>benimkini al</translatorcomment>
         <translation>benimkini al</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="296"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="303"/>
         <source>Submit</source>
         <translatorcomment>Sunmak</translatorcomment>
         <translation>Sunmak</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="305"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="312"/>
         <source>osinfo</source>
         <translatorcomment>OSINFO</translatorcomment>
         <translation>OSINFO</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="381"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="388"/>
         <source>Log file</source>
         <translatorcomment>Log dosyası</translatorcomment>
         <translation>Log dosyası</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="387"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="394"/>
         <source>200 words</source>
         <translatorcomment>200 kelime</translatorcomment>
         <translation>200 kelime</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="403"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="410"/>
         <source>syslog</source>
         <translatorcomment>syslog</translatorcomment>
         <translation>syslog</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="410"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="417"/>
         <source>apport.log</source>
         <translatorcomment>apport.log</translatorcomment>
         <translation>apport.log</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="418"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="425"/>
         <source>dpkg.log</source>
         <translatorcomment>dpkg.log</translatorcomment>
         <translation>dpkg.log</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="428"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="435"/>
         <source>File size exceeds 10MB or file format is not supported</source>
         <translatorcomment>Dosya boyutu 10 MB&apos;ı aşıyor veya dosya biçimi desteklenmiyor</translatorcomment>
         <translation>Dosya boyutu 10 MB&apos;ı aşıyor veya dosya biçimi desteklenmiyor</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="591"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="606"/>
         <source>select file</source>
         <translatorcomment>dosya Seç</translatorcomment>
         <translation>dosya Seç</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1227"/>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1355"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1243"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1371"/>
         <source>submit</source>
         <translatorcomment>Sunmak</translatorcomment>
         <translation>Sunmak</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1297"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1313"/>
         <source>del</source>
         <translatorcomment>del</translatorcomment>
         <translation>del</translation>

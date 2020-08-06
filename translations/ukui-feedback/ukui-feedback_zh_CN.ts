@@ -10,85 +10,84 @@
         <translation>用户反馈</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="183"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="190"/>
         <source>feedback</source>
         <translatorcomment>问题反馈</translatorcomment>
         <translation>问题反馈</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="189"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="196"/>
         <source>Backtype</source>
         <translatorcomment>问题类型</translatorcomment>
         <translation>问题类型</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="195"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="202"/>
         <source>system issue</source>
         <translatorcomment>系统问题</translatorcomment>
         <translation>系统问题</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="196"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="203"/>
         <source>suggestions</source>
         <translatorcomment>意见建议</translatorcomment>
         <translation>意见建议</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="197"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="204"/>
         <source>Business Cooperation</source>
         <translatorcomment>商务合作</translatorcomment>
         <translation>商务合作</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="198"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="205"/>
         <source>other</source>
         <translatorcomment>其他</translatorcomment>
         <translation>其他</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="209"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="216"/>
         <source>Description</source>
         <translatorcomment>问题描述</translatorcomment>
         <translation>问题描述</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="226"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="233"/>
         <source>Please enter content</source>
         <translatorcomment>请输入内容</translatorcomment>
         <translation>请输入内容</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="234"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="241"/>
         <source>Email</source>
         <translatorcomment>邮箱</translatorcomment>
         <translation>邮箱</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="241"/>
         <source>Email format is incorrect</source>
         <translatorcomment>邮箱格式输入不正确</translatorcomment>
-        <translation>邮箱格式输入不正确</translation>
+        <translation type="vanished">邮箱格式输入不正确</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="247"/>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="253"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="254"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="260"/>
         <source>*</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="264"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="271"/>
         <source>Upload</source>
         <translatorcomment>上传附件</translatorcomment>
         <translation>上传附件</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="275"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="282"/>
         <source>(File size cannot exceed 10MB)</source>
         <translatorcomment> 文件大小不能超过10MB</translatorcomment>
         <translation> 文件大小不能超过10MB</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="280"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="287"/>
         <source>add file</source>
         <translatorcomment>添加附件</translatorcomment>
         <translation>添加附件</translation>
@@ -104,74 +103,80 @@
         <translation type="vanished">浏览...</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="288"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="248"/>
+        <source>wrong format</source>
+        <translatorcomment>格式错误</translatorcomment>
+        <translation type="unfinished">格式错误</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="295"/>
         <source>get mine</source>
         <translatorcomment>同意获取我的</translatorcomment>
         <translation>同意获取我的</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="296"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="303"/>
         <source>Submit</source>
         <translatorcomment>提交</translatorcomment>
         <translation>提交</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="305"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="312"/>
         <source>osinfo</source>
         <translatorcomment>系统信息</translatorcomment>
         <translation>系统信息</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="381"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="388"/>
         <source>Log file</source>
         <translatorcomment>日志文件</translatorcomment>
         <translation>日志文件</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="387"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="394"/>
         <source>200 words</source>
         <translatorcomment>限200字</translatorcomment>
         <translation>限200字</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="403"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="410"/>
         <source>syslog</source>
         <translatorcomment>syslog</translatorcomment>
         <translation>syslog</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="410"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="417"/>
         <source>apport.log</source>
         <translatorcomment>apport.log</translatorcomment>
         <translation>apport.log</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="418"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="425"/>
         <source>dpkg.log</source>
         <translatorcomment>dpkg.log</translatorcomment>
         <translation>dpkg.log</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="428"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="435"/>
         <source>File size exceeds 10MB or file format is not supported</source>
         <translatorcomment>文件大小超过了10MB或文件格式不支持</translatorcomment>
         <translation>文件大小超过了10MB或文件格式不支持</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="591"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="606"/>
         <source>select file</source>
         <translatorcomment>选择附件</translatorcomment>
         <translation>选择附件</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1227"/>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1355"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1243"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1371"/>
         <source>submit</source>
         <translatorcomment>提交</translatorcomment>
         <translation>提交</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1297"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1313"/>
         <source>del</source>
         <translatorcomment>删除</translatorcomment>
         <translation>删除</translation>
