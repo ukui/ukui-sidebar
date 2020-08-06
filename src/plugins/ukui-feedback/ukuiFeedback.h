@@ -55,7 +55,7 @@
 #include <QtWidgets/QWidget>
 #include <browseButton.h>
 #include <systeminfoButton.h>
-#include "closebtnHover.h"
+
 #include  <QListWidget>
 #include <QStyleOption>
 #include <QPainter>
@@ -67,6 +67,7 @@
 #include <QJsonDocument>
 #include <QBitmap>
 #include <QGraphicsDropShadowEffect>
+#include <QGSettings/qgsettings.h>
 class QSqlTableModel;
 class QPushButton;
 class QLabel;
@@ -122,6 +123,9 @@ public:
     QListWidgetItem * file_listwidget_item[5];
     fileitem_init* file_widget[5];
     QPixmap submitting_pixmap[8];
+    QGSettings *style_settings;
+    QPalette palette_blue;
+    QPalette palette_gray;
 
     //*************************
     void UI_init();
@@ -180,6 +184,7 @@ private slots:
     void sendfile_finished(QNetworkReply* );
 
     void submit_change_load_image();
+    void style_changed(QString);
 
 private:
 

@@ -94,7 +94,7 @@ void CustomStyle::drawComplexControl(QStyle::ComplexControl cc, const QStyleOpti
             if (!(option->state & State_Enabled)) {
                 painter->save();
                 painter->setPen(QColor("#cfcfcf"));
-                painter->setBrush(Qt::white);
+                painter->setBrush(option->palette.color(QPalette::Base));
                 painter->setRenderHint(QPainter::Antialiasing,true);
                 painter->drawRoundedRect(option->rect,4,4);
                 painter->restore();
@@ -106,7 +106,7 @@ void CustomStyle::drawComplexControl(QStyle::ComplexControl cc, const QStyleOpti
             painter->save();
             painter->setPen(QColor("#cfcfcf"));
             //painter->setBrush(option->palette.color(QPalette::Button));
-            painter->setBrush(Qt::white);
+            painter->setBrush(option->palette.color(QPalette::Base));
             painter->setRenderHint(QPainter::Antialiasing,true);
             painter->drawRoundedRect(rect,4,4);
             painter->restore();
@@ -143,8 +143,9 @@ void CustomStyle::drawControl(QStyle::ControlElement element, const QStyleOption
         auto comboBoxOption = qstyleoption_cast<const QStyleOptionComboBox*>(option);
         painter->save();
         painter->setRenderHint(QPainter::Antialiasing,true);
-        //        painter->setPen(option->palette.color(QPalette::ButtonText));
-        painter->setPen(Qt::black);
+        painter->setPen(option->palette.color(QPalette::ButtonText));
+        painter->setBrush(option->palette.color(QPalette::Base));
+//        painter->setPen(Qt::black);
         //选中颜色
         //        if (option->state & State_Selected) {
         //            if (option->state & State_Sunken) {
@@ -158,29 +159,6 @@ void CustomStyle::drawControl(QStyle::ControlElement element, const QStyleOption
         return;
     }
         break;
-//    case CE_PushButton: {
-//        auto pushbuttonOption = qstyleoption_cast<const QStyleOptionButton*>(option);
-//        painter->save();
-//        painter->setRenderHint(QPainter::TextAntialiasing,true);
-//        painter->setPen(Qt::yellow);
-//        painter->setBrush(Qt::red);
-//        if (option->state & State_MouseOver) {
-//            if (option->state & State_Sunken) {
-//                painter->setRenderHint(QPainter::Antialiasing,true);
-//                painter->setPen(Qt::NoPen);
-//                painter->setBrush(QColor("#E44C50"));
-//                painter->drawRoundedRect(option->rect.adjusted(2,2,-2,-2),6,6);
-//            } else {
-//                painter->setRenderHint(QPainter::Antialiasing,true);
-//                painter->setPen(Qt::NoPen);
-//                painter->setBrush(QColor("#F04134"));
-//                painter->drawRoundedRect(option->rect.adjusted(2,2,-2,-2),6,6);
-//            }
-//        }
-//        painter->restore();
-//        return;
-//    }
-//        break;
     }
     return QProxyStyle::drawControl(element, option, painter, widget);
 }
@@ -260,8 +238,8 @@ void CustomStyle::drawPrimitive(QStyle::PrimitiveElement element, const QStyleOp
         if (const QStyleOptionFrame *panel = qstyleoption_cast<const QStyleOptionFrame *>(option)) {
             painter->setRenderHint(QPainter::Antialiasing,true);
             //Setpen is set to avoid a bug that collides with a white background
-            painter->setPen(QColor("#CFCFCF"));
-            painter->setBrush(Qt::white);
+            painter->setPen(QColor("#F04134"));
+            painter->setBrush(option->palette.color(QPalette::Base));
             QPalette *palete=new QPalette();
             palete->setBrush(QPalette::Text, Qt::black);
             // if (panel->lineWidth > 0)
@@ -291,9 +269,9 @@ void CustomStyle::drawPrimitive(QStyle::PrimitiveElement element, const QStyleOp
         painter->setRenderHint(QPainter::Antialiasing,true);
         painter->setBrush(Qt::NoBrush);
         if(option->state & State_Enabled){
-            painter->setPen(QPen(Qt::black, 1.2));
+            painter->setPen(QPen(option->palette.color(QPalette::ButtonText), 1.2));
             if (option->state & State_MouseOver) {
-                painter->setPen(QPen(Qt::black, 1.2));
+                painter->setPen(QPen(option->palette.color(QPalette::ButtonText), 1.2));
             }
         }
         else {

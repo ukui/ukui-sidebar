@@ -64,8 +64,7 @@ void submit_fail::UI_init()
     QFont font;
     font.setPixelSize(24);
     label->setFont(font);
-            //    label->setStyleSheet(QString::fromUtf8("font: 30px;\n"
-            //                                           "color: rgb(68, 68, 68);"));
+
 
 
     QPalette palette;
@@ -75,12 +74,13 @@ void submit_fail::UI_init()
     palette.setBrush(QPalette::Button, brush);
     palette.setBrush(QPalette::ButtonText, brush);
 
-    fail_closeBtn = new closeBtn_hover(this);
-    fail_closeBtn->setGeometry(QRect(386, 14, 30, 30));
+    fail_closeBtn = new QPushButton(this);
+    fail_closeBtn->setGeometry(QRect(310, 15, 30, 30));
     fail_closeBtn->setIcon(QIcon::fromTheme("window-close-symbolic"));
     fail_closeBtn->setPalette(palette);
+    fail_closeBtn->setProperty("useIconHighlightEffect", true);
+    fail_closeBtn->setProperty("iconHighlightEffectMode", 1);
 
-    //    fail_closeBtn->setStyleSheet("background-color: rgb(255,255,255);border-image:url(:/image/close_default.png);border-radius:4px;");
 
 
 
@@ -101,21 +101,15 @@ void submit_fail::UI_init()
     pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
     pushButton_2->setGeometry(QRect(249, 180, 80, 30));
     pushButton_2->setFlat(false);
-    //    pushButton_2->setStyleSheet(QString::fromUtf8("QPushButton{color: rgb(61, 107, 229);background-color:rgb(255,255,255)}"
-    //                                                  "QPushButton:hover {color: rgb(255,255,255);background-color:rgb(107,142,235)}"
-    //                                                  ""));
+
 
     label_2 = new QLabel(this);
     label_2->setObjectName(QString::fromUtf8("label_2"));
     label_2->setGeometry(QRect(71, 71, 30, 30));
     label_2->setPixmap(QPixmap(":/image/failed.png"));
-    //    label_2->setStyleSheet(QString::fromUtf8("background-image: url(:/image/failed.png);"));
     label_3 = new QLabel(this);
     label_3->setGeometry(QRect(71,111, 224, 19));
 
-
-//    label_3->setStyleSheet(QString::fromUtf8("font: 12px;\n"
-//                                             "color: rgb(33, 33, 33);"));
 
     connect(pushButton_2,SIGNAL(clicked()),this,SLOT(on_pushButton_2_clicked()));
 }
@@ -196,7 +190,8 @@ void submit_fail::paintEvent(QPaintEvent *e)
     pixmapPainter2.drawPath(rectPath);
 
     p.drawPixmap(this->rect(), pixmap, pixmap.rect());
+    QStyleOption *option = new QStyleOption();
     p.save();
-    p.fillPath(rectPath, QColor(255, 255, 255));
+    p.fillPath(rectPath, option->palette.color(QPalette::Base));
     p.restore();
 }

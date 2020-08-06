@@ -56,25 +56,7 @@ void submit_success::UI_init()
     label->setText(tr("submitted success"));
     label->setObjectName(QString::fromUtf8("label"));
     label->setGeometry(QRect(111, 70, 168, 31));
-//    label->setStyleSheet(QString::fromUtf8("font: 30px;\n"
-//                                           "color: rgb(68, 68, 68);"));
-
-
-
-    succ_closeBtn = new closeBtn_hover(this);
-    succ_closeBtn->setGeometry(QRect(386, 14, 30, 30));
-    succ_closeBtn->setStyleSheet("background-color: rgb(255,255,255);border-image:url(:/image/close_default.png);border-radius:4px;");
-    connect(succ_closeBtn,SIGNAL(clicked()),this,SLOT(succ_close_window()));
-
-    pushButton = new QPushButton(this);
-    pushButton->setText(tr("Continue"));
-    pushButton->setObjectName(QString::fromUtf8("pushButton"));
-    pushButton->setGeometry(QRect(110, 165, 131, 26));
-    pushButton->setFlat(false);
-    pushButton->hide();
-//    pushButton->setStyleSheet(QString::fromUtf8("QPushButton{color: rgb(61, 107, 229);background-color:rgb(255,255,255)}"
-//                                                  "QPushButton:hover {color: rgb(255,255,255);background-color:rgb(107,142,235)}"
-//                                                  ""));
+    label->setStyleSheet(QString::fromUtf8("font: 24px;\n"));
 
     QPalette palette;
     QColor ColorPlaceholderText(255,255,255,0);
@@ -83,19 +65,35 @@ void submit_success::UI_init()
     palette.setBrush(QPalette::Button, brush);
     palette.setBrush(QPalette::ButtonText, brush);
 
+    succ_closeBtn = new QPushButton(this);
+    succ_closeBtn->setGeometry(QRect(310, 15, 30, 30));
+    succ_closeBtn->setIcon(QIcon::fromTheme("window-close-symbolic"));
+    succ_closeBtn->setPalette(palette);
+    succ_closeBtn->setProperty("useIconHighlightEffect", true);
+    succ_closeBtn->setProperty("iconHighlightEffectMode", 1);
+
+    connect(succ_closeBtn,SIGNAL(clicked()),this,SLOT(succ_close_window()));
+
+    pushButton = new QPushButton(this);
+    pushButton->setText(tr("Continue"));
+    pushButton->setObjectName(QString::fromUtf8("pushButton"));
+    pushButton->setGeometry(QRect(110, 165, 131, 26));
+    pushButton->setFlat(false);
+    pushButton->hide();
+
+
+
+
     pushButton_2 = new QPushButton(this);
     pushButton_2->setText(tr("Sure"));
     pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
     pushButton_2->setGeometry(QRect(249, 180, 80, 30));
-    pushButton_2->setPalette(palette);
-//    pushButton_2->setStyleSheet(QString::fromUtf8("QPushButton{color: rgb(61, 107, 229);background-color:rgb(255,255,255)}"
-//                                                  "QPushButton:hover {color: rgb(255,255,255);background-color:rgb(107,142,235)}"
-//                                                  ""));
+
     label_2 = new QLabel(this);
     label_2->setObjectName(QString::fromUtf8("label_2"));
     label_2->setGeometry(QRect(71, 71, 30, 30));
     label_2->setPixmap(QPixmap(":/image/success.png"));
-//    label_2->setStyleSheet(QString::fromUtf8("background-image: url(:/image/success.png);"));
+
 
 //    connect(pushButton,SIGNAL(clicked()),this,SLOT(on_pushButton_clicked()));
     connect(pushButton_2,SIGNAL(clicked()),this,SLOT(on_pushButton_clicked()));
@@ -153,7 +151,8 @@ void submit_success::paintEvent(QPaintEvent *e)
 
     p.drawPixmap(this->rect(), pixmap, pixmap.rect());
 
+    QStyleOption *option = new QStyleOption();
     p.save();
-    p.fillPath(rectPath, QColor(255, 255, 255));
+    p.fillPath(rectPath, option->palette.color(QPalette::Base));
     p.restore();
 }
