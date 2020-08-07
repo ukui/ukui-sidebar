@@ -87,6 +87,9 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     /* 安装事件过滤器 */
     installEventFilter(this);
 
+    /* 监听gsetting，修改所有窗口的字体 */
+    setAllWidgetFont();
+
     m_pAnimationShowSidebarWidget = new QPropertyAnimation(this, "geometry");
     m_pAnimationHideSidebarWidget = new QPropertyAnimation(this, "geometry");
 
@@ -625,6 +628,22 @@ void Widget::InitializeHomeScreenGeometry()
     }
     qDebug() << "偏移的x坐标" << m_nScreen_x;
     qDebug() << "偏移的Y坐标" << m_nScreen_y;
+}
+
+/* 监听gsetting，修改所有的字体 */
+void Widget::setAllWidgetFont()
+{
+    const QByteArray id("org.ukui.style");
+        QGSettings * fontSetting = new QGSettings(id);
+        connect(fontSetting, &QGSettings::changed,[=](QString key){
+            if ("systemFont" == key || "systemFontSize" ==key) {
+                QFont font = this->font();
+                int width = font.pointSize();
+                for (auto widget : qApp->allWidgets()) {
+                    widget->setFont(font);
+                }
+            }
+        });
 }
 
 /* 根据任务栏位置调整侧边栏位置 */

@@ -124,8 +124,8 @@ void ClipboardWidgetEntry::initLable()
     m_pCopyDataLabal = new QLabel();
     QTimer::singleShot(1, m_pCopyDataLabal, [=](){
         QFont font = m_pCopyDataLabal->font();
-        font.setPixelSize(14);
-        font.setFamily("Noto Sans CJK SC");
+//        font.setPixelSize(14);
+//        font.setFamily("Noto Sans CJK SC");
         m_pCopyDataLabal->setFont(font);
     });
     m_pCopyDataLabal->setObjectName("EntryLable");

@@ -86,7 +86,7 @@ public:
     void GetsAvailableAreaScreen();                                             //获取屏幕可用区域高度
     void MostGrandWidgetCoordinates();                                          //根据任务栏位置调整侧边栏位置
     void InitializeHomeScreenGeometry();                                        //初始化主屏的X坐标
-
+    void setAllWidgetFont();                                                    //监听gsetting，修改所有窗口的字体
     bool m_bfinish;
 
 
