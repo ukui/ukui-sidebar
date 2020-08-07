@@ -507,11 +507,16 @@ void feedback::style_changed(QString)
     QString style_name =  style_settings->get("style-name").toString();
     if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0)){
         palette_gray.setBrush(QPalette::Button, QColor(233,233,233));
-        palette_gray.setBrush(QPalette::ButtonText, QColor(255,255,255));
-
+        palette_blue.setBrush(QPalette::ButtonText, QColor(255,255,255));
     }else if((style_name.compare("ukui-dark")==0) || (style_name.compare("ukui-black")==0)){
         palette_gray.setBrush(QPalette::Button, QColor(57,58,62));
-        palette_gray.setBrush(QPalette::ButtonText, QColor(255,255,255));
+        palette_blue.setBrush(QPalette::ButtonText, QColor(255,255,255));
+    }
+    if(pushButton_2->isEnabled()){
+        pushButton_2->setPalette(palette_blue);
+    }
+    else{
+        pushButton_2->setPalette(palette_gray);
     }
     if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0)){
         verticalWidget->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);\n"
@@ -743,7 +748,7 @@ void feedback::add_systeminfo()
     label_12->setText(desktop_info_str);
     //3.获取编码格式
     //Get the coding format
-    char *encoding = getenv("GDM_LANG");
+    char *encoding = getenv("LANG");
     char *emcoding_2;
     emcoding_2 = (char *)malloc(8);
     if (encoding == NULL) {
@@ -759,7 +764,13 @@ void feedback::add_systeminfo()
     encoding_info.append(encoding);
     send_encoding_info.append(encoding);
     encoding_info_str = QString::fromStdString(encoding_info);
-    label_11->setText(encoding_info_str);
+    if(encoding_info_str.contains(".")){
+        QStringList list = encoding_info_str.split(".");
+        label_11->setText(list.at(0));
+    }
+    else{
+        label_11->setText(encoding_info_str);
+    }
 }
 
 //syslog点选

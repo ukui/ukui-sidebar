@@ -82,4 +82,55 @@
         <translation>Klip içeriği yok</translation>
     </message>
 </context>
+<context>
+    <name>QWidgetTextControl</name>
+    <message>
+        <location filename="widgets/qwidgettextcontrol.cpp" line="2264"/>
+        <source>&amp;Undo</source>
+        <translatorcomment>İptal Et</translatorcomment>
+        <translation>İptal Et</translation>
+    </message>
+    <message>
+        <location filename="widgets/qwidgettextcontrol.cpp" line="2268"/>
+        <source>&amp;Redo</source>
+        <translatorcomment>onarmak</translatorcomment>
+        <translation>onarmak</translation>
+    </message>
+    <message>
+        <location filename="widgets/qwidgettextcontrol.cpp" line="2275"/>
+        <source>Cu&amp;t</source>
+        <translatorcomment>Kes ve yapıştır</translatorcomment>
+        <translation>Kes ve yapıştır</translation>
+    </message>
+    <message>
+        <location filename="widgets/qwidgettextcontrol.cpp" line="2284"/>
+        <source>&amp;Copy</source>
+        <translatorcomment>İ kopyala</translatorcomment>
+        <translation>İ kopyala</translation>
+    </message>
+    <message>
+        <location filename="widgets/qwidgettextcontrol.cpp" line="2293"/>
+        <source>Copy &amp;Link Location</source>
+        <translatorcomment>Bağlantıyı kopyala</translatorcomment>
+        <translation>Bağlantıyı kopyala</translation>
+    </message>
+    <message>
+        <location filename="widgets/qwidgettextcontrol.cpp" line="2301"/>
+        <source>&amp;Paste</source>
+        <translatorcomment>Yapıştırmak</translatorcomment>
+        <translation>Yapıştırmak</translation>
+    </message>
+    <message>
+        <location filename="widgets/qwidgettextcontrol.cpp" line="2306"/>
+        <source>Delete</source>
+        <translatorcomment>silmek</translatorcomment>
+        <translation type="unfinished">silmek</translation>
+    </message>
+    <message>
+        <location filename="widgets/qwidgettextcontrol.cpp" line="2315"/>
+        <source>Select All</source>
+        <translatorcomment>hepsini seç</translatorcomment>
+        <translation type="unfinished">hepsini seç</translation>
+    </message>
+</context>
 </TS>
