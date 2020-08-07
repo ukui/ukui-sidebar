@@ -62,7 +62,7 @@ feedback::feedback(QWidget *parent)
         QApplication::installTranslator(translator_qt);
     else
         qDebug() << "cannot load translator ukui-feedback_" << QLocale::system().name() << ".qm!";
-
+    style_settings = new QGSettings("org.ukui.style");
     UI_init();
     feedback_init();
     setAttribute(Qt::WA_TranslucentBackground);
@@ -106,7 +106,7 @@ feedback::~feedback()
     delete pushButton_2;
     delete checkBox_4;
     delete pushButton;
-    delete lineEdit;
+
     delete lineEdit_2;
     delete textEdit;
     delete label_7;
@@ -127,7 +127,7 @@ void feedback::UI_init()
 
     if (this->objectName().isEmpty())
         this->setObjectName(QString::fromUtf8("feedback"));
-    this->resize(600, 917);
+    this->resize(600, 600);
     QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     sizePolicy.setHorizontalStretch(0);
     sizePolicy.setVerticalStretch(0);
@@ -135,7 +135,6 @@ void feedback::UI_init()
     this->setSizePolicy(sizePolicy);
     this->setSizeIncrement(QSize(0, 0));
     this->setWindowTitle(tr("FeedBack"));
-    this->setFixedSize(600,550);
     this->setWindowIcon(QIcon::fromTheme("kylin-feedback",QIcon(":/image/kylin-feedback.png")));
     //设置窗口无边框
     //Set the window to be borderless.
@@ -161,6 +160,27 @@ void feedback::UI_init()
 
     setMask(bmp);
     //----- ------------------------
+    //取消button灰色背景
+    QPalette palette;
+    QColor ColorPlaceholderText(255,255,255,0);
+    QBrush brush;
+    brush.setColor(ColorPlaceholderText);
+    palette.setBrush(QPalette::Button, brush);
+    palette.setBrush(QPalette::ButtonText, brush);
+
+    //set submit button palette
+    QString style_name = style_settings->get("style-name").toString();
+    if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0)){
+        palette_gray.setBrush(QPalette::Button, QColor(233,233,233));
+        palette_gray.setBrush(QPalette::ButtonText, QColor(255,255,255));
+
+    }else if((style_name.compare("ukui-dark")==0) || (style_name.compare("ukui-black")==0)){
+        palette_gray.setBrush(QPalette::Button, QColor(57,58,62));
+        palette_gray.setBrush(QPalette::ButtonText, QColor(255,255,255));
+    }
+
+    palette_blue.setBrush(QPalette::Button, QColor(61,107,229));
+    palette_blue.setBrush(QPalette::ButtonText, QColor(255,255,255));
 
     centralwidget = new QWidget(this);
     centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
@@ -170,15 +190,13 @@ void feedback::UI_init()
     label->setText(tr("feedback"));
     label->setObjectName(QString::fromUtf8("label"));
     label->setGeometry(QRect(35, 40, 160, 41));
-    label->setStyleSheet(QString::fromUtf8("font: 24px;\n"
-                                           "color: rgb(68, 68, 68);"));
+    label->setStyleSheet(QString::fromUtf8("font: 24px;\n"));
 
     label_2 = new QLabel(centralwidget);
     label_2->setText(tr("Backtype"));
     label_2->setObjectName(QString::fromUtf8("label_2"));
     label_2->setGeometry(QRect(35, 105, 61, 20));
     label_2->setStyleSheet(QString::fromUtf8("font: 14px;\n"
-                                             "color: rgb(68, 68, 68);\n"
                                              ""));
     comboBox = new QComboBox(centralwidget);
     comboBox->addItem(QString(tr("system issue")));
@@ -199,7 +217,6 @@ void feedback::UI_init()
     label_3->setObjectName(QString::fromUtf8("label_3"));
     label_3->setGeometry(QRect(35, 145, 75, 20));
     label_3->setStyleSheet(QString::fromUtf8("font: 14px ;\n"
-                                             "color: rgb(68, 68, 68);\n"
                                              ""));
     frame = new QFrame(centralwidget);
     frame->setObjectName(QString::fromUtf8("frame"));
@@ -211,15 +228,11 @@ void feedback::UI_init()
     textEdit->setObjectName(QString::fromUtf8("textEdit"));
     textEdit->setGeometry(QRect(10, 10, 300, 100));
     textEdit->setFrameShape(QFrame::NoFrame);
-    QPalette palette_textedit = textEdit->palette();
-    palette_textedit.setBrush(QPalette::Base,Qt::white);
-    palette_textedit.setBrush(QPalette::Text,Qt::black);
-    //    palette_textedit.setBrush(QPalette::PlaceholderText,QColor("#CCCCCC"));
-    textEdit->setPalette(palette_textedit);
+
 #if QT_VERSION >= 0x050c00
     textEdit->setPlaceholderText(tr("Please enter content"));
 #endif
-    textEdit->setStyle(new CustomStyle("ukui-light"));
+
     //不接受富文本
     //Non-acceptance of rich text
     textEdit->setAcceptRichText(false);
@@ -229,20 +242,19 @@ void feedback::UI_init()
     label_4->setObjectName(QString::fromUtf8("label_4"));
     label_4->setGeometry(QRect(35, 275, 35, 23));
     label_4->setStyleSheet(QString::fromUtf8("font: 14px;\n"
-                                             "color: rgb(68, 68, 68);\n"
                                              ""));
 
     email_err_msg_label = new QLabel(centralwidget);
-    email_err_msg_label->setText(tr("Email format is incorrect"));
-    email_err_msg_label->setGeometry(QRect(140,305,240,15));
-    email_err_msg_label->setStyleSheet(QString::fromUtf8("color: rgb(255, 0, 0);"));
+    email_err_msg_label->setText(tr("wrong format"));
+    email_err_msg_label->setGeometry(QRect(470,275,100,25));
+    email_err_msg_label->setStyleSheet(QString::fromUtf8("font: 14px;color: rgb(255, 0, 0);"));
     email_err_msg_label->hide();
 
     label_5 = new QLabel(centralwidget);
     label_5->setText(tr("*"));
     label_5->setObjectName(QString::fromUtf8("label_5"));
     label_5->setGeometry(QRect(110, 143, 16, 16));
-    label_5->setStyleSheet(QString::fromUtf8("font: 11pt \"Sans Serif\";\n"
+    label_5->setStyleSheet(QString::fromUtf8("font: 11px;\n"
                                              "color: rgb(255, 0, 0);"));
     label_6 = new QLabel(centralwidget);
     label_6->setText(tr("*"));
@@ -253,70 +265,57 @@ void feedback::UI_init()
     lineEdit_2 = new QLineEdit(centralwidget);
     lineEdit_2->setObjectName(QString::fromUtf8("lineEdit_2"));
     lineEdit_2->setGeometry(QRect(140, 275, 320, 30));
-    lineEdit_2->setStyle(new CustomStyle("ukui"));
-    QPalette palette_lineedit_2 = lineEdit_2->palette();
-    palette_lineedit_2.setBrush(QPalette::Text,Qt::black);
-    //    palette_lineedit_2.setBrush(QPalette::PlaceholderText,QColor("#CCCCCC"));
-    lineEdit_2->setPalette(palette_lineedit_2);
+
 
     label_7 = new QLabel(centralwidget);
     label_7->setText(tr("Upload"));
     label_7->setObjectName(QString::fromUtf8("label_7"));
     label_7->setGeometry(QRect(35,365, 61, 30));
     label_7->setStyleSheet(QString::fromUtf8("font: 14px ;\n"
-                                             "color: rgb(68, 68, 68);\n"
                                              ""));
-    lineEdit = new QLineEdit(centralwidget);
-    lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
-    lineEdit->setGeometry(QRect(140, 367, 320, 30));
-    lineEdit->setReadOnly(true);
-    lineEdit->setFrame(true);
-#if QT_VERSION >= 0x050c00
-    lineEdit->setPlaceholderText(tr("File size cannot exceed 10MB"));
-#endif
-    lineEdit->setStyle(new CustomStyle("ukui"));
-    QPalette palette_lineedit = lineEdit->palette();
-    palette_lineedit.setBrush(QPalette::Text,Qt::black);
-    //    palette_lineedit.setBrush(QPalette::PlaceholderText,QColor("#CCCCCC"));
-    lineEdit->setPalette(palette_lineedit);
+
+    addfile_label = new QLabel(centralwidget);
+    addfile_label->setGeometry(QRect(140,373,16,16));
+    addfile_label->setPixmap(QPixmap("://image/addfile.png"));
+
+    tip_label = new QLabel(centralwidget);
+    tip_label->setText(tr("(File size cannot exceed 10MB)"));
+    tip_label->setGeometry(QRect(250,367,230,30));
+    tip_label->setEnabled(false);
 
     pushButton = new browse_button(centralwidget);
-    pushButton->setText(tr("Browse"));
-    pushButton->setObjectName(QString::fromUtf8("pushButton"));
-    pushButton->setGeometry(QRect(470, 367, 80, 30));
-    pushButton->setStyleSheet(QString::fromUtf8("font: 14px;\n"
-                                                "background-color: rgb(233, 233, 233);\n"
-                                                "color: rgb(68, 68, 68);\n"
-                                                "border:4px ;"));
+    pushButton->setText(tr("add file"));
+    pushButton->setGeometry(QRect(160, 367, 80, 30));
+    pushButton->setFlat(true);
+    pushButton->setStyleSheet("font: 14px;color:rgb(61,107,229)\n");
+
+
+
     checkBox_4 = new QCheckBox(centralwidget);
     checkBox_4->setText(tr("get mine"));
     checkBox_4->setObjectName(QString::fromUtf8("checkBox_4"));
-    checkBox_4->setGeometry(QRect(35, 490, 121, 24));
+    checkBox_4->setGeometry(QRect(34, 536, 110, 19));
     checkBox_4->setStyleSheet(" spacing: 6px;");
-    checkBox_4->setStyleSheet(QString::fromUtf8("font: 14px;color:rgb(0,0,0)"));
-    QPalette palette_checkbox = checkBox_4->palette();
-    palette_checkbox.setBrush(QPalette::Base,QColor("#CFCFCF"));
-    checkBox_4->setPalette(palette_checkbox);
+    checkBox_4->setStyleSheet(QString::fromUtf8("font: 14px;"));
+
 
     pushButton_2 = new QPushButton(centralwidget);
     pushButton_2->setText(tr("Submit"));
     pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
-    pushButton_2->setGeometry(QRect(440, 475, 120, 45));
+    pushButton_2->setGeometry(QRect(444, 526, 120, 40));
     pushButton_2->setEnabled(false);
-    pushButton_2->setStyleSheet(QString::fromUtf8("font: 18px;\n"
-                                                  "color: rgb(255, 255, 255);\n"
-                                                  "background-color: rgb(233, 233, 233);\n"
-                                                  "border:4px ;"));
+    pushButton_2->setPalette(palette_gray);
+    pushButton_2->setProperty("useIconHighlightEffect", true);
+    pushButton_2->setProperty("iconHighlightEffectMode", 1);
+
     pushButton_3 = new systeminfo_button(centralwidget);
     pushButton_3->setText(tr("osinfo"));
-    pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
-    pushButton_3->setGeometry(QRect(140, 490, 68, 24));
+    pushButton_3->setGeometry(QRect(138, 534, 68, 24));
     pushButton_3->setFeedBack(this);
     pushButton_3->setFlat(true);
     pushButton_3->setEnabled(false);
-    pushButton_3->setStyleSheet(QString::fromUtf8("font: 14px;\n"
-                                                  "color: rgb(85, 85, 255);"
-                                                  "background-color:rgb(255,255,255)"));
+    pushButton_3->setStyleSheet(QString::fromUtf8("font: 14px;color:rgb(61,107,229)\n"));
+
 
     verticalWidget = new QWidget();
     verticalWidget->setObjectName(QString::fromUtf8("verticalWidget"));
@@ -327,16 +326,6 @@ void feedback::UI_init()
     //Set window transparency
     verticalWidget->setAttribute(Qt::WA_TranslucentBackground);
 
-    verticalWidget->setStyleSheet(QString::fromUtf8("background-color: rgba(255, 255, 255);\n"
-                                                    "border-top-left-radius:4px;\n"
-                                                    "\n"
-                                                    "border-top-right-radius:4px;\n"
-                                                    "\n"
-                                                    "border-bottom-left-radius:4px;\n"
-                                                    "\n"
-                                                    "border-bottom-right-radius:4px;\n"
-                                                    "border:0.5px solid black;\n"
-                                                    ""));
     frame_2 = new QFrame(verticalWidget);
     frame_2->setObjectName(QString::fromUtf8("frame_2"));
     frame_2->setGeometry(QRect(0, 0, 217,77));
@@ -347,27 +336,59 @@ void feedback::UI_init()
     effect->setColor(QColor(80,80,80));
     effect->setBlurRadius(10);
     frame_2->setGraphicsEffect(effect);
-    frame_2->setStyleSheet("border-color: rgba(255, 255, 255,0.1);");
 
     label_10 = new QLabel(frame_2);
     label_10->setObjectName(QString::fromUtf8("label_10"));
     label_10->setGeometry(QRect(15, 10, 200, 20));
-    label_10->setStyleSheet(QString::fromUtf8("border-color: rgb(255, 255, 255);color:rgb(0,0,0);font:12px;"));
     label_12 = new QLabel(frame_2);
     label_12->setObjectName(QString::fromUtf8("label_12"));
     label_12->setGeometry(QRect(15, 30, 200, 20));
-    label_12->setStyleSheet(QString::fromUtf8("border-color: rgb(255, 255, 255);color:rgb(0,0,0);font:12px;"));
     label_11 = new QLabel(frame_2);
     label_11->setObjectName(QString::fromUtf8("label_11"));
     label_11->setGeometry(QRect(15, 50, 200, 20));
-    label_11->setStyleSheet(QString::fromUtf8("border-color: rgb(255, 255, 255);color:rgb(0,0,0);font:12px;"));
+    qDebug()<<"22222";
+
+
+    qDebug()<<"@22222";
+    if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0)){
+        verticalWidget->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);\n"
+                                                        "border-top-left-radius:4px;\n"
+                                                        "\n"
+                                                        "border-top-right-radius:4px;\n"
+                                                        "\n"
+                                                        "border-bottom-left-radius:4px;\n"
+                                                        "\n"
+                                                        "border-bottom-right-radius:4px;\n"
+                                                        "border:0.5px solid black;\n"
+                                                        ""));
+        frame_2->setStyleSheet("border-color: rgba(255,255,255,0.1);");
+        label_11->setStyleSheet(QString::fromUtf8("border-color: rgb(255,255,255);color:rgb(0,0,0);font:12px;"));
+        label_12->setStyleSheet(QString::fromUtf8("border-color: rgb(255,255,255);color:rgb(0,0,0);font:12px;"));
+        label_10->setStyleSheet(QString::fromUtf8("border-color: rgb(255,255,255);color:rgb(0,0,0);font:12px;"));
+
+
+    }else if((style_name.compare("ukui-dark")==0) || (style_name.compare("ukui-black")==0)){
+        verticalWidget->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 0, 0);\n"
+                                                        "border-top-left-radius:4px;\n"
+                                                        "\n"
+                                                        "border-top-right-radius:4px;\n"
+                                                        "\n"
+                                                        "border-bottom-left-radius:4px;\n"
+                                                        "\n"
+                                                        "border-bottom-right-radius:4px;\n"
+                                                        "border:0.5px solid black;\n"
+                                                        ""));
+        frame_2->setStyleSheet("border-color: rgba(0, 0, 0,0.1);");
+        label_11->setStyleSheet(QString::fromUtf8("border-color: rgb(0, 0, 0);color:rgb(255,255,255);font:12px;"));
+        label_12->setStyleSheet(QString::fromUtf8("border-color: rgb(0, 0, 0);color:rgb(255,255,255);font:12px;"));
+        label_10->setStyleSheet(QString::fromUtf8("border-color: rgb(0, 0, 0);color:rgb(255,255,255);font:12px;"));
+    }
 
     label_8 = new QLabel(centralwidget);
     label_8->setText(tr("Log file"));
     label_8->setObjectName(QString::fromUtf8("label_8"));
     label_8->setGeometry(QRect(35, 325, 71, 23));
     label_8->setStyleSheet(QString::fromUtf8("font: 14px;\n"
-                                             "color: rgb(68, 68, 68);\n"
                                              ""));
     label_9 = new QLabel(centralwidget);
     label_9->setText(tr("200 words"));
@@ -389,9 +410,7 @@ void feedback::UI_init()
     checkBox->setText(tr("syslog"));
     checkBox->setObjectName(QString::fromUtf8("checkBox"));
     checkBox->setStyleSheet(QString::fromUtf8("font: 14px;\n"
-                                              "color:rgb(0,0,0);\n"
                                               ""));
-    checkBox->setPalette(palette_checkbox);
     horizontalLayout->addWidget(checkBox);
 
     checkBox_2 = new QCheckBox(layoutWidget);
@@ -399,9 +418,7 @@ void feedback::UI_init()
     checkBox_2->setObjectName(QString::fromUtf8("checkBox_2"));
     checkBox_2->setStyleSheet(QString::fromUtf8("font: 14px ;\n"
                                                 "spacing: 5px;"
-                                                "color:rgb(0,0,0);\n"
                                                 ""));
-    checkBox_2->setPalette(palette_checkbox);
     horizontalLayout->addWidget(checkBox_2);
 
     checkBox_3 = new QCheckBox(layoutWidget);
@@ -409,10 +426,8 @@ void feedback::UI_init()
     checkBox_3->setObjectName(QString::fromUtf8("checkBox_3"));
     checkBox_3->setStyleSheet(QString::fromUtf8("font: 14px;\n"
                                                 "spacing: 5px;\n"
-                                                "color:rgb(0,0,0);\n"
                                                 ""));
 
-    checkBox_3->setPalette(palette_checkbox);
     horizontalLayout->addWidget(checkBox_3);
 
 
@@ -425,23 +440,24 @@ void feedback::UI_init()
     this->setCentralWidget(centralwidget);
 
 
-    pushButton_mix = new hideBtn_hover(centralwidget);
+    pushButton_mix = new QPushButton(centralwidget);
     pushButton_mix->setGeometry(QRect(520, 14, 30, 30));
-    pushButton_mix->setStyleSheet("background-color: rgb(255,255,255);border-image:url(:/image/mix_default.png);border-radius:4px;");
-
+    pushButton_mix->setIcon(QIcon::fromTheme("window-minimize-symbolic"));
+    pushButton_mix->setPalette(palette);
+    pushButton_mix->setProperty("useIconHighlightEffect", true);
+    pushButton_mix->setProperty("iconHighlightEffectMode", 1);
 
     connect(pushButton_mix,SIGNAL(clicked()),this,SLOT(on_pushButton_mix_clicked()));
 
-    pushButton_close = new closeBtn_hover(centralwidget);
+    pushButton_close = new QPushButton(centralwidget);
     pushButton_close->setGeometry(QRect(554, 14, 30, 30));
-    pushButton_close->setStyleSheet("background-color: rgb(255,255,255);border-image:url(:/image/close_default.png);border-radius:4px;");
+    pushButton_close->setIcon(QIcon::fromTheme("window-close-symbolic"));
+    pushButton_close->setPalette(palette);
+    pushButton_close->setProperty("useIconHighlightEffect", true);
+    pushButton_close->setProperty("iconHighlightEffectMode", 1);
 
     file_listwidget = new QListWidget(this);
-    file_listwidget->setGeometry(QRect(140,407,320,40));
-
-    file_listwidget->setStyleSheet("selection-background-color: rgb(255,255,255);");
-
-    file_listwidget->setStyle(new CustomStyle("ukui-light"));
+    file_listwidget->setGeometry(QRect(140,407,320,100));
 
     file_listwidget->setAttribute(Qt::WA_TranslucentBackground);
     file_listwidget->setFrameShape(QListWidget::NoFrame);
@@ -474,12 +490,63 @@ void feedback::UI_init()
 
 void feedback::feedback_init()
 {
+
+
+    connect(style_settings,SIGNAL(changed(QString)),this,SLOT(style_changed(QString)));
+
     //http客户端初始化
     //HTTP client initialization
     httpclient_init();
     submitting_timer = new QTimer();
     submitting_timer->setInterval(100);
     connect(submitting_timer,SIGNAL(timeout()),this,SLOT(submit_change_load_image()));
+}
+
+void feedback::style_changed(QString)
+{
+    QString style_name =  style_settings->get("style-name").toString();
+    if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0)){
+        palette_gray.setBrush(QPalette::Button, QColor(233,233,233));
+        palette_gray.setBrush(QPalette::ButtonText, QColor(255,255,255));
+
+    }else if((style_name.compare("ukui-dark")==0) || (style_name.compare("ukui-black")==0)){
+        palette_gray.setBrush(QPalette::Button, QColor(57,58,62));
+        palette_gray.setBrush(QPalette::ButtonText, QColor(255,255,255));
+    }
+    if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0)){
+        verticalWidget->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);\n"
+                                                        "border-top-left-radius:4px;\n"
+                                                        "\n"
+                                                        "border-top-right-radius:4px;\n"
+                                                        "\n"
+                                                        "border-bottom-left-radius:4px;\n"
+                                                        "\n"
+                                                        "border-bottom-right-radius:4px;\n"
+                                                        "border:0.5px solid black;\n"
+                                                        ""));
+        frame_2->setStyleSheet("border-color: rgba(255,255,255,0.1);");
+        label_11->setStyleSheet(QString::fromUtf8("border-color: rgb(255,255,255);color:rgb(0,0,0);font:12px;"));
+        label_12->setStyleSheet(QString::fromUtf8("border-color: rgb(255,255,255);color:rgb(0,0,0);font:12px;"));
+        label_10->setStyleSheet(QString::fromUtf8("border-color: rgb(255,255,255);color:rgb(0,0,0);font:12px;"));
+
+
+    }else if((style_name.compare("ukui-dark")==0) || (style_name.compare("ukui-black")==0)){
+        verticalWidget->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 0, 0);\n"
+                                                        "border-top-left-radius:4px;\n"
+                                                        "\n"
+                                                        "border-top-right-radius:4px;\n"
+                                                        "\n"
+                                                        "border-bottom-left-radius:4px;\n"
+                                                        "\n"
+                                                        "border-bottom-right-radius:4px;\n"
+                                                        "border:0.5px solid black;\n"
+                                                        ""));
+        frame_2->setStyleSheet("border-color: rgba(0, 0, 0,0.1);");
+        label_11->setStyleSheet(QString::fromUtf8("border-color: rgb(0, 0, 0);color:rgb(255,255,255);font:12px;"));
+        label_12->setStyleSheet(QString::fromUtf8("border-color: rgb(0, 0, 0);color:rgb(255,255,255);font:12px;"));
+        label_10->setStyleSheet(QString::fromUtf8("border-color: rgb(0, 0, 0);color:rgb(255,255,255);font:12px;"));
+    }
+
 }
 
 //点击提交之后按钮更换加载图片
@@ -497,7 +564,6 @@ void feedback::submit_change_load_image()
 //Minimization Window
 void feedback::on_pushButton_mix_clicked()
 {
-    pushButton_mix->setStyleSheet("background-color:rgb(50,87,202);border-image:url(:/image/mix_hover.png);border-radius:4px;");
     this->showNormal();
     this->showMinimized();
 }
@@ -506,7 +572,6 @@ void feedback::on_pushButton_mix_clicked()
 // close window
 void feedback::on_pushButton_close_clicked()
 {
-    pushButton_close->setStyleSheet("background-color:rgb(215,52,53);border-image:url(:/image/close_hover.png);border-radius:4px;");
     if (file_send_failed_flag) {
         this->close();
     } else {
@@ -538,7 +603,6 @@ void feedback::resend_info_when_sendfail()
 //get image
 void feedback::on_pushButton_clicked()
 {
-    pushButton->setStyleSheet("font: 14px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(68, 68, 68)");
     filename=QFileDialog::getOpenFileName(this,tr("select file"),"/","(*.gif *.jpg *.png *.pptx *.wps *.xlsx *.pdf *.txt *.docx)",0);
 
     if (filename.isEmpty())
@@ -548,7 +612,6 @@ void feedback::on_pushButton_clicked()
     if (file_name_list.size() ==0) {
         //添加附件框改变
         //Add attachment box changes
-        lineEdit->setText(filename);
         add_fileinfo_model();
     } else if(file_name_list.size() >= 5) {
         return ;
@@ -563,7 +626,6 @@ void feedback::on_pushButton_clicked()
         if (file_diff_flags == 0) {
             //添加附件框改变
             //Add attachment box changes
-            lineEdit->setText(filename);
             add_fileinfo_model();
         }
     }
@@ -587,12 +649,12 @@ void feedback::on_textEdit_textChanged()
         //设置提交按钮属性
         //Set submit button properties
         pushButton_2->setEnabled(true);
-        pushButton_2->setStyleSheet("font: 18px ;border-radius:4px;background-color:rgb(61,107,229);color: rgb(255, 255, 255)");
+        pushButton_2->setPalette(palette_blue);
     } else {
         //设置提交按钮属性
         //Set submit button properties
         pushButton_2->setEnabled(false);
-        pushButton_2->setStyleSheet("font: 18px ;border-radius:4px;background-color:rgb(233, 233, 233);color: rgb(255, 255, 255)");
+        pushButton_2->setPalette(palette_gray);
     }
     int length = textContent.count();
     // 最大字符数
@@ -721,7 +783,7 @@ void feedback::on_checkBox_stateChanged(int state)
         label_13->hide();
         file_listwidget->move(140,407);
         pushButton_2->setEnabled(true);
-        pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(255, 255, 255)");
+        pushButton_2->setPalette(palette_blue);
     }
 }
 
@@ -746,7 +808,7 @@ void feedback::on_checkBox_2_stateChanged(int state)
         label_13->hide();
         file_listwidget->move(140,407);
         pushButton_2->setEnabled(true);
-        pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(255, 255, 255)");
+        pushButton_2->setPalette(palette_blue);
     }
 }
 
@@ -770,7 +832,7 @@ void feedback::on_checkBox_3_stateChanged(int state)
         label_13->hide();
         file_listwidget->move(140,407);
         pushButton_2->setEnabled(true);
-        pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(255, 255, 255)");
+        pushButton_2->setPalette(palette_blue);
     }
 }
 
@@ -808,6 +870,7 @@ void feedback::set_all_disable_in_submit()
     checkBox_4->setEnabled(false);
     pushButton->setEnabled(false);
     pushButton_2->setEnabled(false);
+    pushButton_2->setPalette(palette_blue);
     for (int filenum = 0; filenum < file_name_list.size(); filenum++)
         file_widget[filenum]->deletebtn0->setEnabled(false);
 }
@@ -824,7 +887,8 @@ void feedback::set_all_enable_after_submit()
     checkBox_3->setEnabled(true);
     checkBox_4->setEnabled(true);
     pushButton->setEnabled(true);
-    //    pushButton_2->setEnabled(true);
+    pushButton_2->setEnabled(true);
+    pushButton_2->setPalette(palette_blue);
     for (int filenum = 0; filenum< file_name_list.size();filenum++)
     {
         file_widget[filenum]->deletebtn0->setEnabled(true);
@@ -840,11 +904,12 @@ void feedback::on_pushButton_2_clicked()
     int pos=0;
     QRegExpValidator v(rx, 0);
     if (2==v.validate(email_str,pos)) {
-        email_err_msg_label->hide();
+
     } else {
-        email_err_msg_label->show();
+        lineEdit_2->setStyle(new CustomStyle("ukui"));
         pushButton_2->setEnabled(false);
-        pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(233, 233, 233);color: rgb(255, 255, 255)");
+        pushButton_2->setPalette(palette_gray);
+        email_err_msg_label->show();
         return ;
     }
 
@@ -854,14 +919,14 @@ void feedback::on_pushButton_2_clicked()
         label_13->show();
         file_listwidget->move(140,430);
         pushButton_2->setEnabled(false);
-        pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(233, 233, 233);color: rgb(255, 255, 255)");
+        pushButton_2->setPalette(palette_gray);
         return;
     }
 
     label_13->hide();
     file_listwidget->move(140,407);
     pushButton_2->setEnabled(false);
-    pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(255, 255, 255)");
+    pushButton_2->setPalette(palette_blue);
 
     qDebug()<<"submitting_timer->start();";
     submitting_timer->start();
@@ -1070,10 +1135,10 @@ void feedback::on_lineEdit_2_textChanged()
     }
     if (describeflag == 1 && emailflag == 1) {
         pushButton_2->setEnabled(true);
-        pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(255, 255, 255)");
+        pushButton_2->setPalette(palette_blue);
     } else {
         pushButton_2->setEnabled(false);
-        pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(233, 233, 233);color: rgb(255, 255, 255)");
+        pushButton_2->setPalette(palette_gray);
     }
 }
 
@@ -1140,7 +1205,7 @@ void feedback::del_file_button_clicked()
         label_13->hide();
         file_listwidget->move(140,407);
         pushButton_2->setEnabled(true);
-        pushButton_2->setStyleSheet("font: 18px;border-radius:4px;background-color:rgb(65,95,196);color: rgb(255, 255, 255)");
+        pushButton_2->setPalette(palette_blue);
     }
 }
 
@@ -1168,7 +1233,6 @@ void feedback::feedback_info_init()
     foreach(auto item,file_path_list) {
         file_path_list.removeOne(item);
     }
-    lineEdit->setText("");
     label_13->hide();
     email_err_msg_label->hide();
     checkBox->setChecked(false);
@@ -1233,23 +1297,21 @@ void feedback::update_add_file_window()
 
         file_widget[filenum]->filename_label0->move(0,3);
         file_widget[filenum]->filename_label0->setText(filename_labelstr);
-        file_widget[filenum]->filename_label0->setStyleSheet("font: 12px ;color: rgb(68,68,68);");
+        file_widget[filenum]->filename_label0->setStyleSheet("font: 12px ;");
         file_widget[filenum]->filename_label0->adjustSize();
 
         int filename_width = file_widget[filenum]->filename_label0->geometry().width();
 
         file_widget[filenum]->filesize_label0->move(filename_width+10,3);
         file_widget[filenum]->filesize_label0->setText(file_size_list.at(filenum));
-        file_widget[filenum]->filesize_label0->setStyleSheet("font: 12px ;color: rgb(68,68,68);");
+        file_widget[filenum]->filesize_label0->setStyleSheet("font: 12px ;");
         file_widget[filenum]->filesize_label0->adjustSize();
 
         int filesize_width = file_widget[filenum]->filesize_label0->geometry().width();
 
         file_widget[filenum]->deletebtn0->setGeometry(filename_width+filesize_width+20,0,35,25);
         file_widget[filenum]->deletebtn0->setText(tr("del"));
-        file_widget[filenum]->deletebtn0->setStyleSheet("QPushButton{font: 12px ;color: rgb(61,107,229);background-color:rgb(255,255,255)}"
-                                                        "");
-        file_widget[filenum]->deletebtn0->setStyle(new CustomStyle("ukui"));
+        file_widget[filenum]->deletebtn0->setStyleSheet("font: 10px ;color: rgb(61,107,229);");
         file_widget[filenum]->deletebtn0->setFlat(true);
 
         connect( file_widget[filenum]->deletebtn0, SIGNAL(clicked()), this, SLOT(del_file_button_clicked()) );
@@ -1261,9 +1323,7 @@ void feedback::update_linedit_add_or_del_file()
 {
     int rowNum = file_name_list.size();
     if (rowNum == 0) {
-        lineEdit->setText("");
     } else {
-        lineEdit->setText(file_path_list.at(file_path_list.size()-1));
     }
 }
 //判断总文件大小是否超过10M
@@ -1308,12 +1368,10 @@ void feedback::finishedSlot(QNetworkReply *reply)
     //定时器结束
     //Timer ends.
     submitting_timer->stop();
-    pushButton_2->setText(tr("提交"));
+    pushButton_2->setText(tr("submit"));
     pushButton_2->setEnabled(false);
-    pushButton_2->setStyleSheet(QString::fromUtf8("font: 18px;\n"
-                                                  "color: rgb(255, 255, 255);\n"
-                                                  "background-color: rgb(233, 233, 233);\n"
-                                                  "border:4px ;"));
+    pushButton_2->setPalette(palette_gray);
+
     pushButton_2->setIcon(QIcon());
 
     set_all_enable_after_submit();
@@ -1415,8 +1473,9 @@ void feedback::paintEvent(QPaintEvent *e)
 
     // 随便绘制一个背景
     //Draw a random background.
+    QStyleOption *option = new QStyleOption();
     p.save();
-    p.fillPath(rectPath, QColor(255, 255, 255));
+    p.fillPath(rectPath, option->palette.color(QPalette::Base));
     p.restore();
 }
 

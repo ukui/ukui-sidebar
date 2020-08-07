@@ -17,13 +17,14 @@
 */
 #include "fileitemInit.h"
 #include <QWidget>
+#include "browseButton.h"
 
 fileitem_init::fileitem_init(QWidget *parent) :
     QWidget(parent)
 {
     if (this->objectName().isEmpty())
         this->setObjectName(QString::fromUtf8("fileitem_init"));
-    deletebtn0 = new QPushButton(this);
+    deletebtn0 = new browse_button(this);
     filename_label0 = new QLabel(this);
     filesize_label0 = new QLabel(this);
 }

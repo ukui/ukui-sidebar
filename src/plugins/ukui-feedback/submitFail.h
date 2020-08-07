@@ -21,7 +21,7 @@
 #include <QDialog>
 #include <QPushButton>
 #include <QLabel>
-#include "closebtnHover.h"
+
 class feedback;
 
 class submit_fail : public QDialog
@@ -48,7 +48,7 @@ private:
     feedback *parentWnd;
     QLabel *label;
     QPushButton *pushButton_2;
-    closeBtn_hover * fail_closeBtn;
+    QPushButton * fail_closeBtn;
     QPushButton * resendBtn;
     QLabel *label_2;
     QLabel *label_3;

@@ -36,7 +36,7 @@ void submit_fail::UI_init()
         this->setObjectName(QString::fromUtf8("submit_fail"));
     setWindowTitle(tr("submit fail"));
 
-    this->resize(430, 260);
+    this->resize(350, 230);
 
     this->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
     QBitmap bmp(this->size());
@@ -60,14 +60,29 @@ void submit_fail::UI_init()
     label = new QLabel(this);
     label->setText(tr("issue submitfail"));
     label->setObjectName(QString::fromUtf8("label"));
-    label->setGeometry(QRect(130, 85, 281, 60));
-    label->setStyleSheet(QString::fromUtf8("font: 30px;\n"
-                                           "color: rgb(68, 68, 68);"));
+    label->setGeometry(QRect(111, 70, 168, 31));
+    QFont font;
+    font.setPixelSize(24);
+    label->setFont(font);
 
 
-    fail_closeBtn = new closeBtn_hover(this);
-    fail_closeBtn->setGeometry(QRect(386, 14, 30, 30));
-    fail_closeBtn->setStyleSheet("background-color: rgb(255,255,255);border-image:url(:/image/close_default.png);border-radius:4px;");
+
+    QPalette palette;
+    QColor ColorPlaceholderText(255,255,255,0);
+    QBrush brush;
+    brush.setColor(ColorPlaceholderText);
+    palette.setBrush(QPalette::Button, brush);
+    palette.setBrush(QPalette::ButtonText, brush);
+
+    fail_closeBtn = new QPushButton(this);
+    fail_closeBtn->setGeometry(QRect(310, 15, 30, 30));
+    fail_closeBtn->setIcon(QIcon::fromTheme("window-close-symbolic"));
+    fail_closeBtn->setPalette(palette);
+    fail_closeBtn->setProperty("useIconHighlightEffect", true);
+    fail_closeBtn->setProperty("iconHighlightEffectMode", 1);
+
+
+
 
     connect(fail_closeBtn,SIGNAL(clicked()),this,SLOT(close_fail_window()));
 
@@ -75,29 +90,26 @@ void submit_fail::UI_init()
     resendBtn->setGeometry(QRect(130, 160, 60, 26));
     resendBtn->setText(tr("resend"));
     resendBtn->setFlat(false);
+    resendBtn->hide();
     resendBtn->setStyleSheet(QString::fromUtf8("QPushButton{color: rgb(61, 107, 229);background-color:rgb(255,255,255)}"
                                                "QPushButton:hover {color: rgb(255,255,255);background-color:rgb(107,142,235)}"
                                                ""));
     connect(resendBtn,SIGNAL(clicked()),this,SLOT(resend_feedbackinfo()));
 
     pushButton_2 = new QPushButton(this);
-    pushButton_2->setText(tr("exit"));
+    pushButton_2->setText(tr("Sure"));
     pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
-    pushButton_2->setGeometry(QRect(220, 160, 40, 26));
+    pushButton_2->setGeometry(QRect(249, 180, 80, 30));
     pushButton_2->setFlat(false);
-    pushButton_2->setStyleSheet(QString::fromUtf8("QPushButton{color: rgb(61, 107, 229);background-color:rgb(255,255,255)}"
-                                                  "QPushButton:hover {color: rgb(255,255,255);background-color:rgb(107,142,235)}"
-                                                  ""));
+
 
     label_2 = new QLabel(this);
     label_2->setObjectName(QString::fromUtf8("label_2"));
-    label_2->setGeometry(QRect(70, 94, 50, 50));
-    label_2->setStyleSheet(QString::fromUtf8("background-image: url(:/image/fail.png);"));
+    label_2->setGeometry(QRect(71, 71, 30, 30));
+    label_2->setPixmap(QPixmap(":/image/failed.png"));
     label_3 = new QLabel(this);
-    label_3->setObjectName(QString::fromUtf8("label_3"));
-    label_3->setGeometry(QRect(130, 140, 291, 16));
-    label_3->setStyleSheet(QString::fromUtf8("font: 12px;\n"
-                                             "color: rgb(33, 33, 33);"));
+    label_3->setGeometry(QRect(71,111, 224, 19));
+
 
     connect(pushButton_2,SIGNAL(clicked()),this,SLOT(on_pushButton_2_clicked()));
 }
@@ -130,8 +142,11 @@ submit_fail::~submit_fail()
 
 void submit_fail::on_pushButton_2_clicked()
 {
-    this->hide();
-    parentWnd->window_close();
+    //    this->hide();
+    //    parentWnd->window_close();
+    parentWnd->pushButton_2->setEnabled(true);
+    close();
+
 }
 void submit_fail::close_fail_window()
 {
@@ -175,7 +190,8 @@ void submit_fail::paintEvent(QPaintEvent *e)
     pixmapPainter2.drawPath(rectPath);
 
     p.drawPixmap(this->rect(), pixmap, pixmap.rect());
+    QStyleOption *option = new QStyleOption();
     p.save();
-    p.fillPath(rectPath, QColor(255, 255, 255));
+    p.fillPath(rectPath, option->palette.color(QPalette::Base));
     p.restore();
 }

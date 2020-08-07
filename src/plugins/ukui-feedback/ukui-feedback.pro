@@ -2,9 +2,10 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11
+CONFIG += c++11 link_pkgconfig
 TARGET = ukui-feedback
 TEMPLATE = app
+PKGCONFIG += gsettings-qt
 
 LIBS    +=  -lX11
 
@@ -17,7 +18,6 @@ TRANSLATIONS += ../../../translations/ukui-feedback/ukui-feedback_zh_CN.ts \
 
 SOURCES += \
     browseButton.cpp \
-    closebtnHover.cpp \
     customStyle.cpp \
     fileitemInit.cpp \
     hidebtnHover.cpp \
@@ -30,7 +30,6 @@ SOURCES += \
 
 HEADERS += \
     browseButton.h \
-    closebtnHover.h \
     customStyle.h \
     fileitemInit.h \
     hidebtnHover.h \
