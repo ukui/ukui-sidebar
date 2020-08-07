@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1">
+<TS version="2.1" language="bo">
 <context>
     <name>QObject</name>
     <message>
@@ -80,6 +80,57 @@
         <location filename="../../src/plugins/ukui-sidebar-clipboard/sidebarclipboardplugin.cpp" line="120"/>
         <source>No clip content</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QWidgetTextControl</name>
+    <message>
+        <location filename="widgets/qwidgettextcontrol.cpp" line="2264"/>
+        <source>&amp;Undo</source>
+        <translatorcomment>ཕྱིར་འཐེན། </translatorcomment>
+        <translation>ཕྱིར་འཐེན། </translation>
+    </message>
+    <message>
+        <location filename="widgets/qwidgettextcontrol.cpp" line="2268"/>
+        <source>&amp;Redo</source>
+        <translatorcomment>སླར་གསོ། </translatorcomment>
+        <translation>སླར་གསོ། </translation>
+    </message>
+    <message>
+        <location filename="widgets/qwidgettextcontrol.cpp" line="2275"/>
+        <source>Cu&amp;t</source>
+        <translatorcomment>དྲས་སྦྱར་</translatorcomment>
+        <translation>དྲས་སྦྱར་</translation>
+    </message>
+    <message>
+        <location filename="widgets/qwidgettextcontrol.cpp" line="2284"/>
+        <source>&amp;Copy</source>
+        <translatorcomment>འདྲ་བཟོ་</translatorcomment>
+        <translation>འདྲ་བཟོ་</translation>
+    </message>
+    <message>
+        <location filename="widgets/qwidgettextcontrol.cpp" line="2293"/>
+        <source>Copy &amp;Link Location</source>
+        <translatorcomment>འདྲ་ཕབ་འབྲེལ་མཐུད།</translatorcomment>
+        <translation>འདྲ་ཕབ་འབྲེལ་མཐུད།</translation>
+    </message>
+    <message>
+        <location filename="widgets/qwidgettextcontrol.cpp" line="2301"/>
+        <source>&amp;Paste</source>
+        <translatorcomment>སྦྱར་བ་</translatorcomment>
+        <translation>སྦྱར་བ་</translation>
+    </message>
+    <message>
+        <location filename="widgets/qwidgettextcontrol.cpp" line="2306"/>
+        <source>Delete</source>
+        <translatorcomment>སུབ་པ་</translatorcomment>
+        <translation>སུབ་པ་</translation>
+    </message>
+    <message>
+        <location filename="widgets/qwidgettextcontrol.cpp" line="2315"/>
+        <source>Select All</source>
+        <translatorcomment>ཡོངས་འདེམས་</translatorcomment>
+        <translation>ཡོངས་འདེམས་</translation>
     </message>
 </context>
 </TS>

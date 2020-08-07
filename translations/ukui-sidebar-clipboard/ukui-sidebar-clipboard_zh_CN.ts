@@ -82,4 +82,55 @@
         <translation>无剪贴内容</translation>
     </message>
 </context>
+<context>
+    <name>QWidgetTextControl</name>
+    <message>
+        <location filename="widgets/qwidgettextcontrol.cpp" line="2264"/>
+        <source>&amp;Undo</source>
+        <translatorcomment>撤消</translatorcomment>
+        <translation>撤消</translation>
+    </message>
+    <message>
+        <location filename="widgets/qwidgettextcontrol.cpp" line="2268"/>
+        <source>&amp;Redo</source>
+        <translatorcomment>恢复</translatorcomment>
+        <translation>恢复</translation>
+    </message>
+    <message>
+        <location filename="widgets/qwidgettextcontrol.cpp" line="2275"/>
+        <source>Cu&amp;t</source>
+        <translatorcomment>剪贴</translatorcomment>
+        <translation>剪贴</translation>
+    </message>
+    <message>
+        <location filename="widgets/qwidgettextcontrol.cpp" line="2284"/>
+        <source>&amp;Copy</source>
+        <translatorcomment>复制</translatorcomment>
+        <translation>复制</translation>
+    </message>
+    <message>
+        <location filename="widgets/qwidgettextcontrol.cpp" line="2293"/>
+        <source>Copy &amp;Link Location</source>
+        <translatorcomment>复制链接</translatorcomment>
+        <translation>复制链接</translation>
+    </message>
+    <message>
+        <location filename="widgets/qwidgettextcontrol.cpp" line="2301"/>
+        <source>&amp;Paste</source>
+        <translatorcomment>粘贴</translatorcomment>
+        <translation>粘贴</translation>
+    </message>
+    <message>
+        <location filename="widgets/qwidgettextcontrol.cpp" line="2306"/>
+        <source>Delete</source>
+        <translatorcomment>删除</translatorcomment>
+        <translation>删除</translation>
+    </message>
+    <message>
+        <location filename="widgets/qwidgettextcontrol.cpp" line="2315"/>
+        <source>Select All</source>
+        <translatorcomment>全选</translatorcomment>
+        <translation>全选</translation>
+    </message>
+</context>
 </TS>
