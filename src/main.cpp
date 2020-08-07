@@ -33,7 +33,7 @@
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 #include <X11/Xlib.h>
-#include <KWindowEffects>
+//#include <KWindowEffects>
 #include "sidebarpluginswidgets.h"
 #include "smallpluginsmanage.h"
 #include "mostgrandwidget.h"
