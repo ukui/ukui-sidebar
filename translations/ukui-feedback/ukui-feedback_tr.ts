@@ -6,32 +6,32 @@
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="137"/>
         <source>FeedBack</source>
-        <translatorcomment>Geri bildirim</translatorcomment>
-        <translation>Geri bildirim</translation>
+        <translatorcomment>Geri Bildirim</translatorcomment>
+        <translation>Geri Bildirim</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="190"/>
         <source>feedback</source>
-        <translatorcomment>Geri</translatorcomment>
-        <translation>Geri</translation>
+        <translatorcomment>Geri Bildirim</translatorcomment>
+        <translation>Geri Bildirim</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="196"/>
         <source>Backtype</source>
-        <translatorcomment>Backtype</translatorcomment>
-        <translation>Backtype</translation>
+        <translatorcomment>Bildirim Türü</translatorcomment>
+        <translation>Bildirim Türü</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="202"/>
         <source>system issue</source>
-        <translatorcomment>sistem sorunu</translatorcomment>
-        <translation>sistem sorunu</translation>
+        <translatorcomment>Sistem Sorunu</translatorcomment>
+        <translation>Sistem Sorunu</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="203"/>
         <source>suggestions</source>
-        <translatorcomment>öneriler</translatorcomment>
-        <translation>öneriler</translation>
+        <translatorcomment>Öneri</translatorcomment>
+        <translation>Öneri</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="204"/>
@@ -42,8 +42,8 @@
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="205"/>
         <source>other</source>
-        <translatorcomment>diğer</translatorcomment>
-        <translation>diğer</translation>
+        <translatorcomment>Diğer</translatorcomment>
+        <translation>Diğer</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="216"/>
@@ -54,8 +54,8 @@
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="233"/>
         <source>Please enter content</source>
-        <translatorcomment>Lütfen içerik girin</translatorcomment>
-        <translation>Lütfen içerik girin</translation>
+        <translatorcomment>Lütfen birşeyler yazın</translatorcomment>
+        <translation>Lütfen birşeyler yazın</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="241"/>
@@ -78,8 +78,8 @@
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="271"/>
         <source>Upload</source>
-        <translatorcomment>yükleme</translatorcomment>
-        <translation>yükleme</translation>
+        <translatorcomment>Yükle</translatorcomment>
+        <translation>Yükle</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="282"/>
@@ -90,8 +90,8 @@
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="287"/>
         <source>add file</source>
-        <translatorcomment>dosya Ekle</translatorcomment>
-        <translation type="unfinished">dosya Ekle</translation>
+        <translatorcomment>Dosya Ekle</translatorcomment>
+        <translation type="unfinished">Dosya Ekle</translation>
     </message>
     <message>
         <source>File size cannot exceed 10MB</source>
@@ -106,38 +106,38 @@
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="248"/>
         <source>wrong format</source>
-        <translatorcomment>yanlış format</translatorcomment>
-        <translation type="unfinished">yanlış format</translation>
+        <translatorcomment>Hatalı Format</translatorcomment>
+        <translation type="unfinished">Hatalı Format</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="295"/>
         <source>get mine</source>
-        <translatorcomment>benimkini al</translatorcomment>
-        <translation>benimkini al</translation>
+        <translatorcomment>Bilgilerimi Al</translatorcomment>
+        <translation>Bilgilerimi Al</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="303"/>
         <source>Submit</source>
-        <translatorcomment>Sunmak</translatorcomment>
-        <translation>Sunmak</translation>
+        <translatorcomment>Gönder</translatorcomment>
+        <translation>Gönder</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="312"/>
         <source>osinfo</source>
-        <translatorcomment>OSINFO</translatorcomment>
-        <translation>OSINFO</translation>
+        <translatorcomment>Sistem Bilgisi</translatorcomment>
+        <translation>Sistem Bilgisi</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="388"/>
         <source>Log file</source>
-        <translatorcomment>Log dosyası</translatorcomment>
-        <translation>Log dosyası</translation>
+        <translatorcomment>Günlük Dosyası</translatorcomment>
+        <translation>Günlük Dosyası</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="394"/>
         <source>200 words</source>
-        <translatorcomment>200 kelime</translatorcomment>
-        <translation>200 kelime</translation>
+        <translatorcomment>200 Kelime</translatorcomment>
+        <translation>200 Kelime</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="410"/>
@@ -166,21 +166,21 @@
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="606"/>
         <source>select file</source>
-        <translatorcomment>dosya Seç</translatorcomment>
-        <translation>dosya Seç</translation>
+        <translatorcomment>Dosya Seç</translatorcomment>
+        <translation>Dosya Seç</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1243"/>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1371"/>
         <source>submit</source>
-        <translatorcomment>Sunmak</translatorcomment>
-        <translation>Sunmak</translation>
+        <translatorcomment>Gönder</translatorcomment>
+        <translation>Gönder</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1313"/>
         <source>del</source>
-        <translatorcomment>del</translatorcomment>
-        <translation>del</translation>
+        <translatorcomment>Sil</translatorcomment>
+        <translation>Sil</translation>
     </message>
 </context>
 <context>
@@ -188,31 +188,31 @@
     <message>
         <location filename="../../src/plugins/ukui-feedback/submitFail.cpp" line="37"/>
         <source>submit fail</source>
-        <translatorcomment>gönder başarısız</translatorcomment>
-        <translation>gönder başarısız</translation>
+        <translatorcomment>Gönderme Başarısız</translatorcomment>
+        <translation>Gönderme Başarısız</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/submitFail.cpp" line="61"/>
         <source>issue submitfail</source>
-        <translatorcomment>gönder başarısız</translatorcomment>
-        <translation>gönder başarısız</translation>
+        <translatorcomment>Gönderme Başarısız</translatorcomment>
+        <translation>Gönderme Başarısız</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/submitFail.cpp" line="91"/>
         <source>resend</source>
-        <translatorcomment>Yeniden gönder</translatorcomment>
-        <translation>Yeniden gönder</translation>
+        <translatorcomment>Yeniden Gönder</translatorcomment>
+        <translation>Yeniden Gönder</translation>
     </message>
     <message>
         <source>exit</source>
-        <translatorcomment>çıkış</translatorcomment>
-        <translation type="vanished">çıkış</translation>
+        <translatorcomment>Çıkış</translatorcomment>
+        <translation type="vanished">Çıkış</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/submitFail.cpp" line="100"/>
         <source>Sure</source>
-        <translatorcomment>Elbette</translatorcomment>
-        <translation>Elbette</translation>
+        <translatorcomment>Onayla</translatorcomment>
+        <translation>Onayla</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/submitFail.cpp" line="120"/>
@@ -223,8 +223,8 @@
     <message>
         <location filename="../../src/plugins/ukui-feedback/submitFail.cpp" line="123"/>
         <source>Server down</source>
-        <translatorcomment>Sunucu çökmesi</translatorcomment>
-        <translation>Sunucu çökmesi</translation>
+        <translatorcomment>Sunucu Çöktü</translatorcomment>
+        <translation>Sunucu Çöktü</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/submitFail.cpp" line="126"/>
@@ -241,14 +241,14 @@
     <message>
         <location filename="../../src/plugins/ukui-feedback/submitFail.cpp" line="132"/>
         <source>net no connect</source>
-        <translatorcomment>net bağlantı yok</translatorcomment>
-        <translation>net bağlantı yok</translation>
+        <translatorcomment>İnternet bağlantısı yok</translatorcomment>
+        <translation>İnternet bağlantısı yok</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/submitFail.cpp" line="135"/>
         <source>unknown mistake</source>
-        <translatorcomment>bilinmeyen hata</translatorcomment>
-        <translation>bilinmeyen hata</translation>
+        <translatorcomment>Bilinmeyen Hata</translatorcomment>
+        <translation>Bilinmeyen Hata</translation>
     </message>
 </context>
 <context>
@@ -256,31 +256,31 @@
     <message>
         <location filename="../../src/plugins/ukui-feedback/submitSuccess.cpp" line="34"/>
         <source>Submitted success </source>
-        <translatorcomment>Gönderilen başarı</translatorcomment>
-        <translation>Gönderilen başarı</translation>
+        <translatorcomment>Gönderne Başarılı</translatorcomment>
+        <translation>Gönderne Başarılı</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/submitSuccess.cpp" line="56"/>
         <source>submitted success</source>
-        <translatorcomment>başarı gönderildi</translatorcomment>
-        <translation>başarı gönderildi</translation>
+        <translatorcomment>Gönderne Başarılı</translatorcomment>
+        <translation>Gönderne Başarılı</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/submitSuccess.cpp" line="78"/>
         <source>Continue</source>
-        <translatorcomment>Devam et</translatorcomment>
-        <translation>Devam et</translation>
+        <translatorcomment>İleri</translatorcomment>
+        <translation>İleri</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/submitSuccess.cpp" line="88"/>
         <source>Sure</source>
-        <translatorcomment>Elbette</translatorcomment>
-        <translation>Elbette</translation>
+        <translatorcomment>Onayla</translatorcomment>
+        <translation>Onayla</translation>
     </message>
     <message>
         <source>exit</source>
-        <translatorcomment>çıkış</translatorcomment>
-        <translation type="vanished">çıkış</translation>
+        <translatorcomment>Çıkış</translatorcomment>
+        <translation type="vanished">Çıkış</translation>
     </message>
 </context>
 <context>
@@ -294,44 +294,44 @@
     <message>
         <location filename="widgets/qwidgettextcontrol.cpp" line="2268"/>
         <source>&amp;Redo</source>
-        <translatorcomment>onarmak</translatorcomment>
-        <translation>onarmak</translation>
+        <translatorcomment>Onar</translatorcomment>
+        <translation>Onar</translation>
     </message>
     <message>
         <location filename="widgets/qwidgettextcontrol.cpp" line="2275"/>
         <source>Cu&amp;t</source>
-        <translatorcomment>Kes ve yapıştır</translatorcomment>
-        <translation>Kes ve yapıştır</translation>
+        <translatorcomment>Kes</translatorcomment>
+        <translation>Kes</translation>
     </message>
     <message>
         <location filename="widgets/qwidgettextcontrol.cpp" line="2284"/>
         <source>&amp;Copy</source>
-        <translatorcomment>İ kopyala</translatorcomment>
-        <translation>İ kopyala</translation>
+        <translatorcomment>Kopyala</translatorcomment>
+        <translation>Kopyala</translation>
     </message>
     <message>
         <location filename="widgets/qwidgettextcontrol.cpp" line="2293"/>
         <source>Copy &amp;Link Location</source>
-        <translatorcomment>Bağlantıyı kopyala</translatorcomment>
-        <translation>Bağlantıyı kopyala</translation>
+        <translatorcomment>Bağlantıyı Kopyala</translatorcomment>
+        <translation>Bağlantıyı Kopyala</translation>
     </message>
     <message>
         <location filename="widgets/qwidgettextcontrol.cpp" line="2301"/>
         <source>&amp;Paste</source>
-        <translatorcomment>Yapıştırmak</translatorcomment>
-        <translation>Yapıştırmak</translation>
+        <translatorcomment>Yapıştır</translatorcomment>
+        <translation>Yapıştır</translation>
     </message>
     <message>
         <location filename="widgets/qwidgettextcontrol.cpp" line="2306"/>
         <source>Delete</source>
-        <translatorcomment>silmek</translatorcomment>
-        <translation type="unfinished">silmek</translation>
+        <translatorcomment>Sil</translatorcomment>
+        <translation type="unfinished">Sil</translation>
     </message>
     <message>
         <location filename="widgets/qwidgettextcontrol.cpp" line="2315"/>
         <source>Select All</source>
-        <translatorcomment>hepsini seç</translatorcomment>
-        <translation type="unfinished">hepsini seç</translation>
+        <translatorcomment>Tümünü Seç</translatorcomment>
+        <translation type="unfinished">Tümünü Seç</translation>
     </message>
 </context>
 </TS>
