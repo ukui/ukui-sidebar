@@ -638,10 +638,10 @@ void Widget::setAllWidgetFont()
         connect(fontSetting, &QGSettings::changed,[=](QString key){
             if ("systemFont" == key || "systemFontSize" ==key) {
                 QFont font = this->font();
-                int width = font.pointSize();
                 for (auto widget : qApp->allWidgets()) {
                     widget->setFont(font);
                 }
+                emit sidebarPluginsWidgets::getInstancePluinsWidgets()->FontModifyComplete();
             }
         });
 }

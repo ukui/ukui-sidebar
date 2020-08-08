@@ -71,9 +71,14 @@ public:
     QString getAppName(QString desktopfp);                        //获取插件名称
     QString getAppExec(QString desktopfp);                        //获取应用可执行文件路径
     void    addDesktopFileName();                                 //将小插件desktop文件名称放入到desktopfpList中
+
     void    parsingDesktopFile();                                 //解析desktop文件
     QToolButton* StructToolButtol(QString icon, QString name);    //构建QToolButton
     QStringList m_desktopfpList;                                  //保存当前小插件desktop文件名称
+
+    QString SetFormatBody(QString text, QLabel *label);           //设置...
+    QString judgeBlankLine(QStringList list);
+    bool    substringSposition(QString formatBody, QStringList list);
 
     QVBoxLayout *m_pWidgetOutVLayout;                             //最外层布局
     QHBoxLayout *m_pGrouBoxUpButtonHLayout;                       //GroupBox中Button中的布局
@@ -113,8 +118,11 @@ public:
     int     m_add_x = 0;
     int     m_add_y = 1;
     int     m_cliboardHight;                                      // 剪贴板和小插件的高度
+    QMap<QLabel*, QString> m_LabelTextMap;                        // 保存label原始字符串的Map表
+
 
 signals:
+    void FontModifyComplete();
 
 private slots:
     void m_pClipBoardStateSlots();
