@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui dbus widgets KWindowSystem
+QT       += core gui dbus widgets
 
 TARGET = ukui-sidebar
 TEMPLATE = app
