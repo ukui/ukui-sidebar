@@ -463,6 +463,8 @@ void feedback::UI_init()
     file_listwidget->setFrameShape(QListWidget::NoFrame);
 
     file_listwidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    file_listwidget->setSelectionMode(QAbstractItemView::NoSelection);
+
 
     submitting_pixmap[0] =QPixmap(":/image/conning-a/1.png");
     submitting_pixmap[1] =QPixmap(":/image/conning-a/2.png");
@@ -1306,23 +1308,23 @@ void feedback::update_add_file_window()
             filename_labelstr = file_name_list.at(filenum).left(30) + "...";
         }
 
-        file_widget[filenum]->filename_label0->move(0,3);
+        file_widget[filenum]->filename_label0->move(0,5);
         file_widget[filenum]->filename_label0->setText(filename_labelstr);
         file_widget[filenum]->filename_label0->setStyleSheet("font: 12px ;");
         file_widget[filenum]->filename_label0->adjustSize();
 
         int filename_width = file_widget[filenum]->filename_label0->geometry().width();
 
-        file_widget[filenum]->filesize_label0->move(filename_width+10,3);
+        file_widget[filenum]->filesize_label0->move(filename_width+10,5);
         file_widget[filenum]->filesize_label0->setText(file_size_list.at(filenum));
         file_widget[filenum]->filesize_label0->setStyleSheet("font: 12px ;");
         file_widget[filenum]->filesize_label0->adjustSize();
 
         int filesize_width = file_widget[filenum]->filesize_label0->geometry().width();
 
-        file_widget[filenum]->deletebtn0->setGeometry(filename_width+filesize_width+20,0,35,25);
+        file_widget[filenum]->deletebtn0->setGeometry(filename_width+filesize_width+20,0,35,20);
         file_widget[filenum]->deletebtn0->setText(tr("del"));
-        file_widget[filenum]->deletebtn0->setStyleSheet("font: 10px ;color: rgb(61,107,229);");
+        file_widget[filenum]->deletebtn0->setStyleSheet("font: 12px ;color: rgb(61,107,229);");
         file_widget[filenum]->deletebtn0->setFlat(true);
 
         connect( file_widget[filenum]->deletebtn0, SIGNAL(clicked()), this, SLOT(del_file_button_clicked()) );
