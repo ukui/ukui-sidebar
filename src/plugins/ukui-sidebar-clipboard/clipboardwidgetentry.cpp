@@ -150,7 +150,9 @@ void ClipboardWidgetEntry::enterEvent(QEvent *e)
         m_pCopyDataLabal->setFixedSize(278, 34);
     } else if (m_dataFormat == ENTRYIMAGE) {
         m_pCopyDataLabal->setFixedSize(110, 75);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
         emit previewShowImage(this);//发送预览信号
+#endif
     } else {
         m_pCopyDataLabal->setFixedSize(260, 34);
         m_pEditButon->setVisible(true);
@@ -188,7 +190,9 @@ void ClipboardWidgetEntry::leaveEvent(QEvent *e)
         m_pCopyDataLabal->setFixedSize(386, 34);
     } else if (m_dataFormat == ENTRYIMAGE) {
         m_pCopyDataLabal->setFixedSize(110, 75);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
         emit previewHideImage(this);//发送退出预览信号
+#endif
         this->update();
     }
     if (m_ptext == "") {

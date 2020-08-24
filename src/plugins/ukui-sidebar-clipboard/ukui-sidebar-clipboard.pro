@@ -9,8 +9,8 @@ QT += widgets
 
 TARGET = clipboardPlugin
 TEMPLATE = lib
-CONFIG += plugin
-
+CONFIG += plugin c++11 link_pkgconfig
+PKGCONFIG += gsettings-qt
 include(../../env.pri)
 
 DEFINES += QT_DEPRECATED_WARNINGS

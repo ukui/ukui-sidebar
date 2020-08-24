@@ -30,10 +30,12 @@
 #include <QPainter>
 #include <QFile>
 #include <QRadioButton>
+#include <QGSettings>
 #include "clipboardsignal.h"
 #include "clipBoardInternalSignal.h"
 #define  CLEAN_PNG_PATH  ":/image/user-trash.png"
 #define  SIDEBAR_HINT_QSS_PATH  ":/qss/HintBoxWidget.css"
+#define UKUI_TRANSPARENCY_SETTING "org.ukui.control-center.personalise"
 extern ClipboardSignal *globalClipboardSignal;
 class CleanPromptBox : public QDialog
 {
@@ -56,6 +58,10 @@ public:
     QHBoxLayout  *m_pButtonHLaout;
     QHBoxLayout  *m_pChechBoxHLaout;
 
+    QGSettings   *m_pTransparency;
+    double        m_dTranSparency = 0.7;
+
+    void initGsettingTransparency();
     void creatorHintInfomationWidget();
     void creatorCheckBoxWidget();
     void creatorButtonWidget();

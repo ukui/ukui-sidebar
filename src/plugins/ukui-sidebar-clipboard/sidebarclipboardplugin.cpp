@@ -296,6 +296,7 @@ void SidebarClipboardPlugin::createWidgetEntry()
 
     /* 将按钮与槽对应上 */
     connectWidgetEntryButton(w);
+
     /* 插入剪贴板条目 */
     m_pShortcutOperationListWidget->insertItem(0, pListWidgetItem);
     m_pShortcutOperationListWidget->setItemWidget(pListWidgetItem, w);
