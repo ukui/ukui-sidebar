@@ -33,7 +33,6 @@ ButtonWidget::ButtonWidget(QString strIcon, QString strHoverIcon, QString strPre
 
     this->setFixedWidth(24);
     this->setFixedHeight(24);
-    this->setStyleSheet("border:none;border-style:none;padding:0px;background:transparent;width:24px;height:24px;");
     QVBoxLayout* pVBoxLayout = new QVBoxLayout;
     pVBoxLayout->setContentsMargins(0,0,0,0);
     pVBoxLayout->setSpacing(0);
@@ -41,6 +40,7 @@ ButtonWidget::ButtonWidget(QString strIcon, QString strHoverIcon, QString strPre
     m_ToolButton = new QLabel;
     m_pTakeinSvgRender = new QSvgRenderer(m_ToolButton);
     m_pTakeinSvgRender->load(m_strIcon);
+    m_ToolButton->setAttribute(Qt::WA_TranslucentBackground);
     m_pTakeinPixmap = new QPixmap(normalIconSize);
     m_pTakeinPressPixmap = new QPixmap(pressIconSize);
     m_pTakeinPixmap->fill(Qt::transparent);
