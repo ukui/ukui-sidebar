@@ -32,7 +32,8 @@ SOURCES += \
         pluginmanage.cpp \
         sidebarAppLog.cpp \
         customstyle.cpp \
-        customstyleCleanPushbutton.cpp
+        customstyleCleanPushbutton.cpp \
+    mywidget.cpp
 
 INCLUDEPATH += ./plugin-interface
 
@@ -46,7 +47,8 @@ HEADERS += \
         pluginmanage.h \
         sidebarAppLog.h \
         customstyle.h \
-        customstyleCleanPushbutton.h
+        customstyleCleanPushbutton.h \
+    mywidget.h
 
 INCLUDEPATH +=./plugin-interface ./plugin-sub-manager
 TRANSLATIONS += ../translations/ukui-sidebar_bo.ts \

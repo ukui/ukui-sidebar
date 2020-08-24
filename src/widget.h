@@ -32,6 +32,7 @@
 #include "clipboardpluginiface.h"
 #include "sidebarSmallPluginInterface.h"
 #include "mostgrandwidget.h"
+#include "mywidget.h"
 
 #define  TRAY_ICON           ":/data/images/kylin-tool-box.svg"
 #define  TRAY_NULL_ICON      ":/data/images/kylin-tool-box-null.svg"
@@ -72,6 +73,7 @@ public:
     int  connectTaskBarDbus();                                                  //连接任务栏dbus接口，获取任务栏高度
     int  getPanelSite();                                                        //获取任务栏位置
     int  setClipBoardWidgetScaleFactor();                                       //获取通知中心下半部分高度比例系数
+
 
     //系统托盘
     void createAction();                                                        //连接信号和槽函数，设置其动作;

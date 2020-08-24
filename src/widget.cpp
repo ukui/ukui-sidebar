@@ -338,8 +338,8 @@ void Widget::showAnimation()
 {
     NotificationInterface* pNotificationPluginObject = qobject_cast<NotificationInterface*>(m_pNotificationPluginObject);
     QWidget *widget = pNotificationPluginObject->centerWidget();
-    QString sheet = QString("QWidget{background-color:rgba(19,19,20,%1);}").arg(tranSparency);
-    widget->setStyleSheet(sheet);
+//    QString sheet = QString("QWidget{background-color:rgba(19,19,20,%1);}").arg(tranSparency);
+//    widget->setStyleSheet(sheet);
     if (nullptr != pNotificationPluginObject && false == m_bfinish)
         pNotificationPluginObject->showNotification();       //当动画展开时给插件一个通知
 
