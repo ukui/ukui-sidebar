@@ -58,7 +58,6 @@ public:
     void initLableBackgroundAnimation();                          //初始化动画
     void initCliboardAnimation();                                 //初始化剪贴板动画类
     void initSmallPluginsAnimation();                             //初始化小插件动画类
-//    void initTransparencyGsetting();                              //初始化gsetting值
     void setClipboardButtonBackgroundIsBlue();                    //设置侧边栏按钮背景色为蓝色
     void setSmallPluginsButtonBackgroudIsBlue();                  //设置小插件按钮背景色为蓝色
     void setClipboardButtonBackgroundIsBlank();                   //设置侧边栏按钮背景色为空白
@@ -103,18 +102,12 @@ public:
     QPropertyAnimation *m_pAnimationClipbarod;
     QPropertyAnimation *m_pAnimationSmallWidget;
 
-    QGSettings      *m_pTransparency = nullptr;                  //透明度gsetting值
+    QGSettings      *m_pTransparency = nullptr;                   // 透明度gsetting值
 
     //状态机
-    QStateMachine *m_pMachine;                                    // 状态机
-    QState *m_pClipBoardState;                                    // 剪贴板状态
-    QState *m_pSmallPluginsState;                                 // 小插件状态
-    bool    m_pBoolStates;                                        // 第一次初始化状态机bool值
-    bool    resizeFlagOne;                                        // 第一次初始化状态机bool值
-    bool    ClipBoardBool;                                        // 剪贴板修改屏幕分辨率bool值
-    bool    SmallPluginsBool;                                     // 插件按钮修改屏幕分辨率bool值
-    int     m_statusFlag;                                         // 状态机位置
-    int     flagnumClipboardState;
+    bool    ClipBoardBool = false;                                // 剪贴板修改屏幕分辨率bool值
+    bool    SmallPluginsBool = false;                             // 插件按钮修改屏幕分辨率bool值
+
     int     m_add_x = 0;
     int     m_add_y = 1;
     int     m_cliboardHight;                                      // 剪贴板和小插件的高度

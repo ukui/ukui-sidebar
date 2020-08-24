@@ -66,61 +66,64 @@ public:
         PanelRight
     };
     //主界面
-    void showAnimation();                                                       //show动作
-    void hideAnimation();                                                       //hide动作
-    int  ListenClipboardSignal();                                               //监听剪贴板发送的信号
-    int  connectTaskBarDbus();                                                  //连接任务栏dbus接口，获取任务栏高度
-    int  getPanelSite();                                                        //获取任务栏位置
-    int  setClipBoardWidgetScaleFactor();                                       //获取通知中心下半部分高度比例系数
+    void initAimation();                                                        // 初始化动画
+    void showAnimation();                                                       // show动作
+    void hideAnimation();                                                       // hide动作
+    void initDesktopPrimary();                                                  // 初始化分辨率和信号连接
+    void initPanelDbusGsetting();
+    int  ListenClipboardSignal();                                               // 监听剪贴板发送的信号
+    int  connectTaskBarDbus();                                                  // 连接任务栏dbus接口，获取任务栏高度
+    int  getPanelSite();                                                        // 获取任务栏位置
+    int  setClipBoardWidgetScaleFactor();                                       // 获取通知中心下半部分高度比例系数
 
     //系统托盘
-    void createAction();                                                        //连接信号和槽函数，设置其动作;
-    void createSystray();                                                       //设置menu界面、添加动作 和 创建sysytray实例
-    void setIcon(QIcon icon);                                                   //设置图标和提示信息;
-    void iconActivated(QSystemTrayIcon::ActivationReason reason);               //获取点击事件
-    bool loadNotificationPlugin();                                              //加载通知中心插件
-    bool loadClockPlugin();                                                     //加载闹钟插件
-    bool loadfeedbackPlugin();                                                  //加载用户反馈程序
+    void createAction();                                                        // 连接信号和槽函数，设置其动作;
+    void createSystray();                                                       // 设置menu界面、添加动作 和 创建sysytray实例
+    void setIcon(QIcon icon);                                                   // 设置图标和提示信息;
+    void iconActivated(QSystemTrayIcon::ActivationReason reason);               // 获取点击事件
+    bool loadNotificationPlugin();                                              // 加载通知中心插件
+    bool loadClockPlugin();                                                     // 加载闹钟插件
+    bool loadfeedbackPlugin();                                                  // 加载用户反馈程序
     bool loadnotebookPlugin();
-    void ModifyScreenNeeds();                                                   //修改屏幕分辨率或者主屏需要做的事情
-    void GetsAvailableAreaScreen();                                             //获取屏幕可用区域高度
-    void MostGrandWidgetCoordinates();                                          //根据任务栏位置调整侧边栏位置
-    void InitializeHomeScreenGeometry();                                        //初始化主屏的X坐标
-    void setAllWidgetFont();                                                    //监听gsetting，修改所有窗口的字体
+    void ModifyScreenNeeds();                                                   // 修改屏幕分辨率或者主屏需要做的事情
+    void GetsAvailableAreaScreen();                                             // 获取屏幕可用区域高度
+    void MostGrandWidgetCoordinates();                                          // 根据任务栏位置调整侧边栏位置
+    void InitializeHomeScreenGeometry();                                        // 初始化主屏的X坐标
+    void setAllWidgetFont();                                                    // 监听gsetting，修改所有窗口的字体
     bool m_bfinish;
 
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *event);                              //设置过滤事件
+    bool eventFilter(QObject *obj, QEvent *event);                              // 设置过滤事件
 
 private:
     //主界面
-    QVBoxLayout*                m_pMainQVBoxLayout;                             //主界面垂直布局器
-    QDBusInterface*             m_pServiceInterface;                            //获取任务栏的高度
-    bool                        m_bShowFlag;                                    //控制托盘栏点击事件的标志位
-    bool                        m_bClipboardFlag;                               //剪贴板编辑框打开和关闭时控制侧边栏是否关闭
-    int                         m_nScreenWidth;                                 //屏幕分辨率的宽
-    int                         m_nScreenHeight;                                //屏幕分辨率的高
-    int                         m_nScreen_x;                                    //主屏的起始坐标X
-    int                         m_nScreen_y;                                    //主屏的起始坐标Y
-    int                         m_pPeonySite;                                   //任务栏位置
+    QVBoxLayout*                m_pMainQVBoxLayout;                             // 主界面垂直布局器
+    QDBusInterface*             m_pServiceInterface;                            // 获取任务栏的高度
+    bool                        m_bShowFlag;                                    // 控制托盘栏点击事件的标志位
+    bool                        m_bClipboardFlag;                               // 剪贴板编辑框打开和关闭时控制侧边栏是否关闭
+    int                         m_nScreenWidth;                                 // 屏幕分辨率的宽
+    int                         m_nScreenHeight;                                // 屏幕分辨率的高
+    int                         m_nScreen_x;                                    // 主屏的起始坐标X
+    int                         m_nScreen_y;                                    // 主屏的起始坐标Y
+    int                         m_pPeonySite;                                   // 任务栏位置
 
-    QObject*                    m_pNotificationPluginObject;                    //通知中心插件对象
+    QObject*                    m_pNotificationPluginObject;                    // 通知中心插件对象
 
-    SidebarSmallPluginInterface *m_pclock_Plugin;                               //闹钟插件全局变量
-    SidebarSmallPluginInterface *m_pPlugin_Plugin;                              //问题反馈全局变量
+    SidebarSmallPluginInterface *m_pclock_Plugin;                               // 闹钟插件全局变量
+    SidebarSmallPluginInterface *m_pPlugin_Plugin;                              // 问题反馈全局变量
     SidebarSmallPluginInterface *m_pnotebookPluginObject;
     int                         m_nInitalXPosition;
     QTranslator                 *m_pTranslator;
     QPropertyAnimation          *m_pAnimationShowSidebarWidget;
     QPropertyAnimation          *m_pAnimationHideSidebarWidget;
-    QDesktopWidget              *m_pDeskWgt;                                    //桌面问题
+    QDesktopWidget              *m_pDeskWgt;                                    // 桌面问题
     QGSettings                  *m_pPanelSetting = nullptr;
 
 
     //快捷操作面板
-    ClipboardInterface*         m_pSidebarClipboard;                            //侧边栏剪贴板指针
-    SidebarClipBoardSignal*     m_pSidebarSignal;                               //剪贴板通信类
+    ClipboardInterface*         m_pSidebarClipboard;                            // 侧边栏剪贴板指针
+    SidebarClipBoardSignal*     m_pSidebarSignal;                               // 剪贴板通信类
 
     //系统托盘
     QSystemTrayIcon*            trayIcon;
@@ -129,22 +132,22 @@ private:
     QAction*                    OpenSetUp;
     QTimer*                     m_pUpdateSmallPluginsWidget;
 
-    QGSettings                  *m_pTransparency;                                       // 插件的界面的透明度
+    QGSettings                  *m_pTransparency;                               // 插件的界面的透明度
 
 private slots :
-    void onResolutionChanged(const QRect argc);                                 //当改变屏幕分辨率时重新获取屏幕分辨率
-    void onNewNotification();                                                   //当没展开时，来了新通知才提示
-    void hideAnimationFinish();                                                 //隐藏动画完成
-    void showAnimationAction(const QVariant &value);                            //展开动画开始
+    void onResolutionChanged(const QRect argc);                                 // 当改变屏幕分辨率时重新获取屏幕分辨率
+    void onNewNotification();                                                   // 当没展开时，来了新通知才提示
+    void hideAnimationFinish();                                                 // 隐藏动画完成
+    void showAnimationAction(const QVariant &value);                            // 展开动画开始
     void showAnimationFinish();
-    void primaryScreenChangedSLot();                                            //主屏发生变化
-    void ClipboardShowSlots();                                                  //接受剪贴板信号，将boll值m_bClipboardFlag置为false;
-    void ClipboardHideSlots();                                                  //接受剪贴板信号，将boll值m_bClipboardFlag置为true;
-    void screenCountChangedSlots(int count);                                    //屏幕数量改变时对应槽函数
-    void OpenSidebarSlots();                                                    //打开侧边栏
-    void OpenControlCenterSettings();                                           //打开控制中心的通知中心
-    void ClickPanelHideSidebarSlots();                                          //左键点击任务栏时隐藏侧边栏
-    void updateSmallPluginsClipboardWidget();                                   //切换主题时，定时器槽函数
+    void primaryScreenChangedSLot();                                            // 主屏发生变化
+    void ClipboardShowSlots();                                                  // 接受剪贴板信号，将boll值m_bClipboardFlag置为false;
+    void ClipboardHideSlots();                                                  // 接受剪贴板信号，将boll值m_bClipboardFlag置为true;
+    void screenCountChangedSlots(int count);                                    // 屏幕数量改变时对应槽函数
+    void OpenSidebarSlots();                                                    // 打开侧边栏
+    void OpenControlCenterSettings();                                           // 打开控制中心的通知中心
+    void ClickPanelHideSidebarSlots();                                          // 左键点击任务栏时隐藏侧边栏
+    void updateSmallPluginsClipboardWidget();                                   // 切换主题时，定时器槽函数
 };
 
 #endif // WIDGET_H

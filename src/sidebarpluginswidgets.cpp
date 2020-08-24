@@ -26,14 +26,6 @@ sidebarPluginsWidgets::sidebarPluginsWidgets(QWidget *parent) : QWidget(parent)
     this->setContentsMargins(0,0,0,0);
     this->setFixedSize(400,300);
     this->setStyleSheet("QWidget{background:rgba(255, 255, 0, 0);}");
-    flagnumClipboardState = 0;
-
-
-    m_pBoolStates = true;
-    resizeFlagOne = true;
-
-    ClipBoardBool = false;
-    SmallPluginsBool = false;
 
     m_pWidgetOutVLayout = new QVBoxLayout();
     m_pWidgetOutVLayout->setContentsMargins(0,0,0,0);
@@ -131,13 +123,10 @@ void sidebarPluginsWidgets::initUpGroupBoxButton()
     m_pGrouBoxUpButtonHLayout->addItem(new QSpacerItem(10, 20));
     m_pGrouBoxUpButtonHLayout->addWidget(m_pSidebarPluginButton);
     m_pGrouBoxUpButtonHLayout->addItem(new QSpacerItem(10, 20));
-//    m_pGrouBoxUpButtonHLayout->addWidget(m_pFoldButton);
-//    m_pGrouBoxUpButtonHLayout->addWidget(m_pSpreadButton);
     m_pGrouBoxUpButtonHLayout->addWidget(m_pBlueBackgroundButton);
     m_pGrouBoxUpButtonHLayout->addItem(new QSpacerItem(202, 20));
     m_pButtonWidget->setLayout(m_pGrouBoxUpButtonHLayout);
     m_pGrouBoxUpButtonHLayout->setSpacing(0);
-//    m_pButtonWidget->setStyleSheet("QWidget{ border: 1px solid rgba(255,255,0,1);}");
     return;
 }
 

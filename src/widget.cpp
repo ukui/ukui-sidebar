@@ -35,30 +35,24 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
         QApplication::installTranslator(m_pTranslator);
     else
         qDebug() << "cannot load translator " << QLocale::system().name() << ".qm!";
+
     m_bShowFlag = false;
     m_bClipboardFlag = true;
 
-    /* 链接任务栏Dbus接口，获取任务栏高度和位置 */
-    m_pServiceInterface = new QDBusInterface(PANEL_DBUS_SERVICE, PANEL_DBUS_PATH, PANEL_DBUS_INTERFACE, QDBusConnection::sessionBus());
-    m_pServiceInterface->setTimeout(2147483647);
+    /* 初始化与任务栏交互的dbus和gsetting */
+    initPanelDbusGsetting();
 
-    /* 链接任务栏Dbus接口，获取任务栏点击信号 */
-    QDBusConnection::sessionBus().connect(QString(), QString("/taskbar/click"), \
-                                          "com.ukui.panel.plugins.taskbar", "sendToUkuiDEApp", this, SLOT(ClickPanelHideSidebarSlots(void)));
+    /* 初始化屏幕 */
+    initDesktopPrimary();
 
-    /* 链接任务栏dgsetting接口 */
-    if(QGSettings::isSchemaInstalled(UKUI_PANEL_SETTING))
-        m_pPanelSetting = new QGSettings(UKUI_PANEL_SETTING);
+    /* 初始化主屏的X坐标 */
+    InitializeHomeScreenGeometry();
 
-    /* 监听屏幕分辨率是否变化 主频是否有变化 初始化屏幕宽高 和主屏起始X坐标值 */
-    m_pDeskWgt = QApplication::desktop();
-//    connect(m_pDeskWgt, SIGNAL(resized(int)), this, SLOT(onResolutionChanged(int)));
-    connect(QApplication::primaryScreen(), &QScreen::geometryChanged, this, &Widget::onResolutionChanged);
-    connect(m_pDeskWgt, &QDesktopWidget::primaryScreenChanged, this, &Widget::primaryScreenChangedSLot);
-    connect(m_pDeskWgt, &QDesktopWidget::screenCountChanged, this, &Widget::screenCountChangedSlots);
+    /* 获取屏幕可用高度区域 */
+    GetsAvailableAreaScreen();
 
-    InitializeHomeScreenGeometry();  /* 初始化主屏的X坐标 */
-    GetsAvailableAreaScreen();       /* 获取屏幕可用高度区域 */
+    /* 初始化动画 */
+    initAimation();
 
     /* 主界面显示 */
     m_pMainQVBoxLayout = new QVBoxLayout;
@@ -71,11 +65,11 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
 
     /* 加载通知中心插件 */
     if (false == loadNotificationPlugin())
-        qDebug() << "通知中心插件加载失败";
+        qDebug() << "Notification center plug-in failed to load";
 
     /* 加载剪贴板插件, 将剪贴板插件加入到sidebarPluginsWidgets的GroupBox中 */
     if (ListenClipboardSignal())
-        qDebug() << "剪贴板插件加载失败";
+        qDebug() << "The clipboard plug-in failed to load";
 
     this->setLayout(m_pMainQVBoxLayout);
 
@@ -90,13 +84,6 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     /* 监听gsetting，修改所有窗口的字体 */
     setAllWidgetFont();
 
-    m_pAnimationShowSidebarWidget = new QPropertyAnimation(this, "geometry");
-    m_pAnimationHideSidebarWidget = new QPropertyAnimation(this, "geometry");
-
-    connect(m_pAnimationHideSidebarWidget, &QPropertyAnimation::finished, this, &Widget::hideAnimationFinish);
-    connect(m_pAnimationShowSidebarWidget, &QPropertyAnimation::valueChanged, this, &Widget::showAnimationAction);
-    connect(m_pAnimationShowSidebarWidget, &QPropertyAnimation::finished, this, &Widget::showAnimationFinish);
-
     /* 将托盘栏图标和widget联系起来 */
     connect(trayIcon, &QSystemTrayIcon::activated, this, &Widget::iconActivated);
     trayIcon->setVisible(true);
@@ -104,7 +91,6 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     if (QGSettings::isSchemaInstalled(UKUI_TRANSPARENCY_SETTING)) {
         qDebug() << "分配gsetting值";
         m_pTransparency = new QGSettings(UKUI_TRANSPARENCY_SETTING);
-//        connect(m_pTransparency, &QGSettings::changed, this, &sidebarPluginsWidgets::getTransparencyValue);
     }
 
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
@@ -266,6 +252,32 @@ void Widget::iconActivated(QSystemTrayIcon::ActivationReason reason)
     }
 }
 
+/* 初始化屏幕分辨率 */
+void Widget::initDesktopPrimary()
+{
+    /* 监听屏幕分辨率是否变化 主频是否有变化 初始化屏幕宽高 和主屏起始X坐标值 */
+    m_pDeskWgt = QApplication::desktop();
+    connect(QApplication::primaryScreen(), &QScreen::geometryChanged, this, &Widget::onResolutionChanged);
+    connect(m_pDeskWgt, &QDesktopWidget::primaryScreenChanged, this, &Widget::primaryScreenChangedSLot);
+    connect(m_pDeskWgt, &QDesktopWidget::screenCountChanged, this, &Widget::screenCountChangedSlots);
+
+}
+
+void Widget::initPanelDbusGsetting()
+{
+    /* 链接任务栏Dbus接口，获取任务栏高度和位置 */
+    m_pServiceInterface = new QDBusInterface(PANEL_DBUS_SERVICE, PANEL_DBUS_PATH, PANEL_DBUS_INTERFACE, QDBusConnection::sessionBus());
+    m_pServiceInterface->setTimeout(2147483647);
+
+    /* 链接任务栏Dbus接口，获取任务栏点击信号 */
+    QDBusConnection::sessionBus().connect(QString(), QString("/taskbar/click"), \
+                                          "com.ukui.panel.plugins.taskbar", "sendToUkuiDEApp", this, SLOT(ClickPanelHideSidebarSlots(void)));
+
+    /* 链接任务栏dgsetting接口 */
+    if(QGSettings::isSchemaInstalled(UKUI_PANEL_SETTING))
+        m_pPanelSetting = new QGSettings(UKUI_PANEL_SETTING);
+}
+
 //链接任务栏dbus获取高度的接口
 int Widget::connectTaskBarDbus()
 {
@@ -331,6 +343,16 @@ int Widget::setClipBoardWidgetScaleFactor()
     } else {
         return m_nScreenHeight/2 - connectTaskBarDbus();
     }
+}
+
+void Widget::initAimation()
+{
+    m_pAnimationShowSidebarWidget = new QPropertyAnimation(this, "geometry");
+    m_pAnimationHideSidebarWidget = new QPropertyAnimation(this, "geometry");
+
+    connect(m_pAnimationHideSidebarWidget, &QPropertyAnimation::finished, this, &Widget::hideAnimationFinish);
+    connect(m_pAnimationShowSidebarWidget, &QPropertyAnimation::valueChanged, this, &Widget::showAnimationAction);
+    connect(m_pAnimationShowSidebarWidget, &QPropertyAnimation::finished, this, &Widget::showAnimationFinish);
 }
 
 //动画展开
@@ -562,14 +584,14 @@ void Widget::screenCountChangedSlots(int count)
     return;
 }
 
-/* 接受剪贴板信号，将boll值m_bClipboardFlag置为false; */
+/* 接受剪贴板信号，将bool值m_bClipboardFlag置为false; */
 void Widget::ClipboardShowSlots()
 {
     m_bClipboardFlag = false;
     return;
 }
 
-/* 接受剪贴板信号，将boll值m_bClipboardFlag置为true; */
+/* 接受剪贴板信号，将bool值m_bClipboardFlag置为true; */
 void Widget::ClipboardHideSlots()
 {
     m_bClipboardFlag = true;
