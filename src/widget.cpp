@@ -30,14 +30,8 @@ double tranSparency = 0.7;
 
 Widget::Widget(QWidget *parent) : QWidget (parent)
 {
-    m_pTranslator = new QTranslator;
-    if (m_pTranslator->load(QLocale(), QLatin1String("ukui-sidebar"), QLatin1String("_"), QLatin1String("/usr/share/ukui-sidebar")))
-        QApplication::installTranslator(m_pTranslator);
-    else
-        qDebug() << "cannot load translator " << QLocale::system().name() << ".qm!";
-
-    m_bShowFlag = false;
-    m_bClipboardFlag = true;
+    /* 国际化 */
+    initTranslation();
 
     /* 初始化与任务栏交互的dbus和gsetting */
     initPanelDbusGsetting();
@@ -95,9 +89,6 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
 
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
     qInfo() << "---------------------------主界面加载完毕---------------------------";
-
-    m_pUpdateSmallPluginsWidget = new QTimer();
-    connect(m_pUpdateSmallPluginsWidget, &QTimer::timeout, this, &Widget::updateSmallPluginsClipboardWidget);
 }
 
 Widget::~Widget()
@@ -345,6 +336,15 @@ int Widget::setClipBoardWidgetScaleFactor()
     }
 }
 
+void Widget::initTranslation()
+{
+    m_pTranslator = new QTranslator;
+    if (m_pTranslator->load(QLocale(), QLatin1String("ukui-sidebar"), QLatin1String("_"), QLatin1String("/usr/share/ukui-sidebar")))
+        QApplication::installTranslator(m_pTranslator);
+    else
+        qDebug() << "cannot load translator " << QLocale::system().name() << ".qm!";
+}
+
 void Widget::initAimation()
 {
     m_pAnimationShowSidebarWidget = new QPropertyAnimation(this, "geometry");
@@ -359,9 +359,6 @@ void Widget::initAimation()
 void Widget::showAnimation()
 {
     NotificationInterface* pNotificationPluginObject = qobject_cast<NotificationInterface*>(m_pNotificationPluginObject);
-    QWidget *widget = pNotificationPluginObject->centerWidget();
-//    QString sheet = QString("QWidget{background-color:rgba(19,19,20,%1);}").arg(tranSparency);
-//    widget->setStyleSheet(sheet);
     if (nullptr != pNotificationPluginObject && false == m_bfinish)
         pNotificationPluginObject->showNotification();       //当动画展开时给插件一个通知
 
@@ -459,7 +456,7 @@ void Widget::showAnimationFinish()
     return;
 }
 
-/* 获取Getting值 */
+/* 获取Getting透明度值 */
 void sidebarPluginsWidgets::getTransparencyValue(const QString key)
 {
     if (key == "transparency") {
@@ -676,7 +673,6 @@ void Widget::MostGrandWidgetCoordinates()
             {
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight - connectTaskBarDbus());
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400, m_nScreen_y);
-                qDebug() << "m_nScreen_x + m_nScreenWidth - 400-->" << m_nScreen_x + m_nScreenWidth - 400 << "&&" << m_nScreen_x << "&&" << m_nScreenWidth;
                 emit m_pSidebarSignal->ClipboardPreviewSignal(400, m_nScreenHeight, m_nScreen_x + m_nScreenWidth - 400, m_nScreen_y, connectTaskBarDbus());
             }
             break;
@@ -692,8 +688,6 @@ void Widget::MostGrandWidgetCoordinates()
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight);
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + connectTaskBarDbus(), m_nScreen_y);
                 emit m_pSidebarSignal->ClipboardPreviewSignal(400, m_nScreenHeight, m_nScreen_x + connectTaskBarDbus() + 400 + 260, m_nScreen_y, 0);
-                qDebug() << "当前 m_nScreen_x + m_nScreenWidth + connectTaskBarDbus()--》" << m_nScreen_x + connectTaskBarDbus() << "m_nScreen_y ----> "  << m_nScreen_y;
-
             }
             break;
         case Widget::PanelRight:
@@ -721,7 +715,6 @@ void Widget::onNewNotification()
 void Widget::updateSmallPluginsClipboardWidget()
 {
     ModifyScreenNeeds();
-    m_pUpdateSmallPluginsWidget->stop();
 }
 
 /* 事件过滤器 */
@@ -735,12 +728,10 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
             m_bShowFlag = false;
             return true;
         } else if (event->type() == QEvent::StyleChange) {
-            m_pUpdateSmallPluginsWidget->start(200);
             sidebarPluginsWidgets::getInstancePluinsWidgets()->setButtonFont();
             return true;
         }
     }
-
 
     if (!isActiveWindow() && true == m_bShowFlag) {
         activateWindow();

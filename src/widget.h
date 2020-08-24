@@ -66,11 +66,12 @@ public:
         PanelRight
     };
     //主界面
+    void initTranslation();                                                     // 初始化翻译
     void initAimation();                                                        // 初始化动画
     void showAnimation();                                                       // show动作
     void hideAnimation();                                                       // hide动作
     void initDesktopPrimary();                                                  // 初始化分辨率和信号连接
-    void initPanelDbusGsetting();
+    void initPanelDbusGsetting();                                               // 初始化与任务栏gsetting和dbus
     int  ListenClipboardSignal();                                               // 监听剪贴板发送的信号
     int  connectTaskBarDbus();                                                  // 连接任务栏dbus接口，获取任务栏高度
     int  getPanelSite();                                                        // 获取任务栏位置
@@ -101,8 +102,8 @@ private:
     //主界面
     QVBoxLayout*                m_pMainQVBoxLayout;                             // 主界面垂直布局器
     QDBusInterface*             m_pServiceInterface;                            // 获取任务栏的高度
-    bool                        m_bShowFlag;                                    // 控制托盘栏点击事件的标志位
-    bool                        m_bClipboardFlag;                               // 剪贴板编辑框打开和关闭时控制侧边栏是否关闭
+    bool                        m_bShowFlag = false;                            // 控制托盘栏点击事件的标志位
+    bool                        m_bClipboardFlag = true;                        // 剪贴板编辑框打开和关闭时控制侧边栏是否关闭
     int                         m_nScreenWidth;                                 // 屏幕分辨率的宽
     int                         m_nScreenHeight;                                // 屏幕分辨率的高
     int                         m_nScreen_x;                                    // 主屏的起始坐标X
@@ -111,16 +112,11 @@ private:
 
     QObject*                    m_pNotificationPluginObject;                    // 通知中心插件对象
 
-    SidebarSmallPluginInterface *m_pclock_Plugin;                               // 闹钟插件全局变量
-    SidebarSmallPluginInterface *m_pPlugin_Plugin;                              // 问题反馈全局变量
-    SidebarSmallPluginInterface *m_pnotebookPluginObject;
-    int                         m_nInitalXPosition;
     QTranslator                 *m_pTranslator;
     QPropertyAnimation          *m_pAnimationShowSidebarWidget;
     QPropertyAnimation          *m_pAnimationHideSidebarWidget;
     QDesktopWidget              *m_pDeskWgt;                                    // 桌面问题
     QGSettings                  *m_pPanelSetting = nullptr;
-
 
     //快捷操作面板
     ClipboardInterface*         m_pSidebarClipboard;                            // 侧边栏剪贴板指针
@@ -131,7 +127,6 @@ private:
     QMenu*                      trayIconMenu;
     QAction*                    Open;
     QAction*                    OpenSetUp;
-    QTimer*                     m_pUpdateSmallPluginsWidget;
 
     QGSettings                  *m_pTransparency;                               // 插件的界面的透明度
 
