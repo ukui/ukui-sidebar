@@ -61,7 +61,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     if (false == loadNotificationPlugin())
         qDebug() << "Notification center plug-in failed to load";
 
-    /* 加载剪贴板插件, 将剪贴板插件加入到sidebarPluginsWidgets的GroupBox中 */
+    /* 加载剪贴板插件 */
     if (ListenClipboardSignal())
         qDebug() << "The clipboard plug-in failed to load";
 
@@ -78,12 +78,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     /* 监听gsetting，修改所有窗口的字体 */
     setAllWidgetFont();
 
-    /* 将托盘栏图标和widget联系起来 */
-    connect(trayIcon, &QSystemTrayIcon::activated, this, &Widget::iconActivated);
-    trayIcon->setVisible(true);
-
     if (QGSettings::isSchemaInstalled(UKUI_TRANSPARENCY_SETTING)) {
-        qDebug() << "分配gsetting值";
         m_pTransparency = new QGSettings(UKUI_TRANSPARENCY_SETTING);
     }
 
@@ -190,11 +185,12 @@ void Widget::createSystray()
     trayIconMenu->addAction(OpenSetUp);
 
     trayIcon = new QSystemTrayIcon(this);
-
     if (nullptr == trayIcon) {
         qWarning()<< "分配空间trayIcon失败";
         return ;
     }
+    connect(trayIcon, &QSystemTrayIcon::activated, this, &Widget::iconActivated);
+    trayIcon->setVisible(true);
     trayIcon->setContextMenu(trayIconMenu);
 }
 
