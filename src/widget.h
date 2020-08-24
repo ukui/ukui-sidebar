@@ -76,6 +76,7 @@ public:
     int  getPanelSite();                                                        // 获取任务栏位置
     int  setClipBoardWidgetScaleFactor();                                       // 获取通知中心下半部分高度比例系数
 
+
     //系统托盘
     void createAction();                                                        // 连接信号和槽函数，设置其动作;
     void createSystray();                                                       // 设置menu界面、添加动作 和 创建sysytray实例
