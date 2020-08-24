@@ -32,7 +32,6 @@
 #include "clipboardpluginiface.h"
 #include "sidebarSmallPluginInterface.h"
 #include "mostgrandwidget.h"
-#include "mywidget.h"
 
 #define  TRAY_ICON           ":/data/images/kylin-tool-box.svg"
 #define  TRAY_NULL_ICON      ":/data/images/kylin-tool-box-null.svg"
