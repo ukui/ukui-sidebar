@@ -20,7 +20,6 @@
 #include "widget.h"
 #include "notification_interface.h"
 #include "pluginmanage.h"
-#include "sidebarpluginswidgets.h"
 #include <stdio.h>
 #include <QtDBus>
 #include <QGuiApplication>
@@ -53,17 +52,12 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     m_pMainQVBoxLayout->setContentsMargins(0, 0, 0, 0);
     m_pMainQVBoxLayout->setSpacing(0);
 
-    /* 初始化剪贴板与小插件界面 */
-    sidebarPluginsWidgets::initPluginsWidgets();
-    sidebarPluginsWidgets::getInstancePluinsWidgets()->loadSmallPlugins();
-
     /* 加载通知中心插件 */
     if (false == loadNotificationPlugin())
-        qDebug() << "Notification center plug-in failed to load";
+        qWarning() << "Notification center plug-in failed to load";
 
-    /* 加载剪贴板插件 */
-    if (ListenClipboardSignal())
-        qDebug() << "The clipboard plug-in failed to load";
+    if (false == loadQuickOperationPlugin())
+        qWarning() << "The shortcut panel failed to load";
 
     this->setLayout(m_pMainQVBoxLayout);
 
@@ -120,8 +114,7 @@ bool Widget::loadNotificationPlugin()
     return true;
 }
 
-//加载剪贴板插件
-int Widget::ListenClipboardSignal()
+bool Widget::loadQuickOperationPlugin()
 {
     QDir pluginsDir;
     static bool installed = (QCoreApplication::applicationDirPath() == QDir(("/usr/bin")).canonicalPath());
@@ -129,37 +122,18 @@ int Widget::ListenClipboardSignal()
     if (installed)
         pluginsDir = QDir(PLUGIN_INSTALL_DIRS);
     else
-        pluginsDir = QDir(qApp->applicationDirPath() + "/plugins/ukui-sidebar-clipboard");
+        pluginsDir = QDir(qApp->applicationDirPath() + "/plugins/ukui-quick-operation-panel");
 
     pluginsDir.setFilter(QDir::Files);
-    QPluginLoader pluginLoader(pluginsDir.absoluteFilePath("libclipboardPlugin.so"));
-    QObject *pClipPlugin = pluginLoader.instance();
+    QPluginLoader pluginLoader(pluginsDir.absoluteFilePath("libshortcutPanel.so"));
+    QObject *pPlugin = pluginLoader.instance();
+    if (pPlugin == nullptr)
+        return false;
 
-    m_pSidebarClipboard = dynamic_cast<ClipboardInterface *>(pClipPlugin);                          /* 获取剪贴版插件指针; */
-
-    if (nullptr == m_pSidebarClipboard) {
-        qWarning() << "剪贴板插件插件加载失败";
-        return 1;
-    }
-    m_pSidebarSignal = m_pSidebarClipboard->createClipSignal();                                     /* 获取剪贴板的信号类指针 */
-    /* 点击剪贴板空白区域时，隐藏侧边栏 */
-    connect(m_pSidebarSignal, &SidebarClipBoardSignal::ClipboardHideSignal, this, [=]() {
-        mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
-        hideAnimation();
-    });
-
-    connect(m_pSidebarSignal, &SidebarClipBoardSignal::CLipBoardEditConfirmButtonSignal, this, &Widget::ClipboardHideSlots);
-
-    connect(m_pSidebarSignal, &SidebarClipBoardSignal::ClipBoardWidgetEntryEditButtonSignal, this, &Widget::ClipboardShowSlots);
-
-    sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pClipboardWidget = m_pSidebarClipboard->getClipbaordGroupBox();   /* 获取剪贴板的Widget指针; */
-    sidebarPluginsWidgets::getInstancePluinsWidgets()->initCliboardAnimation();                     /* 初始化剪贴板动画 */
-    int clipboardhight = setClipBoardWidgetScaleFactor();
-    qDebug() << "剪贴板高度" << clipboardhight;
-    sidebarPluginsWidgets::getInstancePluinsWidgets()->setClipboardWidgetSize(clipboardhight);      /* 设定剪贴板高度 */
-    sidebarPluginsWidgets::getInstancePluinsWidgets()->AddPluginWidgetInterface();                  /* 将下半部分所有控件加入到sidebarPluginsWidgets中 */
-    m_pMainQVBoxLayout->addWidget(sidebarPluginsWidgets::getInstancePluinsWidgets(), 0);
-    return 0;
+    m_pShortCutPanelInterface = dynamic_cast<shortCutPanelInterface *>(pPlugin);
+    QWidget* shortCutWidget = m_pShortCutPanelInterface->getShortCutPanelWidget();
+    m_pMainQVBoxLayout->addWidget(shortCutWidget);
+    return true;
 }
 
 //创建动作
@@ -227,7 +201,7 @@ void Widget::iconActivated(QSystemTrayIcon::ActivationReason reason)
             }
             break;
         }
-    case QSystemTrayIcon::Context:
+       case QSystemTrayIcon::Context:
         if (m_bShowFlag) {
             trayIconMenu->hide();  //先隐藏菜单栏，不让其显示出来， 然后将sidebar隐藏
             mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
@@ -247,7 +221,6 @@ void Widget::initDesktopPrimary()
     connect(QApplication::primaryScreen(), &QScreen::geometryChanged, this, &Widget::onResolutionChanged);
     connect(m_pDeskWgt, &QDesktopWidget::primaryScreenChanged, this, &Widget::primaryScreenChangedSLot);
     connect(m_pDeskWgt, &QDesktopWidget::screenCountChanged, this, &Widget::screenCountChangedSlots);
-
 }
 
 void Widget::initPanelDbusGsetting()
@@ -318,20 +291,6 @@ void Widget::GetsAvailableAreaScreen()
     qDebug() << "主屏Height --> " << m_nScreenHeight;
 }
 
-/* 设定剪贴板高度 */
-int Widget::setClipBoardWidgetScaleFactor()
-{
-    if (m_nScreenHeight >= 600 && m_nScreenHeight <= 768) {
-        return m_nScreenHeight/2 - connectTaskBarDbus() - 60;
-    } else if (m_nScreenHeight >= 900 && m_nScreenHeight <= 1080) {
-        return m_nScreenHeight/3;
-    } else if (m_nScreenHeight >= 1200 && m_nScreenHeight <= 2160) {
-        return m_nScreenHeight/4;
-    } else {
-        return m_nScreenHeight/2 - connectTaskBarDbus();
-    }
-}
-
 void Widget::initTranslation()
 {
     m_pTranslator = new QTranslator;
@@ -360,8 +319,7 @@ void Widget::showAnimation()
 
     int  AnimaStartSideBarSite[4];                           //侧边栏动画开始位置
     int  AnimaStopSidebarSite[4];                            //侧边栏动画结束位置
-    int clipboardhight = setClipBoardWidgetScaleFactor();
-    sidebarPluginsWidgets::getInstancePluinsWidgets()->setClipboardWidgetSize(clipboardhight);      //设定剪贴板高度
+
     m_pPeonySite = getPanelSite();
     switch (m_pPeonySite)
     {
@@ -448,16 +406,6 @@ void Widget::showAnimationFinish()
         mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
         hideAnimation();
         m_bfinish = false;
-    }
-    return;
-}
-
-/* 获取Getting透明度值 */
-void sidebarPluginsWidgets::getTransparencyValue(const QString key)
-{
-    if (key == "transparency") {
-        tranSparency = m_pTransparency->get("transparency").toFloat();
-        qDebug() << "获取到的值为----->" << tranSparency;
     }
     return;
 }
@@ -551,7 +499,6 @@ void Widget::onResolutionChanged(const QRect argc)
     Q_UNUSED(argc);
     qDebug() << "屏幕分辨率发生变化";
     GetsAvailableAreaScreen();                               //获取屏幕可用高度区域
-    ModifyScreenNeeds();                                     //修改屏幕分辨率或者主屏需要做的事情
     InitializeHomeScreenGeometry();
     return;
 }
@@ -561,7 +508,6 @@ void Widget::primaryScreenChangedSLot()
 {
     qDebug() << "主屏发生变化";
     GetsAvailableAreaScreen();
-    ModifyScreenNeeds();
     InitializeHomeScreenGeometry();
     return;
 }
@@ -572,7 +518,6 @@ void Widget::screenCountChangedSlots(int count)
     Q_UNUSED(count);
     qDebug() << "屏幕数量发生变化";
     GetsAvailableAreaScreen();
-    ModifyScreenNeeds();
     InitializeHomeScreenGeometry();
     return;
 }
@@ -620,14 +565,6 @@ void Widget::OpenControlCenterSettings()
     return;
 }
 
-/* 修改屏幕分辨率或者主屏需要做的事情 */
-void Widget::ModifyScreenNeeds()
-{
-    int clipboardhight = setClipBoardWidgetScaleFactor();
-    sidebarPluginsWidgets::getInstancePluinsWidgets()->setClipboardWidgetSize(clipboardhight); //设定剪贴板高度
-    return;
-}
-
 /* 初始化主屏的X坐标 */
 void Widget::InitializeHomeScreenGeometry()
 {
@@ -641,8 +578,6 @@ void Widget::InitializeHomeScreenGeometry()
         m_nScreen_x = 0;
         m_nScreen_y = 0;
     }
-    qDebug() << "偏移的x坐标" << m_nScreen_x;
-    qDebug() << "偏移的Y坐标" << m_nScreen_y;
 }
 
 /* 监听gsetting，修改所有的字体 */
@@ -656,7 +591,6 @@ void Widget::setAllWidgetFont()
                 for (auto widget : qApp->allWidgets()) {
                     widget->setFont(font);
                 }
-                emit sidebarPluginsWidgets::getInstancePluinsWidgets()->FontModifyComplete();
             }
         });
 }
@@ -669,28 +603,24 @@ void Widget::MostGrandWidgetCoordinates()
             {
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight - connectTaskBarDbus());
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400, m_nScreen_y);
-                emit m_pSidebarSignal->ClipboardPreviewSignal(400, m_nScreenHeight, m_nScreen_x + m_nScreenWidth - 400, m_nScreen_y, connectTaskBarDbus());
             }
             break;
         case Widget::PanelUp:
             {
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight - connectTaskBarDbus());
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400, connectTaskBarDbus() + m_nScreen_y);
-                emit m_pSidebarSignal->ClipboardPreviewSignal(400, m_nScreenHeight, m_nScreen_x + m_nScreenWidth - 400, connectTaskBarDbus() + m_nScreen_y, connectTaskBarDbus());
             }
             break;
         case Widget::PanelLeft:
             {
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight);
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + connectTaskBarDbus(), m_nScreen_y);
-                emit m_pSidebarSignal->ClipboardPreviewSignal(400, m_nScreenHeight, m_nScreen_x + connectTaskBarDbus() + 400 + 260, m_nScreen_y, 0);
             }
             break;
         case Widget::PanelRight:
             {
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight);
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400 - connectTaskBarDbus(), m_nScreen_y);
-                emit m_pSidebarSignal->ClipboardPreviewSignal(400, m_nScreenHeight, m_nScreen_x + m_nScreenWidth - 400 - connectTaskBarDbus(), m_nScreen_y, 0);
             }
             break;
         default:
@@ -707,12 +637,6 @@ void Widget::onNewNotification()
     return;
 }
 
-/* 切换主题时，定时器槽函数 */
-void Widget::updateSmallPluginsClipboardWidget()
-{
-    ModifyScreenNeeds();
-}
-
 /* 事件过滤器 */
 bool Widget::eventFilter(QObject *obj, QEvent *event)
 {
@@ -724,7 +648,6 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
             m_bShowFlag = false;
             return true;
         } else if (event->type() == QEvent::StyleChange) {
-            sidebarPluginsWidgets::getInstancePluinsWidgets()->setButtonFont();
             return true;
         }
     }

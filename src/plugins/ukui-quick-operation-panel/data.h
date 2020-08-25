@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2019 Tianjin KYLIN Information Technology Co., Ltd.
+* Copyright (C) 2020 Tianjin KYLIN Information Technology Co., Ltd.
 *
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -15,33 +15,32 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include "smallpluginsbutton.h"
-#include <QDebug>
 
-SmallPluginsButton::SmallPluginsButton(QWidget *parent):QPushButton(parent)
+#ifndef DATA_H
+#define DATA_H
+
+#include <QMetaType>
+
+enum InterfaceEnum {
+    PAD,
+    WIFI,
+    NODISTURB,
+    SETTING,
+    BLUETOOTH,
+    HOTSPOT,
+    CALCULATOR,
+    SCREENSHOT,
+    Else
+};
+
+struct MyClass
 {
-    connect(this, &SmallPluginsButton::clicked, this, &SmallPluginsButton::enterButtonSignal);
-}
+    QString desktopfp;
+    QString IconName;
+    QString programName;
+    bool    status;
+    InterfaceEnum Interface;
+};
+Q_DECLARE_METATYPE(MyClass)
 
-SmallPluginsButton::~SmallPluginsButton()
-{
-
-}
-
-void SmallPluginsButton::enterEvent(QEvent *e)
-{
-    Q_UNUSED(e);
-//    emit enterButtonSignal();
-}
-
-void SmallPluginsButton::leaveEvent(QEvent *e)
-{
-    Q_UNUSED(e);
-}
-
-void SmallPluginsButton::SendSingal()
-{
-    emit enterButtonSignal();
-}
-
-
+#endif // DATA_H

@@ -29,9 +29,8 @@
 #include <QGuiApplication>
 #include <QPalette>
 #include <QStyleOption>
-#include "clipboardpluginiface.h"
-#include "sidebarSmallPluginInterface.h"
 #include "mostgrandwidget.h"
+#include "shortCutPanelInterface.h"
 
 #define  TRAY_ICON           ":/data/images/kylin-tool-box.svg"
 #define  TRAY_NULL_ICON      ":/data/images/kylin-tool-box-null.svg"
@@ -51,9 +50,6 @@ class Widget : public QWidget
 {
     Q_OBJECT
 
-    //申明该类有D-BUS服务接口
-    Q_CLASSINFO("D-Bus Interface", "com.ukui.panel.sidebar.value")
-
 public:
     explicit Widget(QWidget *parent = nullptr);
 
@@ -70,9 +66,15 @@ public:
     void initAimation();                                                        // 初始化动画
     void showAnimation();                                                       // show动作
     void hideAnimation();                                                       // hide动作
+
     void initDesktopPrimary();                                                  // 初始化分辨率和信号连接
+    void GetsAvailableAreaScreen();                                             // 获取屏幕可用区域高度
+    void InitializeHomeScreenGeometry();                                        // 初始化主屏的X坐标
+
+    void setAllWidgetFont();                                                    // 监听gsetting，修改所有窗口的字体
+
     void initPanelDbusGsetting();                                               // 初始化与任务栏gsetting和dbus
-    int  ListenClipboardSignal();                                               // 监听剪贴板发送的信号
+    void MostGrandWidgetCoordinates();                                          // 根据任务栏位置调整侧边栏位置
     int  connectTaskBarDbus();                                                  // 连接任务栏dbus接口，获取任务栏高度
     int  getPanelSite();                                                        // 获取任务栏位置
     int  setClipBoardWidgetScaleFactor();                                       // 获取通知中心下半部分高度比例系数
@@ -83,12 +85,11 @@ public:
     void createSystray();                                                       // 设置menu界面、添加动作 和 创建sysytray实例
     void setIcon(QIcon icon);                                                   // 设置图标和提示信息;
     void iconActivated(QSystemTrayIcon::ActivationReason reason);               // 获取点击事件
+
+    // 加载通知中心和快捷操作面板插件
     bool loadNotificationPlugin();                                              // 加载通知中心插件
-    void ModifyScreenNeeds();                                                   // 修改屏幕分辨率或者主屏需要做的事情
-    void GetsAvailableAreaScreen();                                             // 获取屏幕可用区域高度
-    void MostGrandWidgetCoordinates();                                          // 根据任务栏位置调整侧边栏位置
-    void InitializeHomeScreenGeometry();                                        // 初始化主屏的X坐标
-    void setAllWidgetFont();                                                    // 监听gsetting，修改所有窗口的字体
+    bool loadQuickOperationPlugin();                                            // 加载快捷操作面板
+
     bool m_bfinish;
 
 
@@ -108,16 +109,13 @@ private:
     int                         m_pPeonySite;                                   // 任务栏位置
 
     QObject*                    m_pNotificationPluginObject;                    // 通知中心插件对象
+    shortCutPanelInterface*     m_pShortCutPanelInterface;                      // 快捷操作面板插件接口对象
 
     QTranslator                 *m_pTranslator;
     QPropertyAnimation          *m_pAnimationShowSidebarWidget;
     QPropertyAnimation          *m_pAnimationHideSidebarWidget;
     QDesktopWidget              *m_pDeskWgt;                                    // 桌面问题
     QGSettings                  *m_pPanelSetting = nullptr;
-
-    //快捷操作面板
-    ClipboardInterface*         m_pSidebarClipboard;                            // 侧边栏剪贴板指针
-    SidebarClipBoardSignal*     m_pSidebarSignal;                               // 剪贴板通信类
 
     //系统托盘
     QSystemTrayIcon*            trayIcon;
@@ -140,7 +138,6 @@ private slots :
     void OpenSidebarSlots();                                                    // 打开侧边栏
     void OpenControlCenterSettings();                                           // 打开控制中心的通知中心
     void ClickPanelHideSidebarSlots();                                          // 左键点击任务栏时隐藏侧边栏
-    void updateSmallPluginsClipboardWidget();                                   // 切换主题时，定时器槽函数
 };
 
 #endif // WIDGET_H

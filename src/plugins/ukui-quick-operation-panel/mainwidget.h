@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2019 Tianjin KYLIN Information Technology Co., Ltd.
+* Copyright (C) 2020 Tianjin KYLIN Information Technology Co., Ltd.
 *
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -15,25 +15,20 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#ifndef SMALLPLUGINSBUTTON_H
-#define SMALLPLUGINSBUTTON_H
-#include <QPushButton>
-#include <QStyleOptionButton>
-#include <QStylePainter>
-#include <QProxyStyle>
+#ifndef MAINWIDGET_H
+#define MAINWIDGET_H
 
-class SmallPluginsButton :public QPushButton
+#include <QObject>
+#include <QWidget>
+#include <QStyleOption>
+#include <QPainter>
+class MainWidget : public QWidget
 {
-    Q_OBJECT
 public:
-    explicit SmallPluginsButton(QWidget *parent = nullptr);
-    ~SmallPluginsButton();
-    void SendSingal();
+    MainWidget();
+
 protected:
-    void enterEvent(QEvent *e); //鼠标进入事件
-    void leaveEvent(QEvent *e);//鼠标离开事件
-signals:
-    void enterButtonSignal();
+    void paintEvent(QPaintEvent *e);
 };
 
-#endif // SMALLPLUGINSBUTTON_H
+#endif // MAINWIDGET_H

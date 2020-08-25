@@ -1,0 +1,35 @@
+<RCC>
+    <qresource prefix="/">
+        <file>image/fold-normal.svg</file>
+        <file>image/fold-hover.svg</file>
+        <file>image/fold-pressed.svg</file>
+        <file>image/open-hover.svg</file>
+        <file>image/open-normal.svg</file>
+        <file>image/open-pressed.svg</file>
+        <file>image/bluetooth-normal.svg</file>
+        <file>image/bluetooth-hover.svg</file>
+        <file>image/bluetooth-pressed.svg</file>
+        <file>image/calculator-normal.svg</file>
+        <file>image/calculator-hover.svg</file>
+        <file>image/calculator-pressed.svg</file>
+        <file>image/hotspot-normal.svg</file>
+        <file>image/hotspot-hover.svg</file>
+        <file>image/hotspot-pressed.svg</file>
+        <file>image/nodisturb-normal.svg</file>
+        <file>image/nodisturb-hover.svg</file>
+        <file>image/nodisturb-pressed.svg</file>
+        <file>image/pad-normal.svg</file>
+        <file>image/pad-hover.svg</file>
+        <file>image/pad-pressed.svg</file>
+        <file>image/screenshot-normal.svg</file>
+        <file>image/screenshot-hover.svg</file>
+        <file>image/screenshot-pressed.svg</file>
+        <file>image/setting-normal.svg</file>
+        <file>image/setting-hover.svg</file>
+        <file>image/setting-pressed.svg</file>
+        <file>image/wifi-normal.svg</file>
+        <file>image/wifi-hover.svg</file>
+        <file>image/wifi-pressed.svg</file>
+    </qresource>
+</RCC>
+

@@ -33,9 +33,6 @@
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 #include <X11/Xlib.h>
-//#include <KWindowEffects>
-#include "sidebarpluginswidgets.h"
-#include "smallpluginsmanage.h"
 #include "mostgrandwidget.h"
 
 int getScreenWidth() {
@@ -92,8 +89,7 @@ int main(int argc, char *argv[])
     }
 
     QApplication::setQuitOnLastWindowClosed(false);
-    SmallPluginsManage::SmallPluginsManageInit();                   /* 初始化侧边栏小插件管理容器 */
-    PluginManager::init();                                          /* 初始化插件管理器 */
+
     mostGrandWidget::mostGrandWidgetInit();                         /* 初始化最里层Widget空白界面 */
 
 

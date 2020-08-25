@@ -18,9 +18,7 @@
 
 
 #include "pluginmanage.h"
-#include "clipboardpluginiface.h"
 #include "widget.h"
-#include "smallpluginsmanage.h"
 #include <QDebug>
 #include <QDir>
 #include <QPluginLoader>
@@ -53,8 +51,6 @@ PluginManager::PluginManager(QObject *parent) : QObject(parent)
         switch (pPluginInterface->pluginType()) {
             case PluginInterface::SmallPlugin: {
                 /* Plugins Num++, add Hash SmallPlugins pPluginInterface-->SmallPluginsInterface */
-                SidebarSmallPluginInterface *p_SmallPluginsInterface = dynamic_cast<SidebarSmallPluginInterface*>(pPluginInterface);
-                SmallPluginsManage::getInstance()->registerSmallplugin(pPluginInterface, p_SmallPluginsInterface);
                 break;
             }
             case PluginInterface::ClipBoard: {

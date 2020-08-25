@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2019 Tianjin KYLIN Information Technology Co., Ltd.
+* Copyright (C) 2020 Tianjin KYLIN Information Technology Co., Ltd.
 *
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -15,35 +15,31 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-
-
-#ifndef PLUGINMANAGE_H
-#define PLUGINMANAGE_H
+#ifndef SWITCHBUTTON_H
+#define SWITCHBUTTON_H
 
 #include <QObject>
-#include "plugin-iface.h"
-class PluginManager : public QObject
+#include <QWidget>
+#include <QPushButton>
+#include <QString>
+#include <QPalette>
+
+class switchButton : public QPushButton
 {
     Q_OBJECT
 public:
-    static void init();
-    static PluginManager *getInstance();
-    void close();
-    QHash<QString, PluginInterface*> m_PluginInterfaceHash;
+    switchButton(QStringList path, QStringList iconNameList);
 
-
-Q_SIGNALS:
-    void pluginStateChanged(const QString &pluginName, bool enable);
+protected:
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *e);
+    void enterEvent(QEvent *event);
+    void leaveEvent(QEvent *event);
+signals:
 
 private:
-    explicit PluginManager(QObject *parent = nullptr);
-    ~PluginManager();
-
-
-public Q_SLOTS:
-    void setPluginEnableByName(const QString &pluginName, bool enable);
-
-
+    QStringList IconPath;
+    QStringList IconNameList;
 };
 
-#endif // PLUGINMANAGE_H
+#endif // SWITCHBUTTON_H

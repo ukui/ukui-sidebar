@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2019 Tianjin KYLIN Information Technology Co., Ltd.
+* Copyright (C) 2020 Tianjin KYLIN Information Technology Co., Ltd.
 *
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -15,22 +15,26 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#ifndef PLUGINSTOOLBUTTON_H
-#define PLUGINSTOOLBUTTON_H
+#ifndef PUSHBUTTON_H
+#define PUSHBUTTON_H
 
+#include <QObject>
 #include <QWidget>
-#include <QToolButton>
-class PluginsToolButton : public QToolButton
+#include <QPushButton>
+#include <QStringList>
+#include <QIcon>
+#include <QSize>
+class PushButton : public QPushButton
 {
 public:
-    explicit PluginsToolButton(QWidget *parent = nullptr);
-    enum SidebarButtonStatus{NORMAL, HOVER, PRESS};
-    SidebarButtonStatus status;
+    PushButton(QStringList path, QStringList iconNameList);
 protected:
-    void enterEvent(QEvent *e);             //鼠标进入事件
-    void leaveEvent(QEvent *e);             //鼠标离开事件
-    void mousePressEvent(QMouseEvent *e);   //按钮点击事件
-    void paintEvent(QPaintEvent *e);
+    void mousePressEvent(QMouseEvent *event);
+    void enterEvent(QEvent *event);
+    void mouseReleaseEvent(QMouseEvent *e);
+private:
+    QStringList IconPath;
+    QStringList IconNameList;
 };
 
-#endif // PLUGINSTOOLBUTTON_H
+#endif // PUSHBUTTON_H

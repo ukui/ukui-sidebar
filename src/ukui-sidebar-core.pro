@@ -24,10 +24,6 @@ RESOURCES  += sidebar.qrc
 SOURCES += \
         main.cpp \
         mostgrandwidget.cpp \
-        pluginstoolbutton.cpp \
-        sidebarpluginswidgets.cpp \
-        smallpluginsbutton.cpp \
-        smallpluginsmanage.cpp \
         widget.cpp \
         pluginmanage.cpp \
         sidebarAppLog.cpp \
@@ -38,10 +34,6 @@ INCLUDEPATH += ./plugin-interface
 
 HEADERS += \
         mostgrandwidget.h \
-        pluginstoolbutton.h \
-        sidebarpluginswidgets.h \
-        smallpluginsbutton.h \
-        smallpluginsmanage.h \
         widget.h \
         pluginmanage.h \
         sidebarAppLog.h \
