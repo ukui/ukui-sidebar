@@ -5,9 +5,14 @@
 #include <QWidget>
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QGSettings>
+#include <QDebug>
 #include "switchbutton.h"
 #include "swichButtonOpenStatus.h"
 #include "customstyle_switchNormalStatus.h"
+
+#define KYLIN_PAD_GSETTING_VALUE        "org.ukui.SettingsDaemon.plugins.tablet-mode"
+#define KYLIN_AUTOMATICROTAION_STATUS   "auto-rotation"
 
 #define KYLIN_AUTOMATICROTATION_NORMAL_NAME     "kylin-bluetooth-normal"
 #define KYLIN_AUTOMATICROTATION_HOVER_NAME      "kylin-bluetooth-hover"
@@ -26,6 +31,8 @@ public:
 private:
     void initMemberVariables();
     void initLayout();
+    void initGsettingValue();
+    void setButtonStatus();
 
 private:
     QWidget         *m_pWidgetButton;
@@ -38,9 +45,15 @@ private:
     QStyle          *m_pStyleOpen;
     QStyle          *m_pStyleNormal;
 
+    QGSettings      *m_pAutomaticRotationGsetting;
+
     QStringList      m_IconPathList;
     QStringList      m_IconNameList;
 
+    bool             m_bAutomaticRotationStatus;
+
+private slots:
+    void             m_pAutomaticRotationButtonClickSlots();
 Q_SIGNALS:
 
 };

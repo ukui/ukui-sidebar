@@ -245,8 +245,7 @@ InterfaceEnum shortcutPanelPlugin::getInterfaceMark(QString key)
     }
     if (m_InterfaceHash.contains(key)) {
         return m_InterfaceHash.value(key);
-    }
-    else
+    } else
         return InterfaceEnum::Else;
 }
 
