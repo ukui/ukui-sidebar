@@ -73,6 +73,8 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     pMainVLaout->setContentsMargins(0, 0, 0, 0);
     pMainVLaout->setSpacing(0);
 
+//    pWidget2->setFixedHeight(24);
+//    pWidget2->setFixedWidth(380);
     //图标和时间行的水平布局部件
     m_pIconWidget = new QWidget;
 
@@ -94,10 +96,15 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
 
     //设置应用名标签，采用省略模式
+    QPalette pe1;
+    pe1.setColor(QPalette::WindowText,QColor(0,0,0,188));
+
     QLabel* pAppNameLabel = new QLabel();
     pAppNameLabel->setObjectName("AppName");
     pAppNameLabel->setFixedWidth(84);
     pAppNameLabel->setAttribute(Qt::WA_TranslucentBackground);
+    pAppNameLabel->setPalette(pe1);
+
     QFont font14;
     font14.setPixelSize(14);
     pAppNameLabel->setFont(font14);
@@ -125,6 +132,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pTimeLabel->setObjectName("pushtime");
     m_pTimeLabel->setText(tr("now"));
     m_pTimeLabel->setAttribute(Qt::WA_TranslucentBackground);
+    m_pTimeLabel->setPalette(pe1);
 
 
     //收纳删除按钮图标的大小
@@ -160,6 +168,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pStorageDeleteButtonWidget->hide();
 
     //设置标签布局
+    pe1.setColor(QPalette::WindowText,QColor(0,0,0,255));
     pTimeLableHLayout->addWidget(m_pTimeLabel, 0, Qt::AlignRight);
     pTimeLableHLayout->addItem(new QSpacerItem(26, 10 , QSizePolicy::Fixed, QSizePolicy::Fixed));
     pTimeLableHLayout->setContentsMargins(0, 0, 0, 0);
@@ -201,10 +210,12 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     pVContextLayout->setContentsMargins(40, 0, 26, 0);
     pVContextLayout->setSpacing(0);
 
+
     //设置通知消息中的主题，采用省略模式
     m_pSummaryLabel = new QLabel();
     m_pSummaryLabel->setFixedWidth(314);
     m_pSummaryLabel->setAttribute(Qt::WA_TranslucentBackground);
+    m_pSummaryLabel->setPalette(pe1);
     QFont font16;
     font16.setPixelSize(16);
     m_pSummaryLabel->setFont(font16);
@@ -222,6 +233,8 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     pVContextLayout->addWidget(m_pSummaryLabel, 0, Qt::AlignLeft);
 
     //设置通知消息中的正文QLabel，行高24px,采用自动换行模式
+
+       pe1.setColor(QPalette::WindowText,QColor(0,0,0,188));
     if(false == m_strBody.isEmpty())
     {
         QString strLineHeight24Body;
@@ -231,6 +244,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
         m_pBodyLabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
         m_pBodyLabel->adjustSize();
         m_pBodyLabel->setAttribute(Qt::WA_TranslucentBackground);
+        m_pBodyLabel->setPalette(pe1);
 
 
         QFontMetrics fontMetrics(m_pBodyLabel->font());
@@ -254,6 +268,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pShowLeftItemLabel = new QLabel;
     m_pShowLeftItemLabel->setObjectName("ShowLeftItem");
     m_pShowLeftItemLabel->setVisible(false);
+    m_pShowLeftItemLabel->setPalette(pe1);
     pVShowLeftLayout->addWidget(m_pShowLeftItemLabel, 0, Qt::AlignLeft);
     m_pShowLeftWidget->setLayout(pVShowLeftLayout);
     pVContextLayout->addWidget(m_pShowLeftWidget, 0, Qt::AlignLeft);
@@ -272,37 +287,33 @@ void SingleMsg::paintEvent(QPaintEvent *e)
 {
 
     QPainter p(this);
-
-
     QRect rect = this->rect();
     rect.setWidth(rect.width() - 1);
     rect.setHeight(rect.height() - 1);
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-    p.setBrush(QBrush(QColor(255, 255, 255, 20)));
+    p.setBrush(QBrush(QColor(255, 255, 255, 60)));
     p.setPen(Qt::transparent);
     p.drawRoundedRect(rect,6,6);
 
 
-
     switch (status) {
       case NORMAL: {
-
-              p.setBrush(QBrush(QColor(255, 255, 255, 0)));
+              p.setBrush(QBrush(QColor(255,255, 255,60)));
               p.setPen(Qt::NoPen);
               p.drawRoundedRect(rect,6,6);
               break;
           }
       case HOVER: {
-          p.setBrush(QBrush(QColor(255, 255,255,40)));
+          p.setBrush(QBrush(QColor(255, 255,255,90)));
           p.setPen(Qt::NoPen);
           p.drawRoundedRect(rect,6,6);
               break;
           }
       case PRESS: {
-        p.setBrush(QBrush(QColor(255, 255, 255, 0)));
+        p.setBrush(QBrush(QColor(255, 255, 255, 100)));
         p.setPen(Qt::NoPen);
 
-         p.drawRoundedRect(rect,6,6);
+        p.drawRoundedRect(rect,6,6);
               break;
           }
     }
@@ -712,6 +723,7 @@ void SingleMsg::updateUnfoldMove(const QVariant &value)
     if(y1 <= 6)
     {
         m_pAppVLaout->setContentsMargins(0, 0, 0, y1);
+
     }
     else
     {
@@ -753,7 +765,7 @@ void SingleMsg::onUnfoldFinish()
 {
     m_pAppVLaout->removeWidget(m_pAnimationBaseMapWidget);
     m_pAnimationBaseMapWidget->setVisible(false);
-    m_pAppVLaout->addWidget(m_pSingleWidget);   
+    m_pAppVLaout->addWidget(m_pSingleWidget);
 }
 
 //处理折叠完成时的函数
@@ -793,7 +805,7 @@ void SingleMsg::updateDeleUpperMove(const QVariant &value)
     int x1, y1, x2, y2;
     Rect.getRect(&x1, &y1, &x2, &y2);
 
-    //y2-6表示填充控件的高度，y1为负数，首先将填充控件的高度不断减少直至0
+   // y2-6表示填充控件的高度，y1为负数，首先将填充控件的高度不断减少直至0
     if((y2 - 6 + y1) >= 0)
     {
         m_pAnimationBaseMapWidget->setFixedSize(x2, (y2 - 6 + y1));
@@ -819,6 +831,4 @@ void SingleMsg::onDeleUpperMoveFinish()
     }
 
 }
-
-
 
