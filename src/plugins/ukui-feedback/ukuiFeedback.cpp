@@ -1139,6 +1139,7 @@ void feedback::sendfile_finished(QNetworkReply* reply)
 //Do you want to fill in the mailbox?
 void feedback::on_lineEdit_2_textChanged()
 {
+    email_err_msg_label->hide();
     email_str = lineEdit_2->text();
     if (email_str.isEmpty()) {
         emailflag = 0;
