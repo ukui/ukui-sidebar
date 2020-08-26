@@ -555,6 +555,7 @@ void Widget::deleteNote(const QModelIndex &noteIndex, bool isFromUser)
                 m_noteView->scrollTo(m_currentSelectedNoteProxy);
             }else{
                 qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
+                // 创建新的空模型索引 此类型的模型索引用于指示模型中的位置无效
                 m_currentSelectedNoteProxy = QModelIndex();
             }
         }
@@ -1266,6 +1267,20 @@ void Widget::changePageSlot()
         initListMode();
         m_viewChangeButton->setIcon(QIcon::fromTheme("view-grid-symbolic"));
         setListFlag(1);
+    }
+    if(m_noteModel->rowCount() > 0){
+        qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
+        QModelIndex index = m_noteView->currentIndex();
+        m_currentSelectedNoteProxy = index;
+        qDebug() << m_currentSelectedNoteProxy;
+        m_noteView->selectionModel()->select(m_currentSelectedNoteProxy, QItemSelectionModel::ClearAndSelect);
+        m_noteView->setCurrentIndex(m_currentSelectedNoteProxy);
+        m_noteView->scrollTo(m_currentSelectedNoteProxy);
+    }else{
+        qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
+        // 创建新的空模型索引 此类型的模型索引用于指示模型中的位置无效
+        m_currentSelectedNoteProxy = QModelIndex();
+        qDebug() << m_currentSelectedNoteProxy;
     }
 }
 
