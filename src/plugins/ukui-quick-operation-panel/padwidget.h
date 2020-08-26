@@ -38,6 +38,7 @@
 #define KYLIN_PAD_PRESS_PATH            ":/image/pad-pressed.svg"
 
 #define KYLIN_PAD_GSETTING_VALUE        "org.ukui.SettingsDaemon.plugins.tablet-mode"
+#define KYLIN_PAD_MODLE                 "tablet-mode"
 
 class padWidget : public QWidget
 {

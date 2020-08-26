@@ -40,7 +40,7 @@
 #include "accountinformation.h"
 #include "scrollingareawidget.h"
 #include "weatherwidget.h"
-
+#include "automaticrotationwidget.h"
 #define SPREAD_BUTTON_NORMAL       ":/image/open-normal.svg"
 #define SPREAD_BUTTON_HOVER        ":/image/open-hover.svg"
 #define SPREAD_BUTTON_PRESS        ":/image/open-pressed.svg"
@@ -124,14 +124,15 @@ private:
     weatherWidget         *m_pWeatherWidget;
 
     /* 8个按钮 快捷界面 */
-    bluetoothWidget      *m_pbluetoothWidget;
-    calculatorWidget     *m_pcalculatorWidget;
-    hotspotWidget        *m_photspotWidget;
-    nodisturbWidget      *m_pnodisturbWidget;
-    padWidget            *m_ppadWidget;
-    screenshotWidget     *m_pscreenshotWidget;
-    settingWidget        *m_psettingWidget;
-    WifiWidget           *m_pWifiWidget;
+    bluetoothWidget         *m_pbluetoothWidget;
+    calculatorWidget        *m_pcalculatorWidget;
+    hotspotWidget           *m_photspotWidget;
+    nodisturbWidget         *m_pnodisturbWidget;
+    padWidget               *m_ppadWidget;
+    screenshotWidget        *m_pscreenshotWidget;
+    settingWidget           *m_psettingWidget;
+    WifiWidget              *m_pWifiWidget;
+    AutomaticRotationWidget *m_pAutomaticRotationWidget;
 };
 
 #endif // SHORTCUTPANELPLUGIN_H

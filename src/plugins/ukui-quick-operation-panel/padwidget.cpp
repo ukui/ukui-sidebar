@@ -71,7 +71,7 @@ void padWidget::initGsettingValue()
         m_pTabletModeGsetting = new QGSettings(KYLIN_PAD_GSETTING_VALUE);
     if (m_pTabletModeGsetting != nullptr) {
         qDebug() << "当前的gsetting的key值" << m_pTabletModeGsetting->keys();
-        m_bModelStatus = m_pTabletModeGsetting->get("tablet-mode").toBool();
+        m_bModelStatus = m_pTabletModeGsetting->get(KYLIN_PAD_MODLE).toBool();
     }
     return;
 }
@@ -102,7 +102,7 @@ void padWidget::setPadButtonStatus()
 void padWidget::PadButtonClickSlots()
 {
     // 判断当前状态
-    m_bModelStatus = m_pTabletModeGsetting->get("tablet-mode").toBool();
+    m_bModelStatus = m_pTabletModeGsetting->get(KYLIN_PAD_MODLE).toBool();
     if (!m_bModelStatus) {
         m_pPadButton->setStyle(m_pStyleOpen);
         m_pWidgetButton->update();
@@ -112,5 +112,5 @@ void padWidget::PadButtonClickSlots()
         m_pWidgetButton->update();
         m_bModelStatus = false;
     }
-    m_pTabletModeGsetting->set("tablet-mode", m_bModelStatus);
+    m_pTabletModeGsetting->set(KYLIN_PAD_MODLE, m_bModelStatus);
 }
