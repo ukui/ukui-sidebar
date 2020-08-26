@@ -29,6 +29,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     accountinformation.cpp \
+    automaticrotationwidget.cpp \
     customstyle_switchNormalStatus.cpp \
     scrollingareawidget.cpp \
     swichButtonOpenStatus.cpp \
@@ -48,6 +49,7 @@ SOURCES += \
 
 HEADERS += \
     accountinformation.h \
+    automaticrotationwidget.h \
     customstyle_switchNormalStatus.h \
     scrollingareawidget.h \
     swichButtonOpenStatus.h \
