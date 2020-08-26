@@ -35,18 +35,17 @@ void WifiWidget::initMemberVariables()
     m_IconPathList << KYLIN_WIFI_NORMAL_PATH << KYLIN_WIFI_HOVER_PATH << KYLIN_WIFI_PRESS_PATH;
     m_IconNameList << KYLIN_WIFI_NORMAL_NAME << KYLIN_WIFI_HOVER_NAME << KYLIN_WIFI_PRESS_NAME;
     m_pWidgetButton         = new QWidget();
-    m_pWidgetButton->setFixedSize(62, 62);
+    m_pWidgetButton->setFixedSize(56, 56);
     m_pWidgetButton->setContentsMargins(0, 0, 0, 0);
     m_pVboxButtonLayout     = new QVBoxLayout();
     m_pVboxButtonLayout->setContentsMargins(0, 0, 0, 0);
 
     m_pWifiButton = new switchButton(m_IconPathList, m_IconNameList);
     connect(m_pWifiButton, &switchButton::clicked, this, &WifiWidget::WifiButtonClickSlot);
-    m_pWifiButton->setFixedSize(62, 62);
+    m_pWifiButton->setFixedSize(56, 56);
     m_pWifiButton->setIconSize(QSize(32, 32));
 
     m_pWifiLabel = new QLabel(QObject::tr("Wifi"));
-    m_pWifiLabel->setAlignment(Qt::AlignHCenter);
     m_pWifiLabel->setAlignment(Qt::AlignHCenter);
 
     m_pVboxLayout = new QVBoxLayout();

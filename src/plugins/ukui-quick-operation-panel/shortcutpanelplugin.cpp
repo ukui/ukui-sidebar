@@ -36,7 +36,7 @@ void shortcutPanelPlugin::initMemberVariables()
 
     m_pButtonHLaout = new QHBoxLayout;
     m_pButtonHLaout->setContentsMargins(0, 0, 0, 0);
-    m_pMainVLayout->setSpacing(0);
+    m_pButtonHLaout->setSpacing(0);
 
     m_pShortGLayout  = new QGridLayout;
     m_pShortGLayout->setContentsMargins(18, 0, 18, 0);
@@ -45,14 +45,27 @@ void shortcutPanelPlugin::initMemberVariables()
 
     m_pMainWidget  = new MainWidget;
     m_pMainWidget->setContentsMargins(0, 0, 0, 0);
-
+    m_pMainWidget->setFixedSize(392, 486);
     m_pButtonWidget = new QWidget;
     m_pButtonWidget->setContentsMargins(0, 0, 0, 0);
     m_pButtonWidget->setFixedHeight(15);
 
+    /* 账户信息界面 */
+    m_PAccountInfoWidget = new AccountInformation();
+    m_PAccountInfoWidget->setFixedSize(392, 48);
+
+    /* 快捷操作面板界面 */
     m_pShortWidget   = new QWidget;
     m_pShortWidget->setFixedSize(380, 233);
     m_pShortWidget->setContentsMargins(0, 0, 0, 0);
+
+    /* 调整音量与屏幕亮度界面 */
+    m_pScrollingAreaWidget = new ScrollingAreaWidget();
+    m_pScrollingAreaWidget->setFixedSize(392, 30);
+
+    /* 显示天气界面 */
+    m_pWeatherWidget = new weatherWidget();
+    m_pWeatherWidget->setFixedSize(392, 20);
 
     m_SpreadButtonIconList << SPREAD_BUTTON_NORMAL << SPREAD_BUTTON_HOVER << SPREAD_BUTTON_PRESS;
     m_FoldButtonIconList   << FOLD_BUTTON_NORMAL   << FOLD_BUTTON_HOVER   << FOLD_BUTTON_PRESS;
@@ -193,7 +206,10 @@ void shortcutPanelPlugin::setWidget()
     m_pShortWidget->setLayout(m_pShortGLayout);
 
     m_pMainVLayout->addWidget(m_pButtonWidget);
+    m_pMainVLayout->addWidget(m_PAccountInfoWidget);
     m_pMainVLayout->addWidget(m_pShortWidget);
+    m_pMainVLayout->addWidget(m_pScrollingAreaWidget);
+    m_pMainVLayout->addWidget(m_pWeatherWidget);
     m_pMainWidget->setLayout(m_pMainVLayout);
     return;
 }
@@ -256,7 +272,7 @@ void shortcutPanelPlugin::spreadClikedSlots()
     m_pfoldButton->setVisible(true);
     int height = m_pMainWidget->height();
     int width  = m_pMainWidget->width();
-    m_pMainWidget->setFixedSize(width, height*2 - 20);
+    m_pMainWidget->setFixedSize(392, height*2 - 20);
     return;
 }
 

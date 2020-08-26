@@ -48,9 +48,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     initAimation();
 
     /* 主界面显示 */
-    m_pMainQVBoxLayout = new QVBoxLayout;
-    m_pMainQVBoxLayout->setContentsMargins(0, 0, 0, 0);
-    m_pMainQVBoxLayout->setSpacing(0);
+    initLayout();
 
     /* 加载通知中心插件 */
     if (false == loadNotificationPlugin())
@@ -298,6 +296,14 @@ void Widget::initTranslation()
         QApplication::installTranslator(m_pTranslator);
     else
         qDebug() << "cannot load translator " << QLocale::system().name() << ".qm!";
+}
+
+void Widget::initLayout()
+{
+    m_pMainQVBoxLayout = new QVBoxLayout;
+    m_pMainQVBoxLayout->setContentsMargins(0, 0, 0, 0);
+    m_pMainQVBoxLayout->setSpacing(0);
+    return;
 }
 
 void Widget::initAimation()

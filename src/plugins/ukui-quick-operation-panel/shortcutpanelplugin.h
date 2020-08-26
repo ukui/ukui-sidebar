@@ -37,6 +37,9 @@
 #include "screenshotwidget.h"
 #include "settingwidget.h"
 #include "wifiwidget.h"
+#include "accountinformation.h"
+#include "scrollingareawidget.h"
+#include "weatherwidget.h"
 
 #define SPREAD_BUTTON_NORMAL       ":/image/open-normal.svg"
 #define SPREAD_BUTTON_HOVER        ":/image/open-hover.svg"
@@ -110,6 +113,15 @@ private:
     MyClass data[8];
     QList<QWidget*> ShortButtonWidgetList;
     QHash<QString, InterfaceEnum> m_InterfaceHash;
+
+    /* 显示用户信息界面和关机按钮 */
+    AccountInformation    *m_PAccountInfoWidget;
+
+    /* 显示调音量与屏幕亮度界面 */
+    ScrollingAreaWidget   *m_pScrollingAreaWidget;
+
+    /* 显示天气界面 */
+    weatherWidget         *m_pWeatherWidget;
 
     /* 8个按钮 快捷界面 */
     bluetoothWidget      *m_pbluetoothWidget;

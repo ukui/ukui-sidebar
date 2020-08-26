@@ -9,6 +9,9 @@ CONFIG += plugin
 
 CONFIG += c++11 link_pkgconfig
 
+PKGCONFIG +=gio-2.0 glib-2.0 gio-unix-2.0
+LIBS += -lX11 -lgio-2.0 -lgobject-2.0 -lglib-2.0
+
 #DESTDIR = ../ukui-quick-operation-panel
 RESOURCES  += shortcutPanelPlugin.qrc
 PKGCONFIG  += gsettings-qt
@@ -25,7 +28,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    accountinformation.cpp \
     customstyle_switchNormalStatus.cpp \
+    scrollingareawidget.cpp \
     swichButtonOpenStatus.cpp \
     bluetoothwidget.cpp \
     calculatorwidget.cpp \
@@ -38,10 +43,13 @@ SOURCES += \
     settingwidget.cpp \
     shortcutpanelplugin.cpp \
     switchbutton.cpp \
+    weatherwidget.cpp \
     wifiwidget.cpp
 
 HEADERS += \
+    accountinformation.h \
     customstyle_switchNormalStatus.h \
+    scrollingareawidget.h \
     swichButtonOpenStatus.h \
     bluetoothwidget.h \
     calculatorwidget.h \
@@ -55,6 +63,7 @@ HEADERS += \
     settingwidget.h \
     shortcutpanelplugin.h \
     switchbutton.h \
+    weatherwidget.h \
     wifiwidget.h
 
 INCLUDEPATH    += ../../plugin-interface

@@ -77,7 +77,7 @@ void CustomStyle_SwitchOpenStatus::drawPrimitive(QStyle::PrimitiveElement elemen
                     painter->setPen(Qt::NoPen);
                     QColor color(50,87,202,255);
                     painter->setBrush(color);
-                    painter->drawRoundedRect(option->rect, 6, 6);
+                    painter->drawRoundedRect(option->rect, 28, 28);
                     painter->restore();
                 } else {
                     painter->save();
@@ -85,7 +85,7 @@ void CustomStyle_SwitchOpenStatus::drawPrimitive(QStyle::PrimitiveElement elemen
                     painter->setPen(Qt::NoPen);
                     QColor color(107,142,235,255);
                     painter->setBrush(color);
-                    painter->drawRoundedRect(option->rect, 6, 6);
+                    painter->drawRoundedRect(option->rect, 28, 28);
                     painter->restore();
                 }
             } else {
@@ -94,7 +94,7 @@ void CustomStyle_SwitchOpenStatus::drawPrimitive(QStyle::PrimitiveElement elemen
                 painter->setPen(Qt::NoPen);
                 QColor color(61,107,229,255);
                 painter->setBrush(color);
-                painter->drawRoundedRect(option->rect, 6, 6);
+                painter->drawRoundedRect(option->rect, 28, 28);
                 painter->restore();
             }
             return;

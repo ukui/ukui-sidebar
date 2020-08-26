@@ -78,7 +78,7 @@ void customstyle_switchNormalStatus::drawPrimitive(QStyle::PrimitiveElement elem
                     QColor color(255,255,255);
                     painter->setBrush(color);
                     painter->setOpacity(0.18);
-                    painter->drawRoundedRect(option->rect, 6, 6);
+                    painter->drawRoundedRect(option->rect, 28, 28);
                     painter->restore();
                 } else {
                     painter->save();
@@ -87,7 +87,7 @@ void customstyle_switchNormalStatus::drawPrimitive(QStyle::PrimitiveElement elem
                     QColor color(255,255,255);
                     painter->setBrush(color);
                     painter->setOpacity(0.25);
-                    painter->drawRoundedRect(option->rect, 6, 6);
+                    painter->drawRoundedRect(option->rect, 28, 28);
                     painter->restore();
                 }
             } else {
@@ -97,7 +97,7 @@ void customstyle_switchNormalStatus::drawPrimitive(QStyle::PrimitiveElement elem
                 QColor color(255,255,255);
                 painter->setBrush(color);
                 painter->setOpacity(0.15);
-                painter->drawRoundedRect(option->rect, 6, 6);
+                painter->drawRoundedRect(option->rect, 28, 28);
                 painter->restore();
             }
             return;

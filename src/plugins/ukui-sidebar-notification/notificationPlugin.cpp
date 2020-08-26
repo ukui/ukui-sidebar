@@ -142,6 +142,7 @@ NotificationPlugin::NotificationPlugin()
 
     //通知列表
     m_pQScrollAreaNotify = new ScrollAreaWidget();
+//    m_pQScrollAreaNotify->set
     m_pQScrollAreaNotify->setAttribute(Qt::WA_TranslucentBackground);
     m_pQScrollAreaNotify->setFrameShape(QFrame::NoFrame);
     m_pQScrollAreaNotify->setFixedWidth(390);

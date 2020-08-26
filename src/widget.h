@@ -63,6 +63,7 @@ public:
     };
     //主界面
     void initTranslation();                                                     // 初始化翻译
+    void initLayout();                                                          // 初始化布局
     void initAimation();                                                        // 初始化动画
     void showAnimation();                                                       // show动作
     void hideAnimation();                                                       // hide动作
