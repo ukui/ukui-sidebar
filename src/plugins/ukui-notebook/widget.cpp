@@ -550,6 +550,9 @@ void Widget::deleteNote(const QModelIndex &noteIndex, bool isFromUser)
                 QModelIndex index = m_noteView->currentIndex();
                 m_currentSelectedNoteProxy = index;
                 qDebug() << m_currentSelectedNoteProxy;
+                m_noteView->selectionModel()->select(m_currentSelectedNoteProxy, QItemSelectionModel::ClearAndSelect);
+                m_noteView->setCurrentIndex(m_currentSelectedNoteProxy);
+                m_noteView->scrollTo(m_currentSelectedNoteProxy);
             }else{
                 qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
                 m_currentSelectedNoteProxy = QModelIndex();
