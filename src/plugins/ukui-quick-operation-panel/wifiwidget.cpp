@@ -55,7 +55,7 @@ void WifiWidget::initMemberVariables()
     m_pStyleOpen   = new CustomStyle_SwitchOpenStatus("ukui-default");
     m_pStyleNormal = new customstyle_switchNormalStatus("ukui-default");
 
-    this->setFixedSize(80, 93);
+    this->setFixedSize(60, 78);
     this->setContentsMargins(0, 0, 0, 0);
     return;
 }
@@ -66,7 +66,7 @@ void WifiWidget::initLayout()
     m_pVboxButtonLayout->addWidget(m_pWifiButton, 0, Qt::AlignCenter);
     m_pWidgetButton->setLayout(m_pVboxButtonLayout);
     m_pVboxLayout->addWidget(m_pWidgetButton, 0, Qt::AlignCenter);
-    m_pVboxLayout->setSpacing(15);
+    m_pVboxLayout->setSpacing(4);
     m_pVboxLayout->addWidget(m_pWifiLabel, 0, Qt::AlignCenter);
     this->setLayout(m_pVboxLayout);
     return;
@@ -88,6 +88,7 @@ void WifiWidget::initStatus()
             return;
         }
     } else {
+        NormalStatus();
         qDebug() << "当前Wifi不可用";
         return;
     }

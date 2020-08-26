@@ -34,15 +34,17 @@ void screenshotWidget::initMemberVariables()
     m_IconNameList << KYLIN_SCREENSHOT_NORMAL_NAME << KYLIN_SCREENSHOT_HOVER_NAME << KYLIN_SCREENSHOT_PRESS_NAME;
 
     m_pWidgetButton         = new QWidget();
-    m_pWidgetButton->setFixedSize(62, 62);
+    m_pWidgetButton->setFixedSize(56, 56);
     m_pWidgetButton->setContentsMargins(0, 0, 0, 0);
     m_pVboxButtonLayout     = new QVBoxLayout();
     m_pVboxButtonLayout->setContentsMargins(0, 0, 0, 0);
 
     m_pscreenshotButton = new switchButton(m_IconPathList, m_IconNameList);
-    connect(m_pscreenshotButton, &switchButton::clicked, this, &screenshotWidget::sreenShotButtonClickedSlots);
-    m_pscreenshotButton->setFixedSize(62, 62);
+    m_pscreenshotButton->setFixedSize(56, 56);
     m_pscreenshotButton->setIconSize(QSize(32, 32));
+    m_pStyleNormal = new customstyle_switchNormalStatus("ukui-default");
+    m_pscreenshotButton->setStyle(m_pStyleNormal);
+    connect(m_pscreenshotButton, &switchButton::clicked, this, &screenshotWidget::sreenShotButtonClickedSlots);
 
     m_pscreenshotlabel = new QLabel(QObject::tr("截图"));
     m_pscreenshotlabel->setAlignment(Qt::AlignHCenter);
@@ -51,7 +53,7 @@ void screenshotWidget::initMemberVariables()
     m_pVboxLayout->setContentsMargins(0, 0, 0, 0);
     m_pVboxLayout->setSpacing(0);
 
-    this->setFixedSize(80, 93);
+    this->setFixedSize(60, 78);
     this->setContentsMargins(0, 0, 0, 0);
     return;
 }
@@ -61,7 +63,7 @@ void screenshotWidget::initLayout()
     m_pVboxButtonLayout->addWidget(m_pscreenshotButton, 0, Qt::AlignCenter);
     m_pWidgetButton->setLayout(m_pVboxButtonLayout);
     m_pVboxLayout->addWidget(m_pWidgetButton, 0, Qt::AlignCenter);
-    m_pVboxLayout->addItem(new QSpacerItem(15, 10));
+    m_pVboxLayout->addItem(new QSpacerItem(15, 4));
     m_pVboxLayout->addWidget(m_pscreenshotlabel);
     this->setLayout(m_pVboxLayout);
     return;

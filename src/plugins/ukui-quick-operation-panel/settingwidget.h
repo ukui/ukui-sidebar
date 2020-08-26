@@ -25,6 +25,7 @@
 #include <QVBoxLayout>
 #include <QProcess>
 #include "switchbutton.h"
+#include "customstyle_switchNormalStatus.h"
 
 #define KYLIN_SETTING_NORMAL_NAME       "kylin-setting-normal"
 #define KYLIN_SETTING_HOVER_NAME        "kylin-setting-hover"
@@ -46,6 +47,8 @@ private:
     QWidget      *m_pWidgetButton;
     switchButton *m_psettingButton;
     QLabel       *m_psettingLabel;
+
+    QStyle        *m_pStyleNormal;
 
     QVBoxLayout  *m_pVboxButtonLayout;
     QVBoxLayout  *m_pVboxLayout;
