@@ -34,14 +34,16 @@ void settingWidget::initMemberVariables()
     m_IconNameList << KYLIN_SETTING_NORMAL_NAME << KYLIN_SETTING_HOVER_NAME << KYLIN_SETTING_PRESS_NAME;
 
     m_pWidgetButton         = new QWidget();
-    m_pWidgetButton->setFixedSize(62, 62);
+    m_pWidgetButton->setFixedSize(56, 56);
     m_pWidgetButton->setContentsMargins(0, 0, 0, 0);
     m_pVboxButtonLayout     = new QVBoxLayout();
     m_pVboxButtonLayout->setContentsMargins(0, 0, 0, 0);
 
     m_psettingButton = new switchButton(m_IconPathList, m_IconNameList);
-    m_psettingButton->setFixedSize(62, 62);
+    m_psettingButton->setFixedSize(56, 56);
     m_psettingButton->setIconSize(QSize(32, 32));
+    m_pStyleNormal = new customstyle_switchNormalStatus("ukui-default");
+    m_psettingButton->setStyle(m_pStyleNormal);
     connect(m_psettingButton, &switchButton::clicked, this, &settingWidget::settingButtonClick);
 
     m_psettingLabel = new QLabel(QObject::tr("设置"));
@@ -51,7 +53,7 @@ void settingWidget::initMemberVariables()
     m_pVboxLayout->setContentsMargins(0, 0, 0, 0);
     m_pVboxLayout->setSpacing(0);
 
-    this->setFixedSize(80, 93);
+    this->setFixedSize(60, 78);
     this->setContentsMargins(0, 0, 0, 0);
     return;
 }

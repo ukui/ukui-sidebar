@@ -1,9 +1,3 @@
-#ifndef NODISTURBWIDGET_H
-#define NODISTURBWIDGET_H
-
-#include <QObject>
-#include <QWidget>
-#include <QPushButton>
 /*
 * Copyright (C) 2020 Tianjin KYLIN Information Technology Co., Ltd.
 *
@@ -21,9 +15,17 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
+
+#ifndef NODISTURBWIDGET_H
+#define NODISTURBWIDGET_H
+
+#include <QObject>
+#include <QWidget>
+#include <QPushButton>
 #include <QLabel>
 #include <QVBoxLayout>
 #include "switchbutton.h"
+#include "customstyle_switchNormalStatus.h"
 
 #define KYLIN_NODISTURB_NORMAL_NAME     "kylin-nodisturb-normal"
 #define KYLIN_NODISTURB_HOVER_NAME     "kylin-nodisturb-hover"
@@ -46,6 +48,8 @@ private:
     QWidget       *m_pWidgetButton;
     switchButton  *m_pnodisturbButton;
     QLabel        *m_pnodisturbLabel;
+
+    QStyle        *m_pStyleNormal;
 
     QVBoxLayout   *m_pVboxButtonLayout;
     QVBoxLayout   *m_pVboxLayout;

@@ -25,6 +25,7 @@
 #include <QVBoxLayout>
 #include <QProcess>
 #include "switchbutton.h"
+#include "customstyle_switchNormalStatus.h"
 
 #define KYLIN_SCREENSHOT_NORMAL_NAME    "kylin-screenshot-normal"
 #define KYLIN_SCREENSHOT_HOVER_NAME     "kylin-screenshot-hover"
@@ -46,8 +47,10 @@ public:
 
 private:
     QWidget      *m_pWidgetButton;
-    switchButton   *m_pscreenshotButton;
+    switchButton *m_pscreenshotButton;
     QLabel       *m_pscreenshotlabel;
+
+    QStyle        *m_pStyleNormal;
 
     QVBoxLayout  *m_pVboxButtonLayout;
     QVBoxLayout  *m_pVboxLayout;

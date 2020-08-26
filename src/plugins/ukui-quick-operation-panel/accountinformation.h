@@ -66,8 +66,9 @@ private:
     QHBoxLayout  *m_pMainLayout;
     QVBoxLayout  *m_pVLabelLayout;
     QWidget      *m_pInfoWidget;
-
     QDBusInterface * m_pSystemUserIface;
+
+
 
 private slots:
     void openShutdownWidgetSlots();

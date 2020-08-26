@@ -36,14 +36,14 @@ void bluetoothWidget::initMemberVariables()
     m_IconNameList << KYLIN_BLUETOOTH_NORMAL_NAME << KYLIN_BLUETOOTH_HOVER_NAME << KYLIN_BLUETOOTH_PRESS_NAME;
 
     m_pWidgetButton         = new QWidget();
-    m_pWidgetButton->setFixedSize(62, 62);
+    m_pWidgetButton->setFixedSize(56, 56);
     m_pWidgetButton->setContentsMargins(0, 0, 0, 0);
     m_pVboxButtonLayout     = new QVBoxLayout();
     m_pVboxButtonLayout->setContentsMargins(0, 0, 0, 0);
 
     m_pbluetoothButton = new switchButton(m_IconPathList, m_IconNameList);
     connect(m_pbluetoothButton, &switchButton::clicked, this, &bluetoothWidget::bluetoothButtonClickSlots);
-    m_pbluetoothButton->setFixedSize(62, 62);
+    m_pbluetoothButton->setFixedSize(56, 56);
     m_pbluetoothButton->setIconSize(QSize(32, 32));
 
     m_pbluetoothLabel = new QLabel(QObject::tr("蓝牙"));
@@ -56,7 +56,7 @@ void bluetoothWidget::initMemberVariables()
     m_pStyleOpen   = new CustomStyle_SwitchOpenStatus("ukui-default");
     m_pStyleNormal = new customstyle_switchNormalStatus("ukui-default");
 
-    this->setFixedSize(80, 93);
+    this->setFixedSize(60, 78);
     this->setContentsMargins(0, 0, 0, 0);
     return;
 }
@@ -67,7 +67,7 @@ void bluetoothWidget::initLayout()
     m_pVboxButtonLayout->addWidget(m_pbluetoothButton, 0, Qt::AlignCenter);
     m_pWidgetButton->setLayout(m_pVboxButtonLayout);
     m_pVboxLayout->addWidget(m_pWidgetButton, 0, Qt::AlignCenter);
-    m_pVboxLayout->addItem(new QSpacerItem(15, 10));
+    m_pVboxLayout->addItem(new QSpacerItem(5, 4));
     m_pVboxLayout->addWidget(m_pbluetoothLabel);
     this->setLayout(m_pVboxLayout);
     return;

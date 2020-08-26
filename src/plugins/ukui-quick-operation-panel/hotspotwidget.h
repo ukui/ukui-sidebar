@@ -24,6 +24,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include "switchbutton.h"
+#include "customstyle_switchNormalStatus.h"
 
 #define KYLIN_HOTSPOT_NORMAL_NAME      "kylin-hotspot-normal"
 #define KYLIN_HOTSPOT_HOVER_NAME       "kylin-hotspot-hover"
@@ -45,6 +46,8 @@ private:
     QWidget       *m_pWidgetButton;
     switchButton  *m_photspotButton;
     QLabel        *m_photspotLabel;
+
+    QStyle        *m_pStyleNormal;
 
     QVBoxLayout   *m_pVboxButtonLayout;
     QVBoxLayout   *m_pVboxLayout;

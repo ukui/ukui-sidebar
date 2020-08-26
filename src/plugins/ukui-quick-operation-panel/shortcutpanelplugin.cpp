@@ -40,8 +40,8 @@ void shortcutPanelPlugin::initMemberVariables()
 
     m_pShortGLayout  = new QGridLayout;
     m_pShortGLayout->setContentsMargins(18, 0, 18, 0);
-    m_pShortGLayout->setHorizontalSpacing(32);
-    m_pShortGLayout->setVerticalSpacing(0);
+    m_pShortGLayout->setHorizontalSpacing(35);
+    m_pShortGLayout->setVerticalSpacing(16);
 
     m_pMainWidget  = new MainWidget;
     m_pMainWidget->setContentsMargins(0, 0, 0, 0);
@@ -56,7 +56,7 @@ void shortcutPanelPlugin::initMemberVariables()
 
     /* 快捷操作面板界面 */
     m_pShortWidget   = new QWidget;
-    m_pShortWidget->setFixedSize(380, 233);
+    m_pShortWidget->setFixedSize(380, 266);
     m_pShortWidget->setContentsMargins(0, 0, 0, 0);
 
     /* 调整音量与屏幕亮度界面 */
@@ -120,6 +120,12 @@ void shortcutPanelPlugin::initShortButtonWidget()
     /* 截图 */
     m_pscreenshotWidget = new screenshotWidget();
     ShortButtonWidgetList.append(m_pscreenshotWidget);
+
+    /* 自动旋转功能 */
+    m_pAutomaticRotationWidget = new AutomaticRotationWidget();
+    ShortButtonWidgetList.append(m_pAutomaticRotationWidget);
+
+    qDebug() << "12312312312312312312312" << ShortButtonWidgetList.count();
     return;
 }
 
@@ -150,6 +156,9 @@ void shortcutPanelPlugin::initsetShortWidget()
     if (true && true) {
         m_pShortGLayout->addWidget(ShortButtonWidgetList.at(7), 1, 3, 1, 1);
     }
+    if (true&&true) {
+        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(8), 2, 0, 1, 1);
+    }
     return;
 }
 
@@ -179,6 +188,9 @@ void shortcutPanelPlugin::resetShortWidget()
     }
     if (true && true) {
         m_pShortGLayout->addWidget(ShortButtonWidgetList.at(7), 1, 3, 1, 1);
+    }
+    if (true&&true) {
+        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(8), 2, 0, 1, 1);
     }
     return;
 }
@@ -233,8 +245,7 @@ InterfaceEnum shortcutPanelPlugin::getInterfaceMark(QString key)
     }
     if (m_InterfaceHash.contains(key)) {
         return m_InterfaceHash.value(key);
-    }
-    else
+    } else
         return InterfaceEnum::Else;
 }
 

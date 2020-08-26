@@ -34,8 +34,8 @@ void MainWidget::paintEvent(QPaintEvent *e)
      * 黑字体 --> 白字体
     */
 //    p.setBrush(opt.palette.color(QPalette::Base));
-    p.setBrush(QBrush(QColor(212,212,212)));
-    p.setOpacity(1);
+    p.setBrush(QBrush(QColor(0, 0 , 0)));
+    p.setOpacity(0.42);
     p.setPen(Qt::NoPen);
 
     p.setRenderHint(QPainter::Antialiasing);                        //反锯齿

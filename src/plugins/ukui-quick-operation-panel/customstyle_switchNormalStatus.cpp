@@ -75,18 +75,18 @@ void customstyle_switchNormalStatus::drawPrimitive(QStyle::PrimitiveElement elem
                     painter->save();
                     painter->setRenderHint(QPainter::Antialiasing,true);
                     painter->setPen(Qt::NoPen);
-                    QColor color(255,255,255);
+                    QColor color(246, 246, 246);
                     painter->setBrush(color);
-                    painter->setOpacity(0.18);
+                    painter->setOpacity(1);
                     painter->drawRoundedRect(option->rect, 28, 28);
                     painter->restore();
                 } else {
                     painter->save();
                     painter->setRenderHint(QPainter::Antialiasing,true);
                     painter->setPen(Qt::NoPen);
-                    QColor color(255,255,255);
+                    QColor color(246, 246, 246);
                     painter->setBrush(color);
-                    painter->setOpacity(0.25);
+                    painter->setOpacity(1);
                     painter->drawRoundedRect(option->rect, 28, 28);
                     painter->restore();
                 }
@@ -94,9 +94,9 @@ void customstyle_switchNormalStatus::drawPrimitive(QStyle::PrimitiveElement elem
                 painter->save();
                 painter->setRenderHint(QPainter::Antialiasing,true);
                 painter->setPen(Qt::NoPen);
-                QColor color(255,255,255);
+                QColor color(246, 246, 246);
                 painter->setBrush(color);
-                painter->setOpacity(0.15);
+                painter->setOpacity(1);
                 painter->drawRoundedRect(option->rect, 28, 28);
                 painter->restore();
             }
