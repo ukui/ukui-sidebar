@@ -37,6 +37,8 @@ void ModifybluetoothWidget::initMemberVariables()
 
     m_pbluetoothIconLabel = new QLabel();
     m_pbluetoothIconLabel->setFixedSize(24, 24);
+    m_pbluetoothIconLabel->setPixmap((QIcon::fromTheme( m_IconNameList.at(0), QIcon(m_IconPathList.at(0)))).pixmap(m_pbluetoothIconLabel->size()));
+
 
     m_pbluetoothNameLabel = new QLabel();
     m_pbluetoothNameLabel->setText("kylin");
@@ -44,7 +46,8 @@ void ModifybluetoothWidget::initMemberVariables()
 
     m_pbluetoothButton    = new QPushButton();
     connect(m_pbluetoothButton, &QPushButton::clicked, this, &ModifybluetoothWidget::setButtonclickSlots);
-    m_pbluetoothButton->setFixedSize(16, 16);
+    m_pbluetoothButton->setFixedSize(32, 32);
+    m_pbluetoothButton->setIconSize(QSize(16, 16));
 
     m_pHboxButtonLayout   = new QHBoxLayout();
     m_pHboxButtonLayout->setContentsMargins(0, 0, 0, 0);
