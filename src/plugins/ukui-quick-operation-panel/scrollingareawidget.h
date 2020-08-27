@@ -25,12 +25,12 @@ private:
     QWidget     *m_pVolumeWidget;
     QLabel      *m_pVolumeIconLabel;
     QSlider     *m_pVolumeSlide;
-    QHBoxLayout *m_pHVolumeLayout;
+    QVBoxLayout *m_pVVolumeLayout;
 
     QWidget     *m_pBrightNessWidget;
     QLabel      *m_pBrightIconLabel;
     QSlider     *m_pBrightSlide;
-    QHBoxLayout *m_pBrightLayout;
+    QVBoxLayout *m_pBrightLayout;
 };
 
 #endif // SCROLLINGAREAWIDGET_H

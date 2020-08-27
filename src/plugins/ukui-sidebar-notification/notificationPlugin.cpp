@@ -35,6 +35,8 @@ NotificationPlugin::NotificationPlugin()
 
     m_pMainWidget->setObjectName("NotificationCenter");
 
+    m_pMainWidget->setFixedSize(392, 1034);
+
     QTranslator *translator = new QTranslator;
     if (translator->load(QLocale(), QLatin1String("ukui-sidebar-notification"), QLatin1String("_"), QLatin1String("/usr/share/ukui-sidebar/ukui-sidebar-notification")))
         QApplication::installTranslator(translator);
@@ -145,8 +147,10 @@ NotificationPlugin::NotificationPlugin()
     //消息列表部件，用于装消息列表的
     pNotificationVBoxLayout->addItem(new QSpacerItem(10, 18));
     m_pMsgListWidget = new inside_widget;
-   // m_pMsgListWidget->setStyleSheet("QWidget{border:1px solid rgba(255,0,0,1);}");
+    //m_pMsgListWidget->setFixedSize(392, 1000);
+    //m_pMsgListWidget->setStyleSheet("QWidget{border:1px solid rgba(255,0,0,1);}");
     pNotificationVBoxLayout->addWidget(m_pMsgListWidget);
+    pNotificationVBoxLayout->addItem(new QSpacerItem(10, 18));
 //    m_pMsgListWidget->setParent(m_pMainWidget);
     //消息列表部件，用于装两个消息列表的,浮动在m_pMsgListWidget里面
     m_pMsgDoubleListWidget = new inside_widget(m_pMsgListWidget);

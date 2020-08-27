@@ -38,10 +38,21 @@ void shortcutPanelPlugin::initMemberVariables()
     m_pButtonHLaout->setContentsMargins(0, 0, 0, 0);
     m_pButtonHLaout->setSpacing(0);
 
-    m_pShortGLayout  = new QGridLayout;
-    m_pShortGLayout->setContentsMargins(18, 0, 18, 0);
-    m_pShortGLayout->setHorizontalSpacing(35);
-    m_pShortGLayout->setVerticalSpacing(16);
+    m_pShortGLayout = new QHBoxLayout;//快捷操作面板总布局
+    m_pShortGLayout->setContentsMargins(0, 0, 0, 0);
+    m_pShortGLayout->setSpacing(0);
+
+
+    m_pShortAssembly =new QGridLayout; //左边组件的布局
+    m_pShortAssembly->setContentsMargins(18, 0, 0, 0); //左上右下
+    m_pShortAssembly->setHorizontalSpacing(25); //控件间隔
+    m_pShortAssembly->setVerticalSpacing(0);//垂直间距
+
+
+    m_pScrollingArea =new QHBoxLayout;//右边组件的布局
+    m_pScrollingArea->setContentsMargins(0, 0, 0, 0);
+    m_pScrollingArea->setSpacing(0);
+
 
     m_pMainWidget  = new MainWidget;
     m_pMainWidget->setContentsMargins(0, 0, 0, 0);
@@ -61,7 +72,7 @@ void shortcutPanelPlugin::initMemberVariables()
 
     /* 调整音量与屏幕亮度界面 */
     m_pScrollingAreaWidget = new ScrollingAreaWidget();
-    m_pScrollingAreaWidget->setFixedSize(392, 30);
+    m_pScrollingAreaWidget->setFixedSize(150, 200);
 
     /* 显示天气界面 */
     m_pWeatherWidget = new weatherWidget();
@@ -133,32 +144,32 @@ void shortcutPanelPlugin::initShortButtonWidget()
 void shortcutPanelPlugin::initsetShortWidget()
 {
     if (true && true) {
-        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(0), 0, 0, 1, 1);
+        m_pShortAssembly->addWidget(ShortButtonWidgetList.at(0), 0, 0, 1, 1);
     }
     if (true && true) {
-        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(1), 0, 1, 1, 1);
+        m_pShortAssembly->addWidget(ShortButtonWidgetList.at(1), 0, 1, 1, 1);
     }
     if (true && true) {
-        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(2), 0, 2, 1, 1);
+        m_pShortAssembly->addWidget(ShortButtonWidgetList.at(2), 1, 0, 1, 1);
     }
     if (true && true) {
-        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(3), 0, 3, 1, 1);
+        m_pShortAssembly->addWidget(ShortButtonWidgetList.at(3), 1, 1, 1, 1);
     }
     if (true && true) {
-        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(4), 1, 0, 1, 1);
+        m_pShortAssembly->addWidget(ShortButtonWidgetList.at(4), 2, 0, 1, 1);
     }
     if (true && true) {
-        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(5), 1, 1, 1, 1);
+        m_pShortAssembly->addWidget(ShortButtonWidgetList.at(5), 2, 1, 1, 1);
     }
     if (true && true) {
-        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(6), 1, 2, 1, 1);
+        //m_pShortGLayoutL->addWidget(ShortButtonWidgetList.at(6), 3, 2, 1, 1);
     }
     if (true && true) {
-        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(7), 1, 3, 1, 1);
+        m_pScrollingArea->addWidget(m_pScrollingAreaWidget);
     }
-    if (true&&true) {
-        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(8), 2, 0, 1, 1);
-    }
+//    if (true&&true) {
+//        m_pShortGLayoutL->addWidget(ShortButtonWidgetList.at(8), 2, 0, 1, 1);
+//    }
     return;
 }
 
@@ -166,32 +177,32 @@ void shortcutPanelPlugin::initsetShortWidget()
 void shortcutPanelPlugin::resetShortWidget()
 {
     if (true && true) {
-        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(0), 0, 0, 1, 1);
+        m_pShortAssembly->addWidget(ShortButtonWidgetList.at(0), 0, 0, 1, 1);
     }
     if (true && true) {
-        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(1), 0, 1, 1, 1);
+        m_pShortAssembly->addWidget(ShortButtonWidgetList.at(1), 0, 1, 1, 1);
     }
     if (true && true) {
-        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(2), 0, 2, 1, 1);
+        m_pShortAssembly->addWidget(ShortButtonWidgetList.at(2), 0, 2, 1, 1);
     }
     if (true && true) {
-        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(3), 0, 3, 1, 1);
+        m_pShortAssembly->addWidget(ShortButtonWidgetList.at(3), 0, 3, 1, 1);
     }
     if (true && true) {
-        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(4), 1, 0, 1, 1);
+        m_pShortAssembly->addWidget(ShortButtonWidgetList.at(4), 1, 0, 1, 1);
     }
     if (true && true) {
-        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(5), 1, 1, 1, 1);
+        m_pShortAssembly->addWidget(ShortButtonWidgetList.at(5), 1, 1, 1, 1);
     }
     if (true && true) {
-        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(6), 1, 2, 1, 1);
+       // m_pShortGLayout->addWidget(ShortButtonWidgetList.at(6), 1, 2, 1, 1);
     }
     if (true && true) {
-        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(7), 1, 3, 1, 1);
+       m_pScrollingArea->addWidget(m_pScrollingAreaWidget);
     }
-    if (true&&true) {
-        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(8), 2, 0, 1, 1);
-    }
+//    if (true&&true) {
+//        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(8), 2, 0, 1, 1);
+//    }
     return;
 }
 
@@ -212,15 +223,18 @@ void shortcutPanelPlugin::setWidget()
     m_pButtonHLaout->addItem(new QSpacerItem(20, 173));
     m_pButtonHLaout->addWidget(m_pSpreadButton);
     m_pButtonHLaout->addWidget(m_pfoldButton);
+    m_pShortGLayout->addLayout(m_pShortAssembly);
+    m_pShortGLayout->addLayout(m_pScrollingArea);
+
     m_pButtonWidget->setLayout(m_pButtonHLaout);
     m_pSpreadButton->setVisible(false);
 
-    m_pShortWidget->setLayout(m_pShortGLayout);
 
+
+    m_pShortWidget->setLayout(m_pShortGLayout);
     m_pMainVLayout->addWidget(m_pButtonWidget);
     m_pMainVLayout->addWidget(m_PAccountInfoWidget);
     m_pMainVLayout->addWidget(m_pShortWidget);
-    m_pMainVLayout->addWidget(m_pScrollingAreaWidget);
     m_pMainVLayout->addWidget(m_pWeatherWidget);
     m_pMainWidget->setLayout(m_pMainVLayout);
     return;

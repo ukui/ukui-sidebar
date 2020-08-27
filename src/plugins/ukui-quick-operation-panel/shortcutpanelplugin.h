@@ -96,9 +96,12 @@ public slots:
     void spreadClikedSlots();
     void foldClikedSlots();
 private:
+    QHBoxLayout  *m_pShortGLayout   = nullptr;
+    QGridLayout  *m_pShortAssembly   = nullptr;
+    QHBoxLayout  *m_pScrollingArea   = nullptr;
     QVBoxLayout  *m_pMainVLayout    = nullptr;
     QHBoxLayout  *m_pButtonHLaout   = nullptr;
-    QGridLayout  *m_pShortGLayout   = nullptr;
+
     MainWidget   *m_pMainWidget     = nullptr;
     QWidget      *m_pButtonWidget   = nullptr;
     QWidget      *m_pShortWidget    = nullptr;
