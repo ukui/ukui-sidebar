@@ -25,6 +25,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QtDBus>
+#include <QStyleOption>
 #include "switchbutton.h"
 #include "swichButtonOpenStatus.h"
 #include "customstyle_switchNormalStatus.h"
@@ -49,6 +50,8 @@ public:
     ~bluetoothWidget();
     void initMemberVariables();
     void initLayout();
+
+    QColor getSystemPaleteColor();
 
     bool initBluetoothDbus();
     void initBluetoothStatus();

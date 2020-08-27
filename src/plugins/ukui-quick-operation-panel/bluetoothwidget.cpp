@@ -100,12 +100,28 @@ void bluetoothWidget::initBluetoothStatus()
 /* 根据按钮状态设置背景色 */
 void bluetoothWidget::setBluetoothStatus()
 {
+    QPalette palette;
+    QColor color = getSystemPaleteColor();
     if (m_bbluetoothStatus) {
         m_pbluetoothButton->setStyle(m_pStyleOpen);
     } else {
         m_pbluetoothButton->setStyle(m_pStyleNormal);
     }
+    palette.setBrush(QPalette::WindowText, color);
+    m_pbluetoothLabel->setPalette(palette);
+    this->update();
     return;
+}
+
+QColor bluetoothWidget::getSystemPaleteColor()
+{
+    QStyleOption opt;
+    opt.init(m_pbluetoothLabel);
+    if (m_bbluetoothStatus) {
+        return opt.palette.color(QPalette::Highlight);
+    } else {
+        return opt.palette.color(QPalette::Text);
+    }
 }
 
 /* 监听dbus信号，当蓝牙状态改变时，将会触发此信号 */
