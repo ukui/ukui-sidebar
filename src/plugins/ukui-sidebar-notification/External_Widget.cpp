@@ -19,7 +19,7 @@ void external_widget::paintEvent(QPaintEvent *e)
 
     p.setOpacity(0.7);
     p.setPen(Qt::NoPen);
-    p.drawRoundedRect(rect,0,0);
+    p.drawRoundedRect(rect,24,24);
 
     QWidget::paintEvent(e);
 

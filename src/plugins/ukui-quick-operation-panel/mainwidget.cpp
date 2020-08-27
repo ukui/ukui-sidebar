@@ -26,8 +26,7 @@ MainWidget::MainWidget()
 void MainWidget::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e);
-    QStyleOption opt;
-    opt.init(this);
+    QRect rect = this->rect();
     QPainter p(this);
     /* 获取当前剪贴板中字体的颜色，作为背景色；
      * 白字体 --> 黑背景
@@ -39,7 +38,6 @@ void MainWidget::paintEvent(QPaintEvent *e)
     p.setPen(Qt::NoPen);
 
     p.setRenderHint(QPainter::Antialiasing);                        //反锯齿
-    p.drawRoundedRect(opt.rect, 6, 6);
-    p.drawRect(opt.rect);
-    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+    p.drawRoundedRect(rect, 24, 24);
+
 }

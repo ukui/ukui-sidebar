@@ -4,29 +4,19 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/main.cpp" line="81"/>
+        <location filename="../src/main.cpp" line="78"/>
         <source>Display debug information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="177"/>
+        <location filename="../src/widget.cpp" line="140"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="180"/>
+        <location filename="../src/widget.cpp" line="143"/>
         <source>Set up notification center</source>
         <translation>设置通知中心</translation>
-    </message>
-    <message>
-        <location filename="../src/sidebarpluginswidgets.cpp" line="112"/>
-        <source>折叠</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/sidebarpluginswidgets.cpp" line="114"/>
-        <source>展开</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -36,7 +26,7 @@
         <translation type="vanished">剪贴板</translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="210"/>
+        <location filename="../src/widget.cpp" line="174"/>
         <source>Sidebar</source>
         <translation>侧边栏</translation>
     </message>
@@ -44,14 +34,12 @@
 <context>
     <name>sidebarPluginsWidgets</name>
     <message>
-        <location filename="../src/sidebarpluginswidgets.cpp" line="97"/>
         <source>Clipboard</source>
-        <translation>剪贴板</translation>
+        <translation type="vanished">剪贴板</translation>
     </message>
     <message>
-        <location filename="../src/sidebarpluginswidgets.cpp" line="104"/>
         <source>Plugins</source>
-        <translation>小插件</translation>
+        <translation type="vanished">小插件</translation>
     </message>
     <message>
         <source>Notebook</source>

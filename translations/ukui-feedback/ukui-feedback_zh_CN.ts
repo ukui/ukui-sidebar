@@ -2,6 +2,49 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN">
 <context>
+    <name>QWidgetTextControl</name>
+    <message>
+        <source>&amp;Undo</source>
+        <translatorcomment>撤消</translatorcomment>
+        <translation type="vanished">撤消</translation>
+    </message>
+    <message>
+        <source>&amp;Redo</source>
+        <translatorcomment>恢复</translatorcomment>
+        <translation type="vanished">恢复</translation>
+    </message>
+    <message>
+        <source>Cu&amp;t</source>
+        <translatorcomment>剪贴</translatorcomment>
+        <translation type="vanished">剪贴</translation>
+    </message>
+    <message>
+        <source>&amp;Copy</source>
+        <translatorcomment>复制</translatorcomment>
+        <translation type="vanished">复制</translation>
+    </message>
+    <message>
+        <source>Copy &amp;Link Location</source>
+        <translatorcomment>复制链接</translatorcomment>
+        <translation type="vanished">复制链接</translation>
+    </message>
+    <message>
+        <source>&amp;Paste</source>
+        <translatorcomment>粘贴</translatorcomment>
+        <translation type="vanished">粘贴</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translatorcomment>删除</translatorcomment>
+        <translation type="vanished">删除</translation>
+    </message>
+    <message>
+        <source>Select All</source>
+        <translatorcomment>全选</translatorcomment>
+        <translation type="vanished">全选</translation>
+    </message>
+</context>
+<context>
     <name>feedback</name>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="137"/>
@@ -163,20 +206,20 @@
         <translation>文件大小超过了10MB或文件格式不支持</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="606"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="613"/>
         <source>select file</source>
         <translatorcomment>选择附件</translatorcomment>
         <translation>选择附件</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1243"/>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1371"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1256"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1384"/>
         <source>submit</source>
         <translatorcomment>提交</translatorcomment>
         <translation>提交</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1313"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1326"/>
         <source>del</source>
         <translatorcomment>删除</translatorcomment>
         <translation>删除</translation>
@@ -280,57 +323,6 @@
         <source>exit</source>
         <translatorcomment>退出</translatorcomment>
         <translation type="vanished">退出</translation>
-    </message>
-</context>
-<context>
-    <name>QWidgetTextControl</name>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2264"/>
-        <source>&amp;Undo</source>
-        <translatorcomment>撤消</translatorcomment>
-        <translation>撤消</translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2268"/>
-        <source>&amp;Redo</source>
-        <translatorcomment>恢复</translatorcomment>
-        <translation>恢复</translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2275"/>
-        <source>Cu&amp;t</source>
-        <translatorcomment>剪贴</translatorcomment>
-        <translation>剪贴</translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2284"/>
-        <source>&amp;Copy</source>
-        <translatorcomment>复制</translatorcomment>
-        <translation>复制</translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2293"/>
-        <source>Copy &amp;Link Location</source>
-        <translatorcomment>复制链接</translatorcomment>
-        <translation>复制链接</translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2301"/>
-        <source>&amp;Paste</source>
-        <translatorcomment>粘贴</translatorcomment>
-        <translation>粘贴</translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2306"/>
-        <source>Delete</source>
-        <translatorcomment>删除</translatorcomment>
-        <translation>删除</translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2315"/>
-        <source>Select All</source>
-        <translatorcomment>全选</translatorcomment>
-        <translation>全选</translation>
     </message>
 </context>
 </TS>
