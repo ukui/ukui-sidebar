@@ -37,6 +37,7 @@ CleanPromptBox::CleanPromptBox()
     creatorButtonWidget();         // 创建QPushbutton
     creatorCleanPromptBoxWidget();
 
+
     this->setLayout(m_pHintWidgetVLaout);
     this->setWindowFlags(Qt::FramelessWindowHint);
     this->setAttribute(Qt::WA_TranslucentBackground);
@@ -46,11 +47,11 @@ CleanPromptBox::CleanPromptBox()
 void CleanPromptBox::initGsettingTransparency()
 {
     if (QGSettings::isSchemaInstalled(UKUI_TRANSPARENCY_SETTING)) {
-        qDebug() << "分配gsetting值";
+       // qDebug() << "分配gsetting值";
         m_pTransparency = new QGSettings(UKUI_TRANSPARENCY_SETTING);
         m_dTranSparency = m_pTransparency->get("transparency").toDouble();
         connect(m_pTransparency, &QGSettings::changed, this, [=](QString value) {
-            qDebug() << value;
+           // qDebug() << value;
             m_dTranSparency = m_pTransparency->get("transparency").toDouble();;
         });
     }
