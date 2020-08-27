@@ -133,6 +133,10 @@ void shortcutPanelPlugin::initShortButtonWidget()
     m_pNoteBookButtonWidget = new notebookButtonWidget();
     ShortButtonWidgetList.append(m_pNoteBookButtonWidget);
 
+    /* 勿扰模式 */
+    m_pDiturbModeWidget = new diturbModeWidget();
+    ShortButtonWidgetList.append(m_pDiturbModeWidget);
+
     qDebug() << "12312312312312312312312" << ShortButtonWidgetList.count();
     return;
 }
@@ -173,6 +177,9 @@ void shortcutPanelPlugin::initsetShortWidget()
     if (true&&true) {
         m_pShortGLayout->addWidget(ShortButtonWidgetList.at(10), 2, 2, 1, 1);
     }
+    if (true&&true) {
+        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(11), 2, 3, 1, 1);
+    }
     return;
 }
 
@@ -211,6 +218,9 @@ void shortcutPanelPlugin::resetShortWidget()
     }
     if (true&&true) {
         m_pShortGLayout->addWidget(ShortButtonWidgetList.at(10), 2, 2, 1, 1);
+    }
+    if (true&&true) {
+        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(11), 2, 3, 1, 1);
     }
     return;
 }

@@ -43,6 +43,7 @@
 #include "automaticrotationwidget.h"
 #include "alarmbuttoninterface.h"
 #include "notebookbuttonwidget.h"
+#include "diturbmodewidget.h"
 
 #define SPREAD_BUTTON_NORMAL       ":/image/open-normal.svg"
 #define SPREAD_BUTTON_HOVER        ":/image/open-hover.svg"
@@ -138,6 +139,7 @@ private:
     AutomaticRotationWidget *m_pAutomaticRotationWidget;
     alarmButtonInterface    *m_pAlarmButtonInterface;
     notebookButtonWidget    *m_pNoteBookButtonWidget;
+    diturbModeWidget        *m_pDiturbModeWidget;
 };
 
 #endif // SHORTCUTPANELPLUGIN_H

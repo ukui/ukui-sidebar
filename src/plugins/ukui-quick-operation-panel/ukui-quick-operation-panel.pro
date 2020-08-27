@@ -32,6 +32,7 @@ SOURCES += \
     alarmbuttoninterface.cpp \
     automaticrotationwidget.cpp \
     customstyle_switchNormalStatus.cpp \
+    diturbmodewidget.cpp \
     notebookbuttonwidget.cpp \
     scrollingareawidget.cpp \
     swichButtonOpenStatus.cpp \
@@ -54,6 +55,7 @@ HEADERS += \
     alarmbuttoninterface.h \
     automaticrotationwidget.h \
     customstyle_switchNormalStatus.h \
+    diturbmodewidget.h \
     notebookbuttonwidget.h \
     scrollingareawidget.h \
     swichButtonOpenStatus.h \
