@@ -41,6 +41,9 @@
 #include "scrollingareawidget.h"
 #include "weatherwidget.h"
 #include "automaticrotationwidget.h"
+#include "alarmbuttoninterface.h"
+#include "notebookbuttonwidget.h"
+
 #define SPREAD_BUTTON_NORMAL       ":/image/open-normal.svg"
 #define SPREAD_BUTTON_HOVER        ":/image/open-hover.svg"
 #define SPREAD_BUTTON_PRESS        ":/image/open-pressed.svg"
@@ -133,6 +136,8 @@ private:
     settingWidget           *m_psettingWidget;
     WifiWidget              *m_pWifiWidget;
     AutomaticRotationWidget *m_pAutomaticRotationWidget;
+    alarmButtonInterface    *m_pAlarmButtonInterface;
+    notebookButtonWidget    *m_pNoteBookButtonWidget;
 };
 
 #endif // SHORTCUTPANELPLUGIN_H

@@ -93,7 +93,6 @@ void bluetoothWidget::initBluetoothStatus()
 {
     QDBusMessage msg = m_pServiceInterface->call("GetBluetoothStatus");
     m_bbluetoothStatus = msg.arguments().at(0).toBool();
-    qDebug() << "第一次初始化状态" << m_bbluetoothStatus;
     setBluetoothStatus();
 }
 
@@ -127,7 +126,6 @@ QColor bluetoothWidget::getSystemPaleteColor()
 /* 监听dbus信号，当蓝牙状态改变时，将会触发此信号 */
 void bluetoothWidget::BluetoothStatusChangedSlots(bool status)
 {
-    qDebug() << "当前蓝牙状态已改变";
     m_bbluetoothStatus = status;
     setBluetoothStatus();
     return;

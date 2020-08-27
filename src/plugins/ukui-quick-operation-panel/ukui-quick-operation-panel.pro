@@ -29,8 +29,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     accountinformation.cpp \
+    alarmbuttoninterface.cpp \
     automaticrotationwidget.cpp \
     customstyle_switchNormalStatus.cpp \
+    notebookbuttonwidget.cpp \
     scrollingareawidget.cpp \
     swichButtonOpenStatus.cpp \
     bluetoothwidget.cpp \
@@ -45,12 +47,14 @@ SOURCES += \
     shortcutpanelplugin.cpp \
     switchbutton.cpp \
     weatherwidget.cpp \
-    wifiwidget.cpp
+    wifiwidget.cpp \
 
 HEADERS += \
     accountinformation.h \
+    alarmbuttoninterface.h \
     automaticrotationwidget.h \
     customstyle_switchNormalStatus.h \
+    notebookbuttonwidget.h \
     scrollingareawidget.h \
     swichButtonOpenStatus.h \
     bluetoothwidget.h \
@@ -66,7 +70,7 @@ HEADERS += \
     shortcutpanelplugin.h \
     switchbutton.h \
     weatherwidget.h \
-    wifiwidget.h
+    wifiwidget.h \
 
 INCLUDEPATH    += ../../plugin-interface
 

@@ -125,6 +125,14 @@ void shortcutPanelPlugin::initShortButtonWidget()
     m_pAutomaticRotationWidget = new AutomaticRotationWidget();
     ShortButtonWidgetList.append(m_pAutomaticRotationWidget);
 
+    /* 闹钟 */
+    m_pAlarmButtonInterface = new alarmButtonInterface();
+    ShortButtonWidgetList.append(m_pAlarmButtonInterface);
+
+    /* 便签本 */
+    m_pNoteBookButtonWidget = new notebookButtonWidget();
+    ShortButtonWidgetList.append(m_pNoteBookButtonWidget);
+
     qDebug() << "12312312312312312312312" << ShortButtonWidgetList.count();
     return;
 }
@@ -159,6 +167,12 @@ void shortcutPanelPlugin::initsetShortWidget()
     if (true&&true) {
         m_pShortGLayout->addWidget(ShortButtonWidgetList.at(8), 2, 0, 1, 1);
     }
+    if (true&&true) {
+        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(9), 2, 1, 1, 1);
+    }
+    if (true&&true) {
+        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(10), 2, 2, 1, 1);
+    }
     return;
 }
 
@@ -191,6 +205,12 @@ void shortcutPanelPlugin::resetShortWidget()
     }
     if (true&&true) {
         m_pShortGLayout->addWidget(ShortButtonWidgetList.at(8), 2, 0, 1, 1);
+    }
+    if (true&&true) {
+        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(9), 2, 1, 1, 1);
+    }
+    if (true&&true) {
+        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(10), 2, 2, 1, 1);
     }
     return;
 }
