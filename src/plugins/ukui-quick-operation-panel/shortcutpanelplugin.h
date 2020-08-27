@@ -29,6 +29,7 @@
 #include "mainwidget.h"
 #include "pushbutton.h"
 #include "data.h"
+#include "bluetoothwidgetModify.h"
 #include "bluetoothwidget.h"
 #include "calculatorwidget.h"
 #include "hotspotwidget.h"
@@ -41,6 +42,8 @@
 #include "scrollingareawidget.h"
 #include "weatherwidget.h"
 #include "automaticrotationwidget.h"
+
+
 #define SPREAD_BUTTON_NORMAL       ":/image/open-normal.svg"
 #define SPREAD_BUTTON_HOVER        ":/image/open-hover.svg"
 #define SPREAD_BUTTON_PRESS        ":/image/open-pressed.svg"
@@ -124,7 +127,10 @@ private:
     ScrollingAreaWidget   *m_pScrollingAreaWidget;
 
     /* 显示天气界面 */
-    weatherWidget         *m_pWeatherWidget;
+    weatherWidget          *m_pWeatherWidget;
+
+    /* 蓝牙界面 */
+    ModifybluetoothWidget  *m_pBluetoothWidgetModify;
 
     /* 8个按钮 快捷界面 */
     bluetoothWidget         *m_pbluetoothWidget;

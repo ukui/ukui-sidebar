@@ -78,6 +78,10 @@ void shortcutPanelPlugin::initMemberVariables()
     m_pWeatherWidget = new weatherWidget();
     m_pWeatherWidget->setFixedSize(392, 20);
 
+    /* 蓝牙界面 */
+    m_pBluetoothWidgetModify = new ModifybluetoothWidget();
+    m_pBluetoothWidgetModify->setFixedSize(148, 56);
+
     m_SpreadButtonIconList << SPREAD_BUTTON_NORMAL << SPREAD_BUTTON_HOVER << SPREAD_BUTTON_PRESS;
     m_FoldButtonIconList   << FOLD_BUTTON_NORMAL   << FOLD_BUTTON_HOVER   << FOLD_BUTTON_PRESS;
 
@@ -234,6 +238,7 @@ void shortcutPanelPlugin::setWidget()
     m_pShortWidget->setLayout(m_pShortGLayout);
     m_pMainVLayout->addWidget(m_pButtonWidget);
     m_pMainVLayout->addWidget(m_PAccountInfoWidget);
+    m_pMainVLayout->addWidget(m_pBluetoothWidgetModify);
     m_pMainVLayout->addWidget(m_pShortWidget);
     m_pMainVLayout->addWidget(m_pWeatherWidget);
     m_pMainWidget->setLayout(m_pMainVLayout);

@@ -45,7 +45,8 @@ SOURCES += \
     shortcutpanelplugin.cpp \
     switchbutton.cpp \
     weatherwidget.cpp \
-    wifiwidget.cpp
+    wifiwidget.cpp  \
+    bluetoothwidgetModify.cpp
 
 HEADERS += \
     accountinformation.h \
@@ -66,7 +67,8 @@ HEADERS += \
     shortcutpanelplugin.h \
     switchbutton.h \
     weatherwidget.h \
-    wifiwidget.h
+    wifiwidget.h \
+    bluetoothwidgetModify.h
 
 INCLUDEPATH    += ../../plugin-interface
 
