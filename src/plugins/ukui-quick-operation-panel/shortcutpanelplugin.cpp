@@ -360,7 +360,7 @@ void shortcutPanelPlugin::spreadClikedSlots()
     setGridLayoutWidgetShow();
     m_pScrollingAreaWidget->setVisible(true);
     m_pWeatherWidget->setVisible(true);
-    m_pShortWidget->setFixedHeight(266);
+    m_pShortWidget->setFixedHeight(297);
     m_pMainWidget->setFixedSize(392, 486);
     m_pLinelabel_2->setVisible(true);
     m_pLinelabel_3->setVisible(true);
@@ -371,7 +371,6 @@ void shortcutPanelPlugin::spreadClikedSlots()
 /* 折叠按钮槽函数 */
 void shortcutPanelPlugin::foldClikedSlots()
 {
-
     qDebug() << m_pMainWidget->size();
     m_pSpreadButton->setVisible(true);
     m_pfoldButton->setVisible(false);

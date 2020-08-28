@@ -52,7 +52,6 @@ void padWidget::initMemberVariables()
     m_pStyleOpen = new CustomStyle_SwitchOpenStatus("ukui-default");
 
     m_pPadLabel = new QLabel(QObject::tr("平板模式"));
-//    m_pPadLabel->setFixedSize(80, 16);
     m_pPadLabel->setAlignment(Qt::AlignHCenter);
 
     m_pVboxLayout = new QVBoxLayout();
@@ -96,7 +95,28 @@ void padWidget::setPadButtonStatus()
         m_pPadButton->setStyle(m_pStyleNormal);
         m_pWidgetButton->update();
     }
+    setLabelTextColor();
     return;
+}
+
+QColor padWidget::getSystemPaleteColor()
+{
+    QStyleOption opt;
+    opt.init(m_pPadLabel);
+    if (m_bModelStatus) {
+        return opt.palette.color(QPalette::Highlight);
+    } else {
+        return opt.palette.color(QPalette::Text);
+    }
+}
+
+void padWidget::setLabelTextColor()
+{
+    QPalette palette;
+    QColor color = getSystemPaleteColor();
+    palette.setBrush(QPalette::WindowText, color);
+    m_pPadLabel->setPalette(palette);
+    this->update();
 }
 
 void padWidget::PadButtonClickSlots()
@@ -112,5 +132,6 @@ void padWidget::PadButtonClickSlots()
         m_pWidgetButton->update();
         m_bModelStatus = false;
     }
+    setLabelTextColor();
     m_pTabletModeGsetting->set(KYLIN_PAD_MODLE, m_bModelStatus);
 }

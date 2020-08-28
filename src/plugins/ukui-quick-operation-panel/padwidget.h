@@ -25,6 +25,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QDebug>
+#include <QStyleOption>
 #include "swichButtonOpenStatus.h"
 #include "customstyle_switchNormalStatus.h"
 #include "switchbutton.h"
@@ -46,11 +47,12 @@ class padWidget : public QWidget
 public:
     explicit padWidget(QWidget *parent = nullptr);
     ~padWidget();
-    void initMemberVariables();
-    void initGsettingValue();
-    void initLayout();
-    void setPadButtonStatus();
-
+    void   initMemberVariables();
+    void   initGsettingValue();
+    void   initLayout();
+    void   setPadButtonStatus();
+    QColor getSystemPaleteColor();
+    void   setLabelTextColor();
 private:
     QWidget       *m_pWidgetButton;
     switchButton  *m_pPadButton;
