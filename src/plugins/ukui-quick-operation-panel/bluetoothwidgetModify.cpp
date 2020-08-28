@@ -61,6 +61,7 @@ void ModifybluetoothWidget::initMemberVariables()
 /* 初始化布局 */
 void ModifybluetoothWidget::initLayout()
 {
+    m_pHboxButtonLayout->addItem(new QSpacerItem(12, 4));
     m_pHboxButtonLayout->addWidget(m_pbluetoothIconLabel);
     m_pHboxButtonLayout->addItem(new QSpacerItem(8, 4));
     m_pHboxButtonLayout->addWidget(m_pbluetoothNameLabel);

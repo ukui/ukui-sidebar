@@ -34,28 +34,32 @@ void WifiWidget::initMemberVariables()
 {
     m_IconPathList << KYLIN_WIFI_NORMAL_PATH << KYLIN_WIFI_HOVER_PATH << KYLIN_WIFI_PRESS_PATH;
     m_IconNameList << KYLIN_WIFI_NORMAL_NAME << KYLIN_WIFI_HOVER_NAME << KYLIN_WIFI_PRESS_NAME;
-    m_pWidgetButton         = new QWidget();
-    m_pWidgetButton->setFixedSize(56, 56);
-    m_pWidgetButton->setContentsMargins(0, 0, 0, 0);
-    m_pVboxButtonLayout     = new QVBoxLayout();
-    m_pVboxButtonLayout->setContentsMargins(0, 0, 0, 0);
 
-    m_pWifiButton = new switchButton(m_IconPathList, m_IconNameList);
-    connect(m_pWifiButton, &switchButton::clicked, this, &WifiWidget::WifiButtonClickSlot);
-    m_pWifiButton->setFixedSize(56, 56);
-    m_pWifiButton->setIconSize(QSize(32, 32));
 
-    m_pWifiLabel = new QLabel(QObject::tr("Wifi"));
-    m_pWifiLabel->setAlignment(Qt::AlignHCenter);
 
-    m_pVboxLayout = new QVBoxLayout();
-    m_pVboxLayout->setContentsMargins(0, 0, 0, 0);
-    m_pVboxLayout->setSpacing(0);
 
-    m_pStyleOpen   = new CustomStyle_SwitchOpenStatus("ukui-default");
-    m_pStyleNormal = new customstyle_switchNormalStatus("ukui-default");
+    m_pWifiIconLabel = new QLabel();
+    m_pWifiIconLabel->setFixedSize(24, 24);
+    m_pWifiIconLabel->setPixmap((QIcon::fromTheme( m_IconNameList.at(0), QIcon(m_IconPathList.at(0)))).pixmap(m_pWifiIconLabel->size()));
 
-    this->setFixedSize(60, 78);
+    m_pWifihNameLabel = new QLabel();
+    m_pWifihNameLabel->setText("kylin");
+    m_pWifihNameLabel->setFixedHeight(18);
+
+
+    m_pWifiButton    = new QPushButton();
+    //connect(m_pWifiButton, &QPushButton::clicked, this, &WifiWidget::setButtonclickSlots);
+    m_pWifiButton->setFixedSize(32, 32);
+    m_pWifiButton->setIconSize(QSize(16, 16));
+    QMatrix matrix;
+    matrix.rotate(45);
+   // m_pWifiButton->setIcon(QIcon(m_IconPathList.at(3)));
+
+    m_pHboxButtonLayout   = new QHBoxLayout();
+    m_pHboxButtonLayout->setContentsMargins(0, 0, 0, 0);
+    m_pHboxButtonLayout->setSpacing(0);
+
+    this->setFixedSize(148, 56);
     this->setContentsMargins(0, 0, 0, 0);
     return;
 }
@@ -63,13 +67,15 @@ void WifiWidget::initMemberVariables()
 /* 初始化布局 */
 void WifiWidget::initLayout()
 {
-    m_pVboxButtonLayout->addWidget(m_pWifiButton, 0, Qt::AlignCenter);
-    m_pWidgetButton->setLayout(m_pVboxButtonLayout);
-    m_pVboxLayout->addWidget(m_pWidgetButton, 0, Qt::AlignCenter);
-    m_pVboxLayout->setSpacing(4);
-    m_pVboxLayout->addWidget(m_pWifiLabel, 0, Qt::AlignCenter);
-    this->setLayout(m_pVboxLayout);
-    return;
+        m_pHboxButtonLayout->addItem(new QSpacerItem(12, 4));
+        m_pHboxButtonLayout->addWidget(m_pWifiIconLabel);
+        m_pHboxButtonLayout->addItem(new QSpacerItem(8, 4));
+        m_pHboxButtonLayout->addWidget(m_pWifihNameLabel);
+        m_pHboxButtonLayout->addItem(new QSpacerItem(18, 4));
+        m_pHboxButtonLayout->addWidget(m_pWifiButton);
+        m_pHboxButtonLayout->addItem(new QSpacerItem(4, 1));
+        this->setLayout(m_pHboxButtonLayout);
+        return;
 }
 
 /* 初始化控件状态 */
@@ -79,16 +85,13 @@ void WifiWidget::initStatus()
     if (getwifiisEnable()) {
         m_bWifiIsEnable = getInitStatus();
         if (m_bWifiIsEnable) {
-            qDebug() << "当前Wifi可用且已打开";
-            OpenStatus();
+
             return;
         } else {
             qDebug() << "当前Wifi可用未打开";
-            NormalStatus();
             return;
         }
     } else {
-        NormalStatus();
         qDebug() << "当前Wifi不可用";
         return;
     }
@@ -210,6 +213,94 @@ void WifiWidget::setwifiSwitch(bool signal)
     qDebug() << "当前Signal -->" << signal;
 }
 
+void WifiWidget::paintEvent(QPaintEvent *event)
+{
+    QStyleOption opt;
+    opt.init(this);
+    QPainter p(this);
+    switch (status) {
+      case NORMAL: {
+            if (m_bWifiInitStatus && m_bWifiIsEnable) {
+              QColor color(61,107,229);
+              p.setBrush(QBrush(color));
+            } else {
+              QColor color(246, 246, 246);
+              p.setBrush(QBrush(color));
+            }
+            p.setOpacity(1);
+            p.setPen(Qt::NoPen);
+            break;
+      }
+      case HOVER: {
+            if (m_bWifiInitStatus && m_bWifiIsEnable) {
+              QColor color(107,142,235);
+              p.setBrush(QBrush(color));
+            } else {
+              QColor color(246, 246, 246);
+              p.setBrush(QBrush(color));
+            }
+            p.setOpacity(1);
+            p.setPen(Qt::NoPen);
+            break;
+      }
+      case PRESS: {
+            if (m_bWifiInitStatus && m_bWifiIsEnable) {
+              QColor color(50,87,202);
+              p.setBrush(QBrush(color));
+            } else {
+              QColor color(246, 246, 246);
+              p.setBrush(QBrush(color));
+            }
+            p.setOpacity(1);
+            p.setPen(Qt::NoPen);
+            break;
+      }
+    }
+    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+    p.drawRoundedRect(opt.rect,28,28);
+    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+    this->update();
+    QWidget::paintEvent(event);
+}
+
+/* 进入事件 */
+void WifiWidget::enterEvent(QEvent *event)
+{
+    if(event == nullptr) {
+        return;
+    }
+
+    status=HOVER;
+    m_pWifiIconLabel->setPixmap((QIcon::fromTheme(m_IconNameList.at(1), QIcon(m_IconPathList.at(1)))).pixmap(m_pWifiIconLabel->size()));
+}
+
+void WifiWidget::leaveEvent(QEvent *event)
+{
+    if(event == nullptr) {
+        return;
+    }
+
+    status=NORMAL;
+    m_pWifiIconLabel->setPixmap((QIcon::fromTheme( m_IconNameList.at(0), QIcon(m_IconPathList.at(0)))).pixmap(m_pWifiIconLabel->size()));
+}
+
+void WifiWidget::mousePressEvent(QMouseEvent *event)
+{
+    if(event == nullptr) {
+        return;
+    }
+    status=PRESS;
+    WifiButtonClickSlot();
+   m_pWifiIconLabel->setPixmap((QIcon::fromTheme( m_IconNameList.at(2), QIcon(m_IconPathList.at(2)))).pixmap(m_pWifiIconLabel->size()));
+    QWidget::mousePressEvent(event);
+}
+
+void WifiWidget::mouseReleaseEvent(QMouseEvent *event)
+{
+//    bluetoothButtonClickSlots();
+//    QWidget::mouseReleaseEvent(event);
+}
+
 /* wifi按钮槽函数 */
 void WifiWidget::WifiButtonClickSlot()
 {
@@ -226,10 +317,8 @@ void WifiWidget::WifiButtonClickSlot()
         return;
     }
     if (m_bWifiIsEnable) {
-        NormalStatus();
         m_bWifiIsEnable = false;
     } else {
-        OpenStatus();
         m_bWifiIsEnable = true;
     }
     setwifiSwitch(m_bWifiIsEnable);

@@ -31,6 +31,8 @@
 #include "switchbutton.h"
 #include "swichButtonOpenStatus.h"
 #include "customstyle_switchNormalStatus.h"
+#include <QPainter>
+#include <QStyleOption>
 
 #define CONTROL_CENTER_WIFI "org.ukui.control-center.wifi.switch"
 
@@ -60,12 +62,19 @@ public:
     void initComponent();
     bool getSwitchStatus(QString key);
 
+
     void setwifiSwitch(bool signal);
+
+    enum TaskWidgetStatus{NORMAL, HOVER, PRESS};
+    TaskWidgetStatus status = NORMAL;
 
 private:
     QWidget      *m_pWidgetButton;
-    switchButton *m_pWifiButton;
+    QPushButton *m_pWifiButton;
     QLabel       *m_pWifiLabel;
+    QLabel       *m_pWifiIconLabel;
+    QLabel       *m_pWifihNameLabel;
+    QHBoxLayout     *m_pHboxButtonLayout;
 
     QStyle       *m_pStyleOpen;
     QStyle       *m_pStyleNormal;
@@ -80,6 +89,12 @@ private:
 
     bool          m_bWifiIsEnable;
     bool          m_bWifiInitStatus;
+
+    void paintEvent(QPaintEvent *event);
+    void enterEvent(QEvent *event);
+    void leaveEvent(QEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
 private slots:
     void          WifiButtonClickSlot();
 };
