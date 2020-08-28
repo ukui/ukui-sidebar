@@ -31,8 +31,8 @@ private:
 
 private:
     QWidget         *m_pButtonWidget;
-    switchButton    *m_pDiturbModeButton;
-    QLabel          *m_pDiturbModeLabel;
+    switchButton    *m_pVPNButton;
+    QLabel          *m_pVPNLabel;
 
     QVBoxLayout     *m_pVboxButtonLayout;
     QVBoxLayout     *m_pVboxLayout;

@@ -13,14 +13,14 @@ void diturbModeWidget::initMemberVariables()
     m_pButtonWidget = new QWidget();
     m_pButtonWidget->setFixedSize(56, 56);
 
-    m_pDiturbModeButton = new switchButton(m_IconPathList, m_IconNameList);
+    m_pVPNButton = new switchButton(m_IconPathList, m_IconNameList);
 //    connect(m_pDiturbModeButton, &switchButton::clicked, this, &alarmButtonInterface::AlarmButtonClickSlots);
-    m_pDiturbModeButton->setFixedSize(56, 56);
-    m_pDiturbModeButton->setIconSize(QSize(32, 32));
+    m_pVPNButton->setFixedSize(56, 56);
+    m_pVPNButton->setIconSize(QSize(32, 32));
 
-    m_pDiturbModeLabel  = new QLabel();
-    m_pDiturbModeLabel->setText(QObject::tr("Disturb"));
-    m_pDiturbModeLabel->setAlignment(Qt::AlignHCenter);
+    m_pVPNLabel  = new QLabel();
+    m_pVPNLabel->setText(QObject::tr("VPN"));
+    m_pVPNLabel->setAlignment(Qt::AlignHCenter);
 
     m_pVboxButtonLayout = new QVBoxLayout();
     m_pVboxButtonLayout->setContentsMargins(0, 0, 0, 0);
@@ -31,7 +31,7 @@ void diturbModeWidget::initMemberVariables()
     m_pVboxLayout->setSpacing(0);
 
     m_pStyleNormal = new customstyle_switchNormalStatus("ukui-default");
-    m_pDiturbModeButton->setStyle(m_pStyleNormal);
+    m_pVPNButton->setStyle(m_pStyleNormal);
 
     this->setFixedSize(60, 78);
     this->setContentsMargins(0, 0, 0, 0);
@@ -39,11 +39,11 @@ void diturbModeWidget::initMemberVariables()
 
 void diturbModeWidget::initLayout()
 {
-    m_pVboxButtonLayout->addWidget(m_pDiturbModeButton);
+    m_pVboxButtonLayout->addWidget(m_pVPNButton);
     m_pButtonWidget->setLayout(m_pVboxButtonLayout);
 
     m_pVboxLayout->addWidget(m_pButtonWidget, 0, Qt::AlignCenter);
     m_pVboxLayout->addItem(new QSpacerItem(5, 4));
-    m_pVboxLayout->addWidget(m_pDiturbModeLabel);
+    m_pVboxLayout->addWidget(m_pVPNLabel);
     this->setLayout(m_pVboxLayout);
 }

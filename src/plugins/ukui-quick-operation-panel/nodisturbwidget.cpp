@@ -47,7 +47,6 @@ void nodisturbWidget::initMemberVariables()
     m_pnodisturbButton->setStyle(m_pStyleNormal);
 
     m_pnodisturbLabel = new QLabel(QObject::tr("免打扰"));
-//    m_pnodisturbLabel->setFixedSize(80, 16);
     m_pnodisturbLabel->setAlignment(Qt::AlignHCenter);
 
     m_pVboxLayout = new QVBoxLayout();
