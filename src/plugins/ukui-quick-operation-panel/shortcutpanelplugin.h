@@ -43,7 +43,7 @@
 #include "automaticrotationwidget.h"
 #include "alarmbuttoninterface.h"
 #include "notebookbuttonwidget.h"
-#include "diturbmodewidget.h"
+#include "VPNButtonwidget.h"
 
 #define SPREAD_BUTTON_NORMAL       ":/image/open-normal.svg"
 #define SPREAD_BUTTON_HOVER        ":/image/open-hover.svg"
@@ -96,6 +96,9 @@ public:
     void removeInterfaceMark(QString key);
     void insertInterfaceMark(QString key, InterfaceEnum value);
 
+    void setGridLayoutWidgetHide();
+    void setGridLayoutWidgetShow();
+
 public slots:
     void spreadClikedSlots();
     void foldClikedSlots();
@@ -109,10 +112,16 @@ private:
     PushButton   *m_pSpreadButton   = nullptr;
     PushButton   *m_pfoldButton     = nullptr;
 
+    QLabel       *m_pLinelabel_1;
+    QLabel       *m_pLinelabel_2;
+    QLabel       *m_pLinelabel_3;
+
     QStringList   m_SpreadButtonIconList;
     QStringList   m_FoldButtonIconList;
     QStringList   m_SpreadButtonIconNameList;
     QStringList   m_FoldButtonIconNameList;
+
+
 
     MyClass data[8];
     QList<QWidget*> ShortButtonWidgetList;

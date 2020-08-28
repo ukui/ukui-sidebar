@@ -39,7 +39,7 @@ void shortcutPanelPlugin::initMemberVariables()
     m_pButtonHLaout->setSpacing(0);
 
     m_pShortGLayout  = new QGridLayout;
-    m_pShortGLayout->setContentsMargins(18, 0, 18, 0);
+    m_pShortGLayout->setContentsMargins(32, 16, 18, 31);
     m_pShortGLayout->setHorizontalSpacing(35);
     m_pShortGLayout->setVerticalSpacing(16);
 
@@ -56,16 +56,16 @@ void shortcutPanelPlugin::initMemberVariables()
 
     /* 快捷操作面板界面 */
     m_pShortWidget   = new QWidget;
-    m_pShortWidget->setFixedSize(380, 266);
+    m_pShortWidget->setFixedWidth(380);
     m_pShortWidget->setContentsMargins(0, 0, 0, 0);
 
     /* 调整音量与屏幕亮度界面 */
     m_pScrollingAreaWidget = new ScrollingAreaWidget();
-    m_pScrollingAreaWidget->setFixedSize(392, 30);
+    m_pScrollingAreaWidget->setFixedSize(392, 56);
 
     /* 显示天气界面 */
     m_pWeatherWidget = new weatherWidget();
-    m_pWeatherWidget->setFixedSize(392, 20);
+    m_pWeatherWidget->setFixedSize(392, 50);
 
     m_SpreadButtonIconList << SPREAD_BUTTON_NORMAL << SPREAD_BUTTON_HOVER << SPREAD_BUTTON_PRESS;
     m_FoldButtonIconList   << FOLD_BUTTON_NORMAL   << FOLD_BUTTON_HOVER   << FOLD_BUTTON_PRESS;
@@ -136,8 +136,6 @@ void shortcutPanelPlugin::initShortButtonWidget()
     /* 勿扰模式 */
     m_pDiturbModeWidget = new diturbModeWidget();
     ShortButtonWidgetList.append(m_pDiturbModeWidget);
-
-    qDebug() << "12312312312312312312312" << ShortButtonWidgetList.count();
     return;
 }
 
@@ -248,10 +246,30 @@ void shortcutPanelPlugin::setWidget()
     m_pShortWidget->setLayout(m_pShortGLayout);
 
     m_pMainVLayout->addWidget(m_pButtonWidget);
+    m_pMainVLayout->addItem(new QSpacerItem(10, 10, QSizePolicy::Fixed));
     m_pMainVLayout->addWidget(m_PAccountInfoWidget);
+    m_pMainVLayout->addItem(new QSpacerItem(10, 10, QSizePolicy::Fixed));
+    m_pLinelabel_1 = new QLabel();
+    m_pLinelabel_1->setFixedSize(392, 1);
+    m_pLinelabel_1->setStyleSheet("QLabel{border: 1px solid rgba(246, 246, 246, 1)};");
+    m_pMainVLayout->addWidget(m_pLinelabel_1);
+
     m_pMainVLayout->addWidget(m_pShortWidget);
+
+    m_pLinelabel_2 = new QLabel();
+    m_pLinelabel_2->setFixedSize(392, 1);
+    m_pLinelabel_2->setStyleSheet("QLabel{border: 1px solid rgba(246, 246, 246, 1)};");
+    m_pMainVLayout->addWidget(m_pLinelabel_2);
+
     m_pMainVLayout->addWidget(m_pScrollingAreaWidget);
+
+    m_pLinelabel_3 = new QLabel();
+    m_pLinelabel_3->setFixedSize(392, 1);
+    m_pLinelabel_3->setStyleSheet("QLabel{border: 1px solid rgba(246, 246, 246, 1)};");
+    m_pMainVLayout->addWidget(m_pLinelabel_3);
+
     m_pMainVLayout->addWidget(m_pWeatherWidget);
+    m_pMainVLayout->setSpacing(0);
     m_pMainWidget->setLayout(m_pMainVLayout);
     return;
 }
@@ -306,24 +324,69 @@ void shortcutPanelPlugin::insertInterfaceMark(QString key, InterfaceEnum value)
     return;
 }
 
+void shortcutPanelPlugin::setGridLayoutWidgetHide()
+{
+    for (int i = 1; i < 3; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (m_pShortGLayout->itemAtPosition(i, j) == nullptr) {
+                return;
+            } else {
+                m_pShortGLayout->itemAtPosition(i, j)->widget()->setVisible(false);
+            }
+        }
+    }
+}
+
+void shortcutPanelPlugin::setGridLayoutWidgetShow()
+{
+    for (int i = 1; i < 3; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (m_pShortGLayout->itemAtPosition(i, j) == nullptr) {
+                return;
+            } else {
+                m_pShortGLayout->itemAtPosition(i, j)->widget()->setVisible(true);
+            }
+        }
+    }
+}
+
 /* 展开按钮槽函数 */
 void shortcutPanelPlugin::spreadClikedSlots()
 {
+
+    qDebug() << m_pMainWidget->size();
     m_pSpreadButton->setVisible(false);
     m_pfoldButton->setVisible(true);
-    int height = m_pMainWidget->height();
-    int width  = m_pMainWidget->width();
-    m_pMainWidget->setFixedSize(392, height*2 - 20);
+    setGridLayoutWidgetShow();
+    m_pScrollingAreaWidget->setVisible(true);
+    m_pWeatherWidget->setVisible(true);
+    m_pShortWidget->setFixedHeight(266);
+    m_pMainWidget->setFixedSize(392, 486);
+    m_pLinelabel_2->setVisible(true);
+    m_pLinelabel_3->setVisible(true);
+    m_pMainWidget->update();
     return;
 }
 
 /* 折叠按钮槽函数 */
 void shortcutPanelPlugin::foldClikedSlots()
 {
+
+    qDebug() << m_pMainWidget->size();
     m_pSpreadButton->setVisible(true);
     m_pfoldButton->setVisible(false);
     int height = m_pMainWidget->height();
     int width  = m_pMainWidget->width();
-    m_pMainWidget->setFixedSize(width, height/2 + 10);
+    setGridLayoutWidgetHide();
+    m_pShortWidget->setFixedHeight(102);
+    m_pMainWidget->setFixedSize(width, 184);
+    m_pScrollingAreaWidget->setVisible(false);
+    m_pWeatherWidget->setVisible(false);
+    m_pLinelabel_2->setVisible(false);
+    m_pLinelabel_3->setVisible(false);
+    qDebug() << "折叠界面大小--->" << m_pButtonWidget->size();
+    qDebug() << "账户信息大小--->" << m_PAccountInfoWidget->size();
+    qDebug() << "快捷操作界面大小--->" << m_pShortWidget->size();
+    m_pMainWidget->update();
     return;
 }

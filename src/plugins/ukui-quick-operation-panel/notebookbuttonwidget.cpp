@@ -33,7 +33,7 @@ void notebookButtonWidget::initMemberVariables()
     m_pStyleNormal = new customstyle_switchNormalStatus("ukui-default");
     m_pNoteButton->setStyle(m_pStyleNormal);
 
-    this->setFixedSize(60, 78);
+    this->setFixedSize(56, 78);
     this->setContentsMargins(0, 0, 0, 0);
 }
 

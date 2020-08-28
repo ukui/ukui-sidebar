@@ -35,7 +35,7 @@ void AutomaticRotationWidget::initMemberVariables()
     m_pVboxLayout->setContentsMargins(0, 0, 0, 0);
     m_pVboxLayout->setSpacing(0);
 
-    this->setFixedSize(60, 78);
+    this->setFixedSize(56, 78);
     this->setContentsMargins(0, 0, 0, 0);
 }
 

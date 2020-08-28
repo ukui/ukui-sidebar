@@ -1,4 +1,4 @@
-#include "diturbmodewidget.h"
+#include "VPNButtonwidget.h"
 
 diturbModeWidget::diturbModeWidget(QWidget *parent) : QWidget(parent)
 {
@@ -14,7 +14,7 @@ void diturbModeWidget::initMemberVariables()
     m_pButtonWidget->setFixedSize(56, 56);
 
     m_pVPNButton = new switchButton(m_IconPathList, m_IconNameList);
-//    connect(m_pDiturbModeButton, &switchButton::clicked, this, &alarmButtonInterface::AlarmButtonClickSlots);
+    connect(m_pVPNButton, &switchButton::clicked, this, &diturbModeWidget::VPNButtonClickSLots);
     m_pVPNButton->setFixedSize(56, 56);
     m_pVPNButton->setIconSize(QSize(32, 32));
 
@@ -33,7 +33,7 @@ void diturbModeWidget::initMemberVariables()
     m_pStyleNormal = new customstyle_switchNormalStatus("ukui-default");
     m_pVPNButton->setStyle(m_pStyleNormal);
 
-    this->setFixedSize(60, 78);
+    this->setFixedSize(56, 78);
     this->setContentsMargins(0, 0, 0, 0);
 }
 
@@ -46,4 +46,12 @@ void diturbModeWidget::initLayout()
     m_pVboxLayout->addItem(new QSpacerItem(5, 4));
     m_pVboxLayout->addWidget(m_pVPNLabel);
     this->setLayout(m_pVboxLayout);
+}
+
+void diturbModeWidget::VPNButtonClickSLots()
+{
+    QProcess p(0);
+    p.startDetached("ukui-control-center -v");
+    p.waitForStarted();
+    return;
 }

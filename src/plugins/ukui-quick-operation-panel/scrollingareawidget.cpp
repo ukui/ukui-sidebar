@@ -9,7 +9,7 @@ ScrollingAreaWidget::ScrollingAreaWidget(QWidget *parent) : QWidget(parent)
 void ScrollingAreaWidget::initMemberVariable()
 {
     m_pHMainLayout = new QHBoxLayout();
-    m_pHMainLayout->setContentsMargins(0, 0, 0, 0);
+    m_pHMainLayout->setContentsMargins(0, 16, 0, 16);
     m_pHMainLayout->setSpacing(0);
     this->setContentsMargins(0, 0, 0, 0);
 
@@ -41,12 +41,14 @@ void ScrollingAreaWidget::initLayout()
     m_pHVolumeLayout->addItem(new QSpacerItem(3, 1));
     m_pHVolumeLayout->addWidget(m_pVolumeSlide);
     m_pVolumeWidget->setLayout(m_pHVolumeLayout);
+    m_pVolumeWidget->setFixedHeight(24);
 
     m_pBrightIconLabel->setPixmap(QIcon::fromTheme("display-brightness-symbolic").pixmap(m_pBrightIconLabel->size()));
     m_pBrightLayout->addWidget(m_pBrightIconLabel);
     m_pBrightLayout->addItem(new QSpacerItem(3, 1));
     m_pBrightLayout->addWidget(m_pBrightSlide);
     m_pBrightNessWidget->setLayout(m_pBrightLayout);
+    m_pBrightNessWidget->setFixedHeight(24);
 
     m_pHMainLayout->addItem(new QSpacerItem(32, 10));
     m_pHMainLayout->addWidget(m_pVolumeWidget);

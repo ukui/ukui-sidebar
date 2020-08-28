@@ -25,7 +25,7 @@ void weatherWidget::initMemberVariables()
     m_pAreaLabel->setPalette(palette);
 
     m_pMainHLayout = new QHBoxLayout();
-    m_pMainHLayout->setContentsMargins(0, 0, 0, 0);
+    m_pMainHLayout->setContentsMargins(0, 15, 0, 17);
     m_pMainHLayout->setSpacing(0);
     this->setContentsMargins(0, 0, 0, 0);
     return;

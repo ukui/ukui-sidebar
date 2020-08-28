@@ -42,6 +42,9 @@ private:
     QStringList      m_IconPathList;
     QStringList      m_IconNameList;
 
+private slots:
+    void VPNButtonClickSLots();
+
 Q_SIGNALS:
 
 };
