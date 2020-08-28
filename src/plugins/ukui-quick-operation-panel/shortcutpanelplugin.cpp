@@ -353,8 +353,6 @@ void shortcutPanelPlugin::setGridLayoutWidgetShow()
 /* 展开按钮槽函数 */
 void shortcutPanelPlugin::spreadClikedSlots()
 {
-
-    qDebug() << m_pMainWidget->size();
     m_pSpreadButton->setVisible(false);
     m_pfoldButton->setVisible(true);
     setGridLayoutWidgetShow();
@@ -371,7 +369,6 @@ void shortcutPanelPlugin::spreadClikedSlots()
 /* 折叠按钮槽函数 */
 void shortcutPanelPlugin::foldClikedSlots()
 {
-    qDebug() << m_pMainWidget->size();
     m_pSpreadButton->setVisible(true);
     m_pfoldButton->setVisible(false);
     int height = m_pMainWidget->height();
