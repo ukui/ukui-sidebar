@@ -100,6 +100,7 @@ public slots:
     void foldClikedSlots();
 private:
     QHBoxLayout  *m_pShortGLayout   = nullptr;
+    QHBoxLayout  *m_pShortGtoplayout= nullptr;
     QGridLayout  *m_pShortAssembly   = nullptr;
     QHBoxLayout  *m_pScrollingArea   = nullptr;
     QVBoxLayout  *m_pMainVLayout    = nullptr;
@@ -108,6 +109,7 @@ private:
     MainWidget   *m_pMainWidget     = nullptr;
     QWidget      *m_pButtonWidget   = nullptr;
     QWidget      *m_pShortWidget    = nullptr;
+    QWidget      *m_pWIFIBluetooth    = nullptr;
     PushButton   *m_pSpreadButton   = nullptr;
     PushButton   *m_pfoldButton     = nullptr;
 

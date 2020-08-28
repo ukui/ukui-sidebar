@@ -38,7 +38,12 @@ void shortcutPanelPlugin::initMemberVariables()
     m_pButtonHLaout->setContentsMargins(0, 0, 0, 0);
     m_pButtonHLaout->setSpacing(0);
 
-    m_pShortGLayout = new QHBoxLayout;//快捷操作面板总布局
+    m_pShortGtoplayout = new QHBoxLayout;//快捷操作面板上半部分布局
+    m_pShortGtoplayout->setContentsMargins(0, 0, 0, 0);
+    m_pShortGtoplayout->setSpacing(0);
+
+
+    m_pShortGLayout = new QHBoxLayout;//快捷操作面板下半部分布局
     m_pShortGLayout->setContentsMargins(0, 0, 0, 0);
     m_pShortGLayout->setSpacing(0);
 
@@ -78,9 +83,9 @@ void shortcutPanelPlugin::initMemberVariables()
     m_pWeatherWidget = new weatherWidget();
     m_pWeatherWidget->setFixedSize(392, 20);
 
-    /* 蓝牙界面 */
-    m_pBluetoothWidgetModify = new ModifybluetoothWidget();
-    m_pBluetoothWidgetModify->setFixedSize(148, 56);
+    /* WIFI与蓝牙界面 */
+    m_pWIFIBluetooth = new QWidget;
+    m_pWIFIBluetooth->setFixedSize(380, 56);
 
     m_SpreadButtonIconList << SPREAD_BUTTON_NORMAL << SPREAD_BUTTON_HOVER << SPREAD_BUTTON_PRESS;
     m_FoldButtonIconList   << FOLD_BUTTON_NORMAL   << FOLD_BUTTON_HOVER   << FOLD_BUTTON_PRESS;
@@ -104,25 +109,23 @@ void shortcutPanelPlugin::initShortButtonWidget()
     /* 清空链表中的数据，初始化 */
     ShortButtonWidgetList.clear();
 
+    /* 免打扰 */
+    m_pnodisturbWidget = new nodisturbWidget();
+    ShortButtonWidgetList.append(m_pnodisturbWidget);
+
+    /* 自动旋转功能 */
+    m_pAutomaticRotationWidget = new AutomaticRotationWidget();
+    ShortButtonWidgetList.append(m_pAutomaticRotationWidget);
+
     /* 平板模式 */
     m_ppadWidget       = new padWidget();
     ShortButtonWidgetList.append(m_ppadWidget);
 
-    /* Wifi */
-    m_pWifiWidget = new WifiWidget();
-    ShortButtonWidgetList.append(m_pWifiWidget);
-
-    /* 免打扰 */
-    m_pnodisturbWidget = new nodisturbWidget();
-    ShortButtonWidgetList.append(m_pnodisturbWidget);
 
     /* 设置 */
     m_psettingWidget = new settingWidget();
     ShortButtonWidgetList.append(m_psettingWidget);
 
-    /* 蓝牙 */
-    m_pbluetoothWidget = new bluetoothWidget();
-    ShortButtonWidgetList.append(m_pbluetoothWidget);
 
     /* 热点 */
     m_photspotWidget = new hotspotWidget();
@@ -136,9 +139,15 @@ void shortcutPanelPlugin::initShortButtonWidget()
     m_pscreenshotWidget = new screenshotWidget();
     ShortButtonWidgetList.append(m_pscreenshotWidget);
 
-    /* 自动旋转功能 */
-    m_pAutomaticRotationWidget = new AutomaticRotationWidget();
-    ShortButtonWidgetList.append(m_pAutomaticRotationWidget);
+
+
+    /* Wifi */
+    m_pWifiWidget = new WifiWidget();
+    ShortButtonWidgetList.append(m_pWifiWidget);
+
+    /* 蓝牙 */
+    m_pBluetoothWidgetModify = new ModifybluetoothWidget();
+    ShortButtonWidgetList.append(m_pBluetoothWidgetModify);
 
     qDebug() << "12312312312312312312312" << ShortButtonWidgetList.count();
     return;
@@ -171,9 +180,14 @@ void shortcutPanelPlugin::initsetShortWidget()
     if (true && true) {
         m_pScrollingArea->addWidget(m_pScrollingAreaWidget);
     }
-//    if (true&&true) {
-//        m_pShortGLayoutL->addWidget(ShortButtonWidgetList.at(8), 2, 0, 1, 1);
-//    }
+    if (true&&true) {
+
+         m_pShortGtoplayout->addItem(new QSpacerItem(32, 10));
+         m_pShortGtoplayout->addWidget(ShortButtonWidgetList.at(7));
+         m_pShortGtoplayout->addItem(new QSpacerItem(32, 10));
+         m_pShortGtoplayout->addWidget(ShortButtonWidgetList.at(8));
+         m_pShortGtoplayout->addItem(new QSpacerItem(32, 10));
+    }
     return;
 }
 
@@ -233,12 +247,14 @@ void shortcutPanelPlugin::setWidget()
     m_pButtonWidget->setLayout(m_pButtonHLaout);
     m_pSpreadButton->setVisible(false);
 
+   // m_pShortGtoplayout
+    m_pWIFIBluetooth->setLayout(m_pShortGtoplayout);
 
 
     m_pShortWidget->setLayout(m_pShortGLayout);
     m_pMainVLayout->addWidget(m_pButtonWidget);
     m_pMainVLayout->addWidget(m_PAccountInfoWidget);
-    m_pMainVLayout->addWidget(m_pBluetoothWidgetModify);
+    m_pMainVLayout->addWidget(m_pWIFIBluetooth);
     m_pMainVLayout->addWidget(m_pShortWidget);
     m_pMainVLayout->addWidget(m_pWeatherWidget);
     m_pMainWidget->setLayout(m_pMainVLayout);
