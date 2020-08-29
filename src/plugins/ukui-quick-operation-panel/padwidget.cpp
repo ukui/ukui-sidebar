@@ -16,6 +16,7 @@
 *
 */
 #include "padwidget.h"
+#include <QPalette>
 
 padWidget::padWidget(QWidget *parent) : QWidget(parent)
 {
@@ -54,6 +55,12 @@ void padWidget::initMemberVariables()
     m_pPadLabel = new QLabel(QObject::tr("平板模式"));
 //    m_pPadLabel->setFixedSize(80, 16);
     m_pPadLabel->setAlignment(Qt::AlignHCenter);
+
+    QPalette palette;
+    palette.setBrush(QPalette::WindowText, Qt::black);
+    m_pPadLabel->setPalette(palette);
+    this->update();
+
 
     m_pVboxLayout = new QVBoxLayout();
     m_pVboxLayout->setContentsMargins(0, 0, 0, 0);

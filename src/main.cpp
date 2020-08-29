@@ -96,6 +96,7 @@ int main(int argc, char *argv[])
     Widget *w = new Widget;
     w->setObjectName("SidebarWidget");
     w->setAttribute(Qt::WA_TranslucentBackground);
+    w->setFixedWidth(392);
     mostGrandWidget::getInstancemostGrandWidget()->m_pmostGrandWidgetVLaout->addWidget(w);
 
     mostGrandWidget::getInstancemostGrandWidget()->LaoutSidebarWidget();

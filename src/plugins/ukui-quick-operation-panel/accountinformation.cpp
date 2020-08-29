@@ -22,12 +22,18 @@ void AccountInformation::initMemberVariable()
     QFont font = m_pNameLabel->font();
     font.setPixelSize(16);
     m_pNameLabel->setFont(font);
-
+    QPalette palette;
+    palette.setBrush(QPalette::WindowText, Qt::black);
+    m_pNameLabel->setPalette(palette);
+    this->update();
     m_pIdentityLabel = new QLabel();
     m_pIdentityLabel->setFixedHeight(24);
     font = m_pIdentityLabel->font();
     font.setPixelSize(12);
     m_pIdentityLabel->setFont(font);
+    m_pIdentityLabel->setPalette(palette);
+
+
 
     m_pShutDownButton = new QPushButton();
     m_pShutDownButton->setFixedSize(48, 48);

@@ -25,8 +25,13 @@ void AutomaticRotationWidget::initMemberVariables()
     m_pVboxButtonLayout->setSpacing(0);
 
     m_pAutomaticRotationLabel = new QLabel();
-    m_pAutomaticRotationLabel->setText(QObject::tr("Auto rotate"));
+    m_pAutomaticRotationLabel->setText(QObject::tr("自动旋转"));
     m_pAutomaticRotationLabel->setAlignment(Qt::AlignHCenter);
+    QPalette palette;
+    palette.setBrush(QPalette::WindowText, Qt::black);
+    m_pAutomaticRotationLabel->setPalette(palette);
+    this->update();
+
 
     m_pStyleOpen   = new CustomStyle_SwitchOpenStatus("ukui-default");
     m_pStyleNormal = new customstyle_switchNormalStatus("ukui-default");

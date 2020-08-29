@@ -46,8 +46,12 @@ void settingWidget::initMemberVariables()
     m_psettingButton->setStyle(m_pStyleNormal);
     connect(m_psettingButton, &switchButton::clicked, this, &settingWidget::settingButtonClick);
 
-    m_psettingLabel = new QLabel(QObject::tr("设置"));
+    m_psettingLabel = new QLabel(QObject::tr("控制面板"));
     m_psettingLabel->setAlignment(Qt::AlignHCenter);
+    QPalette palette;
+    palette.setBrush(QPalette::WindowText, Qt::black);
+    m_psettingLabel->setPalette(palette);
+    this->update();
 
     m_pVboxLayout = new QVBoxLayout();
     m_pVboxLayout->setContentsMargins(0, 0, 0, 0);
