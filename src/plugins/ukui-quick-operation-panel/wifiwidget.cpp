@@ -45,6 +45,11 @@ void WifiWidget::initMemberVariables()
     m_pWifihNameLabel = new QLabel();
     m_pWifihNameLabel->setText("kylin");
     m_pWifihNameLabel->setFixedHeight(18);
+    QPalette palette;
+    palette.setBrush(QPalette::WindowText, Qt::black);
+    m_pWifihNameLabel->setPalette(palette);
+    this->update();
+
 
 
     m_pWifiButton    = new QPushButton();

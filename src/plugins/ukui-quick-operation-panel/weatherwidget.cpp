@@ -37,6 +37,11 @@ void weatherWidget::initLabelData()
     m_pWeatherIconLabel->setPixmap(pixmap);
     QString WeatherInfo = QStringLiteral("%1·%2 %3 %4°").arg("湖南").arg("长沙").arg("26");
     m_pAreaLabel->setText(WeatherInfo);
+    QPalette palette;
+    palette.setBrush(QPalette::WindowText, Qt::black);
+    m_pAreaLabel->setPalette(palette);
+    this->update();
+
     return;
 }
 

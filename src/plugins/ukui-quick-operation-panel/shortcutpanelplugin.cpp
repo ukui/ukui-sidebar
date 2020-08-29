@@ -109,7 +109,7 @@ void shortcutPanelPlugin::initShortButtonWidget()
     /* 清空链表中的数据，初始化 */
     ShortButtonWidgetList.clear();
 
-    /* 免打扰 */
+    /* 勿扰模式 */
     m_pnodisturbWidget = new nodisturbWidget();
     ShortButtonWidgetList.append(m_pnodisturbWidget);
 
@@ -122,7 +122,7 @@ void shortcutPanelPlugin::initShortButtonWidget()
     ShortButtonWidgetList.append(m_ppadWidget);
 
 
-    /* 设置 */
+    /* 控制面板*/
     m_psettingWidget = new settingWidget();
     ShortButtonWidgetList.append(m_psettingWidget);
 
@@ -316,9 +316,12 @@ void shortcutPanelPlugin::spreadClikedSlots()
 {
     m_pSpreadButton->setVisible(false);
     m_pfoldButton->setVisible(true);
+    m_pWeatherWidget->setVisible(true);
+    m_pWIFIBluetooth->setVisible(true);
+    m_pShortWidget->setVisible(true);
     int height = m_pMainWidget->height();
     int width  = m_pMainWidget->width();
-    m_pMainWidget->setFixedSize(392, height*2 - 20);
+    m_pMainWidget->setFixedSize(392, height*4 + 86);
     return;
 }
 
@@ -327,8 +330,12 @@ void shortcutPanelPlugin::foldClikedSlots()
 {
     m_pSpreadButton->setVisible(true);
     m_pfoldButton->setVisible(false);
+    m_pWeatherWidget->setVisible(false);
+    m_pWIFIBluetooth->setVisible(false);
+    m_pShortWidget->setVisible(false);
     int height = m_pMainWidget->height();
     int width  = m_pMainWidget->width();
-    m_pMainWidget->setFixedSize(width, height/2 + 10);
+    m_pMainWidget->setFixedSize(width, 100);
+
     return;
 }

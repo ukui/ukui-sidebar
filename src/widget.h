@@ -95,7 +95,8 @@ public:
 
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *event);                              // 设置过滤事件
+    bool eventFilter(QObject *obj, QEvent *event);
+    void paintEvent(QPaintEvent *e);// 设置过滤事件
 
 private:
     //主界面

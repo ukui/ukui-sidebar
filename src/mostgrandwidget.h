@@ -36,6 +36,7 @@ public:
     void setMostGrandwidgetSize(int w, int h);
     void setMostGrandwidgetCoordinates(int x, int y);
     QVBoxLayout *m_pmostGrandWidgetVLaout;
+//    void paintEvent(QPaintEvent *e);
 };
 
 #endif // MOSTGRANDWIDGET_H

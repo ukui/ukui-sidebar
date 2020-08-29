@@ -47,8 +47,13 @@ void calculatorWidget::initMemberVariables()
     m_pStyleNormal = new customstyle_switchNormalStatus("ukui-default");
     m_pcalculatorButton->setStyle(m_pStyleNormal);
 
-    m_pcalculatorLabel = new QLabel(QObject::tr("计算机"));
+    m_pcalculatorLabel = new QLabel(QObject::tr("计算器"));
     m_pcalculatorLabel->setAlignment(Qt::AlignHCenter);
+    QPalette palette;
+    palette.setBrush(QPalette::WindowText, Qt::black);
+    m_pcalculatorLabel->setPalette(palette);
+    this->update();
+
 
     m_pVboxLayout = new QVBoxLayout();
     m_pVboxLayout->setContentsMargins(0, 0, 0, 0);

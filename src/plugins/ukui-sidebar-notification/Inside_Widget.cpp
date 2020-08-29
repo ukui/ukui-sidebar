@@ -16,6 +16,6 @@ void inside_widget::paintEvent(QPaintEvent *e)
     p.setOpacity(0.7);
     p.setPen(Qt::NoPen);
     p.drawRoundedRect(rect,0,0);
-
+  //  this->update();
     QWidget::paintEvent(e);
 }

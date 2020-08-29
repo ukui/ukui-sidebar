@@ -48,6 +48,11 @@ void hotspotWidget::initMemberVariables()
 
     m_photspotLabel = new QLabel(QObject::tr("热点"));
     m_photspotLabel->setAlignment(Qt::AlignHCenter);
+    QPalette palette;
+    palette.setBrush(QPalette::WindowText, Qt::black);
+    m_photspotLabel->setPalette(palette);
+    this->update();
+
 
     m_pVboxLayout = new QVBoxLayout();
     m_pVboxLayout->setContentsMargins(0, 0, 0, 0);

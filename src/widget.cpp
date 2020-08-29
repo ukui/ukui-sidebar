@@ -643,6 +643,25 @@ void Widget::onNewNotification()
     return;
 }
 
+void Widget::paintEvent(QPaintEvent *e)
+{
+    Q_UNUSED(e);
+    QRect rect = this->rect();
+    QPainter p(this);
+    /* 获取当前剪贴板中字体的颜色，作为背景色；
+     * 白字体 --> 黑背景
+     * 黑字体 --> 白字体
+    */
+//    p.setBrush(opt.palette.color(QPalette::Base));
+    p.setBrush(QBrush(QColor(255, 255 , 255)));
+    p.setOpacity(0.7);
+    p.setPen(Qt::NoPen);
+
+    p.setRenderHint(QPainter::Antialiasing);                        //反锯齿
+    p.drawRoundedRect(rect, 24, 24);
+
+}
+
 /* 事件过滤器 */
 bool Widget::eventFilter(QObject *obj, QEvent *event)
 {

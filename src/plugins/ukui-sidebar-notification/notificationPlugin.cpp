@@ -35,7 +35,6 @@ NotificationPlugin::NotificationPlugin()
 
     m_pMainWidget->setObjectName("NotificationCenter");
 
-    m_pMainWidget->setFixedSize(392, 1034);
 
     QTranslator *translator = new QTranslator;
     if (translator->load(QLocale(), QLatin1String("ukui-sidebar-notification"), QLatin1String("_"), QLatin1String("/usr/share/ukui-sidebar/ukui-sidebar-notification")))
@@ -146,19 +145,19 @@ NotificationPlugin::NotificationPlugin()
     //pWidget2->setStyleSheet("QWidget{border:1px solid rgba(255,0,0,1);}");//测试用，画出边界线
     //消息列表部件，用于装消息列表的
     pNotificationVBoxLayout->addItem(new QSpacerItem(10, 18));
-    m_pMsgListWidget = new inside_widget;
+    m_pMsgListWidget = new QWidget;
     //m_pMsgListWidget->setFixedSize(392, 1000);
     //m_pMsgListWidget->setStyleSheet("QWidget{border:1px solid rgba(255,0,0,1);}");
     pNotificationVBoxLayout->addWidget(m_pMsgListWidget);
-    pNotificationVBoxLayout->addItem(new QSpacerItem(10, 18));
+    pNotificationVBoxLayout->addItem(new QSpacerItem(100, 18));
 //    m_pMsgListWidget->setParent(m_pMainWidget);
     //消息列表部件，用于装两个消息列表的,浮动在m_pMsgListWidget里面
-    m_pMsgDoubleListWidget = new inside_widget(m_pMsgListWidget);
+    m_pMsgDoubleListWidget = new QWidget(m_pMsgListWidget);
     QHBoxLayout* pMsgDoubleListHBoxLayout = new QHBoxLayout;
     pMsgDoubleListHBoxLayout->setContentsMargins(0, 0, 0, 0);
     pMsgDoubleListHBoxLayout->setSpacing(0);
     m_pMsgDoubleListWidget->setLayout(pMsgDoubleListHBoxLayout);
-    m_pMsgDoubleListWidget->setAttribute(Qt::WA_TranslucentBackground);
+   // m_pMsgDoubleListWidget->setAttribute(Qt::WA_TranslucentBackground);
     //双列表部件切换动画
     m_pSwitchAnimation = new QPropertyAnimation(m_pMsgDoubleListWidget, "geometry", this);
     m_pSwitchAnimation->setDuration(300);

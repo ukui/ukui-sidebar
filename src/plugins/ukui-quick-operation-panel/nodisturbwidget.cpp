@@ -46,9 +46,14 @@ void nodisturbWidget::initMemberVariables()
     m_pStyleNormal = new customstyle_switchNormalStatus("ukui-default");
     m_pnodisturbButton->setStyle(m_pStyleNormal);
 
-    m_pnodisturbLabel = new QLabel(QObject::tr("免打扰"));
+    m_pnodisturbLabel = new QLabel(QObject::tr("勿扰模式"));
 //    m_pnodisturbLabel->setFixedSize(80, 16);
     m_pnodisturbLabel->setAlignment(Qt::AlignHCenter);
+    QPalette palette;
+    palette.setBrush(QPalette::WindowText, Qt::black);
+    m_pnodisturbLabel->setPalette(palette);
+    this->update();
+
 
     m_pVboxLayout = new QVBoxLayout();
     m_pVboxLayout->setContentsMargins(0, 0, 0, 0);

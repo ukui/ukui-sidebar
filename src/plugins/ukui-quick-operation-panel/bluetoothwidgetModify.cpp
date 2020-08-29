@@ -43,6 +43,11 @@ void ModifybluetoothWidget::initMemberVariables()
     m_pbluetoothNameLabel = new QLabel();
     m_pbluetoothNameLabel->setText("kylin");
     m_pbluetoothNameLabel->setFixedHeight(18);
+    QPalette palette;
+    palette.setBrush(QPalette::WindowText, Qt::black);
+    m_pbluetoothNameLabel->setPalette(palette);
+    this->update();
+
 
     m_pbluetoothButton    = new QPushButton();
     connect(m_pbluetoothButton, &QPushButton::clicked, this, &ModifybluetoothWidget::setButtonclickSlots);
