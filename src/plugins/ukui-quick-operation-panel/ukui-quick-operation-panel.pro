@@ -46,7 +46,9 @@ SOURCES += \
     switchbutton.cpp \
     weatherwidget.cpp \
     wifiwidget.cpp  \
-    bluetoothwidgetModify.cpp
+    bluetoothwidgetModify.cpp \
+    m_partlinewidget.cpp \
+    bsrwidget.cpp
 
 HEADERS += \
     accountinformation.h \
@@ -68,7 +70,9 @@ HEADERS += \
     switchbutton.h \
     weatherwidget.h \
     wifiwidget.h \
-    bluetoothwidgetModify.h
+    bluetoothwidgetModify.h \
+    m_partlinewidget.h \
+    bsrwidget.h
 
 INCLUDEPATH    += ../../plugin-interface
 

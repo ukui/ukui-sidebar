@@ -33,9 +33,9 @@
 #define KYLIN_PAD_HOVER_NAME            "kylin-pad-hover"
 #define KYLIN_PAD_PRESS_NAME            "kylin-pad-pressed"
 
-#define KYLIN_PAD_NORMAL_PATH           ":/image/pad-normal.svg"
-#define KYLIN_PAD_HOVER_PATH            ":/image/pad-hover.svg"
-#define KYLIN_PAD_PRESS_PATH            ":/image/pad-pressed.svg"
+#define KYLIN_PAD_NORMAL_PATH           ":/image/eyesopen.svg"
+#define KYLIN_PAD_HOVER_PATH            ":/image/eyesopen.svg"
+#define KYLIN_PAD_PRESS_PATH            ":/image/eyesopen.svg"
 
 #define KYLIN_PAD_GSETTING_VALUE        "org.ukui.SettingsDaemon.plugins.tablet-mode"
 #define KYLIN_PAD_MODLE                 "tablet-mode"

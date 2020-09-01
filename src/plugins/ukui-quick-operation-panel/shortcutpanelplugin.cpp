@@ -66,6 +66,16 @@ void shortcutPanelPlugin::initMemberVariables()
     m_pButtonWidget->setContentsMargins(0, 0, 0, 0);
     m_pButtonWidget->setFixedHeight(15);
 
+    /* 分割线 */
+    m_PartLine1 =new m_PartLineWidget;
+    m_PartLine1->setFixedSize(392, 1);
+    m_PartLine1->setContentsMargins(0, 0, 0, 0);
+
+    m_PartLine2 =new m_PartLineWidget;
+    m_PartLine2->setFixedSize(392, 1);
+    m_PartLine2->setContentsMargins(0, 0, 0, 0);
+
+
     /* 账户信息界面 */
     m_PAccountInfoWidget = new AccountInformation();
     m_PAccountInfoWidget->setFixedSize(392, 48);
@@ -77,7 +87,7 @@ void shortcutPanelPlugin::initMemberVariables()
 
     /* 调整音量与屏幕亮度界面 */
     m_pScrollingAreaWidget = new ScrollingAreaWidget();
-    m_pScrollingAreaWidget->setFixedSize(150, 200);
+    m_pScrollingAreaWidget->setFixedSize(150, 250);
 
     /* 显示天气界面 */
     m_pWeatherWidget = new weatherWidget();
@@ -250,12 +260,14 @@ void shortcutPanelPlugin::setWidget()
    // m_pShortGtoplayout
     m_pWIFIBluetooth->setLayout(m_pShortGtoplayout);
 
-
     m_pShortWidget->setLayout(m_pShortGLayout);
+
     m_pMainVLayout->addWidget(m_pButtonWidget);
     m_pMainVLayout->addWidget(m_PAccountInfoWidget);
+    m_pMainVLayout->addWidget(m_PartLine1);
     m_pMainVLayout->addWidget(m_pWIFIBluetooth);
     m_pMainVLayout->addWidget(m_pShortWidget);
+    m_pMainVLayout->addWidget(m_PartLine2);
     m_pMainVLayout->addWidget(m_pWeatherWidget);
     m_pMainWidget->setLayout(m_pMainVLayout);
     return;
@@ -319,6 +331,8 @@ void shortcutPanelPlugin::spreadClikedSlots()
     m_pWeatherWidget->setVisible(true);
     m_pWIFIBluetooth->setVisible(true);
     m_pShortWidget->setVisible(true);
+    m_PartLine1->setVisible(true);
+    m_PartLine2->setVisible(true);
     int height = m_pMainWidget->height();
     int width  = m_pMainWidget->width();
     m_pMainWidget->setFixedSize(392, height*4 + 86);
@@ -333,6 +347,8 @@ void shortcutPanelPlugin::foldClikedSlots()
     m_pWeatherWidget->setVisible(false);
     m_pWIFIBluetooth->setVisible(false);
     m_pShortWidget->setVisible(false);
+    m_PartLine1->setVisible(false);
+    m_PartLine2->setVisible(false);
     int height = m_pMainWidget->height();
     int width  = m_pMainWidget->width();
     m_pMainWidget->setFixedSize(width, 100);

@@ -8,6 +8,7 @@
 #include <QLabel>
 #include <QIcon>
 #include <QDebug>
+#include <bsrwidget.h>
 
 class ScrollingAreaWidget : public QWidget
 {
@@ -31,6 +32,8 @@ private:
     QLabel      *m_pBrightIconLabel;
     QSlider     *m_pBrightSlide;
     QVBoxLayout *m_pBrightLayout;
+    BsrWidget   *bsrWidget1;
+    BsrWidget   *bsrWidget2;
 };
 
 #endif // SCROLLINGAREAWIDGET_H
