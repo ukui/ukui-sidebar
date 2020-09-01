@@ -80,24 +80,24 @@ void ModifybluetoothWidget::initLayout()
 /* 初始化dbus接口 */
 bool ModifybluetoothWidget::initBluetoothDbus()
 {
-    m_pServiceInterface = new QDBusInterface(KYLIN_BLUETOOTH_SERVER_NAME,
-                                             KYLIN_BLUETOOTH_SERVER_PATH,
-                                             KYLIN_BLUETOOTH_SERVER_INTERFACE,
-                                             QDBusConnection::sessionBus());
-    if (m_pServiceInterface->isValid() && m_pServiceInterface == nullptr) {
-        qDebug() << "dbus接口初始化失败";
-        return false;
-    }
-    connect(m_pServiceInterface, SIGNAL(BluetoothStatusChanged(bool)), this, SLOT(BluetoothStatusChangedSlots(bool)));
-    return true;
+//    m_pServiceInterface = new QDBusInterface(KYLIN_BLUETOOTH_SERVER_NAME,
+//                                             KYLIN_BLUETOOTH_SERVER_PATH,
+//                                             KYLIN_BLUETOOTH_SERVER_INTERFACE,
+//                                             QDBusConnection::sessionBus());
+//    if (m_pServiceInterface->isValid() && m_pServiceInterface == nullptr) {
+//        qDebug() << "dbus接口初始化失败";
+//        return false;
+//    }
+//    connect(m_pServiceInterface, SIGNAL(BluetoothStatusChanged(bool)), this, SLOT(BluetoothStatusChangedSlots(bool)));
+//    return true;
 }
 
 /* 初始化第一次蓝牙状态 */
 void ModifybluetoothWidget::initBluetoothStatus()
 {
-    QDBusMessage msg = m_pServiceInterface->call("GetBluetoothStatus");
-    m_bbluetoothStatus = msg.arguments().at(0).toBool();
-    qDebug() << "第一次初始化状态" << m_bbluetoothStatus;
+//    QDBusMessage msg = m_pServiceInterface->call("GetBluetoothStatus");
+//    m_bbluetoothStatus = msg.arguments().at(0).toBool();
+//    qDebug() << "第一次初始化状态" << m_bbluetoothStatus;
     setBluetoothStatus();
 }
 
