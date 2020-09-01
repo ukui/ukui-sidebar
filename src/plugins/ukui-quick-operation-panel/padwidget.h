@@ -68,8 +68,6 @@ private:
     QGSettings    *m_pTabletModeGsetting;
     QVBoxLayout   *m_pVboxButtonLayout;
     QVBoxLayout   *m_pVboxLayout;
-    QStringList   m_IconPathList;
-    QStringList   m_IconNameList;
 
     bool          m_bModelStatus;
 private slots:

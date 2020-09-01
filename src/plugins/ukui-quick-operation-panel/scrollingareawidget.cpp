@@ -50,6 +50,16 @@ void ScrollingAreaWidget::initGsettingValue()
         connect(m_pVolumeLightSetting, &QGSettings::changed, this, &ScrollingAreaWidget::setSliderValue);
         qDebug() << "当前的gsetting的key值" << m_pVolumeLightSetting->keys();
     }
+
+    /* 链接time-shutdown的dgsetting接口 */
+    if(QGSettings::isSchemaInstalled(KYLIN_POWER_MODE_GSETTING_VALUE)) {
+        m_pBrightNessSetting = new QGSettings(KYLIN_POWER_MODE_GSETTING_VALUE);
+    }
+    if (m_pBrightNessSetting != nullptr) {
+        connect(m_pBrightNessSetting, &QGSettings::changed, this, &ScrollingAreaWidget::setSliderValue);
+        qDebug() << "当前的gsetting的key值" << m_pVolumeLightSetting->keys();
+    }
+
     return;
 }
 
@@ -58,7 +68,7 @@ void ScrollingAreaWidget::initSlideStatus()
     int value = m_pVolumeLightSetting->get(UKUI_VOLUME_KEY).toInt();
     m_pVolumeSlide->setValue(value);
 
-    value = m_pVolumeLightSetting->get(UKUI_BRIGHTNESS_KEY).toInt();
+    value = m_pBrightNessSetting->get(UKUI_BRIGHTNESS_KEY).toInt();
     m_pBrightSlide->setValue(value);
     return;
 }
@@ -92,12 +102,11 @@ void ScrollingAreaWidget::initLayout()
 void ScrollingAreaWidget::setSliderValue(QString key)
 {
     int value;
-    qDebug() << "组件修改了gsetting";
     if (key == UKUI_VOLUME_KEY) {
         value = m_pVolumeLightSetting->get(UKUI_VOLUME_KEY).toInt();
         m_pVolumeSlide->setValue(value);
     } else if (key == UKUI_BRIGHTNESS_KEY) {
-        value = m_pVolumeLightSetting->get(UKUI_BRIGHTNESS_KEY).toInt();
+        value = m_pBrightNessSetting->get(UKUI_BRIGHTNESS_KEY).toInt();
         m_pBrightSlide->setValue(value);
     }
     return;
@@ -115,6 +124,6 @@ void ScrollingAreaWidget::setVolumeSlideSlots(int value)
 void ScrollingAreaWidget::setBrightSlideSlots(int value)
 {
     qDebug() << "123123131亮度滚动条时";
-    m_pVolumeLightSetting->set(UKUI_BRIGHTNESS_KEY, value);
+    m_pBrightNessSetting->set(UKUI_BRIGHTNESS_KEY, value);
     return;
 }

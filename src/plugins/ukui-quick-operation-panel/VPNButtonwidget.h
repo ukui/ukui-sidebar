@@ -39,9 +39,6 @@ private:
 
     QStyle          *m_pStyleNormal;
 
-    QStringList      m_IconPathList;
-    QStringList      m_IconNameList;
-
 private slots:
     void VPNButtonClickSLots();
 

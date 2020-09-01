@@ -35,8 +35,6 @@ NotificationPlugin::NotificationPlugin()
 
     m_pMainWidget->setObjectName("NotificationCenter");
 
-//    m_pMainWidget->setFixedSize(392, 1034);
-
     QTranslator *translator = new QTranslator;
     if (translator->load(QLocale(), QLatin1String("ukui-sidebar-notification"), QLatin1String("_"), QLatin1String("/usr/share/ukui-sidebar/ukui-sidebar-notification")))
         QApplication::installTranslator(translator);

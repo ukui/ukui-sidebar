@@ -12,7 +12,9 @@
 
 #define UKUI_VOLUME_BRIGHTNESS_GSETTING_ID "org.ukui.quick-operation.panel"
 #define UKUI_VOLUME_KEY "volumesize"
-#define UKUI_BRIGHTNESS_KEY "screenbrightness"
+
+#define KYLIN_POWER_MODE_GSETTING_VALUE        "org.ukui.power-manager"
+#define UKUI_BRIGHTNESS_KEY "brightness-ac"
 
 class ScrollingAreaWidget : public QWidget
 {
@@ -40,6 +42,7 @@ private:
     QHBoxLayout *m_pBrightLayout;
 
     QGSettings  *m_pVolumeLightSetting;
+    QGSettings  *m_pBrightNessSetting;
 
 private slots:
     void setSliderValue(QString key);

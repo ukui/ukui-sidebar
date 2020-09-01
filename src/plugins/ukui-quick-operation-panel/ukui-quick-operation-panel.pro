@@ -34,6 +34,7 @@ SOURCES += \
     customstyle_switchNormalStatus.cpp \
     VPNButtonwidget.cpp \
     notebookbuttonwidget.cpp \
+    powersavingmode.cpp \
     scrollingareawidget.cpp \
     swichButtonOpenStatus.cpp \
     bluetoothwidget.cpp \
@@ -57,6 +58,7 @@ HEADERS += \
     customstyle_switchNormalStatus.h \
     VPNButtonwidget.h \
     notebookbuttonwidget.h \
+    powersavingmode.h \
     scrollingareawidget.h \
     swichButtonOpenStatus.h \
     bluetoothwidget.h \
