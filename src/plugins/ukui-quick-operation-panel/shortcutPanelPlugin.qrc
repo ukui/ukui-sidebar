@@ -30,6 +30,26 @@
         <file>image/wifi-normal.svg</file>
         <file>image/wifi-hover.svg</file>
         <file>image/wifi-pressed.svg</file>
+        <file>image/Wifi.svg</file>
+        <file>image/Wifi-open.svg</file>
+        <file>image/volumeopen.svg</file>
+        <file>image/volume.svg</file>
+        <file>image/poweropen.svg</file>
+        <file>image/power.svg</file>
+        <file>image/padopen.svg</file>
+        <file>image/pad.svg</file>
+        <file>image/icon-lightopen.svg</file>
+        <file>image/icon-light.svg</file>
+        <file>image/eyesopen.svg</file>
+        <file>image/eyes.svg</file>
+        <file>image/Donotdisturbopen.svg</file>
+        <file>image/Donotdisturb.svg</file>
+        <file>image/controlopen.svg</file>
+        <file>image/control.svg</file>
+        <file>image/bluetooth.svg</file>
+        <file>image/bluetooth-open.svg</file>
+        <file>image/autorotationopen.svg</file>
+        <file>image/autorotation.svg</file>
+        <file>image/abcd.png</file>
     </qresource>
 </RCC>
-

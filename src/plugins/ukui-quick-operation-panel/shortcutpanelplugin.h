@@ -42,6 +42,7 @@
 #include "scrollingareawidget.h"
 #include "weatherwidget.h"
 #include "automaticrotationwidget.h"
+#include "m_partlinewidget.h"
 
 
 #define SPREAD_BUTTON_NORMAL       ":/image/open-normal.svg"
@@ -109,7 +110,9 @@ private:
     MainWidget   *m_pMainWidget     = nullptr;
     QWidget      *m_pButtonWidget   = nullptr;
     QWidget      *m_pShortWidget    = nullptr;
-    QWidget      *m_pWIFIBluetooth    = nullptr;
+    QWidget      *m_pWIFIBluetooth  = nullptr;
+    m_PartLineWidget      *m_PartLine1  = nullptr;
+    m_PartLineWidget      *m_PartLine2  = nullptr;
     PushButton   *m_pSpreadButton   = nullptr;
     PushButton   *m_pfoldButton     = nullptr;
 
