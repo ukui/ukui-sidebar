@@ -14,6 +14,7 @@ TEMPLATE = app
 LIBS    +=  -lX11
 
 SOURCES += \
+    adaptscreeninfo.cpp \
     btnNew.cpp \
     clickableLabel.cpp \
     clock.cpp \
@@ -39,6 +40,7 @@ TRANSLATIONS += ../../../translations/ukui-clock/ukui-clock_tr.ts \
                 ../../../translations/ukui-clock/ukui-clock_zh_CN.ts
 
 HEADERS  += clock.h \
+    adaptscreeninfo.h \
     btnNew.h \
     clickableLabel.h \
     closeOrHide.h \

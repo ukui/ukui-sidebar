@@ -31,6 +31,7 @@ TRANSLATIONS += \
         ../../../translations/ukui-notebook/ukui-notebook_tr.ts
 
 SOURCES += \
+    adaptscreeninfo.cpp \
     customStyle.cpp \
     dbManager.cpp \
     editPage.cpp \
@@ -59,6 +60,7 @@ SOURCES += \
     widget.cpp
 
 HEADERS += \
+    adaptscreeninfo.h \
     customStyle.h \
     dbManager.h \
     editPage.h \
