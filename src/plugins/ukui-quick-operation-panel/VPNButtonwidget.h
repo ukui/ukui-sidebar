@@ -11,13 +11,13 @@
 #include "switchbutton.h"
 #include "customstyle_switchNormalStatus.h"
 
-#define KYLIN_BLUETOOTH_NORMAL_NAME     "kylin-bluetooth-normal"
-#define KYLIN_BLUETOOTH_HOVER_NAME      "kylin-bluetooth-hover"
-#define KYLIN_BLUETOOTH_PRESS_NAME      "kylin-bluetooth-pressed"
+#define KYLIN_VPN_NORMAL_NAME     "kylin-icon-VPN"
+#define KYLIN_VPN_SET_NAME        "kylin-icon-VPN-s"
+#define KYLIN_VPN_OPEN_NAME       "Kylin-icon-VPN-open.svg"
 
-#define KYLIN_BLUETOOTH_NORMAL_PATH     ":/image/bluetooth-normal.svg"
-#define KYLIN_BLUETOOTH_HOVER_PATH      ":/image/bluetooth-hover.svg"
-#define KYLIN_BLUETOOTH_PRESS_PATH      ":/image/bluetooth-pressed.svg"
+#define KYLIN_BLUETOOTH_NORMAL_PATH     ":/images/icon-VPN.svg"
+#define KYLIN_BLUETOOTH_SET_PATH        ":/images/icon-VPN-s.svg"
+#define KULIN_VPN_OPEN_PATH             ":/images/icon-VPN-open.svg"
 
 class diturbModeWidget : public QWidget
 {
@@ -31,7 +31,7 @@ private:
 
 private:
     QWidget         *m_pButtonWidget;
-    switchButton    *m_pVPNButton;
+    QPushButton     *m_pVPNButton;
     QLabel          *m_pVPNLabel;
 
     QVBoxLayout     *m_pVboxButtonLayout;

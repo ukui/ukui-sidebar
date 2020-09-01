@@ -32,7 +32,7 @@ void MainWidget::paintEvent(QPaintEvent *e)
     /* 获取当前剪贴板中字体的颜色，作为背景色；
      * 白字体 --> 黑背景
      * 黑字体 --> 白字体
-    */
+     */
 //    p.setBrush(opt.palette.color(QPalette::Base));
     p.setBrush(QBrush(QColor(0, 0 , 0)));
     p.setOpacity(0.42);

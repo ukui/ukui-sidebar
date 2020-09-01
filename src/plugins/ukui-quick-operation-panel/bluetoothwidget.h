@@ -30,13 +30,13 @@
 #include "swichButtonOpenStatus.h"
 #include "customstyle_switchNormalStatus.h"
 
-#define KYLIN_BLUETOOTH_NORMAL_NAME     "kylin-bluetooth-normal"
-#define KYLIN_BLUETOOTH_HOVER_NAME      "kylin-bluetooth-hover"
-#define KYLIN_BLUETOOTH_PRESS_NAME      "kylin-bluetooth-pressed"
+#define KYLIN_BLUETOOTH_NORMAL_NAME     "kylin-icon-bluetooth"
+#define KYLIN_BLUETOOTH_OPEN_NAME      "kylin-icon-bluetooth-open"
+#define KYLIN_BLUETOOTH_SET_NAME      "kylin-icon-bluetooth-s"
 
-#define KYLIN_BLUETOOTH_NORMAL_PATH     ":/image/bluetooth-normal.svg"
-#define KYLIN_BLUETOOTH_HOVER_PATH      ":/image/bluetooth-hover.svg"
-#define KYLIN_BLUETOOTH_PRESS_PATH      ":/image/bluetooth-pressed.svg"
+#define KYLIN_BLUETOOTH_NORMAL_PATH     ":/images/icon-bluetooth.svg"
+#define KYLIN_BLUETOOTH_OPEN_PATH      ":/images/icon-bluetooth-open.svg"
+#define KYLIN_BLUETOOTH_SET_PATH      ":/images/icon-bluetooth-s.svg"
 
 #define KYLIN_BLUETOOTH_SERVER_NAME      "org.blueman.Applet"
 #define KYLIN_BLUETOOTH_SERVER_PATH      "/org/blueman/applet"
@@ -60,7 +60,7 @@ public:
 
 private:
     QWidget         *m_pWidgetButton;
-    switchButton    *m_pbluetoothButton;
+    QPushButton     *m_pbluetoothButton;
     QLabel          *m_pbluetoothLabel;
 
     QVBoxLayout     *m_pVboxButtonLayout;
@@ -69,8 +69,6 @@ private:
     QStyle          *m_pStyleOpen;
     QStyle          *m_pStyleNormal;
 
-    QStringList      m_IconPathList;
-    QStringList      m_IconNameList;
     QDBusInterface*  m_pServiceInterface;
     bool             m_bbluetoothStatus;
 private slots:

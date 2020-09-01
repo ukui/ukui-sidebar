@@ -1,0 +1,22 @@
+<svg id="icon-bluetooth-s" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #515151;
+        opacity: 0;
+      }
+
+      .cls-2 {
+        fill: none;
+        stroke: #262626;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+    </style>
+  </defs>
+  <rect id="icon_bluetooth_background" data-name="icon/bluetooth background" class="cls-1" width="16" height="16"/>
+  <g id="bluetooth" transform="translate(0 -0.4)">
+    <path id="路径_49" data-name="路径 49" class="cls-2" d="M2,4.1l10.776,7.784a.536.536,0,0,1-.027.884L8.706,15.32a.525.525,0,0,1-.8-.461L7.962,11.8"/>
+    <path id="路径_50" data-name="路径 50" class="cls-2" d="M2,12.576,12.766,5.286a.536.536,0,0,0,0-.883L8.526,1.493a.524.524,0,0,0-.818.44V7.871"/>
+  </g>
+</svg>

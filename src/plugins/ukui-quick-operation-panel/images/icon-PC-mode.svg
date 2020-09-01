@@ -1,0 +1,17 @@
+<svg id="icon-PC_mode" data-name="icon-PC mode" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #1f1f1f;
+        opacity: 0;
+      }
+
+      .cls-2 {
+        fill: #9c9c9c;
+        opacity: 0.999;
+      }
+    </style>
+  </defs>
+  <rect id="文档管理器_icon_文件夹备份_2_background" data-name="文档管理器/icon/文件夹备份 2 background" class="cls-1" width="24" height="24"/>
+  <path id="形状" class="cls-2" d="M14.411,18H5.3v-.356l3.181-1.421V14.445H.05A1.059,1.059,0,0,1-1,13.379V.067A1.06,1.06,0,0,1,.05-1H19.663A1.06,1.06,0,0,1,20.714.067V13.379a1.06,1.06,0,0,1-1.051,1.066H11.228v1.778l3.182,1.421V18ZM.958.949V11.641H19.041V.949Z" transform="translate(2 3)"/>
+</svg>

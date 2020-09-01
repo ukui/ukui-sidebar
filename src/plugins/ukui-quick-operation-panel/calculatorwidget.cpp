@@ -30,17 +30,15 @@ calculatorWidget::~calculatorWidget()
 
 void calculatorWidget::initMemberVariables()
 {
-    m_IconPathList << KYLIN_CALCULATOR_NORMAL_PATH << KYLIN_CALCULATOR_HOVER_PATH << KYLIN_CALCULATOR_PRESS_PATH;
-    m_IconNameList << KYLIN_CALCULATOR_NORMAL_NAME << KYLIN_CALCULATOR_HOVER_NAME << KYLIN_CALCULATOR_PRESS_NAME;
-
     m_pWidgetButton         = new QWidget();
     m_pWidgetButton->setFixedSize(56, 56);
     m_pWidgetButton->setContentsMargins(0, 0, 0, 0);
     m_pVboxButtonLayout     = new QVBoxLayout();
     m_pVboxButtonLayout->setContentsMargins(0, 0, 0, 0);
 
-    m_pcalculatorButton = new switchButton(m_IconPathList, m_IconNameList);
+    m_pcalculatorButton = new QPushButton();
     m_pcalculatorButton->setFixedSize(56, 56);
+    m_pcalculatorButton->setIcon(QIcon::fromTheme(KYLIN_CALCULATOR_NORMAL_NAME, QIcon(KYLIN_CALCULATOR_NORMAL_PATH)));
     m_pcalculatorButton->setIconSize(QSize(32, 32));
     connect(m_pcalculatorButton, &switchButton::clicked, this, &calculatorWidget::calculatorButtonClickSlots);
 

@@ -30,6 +30,85 @@
         <file>image/wifi-normal.svg</file>
         <file>image/wifi-hover.svg</file>
         <file>image/wifi-pressed.svg</file>
+
+        <file>images/icon-alarm.svg</file>
+        <file>images/icon-alarm-s.svg</file>
+
+        <file>images/icon-allsetting.svg</file>
+        <file>images/icon-allsetting-s.svg</file>
+
+        <file>images/icon-bluetooth.svg</file>
+        <file>images/icon-bluetooth-s.svg</file>
+        <file>images/icon-bluetooth-open.svg</file>
+
+        <file>images/icon-calculator.svg</file>
+        <file>images/icon-calculator-s.svg</file>
+
+        <file>images/icon-DND.svg</file>
+        <file>images/icon-DND-s.svg</file>
+        <file>images/icon-DND-open.svg</file>
+
+        <file>images/icon-edit.svg</file>
+
+        <file>images/icon-eyeprotectionmode.svg</file>
+        <file>images/icon-eyeprotectionmode-s.svg</file>
+        <file>images/icon-eyeprotectionmode-open.svg</file>
+
+        <file>images/icon-hotspot.svg</file>
+        <file>images/icon-hotspot-s.svg</file>
+        <file>images/icon-hotspot-open.svg</file>
+
+        <file>images/icon-light-0.svg</file>
+        <file>images/icon-light-0-focus.svg</file>
+        <file>images/icon-light-100-focus.svg</file>
+        <file>images/icon-light-100.svg</file>
+        <file>images/icon-light-25-focus.svg</file>
+        <file>images/icon-light-25.svg</file>
+        <file>images/icon-light-50-focus.svg</file>
+        <file>images/icon-light-50.svg</file>
+        <file>images/icon-light-75-focus.svg</file>
+        <file>images/icon-light-75.svg</file>
+        <file>images/icon-light-focus.svg</file>
+        <file>images/icon-light-s.svg</file>
+        <file>images/icon-light.svg</file>
+
+        <file>images/icon-notes-s.svg</file>
+        <file>images/icon-notes.svg</file>
+
+        <file>images/icon-pcmode-s.svg</file>
+        <file>images/icon-PC-mode.svg</file>
+
+        <file>images/icon-powersavingmode-open.svg</file>
+        <file>images/icon-powersavingmode-s.svg</file>
+        <file>images/icon-powersavingmode.svg</file>
+
+        <file>images/icon-screenshot-s.svg</file>
+        <file>images/icon-screenshot.svg</file>
+
+        <file>images/icon-setting.svg</file>
+
+        <file>images/icon-shutdown.svg</file>
+
+        <file>images/icon-sound-closed-focus.svg</file>
+        <file>images/icon-sound-closed.svg</file>
+        <file>images/icon-sound-focus.svg</file>
+        <file>images/icon-sound-high-focus.svg</file>
+        <file>images/icon-sound-high.svg</file>
+        <file>images/icon-sound-low-focus.svg</file>
+        <file>images/icon-sound-low.svg</file>
+        <file>images/icon-sound-middle-focus.svg</file>
+        <file>images/icon-sound-middle.svg</file>
+        <file>images/icon-sound-none-focus.svg</file>
+        <file>images/icon-sound-none.svg</file>
+        <file>images/icon-sound-s.svg</file>
+        <file>images/icon-sound.svg</file>
+
+        <file>images/icon-tabletmode-s.svg</file>
+        <file>images/icon-tablet-mode.svg</file>
+
+        <file>images/icon-VPN-open.svg</file>
+        <file>images/icon-VPN-s.svg</file>
+        <file>images/icon-VPN.svg</file>
     </qresource>
 </RCC>
 

@@ -1,0 +1,21 @@
+<svg id="icon-edit" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #9c9c9c;
+        opacity: 0;
+      }
+
+      .cls-2 {
+        fill: #262626;
+      }
+    </style>
+  </defs>
+  <rect id="矩形_21" data-name="矩形 21" class="cls-1" width="16" height="16"/>
+  <g id="组_19" data-name="组 19">
+    <rect id="矩形_22" data-name="矩形 22" class="cls-2" width="3" height="1" rx="0.5" transform="translate(12 9)"/>
+    <rect id="矩形_23" data-name="矩形 23" class="cls-2" width="5" height="1" rx="0.5" transform="translate(10 11)"/>
+    <rect id="矩形_24" data-name="矩形 24" class="cls-2" width="7" height="1" rx="0.5" transform="translate(8 13)"/>
+    <path id="路径_23" data-name="路径 23" class="cls-2" d="M13.571,2.371a1.919,1.919,0,0,0-2.727.014L2.9,10.5a4.061,4.061,0,0,0-.6,1.1,16.122,16.122,0,0,0-1,2.5L1,15l.9-.3a18.612,18.612,0,0,0,2.5-1,7.372,7.372,0,0,0,1.1-.6l8.056-7.886a2,2,0,0,0,.015-2.843ZM4.8,12.2H4.775L3.659,11.137c.013-.013.028-.037.041-.037l7.922-8.109a.818.818,0,0,1,1.163-.006h0a1,1,0,0,1-.009,1.422Z"/>
+  </g>
+</svg>

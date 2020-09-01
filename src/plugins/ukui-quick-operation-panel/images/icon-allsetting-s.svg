@@ -1,0 +1,21 @@
+<svg id="icon-allsetting-s" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #d8d8d8;
+        opacity: 0;
+      }
+
+      .cls-2 {
+        fill: #262626;
+      }
+    </style>
+  </defs>
+  <g id="icon_控制面板" data-name="icon/控制面板">
+    <g id="icon-控制面板">
+      <rect id="矩形" class="cls-1" width="16" height="16" rx="6"/>
+      <path id="形状结合" class="cls-2" d="M10,6H2A3,3,0,0,1,2,0h8a3,3,0,0,1,0,6Zm0-5a2,2,0,1,0,2,2A2,2,0,0,0,10,1Z" transform="translate(2 1)"/>
+      <path id="形状结合-2" data-name="形状结合" class="cls-2" d="M11,6.334H3a3,3,0,0,1,0-6h8a3,3,0,1,1,0,6Zm-8-5a2,2,0,1,0,2,2A2,2,0,0,0,3,1.333Z" transform="translate(1 8.667)"/>
+    </g>
+  </g>
+</svg>

@@ -27,13 +27,11 @@
 #include "switchbutton.h"
 #include "customstyle_switchNormalStatus.h"
 
-#define KYLIN_SETTING_NORMAL_NAME       "kylin-setting-normal"
-#define KYLIN_SETTING_HOVER_NAME        "kylin-setting-hover"
-#define KYLIN_SETTING_PRESS_NAME        "kylin-setting-pressed"
+#define KYLIN_SETTING_NORMAL_NAME       "kylin-icon-allsetting"
+#define KYLIN_SETTING_SET_NAME          "kylin-icon-allsetting-s"
 
-#define KYLIN_SETTING_NORMAL_PATH       ":/image/setting-normal.svg"
-#define KYLIN_SETTING_HOVER_PATH        ":/image/setting-hover.svg"
-#define KYLIN_SETTING_PRESS_PATH        ":/image/setting-pressed.svg"
+#define KYLIN_SETTING_NORMAL_PATH       ":/images/icon-allsetting.svg"
+#define KYLIN_SETTING_SET_PATH        ":/images/icon-allsetting-s.svg"
 
 class settingWidget : public QWidget
 {
@@ -45,16 +43,13 @@ public:
     void initLayout();
 private:
     QWidget      *m_pWidgetButton;
-    switchButton *m_psettingButton;
+    QPushButton  *m_psettingButton;
     QLabel       *m_psettingLabel;
 
     QStyle        *m_pStyleNormal;
 
     QVBoxLayout  *m_pVboxButtonLayout;
     QVBoxLayout  *m_pVboxLayout;
-
-    QStringList   m_IconPathList;
-    QStringList   m_IconNameList;
 
 private slots:
     void settingButtonClick();

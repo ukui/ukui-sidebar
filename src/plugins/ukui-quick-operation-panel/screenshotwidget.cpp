@@ -30,16 +30,14 @@ screenshotWidget::~screenshotWidget()
 
 void screenshotWidget::initMemberVariables()
 {
-    m_IconPathList << KYLIN_SCREENSHOT_NORMAL_PATH << KYLIN_SCREENSHOT_HOVER_PATH << KYLIN_SCREENSHOT_PRESS_PATH;
-    m_IconNameList << KYLIN_SCREENSHOT_NORMAL_NAME << KYLIN_SCREENSHOT_HOVER_NAME << KYLIN_SCREENSHOT_PRESS_NAME;
-
     m_pWidgetButton         = new QWidget();
     m_pWidgetButton->setFixedSize(56, 56);
     m_pWidgetButton->setContentsMargins(0, 0, 0, 0);
     m_pVboxButtonLayout     = new QVBoxLayout();
     m_pVboxButtonLayout->setContentsMargins(0, 0, 0, 0);
 
-    m_pscreenshotButton = new switchButton(m_IconPathList, m_IconNameList);
+    m_pscreenshotButton = new QPushButton();
+    m_pscreenshotButton->setIcon(QIcon::fromTheme(KYLIN_SCREENSHOT_NORMAL_NAME, QIcon(KYLIN_SCREENSHOT_NORMAL_PATH)));
     m_pscreenshotButton->setFixedSize(56, 56);
     m_pscreenshotButton->setIconSize(QSize(32, 32));
     m_pStyleNormal = new customstyle_switchNormalStatus("ukui-default");

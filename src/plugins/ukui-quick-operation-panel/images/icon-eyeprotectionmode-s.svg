@@ -1,0 +1,16 @@
+<svg id="icon-eyeprotectionmode-s" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+      }
+
+      .cls-2 {
+        fill: #262626;
+      }
+    </style>
+  </defs>
+  <rect id="icon_护眼模式_background" data-name="icon/护眼模式 background" class="cls-1" width="16" height="16"/>
+  <path id="减去_8" data-name="减去 8" class="cls-2" d="M7.892,8C5.153,8,2.541,6.446.13,3.382a.629.629,0,0,1-.017-.741A13.2,13.2,0,0,1,2.33.329,11.367,11.367,0,0,1,4.842-1.263,7.93,7.93,0,0,1,8.108-2c2.734,0,5.346,1.554,7.763,4.618a.625.625,0,0,1,.016.74,13.192,13.192,0,0,1-2.218,2.313,11.371,11.371,0,0,1-2.511,1.592A7.944,7.944,0,0,1,7.892,8ZM8,0a3,3,0,1,0,3,3A3,3,0,0,0,8,0Z" transform="translate(0 5)"/>
+  <circle id="椭圆_27" data-name="椭圆 27" class="cls-2" cx="1.5" cy="1.5" r="1.5" transform="translate(7 6)"/>
+</svg>

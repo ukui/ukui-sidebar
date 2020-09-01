@@ -27,14 +27,14 @@
 #include "switchbutton.h"
 #include "customstyle_switchNormalStatus.h"
 
-#define KYLIN_NODISTURB_NORMAL_NAME     "kylin-nodisturb-normal"
-#define KYLIN_NODISTURB_HOVER_NAME     "kylin-nodisturb-hover"
-#define KYLIN_NODISTURB_PRESS_NAME     "kylin-nodisturb-pressed"
+#define KYLIN_NODISTURB_NORMAL_NAME     "kylin-icon-DND"
+#define KYLIN_NODISTURB_SET_NAME        "kylin-icon-DND-s"
+#define KYLIN_NODISTURB_OPEN_NAME       "kylin-icon-DND-open"
 
 
-#define KYLIN_NODISTURB_NORMAL_PATH     ":/image/nodisturb-normal.svg"
-#define KYLIN_NODISTURB_HOVER_PATH     ":/image/nodisturb-hover.svg"
-#define KYLIN_NODISTURB_PRESS_PATH     ":/image/nodisturb-pressed.svg"
+#define KYLIN_NODISTURB_NORMAL_PATH     ":/images/icon-DND.svg"
+#define KYLIN_NODISTURB_SET_PATH        ":/images/icon-DND-s.svg"
+#define KYLIN_NODISTURB_OPEN_PATH       ":/images/icon-DND-open.svg"
 
 class nodisturbWidget : public QWidget
 {
@@ -46,16 +46,13 @@ public:
     void initLayout();
 private:
     QWidget       *m_pWidgetButton;
-    switchButton  *m_pnodisturbButton;
+    QPushButton   *m_pnodisturbButton;
     QLabel        *m_pnodisturbLabel;
 
     QStyle        *m_pStyleNormal;
 
     QVBoxLayout   *m_pVboxButtonLayout;
     QVBoxLayout   *m_pVboxLayout;
-
-    QStringList  m_IconPathList;
-    QStringList  m_IconNameList;
 };
 
 #endif // NODISTURBWIDGET_H

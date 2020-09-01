@@ -32,16 +32,13 @@ padWidget::~padWidget()
 
 void padWidget::initMemberVariables()
 {
-    m_IconPathList << KYLIN_PAD_NORMAL_PATH << KYLIN_PAD_HOVER_PATH << KYLIN_PAD_PRESS_PATH;
-    m_IconNameList << KYLIN_PAD_NORMAL_NAME << KYLIN_PAD_HOVER_NAME << KYLIN_PAD_PRESS_NAME;
-
     m_pWidgetButton         = new QWidget();
     m_pWidgetButton->setFixedSize(56, 56);
     m_pWidgetButton->setContentsMargins(0, 0, 0, 0);
     m_pVboxButtonLayout     = new QVBoxLayout();
     m_pVboxButtonLayout->setContentsMargins(0, 0, 0, 0);
 
-    m_pPadButton = new switchButton(m_IconPathList, m_IconNameList);
+    m_pPadButton = new QPushButton();
     m_pPadButton->setFixedSize(56, 56);
     m_pPadButton->setIconSize(QSize(32, 32));
     connect(m_pPadButton, &switchButton::clicked, this, &padWidget::PadButtonClickSlots);
@@ -90,9 +87,11 @@ void padWidget::setPadButtonStatus()
 {
     if (m_bModelStatus) {
         m_pPadButton->setStyle(m_pStyleOpen);
+        m_pPadButton->setIcon(QIcon::fromTheme(KYLIN_PAD_NORMAL_NAME, QIcon(KYLIN_PAD_NORMAL_PATH)));
         m_pWidgetButton->update();
     } else {
         m_pPadButton->setStyle(m_pStyleNormal);
+        m_pPadButton->setIcon(QIcon::fromTheme(KYLIN_PC_NORMAL_NAME, QIcon(KYLIN_PC_NORMAL_PATH)));
         m_pWidgetButton->update();
     }
     setLabelTextColor();
@@ -125,10 +124,12 @@ void padWidget::PadButtonClickSlots()
     m_bModelStatus = m_pTabletModeGsetting->get(KYLIN_PAD_MODLE).toBool();
     if (!m_bModelStatus) {
         m_pPadButton->setStyle(m_pStyleOpen);
+        m_pPadButton->setIcon(QIcon::fromTheme(KYLIN_PAD_NORMAL_NAME, QIcon(KYLIN_PAD_NORMAL_PATH)));
         m_pWidgetButton->update();
         m_bModelStatus = true;
     } else {
         m_pPadButton->setStyle(m_pStyleNormal);
+        m_pPadButton->setIcon(QIcon::fromTheme(KYLIN_PC_NORMAL_NAME, QIcon(KYLIN_PC_NORMAL_PATH)));
         m_pWidgetButton->update();
         m_bModelStatus = false;
     }

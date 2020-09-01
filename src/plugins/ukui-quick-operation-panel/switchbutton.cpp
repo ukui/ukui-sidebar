@@ -30,14 +30,12 @@ switchButton::switchButton(QStringList path, QStringList iconNameList)
 
 void switchButton::mousePressEvent(QMouseEvent *event)
 {
-    this->setFixedSize(56, 56);
     this->setIcon(QIcon::fromTheme(IconNameList.at(2), QIcon(IconPath.at(2))));
     QPushButton::mousePressEvent(event);
 }
 
 void switchButton::mouseReleaseEvent(QMouseEvent *e)
 {
-    this->setFixedSize(56, 56);
     this->setIcon(QIcon::fromTheme(IconNameList.at(0), QIcon(IconPath.at(0))));
     QPushButton::mouseReleaseEvent(e);
 }

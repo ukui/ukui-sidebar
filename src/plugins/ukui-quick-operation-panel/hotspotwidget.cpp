@@ -31,16 +31,14 @@ hotspotWidget::~hotspotWidget()
 
 void hotspotWidget::initMemberVariables()
 {
-    m_IconPathList << KYLIN_HOTSPOT_NORMAL_PATH << KYLIN_HOTSPOT_HOVER_PATH << KYLIN_HOTSPOT_PRESS_PATH;
-    m_IconNameList << KYLIN_HOTSPOT_NORMAL_NAME << KYLIN_HOTSPOT_HOVER_NAME << KYLIN_HOTSPOT_PRESS_NAME;
-
     m_pWidgetButton         = new QWidget();
     m_pWidgetButton->setFixedSize(56, 56);
     m_pWidgetButton->setContentsMargins(0, 0, 0, 0);
     m_pVboxButtonLayout     = new QVBoxLayout();
     m_pVboxButtonLayout->setContentsMargins(0, 0, 0, 0);
 
-    m_photspotButton = new switchButton(m_IconPathList, m_IconNameList);
+    m_photspotButton = new QPushButton();
+    m_photspotButton->setIcon(QIcon::fromTheme(KYLIN_HOTSPOT_NORMAL_NAME, QIcon(KYLIN_HOTSPOT_NORMAL_PATH)));
     m_photspotButton->setFixedSize(56, 56);
     m_photspotButton->setIconSize(QSize(32, 32));
     m_pStyleNormal = new customstyle_switchNormalStatus("ukui-default");

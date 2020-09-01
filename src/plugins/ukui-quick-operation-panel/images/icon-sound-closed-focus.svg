@@ -1,0 +1,33 @@
+<svg id="icon-sound-closed-focus" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: rgba(246,246,246,0);
+      }
+
+      .cls-2 {
+        fill: #2092f2;
+      }
+
+      .cls-3, .cls-4 {
+        fill: none;
+        stroke-miterlimit: 10;
+        stroke-width: 1.5px;
+      }
+
+      .cls-3 {
+        stroke: #9c9c9c;
+      }
+
+      .cls-4 {
+        stroke: #2092f2;
+      }
+    </style>
+  </defs>
+  <rect id="矩形" class="cls-1" width="24" height="24"/>
+  <path id="矩形-2" class="cls-2" d="M4.991,8.047a1,1,0,0,0,.677-.264L9.884,3.9a1,1,0,0,1,1.677.736V19.364a1,1,0,0,1-1.677.736L5.669,16.218a1,1,0,0,0-.677-.264H2.917a1,1,0,0,1-1-1V9.047a1,1,0,0,1,1-1Z"/>
+  <line id="直线_4" data-name="直线 4" class="cls-3" x2="8" y2="8" transform="translate(14 8)"/>
+  <line id="直线_5" data-name="直线 5" class="cls-3" x1="8" y2="8" transform="translate(14 8)"/>
+  <line id="直线_4-2" data-name="直线 4" class="cls-4" x2="8" y2="8" transform="translate(14 8)"/>
+  <line id="直线_5-2" data-name="直线 5" class="cls-4" x1="8" y2="8" transform="translate(14 8)"/>
+</svg>

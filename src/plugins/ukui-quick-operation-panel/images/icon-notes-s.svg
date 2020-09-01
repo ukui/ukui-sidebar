@@ -1,0 +1,42 @@
+<svg id="icon-notes-s" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #9c9c9c;
+        opacity: 0;
+      }
+
+      .cls-2, .cls-4, .cls-6 {
+        fill: none;
+      }
+
+      .cls-2 {
+        stroke: #262626;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-3 {
+        fill: #262626;
+      }
+
+      .cls-4 {
+        stroke: #f6f6f6;
+        stroke-linecap: round;
+      }
+
+      .cls-5 {
+        stroke: none;
+      }
+    </style>
+  </defs>
+  <rect id="background" class="cls-1" width="16" height="16"/>
+  <g id="icon-便签本" transform="translate(1)">
+    <g id="矩形_31" data-name="矩形 31" class="cls-2" transform="translate(-1)">
+      <rect class="cls-5" width="13" height="13" rx="2"/>
+      <rect class="cls-6" x="0.5" y="0.5" width="12" height="12" rx="1.5"/>
+    </g>
+    <path id="矩形_30" data-name="矩形 30" class="cls-3" d="M2.5,0h8A2.5,2.5,0,0,1,13,2.5V7a6,6,0,0,1-6,6H2.5A2.5,2.5,0,0,1,0,10.5v-8A2.5,2.5,0,0,1,2.5,0Z" transform="translate(2 3)"/>
+    <line id="直线_1" data-name="直线 1" class="cls-4" x2="5" transform="translate(6 8)"/>
+    <line id="直线_2" data-name="直线 2" class="cls-4" x2="5" transform="translate(6 11)"/>
+  </g>
+</svg>

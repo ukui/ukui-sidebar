@@ -1,0 +1,26 @@
+<svg id="icon-sound-s" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #f6f6f6;
+        opacity: 0;
+      }
+
+      .cls-2 {
+        fill: #262626;
+      }
+
+      .cls-3 {
+        fill: none;
+        stroke: #262626;
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <rect id="矩形_34" data-name="矩形 34" class="cls-1" width="16" height="16" transform="translate(0)"/>
+  <g id="icon-音量" transform="translate(0)">
+    <path id="矩形-2" class="cls-2" d="M2.55,4.692a.825.825,0,0,0,.562-.221l3.5-3.251A.829.829,0,0,1,8,1.837V14.165a.829.829,0,0,1-1.391.615l-3.5-3.249a.825.825,0,0,0-.562-.221H.829A.833.833,0,0,1,0,10.473H0V5.529a.833.833,0,0,1,.829-.837H2.55Z"/>
+    <path id="路径_53" data-name="路径 53" class="cls-2" d="M10.5,10.5a2.5,2.5,0,0,0,0-5Z"/>
+    <path id="路径_54" data-name="路径 54" class="cls-3" d="M10.5,13a5,5,0,0,0,0-10"/>
+  </g>
+</svg>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16.999" height="16" viewBox="0 0 16.999 16">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        opacity: 0;
+      }
+
+      .cls-2 {
+        fill: #262626;
+        stroke: rgba(0,0,0,0);
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <g id="icon-screenshot-s" transform="translate(0.499)">
+    <rect id="icon_截图_background" data-name="icon/截图 background" class="cls-1" width="16" height="16"/>
+    <path id="减去_9" data-name="减去 9" class="cls-2" d="M15.2,11H.8a.863.863,0,0,1-.8-.917V2.75a.869.869,0,0,1,.8-.916H4.2L4.766.859a2.32,2.32,0,0,1,.408-.47A1.272,1.272,0,0,1,6,0h4a1.268,1.268,0,0,1,.824.388,2.32,2.32,0,0,1,.408.47l.564.976h3.4a.863.863,0,0,1,.8.916v7.333A.87.87,0,0,1,15.2,11ZM8,3.056a3,3,0,1,0,3,3A3,3,0,0,0,8,3.056Z" transform="translate(0.002 2.999)"/>
+  </g>
+</svg>

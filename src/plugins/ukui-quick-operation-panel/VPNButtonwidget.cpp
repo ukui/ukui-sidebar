@@ -8,12 +8,11 @@ diturbModeWidget::diturbModeWidget(QWidget *parent) : QWidget(parent)
 
 void diturbModeWidget::initMemberVariables()
 {
-    m_IconPathList << KYLIN_BLUETOOTH_NORMAL_PATH << KYLIN_BLUETOOTH_HOVER_PATH << KYLIN_BLUETOOTH_PRESS_PATH;
-    m_IconNameList << KYLIN_BLUETOOTH_NORMAL_NAME << KYLIN_BLUETOOTH_HOVER_NAME << KYLIN_BLUETOOTH_PRESS_NAME;
     m_pButtonWidget = new QWidget();
     m_pButtonWidget->setFixedSize(56, 56);
 
-    m_pVPNButton = new switchButton(m_IconPathList, m_IconNameList);
+    m_pVPNButton = new QPushButton();
+    m_pVPNButton->setIcon(QIcon::fromTheme(KYLIN_VPN_NORMAL_NAME, QIcon(KYLIN_BLUETOOTH_NORMAL_PATH)));
     connect(m_pVPNButton, &switchButton::clicked, this, &diturbModeWidget::VPNButtonClickSLots);
     m_pVPNButton->setFixedSize(56, 56);
     m_pVPNButton->setIconSize(QSize(32, 32));

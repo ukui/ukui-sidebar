@@ -1,0 +1,31 @@
+<svg id="icon-VPN-s" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-5 {
+        fill: none;
+      }
+
+      .cls-1 {
+        opacity: 0;
+      }
+
+      .cls-2 {
+        stroke: #262626;
+      }
+
+      .cls-3 {
+        fill: #262626;
+      }
+
+      .cls-4 {
+        stroke: none;
+      }
+    </style>
+  </defs>
+  <rect id="icon_VPN_background" data-name="icon/VPN background" class="cls-1" width="16" height="16"/>
+  <g id="line" class="cls-2" transform="translate(0 2)">
+    <rect class="cls-4" width="16" height="12" rx="3"/>
+    <rect class="cls-5" x="0.5" y="0.5" width="15" height="11" rx="2.5"/>
+  </g>
+  <path id="VPN" class="cls-3" d="M16.195,7.34H17.28l1.4-4h-.924l-.592,1.946c-.142.443-.247.843-.388,1.292h-.031c-.148-.449-.24-.849-.382-1.292l-.6-1.946H14.8Zm3.008,0h.912V5.918h.61c.98,0,1.763-.411,1.763-1.324,0-.946-.777-1.254-1.787-1.254H19.2Zm.912-2.054V3.972h.518c.629,0,.961.157.961.622s-.3.692-.931.692Zm3.2,2.054h.863V5.735c0-.459-.068-.962-.111-1.395H24.1l.462.859L25.878,7.34H26.8v-4h-.863V4.935a12.587,12.587,0,0,0,.117,1.4h-.031l-.456-.865L24.244,3.34h-.931Z" transform="translate(-12.802 2.66)"/>
+</svg>

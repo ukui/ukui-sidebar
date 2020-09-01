@@ -29,13 +29,11 @@
 #include "customstyle_switchNormalStatus.h"
 #include "switchbutton.h"
 
-#define KYLIN_CALCULATOR_NORMAL_PATH    ":/image/calculator-normal.svg"
-#define KYLIN_CALCULATOR_HOVER_PATH     ":/image/calculator-hover.svg"
-#define KYLIN_CALCULATOR_PRESS_PATH     ":/image/calculator-pressed.svg"
+#define KYLIN_CALCULATOR_NORMAL_PATH    ":/images/icon-calculator.svg"
+#define KYLIN_CALCULATOR_SET_PATH     ":/images/icon-allsetting-s.svg"
 
-#define KYLIN_CALCULATOR_NORMAL_NAME    "kylin-calculator-normal"
-#define KYLIN_CALCULATOR_HOVER_NAME     "kylin-calculator-hover"
-#define KYLIN_CALCULATOR_PRESS_NAME     "kylin-calculator-pressed"
+#define KYLIN_CALCULATOR_NORMAL_NAME    "kylin-icon-calculator"
+#define KYLIN_CALCULATOR_SET_NAME     "kylin-icon-allsetting-s"
 
 class calculatorWidget : public QWidget
 {
@@ -47,15 +45,13 @@ public:
     void initLayout();
 private:
     QWidget       *m_pWidgetButton;
-    switchButton  *m_pcalculatorButton;
+    QPushButton   *m_pcalculatorButton;
     QLabel        *m_pcalculatorLabel;
     QStyle        *m_pStyleNormal;
 
     QVBoxLayout   *m_pVboxButtonLayout;
     QVBoxLayout   *m_pVboxLayout;
 
-    QStringList  m_IconPathList;
-    QStringList  m_IconNameList;
 private slots:
     void calculatorButtonClickSlots();
 };

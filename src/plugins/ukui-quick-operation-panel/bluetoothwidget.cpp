@@ -32,16 +32,13 @@ bluetoothWidget::~bluetoothWidget()
 
 void bluetoothWidget::initMemberVariables()
 {
-    m_IconPathList << KYLIN_BLUETOOTH_NORMAL_PATH << KYLIN_BLUETOOTH_HOVER_PATH << KYLIN_BLUETOOTH_PRESS_PATH;
-    m_IconNameList << KYLIN_BLUETOOTH_NORMAL_NAME << KYLIN_BLUETOOTH_HOVER_NAME << KYLIN_BLUETOOTH_PRESS_NAME;
-
     m_pWidgetButton         = new QWidget();
     m_pWidgetButton->setFixedSize(56, 56);
     m_pWidgetButton->setContentsMargins(0, 0, 0, 0);
     m_pVboxButtonLayout     = new QVBoxLayout();
     m_pVboxButtonLayout->setContentsMargins(0, 0, 0, 0);
 
-    m_pbluetoothButton = new switchButton(m_IconPathList, m_IconNameList);
+    m_pbluetoothButton = new QPushButton();
     connect(m_pbluetoothButton, &switchButton::clicked, this, &bluetoothWidget::bluetoothButtonClickSlots);
     m_pbluetoothButton->setFixedSize(56, 56);
     m_pbluetoothButton->setIconSize(QSize(32, 32));
@@ -102,8 +99,10 @@ void bluetoothWidget::setBluetoothStatus()
     QPalette palette;
     QColor color = getSystemPaleteColor();
     if (m_bbluetoothStatus) {
+        m_pbluetoothButton->setIcon(QIcon::fromTheme(KYLIN_BLUETOOTH_OPEN_NAME, QIcon(KYLIN_BLUETOOTH_OPEN_PATH)));
         m_pbluetoothButton->setStyle(m_pStyleOpen);
     } else {
+        m_pbluetoothButton->setIcon(QIcon::fromTheme(KYLIN_BLUETOOTH_NORMAL_NAME, QIcon(KYLIN_BLUETOOTH_NORMAL_PATH)));
         m_pbluetoothButton->setStyle(m_pStyleNormal);
     }
     palette.setBrush(QPalette::WindowText, color);

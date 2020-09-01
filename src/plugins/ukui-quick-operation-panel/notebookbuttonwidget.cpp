@@ -8,13 +8,12 @@ notebookButtonWidget::notebookButtonWidget(QWidget *parent) : QWidget(parent)
 
 void notebookButtonWidget::initMemberVariables()
 {
-    m_IconPathList << KYLIN_BLUETOOTH_NORMAL_PATH << KYLIN_BLUETOOTH_HOVER_PATH << KYLIN_BLUETOOTH_PRESS_PATH;
-    m_IconNameList << KYLIN_BLUETOOTH_NORMAL_NAME << KYLIN_BLUETOOTH_HOVER_NAME << KYLIN_BLUETOOTH_PRESS_NAME;
     m_pButtonWidget = new QWidget();
     m_pButtonWidget->setFixedSize(56, 56);
 
-    m_pNoteButton = new switchButton(m_IconPathList, m_IconNameList);
+    m_pNoteButton = new QPushButton();
     connect(m_pNoteButton, &switchButton::clicked, this, &notebookButtonWidget::NoteButtonClickSlots);
+    m_pNoteButton->setIcon(QIcon::fromTheme(KYLIN_BLUETOOTH_NORMAL_NAME, QIcon(KYLIN_BLUETOOTH_NORMAL_PATH)));
     m_pNoteButton->setFixedSize(56, 56);
     m_pNoteButton->setIconSize(QSize(32, 32));
 

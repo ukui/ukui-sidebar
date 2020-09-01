@@ -30,17 +30,15 @@ settingWidget::~settingWidget()
 
 void settingWidget::initMemberVariables()
 {
-    m_IconPathList << KYLIN_SETTING_NORMAL_PATH << KYLIN_SETTING_HOVER_PATH << KYLIN_SETTING_PRESS_PATH;
-    m_IconNameList << KYLIN_SETTING_NORMAL_NAME << KYLIN_SETTING_HOVER_NAME << KYLIN_SETTING_PRESS_NAME;
-
     m_pWidgetButton         = new QWidget();
     m_pWidgetButton->setFixedSize(56, 56);
     m_pWidgetButton->setContentsMargins(0, 0, 0, 0);
     m_pVboxButtonLayout     = new QVBoxLayout();
     m_pVboxButtonLayout->setContentsMargins(0, 0, 0, 0);
 
-    m_psettingButton = new switchButton(m_IconPathList, m_IconNameList);
+    m_psettingButton = new QPushButton();
     m_psettingButton->setFixedSize(56, 56);
+    m_psettingButton->setIcon(QIcon::fromTheme(KYLIN_SETTING_NORMAL_NAME, QIcon(KYLIN_SETTING_NORMAL_PATH)));
     m_psettingButton->setIconSize(QSize(32, 32));
     m_pStyleNormal = new customstyle_switchNormalStatus("ukui-default");
     m_psettingButton->setStyle(m_pStyleNormal);

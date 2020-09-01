@@ -1,0 +1,24 @@
+<svg id="icon-alarm" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .cls-1, .cls-3 {
+        fill: none;
+      }
+
+      .cls-2 {
+        fill: #9c9c9c;
+      }
+
+      .cls-3 {
+        stroke: #9c9c9c;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </defs>
+  <rect id="icon_闹钟_background" data-name="icon/闹钟 background" class="cls-1" width="24" height="24"/>
+  <path id="路径_37" data-name="路径 37" class="cls-2" d="M245.236,245.236a4.216,4.216,0,0,0,0,5.965.7.7,0,0,0,.994,0l4.971-4.971a.7.7,0,0,0,0-.994A4.318,4.318,0,0,0,245.236,245.236Zm21.527,0a4.318,4.318,0,0,0-5.965,0,.7.7,0,0,0,0,.994l4.971,4.971a.7.7,0,0,0,.994,0,4.216,4.216,0,0,0,0-5.965Z" transform="translate(-244 -243)"/>
+  <path id="路径_36" data-name="路径 36" class="cls-2" d="M256,246.859a9.844,9.844,0,1,0,9.843,9.844A9.855,9.855,0,0,0,256,246.859Zm0,16.875a7.031,7.031,0,1,1,7.031-7.031A7.04,7.04,0,0,1,256,263.734Z" transform="translate(-244 -243)"/>
+  <path id="路径_39" data-name="路径 39" class="cls-3" d="M259.055,253.154v3.739l-2.758,2.742" transform="translate(-247 -243)"/>
+</svg>

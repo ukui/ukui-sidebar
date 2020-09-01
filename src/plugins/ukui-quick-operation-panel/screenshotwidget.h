@@ -27,14 +27,12 @@
 #include "switchbutton.h"
 #include "customstyle_switchNormalStatus.h"
 
-#define KYLIN_SCREENSHOT_NORMAL_NAME    "kylin-screenshot-normal"
-#define KYLIN_SCREENSHOT_HOVER_NAME     "kylin-screenshot-hover"
-#define KYLIN_SCREENSHOT_PRESS_NAME     "kylin-screenshot-pressed"
+#define KYLIN_SCREENSHOT_NORMAL_NAME    "kylin-icon-screenshot"
+#define KYLIN_SCREENSHOT_SET_NAME     "kylin-icon-screenshot-s"
 
 
-#define KYLIN_SCREENSHOT_NORMAL_PATH    ":/image/screenshot-normal.svg"
-#define KYLIN_SCREENSHOT_HOVER_PATH     ":/image/screenshot-hover.svg"
-#define KYLIN_SCREENSHOT_PRESS_PATH     ":/image/screenshot-pressed.svg"
+#define KYLIN_SCREENSHOT_NORMAL_PATH    ":/images/icon-screenshot.svg"
+#define KYLIN_SCREENSHOT_SET_PATH     ":/images/icon-screenshot-s.svg"
 
 class screenshotWidget : public QWidget
 {
@@ -47,16 +45,13 @@ public:
 
 private:
     QWidget      *m_pWidgetButton;
-    switchButton *m_pscreenshotButton;
+    QPushButton  *m_pscreenshotButton;
     QLabel       *m_pscreenshotlabel;
 
-    QStyle        *m_pStyleNormal;
+    QStyle       *m_pStyleNormal;
 
     QVBoxLayout  *m_pVboxButtonLayout;
     QVBoxLayout  *m_pVboxLayout;
-
-    QStringList   m_IconPathList;
-    QStringList   m_IconNameList;
 private slots:
     void         sreenShotButtonClickedSlots();
 };

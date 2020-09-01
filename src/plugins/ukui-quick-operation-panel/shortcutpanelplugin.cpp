@@ -380,9 +380,6 @@ void shortcutPanelPlugin::foldClikedSlots()
     m_pWeatherWidget->setVisible(false);
     m_pLinelabel_2->setVisible(false);
     m_pLinelabel_3->setVisible(false);
-    qDebug() << "折叠界面大小--->" << m_pButtonWidget->size();
-    qDebug() << "账户信息大小--->" << m_PAccountInfoWidget->size();
-    qDebug() << "快捷操作界面大小--->" << m_pShortWidget->size();
     m_pMainWidget->update();
     return;
 }

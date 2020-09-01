@@ -31,17 +31,15 @@ nodisturbWidget::~nodisturbWidget()
 
 void nodisturbWidget::initMemberVariables()
 {
-    m_IconNameList << KYLIN_NODISTURB_NORMAL_NAME << KYLIN_NODISTURB_HOVER_NAME << KYLIN_NODISTURB_PRESS_NAME;
-    m_IconPathList << KYLIN_NODISTURB_NORMAL_PATH << KYLIN_NODISTURB_HOVER_PATH << KYLIN_NODISTURB_PRESS_PATH;
-
     m_pWidgetButton         = new QWidget();
     m_pWidgetButton->setFixedSize(56, 56);
     m_pWidgetButton->setContentsMargins(0, 0, 0, 0);
     m_pVboxButtonLayout     = new QVBoxLayout();
     m_pVboxButtonLayout->setContentsMargins(0, 0, 0, 0);
 
-    m_pnodisturbButton = new switchButton(m_IconPathList, m_IconNameList);
+    m_pnodisturbButton = new QPushButton();
     m_pnodisturbButton->setFixedSize(56, 56);
+    m_pnodisturbButton->setIcon(QIcon::fromTheme(KYLIN_NODISTURB_NORMAL_NAME, QIcon(KYLIN_NODISTURB_NORMAL_PATH)));
     m_pnodisturbButton->setIconSize(QSize(32, 32));
     m_pStyleNormal = new customstyle_switchNormalStatus("ukui-default");
     m_pnodisturbButton->setStyle(m_pStyleNormal);
