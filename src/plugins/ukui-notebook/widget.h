@@ -55,6 +55,7 @@
 #include "editPage.h"
 #include "noteExitWindow.h"
 #include "ui_editPage.h"
+#include "adaptscreeninfo.h"
 
 extern int sink;
 
@@ -133,6 +134,7 @@ private:
     QThread* m_dbThread;                                            //数据库线程
     QMenu* m_menu;                                                  //菜单
     QAction* m_menuAction;                                          //菜单动作
+    adaptScreenInfo *m_pSreenInfo;
 
     int m_noteCounter;                                              //便签总数
     int m_trashCounter;                                             //废纸篓总数

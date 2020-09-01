@@ -130,8 +130,9 @@ Clock::Clock(QWidget *parent) :
                                     QListWidget::item::selected:active{background-color:rgba(72,72,76,1);border-radius:4px;border:1px solid rgba(97,97,101,1);}\
                                     QListWidget::item:hover{background-color:rgba(72,72,76,0.5);border-radius:4px;}");
 
-    QDesktopWidget *deskdop = QApplication::desktop();
-    move((deskdop->width() - this->width())/2, (deskdop->height() - this->height())/2);
+    m_pSreenInfo = new adaptScreenInfo();
+    qDebug()<<m_pSreenInfo->m_screenWidth<<m_pSreenInfo->m_screenHeight;
+    move((m_pSreenInfo->m_screenWidth - this->width() + m_pSreenInfo->m_nScreen_x )/2, (m_pSreenInfo->m_screenHeight - this->height())/2);
 
     QIcon bta_tool_count_icon = QIcon(":/icon-1.png");
     bta_tool_count = new Btn_new(1, this, bta_tool_count_icon, tr("Count down"), ui->page_7);
