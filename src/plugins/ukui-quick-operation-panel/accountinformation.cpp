@@ -53,7 +53,6 @@ void AccountInformation::initLayout()
     m_pVLabelLayout->addWidget(m_pIdentityLabel, Qt::AlignVCenter);
     m_pVLabelLayout->addItem(new QSpacerItem(1, 5));
     m_pInfoWidget->setLayout(m_pVLabelLayout);
-//    m_pInfoWidget->setStyleSheet("QWidget{border: 1px solid rgba(255,255,0,1);}");
 
     m_pMainLayout->addItem(new QSpacerItem(32, 10));
     m_pMainLayout->addWidget(m_pHeadPortraitIconLabel, Qt::AlignVCenter);
@@ -135,7 +134,7 @@ void AccountInformation::setAllControlsLabelInfo()
         user.iconfile = DEFAULTFACE;
     }
     m_pHeadPortraitIconLabel->setPixmap(QPixmap(user.iconfile).scaled(QSize(m_pHeadPortraitIconLabel->size())));
-    m_pShutDownButton->setIcon(QIcon::fromTheme("application-exit"));
+    m_pShutDownButton->setIcon(QIcon::fromTheme(KYLIN_SHUT_DOWN_ICON_NAME, QIcon(KYLIN_SHUT_DOWN_ICON_PATH)));
 }
 
 void AccountInformation::openShutdownWidgetSlots()

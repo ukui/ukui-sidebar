@@ -17,6 +17,9 @@
 
 #define DEFAULTFACE "/usr/share/ukui/faces/default.png"
 
+#define KYLIN_SHUT_DOWN_ICON_PATH ":/images/icon-shutdown.svg"
+#define KYLIN_SHUT_DOWN_ICON_NAME ":/ukui-icon-shutdown"
+
 /* qt会将glib里的signals成员识别为宏，所以取消该宏
  * 后面如果用到signals时，使用Q_SIGNALS代替即可
  **/

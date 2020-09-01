@@ -78,9 +78,12 @@ INCLUDEPATH    += ../../plugin-interface
 
 DISTFILES += shortcutPanelPlugin.json
 
+schemes.files += data/org.ukui.quick.operation.panel.gschema.xml
+schemes.path = /usr/share/glib-2.0/schemas/
+
 # Default rules for deployment.
 unix {
     target.path = $${PLUGIN_INSTALL_DIRS}
-    INSTALLS += target
+    INSTALLS += target schemes
 }
 #!isEmpty(target.path): INSTALLS += target

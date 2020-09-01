@@ -1,0 +1,14 @@
+<schemalist gettext-domain="ukui-quick-operation">
+     <schema id="org.ukui.quick-operation.panel"  path="/org/ukui/quick-operation/panel/">
+        <key name="volumesize" type="i">
+            <default>50</default>
+            <summary>volume size</summary>
+            <description>Interacts with the volume component to adjust the volume</description>
+        </key>
+        <key name="screenbrightness" type="i">
+            <default>50</default>
+            <summary>screen brightness</summary>
+            <description>Interacts with the luminance modulator to adjust screen brightness</description>
+        </key>
+    </schema>
+</schemalist>

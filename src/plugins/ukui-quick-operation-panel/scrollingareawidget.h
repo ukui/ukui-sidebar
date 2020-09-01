@@ -8,6 +8,11 @@
 #include <QLabel>
 #include <QIcon>
 #include <QDebug>
+#include <QGSettings>
+
+#define UKUI_VOLUME_BRIGHTNESS_GSETTING_ID "org.ukui.quick-operation.panel"
+#define UKUI_VOLUME_KEY "volumesize"
+#define UKUI_BRIGHTNESS_KEY "screenbrightness"
 
 class ScrollingAreaWidget : public QWidget
 {
@@ -17,6 +22,8 @@ public:
 
 private:
     void initMemberVariable();
+    void initGsettingValue();
+    void initSlideStatus();
     void initLayout();
 
 private:
@@ -31,6 +38,13 @@ private:
     QLabel      *m_pBrightIconLabel;
     QSlider     *m_pBrightSlide;
     QHBoxLayout *m_pBrightLayout;
+
+    QGSettings  *m_pVolumeLightSetting;
+
+private slots:
+    void setSliderValue(QString key);
+    void setVolumeSlideSlots(int value);
+    void setBrightSlideSlots(int value);
 };
 
 #endif // SCROLLINGAREAWIDGET_H
