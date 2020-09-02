@@ -13,7 +13,7 @@
 #include "switchbutton.h"
 
 #define KYLIN_POWER_MODE_GSETTING_VALUE        "org.ukui.power-manager"
-#define KYLIN_POWER_SREEN_BRIGHTNESS_MODLE     "brightness-ac"
+#define KYLIN_POWER_SREEN_BRIGHTNESS_AC_MODLE     "brightness-ac"
 
 class powerSavingMode : public QWidget
 {
