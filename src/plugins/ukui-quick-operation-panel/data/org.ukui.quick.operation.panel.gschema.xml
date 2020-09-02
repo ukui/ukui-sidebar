@@ -10,5 +10,10 @@
             <summary>screen brightness</summary>
             <description>Interacts with the luminance modulator to adjust screen brightness</description>
         </key>
+        <key name="energysavingmode" type="b">
+            <default>false</default>
+            <summary>energy saving mode</summary>
+            <description>Remember the energy saving mode button switch</description>
+        </key>
     </schema>
 </schemalist>

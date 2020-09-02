@@ -94,8 +94,11 @@ void shortcutPanelPlugin::initShortButtonWidget()
     ShortButtonWidgetList.append(m_ppadWidget);
 
     /* Wifi */
-    m_pWifiWidget = new WifiWidget();
-    ShortButtonWidgetList.append(m_pWifiWidget);
+//    m_pWifiWidget = new WifiWidget();
+//    ShortButtonWidgetList.append(m_pWifiWidget);
+    /* 节能模式 */
+    m_pPowerSavingMode = new powerSavingMode();
+    ShortButtonWidgetList.append(m_pPowerSavingMode);
 
     /* 免打扰 */
     m_pnodisturbWidget = new nodisturbWidget();
