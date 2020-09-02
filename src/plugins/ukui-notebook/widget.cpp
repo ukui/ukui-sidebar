@@ -220,8 +220,8 @@ void Widget::kyNoteInit()
     setAttribute(Qt::WA_TranslucentBackground);//设置窗口透明显示(毛玻璃效果)
     //    setWindowOpacity(0.8);//窗口透明度
     //弹出位置
-    QDesktopWidget *desktop = QApplication::desktop();
-    move((desktop->width() - this->width())/2, (desktop->height() - this->height())/2);
+    m_pSreenInfo = new adaptScreenInfo();
+    move((m_pSreenInfo->m_screenWidth - this->width() + m_pSreenInfo->m_nScreen_x )/2, (m_pSreenInfo->m_screenHeight - this->height())/2);
     //标题
     this->setWindowTitle(tr("ukui-note"));
     //任务栏图标

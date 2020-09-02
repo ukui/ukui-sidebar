@@ -43,6 +43,7 @@
 #include <QLineEdit>
 #include "setupPage.h"
 #include <QPropertyAnimation>
+#include "adaptscreeninfo.h"
 
 class QSpinBox;
 class QComboBox;
@@ -339,6 +340,7 @@ private:
     Btn_new *bta_tool_clock;
     Btn_new *bta_tool_stop;
     close_or_hide *close_or_hide_page;
+    adaptScreenInfo *m_pSreenInfo = nullptr;
 };
 
 
