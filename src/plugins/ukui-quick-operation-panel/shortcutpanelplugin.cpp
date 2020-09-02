@@ -125,8 +125,12 @@ void shortcutPanelPlugin::initShortButtonWidget()
     ShortButtonWidgetList.append(m_pscreenshotWidget);
 
     /* 自动旋转功能 */
-    m_pAutomaticRotationWidget = new AutomaticRotationWidget();
-    ShortButtonWidgetList.append(m_pAutomaticRotationWidget);
+//    m_pAutomaticRotationWidget = new AutomaticRotationWidget();
+//    ShortButtonWidgetList.append(m_pAutomaticRotationWidget);
+
+    /* 护眼模式 */
+    m_pEyeProtectionMode = new eyeProtectionMode();
+    ShortButtonWidgetList.append(m_pEyeProtectionMode);
 
     /* 闹钟 */
     m_pAlarmButtonInterface = new alarmButtonInterface();

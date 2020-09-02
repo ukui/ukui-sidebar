@@ -45,6 +45,7 @@
 #include "notebookbuttonwidget.h"
 #include "VPNButtonwidget.h"
 #include "powersavingmode.h"
+#include "eyeprotectionmode.h"
 
 #define SPREAD_BUTTON_NORMAL       ":/image/open-normal.svg"
 #define SPREAD_BUTTON_HOVER        ":/image/open-hover.svg"
@@ -151,6 +152,7 @@ private:
     notebookButtonWidget    *m_pNoteBookButtonWidget;
     diturbModeWidget        *m_pDiturbModeWidget;
     powerSavingMode         *m_pPowerSavingMode;
+    eyeProtectionMode       *m_pEyeProtectionMode;
 };
 
 #endif // SHORTCUTPANELPLUGIN_H
