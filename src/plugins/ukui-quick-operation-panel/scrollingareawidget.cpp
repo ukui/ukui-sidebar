@@ -115,7 +115,7 @@ void ScrollingAreaWidget::setSliderValue(QString key)
 /* 改变音量滚动条时，修改gsetting值，通知音量组件修改，同步 */
 void ScrollingAreaWidget::setVolumeSlideSlots(int value)
 {
-    qDebug() << "123123131音量滚动条时";
+    qDebug() << "123123131音量滚动条时" << value;
     m_pVolumeLightSetting->set(UKUI_VOLUME_KEY, value);
     return;
 }
