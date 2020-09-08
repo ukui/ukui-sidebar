@@ -93,20 +93,17 @@ void shortcutPanelPlugin::initShortButtonWidget()
     m_ppadWidget       = new padWidget();
     ShortButtonWidgetList.append(m_ppadWidget);
 
-    /* Wifi */
-//    m_pWifiWidget = new WifiWidget();
-//    ShortButtonWidgetList.append(m_pWifiWidget);
-    /* 节能模式 */
-    m_pPowerSavingMode = new powerSavingMode();
-    ShortButtonWidgetList.append(m_pPowerSavingMode);
-
     /* 免打扰 */
     m_pnodisturbWidget = new nodisturbWidget();
     ShortButtonWidgetList.append(m_pnodisturbWidget);
 
-    /* 设置 */
-    m_psettingWidget = new settingWidget();
-    ShortButtonWidgetList.append(m_psettingWidget);
+    /* 节能模式 */
+    m_pPowerSavingMode = new powerSavingMode();
+    ShortButtonWidgetList.append(m_pPowerSavingMode);
+
+    /* 护眼模式 */
+    m_pEyeProtectionMode = new eyeProtectionMode();
+    ShortButtonWidgetList.append(m_pEyeProtectionMode);
 
     /* 蓝牙 */
     m_pbluetoothWidget = new bluetoothWidget();
@@ -116,6 +113,14 @@ void shortcutPanelPlugin::initShortButtonWidget()
     m_photspotWidget = new hotspotWidget();
     ShortButtonWidgetList.append(m_photspotWidget);
 
+    /* VPN */
+    m_pDiturbModeWidget = new diturbModeWidget();
+    ShortButtonWidgetList.append(m_pDiturbModeWidget);
+
+    /* 设置 */
+    m_psettingWidget = new settingWidget();
+    ShortButtonWidgetList.append(m_psettingWidget);
+
     /* 计算器 */
     m_pcalculatorWidget = new calculatorWidget();
     ShortButtonWidgetList.append(m_pcalculatorWidget);
@@ -123,14 +128,6 @@ void shortcutPanelPlugin::initShortButtonWidget()
     /* 截图 */
     m_pscreenshotWidget = new screenshotWidget();
     ShortButtonWidgetList.append(m_pscreenshotWidget);
-
-    /* 自动旋转功能 */
-//    m_pAutomaticRotationWidget = new AutomaticRotationWidget();
-//    ShortButtonWidgetList.append(m_pAutomaticRotationWidget);
-
-    /* 护眼模式 */
-    m_pEyeProtectionMode = new eyeProtectionMode();
-    ShortButtonWidgetList.append(m_pEyeProtectionMode);
 
     /* 闹钟 */
     m_pAlarmButtonInterface = new alarmButtonInterface();
@@ -140,9 +137,14 @@ void shortcutPanelPlugin::initShortButtonWidget()
     m_pNoteBookButtonWidget = new notebookButtonWidget();
     ShortButtonWidgetList.append(m_pNoteBookButtonWidget);
 
-    /* 勿扰模式 */
-    m_pDiturbModeWidget = new diturbModeWidget();
-    ShortButtonWidgetList.append(m_pDiturbModeWidget);
+    /* 自动旋转功能 */
+//    m_pAutomaticRotationWidget = new AutomaticRotationWidget();
+//    ShortButtonWidgetList.append(m_pAutomaticRotationWidget);
+
+    /* Wifi */
+//    m_pWifiWidget = new WifiWidget();
+//    ShortButtonWidgetList.append(m_pWifiWidget);
+
     return;
 }
 

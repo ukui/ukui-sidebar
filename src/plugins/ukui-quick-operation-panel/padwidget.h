@@ -65,7 +65,7 @@ private:
     QStyle        *m_pStyleOpen;
     QStyle        *m_pStyleNormal;
 
-    QGSettings    *m_pTabletModeGsetting;
+    QGSettings    *m_pTabletModeGsetting = nullptr;
     QVBoxLayout   *m_pVboxButtonLayout;
     QVBoxLayout   *m_pVboxLayout;
 

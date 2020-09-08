@@ -163,10 +163,10 @@ void NotificationPlugin::showNotification()
     if(false == m_bInitialFlag)
     {
         qDebug() << "m_pMainWidget-->height" << m_pMainWidget->height();
-        m_pMsgListWidget->setFixedHeight(m_pMainWidget->height());
+//        m_pMsgListWidget->setFixedHeight(m_pMainWidget->height());
         m_bInitialFlag = false;
-        qDebug()<<"NotificationPlugin::showNotification 通知列表的高度"<< m_pMsgListWidget->height();
-        m_pMsgDoubleListWidget->setFixedHeight(m_pMsgListWidget->height());
+//        qDebug()<<"NotificationPlugin::showNotification 通知列表的高度"<< m_pMsgListWidget->height();
+//        m_pMsgDoubleListWidget->setFixedHeight(m_pMsgListWidget->height());
     }
     //上面不需要判断，因为在隐藏时，已经切换至通知中心，m_bShowTakeIn为false
     for(int i = 0; i < m_listAppMsg.count(); i++)

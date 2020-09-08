@@ -31,7 +31,7 @@ private:
     QHBoxLayout *m_pMainHLayout;
 
     QString m_pweatherString;
-    QGSettings *m_pWeatherGsetting;
+    QGSettings *m_pWeatherGsetting = nullptr;
 
 private slots:
     void    getGsettingChageSlots(QString key);

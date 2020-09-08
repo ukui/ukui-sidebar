@@ -45,7 +45,7 @@ private:
     QStyle          *m_pStyleOpen;
     QStyle          *m_pStyleNormal;
 
-    QGSettings      *m_pAutomaticRotationGsetting;
+    QGSettings      *m_pAutomaticRotationGsetting = nullptr;
 
     QStringList      m_IconPathList;
     QStringList      m_IconNameList;

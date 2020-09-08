@@ -52,8 +52,8 @@ private:
     QStyle        *m_pStyleOpen;
     QStyle        *m_pStyleNormal;
 
-    QGSettings    *m_pSavingModeGsetting;
-    QGSettings    *m_pSavingModeButtonStatusGsetting;
+    QGSettings    *m_pSavingModeGsetting = nullptr;
+    QGSettings    *m_pSavingModeButtonStatusGsetting = nullptr;
     QVBoxLayout   *m_pVboxButtonLayout;
     QVBoxLayout   *m_pVboxLayout;
 

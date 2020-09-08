@@ -41,8 +41,8 @@ private:
     QSlider     *m_pBrightSlide;
     QHBoxLayout *m_pBrightLayout;
 
-    QGSettings  *m_pVolumeLightSetting;
-    QGSettings  *m_pBrightNessSetting;
+    QGSettings  *m_pVolumeLightSetting = nullptr;
+    QGSettings  *m_pBrightNessSetting  = nullptr;
 
 private slots:
     void setSliderValue(QString key);

@@ -55,6 +55,7 @@ public:
     void   writeKwinSettings(bool change, QString theme);       // 设置与Kwin　窗口管理器　标题栏颜色
     QColor getSystemPaleteColor();
     void   setLabelTextColor();
+
 private:
     QWidget       *m_pWidgetButton;
     QPushButton   *m_pEyeModeButton;
@@ -65,16 +66,17 @@ private:
 
     QSettings     *m_pqsettings;
     QSettings     *m_pKwinSettings;
-    QGSettings    *m_pTabletModeGsetting;
-    QGSettings    *m_pqtstyleGsettings;
-    QGSettings    *m_pgtkstyleGsettings;
-    QVBoxLayout   *m_pVboxButtonLayout;
-    QVBoxLayout   *m_pVboxLayout;
+    QGSettings    *m_pTabletModeGsetting = nullptr;
+    QGSettings    *m_pqtstyleGsettings   = nullptr;
+    QGSettings    *m_pgtkstyleGsettings  = nullptr;
+    QVBoxLayout   *m_pVboxButtonLayout   = nullptr;
+    QVBoxLayout   *m_pVboxLayout         = nullptr;
 
     bool          m_bModelStatus;
 
 private slots:
     void          EyeButtonClickSlots();
+
 Q_SIGNALS:
 
 };
