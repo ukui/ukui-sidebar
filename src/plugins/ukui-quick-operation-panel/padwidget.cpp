@@ -63,8 +63,9 @@ void padWidget::initMemberVariables()
 void padWidget::initGsettingValue()
 {
     /* 链接time-shutdown的dgsetting接口 */
-    if(QGSettings::isSchemaInstalled(KYLIN_PAD_GSETTING_VALUE))
-        m_pTabletModeGsetting = new QGSettings(KYLIN_PAD_GSETTING_VALUE);
+    const QByteArray id(KYLIN_PAD_GSETTING_VALUE);
+    if(QGSettings::isSchemaInstalled(id))
+        m_pTabletModeGsetting = new QGSettings(id);
     if (m_pTabletModeGsetting != nullptr) {
         qDebug() << "当前的gsetting的key值" << m_pTabletModeGsetting->keys();
         m_bModelStatus = m_pTabletModeGsetting->get(KYLIN_PAD_MODLE).toBool();

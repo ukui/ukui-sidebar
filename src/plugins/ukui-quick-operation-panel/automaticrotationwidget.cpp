@@ -52,8 +52,9 @@ void AutomaticRotationWidget::initLayout()
 void AutomaticRotationWidget::initGsettingValue()
 {
     /* 链接time-shutdown的dgsetting接口 */
-    if(QGSettings::isSchemaInstalled(KYLIN_PAD_GSETTING_VALUE))
-        m_pAutomaticRotationGsetting = new QGSettings(KYLIN_PAD_GSETTING_VALUE);
+    const QByteArray id(KYLIN_PAD_GSETTING_VALUE);
+    if(QGSettings::isSchemaInstalled(id))
+        m_pAutomaticRotationGsetting = new QGSettings(id);
     if (m_pAutomaticRotationGsetting != nullptr) {
         qDebug() << "当前的gsetting的key值" << m_pAutomaticRotationGsetting->keys();
         m_bAutomaticRotationStatus = m_pAutomaticRotationGsetting->get(KYLIN_AUTOMATICROTAION_STATUS).toBool();

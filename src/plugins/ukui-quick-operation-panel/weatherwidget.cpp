@@ -55,7 +55,6 @@ void weatherWidget::setLabelData(QStringList WeatherInfoList)
     else
         WeatherInfo = QStringLiteral("%1 %2 %3").arg(WeatherInfoList.at(2)) \
                 .arg(WeatherInfoList.at(3)).arg(WeatherInfoList.at(5));
-    qDebug() << WeatherInfo;
     m_pAreaLabel->setText(WeatherInfo);
     return;
 }
@@ -63,8 +62,9 @@ void weatherWidget::setLabelData(QStringList WeatherInfoList)
 void weatherWidget::initGSettingValue()
 {
     /* 链接time-shutdown的dgsetting接口 */
-    if (QGSettings::isSchemaInstalled(UKUI_WEATHER_GSETTING_ID))
-        m_pWeatherGsetting = new QGSettings(UKUI_WEATHER_GSETTING_ID);
+    const QByteArray id_2(UKUI_WEATHER_GSETTING_ID);
+    if (QGSettings::isSchemaInstalled(id_2))
+        m_pWeatherGsetting = new QGSettings(id_2);
     if (m_pWeatherGsetting != nullptr) {
         qDebug() << "当前的gsetting的key值" << m_pWeatherGsetting->keys();
         connect(m_pWeatherGsetting, &QGSettings::changed, this, &weatherWidget::getGsettingChageSlots);

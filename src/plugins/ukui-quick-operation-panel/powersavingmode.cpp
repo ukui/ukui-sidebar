@@ -41,15 +41,17 @@ void powerSavingMode::initMemberVariables()
 void powerSavingMode::initGsettingValue()
 {
     /* 链接电源节能模式gsetting连接 */
-    if (QGSettings::isSchemaInstalled(KYLIN_POWER_MODE_GSETTING_VALUE))
-        m_pSavingModeGsetting = new QGSettings(KYLIN_POWER_MODE_GSETTING_VALUE);
+    const QByteArray id(KYLIN_POWER_MODE_GSETTING_VALUE);
+    if (QGSettings::isSchemaInstalled(id))
+        m_pSavingModeGsetting = new QGSettings(id);
     if (m_pSavingModeGsetting != nullptr) {
         qDebug() << "当前的gsetting的key值" << m_pSavingModeGsetting->keys();
     }
 
     /* 用于记录当前节能模式开关状态 */
-    if (QGSettings::isSchemaInstalled(UKUI_VOLUME_BRIGHTNESS_GSETTING_ID))
-        m_pSavingModeButtonStatusGsetting = new QGSettings(UKUI_VOLUME_BRIGHTNESS_GSETTING_ID);
+    const QByteArray id_2(UKUI_VOLUME_BRIGHTNESS_GSETTING_ID);
+    if (QGSettings::isSchemaInstalled(id_2))
+        m_pSavingModeButtonStatusGsetting = new QGSettings(id_2);
     if (m_pSavingModeButtonStatusGsetting != nullptr) {
         qDebug() << "当前的gsetting的key值" << m_pSavingModeButtonStatusGsetting->keys();
     }

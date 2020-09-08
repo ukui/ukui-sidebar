@@ -43,8 +43,9 @@ void ScrollingAreaWidget::initMemberVariable()
 void ScrollingAreaWidget::initGsettingValue()
 {
     /* 链接time-shutdown的dgsetting接口 */
-    if(QGSettings::isSchemaInstalled(UKUI_VOLUME_BRIGHTNESS_GSETTING_ID)) {
-        m_pVolumeLightSetting = new QGSettings(UKUI_VOLUME_BRIGHTNESS_GSETTING_ID);
+    const QByteArray id(UKUI_VOLUME_BRIGHTNESS_GSETTING_ID);
+    if(QGSettings::isSchemaInstalled(id)) {
+        m_pVolumeLightSetting = new QGSettings(id);
     }
     if (m_pVolumeLightSetting != nullptr) {
         connect(m_pVolumeLightSetting, &QGSettings::changed, this, &ScrollingAreaWidget::setSliderValue);
@@ -52,8 +53,9 @@ void ScrollingAreaWidget::initGsettingValue()
     }
 
     /* 链接time-shutdown的dgsetting接口 */
-    if(QGSettings::isSchemaInstalled(KYLIN_POWER_MODE_GSETTING_VALUE)) {
-        m_pBrightNessSetting = new QGSettings(KYLIN_POWER_MODE_GSETTING_VALUE);
+    const QByteArray id_2(KYLIN_POWER_MODE_GSETTING_VALUE);
+    if(QGSettings::isSchemaInstalled(id_2)) {
+        m_pBrightNessSetting = new QGSettings(id_2);
     }
     if (m_pBrightNessSetting != nullptr) {
         connect(m_pBrightNessSetting, &QGSettings::changed, this, &ScrollingAreaWidget::setSliderValue);
