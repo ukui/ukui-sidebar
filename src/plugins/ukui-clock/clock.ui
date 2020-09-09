@@ -562,7 +562,7 @@ QPushButton:hover{background-color: rgb(27, 143, 89);}
      <property name="styleSheet">
       <string notr="true">color: rgb(255, 255, 255);
 color: rgb(148, 148, 148);
-font: 12pt &quot;Sans Serif&quot;;</string>
+font: 12pt ;</string>
      </property>
      <property name="text">
       <string>00:00:00</string>

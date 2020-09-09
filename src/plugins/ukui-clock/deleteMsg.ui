@@ -98,7 +98,7 @@ QPushButton:hover{background:rgba(143, 97, 47, 0.1)}</string>
     </property>
     <property name="styleSheet">
      <string notr="true">color: rgb(255, 255, 255);
-font: 25 15pt &quot;Noto Sans CJK SC&quot;;</string>
+font: 25 15pt;</string>
     </property>
     <property name="text">
      <string>are you sure ?</string>
