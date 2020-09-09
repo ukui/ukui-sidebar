@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
     } else {
         QCommandLineParser parser;
         QCommandLineOption debugOption({"d", "debug"}, QObject::tr("Display debug information"));
-        QCommandLineOption showSidebar({"show", "s"}, QObject::tr("show sidebar widget"));
+        QCommandLineOption showSidebar({"s", "show"}, QObject::tr("show sidebar widget"));
 
         parser.addOptions({debugOption, showSidebar});
         parser.process(a);
