@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui dbus widgets
+QT       += core gui dbus widgets network
 
 TARGET = ukui-sidebar
 TEMPLATE = app
@@ -28,7 +28,11 @@ SOURCES += \
         pluginmanage.cpp \
         sidebarAppLog.cpp \
         customstyle.cpp \
-        customstyleCleanPushbutton.cpp
+        customstyleCleanPushbutton.cpp \
+        qtsingleapplication.cpp \
+        qtlockedfile.cpp \
+        qtlocalpeer.cpp
+
 
 INCLUDEPATH += ./plugin-interface
 
@@ -38,7 +42,11 @@ HEADERS += \
         pluginmanage.h \
         sidebarAppLog.h \
         customstyle.h \
-        customstyleCleanPushbutton.h
+        customstyleCleanPushbutton.h \
+        qtsingleapplication.h \
+        qtlockedfile.h \
+        qtlocalpeer.h
+
 
 INCLUDEPATH +=./plugin-interface ./plugin-sub-manager
 TRANSLATIONS += ../translations/ukui-sidebar_bo.ts \

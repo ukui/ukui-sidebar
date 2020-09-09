@@ -550,6 +550,20 @@ void Widget::ClickPanelHideSidebarSlots()
     return;
 }
 
+/* 过滤终端命令 */
+void Widget::bootOptionsFilter(QString opt)
+{
+    if ((opt == "-s" || opt == "-show") && m_bShowFlag == false) {
+        qDebug() << "哈哈哈哈，第一次用命令进入这";
+        mostGrandWidget::getInstancemostGrandWidget()->hide();
+        MostGrandWidgetCoordinates();
+        mostGrandWidget::getInstancemostGrandWidget()->show();
+        showAnimation();
+        m_bShowFlag = true;
+        setIcon(QIcon::fromTheme("kylin-tool-box", QIcon(TRAY_ICON)));
+    }
+}
+
 /* 右键菜单打开侧边栏槽函数 */
 void Widget::OpenSidebarSlots()
 {

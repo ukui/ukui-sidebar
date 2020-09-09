@@ -34,6 +34,7 @@
 #include <QCommandLineOption>
 #include <X11/Xlib.h>
 #include "mostgrandwidget.h"
+#include "qtsingleapplication.h"
 
 int getScreenWidth() {
     Display *disp = XOpenDisplay(NULL);
@@ -59,52 +60,45 @@ int main(int argc, char *argv[])
     }
 
     /* 如果系统中有实例在运行则退出 */
-    QStringList strlistHomePath = QStandardPaths::standardLocations(QStandardPaths::HomeLocation);
-    QString strLockPath = strlistHomePath.at(0) + "/.config/ukui-sidebar";
-
-    int fd = open(strLockPath.toUtf8().data(), O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
-    if (fd < 0)
-        exit(1);
-
-    if (lockf(fd, F_TLOCK, 0)) {
-        syslog(LOG_ERR, "Can't lock single file, ukui-sidebar is already running!");
-        qDebug()<<"Can't lock single file, ukui-sidebar is already running!";
-        exit(0);
-    }
-
-    QApplication a(argc, argv);
-
-    QCommandLineParser parser;
-    QCommandLineOption debugOption({"d", "debug"}, QObject::tr("Display debug information"));
-
-    parser.addOptions({debugOption});
-    parser.process(a);
-
-    if (parser.isSet(debugOption)) {                                    /* 根据命令行设定日志等级 */
-        setLogLevel(QtDebugMsg);
-        setLogPath(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + LOG_FILE_NAME);  /* 绑定打印日志文件路径 */
-        qInstallMessageHandler(customLogMessageHandler);
+    QtSingleApplication a(argc, argv);
+    if (a.isRunning()) {
+        a.sendMessage(QApplication::arguments().length() > 1 ? QApplication::arguments().at(1) : a.applicationFilePath());
+        qDebug() << QObject::tr("ukui-sidebar is already running!");
+        return EXIT_SUCCESS;
     } else {
-        setLogLevel(QtWarningMsg);
+        QCommandLineParser parser;
+        QCommandLineOption debugOption({"d", "debug"}, QObject::tr("Display debug information"));
+        QCommandLineOption showSidebar({"show", "s"}, QObject::tr("show sidebar widget"));
+
+        parser.addOptions({debugOption, showSidebar});
+        parser.process(a);
+
+        if (parser.isSet(debugOption)) {                                    /* 根据命令行设定日志等级 */
+            setLogLevel(QtDebugMsg);
+            setLogPath(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + LOG_FILE_NAME);  /* 绑定打印日志文件路径 */
+            qInstallMessageHandler(customLogMessageHandler);
+        } else {
+            setLogLevel(QtWarningMsg);
+        }
+
+        QApplication::setQuitOnLastWindowClosed(false);
+
+        mostGrandWidget::mostGrandWidgetInit();                         /* 初始化最里层Widget空白界面 */
+
+
+        Widget *w = new Widget;
+        w->setObjectName("SidebarWidget");
+        w->setAttribute(Qt::WA_TranslucentBackground);
+        mostGrandWidget::getInstancemostGrandWidget()->m_pmostGrandWidgetVLaout->addWidget(w);
+
+        mostGrandWidget::getInstancemostGrandWidget()->LaoutSidebarWidget();
+        mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(-500, 0);
+        mostGrandWidget::getInstancemostGrandWidget()->setProperty("useSystemStyleBlur", true);
+        mostGrandWidget::getInstancemostGrandWidget()->setVisible(true);
+    //    KWindowEffects::enableBlurBehind(mostGrandWidget::getInstancemostGrandWidget()->winId(), true);
+        w->m_bfinish = true;
+        w->showAnimation();
+        QObject::connect(&a, SIGNAL(messageReceived(const QString&)),w, SLOT(bootOptionsFilter(const QString&)));
+        return a.exec();
     }
-
-    QApplication::setQuitOnLastWindowClosed(false);
-
-    mostGrandWidget::mostGrandWidgetInit();                         /* 初始化最里层Widget空白界面 */
-
-
-    Widget *w = new Widget;
-    w->setObjectName("SidebarWidget");
-    w->setAttribute(Qt::WA_TranslucentBackground);
-    mostGrandWidget::getInstancemostGrandWidget()->m_pmostGrandWidgetVLaout->addWidget(w);
-
-    mostGrandWidget::getInstancemostGrandWidget()->LaoutSidebarWidget();
-    mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(-500, 0);
-    mostGrandWidget::getInstancemostGrandWidget()->setProperty("useSystemStyleBlur", true);
-    mostGrandWidget::getInstancemostGrandWidget()->setVisible(true);
-//    KWindowEffects::enableBlurBehind(mostGrandWidget::getInstancemostGrandWidget()->winId(), true);
-    w->m_bfinish = true;
-    w->showAnimation();
-
-    return a.exec();
 }

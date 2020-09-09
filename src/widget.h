@@ -139,6 +139,7 @@ private slots :
     void OpenSidebarSlots();                                                    // 打开侧边栏
     void OpenControlCenterSettings();                                           // 打开控制中心的通知中心
     void ClickPanelHideSidebarSlots();                                          // 左键点击任务栏时隐藏侧边栏
+    void bootOptionsFilter(QString opt);                                        // 过滤终端命令
 };
 
 #endif // WIDGET_H
