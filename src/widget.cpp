@@ -82,6 +82,10 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
         m_pTransparency = new QGSettings(UKUI_TRANSPARENCY_SETTING);
     }
 
+    //快捷参数
+    if (QApplication::arguments().length() > 1){
+        bootOptionsFilter(QApplication::arguments().at(1));
+    }
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
     qInfo() << "---------------------------主界面加载完毕---------------------------";
 }
@@ -711,6 +715,19 @@ void Widget::onNewNotification()
 void Widget::updateSmallPluginsClipboardWidget()
 {
     ModifyScreenNeeds();
+}
+
+/* 过滤终端命令 */
+void Widget::bootOptionsFilter(QString opt){
+    if (opt == "-s" || opt == "-show" && m_bShowFlag == false) {
+        qDebug() << "哈哈哈哈，第一次用命令进入这";
+        mostGrandWidget::getInstancemostGrandWidget()->hide();
+        MostGrandWidgetCoordinates();
+        mostGrandWidget::getInstancemostGrandWidget()->show();
+        showAnimation();
+        m_bShowFlag = true;
+        setIcon(QIcon::fromTheme("kylin-tool-box", QIcon(TRAY_ICON)));
+    }
 }
 
 /* 事件过滤器 */
