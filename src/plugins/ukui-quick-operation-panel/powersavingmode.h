@@ -20,6 +20,7 @@
 #define KYLIN_POWER_SAVING_NORMAL_PATH   ":/images/icon-powersavingmode.svg"
 #define KYLIN_POWER_SAVING_SET_PATH      ":/images/icon-powersavingmode-s.svg"
 #define KYLIN_POWER_SAVING_OPEN_PATH     ":/images/icon-powersavingmode-open.svg"
+#define KYLIN_DELETE_ICONPATH            ":/images/cancel-lock.png"
 
 #define KYLIN_POWER_MODE_GSETTING_VALUE        "org.ukui.power-manager"
 #define KYLIN_POWER_SREEN_BRIGHTNESS_AC_KEY    "brightness-ac"
@@ -47,6 +48,7 @@ private:
 private:
     QWidget       *m_pWidgetButton;
     QPushButton   *m_pPowerModeButton;
+    QPushButton   *m_pDeleteButton;
     QLabel        *m_pPowerModeLabel;
 
     QStyle        *m_pStyleOpen;

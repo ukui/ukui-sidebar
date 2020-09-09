@@ -44,6 +44,11 @@ void screenshotWidget::initMemberVariables()
     m_pscreenshotButton->setStyle(m_pStyleNormal);
     connect(m_pscreenshotButton, &switchButton::clicked, this, &screenshotWidget::sreenShotButtonClickedSlots);
 
+    m_pDeleteButton = new QPushButton();
+    m_pDeleteButton->setFixedSize(20, 20);
+    m_pDeleteButton->setIcon(QIcon(KYLIN_DELETE_ICONPATH));
+    m_pDeleteButton->setIconSize(QSize(12, 12));
+
     m_pscreenshotlabel = new QLabel(QObject::tr("截图"));
     m_pscreenshotlabel->setAlignment(Qt::AlignHCenter);
 
@@ -51,7 +56,7 @@ void screenshotWidget::initMemberVariables()
     m_pVboxLayout->setContentsMargins(0, 0, 0, 0);
     m_pVboxLayout->setSpacing(0);
 
-    this->setFixedSize(56, 78);
+    this->setFixedSize(63, 78);
     this->setContentsMargins(0, 0, 0, 0);
     return;
 }
@@ -64,6 +69,8 @@ void screenshotWidget::initLayout()
     m_pVboxLayout->addItem(new QSpacerItem(15, 4));
     m_pVboxLayout->addWidget(m_pscreenshotlabel);
     this->setLayout(m_pVboxLayout);
+    m_pDeleteButton->setParent(this);
+    m_pDeleteButton->move(43, 0);
     return;
 }
 

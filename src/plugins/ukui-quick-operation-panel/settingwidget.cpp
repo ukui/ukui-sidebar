@@ -44,6 +44,11 @@ void settingWidget::initMemberVariables()
     m_psettingButton->setStyle(m_pStyleNormal);
     connect(m_psettingButton, &switchButton::clicked, this, &settingWidget::settingButtonClick);
 
+    m_pDeleteButton = new QPushButton();
+    m_pDeleteButton->setFixedSize(20, 20);
+    m_pDeleteButton->setIcon(QIcon(KYLIN_DELETE_ICONPATH));
+    m_pDeleteButton->setIconSize(QSize(12, 12));
+
     m_psettingLabel = new QLabel(QObject::tr("设置"));
     m_psettingLabel->setAlignment(Qt::AlignHCenter);
 
@@ -51,7 +56,7 @@ void settingWidget::initMemberVariables()
     m_pVboxLayout->setContentsMargins(0, 0, 0, 0);
     m_pVboxLayout->setSpacing(0);
 
-    this->setFixedSize(56, 78);
+    this->setFixedSize(63, 78);
     this->setContentsMargins(0, 0, 0, 0);
     return;
 }
@@ -64,6 +69,8 @@ void settingWidget::initLayout()
     m_pVboxLayout->addItem(new QSpacerItem(15, 10));
     m_pVboxLayout->addWidget(m_psettingLabel);
     this->setLayout(m_pVboxLayout);
+    m_pDeleteButton->setParent(this);
+    m_pDeleteButton->move(43, 0);
     return;
 }
 

@@ -31,12 +31,13 @@
 #include "customstyle_switchNormalStatus.h"
 
 #define KYLIN_BLUETOOTH_NORMAL_NAME     "kylin-icon-bluetooth"
-#define KYLIN_BLUETOOTH_OPEN_NAME      "kylin-icon-bluetooth-open"
-#define KYLIN_BLUETOOTH_SET_NAME      "kylin-icon-bluetooth-s"
+#define KYLIN_BLUETOOTH_OPEN_NAME       "kylin-icon-bluetooth-open"
+#define KYLIN_BLUETOOTH_SET_NAME        "kylin-icon-bluetooth-s"
 
 #define KYLIN_BLUETOOTH_NORMAL_PATH     ":/images/icon-bluetooth.svg"
-#define KYLIN_BLUETOOTH_OPEN_PATH      ":/images/icon-bluetooth-open.svg"
-#define KYLIN_BLUETOOTH_SET_PATH      ":/images/icon-bluetooth-s.svg"
+#define KYLIN_BLUETOOTH_OPEN_PATH       ":/images/icon-bluetooth-open.svg"
+#define KYLIN_BLUETOOTH_SET_PATH        ":/images/icon-bluetooth-s.svg"
+#define KYLIN_DELETE_ICONPATH           ":/images/cancel-lock.png"
 
 #define KYLIN_BLUETOOTH_SERVER_NAME      "org.blueman.Applet"
 #define KYLIN_BLUETOOTH_SERVER_PATH      "/org/blueman/applet"
@@ -61,6 +62,7 @@ public:
 private:
     QWidget         *m_pWidgetButton;
     QPushButton     *m_pbluetoothButton;
+    QPushButton     *m_pDeleteButton;
     QLabel          *m_pbluetoothLabel;
 
     QVBoxLayout     *m_pVboxButtonLayout;

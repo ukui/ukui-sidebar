@@ -33,14 +33,15 @@
 #define KYLIN_PC_NORMAL_NAME            "kylin-icon-PC-mode"
 #define KYLIN_PC_SET_NAME               "kylin-icon-pcmode-s"
 
-#define KYLIN_PAD_NORMAL_NAME            "kylin-icon-tablet-mode"
-#define KYLIN_PAD_SET_NAME               "kylin-icon-tabletmode-s"
+#define KYLIN_PAD_NORMAL_NAME           "kylin-icon-tablet-mode"
+#define KYLIN_PAD_SET_NAME              "kylin-icon-tabletmode-s"
 
 #define KYLIN_PC_NORMAL_PATH            ":/images/icon-PC-mode.svg"
 #define KYLIN_PC_SET_PATH               ":/images/icon-pcmode-s.svg"
 
 #define KYLIN_PAD_NORMAL_PATH           ":/images/icon-tablet-mode.svg"
 #define KYLIN_PAD_SET_PATH              ":/images/icon-tabletmode-s.svg"
+#define KYLIN_DELETE_ICONPATH           ":/images/cancel-lock.png"
 
 #define KYLIN_PAD_GSETTING_VALUE        "org.ukui.SettingsDaemon.plugins.tablet-mode"
 #define KYLIN_PAD_MODLE                 "tablet-mode"
@@ -60,6 +61,7 @@ public:
 private:
     QWidget       *m_pWidgetButton;
     QPushButton   *m_pPadButton;
+    QPushButton   *m_pDeleteButton;
     QLabel        *m_pPadLabel;
 
     QStyle        *m_pStyleOpen;

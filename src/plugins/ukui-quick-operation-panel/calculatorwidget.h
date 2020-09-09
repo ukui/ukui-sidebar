@@ -30,10 +30,11 @@
 #include "switchbutton.h"
 
 #define KYLIN_CALCULATOR_NORMAL_PATH    ":/images/icon-calculator.svg"
-#define KYLIN_CALCULATOR_SET_PATH     ":/images/icon-allsetting-s.svg"
+#define KYLIN_CALCULATOR_SET_PATH       ":/images/icon-allsetting-s.svg"
 
 #define KYLIN_CALCULATOR_NORMAL_NAME    "kylin-icon-calculator"
-#define KYLIN_CALCULATOR_SET_NAME     "kylin-icon-allsetting-s"
+#define KYLIN_CALCULATOR_SET_NAME       "kylin-icon-allsetting-s"
+#define KYLIN_DELETE_ICONPATH           ":/images/cancel-lock.png"
 
 class calculatorWidget : public QWidget
 {
@@ -46,6 +47,7 @@ public:
 private:
     QWidget       *m_pWidgetButton;
     QPushButton   *m_pcalculatorButton;
+    QPushButton   *m_pDeleteButton;
     QLabel        *m_pcalculatorLabel;
     QStyle        *m_pStyleNormal;
 

@@ -43,6 +43,11 @@ void bluetoothWidget::initMemberVariables()
     m_pbluetoothButton->setFixedSize(56, 56);
     m_pbluetoothButton->setIconSize(QSize(32, 32));
 
+    m_pDeleteButton = new QPushButton();
+    m_pDeleteButton->setFixedSize(20, 20);
+    m_pDeleteButton->setIcon(QIcon(KYLIN_DELETE_ICONPATH));
+    m_pDeleteButton->setIconSize(QSize(12, 12));
+
     m_pbluetoothLabel = new QLabel(QObject::tr("蓝牙"));
     m_pbluetoothLabel->setAlignment(Qt::AlignHCenter);
 
@@ -53,7 +58,7 @@ void bluetoothWidget::initMemberVariables()
     m_pStyleOpen   = new CustomStyle_SwitchOpenStatus("ukui-default");
     m_pStyleNormal = new customstyle_switchNormalStatus("ukui-default");
 
-    this->setFixedSize(56, 78);
+    this->setFixedSize(63, 78);
     this->setContentsMargins(0, 0, 0, 0);
     return;
 }
@@ -67,6 +72,8 @@ void bluetoothWidget::initLayout()
     m_pVboxLayout->addItem(new QSpacerItem(5, 4));
     m_pVboxLayout->addWidget(m_pbluetoothLabel);
     this->setLayout(m_pVboxLayout);
+    m_pDeleteButton->setParent(this);
+    m_pDeleteButton->move(43, 0);
     return;
 }
 

@@ -21,6 +21,11 @@ void powerSavingMode::initMemberVariables()
     m_pPowerModeButton->setIconSize(QSize(32, 32));
     connect(m_pPowerModeButton, &switchButton::clicked, this, &powerSavingMode::PowerSavingButtonClickSlots);
 
+    m_pDeleteButton = new QPushButton();
+    m_pDeleteButton->setFixedSize(20, 20);
+    m_pDeleteButton->setIcon(QIcon(KYLIN_DELETE_ICONPATH));
+    m_pDeleteButton->setIconSize(QSize(12, 12));
+
     m_pStyleNormal = new customstyle_switchNormalStatus("ukui-default");
     m_pPowerModeButton->setStyle(m_pStyleNormal);
 
@@ -33,7 +38,7 @@ void powerSavingMode::initMemberVariables()
     m_pVboxLayout->setContentsMargins(0, 0, 0, 0);
     m_pVboxLayout->setSpacing(0);
 
-    this->setFixedSize(56, 78);
+    this->setFixedSize(63, 78);
     this->setContentsMargins(0, 0, 0, 0);
     return;
 }
@@ -80,6 +85,8 @@ void powerSavingMode::initLayout()
     m_pVboxLayout->addItem(new QSpacerItem(15, 4));
     m_pVboxLayout->addWidget(m_pPowerModeLabel);
     this->setLayout(m_pVboxLayout);
+    m_pDeleteButton->setParent(this);
+    m_pDeleteButton->move(43, 0);
     return;
 }
 

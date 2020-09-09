@@ -24,6 +24,7 @@
 #define KYLIN_EYE_MODE_NORMAL_PATH   ":/images/icon-eyeprotectionmode.svg"
 #define KYLIN_EYE_MODE_SET_PATH      ":/images/icon-hotspot-s.svg"
 #define KYLIN_EYE_MODE_OPEN_PATH     ":/images/icon-eyeprotectionmode-open.svg"
+#define KYLIN_DELETE_ICONPATH        ":/images/cancel-lock.png"
 
 #define NIGHT_MODE_KEY        "nightmodestatus"
 #define NIGHT_MODE_LIGHT      "light"
@@ -59,6 +60,7 @@ public:
 private:
     QWidget       *m_pWidgetButton;
     QPushButton   *m_pEyeModeButton;
+    QPushButton   *m_pDeleteButton;
     QLabel        *m_pEyeModeLabel;
 
     QStyle        *m_pStyleOpen;

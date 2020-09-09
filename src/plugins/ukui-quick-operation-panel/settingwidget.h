@@ -31,7 +31,8 @@
 #define KYLIN_SETTING_SET_NAME          "kylin-icon-allsetting-s"
 
 #define KYLIN_SETTING_NORMAL_PATH       ":/images/icon-allsetting.svg"
-#define KYLIN_SETTING_SET_PATH        ":/images/icon-allsetting-s.svg"
+#define KYLIN_SETTING_SET_PATH          ":/images/icon-allsetting-s.svg"
+#define KYLIN_DELETE_ICONPATH           ":/images/cancel-lock.png"
 
 class settingWidget : public QWidget
 {
@@ -44,6 +45,7 @@ public:
 private:
     QWidget      *m_pWidgetButton;
     QPushButton  *m_psettingButton;
+    QPushButton  *m_pDeleteButton;
     QLabel       *m_psettingLabel;
 
     QStyle        *m_pStyleNormal;

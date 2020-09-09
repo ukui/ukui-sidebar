@@ -33,6 +33,7 @@
 #define KYLIN_HOTSPOT_NORMAL_PATH      ":/images/icon-hotspot.svg"
 #define KYLIN_HOTSPOT_SET_PATH         ":/image/icon-hotspot-s.svg"
 #define KYLIN_HOTSPOT_OPEN_PATH        ":/images/icon-hotspot-open.svg"
+#define KYLIN_DELETE_ICONPATH          ":/images/cancel-lock.png"
 
 class hotspotWidget : public QWidget
 {
@@ -45,6 +46,7 @@ public:
 private:
     QWidget       *m_pWidgetButton;
     QPushButton   *m_photspotButton;
+    QPushButton   *m_pDeleteButton;
     QLabel        *m_photspotLabel;
 
     QStyle        *m_pStyleNormal;

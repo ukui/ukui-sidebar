@@ -17,6 +17,11 @@ void notebookButtonWidget::initMemberVariables()
     m_pNoteButton->setFixedSize(56, 56);
     m_pNoteButton->setIconSize(QSize(32, 32));
 
+    m_pDeleteButton = new QPushButton();
+    m_pDeleteButton->setFixedSize(20, 20);
+    m_pDeleteButton->setIcon(QIcon(KYLIN_DELETE_ICONPATH));
+    m_pDeleteButton->setIconSize(QSize(12, 12));
+
     m_pNoteLabel  = new QLabel();
     m_pNoteLabel->setText(QObject::tr("NoteBook"));
     m_pNoteLabel->setAlignment(Qt::AlignHCenter);
@@ -32,7 +37,7 @@ void notebookButtonWidget::initMemberVariables()
     m_pStyleNormal = new customstyle_switchNormalStatus("ukui-default");
     m_pNoteButton->setStyle(m_pStyleNormal);
 
-    this->setFixedSize(56, 78);
+    this->setFixedSize(63, 78);
     this->setContentsMargins(0, 0, 0, 0);
 }
 
@@ -45,6 +50,9 @@ void notebookButtonWidget::initLayout()
     m_pVboxLayout->addItem(new QSpacerItem(5, 4));
     m_pVboxLayout->addWidget(m_pNoteLabel);
     this->setLayout(m_pVboxLayout);
+    m_pDeleteButton->setParent(this);
+    m_pDeleteButton->move(43, 0);
+    return;
 }
 
 void notebookButtonWidget::NoteButtonClickSlots()

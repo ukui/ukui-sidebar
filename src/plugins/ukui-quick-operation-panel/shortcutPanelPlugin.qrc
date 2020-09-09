@@ -109,6 +109,7 @@
         <file>images/icon-VPN-open.svg</file>
         <file>images/icon-VPN-s.svg</file>
         <file>images/icon-VPN.svg</file>
+        <file>images/cancel-lock.png</file>
     </qresource>
 </RCC>
 

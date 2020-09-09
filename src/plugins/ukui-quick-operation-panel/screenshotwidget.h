@@ -28,11 +28,11 @@
 #include "customstyle_switchNormalStatus.h"
 
 #define KYLIN_SCREENSHOT_NORMAL_NAME    "kylin-icon-screenshot"
-#define KYLIN_SCREENSHOT_SET_NAME     "kylin-icon-screenshot-s"
-
+#define KYLIN_SCREENSHOT_SET_NAME       "kylin-icon-screenshot-s"
 
 #define KYLIN_SCREENSHOT_NORMAL_PATH    ":/images/icon-screenshot.svg"
-#define KYLIN_SCREENSHOT_SET_PATH     ":/images/icon-screenshot-s.svg"
+#define KYLIN_SCREENSHOT_SET_PATH       ":/images/icon-screenshot-s.svg"
+#define KYLIN_DELETE_ICONPATH           ":/images/cancel-lock.png"
 
 class screenshotWidget : public QWidget
 {
@@ -46,6 +46,7 @@ public:
 private:
     QWidget      *m_pWidgetButton;
     QPushButton  *m_pscreenshotButton;
+    QPushButton  *m_pDeleteButton;
     QLabel       *m_pscreenshotlabel;
 
     QStyle       *m_pStyleNormal;

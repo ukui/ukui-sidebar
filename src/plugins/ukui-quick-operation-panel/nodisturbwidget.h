@@ -41,6 +41,7 @@
 #define KYLIN_NODISTURB_NORMAL_PATH     ":/images/icon-DND.svg"
 #define KYLIN_NODISTURB_SET_PATH        ":/images/icon-DND-s.svg"
 #define KYLIN_NODISTURB_OPEN_PATH       ":/images/icon-DND-open.svg"
+#define KYLIN_DELETE_ICONPATH           ":/images/cancel-lock.png"
 
 #define UKUI_VOLUME_BRIGHTNESS_GSETTING_ID          "org.ukui.quick-operation.panel"
 #define KYLIN_DISTURB_GSETTING_VALUE_STATUS         "disturbmodestatus"
@@ -64,6 +65,7 @@ public:
 private:
     QWidget       *m_pWidgetButton;
     QPushButton   *m_pnodisturbButton;
+    QPushButton   *m_pDeleteButton;
     QLabel        *m_pnodisturbLabel;
 
     QStyle        *m_pStyleNormal;

@@ -16,6 +16,7 @@
 
 #define KYLIN_BLUETOOTH_NORMAL_PATH     ":/images/icon-notes.svg"
 #define KYLIN_BLUETOOTH_SET_PATH        ":/images/icon-notes-s.svg"
+#define KYLIN_DELETE_ICONPATH           ":/images/cancel-lock.png"
 
 class notebookButtonWidget : public QWidget
 {
@@ -30,6 +31,7 @@ private:
 private:
     QWidget         *m_pButtonWidget;
     QPushButton     *m_pNoteButton;
+    QPushButton     *m_pDeleteButton;
     QLabel          *m_pNoteLabel;
 
     QVBoxLayout     *m_pVboxButtonLayout;

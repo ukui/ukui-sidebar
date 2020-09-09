@@ -18,6 +18,7 @@
 #define KYLIN_BLUETOOTH_NORMAL_PATH     ":/images/icon-VPN.svg"
 #define KYLIN_BLUETOOTH_SET_PATH        ":/images/icon-VPN-s.svg"
 #define KULIN_VPN_OPEN_PATH             ":/images/icon-VPN-open.svg"
+#define KYLIN_DELETE_ICONPATH           ":/images/cancel-lock.png"
 
 class diturbModeWidget : public QWidget
 {
@@ -32,6 +33,7 @@ private:
 private:
     QWidget         *m_pButtonWidget;
     QPushButton     *m_pVPNButton;
+    QPushButton     *m_pDeleteButton;
     QLabel          *m_pVPNLabel;
 
     QVBoxLayout     *m_pVboxButtonLayout;
