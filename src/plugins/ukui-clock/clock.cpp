@@ -316,6 +316,7 @@ void Clock::clock_init()
     ui->label->setAlignment(Qt::AlignHCenter);
     ui->label_2->setAlignment(Qt::AlignHCenter);
     ui->label_3->setAlignment(Qt::AlignHCenter);
+    ui->label_9->setAlignment(Qt::AlignHCenter);
     model = new QSqlTableModel(this);
     model->setTable("clock");
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);

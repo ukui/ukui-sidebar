@@ -248,7 +248,7 @@ void Widget::kyNoteInit()
 //    ui->sort_btn->hide();
 
     //退出框
-    m_noteExitWindow = new noteExitWindow(this);
+    m_noteExitWindow = new noteExitWindow(this, this);
 
     auto headerBar = new HeaderBar(this);
     headerBar->hide();
@@ -1124,8 +1124,8 @@ void Widget::onColorChanged(const QColor &color,int noteId)
 void Widget::exitSlot()
 {
     //m_noteExitWindow->setWindowFlags(m_noteExitWindow->windowFlags() | Qt::WindowStaysOnTopHint);
-    m_noteExitWindow->show();
-    m_noteExitWindow->raise();
+    m_noteExitWindow->exec();
+    //m_noteExitWindow->raise();
 }
 
 void Widget::miniSlot()

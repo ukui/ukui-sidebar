@@ -31,7 +31,7 @@ item_new::item_new(QWidget *parent) :
                                      //Alarm function
     alarmLabel_w0->move(22,4);
     alarmLabel_w0->setFixedSize(170, 25);
-    alarmLabel_w0->setStyleSheet("font: 11pt 'Sans Serif';background-color: rgb();\
+    alarmLabel_w0->setStyleSheet("font: 11pt ;background-color: rgb();\
                                  width:35px;\
                                  height:17px;\
                                  font-size:18px;\
@@ -45,7 +45,7 @@ item_new::item_new(QWidget *parent) :
                                       //Repetition of alarm clock
     alarmLabel_s0->move(24, 34);
     alarmLabel_s0->setFixedSize(170, 17);
-    alarmLabel_s0->setStyleSheet("font: 9pt 'Sans Serif';color: rgb(148, 148, 148);background-color: rgb();\
+    alarmLabel_s0->setStyleSheet("font: 9pt ;color: rgb(148, 148, 148);background-color: rgb();\
                                  width:42px;\
                                  height:14px;\
                                  font-size:14px;\

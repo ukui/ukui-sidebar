@@ -31,7 +31,7 @@ noteExitWindow::noteExitWindow(Widget* page, QWidget *parent) :
     pNotebook = page;
 
     setAttribute(Qt::WA_TranslucentBackground);
-    setWindowFlags(Qt::FramelessWindowHint);
+    setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
 
     QBitmap bmp(this->size());
     bmp.fill();
