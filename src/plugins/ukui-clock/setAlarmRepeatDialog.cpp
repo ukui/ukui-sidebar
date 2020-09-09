@@ -28,7 +28,7 @@ set_alarm_repeat_Dialog::set_alarm_repeat_Dialog(QWidget *parent , int rowNum ) 
     QWidget(parent)
 {
     setupUi(this);
-    this->setStyleSheet("background:rgba(48,48,51,1);border-radius:4px;border:0px solid rgba();");
+    this->setStyleSheet("background:rgba(48,48,51,1);border-radius:4px;border:0px  rgba();");
     this->setWindowOpacity(0.9);
     for (int i = 0; i < rowNum_all; i++) {
         set_aItem(i);
@@ -90,13 +90,13 @@ set_alarm_repeat_widget::set_alarm_repeat_widget(QWidget *parent):
     alarmLabel0 = new QLabel(this);
     alarmLabel0->move(5, 9);
     alarmLabel0->setFixedSize(100, 17);
-    alarmLabel0->setStyleSheet("font: 11pt 'Sans Serif';background-color: rgb();");
+    alarmLabel0->setStyleSheet("font: 11pt ;background-color: rgb();");
     alarmLabel0->setText("选项");
 
     alarmLabel1 = new QPushButton(this);
     alarmLabel1->move(240, 9);
     alarmLabel1->setFixedSize(34, 17);
-    alarmLabel1->setStyleSheet("font: 11pt 'Sans Serif';background-color: rgb();");
+    alarmLabel1->setStyleSheet("font: 11pt ;background-color: rgb();");
     alarmLabel1->setText("");
 }
 
