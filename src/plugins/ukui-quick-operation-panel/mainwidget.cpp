@@ -16,10 +16,23 @@
 *
 */
 #include "mainwidget.h"
-
+#include <QDebug>
 MainWidget::MainWidget()
 {
+    createAction();
+}
 
+// 创建动作
+void MainWidget::createAction()
+{
+    SetAction = new QAction(QIcon::fromTheme(KYLIN_SET_MENU_ICON_NAME, QIcon(KYLIN_EDIT_MENU_ICON_PATH)), QObject::tr("Open"), this);
+//    connect(Open, &QAction::triggered, this, &Widget::OpenSidebarSlots);
+
+    EditAction = new QAction(QIcon::fromTheme(KYLIN_EDIT_MENU_ICON_NAME, QIcon(KYLIN_EDIT_MENU_ICON_PATH)), QObject::tr("Edit"), this);
+    connect(EditAction, &QAction::triggered, this, &MainWidget::EditOptionSignal);
+    this->addAction(SetAction);
+    this->addAction(EditAction);
+    this->setContextMenuPolicy(Qt::ActionsContextMenu);
 }
 
 //重新绘制背景色
@@ -33,8 +46,8 @@ void MainWidget::paintEvent(QPaintEvent *e)
      * 白字体 --> 黑背景
      * 黑字体 --> 白字体
      */
-//    p.setBrush(opt.palette.color(QPalette::Base));
-    p.setBrush(QBrush(QColor(0, 0 , 0)));
+//    p.setBrush(opt.palette.color(QPalette::Highlight));
+    p.setBrush(QBrush(QColor(0, 0, 0)));
     p.setOpacity(0.42);
     p.setPen(Qt::NoPen);
 

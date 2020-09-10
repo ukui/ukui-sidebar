@@ -42,10 +42,11 @@ public:
     ~settingWidget();
     void initMemberVariables();
     void initLayout();
+    QPushButton  *m_pDeleteButton;
+
 private:
     QWidget      *m_pWidgetButton;
     QPushButton  *m_psettingButton;
-    QPushButton  *m_pDeleteButton;
     QLabel       *m_psettingLabel;
 
     QStyle        *m_pStyleNormal;

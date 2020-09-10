@@ -15,7 +15,7 @@ void diturbModeWidget::initMemberVariables()
     m_pVPNButton->setIcon(QIcon::fromTheme(KYLIN_VPN_NORMAL_NAME, QIcon(KYLIN_BLUETOOTH_NORMAL_PATH)));
     connect(m_pVPNButton, &switchButton::clicked, this, &diturbModeWidget::VPNButtonClickSLots);
     m_pVPNButton->setFixedSize(56, 56);
-    m_pVPNButton->setIconSize(QSize(24, 24));
+    m_pVPNButton->setIconSize(QSize(16, 16));
 
     m_pDeleteButton = new QPushButton();
     m_pDeleteButton->setFixedSize(20, 20);
@@ -52,6 +52,7 @@ void diturbModeWidget::initLayout()
     this->setLayout(m_pVboxLayout);
     m_pDeleteButton->setParent(this);
     m_pDeleteButton->move(43, 0);
+    m_pDeleteButton->setVisible(false);
 }
 
 void diturbModeWidget::VPNButtonClickSLots()

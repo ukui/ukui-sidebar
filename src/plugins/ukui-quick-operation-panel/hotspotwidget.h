@@ -43,10 +43,11 @@ public:
     ~hotspotWidget();
     void initMemberVariables();
     void initLayout();
+    QPushButton   *m_pDeleteButton;
+
 private:
     QWidget       *m_pWidgetButton;
     QPushButton   *m_photspotButton;
-    QPushButton   *m_pDeleteButton;
     QLabel        *m_photspotLabel;
 
     QStyle        *m_pStyleNormal;

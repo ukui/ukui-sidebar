@@ -72,6 +72,7 @@ void calculatorWidget::initLayout()
     this->setLayout(m_pVboxLayout);
     m_pDeleteButton->setParent(this);
     m_pDeleteButton->move(43, 0);
+    m_pDeleteButton->setVisible(false);
     return;
 }
 

@@ -20,7 +20,7 @@
             <summary>disturb Mode Sound Off</summary>
             <description>Volume off in do not disturb mode, remember the status</description>
         </key>
-        <key name="disturbmodenotifyClose" type="b">
+        <key name="disturbmodenotifyclose" type="b">
             <default>false</default>
             <summary>disturb Mode Notify Close</summary>
             <description>Tell the popover to close in do not disturb mode, and remember the status</description>

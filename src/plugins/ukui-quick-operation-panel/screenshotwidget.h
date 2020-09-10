@@ -42,11 +42,11 @@ public:
     ~screenshotWidget();
     void initMemberVariables();
     void initLayout();
+    QPushButton  *m_pDeleteButton;
 
 private:
     QWidget      *m_pWidgetButton;
     QPushButton  *m_pscreenshotButton;
-    QPushButton  *m_pDeleteButton;
     QLabel       *m_pscreenshotlabel;
 
     QStyle       *m_pStyleNormal;

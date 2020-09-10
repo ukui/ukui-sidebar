@@ -58,10 +58,12 @@ public:
     void   setPadButtonStatus();
     QColor getSystemPaleteColor();
     void   setLabelTextColor();
+    QPushButton   *m_pDeleteButton;
+
 private:
     QWidget       *m_pWidgetButton;
     QPushButton   *m_pPadButton;
-    QPushButton   *m_pDeleteButton;
+
     QLabel        *m_pPadLabel;
 
     QStyle        *m_pStyleOpen;

@@ -51,18 +51,15 @@ public:
     ~bluetoothWidget();
     void initMemberVariables();
     void initLayout();
-
     QColor getSystemPaleteColor();
-
     bool initBluetoothDbus();
     void initBluetoothStatus();
-
     void setBluetoothStatus();
+    QPushButton     *m_pDeleteButton;
 
 private:
     QWidget         *m_pWidgetButton;
     QPushButton     *m_pbluetoothButton;
-    QPushButton     *m_pDeleteButton;
     QLabel          *m_pbluetoothLabel;
 
     QVBoxLayout     *m_pVboxButtonLayout;

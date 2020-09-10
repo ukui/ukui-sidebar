@@ -22,13 +22,37 @@
 #include <QWidget>
 #include <QStyleOption>
 #include <QPainter>
+#include <QMouseEvent>
+#include <QDebug>
+#include <QMenu>
+#include <QAction>
+
+#define KYLIN_EDIT_MENU_ICON_PATH ":/images/icon-edit.svg"
+#define KYLIN_EDIT_MENU_ICON_NAME "document-edit-symbolic"
+
+#define KYLIN_SET_MENU_ICON_PATH  ":/images/icon-setting.svg"
+#define KYLIN_SET_MENU_ICON_NAME  "document-properties-symbolic"
+
 class MainWidget : public QWidget
 {
+    Q_OBJECT
 public:
     MainWidget();
 
+private:
+    void createAction();
+
 protected:
     void paintEvent(QPaintEvent *e);
+
+private:
+    QAction *SetAction;
+    QAction *EditAction;
+
+private slots:
+
+Q_SIGNALS:
+    void EditOptionSignal();
 };
 
 #endif // MAINWIDGET_H

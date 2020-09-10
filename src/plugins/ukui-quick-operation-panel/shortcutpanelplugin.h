@@ -62,6 +62,8 @@
 #define SPREAD_BUTTON_HOVER_NAME   "kylin-open-hover"
 #define SPREAD_BUTTON_PRESS_NAME   "kylin-open-pressed"
 
+#define SHORTCUT_BUTTON_GSETTING_PATH "org.ukui.quick-operation.button.widget"
+
 #define PAD_NAME                   "平板模式"
 #define WIFI_NAME                  "Wifi"
 #define NODISTURB_NAME             "免打扰"
@@ -85,6 +87,7 @@ public:
     //插件函数
     void initMemberVariables();
     void initShortButtonWidget();
+    void initShortcutButtonGsetting();
     void initsetShortWidget();
     void resetShortWidget();
     void setButtonIcon();
@@ -104,6 +107,8 @@ public:
 public slots:
     void spreadClikedSlots();
     void foldClikedSlots();
+    void ShowEditWidgetSlots();
+
 private:
     QVBoxLayout  *m_pMainVLayout    = nullptr;
     QHBoxLayout  *m_pButtonHLaout   = nullptr;
@@ -123,10 +128,11 @@ private:
     QStringList   m_SpreadButtonIconNameList;
     QStringList   m_FoldButtonIconNameList;
 
-
+    QGSettings   *m_pGsettingShutcutValue;
 
     MyClass data[8];
     QList<QWidget*> ShortButtonWidgetList;
+    QStringList   m_pButtonGsettingValue;
     QHash<QString, InterfaceEnum> m_InterfaceHash;
 
     /* 显示用户信息界面和关机按钮 */

@@ -23,6 +23,7 @@ class notebookButtonWidget : public QWidget
     Q_OBJECT
 public:
     explicit notebookButtonWidget(QWidget *parent = nullptr);
+    QPushButton     *m_pDeleteButton;
 
 private:
     void initMemberVariables();
@@ -31,7 +32,6 @@ private:
 private:
     QWidget         *m_pButtonWidget;
     QPushButton     *m_pNoteButton;
-    QPushButton     *m_pDeleteButton;
     QLabel          *m_pNoteLabel;
 
     QVBoxLayout     *m_pVboxButtonLayout;

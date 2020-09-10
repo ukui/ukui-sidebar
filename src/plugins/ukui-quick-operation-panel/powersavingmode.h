@@ -35,7 +35,7 @@ class powerSavingMode : public QWidget
     Q_OBJECT
 public:
     explicit powerSavingMode(QWidget *parent = nullptr);
-
+    QPushButton   *m_pDeleteButton;
 private:
     void   initMemberVariables();
     void   initGsettingValue();
@@ -48,7 +48,6 @@ private:
 private:
     QWidget       *m_pWidgetButton;
     QPushButton   *m_pPowerModeButton;
-    QPushButton   *m_pDeleteButton;
     QLabel        *m_pPowerModeLabel;
 
     QStyle        *m_pStyleOpen;

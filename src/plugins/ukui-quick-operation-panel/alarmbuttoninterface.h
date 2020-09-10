@@ -24,7 +24,7 @@ class alarmButtonInterface : public QWidget
     Q_OBJECT
 public:
     explicit alarmButtonInterface(QWidget *parent = nullptr);
-
+    QPushButton     *m_pDeleteButton;
 private:
     void initMemberVariables();
     void initLayout();
@@ -32,7 +32,6 @@ private:
 private:
     QWidget         *m_pButtonWidget;
     QPushButton     *m_pAlarmButton;
-    QPushButton     *m_pDeleteButton;
     QLabel          *m_pAlarmLabel;
 
     QVBoxLayout     *m_pVboxButtonLayout;

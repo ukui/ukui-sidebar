@@ -49,17 +49,11 @@ void powerSavingMode::initGsettingValue()
     const QByteArray id(KYLIN_POWER_MODE_GSETTING_VALUE);
     if (QGSettings::isSchemaInstalled(id))
         m_pSavingModeGsetting = new QGSettings(id);
-    if (m_pSavingModeGsetting != nullptr) {
-        qDebug() << "当前的gsetting的key值" << m_pSavingModeGsetting->keys();
-    }
 
     /* 用于记录当前节能模式开关状态 */
     const QByteArray id_2(UKUI_VOLUME_BRIGHTNESS_GSETTING_ID);
     if (QGSettings::isSchemaInstalled(id_2))
         m_pSavingModeButtonStatusGsetting = new QGSettings(id_2);
-    if (m_pSavingModeButtonStatusGsetting != nullptr) {
-        qDebug() << "当前的gsetting的key值" << m_pSavingModeButtonStatusGsetting->keys();
-    }
     return;
 }
 
@@ -87,6 +81,7 @@ void powerSavingMode::initLayout()
     this->setLayout(m_pVboxLayout);
     m_pDeleteButton->setParent(this);
     m_pDeleteButton->move(43, 0);
+    m_pDeleteButton->setVisible(false);
     return;
 }
 

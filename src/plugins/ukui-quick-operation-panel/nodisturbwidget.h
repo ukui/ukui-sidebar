@@ -46,7 +46,7 @@
 #define UKUI_VOLUME_BRIGHTNESS_GSETTING_ID          "org.ukui.quick-operation.panel"
 #define KYLIN_DISTURB_GSETTING_VALUE_STATUS         "disturbmodestatus"
 #define KYLIN_DISTURB_GSETTING_VALUE_SOUNDOFF       "disturbmodesoundoff"
-#define KULIN_DISTURB_GSETTING_VALUE_NOTIFYCLOSE    "disturbmodenotifyClose"
+#define KULIN_DISTURB_GSETTING_VALUE_NOTIFYCLOSE    "disturbmodenotifyclose"
 
 class nodisturbWidget : public QWidget
 {
@@ -61,11 +61,11 @@ public:
     QColor getSystemPaleteColor();
     void   setLabelTextColor();
     void   setEyeButtonStatus();
+    QPushButton   *m_pDeleteButton;
 
 private:
     QWidget       *m_pWidgetButton;
     QPushButton   *m_pnodisturbButton;
-    QPushButton   *m_pDeleteButton;
     QLabel        *m_pnodisturbLabel;
 
     QStyle        *m_pStyleNormal;

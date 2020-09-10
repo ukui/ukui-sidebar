@@ -44,10 +44,11 @@ public:
     ~calculatorWidget();
     void initMemberVariables();
     void initLayout();
+    QPushButton   *m_pDeleteButton;
+
 private:
     QWidget       *m_pWidgetButton;
     QPushButton   *m_pcalculatorButton;
-    QPushButton   *m_pDeleteButton;
     QLabel        *m_pcalculatorLabel;
     QStyle        *m_pStyleNormal;
 

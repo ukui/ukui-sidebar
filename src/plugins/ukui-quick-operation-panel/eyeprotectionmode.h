@@ -56,11 +56,11 @@ public:
     void   writeKwinSettings(bool change, QString theme);       // 设置与Kwin　窗口管理器　标题栏颜色
     QColor getSystemPaleteColor();
     void   setLabelTextColor();
+    QPushButton   *m_pDeleteButton;
 
 private:
     QWidget       *m_pWidgetButton;
     QPushButton   *m_pEyeModeButton;
-    QPushButton   *m_pDeleteButton;
     QLabel        *m_pEyeModeLabel;
 
     QStyle        *m_pStyleOpen;

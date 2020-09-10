@@ -25,6 +25,7 @@ class diturbModeWidget : public QWidget
     Q_OBJECT
 public:
     explicit diturbModeWidget(QWidget *parent = nullptr);
+    QPushButton     *m_pDeleteButton;
 
 private:
     void initMemberVariables();
@@ -33,7 +34,7 @@ private:
 private:
     QWidget         *m_pButtonWidget;
     QPushButton     *m_pVPNButton;
-    QPushButton     *m_pDeleteButton;
+
     QLabel          *m_pVPNLabel;
 
     QVBoxLayout     *m_pVboxButtonLayout;
