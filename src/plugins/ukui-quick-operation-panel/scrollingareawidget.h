@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QSlider>
 #include <QHBoxLayout>
+#include <QGridLayout>
 #include <QLabel>
 #include <QIcon>
 #include <QDebug>
@@ -34,12 +35,12 @@ private:
     QWidget     *m_pVolumeWidget;
     QLabel      *m_pVolumeIconLabel;
     QSlider     *m_pVolumeSlide;
-    QHBoxLayout *m_pHVolumeLayout;
+    QGridLayout *m_pHVolumeLayout;
 
     QWidget     *m_pBrightNessWidget;
     QLabel      *m_pBrightIconLabel;
     QSlider     *m_pBrightSlide;
-    QHBoxLayout *m_pBrightLayout;
+    QGridLayout *m_pBrightLayout;
 
     QGSettings  *m_pVolumeLightSetting = nullptr;
     QGSettings  *m_pBrightNessSetting  = nullptr;

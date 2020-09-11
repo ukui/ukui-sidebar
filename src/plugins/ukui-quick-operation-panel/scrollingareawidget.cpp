@@ -19,11 +19,20 @@ void ScrollingAreaWidget::initMemberVariable()
     m_pVolumeWidget->setContentsMargins(0, 0, 0, 0);
     m_pVolumeIconLabel   = new QLabel();
     m_pVolumeIconLabel->setFixedSize(24, 24);
+
+#ifdef BUILD_TARGET
     m_pVolumeSlide       = new QSlider(Qt::Horizontal);
     m_pVolumeSlide->setFixedSize(120, 20);
+#else
+    m_pVolumeSlide       = new QSlider(Qt::Vertical);
+    m_pVolumeSlide->setFixedSize(20, 120);
+#endif
+
     connect(m_pVolumeSlide, &QSlider::valueChanged, this, &ScrollingAreaWidget::setVolumeSlideSlots);
 
-    m_pHVolumeLayout     = new QHBoxLayout();
+    m_pHVolumeLayout     = new QGridLayout();
+    m_pHVolumeLayout->setHorizontalSpacing(3);
+    m_pHVolumeLayout->setVerticalSpacing(3);
     m_pHVolumeLayout->setContentsMargins(0, 0, 0, 0);
     m_pHVolumeLayout->setSpacing(0);
 
@@ -31,11 +40,20 @@ void ScrollingAreaWidget::initMemberVariable()
     m_pBrightNessWidget->setContentsMargins(0, 0, 0, 0);
     m_pBrightIconLabel   = new QLabel();
     m_pBrightIconLabel->setFixedSize(24, 24);
+
+#ifdef BUILD_TARGET
     m_pBrightSlide       = new QSlider(Qt::Horizontal);
     m_pBrightSlide->setFixedSize(120, 20);
+#else
+    m_pBrightSlide       = new QSlider(Qt::Vertical);
+    m_pBrightSlide->setFixedSize(20, 120);
+#endif
+
     connect(m_pBrightSlide, &QSlider::valueChanged, this, &ScrollingAreaWidget::setBrightSlideSlots);
 
-    m_pBrightLayout      = new QHBoxLayout();
+    m_pBrightLayout      = new QGridLayout();
+    m_pBrightLayout->setHorizontalSpacing(3);
+    m_pBrightLayout->setVerticalSpacing(3);
     m_pBrightLayout->setContentsMargins(0, 0, 0, 0);
     m_pBrightLayout->setSpacing(0);
 }
@@ -78,25 +96,45 @@ void ScrollingAreaWidget::initSlideStatus()
 void ScrollingAreaWidget::initLayout()
 {
     m_pVolumeIconLabel->setPixmap(QIcon::fromTheme("audio-volume-high-symbolic").pixmap(m_pVolumeIconLabel->size()));
-    m_pHVolumeLayout->addWidget(m_pVolumeIconLabel);
-    m_pHVolumeLayout->addItem(new QSpacerItem(3, 1));
-    m_pHVolumeLayout->addWidget(m_pVolumeSlide);
-    m_pVolumeWidget->setLayout(m_pHVolumeLayout);
-    m_pVolumeWidget->setFixedHeight(24);
-
     m_pBrightIconLabel->setPixmap(QIcon::fromTheme("display-brightness-symbolic").pixmap(m_pBrightIconLabel->size()));
-    m_pBrightLayout->addWidget(m_pBrightIconLabel);
-    m_pBrightLayout->addItem(new QSpacerItem(3, 1));
-    m_pBrightLayout->addWidget(m_pBrightSlide);
-    m_pBrightNessWidget->setLayout(m_pBrightLayout);
+
+#ifdef BUILD_TARGET
+    m_pHVolumeLayout->addWidget(m_pVolumeIconLabel, 0, 0, 1, 1);
+    m_pHVolumeLayout->addWidget(m_pVolumeSlide, 0, 1, 1, 1);
+    m_pVolumeWidget->setFixedHeight(24);
+#else
+    m_pHVolumeLayout->addWidget(m_pVolumeSlide, 0, 0, 1, 1);
+    m_pHVolumeLayout->addWidget(m_pVolumeIconLabel, 1, 0, 1, 1);
+    m_pVolumeWidget->setFixedWidth(24);
+#endif
+    m_pVolumeWidget->setLayout(m_pHVolumeLayout);
+
+#ifdef BUILD_TARGET
+    m_pBrightLayout->addWidget(m_pBrightIconLabel, 0, 0, 1, 1);
+    m_pBrightLayout->addWidget(m_pBrightSlide, 0, 1, 1, 1);
     m_pBrightNessWidget->setFixedHeight(24);
+#else
+    m_pBrightLayout->addWidget(m_pBrightSlide, 0, 0, 1, 1);
+    m_pBrightLayout->addWidget(m_pBrightIconLabel, 1, 0, 1, 1);
+    m_pBrightNessWidget->setFixedWidth(24);
+#endif
+    m_pBrightNessWidget->setLayout(m_pBrightLayout);
 
-    m_pHMainLayout->addItem(new QSpacerItem(32, 10));
+#ifdef BUILD_TARGET
+    m_pHMainLayout->addItem(new QSpacerItem(10, 32));
     m_pHMainLayout->addWidget(m_pVolumeWidget);
-
-    m_pHMainLayout->addItem(new QSpacerItem(29, 10));
+    m_pHMainLayout->addItem(new QSpacerItem(10, 33));
     m_pHMainLayout->addWidget(m_pBrightNessWidget);
-    m_pHMainLayout->addItem(new QSpacerItem(33, 10));
+    m_pHMainLayout->addItem(new QSpacerItem(10, 36));
+    this->setFixedSize(392, 56);
+#else
+    m_pHMainLayout->addItem(new QSpacerItem(10, 16));
+    m_pHMainLayout->addWidget(m_pVolumeWidget);
+    m_pHMainLayout->addItem(new QSpacerItem(10, 18));
+    m_pHMainLayout->addWidget(m_pBrightNessWidget);
+    m_pHMainLayout->addItem(new QSpacerItem(10, 18));
+//    this->setFixedSize(200, 180);
+#endif
     this->setLayout(m_pHMainLayout);
 }
 

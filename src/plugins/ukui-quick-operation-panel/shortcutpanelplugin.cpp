@@ -63,7 +63,6 @@ void shortcutPanelPlugin::initMemberVariables()
 
     /* 调整音量与屏幕亮度界面 */
     m_pScrollingAreaWidget = new ScrollingAreaWidget();
-    m_pScrollingAreaWidget->setFixedSize(392, 56);
 
     /* 显示天气界面 */
     m_pWeatherWidget = new weatherWidget();
@@ -212,6 +211,7 @@ void shortcutPanelPlugin::initShortcutButtonGsetting()
 void shortcutPanelPlugin::initsetShortWidget()
 {
     int tmpx = 0, tmpy = 0;
+#ifdef BUILD_TARGET
     for (int j = 0; j < 3; j++) {
         for (int k = 0; k < 4; k++) {
             if (m_pGsettingShutcutValue->get(m_pButtonGsettingValue.at(4 * j + k)).toBool()) {
@@ -224,6 +224,21 @@ void shortcutPanelPlugin::initsetShortWidget()
             }
         }
     }
+#else
+    for (int j = 0; j < 3; j++) {
+        for (int k = 0; k < 2; k++) {
+            if (m_pGsettingShutcutValue->get(m_pButtonGsettingValue.at(2 * j + k)).toBool()) {
+                m_pShortGLayout->addWidget(ShortButtonWidgetList.at(2 * j + k), tmpx, tmpy, 1, 1);
+                tmpy++;
+                if (tmpy == 2) {
+                    tmpy = 0;
+                    tmpx++;
+                }
+            }
+        }
+    }
+    m_pShortGLayout->addWidget(m_pScrollingAreaWidget, 0, 3, 1, 3);
+#endif
     return;
 }
 
@@ -260,13 +275,15 @@ void shortcutPanelPlugin::setWidget()
     m_pMainVLayout->addWidget(m_pLinelabel_1);
 
     m_pMainVLayout->addWidget(m_pShortWidget);
-
+#ifdef BUILD_TARGET
     m_pLinelabel_2 = new QLabel();
     m_pLinelabel_2->setFixedSize(392, 1);
     m_pLinelabel_2->setStyleSheet("QLabel{border: 1px solid rgba(246, 246, 246, 1)};");
     m_pMainVLayout->addWidget(m_pLinelabel_2);
-
     m_pMainVLayout->addWidget(m_pScrollingAreaWidget);      // 滚动条区域
+#else
+
+#endif
 
     m_pLinelabel_3 = new QLabel();
     m_pLinelabel_3->setFixedSize(392, 1);
