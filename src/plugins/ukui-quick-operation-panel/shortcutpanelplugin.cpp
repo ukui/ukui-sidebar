@@ -447,6 +447,13 @@ void shortcutPanelPlugin::ShowEditWidgetSlots()
 /* 当收到控制面板发出的gsetting信号值变化时，重新布局按钮界面 */
 void shortcutPanelPlugin::resetShortWidget()
 {
+    QLayoutItem *child;
+    while ((child = m_pShortGLayout->takeAt(0)) != 0) {
+        QWidget* wid=child->widget();
+        m_pShortGLayout->removeWidget(wid);
+        wid->setParent(nullptr);
+        delete child;
+    }
     int tmpx = 0, tmpy = 0;
     for (int j = 0; j < 3; j++) {
         for (int k = 0; k < 4; k++) {
