@@ -1192,7 +1192,7 @@
         <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="119"/>
         <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="144"/>
         <source>Wed</source>
-        <translation>周二</translation>
+        <translation>周三</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="120"/>
