@@ -237,7 +237,7 @@ void shortcutPanelPlugin::initsetShortWidget()
             }
         }
     }
-    m_pShortGLayout->addWidget(m_pScrollingAreaWidget, 0, 3, 1, 3);
+    m_pShortGLayout->addWidget(m_pScrollingAreaWidget, 0, 3, 3, 2); // 当在通用平板模式下， 滑动条区域所占位置3行2列， 和设计稿大小需要细调
 #endif
     return;
 }

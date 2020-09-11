@@ -98,11 +98,12 @@ void ScrollingAreaWidget::initLayout()
     m_pVolumeIconLabel->setPixmap(QIcon::fromTheme("audio-volume-high-symbolic").pixmap(m_pVolumeIconLabel->size()));
     m_pBrightIconLabel->setPixmap(QIcon::fromTheme("display-brightness-symbolic").pixmap(m_pBrightIconLabel->size()));
 
-#ifdef BUILD_TARGET
+    /* 每一个需要在垂直布局与水平布局的切换的widget中，需要使用QGridLayout来布局 */
+#ifdef BUILD_TARGET // 通用PC模式，使用的是水平布局，使用QGridLayout
     m_pHVolumeLayout->addWidget(m_pVolumeIconLabel, 0, 0, 1, 1);
     m_pHVolumeLayout->addWidget(m_pVolumeSlide, 0, 1, 1, 1);
     m_pVolumeWidget->setFixedHeight(24);
-#else
+#else               // 通用PC模式，使用的是垂直布局
     m_pHVolumeLayout->addWidget(m_pVolumeSlide, 0, 0, 1, 1);
     m_pHVolumeLayout->addWidget(m_pVolumeIconLabel, 1, 0, 1, 1);
     m_pVolumeWidget->setFixedWidth(24);

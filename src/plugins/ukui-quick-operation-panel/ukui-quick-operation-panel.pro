@@ -20,7 +20,9 @@ PKGCONFIG  += gsettings-qt
 # any Qt feature that has been marked deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
-DEFINES += BUILD_TARGET
+
+# BUILD_TARGET为编译选项，当==BUILD_TARGET为通用PC模式， 当改为其余值时，则为Inter平板模式
+DEFINES += BUILD_TARGET_1
 DEFINES += QT_DEPRECATED_WARNINGS
 
 # You can also make your code fail to compile if it uses deprecated APIs.
