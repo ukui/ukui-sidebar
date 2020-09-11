@@ -222,11 +222,11 @@ background-color: rgba(255, 255, 255,0.04);</string>
          <x>129</x>
          <y>178</y>
          <width>195</width>
-         <height>45</height>
+         <height>71</height>
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">font: 36pt ;</string>
+        <string notr="true">font: 36pt &quot;Noto Sans CJK HK DemiLight&quot;;</string>
        </property>
        <property name="text">
         <string>00:00:00</string>
