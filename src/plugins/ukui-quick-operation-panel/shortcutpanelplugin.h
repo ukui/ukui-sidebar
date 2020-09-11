@@ -89,7 +89,6 @@ public:
     void initShortButtonWidget();
     void initShortcutButtonGsetting();
     void initsetShortWidget();
-    void resetShortWidget();
     void setButtonIcon();
 
     void setWidget();
@@ -108,6 +107,8 @@ public slots:
     void spreadClikedSlots();
     void foldClikedSlots();
     void ShowEditWidgetSlots();
+    void resetShortWidget();
+    void setCanceGsettingButtonValue(QString key);
 
 private:
     QVBoxLayout  *m_pMainVLayout    = nullptr;

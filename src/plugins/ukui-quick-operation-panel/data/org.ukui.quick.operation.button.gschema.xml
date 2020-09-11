@@ -1,64 +1,64 @@
 <schemalist gettext-domain="ukui-quick-button-operation">
      <schema id="org.ukui.quick-operation.button.widget"  path="/org/ukui/quick-operation/button/widget/">
         <key name="padwidgetvalue" type="b">
-            <default>false</default>
+            <default>true</default>
             <summary>pad Widget value</summary>
             <description>Interacts with the volume component to adjust the volume</description>
         </key>
         <key name="nodisturbwidgetvalue" type="b">
-            <default>false</default>
+            <default>true</default>
             <summary>nodisturb Widget value</summary>
             <description>Interacts with the volume component to adjust the volume</description>
         </key>
         <key name="powersavingmodevalue" type="b">
-            <default>false</default>
+            <default>true</default>
             <summary>power Saving Mode value</summary>
             <description>Interacts with the volume component to adjust the volume</description>
         </key>
         <key name="eyeprotectionmodevalue" type="b">
-            <default>false</default>
+            <default>true</default>
             <summary>eye protection mode value</summary>
             <description>Interacts with the volume component to adjust the volume</description>
         </key>
 
         <key name="bluetoothwidgetvalue" type="b">
-            <default>false</default>
+            <default>true</default>
             <summary>bluetooth Widget value</summary>
             <description>Interacts with the volume component to adjust the volume</description>
         </key>
         <key name="hotspotwidgetvalue" type="b">
-            <default>false</default>
+            <default>true</default>
             <summary>hotspot widget value</summary>
             <description>Interacts with the volume component to adjust the volume</description>
         </key>
         <key name="diturbmodewidgetvalue" type="b">
-            <default>false</default>
+            <default>true</default>
             <summary>diturb mode widget value</summary>
             <description>Interacts with the volume component to adjust the volume</description>
         </key>
         <key name="settingwidgetvalue" type="b">
-            <default>false</default>
+            <default>true</default>
             <summary>eye Protection Mode value</summary>
             <description>Interacts with the volume component to adjust the volume</description>
         </key>
 
         <key name="calculatorwidgetvalue" type="b">
-            <default>false</default>
+            <default>true</default>
             <summary>calculator widget value</summary>
             <description>Interacts with the volume component to adjust the volume</description>
         </key>
         <key name="screenshotwidgetvalue" type="b">
-            <default>false</default>
+            <default>true</default>
             <summary>screenshot widget value</summary>
             <description>Interacts with the volume component to adjust the volume</description>
         </key>
         <key name="alarmbuttoninterfacevalue" type="b">
-            <default>false</default>
+            <default>true</default>
             <summary>alarm Button Interface value</summary>
             <description>Interacts with the volume component to adjust the volume</description>
         </key>
         <key name="notebookbuttonwidgetvalue" type="b">
-            <default>false</default>
+            <default>true</default>
             <summary>notebook button widget value</summary>
             <description>Interacts with the volume component to adjust the volume</description>
         </key>
