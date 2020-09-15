@@ -46,6 +46,8 @@
 #include "VPNButtonwidget.h"
 #include "powersavingmode.h"
 #include "eyeprotectionmode.h"
+#include "editconfirmationarea.h"
+#include "dropdownbox.h"
 
 #define SPREAD_BUTTON_NORMAL       ":/image/open-normal.svg"
 #define SPREAD_BUTTON_HOVER        ":/image/open-hover.svg"
@@ -90,10 +92,7 @@ public:
     void initShortcutButtonGsetting();
     void initsetShortWidget();
     void setButtonIcon();
-
     void setWidget();
-
-    bool getwifiisEnable();
 
     /* Hash表  查、删、增 */
     InterfaceEnum getInterfaceMark(QString key);
@@ -107,6 +106,8 @@ public slots:
     void spreadClikedSlots();
     void foldClikedSlots();
     void ShowEditWidgetSlots();
+    void HideEditWidgetSlots();
+    void addButtonSlots();
     void resetShortWidget();
     void setCanceGsettingButtonValue(QString key);
 
@@ -138,6 +139,12 @@ private:
 
     /* 显示用户信息界面和关机按钮 */
     AccountInformation    *m_PAccountInfoWidget;
+
+    /* 编辑界面添加和完成按钮 */
+    EditConfirmationArea  *m_pEditConfirmationArea;
+
+    /* 下拉框界面 */
+    dropDownBox           *m_pDropDownBoxWidget;
 
     /* 显示调音量与屏幕亮度界面 */
     ScrollingAreaWidget   *m_pScrollingAreaWidget;

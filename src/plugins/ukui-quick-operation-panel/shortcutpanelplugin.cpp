@@ -56,6 +56,15 @@ void shortcutPanelPlugin::initMemberVariables()
     m_PAccountInfoWidget = new AccountInformation();
     m_PAccountInfoWidget->setFixedSize(392, 48);
 
+    /* 添加和完成按钮 */
+    m_pEditConfirmationArea = new EditConfirmationArea();
+    m_pEditConfirmationArea->setFixedSize(392, 48);
+    connect(m_pEditConfirmationArea->m_pAddButton, &QPushButton::clicked, this, &shortcutPanelPlugin::addButtonSlots);
+    connect(m_pEditConfirmationArea->m_pCompleteAreaButton, &QPushButton::clicked, this, &shortcutPanelPlugin::HideEditWidgetSlots);
+
+    /* 下拉框界面 */
+    m_pDropDownBoxWidget = new dropDownBox();
+
     /* 快捷操作面板界面 */
     m_pShortWidget   = new QWidget;
     m_pShortWidget->setFixedWidth(380);
@@ -205,6 +214,7 @@ void shortcutPanelPlugin::initShortcutButtonGsetting()
         m_pGsettingShutcutValue = new QGSettings(id);
     if (m_pGsettingShutcutValue != nullptr)
         connect(m_pGsettingShutcutValue, &QGSettings::changed, this, &shortcutPanelPlugin::resetShortWidget);
+    qDebug() << "当前gsetting值" << m_pGsettingShutcutValue->keys();
     return;
 }
 
@@ -253,6 +263,8 @@ void shortcutPanelPlugin::setWidget()
     m_pMainVLayout->addItem(new QSpacerItem(10, 10, QSizePolicy::Fixed));
 
     m_pMainVLayout->addWidget(m_PAccountInfoWidget);        // 账户信息
+    m_pMainVLayout->addWidget(m_pEditConfirmationArea);     // 添加和完成按钮界面
+    m_pEditConfirmationArea->setVisible(false);
     m_pMainVLayout->addItem(new QSpacerItem(10, 10, QSizePolicy::Fixed));
     m_pLinelabel_1 = new QLabel();
     m_pLinelabel_1->setFixedSize(392, 1);
@@ -276,6 +288,11 @@ void shortcutPanelPlugin::setWidget()
     m_pMainVLayout->addWidget(m_pWeatherWidget);            // 天气界面
     m_pMainVLayout->setSpacing(0);
     m_pMainWidget->setLayout(m_pMainVLayout);
+
+    /* 将下拉框界面布局到最外层 */
+    m_pDropDownBoxWidget->setParent(m_pMainWidget);
+    m_pDropDownBoxWidget->move(68, 69);
+    m_pDropDownBoxWidget->setVisible(false);
     return;
 }
 
@@ -441,6 +458,75 @@ void shortcutPanelPlugin::ShowEditWidgetSlots()
         notebookButtonWidget *w = dynamic_cast<notebookButtonWidget *> (ShortButtonWidgetList.at(11));
         w->m_pDeleteButton->setVisible(true);
     }
+    m_PAccountInfoWidget->setVisible(false);
+    m_pEditConfirmationArea->setVisible(true);
+    m_pMainWidget->update();
+    return;
+}
+
+/* 当点击完成按钮，隐藏取消固定按钮 */
+void shortcutPanelPlugin::HideEditWidgetSlots()
+{
+    if (m_pGsettingShutcutValue->get(m_pButtonGsettingValue.at(0)).toBool()) {
+        padWidget *w = dynamic_cast<padWidget *> (ShortButtonWidgetList.at(0));
+        w->m_pDeleteButton->setVisible(false);
+    }
+    if (m_pGsettingShutcutValue->get(m_pButtonGsettingValue.at(1)).toBool()) {
+        nodisturbWidget *w = dynamic_cast<nodisturbWidget *> (ShortButtonWidgetList.at(1));
+        w->m_pDeleteButton->setVisible(false);
+    }
+    if (m_pGsettingShutcutValue->get(m_pButtonGsettingValue.at(2)).toBool()) {
+        powerSavingMode *w = dynamic_cast<powerSavingMode *> (ShortButtonWidgetList.at(2));
+        w->m_pDeleteButton->setVisible(false);
+    }
+    if (m_pGsettingShutcutValue->get(m_pButtonGsettingValue.at(3)).toBool()) {
+        eyeProtectionMode *w = dynamic_cast<eyeProtectionMode *> (ShortButtonWidgetList.at(3));
+        w->m_pDeleteButton->setVisible(false);
+    }
+
+    if (m_pGsettingShutcutValue->get(m_pButtonGsettingValue.at(4)).toBool()) {
+        bluetoothWidget *w = dynamic_cast<bluetoothWidget *> (ShortButtonWidgetList.at(4));
+        w->m_pDeleteButton->setVisible(false);
+    }
+    if (m_pGsettingShutcutValue->get(m_pButtonGsettingValue.at(5)).toBool()) {
+        hotspotWidget *w = dynamic_cast<hotspotWidget *> (ShortButtonWidgetList.at(5));
+        w->m_pDeleteButton->setVisible(false);
+    }
+    if (m_pGsettingShutcutValue->get(m_pButtonGsettingValue.at(6)).toBool()) {
+        diturbModeWidget *w = dynamic_cast<diturbModeWidget *> (ShortButtonWidgetList.at(6));
+        w->m_pDeleteButton->setVisible(false);
+    }
+    if (m_pGsettingShutcutValue->get(m_pButtonGsettingValue.at(7)).toBool()) {
+        settingWidget *w = dynamic_cast<settingWidget *> (ShortButtonWidgetList.at(7));
+        w->m_pDeleteButton->setVisible(false);
+    }
+
+    if (m_pGsettingShutcutValue->get(m_pButtonGsettingValue.at(8)).toBool()) {
+        calculatorWidget *w = dynamic_cast<calculatorWidget *> (ShortButtonWidgetList.at(8));
+        w->m_pDeleteButton->setVisible(false);
+    }
+    if (m_pGsettingShutcutValue->get(m_pButtonGsettingValue.at(9)).toBool()) {
+        screenshotWidget *w = dynamic_cast<screenshotWidget *> (ShortButtonWidgetList.at(9));
+        w->m_pDeleteButton->setVisible(false);
+    }
+    if (m_pGsettingShutcutValue->get(m_pButtonGsettingValue.at(10)).toBool()) {
+        alarmButtonInterface *w = dynamic_cast<alarmButtonInterface *> (ShortButtonWidgetList.at(10));
+        w->m_pDeleteButton->setVisible(false);
+    }
+    if (m_pGsettingShutcutValue->get(m_pButtonGsettingValue.at(11)).toBool()) {
+        notebookButtonWidget *w = dynamic_cast<notebookButtonWidget *> (ShortButtonWidgetList.at(11));
+        w->m_pDeleteButton->setVisible(false);
+    }
+    m_PAccountInfoWidget->setVisible(true);
+    m_pEditConfirmationArea->setVisible(false);
+    m_pDropDownBoxWidget->setVisible(false);
+    m_pMainWidget->update();
+    return;
+}
+
+void shortcutPanelPlugin::addButtonSlots()
+{
+    m_pDropDownBoxWidget->setVisible(true);
     return;
 }
 

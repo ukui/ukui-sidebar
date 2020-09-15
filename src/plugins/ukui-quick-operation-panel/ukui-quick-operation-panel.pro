@@ -33,6 +33,8 @@ SOURCES += \
     automaticrotationwidget.cpp \
     customstyle_switchNormalStatus.cpp \
     VPNButtonwidget.cpp \
+    dropdownbox.cpp \
+    editconfirmationarea.cpp \
     eyeprotectionmode.cpp \
     notebookbuttonwidget.cpp \
     powersavingmode.cpp \
@@ -58,6 +60,8 @@ HEADERS += \
     automaticrotationwidget.h \
     customstyle_switchNormalStatus.h \
     VPNButtonwidget.h \
+    dropdownbox.h \
+    editconfirmationarea.h \
     eyeprotectionmode.h \
     notebookbuttonwidget.h \
     powersavingmode.h \

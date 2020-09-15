@@ -16,7 +16,7 @@
 #define KYLIN_VPN_OPEN_NAME       "Kylin-icon-VPN-open.svg"
 
 #define KYLIN_BLUETOOTH_NORMAL_PATH     ":/images/icon-VPN.svg"
-#define KYLIN_BLUETOOTH_SET_PATH        ":/images/icon-VPN-s.svg"
+#define KYLIN_VPN_SET_PATH              ":/images/icon-VPN-s.svg"
 #define KULIN_VPN_OPEN_PATH             ":/images/icon-VPN-open.svg"
 #define KYLIN_DELETE_ICONPATH           ":/images/cancel-lock.png"
 
