@@ -54,7 +54,7 @@ class EntryWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit EntryWidget(QString iconName, QString iconPath, QString entryName, QWidget *parent = nullptr);
+    explicit EntryWidget(QString iconName, QString iconPath, QString entryName, QString key, QWidget *parent = nullptr);
     void initMemberVariables();
     void initLayout();
 
@@ -65,6 +65,13 @@ public:
     QString     IconName;
     QString     IconPath;
     QString     EntryName;
+    QString     gsettingKey;
+
+protected:
+    void mousePressEvent(QMouseEvent *event);
+
+Q_SIGNALS:
+    void        WidgetClickSignal(QString gsettingKey);
 };
 
 class dropDownBox :public QWidget
@@ -99,6 +106,7 @@ private:
 
 private slots:
     void resetDropDownWidget();
+    void modifyButtonGsettingValue(QString key);
 };
 
 #endif // DROPDOWNBOX_H

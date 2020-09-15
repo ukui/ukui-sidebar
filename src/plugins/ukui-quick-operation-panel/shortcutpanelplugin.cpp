@@ -53,7 +53,7 @@ void shortcutPanelPlugin::initMemberVariables()
     connect(m_pMainWidget, &MainWidget::EditOptionSignal, this, &shortcutPanelPlugin::ShowEditWidgetSlots);
 
     /* 账户信息界面 */
-    m_PAccountInfoWidget = new AccountInformation();
+    m_PAccountInfoWidget    = new AccountInformation();
     m_PAccountInfoWidget->setFixedSize(392, 48);
 
     /* 添加和完成按钮 */
@@ -526,7 +526,10 @@ void shortcutPanelPlugin::HideEditWidgetSlots()
 
 void shortcutPanelPlugin::addButtonSlots()
 {
-    m_pDropDownBoxWidget->setVisible(true);
+    if (m_pDropDownBoxWidget->isVisible())
+        m_pDropDownBoxWidget->setVisible(false);
+    else
+        m_pDropDownBoxWidget->setVisible(true);
     return;
 }
 

@@ -8,8 +8,9 @@ EditConfirmationArea::EditConfirmationArea(QWidget *parent) : QWidget(parent)
 
 void EditConfirmationArea::initMemberVariables()
 {
-    m_pAddButton = new QPushButton(QObject::tr("append"));
+    m_pAddButton = new QPushButton();
     m_pAddButton->setIcon(QIcon::fromTheme("aaaa", QIcon(":/image/fold-normal.svg")));
+    m_pAddButton->setText(QObject::tr("append"));
     m_pAddButton->setFixedSize(96, 32);
 
     m_pCompleteAreaButton = new QPushButton(QObject::tr("Complete"));

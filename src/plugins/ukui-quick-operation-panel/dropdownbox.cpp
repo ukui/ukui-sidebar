@@ -1,10 +1,11 @@
 #include "dropdownbox.h"
 
-EntryWidget::EntryWidget(QString iconName, QString iconPath, QString entryName, QWidget *parent) : QWidget(parent)
+EntryWidget::EntryWidget(QString iconName, QString iconPath, QString entryName, QString key, QWidget *parent) : QWidget(parent)
 {
-    IconName  = iconName;
-    IconPath  = iconPath;
-    EntryName = entryName;
+    IconName    = iconName;
+    IconPath    = iconPath;
+    EntryName   = entryName;
+    gsettingKey = key;
     initMemberVariables();
     initLayout();
 }
@@ -36,6 +37,13 @@ void EntryWidget::initLayout()
     m_pHEntryLayout->addItem(new QSpacerItem(60, 5, QSizePolicy::Expanding));
     this->setLayout(m_pHEntryLayout);
     this->setFixedSize(112, 32);
+}
+
+void EntryWidget::mousePressEvent(QMouseEvent *event)
+{
+    emit WidgetClickSignal(gsettingKey);
+    QWidget::mousePressEvent(event);
+    return;
 }
 
 dropDownBox::dropDownBox(QWidget *parent) : QWidget(parent)
@@ -129,7 +137,9 @@ void dropDownBox::initListWidgetEntry()
     for (int i = 0; i < count; i++) {
         if (!m_pGsettingButtonData->get(m_listGsettingKey.at(i)).toBool()) {
             ButtonInfo* s_ptrButtonInfo = getButtonInfoData(m_listGsettingKey.at(i));
-            EntryWidget *p_EntryWidget  = new EntryWidget(s_ptrButtonInfo->iconName, s_ptrButtonInfo->iconPath, s_ptrButtonInfo->entryName);
+            EntryWidget *p_EntryWidget  = new EntryWidget(s_ptrButtonInfo->iconName, s_ptrButtonInfo->iconPath, \
+                                                          s_ptrButtonInfo->entryName, m_listGsettingKey.at(i));
+            connect(p_EntryWidget, &EntryWidget::WidgetClickSignal, this, &dropDownBox::modifyButtonGsettingValue);
             QListWidgetItem *pItem      = new QListWidgetItem();
             pItem->setFlags(Qt::NoItemFlags);
             p_EntryWidget->setFixedSize(112, 32);
@@ -179,10 +189,21 @@ ButtonInfo* dropDownBox::getButtonInfoData(QString key)
 /* 当getting值发生变化时，将会重新布局添加界面 */
 void dropDownBox::resetDropDownWidget()
 {
-    int tmp   = m_pListWidget->count();
+    int tmp   = m_pListWidget->count() + 1;
+    qDebug() << "当前链表中条目个数" << tmp;
     for (int i = 0; i < tmp; i++) {
         QListWidgetItem *item =  m_pListWidget->takeItem(i); //删除Item;
         delete item;
     }
+    m_pListWidget->clear();
     initListWidgetEntry();
+}
+
+/* 收到信号时， 设置gsetting值 */
+void dropDownBox::modifyButtonGsettingValue(QString key)
+{
+    if (m_pGsettingButtonData != nullptr && m_pGsettingButtonData->keys().contains(key)) {
+        m_pGsettingButtonData->set(key, true);
+    }
+    return;
 }
