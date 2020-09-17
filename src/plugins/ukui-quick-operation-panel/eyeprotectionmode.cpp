@@ -18,7 +18,7 @@ void eyeProtectionMode::initMemberVariables()
     m_pEyeModeButton = new QPushButton();
     m_pEyeModeButton->setFixedSize(56, 56);
     m_pEyeModeButton->setIcon(QIcon::fromTheme(KYLIN_EYE_MODE_NORMAL_NAME, QIcon(KYLIN_EYE_MODE_NORMAL_PATH)));
-    m_pEyeModeButton->setIconSize(QSize(32, 32));
+    m_pEyeModeButton->setIconSize(QSize(16, 16));
     connect(m_pEyeModeButton, &switchButton::clicked, this, &eyeProtectionMode::EyeButtonClickSlots);
 
     m_pDeleteButton = new QPushButton();

@@ -43,7 +43,7 @@ void WifiWidget::initMemberVariables()
     m_pWifiButton = new switchButton(m_IconPathList, m_IconNameList);
     connect(m_pWifiButton, &switchButton::clicked, this, &WifiWidget::WifiButtonClickSlot);
     m_pWifiButton->setFixedSize(56, 56);
-    m_pWifiButton->setIconSize(QSize(32, 32));
+    m_pWifiButton->setIconSize(QSize(16, 16));
 
     m_pWifiLabel = new QLabel(QObject::tr("Wifi"));
     m_pWifiLabel->setAlignment(Qt::AlignHCenter);

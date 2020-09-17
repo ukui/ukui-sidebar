@@ -39,7 +39,7 @@ void screenshotWidget::initMemberVariables()
     m_pscreenshotButton = new QPushButton();
     m_pscreenshotButton->setIcon(QIcon::fromTheme(KYLIN_SCREENSHOT_NORMAL_NAME, QIcon(KYLIN_SCREENSHOT_NORMAL_PATH)));
     m_pscreenshotButton->setFixedSize(56, 56);
-    m_pscreenshotButton->setIconSize(QSize(32, 32));
+    m_pscreenshotButton->setIconSize(QSize(16, 16));
     m_pStyleNormal = new customstyle_switchNormalStatus("ukui-default");
     m_pscreenshotButton->setStyle(m_pStyleNormal);
     connect(m_pscreenshotButton, &switchButton::clicked, this, &screenshotWidget::sreenShotButtonClickedSlots);

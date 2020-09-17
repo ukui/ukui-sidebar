@@ -41,7 +41,7 @@ void bluetoothWidget::initMemberVariables()
     m_pbluetoothButton = new QPushButton();
     connect(m_pbluetoothButton, &switchButton::clicked, this, &bluetoothWidget::bluetoothButtonClickSlots);
     m_pbluetoothButton->setFixedSize(56, 56);
-    m_pbluetoothButton->setIconSize(QSize(32, 32));
+    m_pbluetoothButton->setIconSize(QSize(16, 16));
 
     m_pDeleteButton = new QPushButton();
     m_pDeleteButton->setFixedSize(20, 20);

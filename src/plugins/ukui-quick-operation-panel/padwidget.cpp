@@ -40,7 +40,7 @@ void padWidget::initMemberVariables()
 
     m_pPadButton = new QPushButton();
     m_pPadButton->setFixedSize(56, 56);
-    m_pPadButton->setIconSize(QSize(32, 32));
+    m_pPadButton->setIconSize(QSize(16, 16));
     connect(m_pPadButton, &switchButton::clicked, this, &padWidget::PadButtonClickSlots);
 
     m_pDeleteButton = new QPushButton();

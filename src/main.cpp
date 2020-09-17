@@ -85,7 +85,6 @@ int main(int argc, char *argv[])
 
         mostGrandWidget::mostGrandWidgetInit();                         /* 初始化最里层Widget空白界面 */
 
-
         Widget *w = new Widget;
         w->setObjectName("SidebarWidget");
         w->setAttribute(Qt::WA_TranslucentBackground);

@@ -40,7 +40,7 @@ void hotspotWidget::initMemberVariables()
     m_photspotButton = new QPushButton();
     m_photspotButton->setIcon(QIcon::fromTheme(KYLIN_HOTSPOT_NORMAL_NAME, QIcon(KYLIN_HOTSPOT_NORMAL_PATH)));
     m_photspotButton->setFixedSize(56, 56);
-    m_photspotButton->setIconSize(QSize(32, 32));
+    m_photspotButton->setIconSize(QSize(16, 16));
     m_pStyleNormal = new customstyle_switchNormalStatus("ukui-default");
     m_photspotButton->setStyle(m_pStyleNormal);
 

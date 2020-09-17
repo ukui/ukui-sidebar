@@ -17,7 +17,7 @@ void AutomaticRotationWidget::initMemberVariables()
     m_pWidgetButton->setContentsMargins(0, 0, 0, 0);
     m_pAutomaticRotationButton =  new switchButton(m_IconPathList, m_IconNameList);
     m_pAutomaticRotationButton->setFixedSize(56, 56);
-    m_pAutomaticRotationButton->setIconSize(QSize(32, 32));
+    m_pAutomaticRotationButton->setIconSize(QSize(16, 16));
     connect(m_pAutomaticRotationButton, &switchButton::clicked, this, &AutomaticRotationWidget::m_pAutomaticRotationButtonClickSlots);
 
     m_pVboxButtonLayout = new QVBoxLayout();
