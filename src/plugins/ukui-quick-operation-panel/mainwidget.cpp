@@ -36,23 +36,30 @@ void MainWidget::createAction()
 }
 
 //重新绘制背景色
-void MainWidget::paintEvent(QPaintEvent *e)
+void MainWidget::paintEvent(QPaintEvent *event)
 {
-    Q_UNUSED(e);
-    QStyleOption opt;
-    opt.init(this);
-    QPainter p(this);
-    /* 获取当前剪贴板中字体的颜色，作为背景色；
-     * 白字体 --> 黑背景
-     * 黑字体 --> 白字体
-     */
-//    p.setBrush(opt.palette.color(QPalette::Highlight));
-    p.setBrush(QBrush(QColor(0, 0, 0)));
-    p.setOpacity(0.42);
-    p.setPen(Qt::NoPen);
+//    QStyleOption opt;
+//    opt.init(this);
+//    QPainter p(this);
+//    /* 获取当前剪贴板中字体的颜色，作为背景色；
+//     * 白字体 --> 黑背景
+//     * 黑字体 --> 白字体
+//     */
+////    p.setBrush(opt.palette.color(QPalette::Highlight));
+//    p.setBrush(QBrush(QColor("#FFFFFF")));
+//    p.setOpacity(1);
+//    p.setPen(Qt::NoPen);
 
-    p.setRenderHint(QPainter::Antialiasing);                        //反锯齿
-    p.drawRoundedRect(opt.rect, 6, 6);
-    p.drawRect(opt.rect);
-    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+//    p.setRenderHint(QPainter::Antialiasing);                        //反锯齿
+//    p.drawRoundedRect(opt.rect, 12, 12);
+//    p.drawRect(opt.rect);
+//    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+    QPainter p(this);
+    QRect rect = this->rect();
+    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+    p.setBrush(QBrush(QColor("#FFFFFF")));
+    p.setOpacity(1);
+    p.setPen(Qt::NoPen);
+    p.drawRoundedRect(rect, 12, 12);
+    QWidget::paintEvent(event);
 }

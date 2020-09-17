@@ -334,13 +334,13 @@ void Widget::showAnimation()
                 //起始位置的坐标
                 AnimaStartSideBarSite[0] = 400;
                 AnimaStartSideBarSite[1] = 0;
-                AnimaStartSideBarSite[2] = 400;
-                AnimaStartSideBarSite[3] = m_nScreenHeight - connectTaskBarDbus();
+                AnimaStartSideBarSite[2] = 392;
+                AnimaStartSideBarSite[3] = m_nScreenHeight - connectTaskBarDbus() - 15;
                 //结束位置坐标
                 AnimaStopSidebarSite[0]  = 0;
                 AnimaStopSidebarSite[1]  = 0;
-                AnimaStopSidebarSite[2]  = 400;
-                AnimaStopSidebarSite[3]  = m_nScreenHeight  - connectTaskBarDbus();
+                AnimaStopSidebarSite[2]  = 392;
+                AnimaStopSidebarSite[3]  = m_nScreenHeight  - connectTaskBarDbus() - 15;
             }
             break;
         case Widget::PanelUp:
@@ -620,8 +620,8 @@ void Widget::MostGrandWidgetCoordinates()
     switch (getPanelSite()) {
         case Widget::PanelDown :
             {
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight - connectTaskBarDbus());
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400, m_nScreen_y);
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight - connectTaskBarDbus() - 15);
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400, m_nScreen_y + 8);
             }
             break;
         case Widget::PanelUp:
@@ -675,4 +675,16 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
         activateWindow();
     }
     return false;
+}
+
+void Widget::paintEvent(QPaintEvent *event)
+{
+    QPainter p(this);
+    QRect rect = this->rect();
+    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+    p.setBrush(QBrush(QColor(255,255,255)));
+    p.setOpacity(0.7);
+    p.setPen(Qt::NoPen);
+    p.drawRoundedRect(rect, 12, 12);
+    QWidget::paintEvent(event);
 }

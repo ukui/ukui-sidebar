@@ -35,20 +35,66 @@ NotificationPlugin::NotificationPlugin()
 
     m_pMainWidget->setObjectName("NotificationCenter");
 
+
     QTranslator *translator = new QTranslator;
     if (translator->load(QLocale(), QLatin1String("ukui-sidebar-notification"), QLatin1String("_"), QLatin1String("/usr/share/ukui-sidebar/ukui-sidebar-notification")))
         QApplication::installTranslator(translator);
     else
         qDebug() << "cannot load translator ukui-sidebar-notification_" << QLocale::system().name() << ".qm!";
 
+
     //插件的总VBoxLayout布局器
     QVBoxLayout* pNotificationVBoxLayout = new QVBoxLayout;
     pNotificationVBoxLayout->setContentsMargins(16,14,0,0);
     pNotificationVBoxLayout->setSpacing(0);
 
+    //装第一行通知中心的Widget
+    QWidget* pWidget1= new QWidget;
+    pWidget1->setObjectName("NotificationName");
+    pWidget1->setAttribute(Qt::WA_TranslucentBackground);//更改widget为透明布局
+    //第一行通知中心标题栏，左侧标题“通知中心”，右侧收纳按钮
+    QHBoxLayout* pQHBoxLayout1 = new QHBoxLayout;
+    pQHBoxLayout1->setContentsMargins(11,0,28,0);
+    pQHBoxLayout1->setSpacing(0);
+    QLabel* pLabel = new QLabel(QObject::tr("Notification center"));
+    pLabel->setObjectName("notificationcentername");
+    pLabel->setAttribute(Qt::WA_TranslucentBackground);//"通知中心label为透明"
+    //收纳按钮
+    m_pTakeInBoxToolButton = new TakeInBoxToolButton();
+    m_pTakeInBoxToolButton->setStyle(new CustomStyle_pushbutton_2("ukui-default"));
+    connect(m_pTakeInBoxToolButton, SIGNAL(Sig_clicked()), this, SLOT(onShowTakeInMessage()));
+       //QToolButton添加svg图片
+    m_pSvgRender = new QSvgRenderer(pWidget1);
+    m_pSvgRender->load(QString(":/images/box-24.svg"));
+    m_pTakeInBoxToolButton->setFixedSize(30,30);
+    m_pTakeInBoxToolButton->setIconSize(QSize(30,30));
+    m_pPixmap = new QPixmap(24, 24);
+    m_pPixmap->fill(Qt::transparent);
+    QPainter painter(m_pPixmap);
+    m_pSvgRender->render(&painter);
+    m_pTakeInBoxToolButton->setIcon(QIcon(*m_pPixmap));
+    pQHBoxLayout1->addWidget(pLabel, 0, Qt::AlignLeft);
+    pQHBoxLayout1->addWidget(m_pTakeInBoxToolButton, 0, Qt::AlignRight);
+    pWidget1->setLayout(pQHBoxLayout1);
+   // pNotificationVBoxLayout->addWidget(pWidget1); //添加第一行Widget到pNotificationVBoxLayout
+
+    //悬浮收纳数标签
+    m_pTakeInCoutLabel = new QLabel(m_pMainWidget);
+    m_pTakeInCoutLabel->setObjectName("takeincout");
+//    QPalette pe1;
+//    pe1.setColor(QPalette::WindowText,Qt::black);
+//    m_pTakeInCoutLabel->setPalette(pe1);
+    m_pTakeInCoutLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    m_pTakeInCoutLabel->setVisible(false);
+
+    //添加24px的间距
+//    QSpacerItem* pVFixedSpacer = new QSpacerItem(10, 24, QSizePolicy::Fixed, QSizePolicy::Fixed);
+//    pNotificationVBoxLayout->addSpacerItem(pVFixedSpacer);
+
     //装第二行重要通知中的Widget
     QWidget* pWidget2= new QWidget;
     pWidget2->setFixedWidth(390);
+   // pWidget2->setFixedHeight(10);
 
     //第二行左侧标签“重要的信息”，右侧一个清空按钮，一个设置按钮
     QHBoxLayout* pQHBoxLayout2 = new QHBoxLayout;
@@ -58,11 +104,10 @@ NotificationPlugin::NotificationPlugin()
     QPalette pe1;
     pe1.setColor(QPalette::WindowText,QColor(0,0,0,255));
     m_pNotificationLabel->setPalette(pe1);
-    QFont font = m_pNotificationLabel->font();
-    font.setPixelSize(16);
-    m_pNotificationLabel->setFont(font);
+
     m_pNotificationLabel->setObjectName("Recent news");
     m_pNotificationLabel->setAttribute(Qt::WA_TranslucentBackground);
+    QSpacerItem* pHSpacer = new QSpacerItem(300, 10, QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     m_pClearAllToolButton = new QPushButton();
     pe1.setColor(QPalette::ButtonText,QColor(0,0,0,200));
@@ -71,6 +116,7 @@ NotificationPlugin::NotificationPlugin()
     connect(m_pClearAllToolButton, SIGNAL(clicked()), this, SLOT(onClearAllMessage()));
     m_pClearAllToolButton->setText(QObject::tr("Clean up"));
     m_pClearAllToolButton->setStyle(new CustomStyle_pushbutton_2("ukui-default"));
+    QSpacerItem* pFixSpacer = new QSpacerItem(5, 10, QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     QPushButton* pSettingToolButton = new QPushButton();
     pSettingToolButton->setPalette(pe1);
@@ -81,29 +127,37 @@ NotificationPlugin::NotificationPlugin()
 
     pQHBoxLayout2->setContentsMargins(0, 0, 0, 0);
     pQHBoxLayout2->addWidget(m_pNotificationLabel, 0, Qt::AlignLeft);
-    pQHBoxLayout2->addSpacerItem(new QSpacerItem(300, 10, QSizePolicy::Expanding, QSizePolicy::Fixed));
+
+    QFont font = m_pNotificationLabel->font();
+    font.setPixelSize(16);
+    m_pNotificationLabel->setFont(font);
+  //  m_pNotificationLabel->setFixedSize(64, 24);
+    //qDebug() << "123121344444444" << m_pNotificationLabel->height();
+
+    pQHBoxLayout2->addSpacerItem(pHSpacer);
     pQHBoxLayout2->addWidget(m_pClearAllToolButton, 0, Qt::AlignRight);
-    pQHBoxLayout2->addSpacerItem(new QSpacerItem(5, 10, QSizePolicy::Fixed, QSizePolicy::Fixed));
+    pQHBoxLayout2->addSpacerItem(pFixSpacer);
     pQHBoxLayout2->addWidget(pSettingToolButton, 0, Qt::AlignRight);
     pWidget2->setLayout(pQHBoxLayout2);
     pWidget2->setFixedHeight(24);
     pWidget2->setFixedWidth(380);
     pNotificationVBoxLayout->addWidget(pWidget2);
-
+    //pWidget2->setStyleSheet("QWidget{border:1px solid rgba(255,0,0,1);}");//测试用，画出边界线
     //消息列表部件，用于装消息列表的
     pNotificationVBoxLayout->addItem(new QSpacerItem(10, 18));
-    m_pMsgListWidget = new inside_widget;
-//    m_pMsgListWidget->setStyleSheet("QWidget{border:1px solid rgba(255,0,0,1);}");
+    m_pMsgListWidget = new QWidget;
+    //m_pMsgListWidget->setFixedSize(392, 1000);
+    //m_pMsgListWidget->setStyleSheet("QWidget{border:1px solid rgba(255,0,0,1);}");
     pNotificationVBoxLayout->addWidget(m_pMsgListWidget);
-    pNotificationVBoxLayout->addItem(new QSpacerItem(10, 18));
-
+    pNotificationVBoxLayout->addItem(new QSpacerItem(100, 18));
+//    m_pMsgListWidget->setParent(m_pMainWidget);
     //消息列表部件，用于装两个消息列表的,浮动在m_pMsgListWidget里面
-    m_pMsgDoubleListWidget = new inside_widget(m_pMsgListWidget);
+    m_pMsgDoubleListWidget = new QWidget(m_pMsgListWidget);
     QHBoxLayout* pMsgDoubleListHBoxLayout = new QHBoxLayout;
     pMsgDoubleListHBoxLayout->setContentsMargins(0, 0, 0, 0);
     pMsgDoubleListHBoxLayout->setSpacing(0);
     m_pMsgDoubleListWidget->setLayout(pMsgDoubleListHBoxLayout);
-
+   // m_pMsgDoubleListWidget->setAttribute(Qt::WA_TranslucentBackground);
     //双列表部件切换动画
     m_pSwitchAnimation = new QPropertyAnimation(m_pMsgDoubleListWidget, "geometry", this);
     m_pSwitchAnimation->setDuration(300);
@@ -111,6 +165,7 @@ NotificationPlugin::NotificationPlugin()
 
     //通知列表
     m_pQScrollAreaNotify = new ScrollAreaWidget();
+    m_pQScrollAreaNotify->setAttribute(Qt::WA_TranslucentBackground);
     m_pQScrollAreaNotify->setFrameShape(QFrame::NoFrame);
     m_pQScrollAreaNotify->setFixedWidth(390);
     m_pScrollAreaNotifyVBoxLayout = new QVBoxLayout();
@@ -127,8 +182,33 @@ NotificationPlugin::NotificationPlugin()
     m_pMessageCenterLabel->setPalette(pe1);
     m_pScrollAreaNotifyVBoxLayout->addWidget(m_pMessageCenterLabel, 4, Qt::AlignCenter);
     m_pMessageCenterLabel->setAttribute(Qt::WA_TranslucentBackground);
-    m_pScrollAreaNotifyVBoxLayout->addSpacerItem(new QSpacerItem(10, 1, QSizePolicy::Fixed, QSizePolicy::Expanding));
+    QSpacerItem* pVSpacer = new QSpacerItem(10, 1, QSizePolicy::Fixed, QSizePolicy::Expanding);
+    m_pScrollAreaNotifyVBoxLayout->addSpacerItem(pVSpacer);
     pMsgDoubleListHBoxLayout->addWidget(m_pQScrollAreaNotify, 0);
+
+    //收纳列表
+    m_pQScrollAreaTakeIn = new ScrollAreaWidget();
+    m_pQScrollAreaTakeIn->setAttribute(Qt::WA_TranslucentBackground);
+    m_pQScrollAreaTakeIn->setFrameShape(QFrame::NoFrame);
+    m_pQScrollAreaTakeIn->setFixedWidth(390);
+
+    m_pScrollAreaTakeInVBoxLayout = new QVBoxLayout();
+    m_pScrollAreaTakeInVBoxLayout->setContentsMargins(0,0,0,0);
+    m_pScrollAreaTakeInVBoxLayout->setSpacing(0);
+
+    //收纳列表的最内层部件
+    inside_widget* pTakeInQWidget = new inside_widget();
+    pTakeInQWidget->setObjectName("QScrollAreaInQWidget");
+    pTakeInQWidget->setLayout(m_pScrollAreaTakeInVBoxLayout);
+    pTakeInQWidget->setAttribute(Qt::WA_TranslucentBackground);
+    m_pQScrollAreaTakeIn->setWidget(pTakeInQWidget);
+    m_pTakeinMessageCenterLabel = new QLabel(QObject::tr("No unimportant notice"));
+    m_pTakeinMessageCenterLabel->setAttribute(Qt::WA_TranslucentBackground);
+
+    m_pScrollAreaTakeInVBoxLayout->addWidget(m_pTakeinMessageCenterLabel, 4, Qt::AlignCenter);
+    QSpacerItem* pVSpacer2 = new QSpacerItem(10, 1, QSizePolicy::Fixed, QSizePolicy::Expanding);
+    m_pScrollAreaTakeInVBoxLayout->addSpacerItem(pVSpacer2);
+//    pMsgDoubleListHBoxLayout->addWidget(m_pQScrollAreaTakeIn, 0);
 
     //通知中心最底部固定9px的空白
     QSpacerItem* pVBottomSpacer = new QSpacerItem(9, 9, QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -140,15 +220,19 @@ NotificationPlugin::NotificationPlugin()
     if(m_pEnablenotice->get("enable-notice").toBool())
     pMonitorThread->start();
 
-    connect(m_pEnablenotice, &QGSettings::changed, [=](){
-        if (m_pEnablenotice->get("enable-notice").toBool()) {
-            if(!pMonitorThread->isRunning())
-                pMonitorThread->start();
-        } else {
-            if(pMonitorThread->isRunning())
-                pMonitorThread->exit();
-        }
+    connect(m_pEnablenotice,&QGSettings::changed,[=](){
+    if(m_pEnablenotice->get("enable-notice").toBool())
+    {
+        if(!pMonitorThread->isRunning())
+            pMonitorThread->start();
+    }
+    else
+    {
+        if(pMonitorThread->isRunning())
+            pMonitorThread->exit();
+    }
     });
+
     return;
 }
 
@@ -162,11 +246,10 @@ void NotificationPlugin::showNotification()
 {
     if(false == m_bInitialFlag)
     {
-        qDebug() << "m_pMainWidget-->height" << m_pMainWidget->height();
-//        m_pMsgListWidget->setFixedHeight(m_pMainWidget->height());
-        m_bInitialFlag = false;
-//        qDebug()<<"NotificationPlugin::showNotification 通知列表的高度"<< m_pMsgListWidget->height();
-//        m_pMsgDoubleListWidget->setFixedHeight(m_pMsgListWidget->height());
+        m_bInitialFlag = true;
+        qDebug()<<"NotificationPlugin::showNotification 通知列表的高度"<<m_pMsgListWidget->height() <<m_pMsgListWidget->width();
+        //m_pMsgDoubleListWidget->setFixedHeight(m_pMsgListWidget->height());
+        m_pMsgDoubleListWidget->setGeometry(0, 0, m_pMsgListWidget->width(), m_pMsgListWidget->height());
     }
     //上面不需要判断，因为在隐藏时，已经切换至通知中心，m_bShowTakeIn为false
     for(int i = 0; i < m_listAppMsg.count(); i++)
@@ -174,6 +257,7 @@ void NotificationPlugin::showNotification()
         AppMsg* pAppMsg = m_listAppMsg.at(i);
         pAppMsg->updateAppPushTime();
     }
+
 }
 
 void NotificationPlugin::hideNotification()
@@ -190,6 +274,7 @@ void NotificationPlugin::hideNotification()
         AppMsg* pAppMsg = m_listAppMsg.at(i);
         pAppMsg->setAppFold();
     }
+
 }
 
 AppMsg* NotificationPlugin::getAppMsgAndIndexByName(QString strAppName, int& nIndex)

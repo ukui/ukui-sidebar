@@ -43,7 +43,7 @@ private:
     void createAction();
 
 protected:
-    void paintEvent(QPaintEvent *e);
+    void paintEvent(QPaintEvent *event);
 
 private:
     QAction *SetAction;
