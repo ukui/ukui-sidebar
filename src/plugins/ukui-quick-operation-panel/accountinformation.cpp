@@ -32,7 +32,11 @@ void AccountInformation::initMemberVariable()
     m_pShutDownButton = new QPushButton();
     m_pShutDownButton->setFixedSize(48, 48);
     connect(m_pShutDownButton, &QPushButton::clicked, this, &AccountInformation::openShutdownWidgetSlots);
-
+    QPalette palette = m_pShutDownButton->palette();
+    QColor color = palette.color(QPalette::Button);
+    color.setAlphaF(0);
+    palette.setBrush(QPalette::Button, QBrush(color));
+    m_pShutDownButton->setPalette(palette);
     m_pMainLayout = new QHBoxLayout();
     m_pMainLayout->setContentsMargins(0, 0, 0, 0);
     m_pMainLayout->setSpacing(0);

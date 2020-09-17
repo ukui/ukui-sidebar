@@ -257,6 +257,11 @@ void shortcutPanelPlugin::setWidget()
     m_pButtonWidget->setLayout(m_pButtonHLaout);
     m_pSpreadButton->setVisible(false);
 
+//    QPalette palette = m_pSpreadButton->palette();
+//    QColor color = palette.color(QPalette::Button);
+//    color.setAlphaF(0);
+//    palette.setBrush(QPalette::Button, QBrush(color));
+//    m_pSpreadButton->setPalette(palette);
     m_pShortWidget->setLayout(m_pShortGLayout);
 
     m_pMainVLayout->addWidget(m_pButtonWidget);

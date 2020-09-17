@@ -461,12 +461,12 @@ void Widget::hideAnimation()
                 AnimaStartSideBarSite[0] = 0;
                 AnimaStartSideBarSite[1] = 0;
                 AnimaStartSideBarSite[2] = 392;
-                AnimaStartSideBarSite[3] = m_nScreenHeight;
+                AnimaStartSideBarSite[3] = m_nScreenHeight - 15;
                 //结束位置坐标
-                AnimaStopSidebarSite[0]  = -400;
+                AnimaStopSidebarSite[0]  = -410;
                 AnimaStopSidebarSite[1]  = 0;
                 AnimaStopSidebarSite[2]  = 392;
-                AnimaStopSidebarSite[3]  = m_nScreenHeight;
+                AnimaStopSidebarSite[3]  = m_nScreenHeight - 15;
             }
             break;
         case Widget::PanelRight:
@@ -626,20 +626,23 @@ void Widget::MostGrandWidgetCoordinates()
             break;
         case Widget::PanelUp:
             {
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight - connectTaskBarDbus() - 15);
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400, connectTaskBarDbus() + m_nScreen_y + 8);
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight - connectTaskBarDbus() - 15); \
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400,  \
+                                                                                             connectTaskBarDbus() \
+                                                                                             + m_nScreen_y + 8);
             }
             break;
         case Widget::PanelLeft:
             {
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight - 15);
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + connectTaskBarDbus(), m_nScreen_y + 8);
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(392, m_nScreenHeight - 15);
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + connectTaskBarDbus() + 8, m_nScreen_y + 8);
             }
             break;
         case Widget::PanelRight:
             {
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight - 15);
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400 - connectTaskBarDbus(), m_nScreen_y + 8);
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400 - connectTaskBarDbus(), \
+                                                                                             m_nScreen_y + 8);
             }
             break;
         default:

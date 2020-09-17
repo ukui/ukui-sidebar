@@ -24,7 +24,7 @@ mostGrandWidget::mostGrandWidget(QWidget *parent)
     Q_UNUSED(parent)
     this->setContentsMargins(0,0,0,0);
     m_pmostGrandWidgetVLaout = new QVBoxLayout();
-    m_pmostGrandWidgetVLaout->setContentsMargins(0,0,0,0);
+    m_pmostGrandWidgetVLaout->setContentsMargins(0, 0, 0, 0);
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
     this->setAttribute(Qt::WA_TranslucentBackground);
 }
