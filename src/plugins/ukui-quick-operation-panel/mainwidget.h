@@ -44,6 +44,7 @@ private:
 
 protected:
     void paintEvent(QPaintEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
 
 private:
     QAction *SetAction;
@@ -53,6 +54,7 @@ private slots:
 
 Q_SIGNALS:
     void EditOptionSignal();
+    void hideDropdownBox();
 };
 
 #endif // MAINWIDGET_H

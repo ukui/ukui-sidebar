@@ -14,6 +14,7 @@
 #include <QListWidget>
 #include <QListWidgetItem>
 #include <QDebug>
+#include <QPainter>
 
 #define KYLIN_ALARM_NORMAL_NAME_SET     "kylin-alarm-normal-s"
 #define KYLIN_BLUETOOTH_SET_NAME        "kylin-icon-bluetooth-s"
@@ -29,7 +30,7 @@
 #define KYLIN_VPN_SET_PATH              "kylin-icon-VPN-s"
 
 #define KYLIN_EYE_MODE_SET_PATH         ":/images/icon-eyeprotectionmode-s.svg"
-#define KYLIN_AlARM_SET_PATH            ":/images/images/icon-alarm-s.svg"
+#define KYLIN_AlARM_SET_PATH            ":/images/icon-alarm-s.svg"
 #define KYLIN_HOTSPOT_SET_PATH          ":/image/icon-hotspot-s.svg"
 #define KYLIN_BLUETOOTH_SET_PATH        ":/images/icon-bluetooth-s.svg"
 #define KYLIN_CALCULATOR_SET_PATH       ":/images/icon-calculator-s.svg"
@@ -66,9 +67,14 @@ public:
     QString     IconPath;
     QString     EntryName;
     QString     gsettingKey;
+    enum TaskWidgetStatus{NORMAL, HOVER, PRESS};
+    TaskWidgetStatus status = NORMAL;
 
 protected:
     void mousePressEvent(QMouseEvent *event);
+    void leaveEvent(QEvent *event);
+    void enterEvent(QEvent *event);
+    void paintEvent(QPaintEvent *event);
 
 Q_SIGNALS:
     void        WidgetClickSignal(QString gsettingKey);
@@ -93,6 +99,9 @@ public:
 
     ButtonInfo  *m_pButtonInfoArray[12];
     QHash<QString, ButtonInfo*>  EntryData;
+
+protected:
+    void paintEvent(QPaintEvent *event);
 
 private:
     void initMemberVariables();

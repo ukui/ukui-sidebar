@@ -39,9 +39,48 @@ void EntryWidget::initLayout()
     this->setFixedSize(112, 32);
 }
 
+void EntryWidget::leaveEvent(QEvent *event)
+{
+    status = NORMAL;
+    QWidget::leaveEvent(event);
+}
+
+void EntryWidget::enterEvent(QEvent *event)
+{
+    status = HOVER;
+    QWidget::enterEvent(event);
+}
+
+void EntryWidget::paintEvent(QPaintEvent *event)
+{
+    QStyleOption opt;
+    opt.init(this);
+    QPainter p(this);
+    switch (status) {
+        case NORMAL: {
+            QColor color(255, 255, 255);
+            p.setBrush(QBrush(color));
+            break;
+        }
+        case HOVER: {
+            QColor color(156, 156, 156);
+            p.setBrush(QBrush(color));
+            break;
+        }
+    }
+    p.setOpacity(1);
+    p.setPen(Qt::NoPen);
+    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+    p.drawRoundedRect(opt.rect, 4, 4);
+    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+    this->update();
+    QWidget::paintEvent(event);
+}
+
 void EntryWidget::mousePressEvent(QMouseEvent *event)
 {
     emit WidgetClickSignal(gsettingKey);
+    status = NORMAL;
     QWidget::mousePressEvent(event);
     return;
 }
@@ -61,12 +100,24 @@ dropDownBox::dropDownBox(QWidget *parent) : QWidget(parent)
     initLayout();
 }
 
+void dropDownBox::paintEvent(QPaintEvent *event)
+{
+    QPainter p(this);
+    QRect rect = this->rect();
+    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+    p.setBrush(QBrush(QColor("#FFFFFF")));
+    p.setOpacity(1);
+    p.setPen(Qt::NoPen);
+    p.drawRoundedRect(rect, 6, 6);
+    QWidget::paintEvent(event);
+}
+
 /* 初始化成员变量 */
 void dropDownBox::initMemberVariables()
 {
     m_pListWidget = new QListWidget();
     m_pListWidget->setStyleSheet("QListWidget {background:rgba(19, 19, 20, 0);}");
-    m_pListWidget->setFixedSize(112, 162);
+    m_pListWidget->setFixedSize(112, 64);
     m_pListWidget->setContentsMargins(0, 0, 0, 0);
     m_pListWidget->setFrameShape(QListWidget::NoFrame);
 
@@ -155,7 +206,9 @@ void dropDownBox::initListWidgetEntry()
 void dropDownBox::initLayout()
 {
     m_pHboxLayout->addWidget(m_pListWidget);
-    this->setFixedSize(120, 162);
+    this->setFixedSize(120, 64);
+//    this->setFixedWidth(120);
+//    this->setMaximumHeight(162);
     this->setLayout(m_pHboxLayout);
     return;
 }

@@ -110,6 +110,7 @@ public slots:
     void addButtonSlots();
     void resetShortWidget();
     void setCanceGsettingButtonValue(QString key);
+    void hideDropDownWidgetBox();
 
 private:
     QVBoxLayout  *m_pMainVLayout    = nullptr;

@@ -63,3 +63,9 @@ void MainWidget::paintEvent(QPaintEvent *event)
     p.drawRoundedRect(rect, 12, 12);
     QWidget::paintEvent(event);
 }
+
+void MainWidget::mouseReleaseEvent(QMouseEvent *event)
+{
+    emit hideDropdownBox();
+    QWidget::mouseReleaseEvent(event);
+}

@@ -51,6 +51,7 @@ void shortcutPanelPlugin::initMemberVariables()
     m_pButtonWidget->setContentsMargins(0, 0, 0, 0);
     m_pButtonWidget->setFixedHeight(15);
     connect(m_pMainWidget, &MainWidget::EditOptionSignal, this, &shortcutPanelPlugin::ShowEditWidgetSlots);
+    connect(m_pMainWidget, &MainWidget::hideDropdownBox, this, &shortcutPanelPlugin::hideDropDownWidgetBox);
 
     /* 账户信息界面 */
     m_PAccountInfoWidget    = new AccountInformation();
@@ -570,6 +571,14 @@ void shortcutPanelPlugin::setCanceGsettingButtonValue(QString key)
 {
     if (m_pGsettingShutcutValue != nullptr && m_pGsettingShutcutValue->keys().contains(key)) {
         m_pGsettingShutcutValue->set(key, false);
+    }
+    return;
+}
+
+void shortcutPanelPlugin::hideDropDownWidgetBox()
+{
+    if (m_pDropDownBoxWidget->isVisible()) {
+        m_pDropDownBoxWidget->hide();
     }
     return;
 }
