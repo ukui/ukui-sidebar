@@ -51,15 +51,12 @@ public:
     QString     getSummary() {return m_strSummary;}
     QString     getBody() {return m_strBody;}
 
-    enum TaskWidgetStatus{NORMAL, HOVER, PRESS};
-    TaskWidgetStatus status;
 
 protected:
     virtual void enterEvent(QEvent *event) override;
     virtual void leaveEvent(QEvent *event) override;
     virtual void mousePressEvent(QMouseEvent *event) override;
-    void paintEvent(QPaintEvent *e);                //重绘事件
-
+    //virtual void resizeEvent(QResizeEvent *event) override;
 
 private:
     QVBoxLayout*    m_pAppVLaout;
@@ -121,6 +118,7 @@ public slots:
     void            updateDeleUpperMove(const QVariant &value);     //更新删除上移时的移动数据
     void            onDeleUpperMoveFinish();                        //处理删除上移完成时的函数
     void            startAnimationDeleLeftMove();                   //开启删除左移动画
+
 };
 
 #endif // SINGLEMSG_H

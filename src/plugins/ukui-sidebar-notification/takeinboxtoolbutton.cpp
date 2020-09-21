@@ -19,7 +19,6 @@
 #include "takeinboxtoolbutton.h"
 #include <QToolTip>
 #include <QMouseEvent>
-#include <QDebug>
 
 TakeInBoxToolButton::TakeInBoxToolButton()
 {
@@ -33,9 +32,8 @@ void TakeInBoxToolButton::enterEvent(QEvent *event)
     //设置边框, 边框色, 背景色, 字体色, 字号
     if(false == m_bEnterTakeInBox)
     {
-          setIcon(QIcon(":/images/box-24-hover.svg"));
-          this->setToolTip((tr("Enter unimportant news")));
-
+        setIcon(QIcon(":/images/box-24-hover.svg"));
+        this->setToolTip((tr("Enter unimportant news")));
     }
     else
     {
@@ -62,7 +60,6 @@ void TakeInBoxToolButton::leaveEvent(QEvent *event)
 //鼠标点击事件
 void TakeInBoxToolButton::mousePressEvent(QMouseEvent *event)
 {
-
     if (event->buttons() == Qt::LeftButton)
     {
         setIconSize(QSize(20,20));
@@ -102,5 +99,3 @@ void TakeInBoxToolButton::mouseReleaseEvent(QMouseEvent *event)
 
     return;
 }
-
-

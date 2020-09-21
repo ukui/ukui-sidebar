@@ -22,9 +22,6 @@
 
 #include "notification_interface.h"
 #include <QtWidgets>
-#include <QGSettings>
-#include "External_Widget.h"
-#include "Inside_Widget.h"
 
 
 class AppMsg;
@@ -32,7 +29,7 @@ class ScrollAreaWidget;
 class QSvgRenderer;
 class TakeInBoxToolButton;
 
-class NotificationPlugin : public QObject, public NotificationInterface
+class NotificationPlugin : public QWidget, public NotificationInterface
 {
     Q_OBJECT
     //Q_INTERFACES宏用于告诉Qt该类实现的接口
@@ -49,13 +46,13 @@ public:
     virtual void hideNotification() override;
     AppMsg* getAppMsgAndIndexByName(QString strAppName, int& nIndex);
     AppMsg* getTakeinAppMsgAndIndexByName(QString strAppName, int& nIndex);
-    void modifyNotifyWidgetTransparency(double transparency);
+    void paintEvent(QPaintEvent *e);                //重绘事件
+
 private:
-    external_widget*              m_pMainWidget;
     QList<AppMsg*>          m_listAppMsg;                       //对于SingleMsg类对象用list表记录
     QList<AppMsg*>          m_listTakeInAppMsg;
-    inside_widget*                 m_pMsgListWidget;                   //消息列表部件，用于装消息的
-    inside_widget*                 m_pMsgDoubleListWidget;             //消息列表部件，用于装两个消息列表的
+    QWidget*                m_pMsgListWidget;                   //消息列表部件，用于装消息的
+    QWidget*                m_pMsgDoubleListWidget;             //消息列表部件，用于装两个消息列表的
     QPropertyAnimation*     m_pSwitchAnimation;
     ScrollAreaWidget*       m_pQScrollAreaNotify;               //通知列表ScrollAreaWidget
     QVBoxLayout*            m_pScrollAreaNotifyVBoxLayout;
@@ -67,14 +64,12 @@ private:
     QLabel*                 m_pNotificationLabel;               //重要的通知和不重要的通知标签
     QSvgRenderer*           m_pSvgRender;
     TakeInBoxToolButton*    m_pTakeInBoxToolButton;
-    QPushButton*  m_pClearAllToolButton;
+    QPushButton*            m_pClearAllToolButton;
     QPixmap*                m_pPixmap;
     QLabel*                 m_pTakeInCoutLabel;                 //收纳盒计数统计Label
     bool                    m_bInitialFlag;                     //初始化标志
+    double                  m_dTranSparency;
 
-    double                  transparency = 0.7;
-    QGSettings              *m_pTransparency = nullptr;                  //透明度gsetting值
-    QGSettings              *m_pEnablenotice = nullptr;         //通知中心开关
 signals:
     void Sig_onNewNotification();
 

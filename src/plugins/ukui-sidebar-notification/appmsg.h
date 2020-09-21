@@ -52,8 +52,6 @@ public:
     void    setAppFold();                               //当app展开时，将app设置折叠
     void    setMaxNumMsg(int nMaxNum) {m_nMaxCount = nMaxNum;}
 
-    void paintEvent(QPaintEvent *);                //重绘事件
-
 
 private:
     QVBoxLayout*        m_pMainVLaout;                  //App信息中的总的垂直布局器

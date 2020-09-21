@@ -26,10 +26,7 @@ SOURCES += \
     takeinboxtoolbutton.cpp \
     monitorthread.cpp \
     singlemsg.cpp \
-    buttonwidget.cpp \
-    customstylePushbutton2.cpp \
-    External_Widget.cpp \
-    Inside_Widget.cpp
+    buttonwidget.cpp
 
 INCLUDEPATH    += ../../plugin-interface \
                  /usr/include/dconf
@@ -40,10 +37,7 @@ HEADERS += \
     takeinboxtoolbutton.h \
     monitorthread.h \
     singlemsg.h \
-    buttonwidget.h \
-    customstylePushbutton2.h \
-    External_Widget.h \
-    Inside_Widget.h
+    buttonwidget.h
 DISTFILES += notificationPlugin.json
 
 unix {

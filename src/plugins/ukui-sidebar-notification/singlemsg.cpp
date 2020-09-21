@@ -61,12 +61,9 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pAppVLaout->setSpacing(0);
     m_pSingleWidget = new QWidget(this);
     m_pSingleWidget->setObjectName("SingleNotification");
-    m_pSingleWidget->setAttribute(Qt::WA_TranslucentBackground);
-
 
     m_pAnimationBaseMapWidget = new QWidget(this);
-    m_pAnimationBaseMapWidget->setAttribute(Qt::WA_TranslucentBackground);
-
+    m_pAnimationBaseMapWidget->setStyleSheet("background:transparent;");
 
     //单条消息总体垂直布局器
     QVBoxLayout* pMainVLaout = new QVBoxLayout;
@@ -75,6 +72,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
     //图标和时间行的水平布局部件
     m_pIconWidget = new QWidget;
+    m_pIconWidget->setStyleSheet("background:transparent;");
 
     //图标和时间行的水平布局器
     m_pIconHLayout = new QHBoxLayout();
@@ -82,27 +80,21 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pIconHLayout->setSpacing(0);
 
     //设置通知消息中的Icon，使用QToolButton
-    QLabel* pIconToolButton = new QLabel;
-    QPixmap iconaaa(strIconPath);
-
-
-    m_pAnimationBaseMapWidget->setAttribute(Qt::WA_TranslucentBackground);
-
+    QToolButton* pIconToolButton = new QToolButton();
+    QIcon icon = QIcon::fromTheme(strIconPath);
+    pIconToolButton->setStyleSheet("QToolButton{border:none;border-style:none;padding:0px;background:transparent;}");
     pIconToolButton->setFixedSize(24, 24);
-    pIconToolButton->setPixmap(iconaaa);
-    pIconToolButton->setAttribute(Qt::WA_TranslucentBackground);
-
+    pIconToolButton->setIconSize(QSize(24, 24));
+    pIconToolButton->setIcon(icon);
 
     //设置应用名标签，采用省略模式
     QLabel* pAppNameLabel = new QLabel();
     pAppNameLabel->setObjectName("AppName");
     pAppNameLabel->setFixedWidth(84);
-    pAppNameLabel->setAttribute(Qt::WA_TranslucentBackground);
     QFont font14;
     font14.setPixelSize(14);
     pAppNameLabel->setFont(font14);
     QFontMetrics fontMetrics1(pAppNameLabel->font());
-
 
     QString formatAppName = fontMetrics1.elidedText(strAppName, Qt::ElideRight, pAppNameLabel->width());
     pAppNameLabel->setText(formatAppName);
@@ -112,9 +104,8 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
     //放置时间和收纳删除按钮的窗口
     m_pTimeLabelWidget = new QWidget;
-    m_pTimeLabelWidget->setFixedSize(146, 20);
+    m_pTimeLabelWidget->setFixedSize(146, 14);
     QHBoxLayout* pTimeLableHLayout = new QHBoxLayout();
-
 
     m_pStorageDeleteButtonWidget = new QWidget;
     m_pStorageDeleteButtonWidget->setFixedSize(146, 20);
@@ -124,8 +115,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pTimeLabel = new QLabel();
     m_pTimeLabel->setObjectName("pushtime");
     m_pTimeLabel->setText(tr("now"));
-    m_pTimeLabel->setAttribute(Qt::WA_TranslucentBackground);
-
+    m_pTimeLabel->setStyleSheet("background-color:transparent;");
 
     //收纳删除按钮图标的大小
     QSize normalIconSize(16, 16);
@@ -165,8 +155,6 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     pTimeLableHLayout->setContentsMargins(0, 0, 0, 0);
     pTimeLableHLayout->setSpacing(0);
     m_pTimeLabelWidget->setLayout(pTimeLableHLayout);
-    m_pTimeLabelWidget->setAttribute(Qt::WA_TranslucentBackground);
-
 
     //收纳和删除按钮布局
     pStorageDeleteButtonHLaout->addItem(new QSpacerItem(1, 10, QSizePolicy::Expanding, QSizePolicy::Fixed));
@@ -186,15 +174,10 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pIconHLayout->addWidget(m_pStorageDeleteButtonWidget);
     m_pIconWidget->setLayout(m_pIconHLayout);
     pMainVLaout->addWidget(m_pIconWidget, 0);
-    m_pIconWidget->setAttribute(Qt::WA_TranslucentBackground);
-
-
-
-     m_pStorageDeleteButtonWidget->setAttribute(Qt::WA_TranslucentBackground);
 
     //内容部件,将主题正文以及剩余条数显示装入内容部件
     m_pContextWidget = new QWidget;
-
+    m_pContextWidget->setStyleSheet("background-color:transparent;");
 
     //内容部件的垂直布局器
     QVBoxLayout* pVContextLayout = new QVBoxLayout();
@@ -204,10 +187,11 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     //设置通知消息中的主题，采用省略模式
     m_pSummaryLabel = new QLabel();
     m_pSummaryLabel->setFixedWidth(314);
-    m_pSummaryLabel->setAttribute(Qt::WA_TranslucentBackground);
+    m_pSummaryLabel->setStyleSheet("color:rgba(255,255,255,0.97);font-size:16px;background-color:transparent;line-height:26px;padding:0px;");
     QFont font16;
     font16.setPixelSize(16);
     m_pSummaryLabel->setFont(font16);
+
     QString formatSummary;
     formatSummary.append("<p style='line-height:26px'>").append(m_strSummary).append("</p>");
     QFontMetrics fontMetrics(m_pSummaryLabel->font());
@@ -230,8 +214,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
         m_pBodyLabel->setFixedWidth(315);
         m_pBodyLabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
         m_pBodyLabel->adjustSize();
-        m_pBodyLabel->setAttribute(Qt::WA_TranslucentBackground);
-
+        m_pBodyLabel->setStyleSheet("color:rgba(255,255,255,0.91);font-weight:400;font-size:14px;background-color:transparent;line-height:24px;padding:0px;");
 
         QFontMetrics fontMetrics(m_pBodyLabel->font());
         int fontSize = fontMetrics.width(strLineHeight24Body);
@@ -250,66 +233,28 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pShowLeftWidget = new QWidget;
     QVBoxLayout* pVShowLeftLayout = new QVBoxLayout();
     pVShowLeftLayout->setContentsMargins(0,6,0,14);
-    m_pShowLeftWidget->setAttribute(Qt::WA_TranslucentBackground);
+
     m_pShowLeftItemLabel = new QLabel;
     m_pShowLeftItemLabel->setObjectName("ShowLeftItem");
     m_pShowLeftItemLabel->setVisible(false);
     pVShowLeftLayout->addWidget(m_pShowLeftItemLabel, 0, Qt::AlignLeft);
     m_pShowLeftWidget->setLayout(pVShowLeftLayout);
     pVContextLayout->addWidget(m_pShowLeftWidget, 0, Qt::AlignLeft);
+
     m_pContextWidget->setLayout(pVContextLayout);
     pMainVLaout->addWidget(m_pContextWidget);
-    m_pContextWidget->setAttribute(Qt::WA_TranslucentBackground);
+
     m_pSingleWidget->setLayout(pMainVLaout);
     m_pAppVLaout->addWidget(m_pSingleWidget);
     this->setLayout(m_pAppVLaout);
+
+
     m_pSetDeleDelayTimer = new QTimer(this);
+
+    setStyleSheet("background-color:rgba(255,255,255,0.12);");
     return;
 }
 
-
-void SingleMsg::paintEvent(QPaintEvent *e)
-{
-
-    QPainter p(this);
-
-
-    QRect rect = this->rect();
-    rect.setWidth(rect.width() - 1);
-    rect.setHeight(rect.height() - 1);
-    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-    p.setBrush(QBrush(QColor(255, 255, 255, 20)));
-    p.setPen(Qt::transparent);
-    p.drawRoundedRect(rect,6,6);
-
-
-
-    switch (status) {
-      case NORMAL: {
-
-              p.setBrush(QBrush(QColor(255, 255, 255, 0)));
-              p.setPen(Qt::NoPen);
-              p.drawRoundedRect(rect,6,6);
-              break;
-          }
-      case HOVER: {
-          p.setBrush(QBrush(QColor(255, 255,255,40)));
-          p.setPen(Qt::NoPen);
-          p.drawRoundedRect(rect,6,6);
-              break;
-          }
-      case PRESS: {
-        p.setBrush(QBrush(QColor(255, 255, 255, 0)));
-        p.setPen(Qt::NoPen);
-
-         p.drawRoundedRect(rect,6,6);
-              break;
-          }
-    }
-    this->update();
-    QWidget::paintEvent(e);
-
-}
 void SingleMsg::updatePushTime()
 {
     QDateTime currentDateTime(QDateTime::currentDateTime());
@@ -393,7 +338,7 @@ void SingleMsg::setBodyLabelWordWrap(bool bFlag)
     if(true == bFlag)
     {
         //如果展开,就超过四行末尾显示省略号
-
+        //if(fontSize > (m_pBodyLabel->width() * 4 + 181))
         {
             formatBody = fontMetrics.elidedText(strLineHeight24Body, Qt::ElideRight, m_pBodyLabel->width() * 4 + 152);
         }
@@ -417,7 +362,7 @@ void SingleMsg::setLeftItem(int nShowLeftCount)
     m_nShowLeftCount = nShowLeftCount;
     QString strShowLeft = tr("In addition ") + QString::number(nShowLeftCount) + tr(" notification");
     m_pShowLeftItemLabel->setText(strShowLeft);
-    m_pShowLeftItemLabel->setAttribute(Qt::WA_TranslucentBackground);
+    m_pShowLeftItemLabel->setStyleSheet("color:rgba(255,255,255,0.35);font-weight:400;font-size:14px;font-weight:400;background-color:transparent;line-height:24px;padding:0px;");
 
     //当剩余条数大于0, 且是折叠状态则显示剩余标签
     if((true == m_bFold) && (m_nShowLeftCount > 0))
@@ -445,15 +390,22 @@ void SingleMsg::setSingleMsgContentsMargins(int left, int top, int right, int bo
 void SingleMsg::enterEvent(QEvent *event)
 {
     Q_UNUSED(event);
-    status = HOVER;
+
+    if((true == m_bMain) && (false == m_bFold) && (m_nShowLeftCount > 0))
+    {
+        setStyleSheet("background-color:rgba(255,255,255,0.28);");
+    }
+    else
+    {
+        setStyleSheet("background-color:rgba(255,255,255,0.2);");
+    }
+
     m_pStorageDeleteButtonWidget->show();
     m_pTimeLabelWidget->hide();
     m_pIconHLayout->setContentsMargins(10, 11, 0, 0);
-
     if((true == m_bMain) && (true == m_bFold) && (m_nShowLeftCount > 0))
     {
         emit Sig_onMainEnter();
-
     }
 
     return;
@@ -463,7 +415,14 @@ void SingleMsg::leaveEvent(QEvent *event)
 {
     Q_UNUSED(event);
 
-    status =NORMAL;
+    if((true == m_bMain) && (false == m_bFold) && (m_nShowLeftCount > 0))
+    {
+        setStyleSheet("background-color:rgba(255,255,255,0.2);");
+    }
+    else
+    {
+        setStyleSheet("background-color:rgba(255,255,255,0.12);");
+    }
     m_pTimeLabelWidget->show();
     m_pStorageDeleteButtonWidget->hide();
     m_pIconHLayout->setContentsMargins(10, 11, 0, 0);
@@ -478,7 +437,6 @@ void SingleMsg::leaveEvent(QEvent *event)
 //鼠标点击事件
 void SingleMsg::mousePressEvent(QMouseEvent *event)
 {
-    status =PRESS;
     if (event->buttons() == Qt::LeftButton)
     {
         if(true == m_bFold)
@@ -490,6 +448,15 @@ void SingleMsg::mousePressEvent(QMouseEvent *event)
         {
             m_bFold = true;                                 //置为true,表示折叠
             setBodyLabelWordWrap(false);
+        }
+
+        if((true == m_bMain) && (false == m_bFold) && (m_nShowLeftCount > 0))
+        {
+            setStyleSheet("background-color:rgba(255,255,255,0.28);");
+        }
+        else
+        {
+            setStyleSheet("background-color:rgba(255,255,255,0.2);");
         }
 
         //当消息为主窗口时,发送折叠信息给App
@@ -544,7 +511,7 @@ void SingleMsg::mainMsgSetFold()
             m_pShowLeftItemLabel->setVisible(true);
         }
         emit Sig_setAppFoldFlag(true);
-
+        setStyleSheet("background-color:rgba(255,255,255,0.12);");  //对于主消息手动补一下背景色
     }
 }
 

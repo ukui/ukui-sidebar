@@ -21,10 +21,8 @@
 
 #include <QToolButton>
 #include <QWidget>
-#include <QPainter>
-#include <QPushButton>
 
-class TakeInBoxToolButton : public QPushButton
+class TakeInBoxToolButton : public QToolButton
 {
     Q_OBJECT
 public:

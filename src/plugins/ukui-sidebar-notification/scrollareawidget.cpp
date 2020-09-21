@@ -22,32 +22,32 @@
 
 ScrollBarWidget::ScrollBarWidget()
 {
-//    setStyleSheet("QScrollBar::vertical {width:10px;padding-left:3px;padding-top:0px;padding-right:3px;padding-bottom:0px;background:transparent;border-radius:6px;}"
-//                  "QScrollBar::handle:vertical {width:4px;background-color:transparent;border-radius:2px;}"
-//                  "QScrollBar::sub-line:vertical {background-color:transparent;height:0px;width:0px;}"
-//                  "QScrollBar::add-line:vertical {background-color:transparent;height:0px;width:0px;}");
+    setStyleSheet("QScrollBar::vertical {width:10px;padding-left:3px;padding-top:0px;padding-right:3px;padding-bottom:0px;background:transparent;border-radius:6px;}"
+                  "QScrollBar::handle:vertical {width:4px;background-color:transparent;border-radius:2px;}"
+                  "QScrollBar::sub-line:vertical {background-color:transparent;height:0px;width:0px;}"
+                  "QScrollBar::add-line:vertical {background-color:transparent;height:0px;width:0px;}");
     return;
 }
 
 void ScrollBarWidget::enterEvent(QEvent *event)
 {
     Q_UNUSED(event);
-//    setStyleSheet("QScrollBar::vertical {width:10px;padding-left:2px;padding-top:0px;padding-right:2px;padding-bottom:0px;background:transparent;border-radius:6px;}"
-//                  "QScrollBar::handle:vertical {width:6px;background-color:rgba(72,72,76,1);border-radius:3px;}"
-//                  "QScrollBar::handle:vertical:hover{width:6px;background-color:rgba(97,97,102,1);border-radius:3px;}"
-//                  "QScrollBar::handle:vertical:pressed{width:6px;background-color:rgba(133,133,140,1);border-radius:3px;}"
-//                  "QScrollBar::sub-line:vertical {background-color:transparent;height:0px;width:0px;}"
-//                  "QScrollBar::add-line:vertical {background-color:transparent;height:0px;width:0px;}");
+    setStyleSheet("QScrollBar::vertical {width:10px;padding-left:2px;padding-top:0px;padding-right:2px;padding-bottom:0px;background:transparent;border-radius:6px;}"
+                  "QScrollBar::handle:vertical {width:6px;background-color:rgba(72,72,76,1);border-radius:3px;}"
+                  "QScrollBar::handle:vertical:hover{width:6px;background-color:rgba(97,97,102,1);border-radius:3px;}"
+                  "QScrollBar::handle:vertical:pressed{width:6px;background-color:rgba(133,133,140,1);border-radius:3px;}"
+                  "QScrollBar::sub-line:vertical {background-color:transparent;height:0px;width:0px;}"
+                  "QScrollBar::add-line:vertical {background-color:transparent;height:0px;width:0px;}");
     return;
 }
 
 void ScrollBarWidget::leaveEvent(QEvent *event)
 {
     Q_UNUSED(event);
-//    setStyleSheet("QScrollBar::vertical {width:10px;padding-left:3px;padding-top:0px;padding-right:3px;padding-bottom:0px;background:transparent;border-radius:6px;}"
-//                  "QScrollBar::handle:vertical {width:4px;background-color:rgba(61,61,65,1);border-radius:2px;}"
-//                  "QScrollBar::sub-line:vertical {background-color:transparent;height:0px;width:0px;}"
-//                  "QScrollBar::add-line:vertical {background-color:transparent;height:0px;width:0px;}");
+    setStyleSheet("QScrollBar::vertical {width:10px;padding-left:3px;padding-top:0px;padding-right:3px;padding-bottom:0px;background:transparent;border-radius:6px;}"
+                  "QScrollBar::handle:vertical {width:4px;background-color:rgba(61,61,65,1);border-radius:2px;}"
+                  "QScrollBar::sub-line:vertical {background-color:transparent;height:0px;width:0px;}"
+                  "QScrollBar::add-line:vertical {background-color:transparent;height:0px;width:0px;}");
     return;
 }
 
@@ -64,19 +64,19 @@ ScrollAreaWidget::ScrollAreaWidget()
 void ScrollAreaWidget::enterEvent(QEvent *event)
 {
     Q_UNUSED(event);
-//    this->verticalScrollBar()->setStyleSheet("QScrollBar::vertical {width:10px;padding-left:3px;padding-top:0px;padding-right:3px;padding-bottom:0px;background:transparent;border-radius:6px;}"
-//                  "QScrollBar::handle:vertical {width:4px;background-color:rgba(61,61,65,1);border-radius:2px;}"
-//                  "QScrollBar::sub-line:vertical {background-color:transparent;height:0px;width:0px;}"
-//                  "QScrollBar::add-line:vertical {background-color:transparent;height:0px;width:0px;}");
+    this->verticalScrollBar()->setStyleSheet("QScrollBar::vertical {width:10px;padding-left:3px;padding-top:0px;padding-right:3px;padding-bottom:0px;background:transparent;border-radius:6px;}"
+                  "QScrollBar::handle:vertical {width:4px;background-color:rgba(61,61,65,1);border-radius:2px;}"
+                  "QScrollBar::sub-line:vertical {background-color:transparent;height:0px;width:0px;}"
+                  "QScrollBar::add-line:vertical {background-color:transparent;height:0px;width:0px;}");
     return;
 }
 
 void ScrollAreaWidget::leaveEvent(QEvent *event)
 {
     Q_UNUSED(event);
-//    this->verticalScrollBar()->setStyleSheet("QScrollBar::vertical {width:10px;padding-left:3px;padding-top:0px;padding-right:3px;padding-bottom:0px;background:transparent;border-radius:6px;}"
-//                  "QScrollBar::handle:vertical {width:4px;background-color:transparent;border-radius:2px;}"
-//                  "QScrollBar::sub-line:vertical {background-color:transparent;height:0px;width:0px;}"
-//                  "QScrollBar::add-line:vertical {background-color:transparent;height:0px;width:0px;}");
+    this->verticalScrollBar()->setStyleSheet("QScrollBar::vertical {width:10px;padding-left:3px;padding-top:0px;padding-right:3px;padding-bottom:0px;background:transparent;border-radius:6px;}"
+                  "QScrollBar::handle:vertical {width:4px;background-color:transparent;border-radius:2px;}"
+                  "QScrollBar::sub-line:vertical {background-color:transparent;height:0px;width:0px;}"
+                  "QScrollBar::add-line:vertical {background-color:transparent;height:0px;width:0px;}");
     return;
 }
