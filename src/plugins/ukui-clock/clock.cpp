@@ -136,17 +136,17 @@ Clock::Clock(QWidget *parent) :
 
     QIcon bta_tool_count_icon = QIcon(":/icon-1.png");
     bta_tool_count = new Btn_new(1, this, bta_tool_count_icon, tr("Count down"), ui->page_7);
-    bta_tool_count->setFixedSize(90,60);
+    bta_tool_count->setFixedSize(90,63);
     bta_tool_count->move(48,5);
 
     QIcon bta_tool_clock_icon = QIcon(":/icon-4-16x16.png");
     bta_tool_clock = new Btn_new(2, this, bta_tool_clock_icon, tr("Alarm"), ui->page_7);
-    bta_tool_clock->setFixedSize(90,60);
+    bta_tool_clock->setFixedSize(90,63);
     bta_tool_clock->move(182,5);
 
     QIcon bta_tool_stop_icon = QIcon(":/icon-2.png");
     bta_tool_stop = new Btn_new(3, this, bta_tool_stop_icon, tr("Stopwatch"), ui->page_7);
-    bta_tool_stop->setFixedSize(90,60);
+    bta_tool_stop->setFixedSize(90,63);
     bta_tool_stop->move(317,5);
 
     ui->pushButton->hide();
@@ -316,7 +316,7 @@ void Clock::clock_init()
     ui->label->setAlignment(Qt::AlignHCenter);
     ui->label_2->setAlignment(Qt::AlignHCenter);
     ui->label_3->setAlignment(Qt::AlignHCenter);
-    //ui->label_9->setAlignment(Qt::AlignHCenter);
+    ui->label_9->setAlignment(Qt::AlignHCenter);
     model = new QSqlTableModel(this);
     model->setTable("clock");
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
@@ -371,6 +371,9 @@ void Clock::setup_init()
                                                                                 // Expand page switching reflection area
     connect(ui->label_2, SIGNAL(clicked()), this, SLOT(on_pushButton_2_clicked()) );
     connect(ui->label_3, SIGNAL(clicked()), this, SLOT(on_pushButton_3_clicked()) );
+    ui->label->adjustSize();
+    ui->label_2->adjustSize();
+    ui->label_3->adjustSize();
     ui->pushButton_20->setText(model_setup->index(0, 19).data().toString());
     alarm_set_start_time();//闹钟初始化数字转盘
                            // Alarm initialization digital turntable
@@ -423,7 +426,6 @@ void Clock::stopwatch_jg()
         stopwatch_minute++; stopwatch_second=0;}
     if (stopwatch_minute==60) {
         stopwatch_hour++; stopwatch_minute=0;}
-
 }
 
 //秒表执行
@@ -1064,6 +1066,14 @@ void Clock::set_Alarm_Clock()
 // Alarm new interface save callback
 void Clock::set_alarm_save()
 {
+    if(ui->lineEdit->text().isEmpty()){
+        delete_msg *deletemsg = new delete_msg();
+        deletemsg->ui->label_5->setText(tr("Please set alarm name!"));
+        QPointF position = this->pos();
+        deletemsg->move(position.x()+67,position.y()+250);
+        deletemsg->exec();
+        return ;
+    }
     int rowNum;
     rowNum = model->rowCount();
 
@@ -1203,6 +1213,15 @@ void Clock::listdoubleClickslot()
 // Alarm re edit save callback
 void Clock::on_pushButton_9_clicked()
 {
+    if(ui->lineEdit->text().isEmpty()){
+        delete_msg *deletemsg = new delete_msg();
+        deletemsg->ui->label_5->setText(tr("Please set alarm name!"));
+        QPointF position = this->pos();
+        deletemsg->move(position.x()+67,position.y()+250);
+        deletemsg->exec();
+        return ;
+    }
+
     int rowNum = ui->listWidget->currentRow();
 
     qDebug() << rowNum << "要修改的闹钟号";
@@ -1276,13 +1295,24 @@ void Clock::listClickslot()
     int day_true;
     int hour_time = model->index(num, 0).data().toInt();
     int minute_time= model->index(num, 1).data().toInt();
-    if(last_day_ring == 1&& hour_time>=timeH ){              //如果天数是下一天响，判断当天是否
+    if(last_day_ring == 1 && hour_time>=timeH ){              //如果天数是下一天响，判断当天是否
         if(hour_time == timeH && minute_time <= timeM ){
             ;
         }else{
             day_true = get_alarm_clock_will_ring_days_2(num);
             if(day_true){
                 day_next=0;
+            }
+        }
+    }else{
+        if(hour_time>=timeH){
+            if(hour_time == timeH && minute_time <= timeM){
+                ;
+            }else{
+                if(get_alarm_clock_will_ring_days_2(num))
+                {
+                    day_next=0;
+                }
             }
         }
     }
@@ -1310,6 +1340,7 @@ void Clock::listClickslot()
     }
     if (x_h >= 24) {
         day_next = x_h/24;
+
         x_h = x_h % 24;
         if(day_next >= 7){
             day_next = 0;
@@ -1317,7 +1348,6 @@ void Clock::listClickslot()
     } else {
         day_next = 0;
     }
-
 
     if (num < 0) {
         ui->label_7->setText(tr("Remaining time"));
@@ -1346,7 +1376,7 @@ int Clock::get_alarm_clock_will_ring_days(int num)
         ring_day[i] = model->index(num, i+6).data().toInt();
     }
     //判断星期
-    // Judgment week
+    //Judgment week
     QDateTime current_date_time = QDateTime::currentDateTime();
 
     if(current_date_time.toString("ddd").compare("周一")==0 )
@@ -1406,7 +1436,6 @@ int Clock::get_alarm_clock_will_ring_days_2(int num)
         today = 5;
     else if(current_date_time.toString("ddd").compare("周日")==0 )
         today = 6;
-    
 
         if (ring_day[today] == 1) {
             return 1;
@@ -1471,18 +1500,18 @@ void Clock::On_Off_Alarm()
         model->setData(model->index(i, 3), int(1));
         model->submitAll();
     } else {
-        btn->setStyleSheet("border-image: url(:/alarm_off.png);background-color: rgb();");
+        btn->setStyleSheet("border-image: url(:/alarm_on.png);background-color: rgb();");
         qDebug() << "on";
 
         model->setData(model->index(i, 3), int(0));
         model->submitAll();
     }
-    int rowNum = model->rowCount();
-    for (int i = 0; i < rowNum; i++) {
-        delete aItem[i];
-        delete w1[i];
-    }
-    updateAlarmClock();
+//    int rowNum = model->rowCount();
+//    for (int i = 0; i < rowNum; i++) {
+//        delete aItem[i];
+//        delete w1[i];
+//    }
+//    updateAlarmClock();
 }
 //不重复时单独关闭闹钟
 // Turn off the alarm separately if it is not repeated
@@ -1991,7 +2020,7 @@ void Clock::repeat_listClickslot()
             repeat_day[0] = 1;
             dialog_repeat->widget[2]->alarmLabel1->setIcon(repeat_on_Pixmap);
         } else {
-            if(repeat_day[1]== 0 & repeat_day[2]== 0 & repeat_day[3]== 0 & repeat_day[4]== 0 & repeat_day[5]== 0 & repeat_day[6]== 0){
+            if(repeat_day[1]== 0 && repeat_day[2]== 0 && repeat_day[3]== 0 && repeat_day[4]== 0 && repeat_day[5]== 0 && repeat_day[6]== 0){
                  //防止全部勾选被取消
             }else{
             repeat_day[0] = 0;
@@ -2004,7 +2033,7 @@ void Clock::repeat_listClickslot()
             repeat_day[1] = 1;
             dialog_repeat->widget[3]->alarmLabel1->setIcon(repeat_on_Pixmap);
         } else {
-            if(repeat_day[0]== 0 & repeat_day[2]== 0 & repeat_day[3]== 0 & repeat_day[4]== 0 & repeat_day[5]== 0 & repeat_day[6]== 0){
+            if(repeat_day[0]== 0 && repeat_day[2]== 0 && repeat_day[3]== 0 && repeat_day[4]== 0 && repeat_day[5]== 0 && repeat_day[6]== 0){
 
             }else{
             repeat_day[1] = 0;
@@ -2017,7 +2046,7 @@ void Clock::repeat_listClickslot()
             repeat_day[2] = 1;
             dialog_repeat->widget[4]->alarmLabel1->setIcon(repeat_on_Pixmap);
         } else {
-            if(repeat_day[1]== 0 & repeat_day[0]== 0 & repeat_day[3]== 0 & repeat_day[4]== 0 & repeat_day[5]== 0 & repeat_day[6]== 0){
+            if(repeat_day[1]== 0 && repeat_day[0]== 0 && repeat_day[3]== 0 && repeat_day[4]== 0 && repeat_day[5]== 0 && repeat_day[6]== 0){
 
             }else{
             repeat_day[2] = 0;
@@ -2030,7 +2059,7 @@ void Clock::repeat_listClickslot()
             repeat_day[3] = 1;
             dialog_repeat->widget[5]->alarmLabel1->setIcon(repeat_on_Pixmap);
         } else {
-            if(repeat_day[1]== 0 & repeat_day[2]== 0 & repeat_day[0]== 0 & repeat_day[4]== 0 & repeat_day[5]== 0 & repeat_day[6]== 0){
+            if(repeat_day[1]== 0 && repeat_day[2]== 0 && repeat_day[0]== 0 && repeat_day[4]== 0 && repeat_day[5]== 0 && repeat_day[6]== 0){
 
             }else{
             repeat_day[3] = 0;
@@ -2043,7 +2072,7 @@ void Clock::repeat_listClickslot()
             repeat_day[4] = 1;
             dialog_repeat->widget[6]->alarmLabel1->setIcon(repeat_on_Pixmap);
         } else {
-            if(repeat_day[1]== 0 & repeat_day[2]== 0 & repeat_day[3]== 0 & repeat_day[0]== 0 & repeat_day[5]== 0 & repeat_day[6]== 0){
+            if(repeat_day[1]== 0 && repeat_day[2]== 0 && repeat_day[3]== 0 && repeat_day[0]== 0 && repeat_day[5]== 0 && repeat_day[6]== 0){
 
             }else{
             repeat_day[4] = 0;
@@ -2056,7 +2085,7 @@ void Clock::repeat_listClickslot()
             repeat_day[5] = 1;
             dialog_repeat->widget[7]->alarmLabel1->setIcon(repeat_on_Pixmap);
         } else {
-            if(repeat_day[1]== 0 & repeat_day[2]== 0 & repeat_day[3]== 0 & repeat_day[4]== 0 & repeat_day[0]== 0 & repeat_day[6]== 0){
+            if(repeat_day[1]== 0 && repeat_day[2]== 0 && repeat_day[3]== 0 && repeat_day[4]== 0 && repeat_day[0]== 0 && repeat_day[6]== 0){
 
             }else{
             repeat_day[5] = 0;
@@ -2069,7 +2098,7 @@ void Clock::repeat_listClickslot()
             repeat_day[6] = 1;
             dialog_repeat->widget[8]->alarmLabel1->setIcon(repeat_on_Pixmap);
         } else {
-            if(repeat_day[1]== 0 & repeat_day[2]== 0 & repeat_day[3]== 0 & repeat_day[4]== 0 & repeat_day[5]== 0 & repeat_day[0]== 0){
+            if(repeat_day[1]== 0 && repeat_day[2]== 0 && repeat_day[3]== 0 && repeat_day[4]== 0 && repeat_day[5]== 0 && repeat_day[0]== 0){
 
             }else{
             repeat_day[6] = 0;
