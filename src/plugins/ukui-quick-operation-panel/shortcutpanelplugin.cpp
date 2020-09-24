@@ -20,6 +20,7 @@
 shortcutPanelPlugin::shortcutPanelPlugin(QObject *parent)
 {
     Q_UNUSED(parent);
+    setScrollWidget();             // 获取当前系统是否有背光文件
     initMemberVariables();         // 初始化插件成员变量
     initShortButtonWidget();       // 初始化8个快捷按钮界面
     initShortcutButtonGsetting();  // 初始化记住上次编辑按钮的gsetting值
@@ -46,7 +47,13 @@ void shortcutPanelPlugin::initMemberVariables()
 
     m_pMainWidget  = new MainWidget;
     m_pMainWidget->setContentsMargins(0, 0, 0, 0);
-    m_pMainWidget->setFixedSize(392, 486);
+
+    if (m_bBacklitFile) {
+        m_pMainWidget->setFixedSize(392, 486);
+    } else {
+        m_pMainWidget->setFixedSize(392, 430);
+    }
+
     m_pButtonWidget = new QWidget;
     m_pButtonWidget->setContentsMargins(0, 0, 0, 0);
     m_pButtonWidget->setFixedHeight(15);
@@ -71,9 +78,11 @@ void shortcutPanelPlugin::initMemberVariables()
     m_pShortWidget->setFixedWidth(380);
     m_pShortWidget->setContentsMargins(0, 0, 0, 0);
 
-    /* 调整音量与屏幕亮度界面 */
-    m_pScrollingAreaWidget = new ScrollingAreaWidget();
-    m_pScrollingAreaWidget->setFixedSize(392, 56);
+    /* 当系统有背光文件时，new调整音量与屏幕亮度界面 */
+    if (m_bBacklitFile) {
+        m_pScrollingAreaWidget = new ScrollingAreaWidget();
+        m_pScrollingAreaWidget->setFixedSize(392, 56);
+    }
 
     /* 显示天气界面 */
     m_pWeatherWidget = new weatherWidget();
@@ -249,6 +258,23 @@ void shortcutPanelPlugin::setButtonIcon()
     return;
 }
 
+/* 获取系统内核是否包含有背光文件，是否支持调整亮度 */
+void shortcutPanelPlugin::setScrollWidget()
+{
+    QProcess process;
+    process.start("ukui-power-backlight-helper --get-max-brightness");
+    process.waitForFinished();
+    QByteArray output = process.readAllStandardOutput();
+    QString str_output = output;
+    if (str_output == "没有找到您系统上的背光\n") {
+        m_bBacklitFile = false;
+    } else {
+        m_bBacklitFile = true;
+    }
+    qDebug() << "是否含有背光文件---->" << str_output;
+    return;
+}
+
 /* 将切换按钮和ListView界面set进插件主界面 */
 void shortcutPanelPlugin::setWidget()
 {
@@ -284,7 +310,9 @@ void shortcutPanelPlugin::setWidget()
     m_pLinelabel_2->setStyleSheet("QLabel{border: 1px solid rgba(246, 246, 246, 1)};");
     m_pMainVLayout->addWidget(m_pLinelabel_2);
 
-    m_pMainVLayout->addWidget(m_pScrollingAreaWidget);      // 滚动条区域
+    if (m_bBacklitFile) {
+        m_pMainVLayout->addWidget(m_pScrollingAreaWidget);      // 滚动条区域
+    }
 
     m_pLinelabel_3 = new QLabel();
     m_pLinelabel_3->setFixedSize(392, 1);
@@ -383,10 +411,14 @@ void shortcutPanelPlugin::spreadClikedSlots()
     m_pSpreadButton->setVisible(false);
     m_pfoldButton->setVisible(true);
     setGridLayoutWidgetShow();
-    m_pScrollingAreaWidget->setVisible(true);
     m_pWeatherWidget->setVisible(true);
     m_pShortWidget->setFixedHeight(297);
-    m_pMainWidget->setFixedSize(392, 486);
+    if (m_bBacklitFile) {
+        m_pScrollingAreaWidget->setVisible(true);
+        m_pMainWidget->setFixedHeight(486);
+    } else {
+        m_pMainWidget->setFixedHeight(430);
+    }
     m_pLinelabel_2->setVisible(true);
     m_pLinelabel_3->setVisible(true);
     m_pMainWidget->update();
@@ -398,12 +430,12 @@ void shortcutPanelPlugin::foldClikedSlots()
 {
     m_pSpreadButton->setVisible(true);
     m_pfoldButton->setVisible(false);
-    int height = m_pMainWidget->height();
-    int width  = m_pMainWidget->width();
     setGridLayoutWidgetHide();
     m_pShortWidget->setFixedHeight(102);
-    m_pMainWidget->setFixedSize(width, 184);
-    m_pScrollingAreaWidget->setVisible(false);
+    m_pMainWidget->setFixedHeight(184);
+    if (m_bBacklitFile) {
+        m_pScrollingAreaWidget->setVisible(false);
+    }
     m_pWeatherWidget->setVisible(false);
     m_pLinelabel_2->setVisible(false);
     m_pLinelabel_3->setVisible(false);

@@ -26,6 +26,7 @@
 #include <QDBusReply>
 #include <QDebug>
 #include <QGridLayout>
+#include <QProcess>
 #include "mainwidget.h"
 #include "pushbutton.h"
 #include "data.h"
@@ -92,6 +93,7 @@ public:
     void initShortcutButtonGsetting();
     void initsetShortWidget();
     void setButtonIcon();
+    void setScrollWidget();
     void setWidget();
 
     /* Hash表  查、删、增 */
@@ -121,6 +123,8 @@ private:
     QWidget      *m_pShortWidget    = nullptr;
     PushButton   *m_pSpreadButton   = nullptr;
     PushButton   *m_pfoldButton     = nullptr;
+
+    bool          m_bBacklitFile;
 
     QLabel       *m_pLinelabel_1;
     QLabel       *m_pLinelabel_2;
