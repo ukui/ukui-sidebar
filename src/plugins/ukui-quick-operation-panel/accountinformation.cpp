@@ -13,9 +13,9 @@ AccountInformation::AccountInformation(QWidget *parent) : QWidget(parent)
 
 void AccountInformation::initMemberVariable()
 {
-    m_pHeadPortraitIconLabel = new QLabel();
+    m_pHeadPortraitIconLabel = new IconLabel();
     m_pHeadPortraitIconLabel->setFixedSize(48, 48);
-
+    connect(m_pHeadPortraitIconLabel, &IconLabel::LabelClicked, this, &AccountInformation::openContorlCenterWidgetSlots);
 
     m_pNameLabel = new QLabel();
     m_pNameLabel->setFixedHeight(24);
@@ -146,4 +146,13 @@ void AccountInformation::openShutdownWidgetSlots()
     QProcess p(0);
     p.startDetached("ukui-session-tools");
     p.waitForStarted();
+    return;
+}
+
+void AccountInformation::openContorlCenterWidgetSlots()
+{
+    QProcess p(0);
+    p.startDetached("ukui-control-center -u");
+    p.waitForStarted();
+    return;
 }

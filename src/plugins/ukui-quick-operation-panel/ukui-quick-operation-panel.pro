@@ -36,6 +36,7 @@ SOURCES += \
     dropdownbox.cpp \
     editconfirmationarea.cpp \
     eyeprotectionmode.cpp \
+    iconlabel.cpp \
     notebookbuttonwidget.cpp \
     powersavingmode.cpp \
     scrollingareawidget.cpp \
@@ -63,6 +64,7 @@ HEADERS += \
     dropdownbox.h \
     editconfirmationarea.h \
     eyeprotectionmode.h \
+    iconlabel.h \
     notebookbuttonwidget.h \
     powersavingmode.h \
     scrollingareawidget.h \

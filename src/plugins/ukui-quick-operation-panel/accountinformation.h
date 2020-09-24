@@ -14,6 +14,7 @@
 #include <QVBoxLayout>
 #include <QDebug>
 #include <QProcess>
+#include "iconlabel.h"
 
 #define DEFAULTFACE "/usr/share/ukui/faces/default.png"
 
@@ -62,7 +63,7 @@ private:
     void setAllControlsLabelInfo();
 
 private:
-    QLabel       *m_pHeadPortraitIconLabel;
+    IconLabel    *m_pHeadPortraitIconLabel;
     QLabel       *m_pNameLabel;
     QLabel       *m_pIdentityLabel;
     QPushButton  *m_pShutDownButton;
@@ -75,6 +76,7 @@ private:
 
 private slots:
     void openShutdownWidgetSlots();
+    void openContorlCenterWidgetSlots();
 
 Q_SIGNALS:
 
