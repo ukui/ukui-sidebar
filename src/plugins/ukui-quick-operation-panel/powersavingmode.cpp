@@ -126,7 +126,7 @@ void powerSavingMode::PowerSavingButtonClickSlots()
     } else {
         m_pPowerModeButton->setStyle(m_pStyleNormal);
         m_pPowerModeButton->setIcon(QIcon::fromTheme(KYLIN_POWER_SAVING_NORMAL_NAME, QIcon(KYLIN_POWER_SAVING_NORMAL_PATH)));
-        m_pSavingModeGsetting->set(KYLIN_POWER_SREEN_BRIGHTNESS_AC_KEY, 99);
+        m_pSavingModeGsetting->set(KYLIN_POWER_SREEN_BRIGHTNESS_AC_KEY, 66);
         m_pSavingModeGsetting->set(KYLIN_POWER_SLEEP_DISPLAY_AC_KEY, 600);
         m_pSavingModeGsetting->set(KYLIN_POWER_SLEEP_BATTERY_KEY, 600);
         m_bModelStatus = false;
