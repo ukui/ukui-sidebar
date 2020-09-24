@@ -34,7 +34,7 @@ void eyeProtectionMode::initMemberVariables()
     m_pStyleOpen = new CustomStyle_SwitchOpenStatus("ukui-default");
 
     m_pEyeModeLabel = new QLabel();
-    m_pEyeModeLabel->setFixedWidth(63);
+    m_pEyeModeLabel->setFixedWidth(64);
     m_pEyeModeLabel->setText(m_pLabelFotmatText->SetFormatBody(QObject::tr("Eye care mode"), m_pEyeModeLabel));
     m_pEyeModeLabel->setAlignment(Qt::AlignHCenter);
 

@@ -25,6 +25,7 @@ PushButton::PushButton(QStringList path, QStringList iconNameList)
 
     QPalette palette = this->palette();
     palette.setColor(QPalette::Highlight, Qt::transparent); /* 取消按钮高亮 */
+    palette.setBrush(QPalette::Button, QBrush(QColor(1, 1, 1 , 0)));
     this->setPalette(palette);
 }
 

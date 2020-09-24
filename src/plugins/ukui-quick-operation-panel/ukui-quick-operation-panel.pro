@@ -55,6 +55,7 @@ SOURCES += \
     switchbutton.cpp \
     weatherwidget.cpp \
     wifiwidget.cpp \
+    swichButtonFlod.cpp \
 
 HEADERS += \
     accountinformation.h \
@@ -85,6 +86,7 @@ HEADERS += \
     switchbutton.h \
     weatherwidget.h \
     wifiwidget.h \
+    swichButtonFlod.h \
 
 INCLUDEPATH    += ../../plugin-interface
 

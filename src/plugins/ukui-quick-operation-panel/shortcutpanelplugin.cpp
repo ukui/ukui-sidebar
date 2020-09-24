@@ -51,7 +51,7 @@ void shortcutPanelPlugin::initMemberVariables()
     m_pButtonHLaout->setSpacing(0);
 
     m_pShortGLayout  = new QGridLayout;
-    m_pShortGLayout->setContentsMargins(32, 16, 18, 31);
+    m_pShortGLayout->setContentsMargins(32, 16, 18, 32);
     m_pShortGLayout->setHorizontalSpacing(35);
     m_pShortGLayout->setVerticalSpacing(16);
 
@@ -85,7 +85,7 @@ void shortcutPanelPlugin::initMemberVariables()
 
     /* 快捷操作面板界面 */
     m_pShortWidget   = new QWidget;
-    m_pShortWidget->setFixedWidth(380);
+    m_pShortWidget->setFixedWidth(372);
     m_pShortWidget->setContentsMargins(0, 0, 0, 0);
 
     /* 当系统有背光文件时，new调整音量与屏幕亮度界面 */
