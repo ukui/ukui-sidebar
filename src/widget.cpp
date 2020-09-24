@@ -332,7 +332,7 @@ void Widget::showAnimation()
         case Widget::PanelDown :
             {
                 //起始位置的坐标
-                AnimaStartSideBarSite[0] = 400;
+                AnimaStartSideBarSite[0] = 392;
                 AnimaStartSideBarSite[1] = 0;
                 AnimaStartSideBarSite[2] = 392;
                 AnimaStartSideBarSite[3] = m_nScreenHeight - connectTaskBarDbus() - 15;
@@ -346,7 +346,7 @@ void Widget::showAnimation()
         case Widget::PanelUp:
             {
                 //起始位置的坐标
-                AnimaStartSideBarSite[0] = 400;
+                AnimaStartSideBarSite[0] = 392;
                 AnimaStartSideBarSite[1] = 0;
                 AnimaStartSideBarSite[2] = 392;
                 AnimaStartSideBarSite[3] = m_nScreenHeight  - connectTaskBarDbus() - 15;
@@ -620,13 +620,13 @@ void Widget::MostGrandWidgetCoordinates()
     switch (getPanelSite()) {
         case Widget::PanelDown :
             {
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight - connectTaskBarDbus() - 15);
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(392, m_nScreenHeight - connectTaskBarDbus() - 15);
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400, m_nScreen_y + 8);
             }
             break;
         case Widget::PanelUp:
             {
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight - connectTaskBarDbus() - 15); \
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(392, m_nScreenHeight - connectTaskBarDbus() - 15); \
                 mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400,  \
                                                                                              connectTaskBarDbus() \
                                                                                              + m_nScreen_y + 8);
