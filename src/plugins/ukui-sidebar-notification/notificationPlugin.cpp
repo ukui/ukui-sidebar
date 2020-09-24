@@ -136,13 +136,15 @@ NotificationPlugin::NotificationPlugin()
     //消息列表部件，用于装消息列表的
     pNotificationVBoxLayout->addItem(new QSpacerItem(10, 18));
     m_pMsgListWidget = new QWidget;
-    //m_pMsgListWidget->setFixedSize(392, 1000);
+    m_pMsgListWidget->setFixedSize(392, 1000);
     //m_pMsgListWidget->setStyleSheet("QWidget{border:1px solid rgba(255,0,0,1);}");
     pNotificationVBoxLayout->addWidget(m_pMsgListWidget);
     pNotificationVBoxLayout->addItem(new QSpacerItem(100, 18));
 //    m_pMsgListWidget->setParent(m_pMainWidget);
     //消息列表部件，用于装两个消息列表的,浮动在m_pMsgListWidget里面
     m_pMsgDoubleListWidget = new QWidget(m_pMsgListWidget);
+   // m_pMsgDoubleListWidget->setFixedSize(300, 1000);
+//    m_pMsgDoubleListWidget->setStyleSheet("QWidget{border:1px solid rgba(255,0,0,1);}");
     QHBoxLayout* pMsgDoubleListHBoxLayout = new QHBoxLayout;
     pMsgDoubleListHBoxLayout->setContentsMargins(0, 0, 0, 0);
     pMsgDoubleListHBoxLayout->setSpacing(0);
@@ -167,7 +169,9 @@ NotificationPlugin::NotificationPlugin()
     pInQWidget->setObjectName("QScrollAreaInQWidget");
     pInQWidget->setLayout(m_pScrollAreaNotifyVBoxLayout);
     pInQWidget->setAttribute(Qt::WA_TranslucentBackground);
+//    pInQWidget->setStyleSheet("QWidget{border:1px solid rgba(255,0,0,1);}");
     m_pQScrollAreaNotify->setWidget(pInQWidget);
+   // m_pQScrollAreaNotify->setStyleSheet("QWidget{border:1px solid rgba(255,0,0,1);}");
     m_pMessageCenterLabel = new QLabel(QObject::tr("No new notifications"));
     m_pScrollAreaNotifyVBoxLayout->addWidget(m_pMessageCenterLabel, 4, Qt::AlignCenter);
     m_pMessageCenterLabel->setAttribute(Qt::WA_TranslucentBackground);
@@ -179,7 +183,7 @@ NotificationPlugin::NotificationPlugin()
     m_pQScrollAreaTakeIn = new ScrollAreaWidget();
     m_pQScrollAreaTakeIn->setAttribute(Qt::WA_TranslucentBackground);
     m_pQScrollAreaTakeIn->setFrameShape(QFrame::NoFrame);
-    m_pQScrollAreaTakeIn->setFixedWidth(390);
+    m_pQScrollAreaTakeIn->setFixedWidth(360);
 
     m_pScrollAreaTakeInVBoxLayout = new QVBoxLayout();
     m_pScrollAreaTakeInVBoxLayout->setContentsMargins(0,0,0,0);

@@ -268,6 +268,8 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pSingleWidget->setLayout(pMainVLaout);
     m_pAppVLaout->addWidget(m_pSingleWidget);
     this->setLayout(m_pAppVLaout);
+   this->setFixedWidth(360);
+   // this->setFixedSize(333, 333);
     m_pSetDeleDelayTimer = new QTimer(this);
     return;
 }

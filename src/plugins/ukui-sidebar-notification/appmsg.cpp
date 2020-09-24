@@ -26,7 +26,7 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
     m_bFold = true;
     m_bTakeInFlag = bTakeInFlag;
     m_strAppName = strAppName;
-    this->setFixedWidth(380);
+    this->setFixedWidth(360);
 
     m_nMaxCount = 20;
 
