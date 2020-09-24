@@ -81,9 +81,6 @@ NotificationPlugin::NotificationPlugin()
     //悬浮收纳数标签
     m_pTakeInCoutLabel = new QLabel(m_pMainWidget);
     m_pTakeInCoutLabel->setObjectName("takeincout");
-//    QPalette pe1;
-//    pe1.setColor(QPalette::WindowText,Qt::black);
-//    m_pTakeInCoutLabel->setPalette(pe1);
     m_pTakeInCoutLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     m_pTakeInCoutLabel->setVisible(false);
 
@@ -101,25 +98,18 @@ NotificationPlugin::NotificationPlugin()
     pQHBoxLayout2->setContentsMargins(12,0,10,8);
 
     m_pNotificationLabel = new QLabel(QObject::tr("Recent news"));
-    QPalette pe1;
-    pe1.setColor(QPalette::WindowText,QColor(0,0,0,255));
-    m_pNotificationLabel->setPalette(pe1);
 
     m_pNotificationLabel->setObjectName("Recent news");
     m_pNotificationLabel->setAttribute(Qt::WA_TranslucentBackground);
     QSpacerItem* pHSpacer = new QSpacerItem(300, 10, QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     m_pClearAllToolButton = new QPushButton();
-    pe1.setColor(QPalette::ButtonText,QColor(0,0,0,200));
-    m_pClearAllToolButton->setPalette(pe1);
-    m_pClearAllToolButton->setObjectName("clearall");
     connect(m_pClearAllToolButton, SIGNAL(clicked()), this, SLOT(onClearAllMessage()));
     m_pClearAllToolButton->setText(QObject::tr("Clean up"));
     m_pClearAllToolButton->setStyle(new CustomStyle_pushbutton_2("ukui-default"));
     QSpacerItem* pFixSpacer = new QSpacerItem(5, 10, QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     QPushButton* pSettingToolButton = new QPushButton();
-    pSettingToolButton->setPalette(pe1);
     pSettingToolButton->setObjectName("setting");
     connect(pSettingToolButton, SIGNAL(clicked()), this, SLOT(onCallControlPanel()));
     pSettingToolButton->setText(QObject::tr("Set up"));
@@ -179,7 +169,6 @@ NotificationPlugin::NotificationPlugin()
     pInQWidget->setAttribute(Qt::WA_TranslucentBackground);
     m_pQScrollAreaNotify->setWidget(pInQWidget);
     m_pMessageCenterLabel = new QLabel(QObject::tr("No new notifications"));
-    m_pMessageCenterLabel->setPalette(pe1);
     m_pScrollAreaNotifyVBoxLayout->addWidget(m_pMessageCenterLabel, 4, Qt::AlignCenter);
     m_pMessageCenterLabel->setAttribute(Qt::WA_TranslucentBackground);
     QSpacerItem* pVSpacer = new QSpacerItem(10, 1, QSizePolicy::Fixed, QSizePolicy::Expanding);

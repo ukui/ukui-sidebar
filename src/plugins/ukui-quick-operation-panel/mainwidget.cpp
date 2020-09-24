@@ -54,10 +54,12 @@ void MainWidget::paintEvent(QPaintEvent *event)
 //    p.drawRoundedRect(opt.rect, 12, 12);
 //    p.drawRect(opt.rect);
 //    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+    QStyleOption opt;
+    opt.init(this);
     QPainter p(this);
     QRect rect = this->rect();
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-    p.setBrush(QBrush(QColor("#FFFFFF")));
+    p.setBrush(opt.palette.color(QPalette::Base));
     p.setOpacity(1);
     p.setPen(Qt::NoPen);
     p.drawRoundedRect(rect, 12, 12);

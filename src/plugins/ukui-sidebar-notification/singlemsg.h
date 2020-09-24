@@ -23,7 +23,7 @@
 #include <QLabel>
 #include <QDateTime>
 #include <QVBoxLayout>
-
+#include <QStyleOption>
 
 class AppMsg;
 class ButtonWidget;

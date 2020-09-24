@@ -682,10 +682,12 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
 
 void Widget::paintEvent(QPaintEvent *event)
 {
+    QStyleOption opt;
+    opt.init(this);
     QPainter p(this);
     QRect rect = this->rect();
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-    p.setBrush(QBrush(QColor(255,255,255)));
+    p.setBrush(opt.palette.color(QPalette::Base));
     p.setOpacity(0.7);
     p.setPen(Qt::NoPen);
     p.drawRoundedRect(rect, 12, 12);

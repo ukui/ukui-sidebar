@@ -96,14 +96,10 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
 
     //设置应用名标签，采用省略模式
-    QPalette pe1;
-    pe1.setColor(QPalette::WindowText,QColor(0,0,0,188));
-
     QLabel* pAppNameLabel = new QLabel();
     pAppNameLabel->setObjectName("AppName");
     pAppNameLabel->setFixedWidth(84);
     pAppNameLabel->setAttribute(Qt::WA_TranslucentBackground);
-    pAppNameLabel->setPalette(pe1);
 
     QFont font14;
     font14.setPixelSize(14);
@@ -132,7 +128,6 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pTimeLabel->setObjectName("pushtime");
     m_pTimeLabel->setText(tr("now"));
     m_pTimeLabel->setAttribute(Qt::WA_TranslucentBackground);
-    m_pTimeLabel->setPalette(pe1);
 
 
     //收纳删除按钮图标的大小
@@ -168,7 +163,6 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pStorageDeleteButtonWidget->hide();
 
     //设置标签布局
-    pe1.setColor(QPalette::WindowText,QColor(0,0,0,255));
     pTimeLableHLayout->addWidget(m_pTimeLabel, 0, Qt::AlignRight);
     pTimeLableHLayout->addItem(new QSpacerItem(26, 10 , QSizePolicy::Fixed, QSizePolicy::Fixed));
     pTimeLableHLayout->setContentsMargins(0, 0, 0, 0);
@@ -215,7 +209,6 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pSummaryLabel = new QLabel();
     m_pSummaryLabel->setFixedWidth(314);
     m_pSummaryLabel->setAttribute(Qt::WA_TranslucentBackground);
-    m_pSummaryLabel->setPalette(pe1);
     QFont font16;
     font16.setPixelSize(16);
     m_pSummaryLabel->setFont(font16);
@@ -234,7 +227,6 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
     //设置通知消息中的正文QLabel，行高24px,采用自动换行模式
 
-       pe1.setColor(QPalette::WindowText,QColor(0,0,0,188));
     if(false == m_strBody.isEmpty())
     {
         QString strLineHeight24Body;
@@ -244,7 +236,6 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
         m_pBodyLabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
         m_pBodyLabel->adjustSize();
         m_pBodyLabel->setAttribute(Qt::WA_TranslucentBackground);
-        m_pBodyLabel->setPalette(pe1);
 
 
         QFontMetrics fontMetrics(m_pBodyLabel->font());
@@ -268,7 +259,6 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pShowLeftItemLabel = new QLabel;
     m_pShowLeftItemLabel->setObjectName("ShowLeftItem");
     m_pShowLeftItemLabel->setVisible(false);
-    m_pShowLeftItemLabel->setPalette(pe1);
     pVShowLeftLayout->addWidget(m_pShowLeftItemLabel, 0, Qt::AlignLeft);
     m_pShowLeftWidget->setLayout(pVShowLeftLayout);
     pVContextLayout->addWidget(m_pShowLeftWidget, 0, Qt::AlignLeft);
@@ -285,7 +275,8 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
 void SingleMsg::paintEvent(QPaintEvent *e)
 {
-
+    QStyleOption opt;
+    opt.init(this);
     QPainter p(this);
     QRect rect = this->rect();
     rect.setWidth(rect.width() - 1);
@@ -298,19 +289,22 @@ void SingleMsg::paintEvent(QPaintEvent *e)
 
     switch (status) {
       case NORMAL: {
-              p.setBrush(QBrush(QColor(255,255, 255,60)));
+              p.setBrush(opt.palette.color(QPalette::Base));
+              p.setOpacity(0.23);
               p.setPen(Qt::NoPen);
               p.drawRoundedRect(rect,6,6);
               break;
           }
       case HOVER: {
-          p.setBrush(QBrush(QColor(255, 255,255,90)));
+          p.setBrush(opt.palette.color(QPalette::Base));
+          p.setOpacity(0.35);
           p.setPen(Qt::NoPen);
           p.drawRoundedRect(rect,6,6);
               break;
           }
       case PRESS: {
-        p.setBrush(QBrush(QColor(255, 255, 255, 100)));
+        p.setBrush(opt.palette.color(QPalette::Base));
+        p.setOpacity(0.4);
         p.setPen(Qt::NoPen);
 
         p.drawRoundedRect(rect,6,6);
