@@ -32,6 +32,7 @@
 #include "switchbutton.h"
 #include "swichButtonOpenStatus.h"
 #include "customstyle_switchNormalStatus.h"
+#include "labelfotmattext.h"
 
 #define KYLIN_NODISTURB_NORMAL_NAME     "kylin-icon-DND"
 #define KYLIN_NODISTURB_SET_NAME        "kylin-icon-DND-s"
@@ -67,6 +68,8 @@ private:
     QWidget       *m_pWidgetButton;
     QPushButton   *m_pnodisturbButton;
     QLabel        *m_pnodisturbLabel;
+
+    LabelFotmatText *m_pLabelFotmatText;
 
     QStyle        *m_pStyleNormal;
     QStyle        *m_pStyleOpen;

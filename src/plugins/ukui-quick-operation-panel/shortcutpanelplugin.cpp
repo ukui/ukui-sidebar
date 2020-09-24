@@ -20,6 +20,16 @@
 shortcutPanelPlugin::shortcutPanelPlugin(QObject *parent)
 {
     Q_UNUSED(parent);
+    QTranslator *translator = new QTranslator;
+    QTranslator *translator_qt = new QTranslator;
+    if (translator->load(QLocale(), QLatin1String("ukui-quick-operation-panel"), QLatin1String("_"), QLatin1String("/usr/share/ukui-sidebar/ukui-quick-operation-panel")))
+        QApplication::installTranslator(translator);
+    else
+        qDebug() << "cannot load translator ukui-quick-operation-panel_" << QLocale::system().name() << ".qm!";
+    if (translator_qt->load("/usr/share/qt5/translations/qt_"+QLocale::system().name()))
+        QApplication::installTranslator(translator_qt);
+    else
+        qDebug() << "cannot load translator ukui-feedback_" << QLocale::system().name() << ".qm!";
     setScrollWidget();             // 获取当前系统是否有背光文件
     initMemberVariables();         // 初始化插件成员变量
     initShortButtonWidget();       // 初始化8个快捷按钮界面

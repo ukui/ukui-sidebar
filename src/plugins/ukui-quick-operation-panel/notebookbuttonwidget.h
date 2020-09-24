@@ -10,6 +10,7 @@
 #include <QProcess>
 #include "switchbutton.h"
 #include "customstyle_switchNormalStatus.h"
+#include "labelfotmattext.h"
 
 #define KYLIN_BLUETOOTH_NORMAL_NAME     "kylin-icon-notes"
 #define KYLIN_BLUETOOTH_SET_NAME        "kylin-icon-notes-s"
@@ -33,6 +34,8 @@ private:
     QWidget         *m_pButtonWidget;
     QPushButton     *m_pNoteButton;
     QLabel          *m_pNoteLabel;
+
+    LabelFotmatText *m_pLabelFotmatText;
 
     QVBoxLayout     *m_pVboxButtonLayout;
     QVBoxLayout     *m_pVboxLayout;

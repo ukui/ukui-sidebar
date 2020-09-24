@@ -11,6 +11,8 @@ void notebookButtonWidget::initMemberVariables()
     m_pButtonWidget = new QWidget();
     m_pButtonWidget->setFixedSize(56, 56);
 
+    m_pLabelFotmatText = new LabelFotmatText;
+
     m_pNoteButton = new QPushButton();
     connect(m_pNoteButton, &switchButton::clicked, this, &notebookButtonWidget::NoteButtonClickSlots);
     m_pNoteButton->setIcon(QIcon::fromTheme(KYLIN_BLUETOOTH_NORMAL_NAME, QIcon(KYLIN_BLUETOOTH_NORMAL_PATH)));
@@ -23,8 +25,13 @@ void notebookButtonWidget::initMemberVariables()
     m_pDeleteButton->setIconSize(QSize(12, 12));
 
     m_pNoteLabel  = new QLabel();
-    m_pNoteLabel->setText(QObject::tr("NoteBook"));
+    m_pNoteLabel->setFixedWidth(63);
+    m_pNoteLabel->setText(m_pLabelFotmatText->SetFormatBody(QObject::tr("NoteBook"), m_pNoteLabel));
     m_pNoteLabel->setAlignment(Qt::AlignHCenter);
+
+    if (m_pLabelFotmatText->m_bTooltips) {
+        this->setToolTip(QObject::tr("NoteBook"));
+    }
 
     m_pVboxButtonLayout = new QVBoxLayout();
     m_pVboxButtonLayout->setContentsMargins(0, 0, 0, 0);

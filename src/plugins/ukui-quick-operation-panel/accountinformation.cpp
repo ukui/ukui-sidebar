@@ -132,7 +132,7 @@ void AccountInformation::setAllControlsLabelInfo()
         user = GetUserInformation(objectpath);
     }
     m_pNameLabel->setText(user.username);
-    m_pIdentityLabel->setText(QObject::tr("管理员"));
+    m_pIdentityLabel->setText(QObject::tr("administrator"));
     char * iconpath = user.iconfile.toLatin1().data();
     if (!g_file_test(iconpath, G_FILE_TEST_EXISTS)){
         user.iconfile = DEFAULTFACE;

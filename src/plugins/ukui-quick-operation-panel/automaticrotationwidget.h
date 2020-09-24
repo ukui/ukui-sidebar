@@ -10,6 +10,7 @@
 #include "switchbutton.h"
 #include "swichButtonOpenStatus.h"
 #include "customstyle_switchNormalStatus.h"
+#include "labelfotmattext.h"
 
 #define KYLIN_PAD_GSETTING_VALUE        "org.ukui.SettingsDaemon.plugins.tablet-mode"
 #define KYLIN_AUTOMATICROTAION_STATUS   "auto-rotation"
@@ -38,6 +39,8 @@ private:
     QWidget         *m_pWidgetButton;
     switchButton    *m_pAutomaticRotationButton;
     QLabel          *m_pAutomaticRotationLabel;
+
+    LabelFotmatText *m_pLabelFotmatText;
 
     QVBoxLayout     *m_pVboxButtonLayout;
     QVBoxLayout     *m_pVboxLayout;

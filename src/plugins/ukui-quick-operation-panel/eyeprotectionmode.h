@@ -16,6 +16,7 @@
 #include "swichButtonOpenStatus.h"
 #include "customstyle_switchNormalStatus.h"
 #include "switchbutton.h"
+#include "labelfotmattext.h"
 
 #define KYLIN_EYE_MODE_NORMAL_NAME   "ukui-icon-eyeprotectionmode"
 #define KYLIN_EYE_MODE_SET_NAME      "ukui-icon-hotspot-s"
@@ -65,6 +66,8 @@ private:
 
     QStyle        *m_pStyleOpen;
     QStyle        *m_pStyleNormal;
+
+    LabelFotmatText *m_pLabelFotmatText;
 
     QSettings     *m_pqsettings;
     QSettings     *m_pKwinSettings;

@@ -15,6 +15,8 @@ void eyeProtectionMode::initMemberVariables()
     m_pVboxButtonLayout     = new QVBoxLayout();
     m_pVboxButtonLayout->setContentsMargins(0, 0, 0, 0);
 
+    m_pLabelFotmatText = new LabelFotmatText;
+
     m_pEyeModeButton = new QPushButton();
     m_pEyeModeButton->setFixedSize(56, 56);
     m_pEyeModeButton->setIcon(QIcon::fromTheme(KYLIN_EYE_MODE_NORMAL_NAME, QIcon(KYLIN_EYE_MODE_NORMAL_PATH)));
@@ -31,8 +33,14 @@ void eyeProtectionMode::initMemberVariables()
 
     m_pStyleOpen = new CustomStyle_SwitchOpenStatus("ukui-default");
 
-    m_pEyeModeLabel = new QLabel(QObject::tr("护眼模式"));
+    m_pEyeModeLabel = new QLabel();
+    m_pEyeModeLabel->setFixedWidth(63);
+    m_pEyeModeLabel->setText(m_pLabelFotmatText->SetFormatBody(QObject::tr("Eye care mode"), m_pEyeModeLabel));
     m_pEyeModeLabel->setAlignment(Qt::AlignHCenter);
+
+    if (m_pLabelFotmatText->m_bTooltips) {
+        this->setToolTip(QObject::tr("Eye care mode"));
+    }
 
     m_pVboxLayout = new QVBoxLayout();
     m_pVboxLayout->setContentsMargins(0, 0, 0, 0);

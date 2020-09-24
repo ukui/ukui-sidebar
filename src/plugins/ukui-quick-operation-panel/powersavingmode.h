@@ -12,6 +12,7 @@
 #include "swichButtonOpenStatus.h"
 #include "customstyle_switchNormalStatus.h"
 #include "switchbutton.h"
+#include "labelfotmattext.h"
 
 #define KYLIN_POWER_SAVING_NORMAL_NAME   "ukui-icon-powersavingmode-normal"
 #define KYLIN_POWER_SAVING_SET_NAME      "ukui-icon-powersavingmode-s"
@@ -48,6 +49,8 @@ private:
 private:
     QWidget       *m_pWidgetButton;
     QPushButton   *m_pPowerModeButton;
+    LabelFotmatText *m_pLabelFotmatText;
+
     QLabel        *m_pPowerModeLabel;
 
     QStyle        *m_pStyleOpen;

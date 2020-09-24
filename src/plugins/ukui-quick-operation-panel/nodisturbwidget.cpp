@@ -38,6 +38,8 @@ void nodisturbWidget::initMemberVariables()
     m_pVboxButtonLayout     = new QVBoxLayout();
     m_pVboxButtonLayout->setContentsMargins(0, 0, 0, 0);
 
+    m_pLabelFotmatText = new LabelFotmatText;
+
     m_pnodisturbButton = new QPushButton();
     connect(m_pnodisturbButton, &QPushButton::clicked, this, &nodisturbWidget::setNodisturbButtonSlots);
     m_pnodisturbButton->setFixedSize(56, 56);
@@ -56,9 +58,14 @@ void nodisturbWidget::initMemberVariables()
 
     m_pStyleOpen = new CustomStyle_SwitchOpenStatus("ukui-default");
 
-    m_pnodisturbLabel = new QLabel(QObject::tr("免打扰"));
+    m_pnodisturbLabel = new QLabel();
+    m_pnodisturbLabel->setFixedWidth(63);
+    m_pnodisturbLabel->setText(m_pLabelFotmatText->SetFormatBody(QObject::tr("No disturbing"), m_pnodisturbLabel));
     m_pnodisturbLabel->setAlignment(Qt::AlignHCenter);
 
+    if (m_pLabelFotmatText->m_bTooltips) {
+        this->setToolTip(QObject::tr("No disturbing"));
+    }
     m_pVboxLayout = new QVBoxLayout();
     m_pVboxLayout->setContentsMargins(0, 0, 0, 0);
     m_pVboxLayout->setSpacing(0);

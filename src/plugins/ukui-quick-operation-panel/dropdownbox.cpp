@@ -156,12 +156,12 @@ void dropDownBox::initListData()
                    << KYLIN_PC_SET_PATH       << KYLIN_CALCULATOR_SET_PATH  \
                    << KYLIN_SETTING_SET_PATH  << KYLIN_POWER_SAVING_SET_PATH;
 
-    m_listEntryName << QObject::tr("Eye care mode") << QObject::tr("alarm") \
-                    << QObject::tr("hotspot") << QObject::tr("screenshot") \
-                    << QObject::tr("notebook") << QObject::tr("Bluetooth") \
-                    << QObject::tr("VPN") << QObject::tr("Don't disturb") \
-                    << QObject::tr("Pad mode") << QObject::tr("calculator") \
-                    << QObject::tr("Set up") << QObject::tr("power saving mode");
+    m_listEntryName << QObject::tr("Eye care mode") << QObject::tr("Alarm") \
+                    << QObject::tr("Hotspot") << QObject::tr("Screenshots") \
+                    << QObject::tr("NoteBook") << QObject::tr("Bluetooth") \
+                    << QObject::tr("VPN") << QObject::tr("No disturbing") \
+                    << QObject::tr("Tablet mode") << QObject::tr("Calculator") \
+                    << QObject::tr("Setting") << QObject::tr("Energy-saving mode");
     return;
 }
 

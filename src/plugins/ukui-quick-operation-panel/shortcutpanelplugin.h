@@ -27,6 +27,8 @@
 #include <QDebug>
 #include <QGridLayout>
 #include <QProcess>
+#include <QTranslator>
+#include <QApplication>
 #include "mainwidget.h"
 #include "pushbutton.h"
 #include "data.h"

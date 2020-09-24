@@ -49,7 +49,7 @@ void settingWidget::initMemberVariables()
     m_pDeleteButton->setIcon(QIcon(KYLIN_DELETE_ICONPATH));
     m_pDeleteButton->setIconSize(QSize(12, 12));
 
-    m_psettingLabel = new QLabel(QObject::tr("设置"));
+    m_psettingLabel = new QLabel(QObject::tr("Setting"));
     m_psettingLabel->setAlignment(Qt::AlignHCenter);
 
     m_pVboxLayout = new QVBoxLayout();

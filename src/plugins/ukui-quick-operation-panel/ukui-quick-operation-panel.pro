@@ -37,6 +37,7 @@ SOURCES += \
     editconfirmationarea.cpp \
     eyeprotectionmode.cpp \
     iconlabel.cpp \
+    labelfotmattext.cpp \
     notebookbuttonwidget.cpp \
     powersavingmode.cpp \
     scrollingareawidget.cpp \
@@ -65,6 +66,7 @@ HEADERS += \
     editconfirmationarea.h \
     eyeprotectionmode.h \
     iconlabel.h \
+    labelfotmattext.h \
     notebookbuttonwidget.h \
     powersavingmode.h \
     scrollingareawidget.h \
@@ -88,6 +90,12 @@ INCLUDEPATH    += ../../plugin-interface
 
 DISTFILES += shortcutPanelPlugin.json
 
+TRANSLATIONS += ../../../translations/ukui-quick-operation-panel/ukui-quick-operation-panel_zh_CN.ts \
+                ../../../translations/ukui-quick-operation-panel/ukui-quick-operation-panel_tr.ts
+
+translation.path = /usr/share/ukui-sidebar/ukui-quick-operation-panel
+translation.files += ../../../translations/ukui-quick-operation-panel/*.qm
+
 schemes.files += data/org.ukui.quick.operation.panel.gschema.xml
 schemes.files += data/org.ukui.quick.operation.button.gschema.xml
 schemes.path = /usr/share/glib-2.0/schemas/
@@ -95,6 +103,6 @@ schemes.path = /usr/share/glib-2.0/schemas/
 # Default rules for deployment.
 unix {
     target.path = $${PLUGIN_INSTALL_DIRS}
-    INSTALLS += target schemes
+    INSTALLS += target schemes translation
 }
 #!isEmpty(target.path): INSTALLS += target

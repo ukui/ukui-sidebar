@@ -16,6 +16,8 @@ void powerSavingMode::initMemberVariables()
     m_pVboxButtonLayout     = new QVBoxLayout();
     m_pVboxButtonLayout->setContentsMargins(0, 0, 0, 0);
 
+    m_pLabelFotmatText = new LabelFotmatText;
+
     m_pPowerModeButton = new QPushButton();
     m_pPowerModeButton->setFixedSize(56, 56);
     m_pPowerModeButton->setIconSize(QSize(24, 24));
@@ -31,8 +33,14 @@ void powerSavingMode::initMemberVariables()
 
     m_pStyleOpen = new CustomStyle_SwitchOpenStatus("ukui-default");
 
-    m_pPowerModeLabel = new QLabel(QObject::tr("节能模式"));
+    m_pPowerModeLabel = new QLabel();
+    m_pPowerModeLabel->setFixedWidth(63);
+    m_pPowerModeLabel->setText(m_pLabelFotmatText->SetFormatBody(QObject::tr("Energy-saving mode"), m_pPowerModeLabel));
     m_pPowerModeLabel->setAlignment(Qt::AlignHCenter);
+
+    if (m_pLabelFotmatText->m_bTooltips) {
+        this->setToolTip(QObject::tr("Energy-saving mode"));
+    }
 
     m_pVboxLayout = new QVBoxLayout();
     m_pVboxLayout->setContentsMargins(0, 0, 0, 0);

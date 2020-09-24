@@ -36,6 +36,8 @@ void calculatorWidget::initMemberVariables()
     m_pVboxButtonLayout     = new QVBoxLayout();
     m_pVboxButtonLayout->setContentsMargins(0, 0, 0, 0);
 
+    m_pLabelFotmatText = new LabelFotmatText;
+
     m_pcalculatorButton = new QPushButton();
     m_pcalculatorButton->setFixedSize(56, 56);
     m_pcalculatorButton->setIcon(QIcon::fromTheme(KYLIN_CALCULATOR_NORMAL_NAME, QIcon(KYLIN_CALCULATOR_NORMAL_PATH)));
@@ -50,8 +52,14 @@ void calculatorWidget::initMemberVariables()
     m_pStyleNormal = new customstyle_switchNormalStatus("ukui-default");
     m_pcalculatorButton->setStyle(m_pStyleNormal);
 
-    m_pcalculatorLabel = new QLabel(QObject::tr("计算机"));
+    m_pcalculatorLabel = new QLabel();
+    m_pcalculatorLabel->setFixedWidth(63);
+    m_pcalculatorLabel->setText(m_pLabelFotmatText->SetFormatBody(QObject::tr("Calculator"), m_pcalculatorLabel));
     m_pcalculatorLabel->setAlignment(Qt::AlignHCenter);
+
+    if (m_pLabelFotmatText->m_bTooltips) {
+        this->setToolTip(QObject::tr("Calculator"));
+    }
 
     m_pVboxLayout = new QVBoxLayout();
     m_pVboxLayout->setContentsMargins(0, 0, 0, 0);

@@ -20,12 +20,14 @@ void AutomaticRotationWidget::initMemberVariables()
     m_pAutomaticRotationButton->setIconSize(QSize(16, 16));
     connect(m_pAutomaticRotationButton, &switchButton::clicked, this, &AutomaticRotationWidget::m_pAutomaticRotationButtonClickSlots);
 
+    m_pLabelFotmatText = new LabelFotmatText();
+
     m_pVboxButtonLayout = new QVBoxLayout();
     m_pVboxButtonLayout->setContentsMargins(0, 0, 0, 0);
     m_pVboxButtonLayout->setSpacing(0);
 
     m_pAutomaticRotationLabel = new QLabel();
-    m_pAutomaticRotationLabel->setText(QObject::tr("Auto rotate"));
+    m_pAutomaticRotationLabel->setText(m_pLabelFotmatText->SetFormatBody(QObject::tr("Auto rotate"), m_pAutomaticRotationLabel));
     m_pAutomaticRotationLabel->setAlignment(Qt::AlignHCenter);
 
     m_pStyleOpen   = new CustomStyle_SwitchOpenStatus("ukui-default");

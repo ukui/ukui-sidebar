@@ -26,6 +26,7 @@
 #include <QProcess>
 #include "switchbutton.h"
 #include "customstyle_switchNormalStatus.h"
+#include "labelfotmattext.h"
 
 #define KYLIN_SCREENSHOT_NORMAL_NAME    "kylin-icon-screenshot"
 #define KYLIN_SCREENSHOT_SET_NAME       "kylin-icon-screenshot-s"
@@ -47,6 +48,9 @@ public:
 private:
     QWidget      *m_pWidgetButton;
     QPushButton  *m_pscreenshotButton;
+
+    LabelFotmatText *m_pLabelFotmatText;
+
     QLabel       *m_pscreenshotlabel;
 
     QStyle       *m_pStyleNormal;

@@ -29,6 +29,7 @@
 #include "swichButtonOpenStatus.h"
 #include "customstyle_switchNormalStatus.h"
 #include "switchbutton.h"
+#include "labelfotmattext.h"
 
 #define KYLIN_PC_NORMAL_NAME            "kylin-icon-PC-mode"
 #define KYLIN_PC_SET_NAME               "kylin-icon-pcmode-s"
@@ -63,6 +64,8 @@ public:
 private:
     QWidget       *m_pWidgetButton;
     QPushButton   *m_pPadButton;
+
+    LabelFotmatText *m_pLabelFotmatText;
 
     QLabel        *m_pPadLabel;
 

@@ -49,7 +49,7 @@ void hotspotWidget::initMemberVariables()
     m_pDeleteButton->setIcon(QIcon(KYLIN_DELETE_ICONPATH));
     m_pDeleteButton->setIconSize(QSize(12, 12));
 
-    m_photspotLabel = new QLabel(QObject::tr("热点"));
+    m_photspotLabel = new QLabel(QObject::tr("Hotspot"));
     m_photspotLabel->setAlignment(Qt::AlignHCenter);
 
     m_pVboxLayout = new QVBoxLayout();

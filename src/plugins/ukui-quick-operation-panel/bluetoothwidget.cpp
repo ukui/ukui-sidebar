@@ -38,6 +38,8 @@ void bluetoothWidget::initMemberVariables()
     m_pVboxButtonLayout     = new QVBoxLayout();
     m_pVboxButtonLayout->setContentsMargins(0, 0, 0, 0);
 
+    m_pLabelFotmatText = new LabelFotmatText;
+
     m_pbluetoothButton = new QPushButton();
     connect(m_pbluetoothButton, &switchButton::clicked, this, &bluetoothWidget::bluetoothButtonClickSlots);
     m_pbluetoothButton->setFixedSize(56, 56);
@@ -48,8 +50,14 @@ void bluetoothWidget::initMemberVariables()
     m_pDeleteButton->setIcon(QIcon(KYLIN_DELETE_ICONPATH));
     m_pDeleteButton->setIconSize(QSize(12, 12));
 
-    m_pbluetoothLabel = new QLabel(QObject::tr("蓝牙"));
+    m_pbluetoothLabel = new QLabel();
+    m_pbluetoothLabel->setFixedWidth(63);
+    m_pbluetoothLabel->setText(m_pLabelFotmatText->SetFormatBody(QObject::tr("Bluetooth"), m_pbluetoothLabel));
     m_pbluetoothLabel->setAlignment(Qt::AlignHCenter);
+
+    if (m_pLabelFotmatText->m_bTooltips) {
+        this->setToolTip(QObject::tr("Bluetooth"));
+    }
 
     m_pVboxLayout = new QVBoxLayout();
     m_pVboxLayout->setContentsMargins(0, 0, 0, 0);

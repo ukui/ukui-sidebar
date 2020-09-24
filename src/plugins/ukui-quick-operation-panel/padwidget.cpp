@@ -38,6 +38,8 @@ void padWidget::initMemberVariables()
     m_pVboxButtonLayout     = new QVBoxLayout();
     m_pVboxButtonLayout->setContentsMargins(0, 0, 0, 0);
 
+    m_pLabelFotmatText = new LabelFotmatText;
+
     m_pPadButton = new QPushButton();
     m_pPadButton->setFixedSize(56, 56);
     m_pPadButton->setIconSize(QSize(24, 24));
@@ -53,8 +55,14 @@ void padWidget::initMemberVariables()
 
     m_pStyleOpen = new CustomStyle_SwitchOpenStatus("ukui-default");
 
-    m_pPadLabel = new QLabel(QObject::tr("平板模式"));
+    m_pPadLabel = new QLabel();
+    m_pPadLabel->setFixedWidth(63);
+    m_pPadLabel->setText(m_pLabelFotmatText->SetFormatBody(QObject::tr("Tablet Mode"), m_pPadLabel));
     m_pPadLabel->setAlignment(Qt::AlignHCenter);
+
+    if (m_pLabelFotmatText->m_bTooltips) {
+        this->setToolTip(QObject::tr("Tablet Mode"));
+    }
 
     m_pVboxLayout = new QVBoxLayout();
     m_pVboxLayout->setContentsMargins(0, 0, 0, 0);

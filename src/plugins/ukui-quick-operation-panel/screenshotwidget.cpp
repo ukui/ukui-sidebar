@@ -36,6 +36,8 @@ void screenshotWidget::initMemberVariables()
     m_pVboxButtonLayout     = new QVBoxLayout();
     m_pVboxButtonLayout->setContentsMargins(0, 0, 0, 0);
 
+    m_pLabelFotmatText = new LabelFotmatText();
+
     m_pscreenshotButton = new QPushButton();
     m_pscreenshotButton->setIcon(QIcon::fromTheme(KYLIN_SCREENSHOT_NORMAL_NAME, QIcon(KYLIN_SCREENSHOT_NORMAL_PATH)));
     m_pscreenshotButton->setFixedSize(56, 56);
@@ -49,8 +51,14 @@ void screenshotWidget::initMemberVariables()
     m_pDeleteButton->setIcon(QIcon(KYLIN_DELETE_ICONPATH));
     m_pDeleteButton->setIconSize(QSize(12, 12));
 
-    m_pscreenshotlabel = new QLabel(QObject::tr("截图"));
+    m_pscreenshotlabel = new QLabel();
+    m_pscreenshotlabel->setFixedWidth(63);
+    m_pscreenshotlabel->setText(m_pLabelFotmatText->SetFormatBody(QObject::tr("Screenshots"), m_pscreenshotlabel));
     m_pscreenshotlabel->setAlignment(Qt::AlignHCenter);
+
+    if (m_pLabelFotmatText->m_bTooltips) {
+        this->setToolTip(QObject::tr("Screenshots"));
+    }
 
     m_pVboxLayout = new QVBoxLayout();
     m_pVboxLayout->setContentsMargins(0, 0, 0, 0);
