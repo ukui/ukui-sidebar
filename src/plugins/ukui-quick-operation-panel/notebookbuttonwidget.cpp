@@ -15,7 +15,7 @@ void notebookButtonWidget::initMemberVariables()
     connect(m_pNoteButton, &switchButton::clicked, this, &notebookButtonWidget::NoteButtonClickSlots);
     m_pNoteButton->setIcon(QIcon::fromTheme(KYLIN_BLUETOOTH_NORMAL_NAME, QIcon(KYLIN_BLUETOOTH_NORMAL_PATH)));
     m_pNoteButton->setFixedSize(56, 56);
-    m_pNoteButton->setIconSize(QSize(16, 16));
+    m_pNoteButton->setIconSize(QSize(24, 24));
 
     m_pDeleteButton = new QPushButton();
     m_pDeleteButton->setFixedSize(20, 20);

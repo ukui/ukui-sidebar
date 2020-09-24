@@ -18,7 +18,7 @@ void powerSavingMode::initMemberVariables()
 
     m_pPowerModeButton = new QPushButton();
     m_pPowerModeButton->setFixedSize(56, 56);
-    m_pPowerModeButton->setIconSize(QSize(16, 16));
+    m_pPowerModeButton->setIconSize(QSize(24, 24));
     connect(m_pPowerModeButton, &switchButton::clicked, this, &powerSavingMode::PowerSavingButtonClickSlots);
 
     m_pDeleteButton = new QPushButton();

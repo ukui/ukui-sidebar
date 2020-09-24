@@ -39,7 +39,7 @@ void settingWidget::initMemberVariables()
     m_psettingButton = new QPushButton();
     m_psettingButton->setFixedSize(56, 56);
     m_psettingButton->setIcon(QIcon::fromTheme(KYLIN_SETTING_NORMAL_NAME, QIcon(KYLIN_SETTING_NORMAL_PATH)));
-    m_psettingButton->setIconSize(QSize(16, 16));
+    m_psettingButton->setIconSize(QSize(24, 24));
     m_pStyleNormal = new customstyle_switchNormalStatus("ukui-default");
     m_psettingButton->setStyle(m_pStyleNormal);
     connect(m_psettingButton, &switchButton::clicked, this, &settingWidget::settingButtonClick);

@@ -42,7 +42,7 @@ void nodisturbWidget::initMemberVariables()
     connect(m_pnodisturbButton, &QPushButton::clicked, this, &nodisturbWidget::setNodisturbButtonSlots);
     m_pnodisturbButton->setFixedSize(56, 56);
     m_pnodisturbButton->setIcon(QIcon::fromTheme(KYLIN_NODISTURB_NORMAL_NAME, QIcon(KYLIN_NODISTURB_NORMAL_PATH)));
-    m_pnodisturbButton->setIconSize(QSize(16, 16));
+    m_pnodisturbButton->setIconSize(QSize(24, 24));
     m_pStyleNormal = new customstyle_switchNormalStatus("ukui-default");
     m_pnodisturbButton->setStyle(m_pStyleNormal);
 

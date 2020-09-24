@@ -76,7 +76,7 @@ void weatherWidget::initLayout()
 {
     m_pMainHLayout->addItem(new QSpacerItem(32, 10));
     m_pMainHLayout->addWidget(m_pWeatherIconLabel);
-    m_pMainHLayout->addItem(new QSpacerItem(2, 0));
+    m_pMainHLayout->addItem(new QSpacerItem(8, 0));
     m_pMainHLayout->addWidget(m_pAreaLabel);
     m_pMainHLayout->addItem(new QSpacerItem(243, 10, QSizePolicy::Expanding));
     this->setLayout(m_pMainHLayout);
