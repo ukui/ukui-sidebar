@@ -139,7 +139,9 @@ bool Widget::loadNotificationPlugin()
     if(nullptr == pNotificationPluginObject) {
         return false;
     }
-
+    QWidget *widget = pNotificationPluginObject->centerWidget();
+    QString sheet = QString("QWidget{background-color:rgba(19,19,20,%1);}").arg(tranSparency);
+    widget->setStyleSheet(sheet);
     connect(m_pNotificationPluginObject, SIGNAL(Sig_onNewNotification()), this, SLOT(onNewNotification()));
     m_pMainQVBoxLayout->addWidget(pNotificationPluginObject->centerWidget(), 1);
     return true;
@@ -334,9 +336,6 @@ int Widget::setClipBoardWidgetScaleFactor()
 void Widget::showAnimation()
 {
     NotificationInterface* pNotificationPluginObject = qobject_cast<NotificationInterface*>(m_pNotificationPluginObject);
-    QWidget *widget = pNotificationPluginObject->centerWidget();
-    QString sheet = QString("QWidget{background-color:rgba(19,19,20,%1);}").arg(tranSparency);
-    widget->setStyleSheet(sheet);
     if (nullptr != pNotificationPluginObject && false == m_bfinish)
         pNotificationPluginObject->showNotification();       //当动画展开时给插件一个通知
 
