@@ -136,17 +136,17 @@ Clock::Clock(QWidget *parent) :
 
     QIcon bta_tool_count_icon = QIcon(":/icon-1.png");
     bta_tool_count = new Btn_new(1, this, bta_tool_count_icon, tr("Count down"), ui->page_7);
-    bta_tool_count->setFixedSize(90,60);
+    bta_tool_count->setFixedSize(90,63);
     bta_tool_count->move(48,5);
 
     QIcon bta_tool_clock_icon = QIcon(":/icon-4-16x16.png");
     bta_tool_clock = new Btn_new(2, this, bta_tool_clock_icon, tr("Alarm"), ui->page_7);
-    bta_tool_clock->setFixedSize(90,60);
+    bta_tool_clock->setFixedSize(90,63);
     bta_tool_clock->move(182,5);
 
     QIcon bta_tool_stop_icon = QIcon(":/icon-2.png");
     bta_tool_stop = new Btn_new(3, this, bta_tool_stop_icon, tr("Stopwatch"), ui->page_7);
-    bta_tool_stop->setFixedSize(90,60);
+    bta_tool_stop->setFixedSize(90,63);
     bta_tool_stop->move(317,5);
 
     ui->pushButton->hide();
@@ -371,6 +371,9 @@ void Clock::setup_init()
                                                                                 // Expand page switching reflection area
     connect(ui->label_2, SIGNAL(clicked()), this, SLOT(on_pushButton_2_clicked()) );
     connect(ui->label_3, SIGNAL(clicked()), this, SLOT(on_pushButton_3_clicked()) );
+    ui->label->adjustSize();
+    ui->label_2->adjustSize();
+    ui->label_3->adjustSize();
     ui->pushButton_20->setText(model_setup->index(0, 19).data().toString());
     alarm_set_start_time();//闹钟初始化数字转盘
                            // Alarm initialization digital turntable
@@ -423,7 +426,6 @@ void Clock::stopwatch_jg()
         stopwatch_minute++; stopwatch_second=0;}
     if (stopwatch_minute==60) {
         stopwatch_hour++; stopwatch_minute=0;}
-
 }
 
 //秒表执行
@@ -1286,10 +1288,14 @@ void Clock::listClickslot()
             }
         }
     }else{
-        if(hour_time>=timeH && minute_time >= timeM){
-            if(get_alarm_clock_will_ring_days_2(num))
-            {
-                day_next=0;
+        if(hour_time>=timeH){
+            if(hour_time == timeH && minute_time <= timeM){
+                ;
+            }else{
+                if(get_alarm_clock_will_ring_days_2(num))
+                {
+                    day_next=0;
+                }
             }
         }
     }

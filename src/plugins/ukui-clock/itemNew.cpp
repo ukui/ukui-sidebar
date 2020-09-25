@@ -63,10 +63,10 @@ item_new::item_new(QWidget *parent) :
     alarm_line0->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);background-color: rgba(255, 255, 255, 0.15);"));
 
 
-    alarmLabel0 = new QLabel(this);//闹钟，音乐，
-                                   //Alarm clock, music,
-    alarmLabel0->move(200,13);
-    alarmLabel0->setFixedSize(89, 27);
+    alarmLabel0 = new QLabel(this);//闹钟
+                                   //Alarm clock
+    alarmLabel0->move(200,1);
+    alarmLabel0->setFixedSize(105, 56);
     alarmLabel0->setStyleSheet("font: 17pt;background-color: rgb();\
                                width:78px;\
                                height:22px;\
