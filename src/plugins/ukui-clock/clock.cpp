@@ -1275,12 +1275,19 @@ void Clock::listClickslot()
     int day_true;
     int hour_time = model->index(num, 0).data().toInt();
     int minute_time= model->index(num, 1).data().toInt();
-    if(last_day_ring == 1&& hour_time>=timeH ){              //如果天数是下一天响，判断当天是否
+    if(last_day_ring == 1 && hour_time>=timeH ){              //如果天数是下一天响，判断当天是否
         if(hour_time == timeH && minute_time <= timeM ){
             ;
         }else{
             day_true = get_alarm_clock_will_ring_days_2(num);
             if(day_true){
+                day_next=0;
+            }
+        }
+    }else{
+        if(hour_time>=timeH && minute_time >= timeM){
+            if(get_alarm_clock_will_ring_days_2(num))
+            {
                 day_next=0;
             }
         }
@@ -1309,6 +1316,7 @@ void Clock::listClickslot()
     }
     if (x_h >= 24) {
         day_next = x_h/24;
+
         x_h = x_h % 24;
         if(day_next >= 7){
             day_next = 0;
@@ -1316,7 +1324,6 @@ void Clock::listClickslot()
     } else {
         day_next = 0;
     }
-
 
     if (num < 0) {
         ui->label_7->setText(tr("Remaining time"));
@@ -1345,7 +1352,7 @@ int Clock::get_alarm_clock_will_ring_days(int num)
         ring_day[i] = model->index(num, i+6).data().toInt();
     }
     //判断星期
-    // Judgment week
+    //Judgment week
     QDateTime current_date_time = QDateTime::currentDateTime();
 
     if(current_date_time.toString("ddd").compare("周一")==0 )
@@ -1405,7 +1412,6 @@ int Clock::get_alarm_clock_will_ring_days_2(int num)
         today = 5;
     else if(current_date_time.toString("ddd").compare("周日")==0 )
         today = 6;
-    
 
         if (ring_day[today] == 1) {
             return 1;
@@ -1990,7 +1996,7 @@ void Clock::repeat_listClickslot()
             repeat_day[0] = 1;
             dialog_repeat->widget[2]->alarmLabel1->setIcon(repeat_on_Pixmap);
         } else {
-            if(repeat_day[1]== 0 & repeat_day[2]== 0 & repeat_day[3]== 0 & repeat_day[4]== 0 & repeat_day[5]== 0 & repeat_day[6]== 0){
+            if(repeat_day[1]== 0 && repeat_day[2]== 0 && repeat_day[3]== 0 && repeat_day[4]== 0 && repeat_day[5]== 0 && repeat_day[6]== 0){
                  //防止全部勾选被取消
             }else{
             repeat_day[0] = 0;
@@ -2003,7 +2009,7 @@ void Clock::repeat_listClickslot()
             repeat_day[1] = 1;
             dialog_repeat->widget[3]->alarmLabel1->setIcon(repeat_on_Pixmap);
         } else {
-            if(repeat_day[0]== 0 & repeat_day[2]== 0 & repeat_day[3]== 0 & repeat_day[4]== 0 & repeat_day[5]== 0 & repeat_day[6]== 0){
+            if(repeat_day[0]== 0 && repeat_day[2]== 0 && repeat_day[3]== 0 && repeat_day[4]== 0 && repeat_day[5]== 0 && repeat_day[6]== 0){
 
             }else{
             repeat_day[1] = 0;
@@ -2016,7 +2022,7 @@ void Clock::repeat_listClickslot()
             repeat_day[2] = 1;
             dialog_repeat->widget[4]->alarmLabel1->setIcon(repeat_on_Pixmap);
         } else {
-            if(repeat_day[1]== 0 & repeat_day[0]== 0 & repeat_day[3]== 0 & repeat_day[4]== 0 & repeat_day[5]== 0 & repeat_day[6]== 0){
+            if(repeat_day[1]== 0 && repeat_day[0]== 0 && repeat_day[3]== 0 && repeat_day[4]== 0 && repeat_day[5]== 0 && repeat_day[6]== 0){
 
             }else{
             repeat_day[2] = 0;
@@ -2029,7 +2035,7 @@ void Clock::repeat_listClickslot()
             repeat_day[3] = 1;
             dialog_repeat->widget[5]->alarmLabel1->setIcon(repeat_on_Pixmap);
         } else {
-            if(repeat_day[1]== 0 & repeat_day[2]== 0 & repeat_day[0]== 0 & repeat_day[4]== 0 & repeat_day[5]== 0 & repeat_day[6]== 0){
+            if(repeat_day[1]== 0 && repeat_day[2]== 0 && repeat_day[0]== 0 && repeat_day[4]== 0 && repeat_day[5]== 0 && repeat_day[6]== 0){
 
             }else{
             repeat_day[3] = 0;
@@ -2042,7 +2048,7 @@ void Clock::repeat_listClickslot()
             repeat_day[4] = 1;
             dialog_repeat->widget[6]->alarmLabel1->setIcon(repeat_on_Pixmap);
         } else {
-            if(repeat_day[1]== 0 & repeat_day[2]== 0 & repeat_day[3]== 0 & repeat_day[0]== 0 & repeat_day[5]== 0 & repeat_day[6]== 0){
+            if(repeat_day[1]== 0 && repeat_day[2]== 0 && repeat_day[3]== 0 && repeat_day[0]== 0 && repeat_day[5]== 0 && repeat_day[6]== 0){
 
             }else{
             repeat_day[4] = 0;
@@ -2055,7 +2061,7 @@ void Clock::repeat_listClickslot()
             repeat_day[5] = 1;
             dialog_repeat->widget[7]->alarmLabel1->setIcon(repeat_on_Pixmap);
         } else {
-            if(repeat_day[1]== 0 & repeat_day[2]== 0 & repeat_day[3]== 0 & repeat_day[4]== 0 & repeat_day[0]== 0 & repeat_day[6]== 0){
+            if(repeat_day[1]== 0 && repeat_day[2]== 0 && repeat_day[3]== 0 && repeat_day[4]== 0 && repeat_day[0]== 0 && repeat_day[6]== 0){
 
             }else{
             repeat_day[5] = 0;
@@ -2068,7 +2074,7 @@ void Clock::repeat_listClickslot()
             repeat_day[6] = 1;
             dialog_repeat->widget[8]->alarmLabel1->setIcon(repeat_on_Pixmap);
         } else {
-            if(repeat_day[1]== 0 & repeat_day[2]== 0 & repeat_day[3]== 0 & repeat_day[4]== 0 & repeat_day[5]== 0 & repeat_day[0]== 0){
+            if(repeat_day[1]== 0 && repeat_day[2]== 0 && repeat_day[3]== 0 && repeat_day[4]== 0 && repeat_day[5]== 0 && repeat_day[0]== 0){
 
             }else{
             repeat_day[6] = 0;
