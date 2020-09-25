@@ -201,21 +201,13 @@ NotificationPlugin::NotificationPlugin()
 
     //新建一个监控dbus消息的线程
     MonitorThread* pMonitorThread = new MonitorThread(this);
-    QGSettings* pEnablenotice = new QGSettings("org.ukui.control-center.notice");
-    if(pEnablenotice->get("enable-notice").toBool())
+    QGSettings* pEnablenotice = new QGSettings("org.ukui.control-center.notice", "", this);
     pMonitorThread->start();
+    pMonitorThread->switchEnable(pEnablenotice->get("enable-notice").toBool());
 
     connect(pEnablenotice, &QGSettings::changed, [=](){
-        if(pEnablenotice->get("enable-notice").toBool())
-        {
-            if(!pMonitorThread->isRunning())
-                pMonitorThread->start();
-        }
-        else
-        {
-            if(pMonitorThread->isRunning())
-                pMonitorThread->exit();
-        }
+        bool bEnable = pEnablenotice->get("enable-notice").toBool();
+        pMonitorThread->switchEnable(bEnable);
     });
 
     m_dTranSparency = 0.7;
