@@ -1471,18 +1471,18 @@ void Clock::On_Off_Alarm()
         model->setData(model->index(i, 3), int(1));
         model->submitAll();
     } else {
-        btn->setStyleSheet("border-image: url(:/alarm_off.png);background-color: rgb();");
+        btn->setStyleSheet("border-image: url(:/alarm_on.png);background-color: rgb();");
         qDebug() << "on";
 
         model->setData(model->index(i, 3), int(0));
         model->submitAll();
     }
-    int rowNum = model->rowCount();
-    for (int i = 0; i < rowNum; i++) {
-        delete aItem[i];
-        delete w1[i];
-    }
-    updateAlarmClock();
+//    int rowNum = model->rowCount();
+//    for (int i = 0; i < rowNum; i++) {
+//        delete aItem[i];
+//        delete w1[i];
+//    }
+//    updateAlarmClock();
 }
 //不重复时单独关闭闹钟
 // Turn off the alarm separately if it is not repeated
