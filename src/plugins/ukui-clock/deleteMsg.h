@@ -53,6 +53,7 @@ public:
         }
         QWidget::paintEvent(event);
     }
+    Ui::delete_msg *ui;
 
 private slots:
     void on_closebtn_clicked();
@@ -62,7 +63,7 @@ private slots:
     void on_cancelbtn_clicked();
 
 private:
-    Ui::delete_msg *ui;
+
 };
 
 #endif // DELETE_MSG_H

@@ -226,7 +226,7 @@ background-color: rgba(255, 255, 255,0.04);</string>
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">font: 36pt &quot;Noto Sans CJK HK DemiLight&quot;;</string>
+        <string notr="true">font: 36pt;</string>
        </property>
        <property name="text">
         <string>00:00:00</string>
@@ -289,7 +289,7 @@ border-radius:4px;
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>61</width>
+          <width>71</width>
           <height>31</height>
          </rect>
         </property>
@@ -392,7 +392,7 @@ text-align: right</string>
            <string notr="true">width:70px;
 height:14px;
 font-size:14px;
-font-family:Source Han Sans CN;
+font-family:;
 font-weight:400;
 color:rgba(255,255,255,1);
 opacity:0.45;

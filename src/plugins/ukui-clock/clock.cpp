@@ -316,7 +316,7 @@ void Clock::clock_init()
     ui->label->setAlignment(Qt::AlignHCenter);
     ui->label_2->setAlignment(Qt::AlignHCenter);
     ui->label_3->setAlignment(Qt::AlignHCenter);
-    //ui->label_9->setAlignment(Qt::AlignHCenter);
+    ui->label_9->setAlignment(Qt::AlignHCenter);
     model = new QSqlTableModel(this);
     model->setTable("clock");
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
@@ -1066,6 +1066,14 @@ void Clock::set_Alarm_Clock()
 // Alarm new interface save callback
 void Clock::set_alarm_save()
 {
+    if(ui->lineEdit->text().isEmpty()){
+        delete_msg *deletemsg = new delete_msg();
+        deletemsg->ui->label_5->setText(tr("Please set alarm name!"));
+        QPointF position = this->pos();
+        deletemsg->move(position.x()+67,position.y()+250);
+        deletemsg->exec();
+        return ;
+    }
     int rowNum;
     rowNum = model->rowCount();
 
@@ -1205,6 +1213,15 @@ void Clock::listdoubleClickslot()
 // Alarm re edit save callback
 void Clock::on_pushButton_9_clicked()
 {
+    if(ui->lineEdit->text().isEmpty()){
+        delete_msg *deletemsg = new delete_msg();
+        deletemsg->ui->label_5->setText(tr("Please set alarm name!"));
+        QPointF position = this->pos();
+        deletemsg->move(position.x()+67,position.y()+250);
+        deletemsg->exec();
+        return ;
+    }
+
     int rowNum = ui->listWidget->currentRow();
 
     qDebug() << rowNum << "要修改的闹钟号";
