@@ -207,7 +207,8 @@ void Widget::kyNoteInit()
     m_newKynote = ui->newKynote;
     m_trashButton = ui->trashButton;
     m_countLabel = ui->label;
-    m_sortLabel = ui->sort_btn;
+//    m_sortLabel = ui->sort_btn;
+    m_sortLabel = ui->sortBtn;
     m_viewChangeButton = ui->viewChangeButton;
 
     initListMode();
@@ -418,6 +419,8 @@ void Widget::set_all_btn_attribute()
     ui->sort_btn->setStyleSheet("QPushButton{border-image:url(:/image/1x/sort.png);}"
                                 "QPushButton:hover{border-image:url(:/image/1x/sort-hover.png);}"
                                 "QPushButton:pressed{border-image:url(:/image/1x/sort-click.png);}");
+    ui->sort_btn->hide();
+    ui->sortBtn->setIcon(QPixmap(":/image/1x/array-new.png"));
     //隐藏menu下箭头
     //ui->menuBtn->setStyleSheet("QPushButton::menu-indicator{image:none}");
     ui->menuBtn->setProperty("isOptionButton", true);
@@ -439,6 +442,8 @@ void Widget::set_all_btn_attribute()
     ui->pushButton_Exit->setProperty("iconHighlightEffectMode", 1);
     ui->pushButton_Mini->setProperty("useIconHighlightEffect", true);
     ui->pushButton_Mini->setProperty("iconHighlightEffectMode", 1);
+    ui->sortBtn->setProperty("useIconHighlightEffect", true);
+    ui->sortBtn->setProperty("iconHighlightEffectMode", 1);
 
     //取消按钮默认主题灰色背景
     QPalette palette = ui->pushButton_Mini->palette();
@@ -452,6 +457,7 @@ void Widget::set_all_btn_attribute()
     ui->pushButton_Exit->setPalette(palette);
     ui->menuBtn->setPalette(palette);
     ui->searchBtn->setPalette(palette);
+    ui->sortBtn->setPalette(palette);
 
     //设置新建按钮背景文本颜色
     QPalette palette2 = ui->newKynote->palette();
@@ -469,6 +475,7 @@ void Widget::set_all_btn_attribute()
     m_trashButton->setToolTip(tr("Delete Selected Note"));
     m_viewChangeButton->setToolTip(tr("Switch View"));
     ui->sort_btn->setToolTip(tr("Sort"));
+    ui->sortBtn->setToolTip(tr("Sort"));
     ui->pushButton_Exit->setToolTip(tr("Exit"));
     ui->pushButton_Mini->setToolTip(tr("Mini"));
     ui->menuBtn->setToolTip(tr("Menu"));
@@ -1296,11 +1303,13 @@ void Widget::sortSlot()
     {
         if(sortflag)
         {
+            ui->sortBtn->setIcon(QPixmap(":/image/1x/array.png"));
             m_noteModel->sort(0,Qt::DescendingOrder);
             sortflag = 0;
 
         }else
         {
+            ui->sortBtn->setIcon(QPixmap(":/image/1x/array-new.png"));
             m_noteModel->sort(0,Qt::AscendingOrder);
             sortflag = 1;
         }
