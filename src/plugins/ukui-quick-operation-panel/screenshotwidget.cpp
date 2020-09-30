@@ -86,7 +86,7 @@ void screenshotWidget::initLayout()
 void screenshotWidget::sreenShotButtonClickedSlots()
 {
     QProcess p(0);
-    p.startDetached("gnome-screenshot -a");
+    p.startDetached("kylin-screenshot");
     p.waitForStarted();
     return;
 }
