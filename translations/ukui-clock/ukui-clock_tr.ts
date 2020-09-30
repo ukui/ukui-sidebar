@@ -173,7 +173,7 @@
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.ui" line="1262"/>
         <source>On</source>
-        <translation></translation>
+        <translation>Açık</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="508"/>
@@ -259,7 +259,7 @@
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1071"/>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1218"/>
         <source>Please set alarm name!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lütfen alarm adını ayarlayın!</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1158"/>
@@ -576,7 +576,7 @@
     <message>
         <location filename="../../src/plugins/ukui-clock/noticeDialog.cpp" line="242"/>
         <source>秒后关闭铃声</source>
-        <translation></translation>
+        <translation>Zili saniyeler içinde kapatın</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/noticeDialog.cpp" line="243"/>
