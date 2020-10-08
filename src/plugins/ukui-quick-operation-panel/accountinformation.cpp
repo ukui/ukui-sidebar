@@ -22,7 +22,7 @@ void AccountInformation::initMemberVariable()
     QFont font = m_pNameLabel->font();
     font.setPixelSize(16);
     m_pNameLabel->setFont(font);
-
+    this->update();
     m_pIdentityLabel = new QLabel();
     m_pIdentityLabel->setFixedHeight(24);
     font = m_pIdentityLabel->font();
@@ -130,9 +130,19 @@ void AccountInformation::setAllControlsLabelInfo()
     UserInfomation user;
     for (QString objectpath : objectpaths){
         user = GetUserInformation(objectpath);
+        if(user.current == true && user.logined == true){
+            break; 
+         }
     }
+
+
     m_pNameLabel->setText(user.username);
-    m_pIdentityLabel->setText(QObject::tr("administrator"));
+
+    if (user.accounttype == 1 ){
+        m_pIdentityLabel->setText(QObject::tr("administrators"));
+    } else {
+        m_pIdentityLabel->setText(QObject::tr("Standard users"));
+    } 
     char * iconpath = user.iconfile.toLatin1().data();
     if (!g_file_test(iconpath, G_FILE_TEST_EXISTS)){
         user.iconfile = DEFAULTFACE;
