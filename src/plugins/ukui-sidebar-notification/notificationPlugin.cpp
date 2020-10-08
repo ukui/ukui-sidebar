@@ -136,7 +136,7 @@ NotificationPlugin::NotificationPlugin()
     //消息列表部件，用于装消息列表的
     pNotificationVBoxLayout->addItem(new QSpacerItem(10, 18));
     m_pMsgListWidget = new QWidget;
-    m_pMsgListWidget->setFixedSize(392, 1000);
+    m_pMsgListWidget->setFixedWidth(392);
     //m_pMsgListWidget->setStyleSheet("QWidget{border:1px solid rgba(255,0,0,1);}");
     pNotificationVBoxLayout->addWidget(m_pMsgListWidget);
     pNotificationVBoxLayout->addItem(new QSpacerItem(100, 18));
