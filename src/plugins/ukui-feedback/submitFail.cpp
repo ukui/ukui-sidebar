@@ -131,6 +131,9 @@ void submit_fail::show_faillinfo(int error_code)
     case 99:
         label_3->setText(tr("net no connect"));
         break;
+    case 403:
+        label_3->setText(tr("Service Unavailable"));
+        break;
     default:
         label_3->setText(tr("unknown mistake"));
         break;
