@@ -128,9 +128,9 @@ private:
 
     bool          m_bBacklitFile;
 
-    QLabel       *m_pLinelabel_1;
-    QLabel       *m_pLinelabel_2;
-    QLabel       *m_pLinelabel_3;
+    QFrame       *m_pLinelabel_1;
+    QFrame       *m_pLinelabel_2;
+    QFrame       *m_pLinelabel_3;
 
     QStringList   m_SpreadButtonIconList;
     QStringList   m_FoldButtonIconList;

@@ -299,25 +299,36 @@ void shortcutPanelPlugin::setWidget()
     m_pMainVLayout->addWidget(m_pEditConfirmationArea);     // 添加和完成按钮界面
     m_pEditConfirmationArea->setVisible(false);
     m_pMainVLayout->addItem(new QSpacerItem(10, 10, QSizePolicy::Fixed));
-    m_pLinelabel_1 = new QLabel();
+
+    m_pLinelabel_1 = new QFrame();
+    m_pLinelabel_1->setFrameShape(QFrame::HLine);
+    QPalette palette = m_pLinelabel_1->palette();
+    QColor color = palette.color(QPalette::Text);
+    color.setAlphaF(0.1);
+    palette.setColor(QPalette::WindowText, color);
+    m_pLinelabel_1->setPalette(palette);
     m_pLinelabel_1->setFixedSize(392, 1);
-    m_pLinelabel_1->setStyleSheet("QLabel{border: 1px solid rgba(246, 246, 246, 1)};");
+
     m_pMainVLayout->addWidget(m_pLinelabel_1);
 
     m_pMainVLayout->addWidget(m_pShortWidget);
 
-    m_pLinelabel_2 = new QLabel();
+    m_pLinelabel_2 = new QFrame();
+    m_pLinelabel_2->setFrameShape(QFrame::HLine);
     m_pLinelabel_2->setFixedSize(392, 1);
-    m_pLinelabel_2->setStyleSheet("QLabel{border: 1px solid rgba(246, 246, 246, 1)};");
+
+    m_pLinelabel_2->setPalette(palette);
     m_pMainVLayout->addWidget(m_pLinelabel_2);
 
     if (m_bBacklitFile) {
         m_pMainVLayout->addWidget(m_pScrollingAreaWidget);      // 滚动条区域
     }
 
-    m_pLinelabel_3 = new QLabel();
+    m_pLinelabel_3 = new QFrame();
     m_pLinelabel_3->setFixedSize(392, 1);
-    m_pLinelabel_3->setStyleSheet("QLabel{border: 1px solid rgba(246, 246, 246, 1)};");
+    m_pLinelabel_3->setFrameShape(QFrame::HLine);
+
+    m_pLinelabel_3->setPalette(palette);
     m_pMainVLayout->addWidget(m_pLinelabel_3);
 
     m_pMainVLayout->addWidget(m_pWeatherWidget);            // 天气界面
