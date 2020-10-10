@@ -376,26 +376,6 @@ void Widget::migrateNote(QString notePath)
 
 void Widget::set_all_btn_attribute()
 {
-    pixmap1 = QPixmap(":/image/1x/new.png");
-    pixmap2 = QPixmap(":/image/1x/close_light.png");
-    pixmap3 = QPixmap(":/image/1x/mini_light.png");
-    pixmap4 = QPixmap(":/image/1x/more_light.png");
-    pixmap5 = QPixmap(":/image/1x/table.png");
-    // pixmap6 = QPixmap(":/image/1x/ Insert_multiple_box .png");
-    pixmap6 = QPixmap(":/image/1x/delete.png");
-    pixmap7 = QPixmap(":/image/1x/Symbol.png");
-    //pixmap8 = QPixmap(":/image/1x/array.png");
-    //pixmap8 = QPixmap();
-    // pixmap9 = QPixmap(":/image/1x/go-bottom-symbolic.png");
-    pixmap9 = QPixmap(":/image/1x/skin.png");
-    pixmap10 = QPixmap(":/image/1x/close_block.png");
-    pixmap11 = QPixmap(":/image/1x/mini_block.png");
-    pixmap12 = QPixmap(":/image/1x/more_block.png");
-    pixmap13 = QPixmap(":/image/1x/mini2.png");
-    pixmap14 = QPixmap(":/image/1x/mini3.png");
-    pixmap15 = QPixmap(":/image/1x/close2.png");
-    pixmap16 = QPixmap(":/image/1x/close3.png");
-
     m_menu = new QMenu(this);
     m_menuAction = new QAction(m_menu);
     m_menuAction->setText(tr("Empty Note"));
@@ -403,19 +383,10 @@ void Widget::set_all_btn_attribute()
     m_menu->addAction(m_menuAction);
     ui->menuBtn->setMenu(m_menu);
 
-
-
-    ui->newKynote->setIcon(pixmap1);
-    //ui->pushButton_Exit->setIcon(pixmap10);
-    //ui->pushButton_Mini->setIcon(pixmap11);
-    //ui->set_btn->setIcon(pixmap12);
-
-    //m_viewChangeButton->setIcon(pixmap5);
-    m_trashButton->setIcon(pixmap6);
+    ui->newKynote->setIcon(QPixmap(":/image/1x/new.png"));
+    m_trashButton->setIcon(QPixmap(":/image/1x/delete.png"));
     m_trashButton->setIconSize(QSize(36,36));
 
-//    ui->sort_btn->setIcon(pixmap8);
-//    ui->sort_btn->setIconSize(QSize(36,36));
     ui->sort_btn->setStyleSheet("QPushButton{border-image:url(:/image/1x/sort.png);}"
                                 "QPushButton:hover{border-image:url(:/image/1x/sort-hover.png);}"
                                 "QPushButton:pressed{border-image:url(:/image/1x/sort-click.png);}");
@@ -444,6 +415,9 @@ void Widget::set_all_btn_attribute()
     ui->pushButton_Mini->setProperty("iconHighlightEffectMode", 1);
     ui->sortBtn->setProperty("useIconHighlightEffect", true);
     ui->sortBtn->setProperty("iconHighlightEffectMode", 1);
+    m_trashButton->setProperty("useIconHighlightEffect", true);
+    m_trashButton->setProperty("iconHighlightEffectMode", 1);
+
 
     //取消按钮默认主题灰色背景
     QPalette palette = ui->pushButton_Mini->palette();
@@ -879,8 +853,7 @@ void Widget::searchInit()
 //    ui->SearchLine->addAction(QIcon::fromTheme("system-search-symbolic"),QLineEdit::LeadingPosition);
 
     delAction = new QAction(ui->SearchLine);
-    QPixmap  delActionimage = pixmap2.scaled(QSize(16,16));
-    delAction->setIcon(delActionimage);
+    delAction->setIcon(QPixmap(":/image/1x/close_light.png").scaled(QSize(16,16)));
 
     connect(delAction, SIGNAL(triggered()), this, SLOT(delAction_del_SearchLine()));
 }
@@ -1259,6 +1232,7 @@ void Widget::onSearchEditTextChanged(const QString& keyword)
         m_noteView->setAnimationEnabled(true);
         m_isOperationRunning = false;
     }
+    m_countLabel->setText(QObject::tr("%1 records in total").arg(m_proxyModel->rowCount()));
 }
 
 void Widget::changePageSlot()
