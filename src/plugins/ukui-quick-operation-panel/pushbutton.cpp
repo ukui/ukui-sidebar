@@ -43,6 +43,12 @@ void PushButton::enterEvent(QEvent *event)
 
 void PushButton::mouseReleaseEvent(QMouseEvent *e)
 {
-    this->setIcon(QIcon::fromTheme(IconNameList.at(0), QIcon(IconPath.at(0))));
+    this->setIcon(QIcon::fromTheme(IconNameList.at(1), QIcon(IconPath.at(1))));
     QPushButton::mouseReleaseEvent(e);
+}
+
+void PushButton::leaveEvent(QEvent *event)
+{
+    this->setIcon(QIcon::fromTheme(IconNameList.at(0), QIcon(IconPath.at(0))));
+    QPushButton::leaveEvent(event);
 }

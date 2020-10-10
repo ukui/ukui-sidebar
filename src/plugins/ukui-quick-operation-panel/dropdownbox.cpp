@@ -147,21 +147,24 @@ void dropDownBox::initListData()
                    << KYLIN_NOTEBOOK_SET_NAME << KYLIN_BLUETOOTH_SET_NAME \
                    << KYLIN_VPN_SET_PATH << KYLIN_NODISTURB_SET_NAME \
                    << KYLIN_PAD_SET_NAME << KYLIN_CALCULATOR_SET_NAME \
-                   << KYLIN_SETTING_SET_NAME << KYLIN_POWER_SAVING_SET_NAME;
+                   << KYLIN_SETTING_SET_NAME << KYLIN_POWER_SAVING_SET_NAME \
+                   << "Feedback_1";
 
     m_listIconPath << KYLIN_EYE_MODE_SET_PATH << KYLIN_AlARM_SET_PATH  \
                    << KYLIN_HOTSPOT_SET_PATH  << KYLIN_SCREENSHOT_SET_PATH  \
                    << KYLIN_NOTEBOOK_SET_PATH << KYLIN_BLUETOOTH_SET_PATH  \
                    << KYLIN_VPN_SET_PATH      << KYLIN_NODISTURB_SET_PATH  \
                    << KYLIN_PC_SET_PATH       << KYLIN_CALCULATOR_SET_PATH  \
-                   << KYLIN_SETTING_SET_PATH  << KYLIN_POWER_SAVING_SET_PATH;
+                   << KYLIN_SETTING_SET_PATH  << KYLIN_POWER_SAVING_SET_PATH \
+                   << "Feedback_2";
 
     m_listEntryName << QObject::tr("Eye care mode") << QObject::tr("Alarm") \
                     << QObject::tr("Hotspot") << QObject::tr("Screenshots") \
                     << QObject::tr("NoteBook") << QObject::tr("Bluetooth") \
                     << QObject::tr("VPN") << QObject::tr("No disturbing") \
                     << QObject::tr("Tablet mode") << QObject::tr("Calculator") \
-                    << QObject::tr("Setting") << QObject::tr("Energy-saving mode");
+                    << QObject::tr("Setting") << QObject::tr("Energy-saving mode") \
+                    << "Feedback_3";
     return;
 }
 

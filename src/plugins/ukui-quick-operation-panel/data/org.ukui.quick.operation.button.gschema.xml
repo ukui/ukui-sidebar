@@ -62,5 +62,10 @@
             <summary>notebook button widget value</summary>
             <description>Interacts with the volume component to adjust the volume</description>
         </key>
+        <key name="feedbackbuttonwidgetvalue" type="b">
+            <default>true</default>
+            <summary>feedback button widget value</summary>
+            <description>Interacts with the volume component to adjust the volume</description>
+        </key>
     </schema>
 </schemalist>

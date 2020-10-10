@@ -28,10 +28,13 @@ class PushButton : public QPushButton
 {
 public:
     PushButton(QStringList path, QStringList iconNameList);
+
 protected:
     void mousePressEvent(QMouseEvent *event);
     void enterEvent(QEvent *event);
     void mouseReleaseEvent(QMouseEvent *e);
+    void leaveEvent(QEvent *event);
+
 private:
     QStringList IconPath;
     QStringList IconNameList;

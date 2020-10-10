@@ -50,6 +50,7 @@
 #include "powersavingmode.h"
 #include "eyeprotectionmode.h"
 #include "editconfirmationarea.h"
+#include "feedbackButtonWidget.h"
 #include "dropdownbox.h"
 
 #define SPREAD_BUTTON_NORMAL       ":/image/open-normal.svg"
@@ -94,7 +95,6 @@ public:
     void initShortButtonWidget();
     void initShortcutButtonGsetting();
     void initsetShortWidget();
-    void setButtonIcon();
     void setScrollWidget();
     void setWidget();
 
@@ -174,6 +174,7 @@ private:
     diturbModeWidget        *m_pDiturbModeWidget;
     powerSavingMode         *m_pPowerSavingMode;
     eyeProtectionMode       *m_pEyeProtectionMode;
+    feedbackButtonWidget    *m_pFeedBackButtonWidget;
 };
 
 #endif // SHORTCUTPANELPLUGIN_H

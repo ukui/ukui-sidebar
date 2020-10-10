@@ -63,6 +63,7 @@ public:
     void   setLabelTextColor();
     void   setEyeButtonStatus();
     QPushButton   *m_pDeleteButton;
+    void   paintEvent(QPaintEvent *e);
 
 private:
     QWidget       *m_pWidgetButton;

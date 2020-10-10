@@ -97,7 +97,7 @@ public:
     QStringList m_listEntryName;
     QStringList m_listGsettingKey;
 
-    ButtonInfo  *m_pButtonInfoArray[12];
+    ButtonInfo  *m_pButtonInfoArray[13];
     QHash<QString, ButtonInfo*>  EntryData;
 
 protected:

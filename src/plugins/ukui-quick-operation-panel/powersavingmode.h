@@ -46,6 +46,9 @@ private:
     QColor getSystemPaleteColor();
     void   setLabelTextColor();
 
+protected:
+    void paintEvent(QPaintEvent *e);
+
 private:
     QWidget       *m_pWidgetButton;
     QPushButton   *m_pPowerModeButton;

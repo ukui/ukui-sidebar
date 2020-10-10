@@ -30,11 +30,11 @@ shortcutPanelPlugin::shortcutPanelPlugin(QObject *parent)
         QApplication::installTranslator(translator_qt);
     else
         qDebug() << "cannot load translator ukui-feedback_" << QLocale::system().name() << ".qm!";
+
     setScrollWidget();             // 获取当前系统是否有背光文件
     initMemberVariables();         // 初始化插件成员变量
     initShortButtonWidget();       // 初始化8个快捷按钮界面
     initShortcutButtonGsetting();  // 初始化记住上次编辑按钮的gsetting值
-    setButtonIcon();               // 设置按钮图标
     initsetShortWidget();          // 布局快捷按钮界面
     setWidget();                   // 将切换按钮和ListView界面set进插件主界面
 }
@@ -119,11 +119,12 @@ void shortcutPanelPlugin::initShortButtonWidget()
 {
     /* 清空链表中的数据，初始化 */
     ShortButtonWidgetList.clear();
+    m_pButtonGsettingValue.clear();
 
     /* 平板模式 */
     m_ppadWidget       = new padWidget();
-    ShortButtonWidgetList.append(m_ppadWidget);
-    m_pButtonGsettingValue.append("padwidgetvalue");
+//    ShortButtonWidgetList.append(m_ppadWidget);
+//    m_pButtonGsettingValue.append("padwidgetvalue");
     connect(m_ppadWidget->m_pDeleteButton, &QPushButton::clicked, this, [=](){
         setCanceGsettingButtonValue("padwidgetvalue");
     });
@@ -154,16 +155,16 @@ void shortcutPanelPlugin::initShortButtonWidget()
 
     /* 蓝牙 */
     m_pbluetoothWidget = new bluetoothWidget();
-    ShortButtonWidgetList.append(m_pbluetoothWidget);
-    m_pButtonGsettingValue.append("bluetoothwidgetvalue");
+//    ShortButtonWidgetList.append(m_pbluetoothWidget);
+//    m_pButtonGsettingValue.append("bluetoothwidgetvalue");
     connect(m_pbluetoothWidget->m_pDeleteButton, &QPushButton::clicked, this, [=](){
         setCanceGsettingButtonValue("bluetoothwidgetvalue");
     });
 
     /* 热点 */
     m_photspotWidget = new hotspotWidget();
-    ShortButtonWidgetList.append(m_photspotWidget);
-    m_pButtonGsettingValue.append("hotspotwidgetvalue");
+//    ShortButtonWidgetList.append(m_photspotWidget);
+//    m_pButtonGsettingValue.append("hotspotwidgetvalue");
     connect(m_photspotWidget->m_pDeleteButton, &QPushButton::clicked, this, [=](){
         setCanceGsettingButtonValue("hotspotwidgetvalue");
     });
@@ -216,6 +217,13 @@ void shortcutPanelPlugin::initShortButtonWidget()
         setCanceGsettingButtonValue("notebookbuttonwidgetvalue");
     });
 
+    /* 用户反馈 */
+    m_pFeedBackButtonWidget = new feedbackButtonWidget();
+    ShortButtonWidgetList.append(m_pFeedBackButtonWidget);
+    m_pButtonGsettingValue.append("feedbackbuttonwidgetvalue");
+    connect(m_pNoteBookButtonWidget->m_pDeleteButton, &QPushButton::clicked, this, [=](){
+        setCanceGsettingButtonValue("feedbackbuttonwidgetvalue");
+    });
     /* 自动旋转功能 */
 //    m_pAutomaticRotationWidget = new AutomaticRotationWidget();
 //    ShortButtonWidgetList.append(m_pAutomaticRotationWidget);
@@ -234,7 +242,6 @@ void shortcutPanelPlugin::initShortcutButtonGsetting()
         m_pGsettingShutcutValue = new QGSettings(id);
     if (m_pGsettingShutcutValue != nullptr)
         connect(m_pGsettingShutcutValue, &QGSettings::changed, this, &shortcutPanelPlugin::resetShortWidget);
-    qDebug() << "当前gsetting值" << m_pGsettingShutcutValue->keys();
     return;
 }
 
@@ -244,7 +251,7 @@ void shortcutPanelPlugin::initsetShortWidget()
     int tmpx = 0, tmpy = 0;
     for (int j = 0; j < 3; j++) {
         for (int k = 0; k < 4; k++) {
-            if (m_pGsettingShutcutValue->get(m_pButtonGsettingValue.at(4 * j + k)).toBool()) {
+            if ((4 * j + k) < m_pButtonGsettingValue.count() && m_pGsettingShutcutValue->get(m_pButtonGsettingValue.at(4 * j + k)).toBool()) {
                 m_pShortGLayout->addWidget(ShortButtonWidgetList.at(4 * j + k), tmpx, tmpy, 1, 1);
                 tmpy++;
                 if (tmpy == 4) {
@@ -254,17 +261,6 @@ void shortcutPanelPlugin::initsetShortWidget()
             }
         }
     }
-    return;
-}
-
-/* 设置按钮图标 */
-void shortcutPanelPlugin::setButtonIcon()
-{
-    /* 设置展开按钮悬浮和点击状态按钮图片 */
-    m_pSpreadButton->setIcon(QIcon(":/image/open-normal.svg"));
-
-    /* 设置折叠按钮悬浮和点击状态按钮图片 */
-    m_pfoldButton->setIcon(QIcon(":/image/fold-normal.svg"));
     return;
 }
 
@@ -294,11 +290,6 @@ void shortcutPanelPlugin::setWidget()
     m_pButtonWidget->setLayout(m_pButtonHLaout);
     m_pSpreadButton->setVisible(false);
 
-//    QPalette palette = m_pSpreadButton->palette();
-//    QColor color = palette.color(QPalette::Button);
-//    color.setAlphaF(0);
-//    palette.setBrush(QPalette::Button, QBrush(color));
-//    m_pSpreadButton->setPalette(palette);
     m_pShortWidget->setLayout(m_pShortGLayout);
 
     m_pMainVLayout->addWidget(m_pButtonWidget);

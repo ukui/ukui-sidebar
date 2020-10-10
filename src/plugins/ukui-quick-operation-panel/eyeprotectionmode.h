@@ -59,6 +59,9 @@ public:
     void   setLabelTextColor();
     QPushButton   *m_pDeleteButton;
 
+protected:
+    void paintEvent(QPaintEvent *e);
+
 private:
     QWidget       *m_pWidgetButton;
     QPushButton   *m_pEyeModeButton;

@@ -106,7 +106,7 @@ QColor nodisturbWidget::getSystemPaleteColor()
     if (m_bModelStatus) {
         return opt.palette.color(QPalette::Highlight);
     } else {
-        return opt.palette.color(QPalette::Text);
+        return opt.palette.color(m_pnodisturbLabel->palette().Text);
     }
 }
 
@@ -153,4 +153,13 @@ void nodisturbWidget::setNodisturbButtonSlots()
     }
     setLabelTextColor();
     return;
+}
+
+void nodisturbWidget::paintEvent(QPaintEvent *e)
+{
+    QPalette palette;
+    QColor color = getSystemPaleteColor();
+    palette.setBrush(QPalette::WindowText, color);
+    m_pnodisturbLabel->setPalette(palette);
+    QWidget::paintEvent(e);
 }

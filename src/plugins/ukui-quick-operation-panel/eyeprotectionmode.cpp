@@ -142,7 +142,9 @@ void eyeProtectionMode::setEyeButtonStatus(const bool nightMode){
         m_pEyeModeButton->setStyle(m_pStyleNormal);
         m_pEyeModeButton->setIcon(QIcon::fromTheme(KYLIN_EYE_MODE_NORMAL_NAME, QIcon(KYLIN_EYE_MODE_NORMAL_PATH)));
     }
+    m_bModelStatus = nightMode;
     setLabelTextColor();
+    this->update();
     process.startDetached("systemctl", QStringList() << "--user" << serverCmd << "redshift.service");
     process.startDetached("systemctl", QStringList() << "--user" << cmd << "redshift.service");
 }
@@ -236,4 +238,13 @@ void eyeProtectionMode::EyeButtonClickSlots()
         m_pTabletModeGsetting->set(NIGHT_MODE_KEY, m_bModelStatus);
         this->update();
     }
+}
+
+void eyeProtectionMode::paintEvent(QPaintEvent *e)
+{
+    QPalette palette;
+    QColor color = getSystemPaleteColor();
+    palette.setBrush(QPalette::WindowText, color);
+    m_pEyeModeLabel->setPalette(palette);
+    QWidget::paintEvent(e);
 }

@@ -135,3 +135,12 @@ void powerSavingMode::PowerSavingButtonClickSlots()
     m_pPowerModeButton->update();
     setLabelTextColor();
 }
+
+void powerSavingMode::paintEvent(QPaintEvent *e)
+{
+    QPalette palette;
+    QColor color = getSystemPaleteColor();
+    palette.setBrush(QPalette::WindowText, color);
+    m_pPowerModeLabel->setPalette(palette);
+    QWidget::paintEvent(e);
+}
