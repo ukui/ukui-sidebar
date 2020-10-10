@@ -21,19 +21,19 @@
     <message>
         <location filename="../src/sidebarpluginswidgets.cpp" line="112"/>
         <source>折叠</source>
-        <translation type="unfinished"></translation>
+        <translation>Ayarla</translation>
     </message>
     <message>
         <location filename="../src/sidebarpluginswidgets.cpp" line="114"/>
         <source>展开</source>
-        <translation type="unfinished"></translation>
+        <translation>Sil</translation>
     </message>
 </context>
 <context>
     <name>Widget</name>
     <message>
         <source>ClipBoard</source>
-        <translation type="vanished">Pano</translation>
+        <translation>Pano</translation>
     </message>
     <message>
         <location filename="../src/widget.cpp" line="210"/>
@@ -55,15 +55,15 @@
     </message>
     <message>
         <source>Notebook</source>
-        <translation type="vanished">Notebook</translation>
+        <translation>Not Defteri</translation>
     </message>
     <message>
         <source>Alarm clock</source>
-        <translation type="vanished">Çalar Saat</translation>
+        <translation>Çalar Saat</translation>
     </message>
     <message>
         <source>Feedback</source>
-        <translation type="vanished">Geri Bildirim</translation>
+        <translation>Geri Bildirim</translation>
     </message>
 </context>
 </TS>
