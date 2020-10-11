@@ -68,6 +68,7 @@
 #include "ui_setupPage.h"
 
 
+extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 const double PI=3.141592;
 
 Clock::Clock(QWidget *parent) :
@@ -104,19 +105,21 @@ Clock::Clock(QWidget *parent) :
     setWindowFlags(Qt::FramelessWindowHint);   /* 开启窗口无边框 */
                                                /*  Open window borderless  */
     this->setAttribute(Qt::WA_TranslucentBackground);
-    ui->set_page->setStyleSheet("QWidget{background-color: rgba(14, 19, 22, 0.95);}");
+    //ui->set_page->setStyleSheet("QWidget{background-color: rgba(14, 19, 22, 0.95);}");
     button_image_init();
     Countdown_init();
     stopwatch_init();
     clock_init();
     setup_init();
-    this->setFixedSize(454,660);
+    this->setFixedSize(454,555);
     this->setWindowOpacity(0.95);
     //ui->listWidget_2->setMovement(QListView::Static);//禁止元素拖拽// Prohibit element dragging
     //ui->listWidget_2->setMovement(QListView::Free);//元素可以自由拖拽// Elements can be dragged freely
     //ui->listWidget_2->setMovement(QListView::Snap);
     //实现鼠标左键滑动效果
     // Realize the sliding effect of left mouse button
+    ui->listWidget -> setFrameShape(QListWidget::NoFrame);
+    ui->listWidget_2 -> setFrameShape(QListWidget::NoFrame);
     QScroller::grabGesture(ui->listWidget,QScroller::LeftMouseButtonGesture); //设置鼠标左键拖动  Set left mouse drag
     QScroller::grabGesture(ui->listWidget_2,QScroller::LeftMouseButtonGesture); //设置鼠标左键拖动  Set left mouse drag
     ui->listWidget -> setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);  //设置像素级滑动    Set pixel level slide
@@ -134,29 +137,107 @@ Clock::Clock(QWidget *parent) :
     qDebug()<<m_pSreenInfo->m_screenWidth<<m_pSreenInfo->m_screenHeight;
     move((m_pSreenInfo->m_screenWidth - this->width() + m_pSreenInfo->m_nScreen_x )/2, (m_pSreenInfo->m_screenHeight - this->height())/2);
 
+
     QIcon bta_tool_count_icon = QIcon(":/icon-1.png");
     bta_tool_count = new Btn_new(1, this, bta_tool_count_icon, tr("Count down"), ui->page_7);
-    bta_tool_count->setFixedSize(90,63);
-    bta_tool_count->move(48,5);
+    bta_tool_count->setFixedSize(88,32);
+    bta_tool_count->move(48,13);
+
 
     QIcon bta_tool_clock_icon = QIcon(":/icon-4-16x16.png");
     bta_tool_clock = new Btn_new(2, this, bta_tool_clock_icon, tr("Alarm"), ui->page_7);
-    bta_tool_clock->setFixedSize(90,63);
-    bta_tool_clock->move(182,5);
+    bta_tool_clock->setFixedSize(88,32);
+    bta_tool_clock->move(182,13);
 
     QIcon bta_tool_stop_icon = QIcon(":/icon-2.png");
     bta_tool_stop = new Btn_new(3, this, bta_tool_stop_icon, tr("Stopwatch"), ui->page_7);
-    bta_tool_stop->setFixedSize(90,63);
-    bta_tool_stop->move(317,5);
+    bta_tool_stop->setFixedSize(88,32);
+    bta_tool_stop->move(317,13);
 
-    ui->pushButton->hide();
-    ui->pushButton_2->hide();
-    ui->pushButton_3->hide();
+
+    pushcount = new QPushButton(ui->page_7);
+    pushcount->setFixedSize(88,32);
+    pushcount->setIconSize(QSize(16,16));
+    pushcount->move(48,13);
+    pushcount->setIcon(QIcon(":/icon-1.png"));
+    pushcount->setText(tr("Count"));
+
+    pushclock = new QPushButton(ui->page_7);
+    pushclock->setFixedSize(88,32);
+    pushclock->setIconSize(QSize(16,16));
+    pushclock->move(182,13);
+    pushclock->setIcon(QIcon(":/icon-4-16x16.png"));
+    pushclock->setText(tr("Alarm"));
+
+    pushstop = new QPushButton(ui->page_7);
+    pushstop->setFixedSize(88,32);
+    pushstop->setIconSize(QSize(16,16));
+    pushstop->move(317,13);
+    pushstop->setIcon(QIcon(":/icon-2.png"));
+    pushstop->setText(tr("Watch"));
+
+    pushcount->setProperty("useIconHighlightEffect", true);
+    pushcount->setProperty("iconHighlightEffectMode", 1);
+    pushclock->setProperty("useIconHighlightEffect", true);
+    pushclock->setProperty("iconHighlightEffectMode", 1);
+    pushstop->setProperty("useIconHighlightEffect", true);
+    pushstop->setProperty("iconHighlightEffectMode", 1);
+
+    connect(pushcount, SIGNAL(clicked()), this, SLOT(on_pushButton_clicked()));
+    connect(pushclock, SIGNAL(clicked()), this, SLOT(on_pushButton_2_clicked()));
+    connect(pushstop, SIGNAL(clicked()), this, SLOT(on_pushButton_3_clicked()));
+
+    bta_tool_count->hide();
+    bta_tool_clock->hide();
+    bta_tool_stop->hide();
 
     on_pushButton_2_clicked();//初始显示闹钟界面
                               // Initial display alarm interface
 
     close_or_hide_page = new close_or_hide(this);
+
+    ui->set_page->hide();
+    ui->set_page->installEventFilter(this);
+    ui->widget->installEventFilter(this);
+    ui->widget_2->installEventFilter(this);
+    ui->widget_3->installEventFilter(this);
+    ui->widget_4->installEventFilter(this);
+    ui->widget_5->installEventFilter(this);
+    ui->widget_6->installEventFilter(this);
+
+    ui->lineEdit->setStyleSheet("QLineEdit{background-color:transparent}");
+
+    QPalette palette2 = ui->count_stat->palette();
+    QColor ColorPlaceholderText2(61,107,229,255);
+    QBrush brush2;
+    brush2.setColor(ColorPlaceholderText2);
+    palette2.setColor(QPalette::Button,QColor(61,107,229,255));
+    palette2.setBrush(QPalette::ButtonText, QBrush(Qt::white));
+    ui->count_stat->setPalette(palette2);
+    ui->addAlarmBtn->setPalette(palette2);
+    ui->pushButton_Start->setPalette(palette2);
+    ui->set_alarm_savebtn->setPalette(palette2);
+    ui->pushButton_9->setPalette(palette2);
+
+    QPalette palette = ui->count_push->palette();
+    QColor ColorPlaceholderText(248,163,76,255);
+    QBrush brush3;
+    brush3.setColor(ColorPlaceholderText);
+    palette.setColor(QPalette::Button,QColor(248,163,76,255));
+    palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
+    ui->count_push->setPalette(palette);
+
+    QPalette palette1 = ui->pushButton->palette();
+    QColor ColorPlaceholderText3(255,255,255,0);
+    QBrush brush;
+    brush.setColor(ColorPlaceholderText3);
+    palette1.setBrush(QPalette::Button, brush);
+    ui->pushButton->setPalette(palette1);
+
+    ui->pushButton->setProperty("useIconHighlightEffect", true);
+    ui->pushButton->setProperty("iconHighlightEffectMode", 1);
+    ui->horizontalLayout->setContentsMargins(0,0,0,0);
+
 }
 
 Clock::~Clock()
@@ -181,6 +262,7 @@ Clock::~Clock()
 void Clock::button_image_init()
 {
     pixmap1 = QPixmap(":/icon-1.png");
+    pixmap1 = ChangeImageColor(pixmap1, QColor(255,255,255), QColor(0,0,0));
     pixmap2 = QPixmap(":/icon-2.png");
     pixmap3 = QPixmap(":/icon-3.png");
     pixmap4 = QPixmap(":/icon-4-16x16.png");
@@ -201,34 +283,25 @@ void Clock::button_image_init()
     //this->setWindowIcon(clock_icon);
     this->setWindowIcon(QIcon::fromTheme("kylin-alarm-clock",QIcon(":/kylin-alarm-clock.svg")));
 
-    ui->pushButton->setIcon(pixmap1);
-    ui->pushButton_2->setIcon(pixmap4);
-    ui->pushButton_3->setIcon(pixmap2);
+    ui->pushButton->setIcon(pixmap4);
+    ui->pushButton->setFlat(true);
+    ui->pushButton->setVisible(true);
+    ui->pushButton->setFocusPolicy(Qt::NoFocus);
 
-    ui->pushButton_4->setIcon(pixmap6);
     ui->pushButton_4->setFlat(true);
     ui->pushButton_4->setVisible(true);
     ui->pushButton_4->setFocusPolicy(Qt::NoFocus);
 
-    ui->pushButton_5->setIcon(pixmap5);
+    ui->pushButton_5->setIcon(QIcon::fromTheme("window-close-symbolic"));
+    ui->pushButton_4->setIcon(QIcon::fromTheme("window-minimize-symbolic"));
     ui->pushButton_5->setFlat(true);
     ui->pushButton_5->setVisible(true);
     ui->pushButton_5->setFocusPolicy(Qt::NoFocus);
 
-    ui->pushButton_12->setIcon(pixmap7);
+    ui->pushButton_12->setIcon(QIcon::fromTheme("open-menu-symbolic"));
     ui->pushButton_12->setFlat(true);
     ui->pushButton_12->setVisible(true);
     ui->pushButton_12->setFocusPolicy(Qt::NoFocus);
-
-    ui->pushButton_4->setStyleSheet("QPushButton{border-image: url(://image/mini_light.png);}"
-                  "QPushButton:hover{border-image: url(://image/mini2.png);}"
-                  "QPushButton:pressed{border-image: url(://image/mini3.png);}");
-    ui->pushButton_5->setStyleSheet("QPushButton{border-image: url(://image/close_light.png);}"
-                  "QPushButton:hover{border-image: url(://image/close2.png);}"
-                  "QPushButton:pressed{border-image: url(://image/close3.png);}");
-    ui->pushButton_12->setStyleSheet("QPushButton{border-image: url(://image/more_light.png);}"
-                  "QPushButton:hover{border-image: url(://image/more2.png);}"
-                  "QPushButton:pressed{border-image: url(://image/more3.png);}");
 }
 
 //倒计时页初始化
@@ -243,6 +316,7 @@ void Clock::Countdown_init()
     connect(ui->count_stat, SIGNAL(clicked()), this, SLOT(startbtn_countdown()) );
     connect(countdown_timer, SIGNAL(timeout()), this, SLOT(stat_countdown()));
     ui->pushButton_19->setIcon(bgPixmap);
+    ui->pushButton_21->setIcon(bgPixmap);
     //设置定时器每个多少毫秒发送一个timeout()信号
     // Set the timer to send a timeout () signal every milliseconds
     countdown_timer->setInterval(1000);
@@ -254,7 +328,11 @@ void Clock::Countdown_init()
     countdown_isStarted_2 = 0;
     ui->page_5->RoundBar3->ring_max = 3600;
     ui->page_5->RoundBar3->setValue(3600);//初始化倒计时进度圈
-                                          // Initialize countdown progress circle
+                                          //Initialize countdown progress circle
+    ui->count_stat->raise();
+
+//    ui->pushButton_21->setEnabled(false);
+//    ui->pushButton_22->setEnabled(false);
 }
 //秒表页初始化
 // Stopwatch page initialization
@@ -313,9 +391,6 @@ void Clock::clock_init()
     ui->label_12->setAlignment(Qt::AlignHCenter);
     ui->label_4->setAlignment(Qt::AlignHCenter);
     ui->label_5->setAlignment(Qt::AlignHCenter);
-    ui->label->setAlignment(Qt::AlignHCenter);
-    ui->label_2->setAlignment(Qt::AlignHCenter);
-    ui->label_3->setAlignment(Qt::AlignHCenter);
     ui->label_9->setAlignment(Qt::AlignHCenter);
     model = new QSqlTableModel(this);
     model->setTable("clock");
@@ -340,7 +415,9 @@ void Clock::clock_init()
     connect(ui->pushButton_17, SIGNAL(clicked()), this, SLOT(time_Music()) );
     connect(ui->pushButton_12, SIGNAL(clicked()), this, SLOT(set_up_page()) );
     connect(ui->pushButton_20, SIGNAL(clicked()), this, SLOT(countdown_music_sellect()));
+    connect(ui->pushButton_22, SIGNAL(clicked()), this, SLOT(countdown_music_sellect()));
     connect(ui->pushButton_19, SIGNAL(clicked()), this, SLOT(countdown_music_sellect()));
+    connect(ui->pushButton_21, SIGNAL(clicked()), this, SLOT(countdown_music_sellect()));
 
 
     //单击时间提示计时器
@@ -354,6 +431,9 @@ void Clock::clock_init()
     connect(timer_set_page, SIGNAL(timeout()), this, SLOT(verticalscroll_ring_time()));
     timer_set_page->setInterval(100);
     //text_timerUpdate();
+    if(model_setup->index(0, 2).data().toInt() == 2){
+        system_time_flag = 0;
+    }
     updateAlarmClock();
 
     if(!model->rowCount())
@@ -365,22 +445,17 @@ void Clock::clock_init()
 void Clock::setup_init()
 {
     countdown_set_start_time();//倒计时初始化数字转盘
-                               // Countdown initialization digital turntable
+                               //Countdown initialization digital turntable
     ui->label_8->hide();
-    connect(ui->label, SIGNAL(clicked()), this, SLOT(on_pushButton_clicked()) );//扩大页面切换反映区
-                                                                                // Expand page switching reflection area
-    connect(ui->label_2, SIGNAL(clicked()), this, SLOT(on_pushButton_2_clicked()) );
-    connect(ui->label_3, SIGNAL(clicked()), this, SLOT(on_pushButton_3_clicked()) );
-    ui->label->adjustSize();
-    ui->label_2->adjustSize();
-    ui->label_3->adjustSize();
     ui->pushButton_20->setText(model_setup->index(0, 19).data().toString());
+    ui->pushButton_22->setText(model_setup->index(0, 19).data().toString());
     alarm_set_start_time();//闹钟初始化数字转盘
                            // Alarm initialization digital turntable
     model_setup_set(); //设置数据库初始化
                        // Set database initialization
     text_timerUpdate();
     ui->pushButton_20->setText(model_setup->index(0, 19).data().toString());
+    ui->pushButton_22->setText(model_setup->index(0, 19).data().toString());
     for (int i = 0; i < 9; i++) {
         repeat_day[i] = 0;
     }
@@ -471,19 +546,14 @@ void Clock::on_pushButton_Start_clicked()
     if (!isStarted) {
         ui->pushButton_timeselect->hide();
         ui->pushButton_Start->setText(tr("suspend"));
-        ui->pushButton_Start->setStyleSheet("QPushButton{color: rgb(255, 255, 255);\
-                                            background-color: rgba(231,159,78,0.9);\
-                                            border-radius:4px;}\
-                                            QPushButton:hover{background:rgba(143, 97, 47, 0.6)}");
-        ui->pushButton_ring->setStyleSheet("QPushButton{color: rgb(255, 255, 255);\
-                                           background:rgba(44,44,46,1);\
-                                           border:1px solid rgba(68,68,71,1);\
-                                           border-radius:4px;}\
-                                           QPushButton:hover{background:rgba(143, 97, 47, 0.1)}");
-        ui->pushButton_timeselect->setStyleSheet("background:rgba(28,28,30,1);\
-                                           border:1px solid rgba(52,52,56,1);\
-                                           border-radius:4px;\
-                                           color: rgb(65, 65, 65);");
+
+        QPalette palette = ui->pushButton_Start->palette();
+        QColor ColorPlaceholderText(248,163,76,255);
+        QBrush brush2;
+        brush2.setColor(ColorPlaceholderText);
+        palette.setColor(QPalette::Button,QColor(248,163,76,255));
+        palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
+        ui->pushButton_Start->setPalette(palette);
 
         if (stopwatch_isStarted == 0) {
             timer_2->start();
@@ -506,20 +576,6 @@ void Clock::on_pushButton_Start_clicked()
         isStarted=0;
         ui->pushButton_timeselect->show();
         ui->pushButton_Start->setText(tr("Continue"));
-        ui->pushButton_Start->setStyleSheet("QPushButton{\
-                                            color: rgb(255, 255, 255);\
-                                            background-color: rgba(39,207,129,0.9);\
-                                            border-radius:4px;\
-                                            }QPushButton:hover{background-color: rgb(27, 143, 89);}");
-        ui->pushButton_ring->setStyleSheet("background:rgba(28,28,30,1);\
-                                           border:1px solid rgba(52,52,56,1);\
-                                           border-radius:4px;\
-                                           color: rgb(65, 65, 65);");
-        ui->pushButton_timeselect->setStyleSheet("QPushButton{color: rgb(255, 255, 255);\
-                                           background:rgba(44,44,46,1);\
-                                           border:1px solid rgba(68,68,71,1);\
-                                           border-radius:4px;}\
-                                           QPushButton:hover{background:rgba(143, 97, 47, 0.1)}");
     }
     return;
 }
@@ -624,15 +680,15 @@ void Clock::on_pushButton_timeselect_clicked()
         stopwatch_minute = 0;
         stopwatch_second = 0;
         ui->pushButton_Start->setText(tr("start"));
-        ui->pushButton_Start->setStyleSheet("QPushButton{\
-                                            color: rgb(255, 255, 255);\
-                                            background-color: rgba(39,207,129,0.9);\
-                                            border-radius:4px;\
-                                            }QPushButton:hover{background-color: rgb(27, 143, 89);}");
-        ui->pushButton_timeselect->setStyleSheet("background:rgba(28,28,30,1);\
-                                           border:1px solid rgba(52,52,56,1);\
-                                           border-radius:4px;\
-                                           color: rgb(65, 65, 65);");
+
+        QPalette palette = ui->pushButton_Start->palette();
+        QColor ColorPlaceholderText(61,107,229,255);
+        QBrush brush2;
+        brush2.setColor(ColorPlaceholderText);
+        palette.setColor(QPalette::Button,QColor(61,107,229,255));
+        palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
+        ui->pushButton_Start->setPalette(palette);
+
 
         for (int i=0; i < stopwatch_item_flag; i++) {
             delete stopwatch_w[i];
@@ -676,11 +732,21 @@ void Clock::on_pushButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(0);
 
-    bta_tool_count->setStyleSheet("background-color: rgba(39,207,129,1); border-radius:4px;");
-    bta_tool_clock->setStyleSheet("QToolButton{background-color: rgb(14, 19, 22);}"
-                                  "QToolButton:hover{background-color: rgb(27, 143, 89);border-radius:4px;}");
-    bta_tool_stop->setStyleSheet("QToolButton{background-color: rgb(14, 19, 22);}"
-                                 "QToolButton:hover{background-color: rgb(27, 143, 89);border-radius:4px;}");
+    QPalette palette = pushcount->palette();
+    QColor ColorPlaceholderText(61,107,229,255);
+    QBrush brush2;
+    brush2.setColor(ColorPlaceholderText);
+    palette.setColor(QPalette::Button,QColor(61,107,229,255));
+    //palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
+    pushcount->setPalette(palette);
+
+    QPalette palette1 = pushclock->palette();
+    QColor ColorPlaceholderText2(255,255,255,0);
+    QBrush brush;
+    brush.setColor(ColorPlaceholderText2);
+    palette1.setBrush(QPalette::Button, brush);
+    pushclock->setPalette(palette1);
+    pushstop->setPalette(palette1);
 }
 
 //闹钟窗口切换
@@ -689,11 +755,22 @@ void Clock::on_pushButton_2_clicked()
 {
     ui->stackedWidget->setCurrentIndex(1);
 
-    bta_tool_clock->setStyleSheet("background-color: rgba(39,207,129,1); border-radius:4px;");
-    bta_tool_count->setStyleSheet("QToolButton{background-color: rgb(14, 19, 22);}"
-                                    "QToolButton:hover{background-color: rgb(27, 143, 89);border-radius:4px;}");
-    bta_tool_stop->setStyleSheet("QToolButton{background-color: rgb(14, 19, 22);}"
-                                    "QToolButton:hover{background-color: rgb(27, 143, 89);border-radius:4px;}");
+    QPalette palette = pushclock->palette();
+    QColor ColorPlaceholderText(61,107,229,255);
+    QBrush brush2;
+    brush2.setColor(ColorPlaceholderText);
+    palette.setColor(QPalette::Button,QColor(61,107,229,255));
+    //palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
+    pushclock->setPalette(palette);
+
+    QPalette palette1 = pushcount->palette();
+    QColor ColorPlaceholderText2(255,255,255,0);
+    QBrush brush;
+    brush.setColor(ColorPlaceholderText2);
+    palette1.setBrush(QPalette::Button, brush);
+    pushcount->setPalette(palette1);
+    pushstop->setPalette(palette1);
+
 }
 
 //秒表窗口切换
@@ -702,11 +779,22 @@ void Clock::on_pushButton_3_clicked()
 {
     ui->stackedWidget->setCurrentIndex(2);
 
-    bta_tool_stop->setStyleSheet("background-color: rgba(39,207,129,1); border-radius:4px;");
-    bta_tool_count->setStyleSheet("QToolButton{background-color: rgb(14, 19, 22);}"
-                                    "QToolButton:hover{background-color: rgb(27, 143, 89);border-radius:4px;}");
-    bta_tool_clock->setStyleSheet("QToolButton{background-color: rgb(14, 19, 22);}"
-                                    "QToolButton:hover{background-color: rgb(27, 143, 89);border-radius:4px;}");
+    QPalette palette = pushstop->palette();
+    QColor ColorPlaceholderText(61,107,229,255);
+    QBrush brush2;
+    brush2.setColor(ColorPlaceholderText);
+    palette.setColor(QPalette::Button,QColor(61,107,229,255));
+    //palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
+    pushstop->setPalette(palette);
+
+    QPalette palette1 = pushclock->palette();
+    QColor ColorPlaceholderText2(255,255,255,0);
+    QBrush brush;
+    brush.setColor(ColorPlaceholderText2);
+    palette1.setBrush(QPalette::Button, brush);
+    pushclock->setPalette(palette1);
+    pushcount->setPalette(palette1);
+
 }
 
 //------------------------------------------------------闹钟------------------------------------------------------
@@ -728,7 +816,6 @@ void Clock::text_timerUpdate()
     int time_H = time.hour();
     int time_M = time.minute();
     int time_S = time.second();
-
 
     if(model_setup->index(0, 2).data().toInt() == 1){
         ui->label_6->setText(change_NUM_to_str(time_H)+":"+change_NUM_to_str(time_M)+":"+change_NUM_to_str(time_S));
@@ -967,9 +1054,9 @@ void Clock::updateAlarmClock()
         //闹钟开关
         // Alarm switch
         if (model->index(alarmNum, 3).data().toInt() == 1) {
-            w1[alarmNum]->alarm_on_off0->setStyleSheet("border-image: url(:/alarm_off.png);background-color: rgb();border-radius:6px;");
+            w1[alarmNum]->alarm_on_off0->setStyleSheet("border-image: url(:/alarm_off.png); border-radius:7px;");
         } else {
-            w1[alarmNum]->alarm_on_off0->setStyleSheet("border-image: url(:/alarm_on.png);background-color: rgb();border-radius:6px;");
+            w1[alarmNum]->alarm_on_off0->setStyleSheet("border-image: url(:/alarm_on.png); border-radius:7px;");
         }
         w1[alarmNum]->alarmLabel_w0->setText(model->index(alarmNum, 14).data().toString());
         w1[alarmNum]->alarmLabel_s0->setText(model->index(alarmNum, 5).data().toString());
@@ -1038,6 +1125,7 @@ void Clock::aItem_new()
 // New alarm button callback
 void Clock::set_Alarm_Clock()
 {
+    ui->set_page->show();
     ui->set_page->raise();
     ui->pushButton_8->hide();
     ui->pushButton_9->hide();
@@ -1108,6 +1196,7 @@ void Clock::set_alarm_save()
         QMessageBox::warning(this, "警告", "闹钟数量已达上限！", QMessageBox::Yes);
     }
     ui->stackedWidget_3->raise();
+    ui->set_page->hide();
     ui->stackedWidget->raise();//将页面放置最前方
                                // Put the page at the front
     ui->pushButton_4->raise();
@@ -1163,6 +1252,7 @@ void Clock::verticalscroll_ring_time()
 void Clock::alarm_Cancel_save()
 {
     ui->stackedWidget_3->raise();
+    ui->set_page->hide();
     ui->stackedWidget->raise();
     timer_set_page->stop();
     ui->pushButton_4->raise();
@@ -1174,10 +1264,11 @@ void Clock::alarm_Cancel_save()
 // Double click the alarm clock to open the re edit page
 void Clock::listdoubleClickslot()
 {
+    ui->set_page->show();
     ui->pushButton_8->show();
     ui->pushButton_9->show();
     ui->set_alarm_savebtn->hide();
-    ui->set_alarm_cancelbtn->hide();
+    //ui->set_alarm_cancelbtn->hide();
     timer_alarm_start24->m_currentValue=model->index(ui->listWidget->currentRow(), 0).data().toInt();
     timer_alarm_start60->m_currentValue=model->index(ui->listWidget->currentRow(), 1).data().toInt();
     ui->set_page->raise();
@@ -1259,6 +1350,7 @@ void Clock::on_pushButton_9_clicked()
     updateAlarmClock();
 
     ui->stackedWidget_3->raise();
+    ui->set_page->hide();
     ui->stackedWidget->raise();//将页面放置最前方
                                // Put the page at the front
     ui->pushButton_4->raise();
@@ -1475,6 +1567,7 @@ void Clock::deleteAlarm()
         qDebug() << rowNum;
 
         ui->stackedWidget_3->raise();
+        ui->set_page->hide();
         ui->stackedWidget->raise();//将页面放置最前方
                                    // Put the page at the front
         ui->pushButton_4->raise();
@@ -1494,13 +1587,13 @@ void Clock::On_Off_Alarm()
         i++;
     }
     if (model->index(i, 3).data().toInt() == 0) {
-        btn->setStyleSheet("border-image: url(:/alarm_off.png);background-color: rgb();");
+        btn->setStyleSheet("border-image: url(:/alarm_off.png);border-radius:7px;");
         qDebug() << "off";
 
         model->setData(model->index(i, 3), int(1));
         model->submitAll();
     } else {
-        btn->setStyleSheet("border-image: url(:/alarm_on.png);background-color: rgb();");
+        btn->setStyleSheet("border-image: url(:/alarm_on.png);border-radius:7px;");
         qDebug() << "on";
 
         model->setData(model->index(i, 3), int(0));
@@ -1517,7 +1610,7 @@ void Clock::On_Off_Alarm()
 // Turn off the alarm separately if it is not repeated
 void Clock::off_Alarm(int i)
 {
-    w1[i]->alarm_on_off0->setStyleSheet("border-image: url(:/alarm_off.png);background-color: rgb();border-radius:6px;");
+    w1[i]->alarm_on_off0->setStyleSheet("border-image: url(:/alarm_off.png);border-radius:7px;");
     qDebug() << "on";
 
     model->setData(model->index(i, 3), int(1));
@@ -1539,7 +1632,7 @@ void Clock::off_Alarm(int i)
 void Clock::countdown_music_sellect()
 {
         QPointF position = this->pos();
-        count_music_sellect->move(position.x()+87,position.y()+552);
+        count_music_sellect->move(position.x()+89,position.y()+481);
         count_music_sellect->resize(280,141);
         count_music_sellect->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
         count_music_sellect->setAttribute(Qt::WA_TranslucentBackground);
@@ -1577,6 +1670,7 @@ void Clock::count_music_listClickslot()
 
     model_setup->setData(model_setup->index(0, 19), music);
     ui->pushButton_20->setText(music);
+    ui->pushButton_22->setText(music);
     count_music_sellect->close();
     model_setup->submitAll();
 }
@@ -1659,11 +1753,7 @@ void Clock::startbtn_countdown(){
         }
         int ringmax = timer_ring99->m_currentValue*3600 + timer_ring60->m_currentValue*60 + timer_ring60_2->m_currentValue;
         ui->page_5->RoundBar3->time_max = ringmax;
-        ui->count_stat->setStyleSheet("QPushButton{background:rgba(44,44,46,1);\
-                                        border:1px solid rgba(68,68,71,1);\
-                                        border-radius:4px;\
-                                        font: 11pt; }\
-                                        QPushButton:hover{background:rgba(143, 97, 47, 0.1)}");
+        ui->count_stat->setStyleSheet("");
         countdown_isStarted=1;
         ui->count_stat->setText(tr("End"));
         ui->stackedWidget_4->setCurrentIndex(1);
@@ -1674,11 +1764,11 @@ void Clock::startbtn_countdown(){
         ui->page_5->RoundBar3->ring_max = 3600;
         ui->page_5->RoundBar3->setValue(3600);//初始化倒计时进度圈
                                               // Initialize countdown progress circle
-        ui->count_stat->setStyleSheet("QPushButton{color: rgb(255, 255, 255);\
-                                      background-color: rgba(39,207,129,0.9);\
-                                       border-radius:4px;\
-                                      font: 11pt ;}\
-                                      QPushButton:hover{background-color: rgb(27, 143, 89);}");
+//        ui->count_stat->setStyleSheet("QPushButton{width:100px;\
+//                                      height:32px;\
+//                                     background: rgba(61,107,229,0.9) ;\
+//                                     border-radius:4px;font: 12pt;}\
+//                                     QPushButton:hover{background-color: rgb(27, 143, 89);}");
 
         countdown_timer->stop();
         ui->page_5->timer->stop();
@@ -1692,10 +1782,14 @@ void Clock::startbtn_countdown(){
         ui->label_8->setText("00:00:00");
         ui->stackedWidget_4->setCurrentIndex(0);
         ui->count_push->setText(tr("suspend"));
-        ui->count_push->setStyleSheet("QPushButton{color: rgb(255, 255, 255);\
-                                      background-color: rgba(231,159,78,0.9);\
-                                      border-radius:34px;}\
-                                      QPushButton:hover{background:rgba(143, 97, 47, 0.6)}");
+
+        QPalette palette = ui->count_push->palette();
+        QColor ColorPlaceholderText(248,163,76,255);
+        QBrush brush2;
+        brush2.setColor(ColorPlaceholderText);
+        palette.setColor(QPalette::Button,QColor(248,163,76,255));
+        palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
+        ui->count_push->setPalette(palette);
     }
     return;
 }
@@ -1829,10 +1923,15 @@ void Clock::on_count_push_clicked()
 {
     if (countdown_isStarted_2){
         ui->count_push->setText(tr("suspend"));
-        ui->count_push->setStyleSheet("QPushButton{color: rgb(255, 255, 255);\
-                                      background-color: rgba(231,159,78,0.9);\
-                                      border-radius:34px;}\
-                                      QPushButton:hover{background:rgba(143, 97, 47, 0.6)}");
+
+        QPalette palette = ui->count_push->palette();
+        QColor ColorPlaceholderText(248,163,76,255);
+        QBrush brush2;
+        brush2.setColor(ColorPlaceholderText);
+        palette.setColor(QPalette::Button,QColor(248,163,76,255));
+        palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
+        ui->count_push->setPalette(palette);
+
         countdown_timer->start();
         ui->page_5->timer->start();
         countdown_isStarted_2=0;
@@ -1840,12 +1939,15 @@ void Clock::on_count_push_clicked()
         get_countdown_over_time();
     } else {
         ui->count_push->setText(tr("Continue"));
-        ui->count_push->setStyleSheet("QPushButton{\
-                                      color: rgb(255, 255, 255);\
-                                      background-color: rgba(39,207,129,0.9);\
-                                      border-radius:34px;\
-                                      }\
-                                      QPushButton:hover{background-color: rgb(27, 143, 89);}");
+
+        QPalette palette = ui->count_push->palette();
+        QColor ColorPlaceholderText(61,107,229,255);
+        QBrush brush2;
+        brush2.setColor(ColorPlaceholderText);
+        palette.setColor(QPalette::Button,QColor(61,107,229,255));
+        palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
+        ui->count_push->setPalette(palette);
+
         countdown_timer->stop();
         ui->page_5->timer->stop();
         countdown_isStarted_2=1;
@@ -1890,14 +1992,28 @@ void Clock::countdown_set_start_time()
     m_in_s->setText(":");
     m_in_s->setStyleSheet("font: 30pt 'Sans Serif';");
 
-    timer_ring99->move(125, 115);
-    hour_ring->move(129,110);
-    h_in_m->move(185,192);
-    timer_ring60->move(200, 115);
-    min_ring->move(201,110);
-    m_in_s->move(257,192);
-    timer_ring60_2->move(272, 115);
-    sec_ring->move(273,110);
+    timer_ring99->move(125, 80);
+    hour_ring->move(129,75);
+    h_in_m->move(185,157);
+    timer_ring60->move(200, 80);
+    min_ring->move(201,75);
+    m_in_s->move(257,157);
+    timer_ring60_2->move(272, 80);
+    sec_ring->move(273,75);
+
+    count_stat = new QPushButton(ring_widget);
+    count_stat->resize(100,32);
+    count_stat->move(177,259);
+    count_stat->setText("start");
+    connect(count_stat, SIGNAL(clicked()), this, SLOT(startbtn_countdown()) );
+
+    QPalette palette2 = count_stat->palette();
+    QColor ColorPlaceholderText2(61,107,229,255);
+    QBrush brush2;
+    brush2.setColor(ColorPlaceholderText2);
+    palette2.setColor(QPalette::Button,QColor(61,107,229,255));
+    palette2.setBrush(QPalette::ButtonText, QBrush(Qt::white));
+    count_stat->setPalette(palette2);
 }
 //-----------------------------------------闹钟初始化---------------------------------------------------
 //---------------------------------- Alarm initialization --------------------------------------------
@@ -1928,11 +2044,11 @@ void Clock::alarm_set_start_time()
     min_ring->setText(tr("min"));
     min_ring->setStyleSheet("font: 13pt ;color: rgb(148, 148, 148);");
 
-    timer_alarm_start24->move(161, 105);
-    hour_ring->move(162,100);
-    h_in_m->move(217,182);
-    timer_alarm_start60->move(233, 105);
-    min_ring->move(235,100);
+    timer_alarm_start24->move(161, 45);
+    hour_ring->move(162,40);
+    h_in_m->move(217,122);
+    timer_alarm_start60->move(233, 45);
+    min_ring->move(235,40);
 }
 //闹钟初始化工作日选择界面绘制回调
 // Alarm clock initialization workday selection interface drawing callback
@@ -1944,8 +2060,8 @@ void Clock::alarm_repeat()
     else {
         num= model->rowCount();
     }
-        QPointF position = this->pos();
-        dialog_repeat->move(position.x()+87,position.y()+446);
+        QPointF position = this->pos();//446
+        dialog_repeat->move(position.x()+88,position.y()+378);
         dialog_repeat->resize(280,270);
         dialog_repeat->listWidget->setFixedSize(280,270);
         dialog_repeat->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
@@ -2130,28 +2246,29 @@ void Clock::select_Music()
         num = ui->listWidget->currentRow();
     else
         num= model->rowCount();
-        QPointF position = this->pos();
-        dialog_music->move(position.x()+87,position.y()+496);
-        dialog_music->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
-        dialog_music->setAttribute(Qt::WA_TranslucentBackground);
-        dialog_music->resize(280,129);
-        dialog_music->listWidget->setFixedSize(280,129);
-        dialog_music->widget[0]->alarmLabel0->setText(tr("glass"));
-        dialog_music->widget[1]->alarmLabel0->setText(tr("bark"));
-        dialog_music->widget[2]->alarmLabel0->setText(tr("sonar"));
-        dialog_music->widget[3]->alarmLabel0->setText(tr("drip"));
 
-        if(model_setup->index(0, 5).data().toString().compare(tr("glass"))==0){
-            dialog_music->widget[0]->alarmLabel0->setText(tr("glass(default)"));
-        } else if (model_setup->index(0, 5).data().toString().compare(tr("bark"))==0) {
-            dialog_music->widget[1]->alarmLabel0->setText(tr("bark(default)"));
-        } else if (model_setup->index(0, 5).data().toString().compare(tr("sonar"))==0) {
-            dialog_music->widget[2]->alarmLabel0->setText(tr("sonar(default)"));
-        } else if (model_setup->index(0, 5).data().toString().compare(tr("drip"))==0) {
-            dialog_music->widget[3]->alarmLabel0->setText(tr("drip(default)"));
-        }
+    QPointF position = this->pos();
+    dialog_music->move(position.x()+88,position.y()+428);
+    dialog_music->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
+    dialog_music->setAttribute(Qt::WA_TranslucentBackground);
+    dialog_music->resize(280,129);
+    dialog_music->listWidget->setFixedSize(280,129);
+    dialog_music->widget[0]->alarmLabel0->setText(tr("glass"));
+    dialog_music->widget[1]->alarmLabel0->setText(tr("bark"));
+    dialog_music->widget[2]->alarmLabel0->setText(tr("sonar"));
+    dialog_music->widget[3]->alarmLabel0->setText(tr("drip"));
 
-        dialog_music->show();
+    if(model_setup->index(0, 5).data().toString().compare(tr("glass"))==0){
+        dialog_music->widget[0]->alarmLabel0->setText(tr("glass(default)"));
+    } else if (model_setup->index(0, 5).data().toString().compare(tr("bark"))==0) {
+        dialog_music->widget[1]->alarmLabel0->setText(tr("bark(default)"));
+    } else if (model_setup->index(0, 5).data().toString().compare(tr("sonar"))==0) {
+        dialog_music->widget[2]->alarmLabel0->setText(tr("sonar(default)"));
+    } else if (model_setup->index(0, 5).data().toString().compare(tr("drip"))==0) {
+        dialog_music->widget[3]->alarmLabel0->setText(tr("drip(default)"));
+    }
+
+    dialog_music->show();
 }
 
 //闹钟初始化单击选择音乐
@@ -2191,7 +2308,7 @@ void Clock::time_Music()
         num= model->rowCount();
 
     QPointF position = this->pos();
-    time_music->move(position.x()+87,position.y()+546);
+    time_music->move(position.x()+88,position.y()+478);
     time_music->listWidget->setFixedSize(280,162);
     time_music->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
     time_music->setAttribute(Qt::WA_TranslucentBackground);
@@ -2375,4 +2492,305 @@ void Clock::set_volume_Value(int value)
     qDebug()<< value ;
     model_setup->setData(model_setup->index(0, 6),value );
     model_setup->submitAll();
+}
+
+void Clock::paintEvent(QPaintEvent *event)
+{
+    Q_UNUSED(event);
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+
+    QStyleOption opt;
+    opt.init(this);
+    painter.setBrush(opt.palette.color(QPalette::Base));
+
+    painter.setPen(Qt::transparent);
+    QRect rect = this->rect();
+    rect.setWidth(rect.width() - 0);
+    rect.setHeight(rect.height() - 0);
+    painter.drawRoundedRect(rect, 7, 7);
+    {
+        QPainterPath painterPath;
+        painterPath.addRoundedRect(rect, 7, 7);
+        painter.drawPath(painterPath);
+    }
+
+    QPainter p(this);
+    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+    QPainterPath rectPath;
+    rectPath.addRoundedRect(this->rect().adjusted(2, 2, -2, -2), 6, 6);
+
+    // 画一个黑底
+    QPixmap pixmap(this->rect().size());
+    pixmap.fill(Qt::transparent);
+    QPainter pixmapPainter(&pixmap);
+    pixmapPainter.setRenderHint(QPainter::Antialiasing);
+    pixmapPainter.setPen(Qt::transparent);
+    pixmapPainter.setBrush(Qt::gray);
+    pixmapPainter.drawPath(rectPath);
+    pixmapPainter.end();
+
+    // 模糊这个黑底
+    QImage img = pixmap.toImage();
+    qt_blurImage(img, 10, false, false);
+
+    // 挖掉中心
+    pixmap = QPixmap::fromImage(img);
+    QPainter pixmapPainter2(&pixmap);
+    pixmapPainter2.setRenderHint(QPainter::Antialiasing);
+    pixmapPainter2.setCompositionMode(QPainter::CompositionMode_Clear);
+    pixmapPainter2.setPen(Qt::transparent);
+    pixmapPainter2.setBrush(QColor(78,78,78));
+    pixmapPainter2.drawPath(rectPath);
+
+    // 绘制阴影
+    p.drawPixmap(this->rect(), pixmap, pixmap.rect());
+    p.setOpacity(0.9);
+    // 绘制一个背景
+    p.save();
+    p.fillPath(rectPath,palette().color(QPalette::Base));
+    p.restore();
+}
+
+QPixmap Clock::ChangeImageColor(QPixmap sourcePixmap, QColor origColor, QColor destColor)
+{
+    QImage image = sourcePixmap.toImage();
+
+    QRgb rgb = image.pixel(image.width()/2,image.height()/2);
+    QVector<QRgb> rgbVector = image.colorTable();
+
+    for (int i = 0; i < rgbVector.size(); ++i)
+    {
+        //        if(rgbVector.at(i) == rgb)
+        //        {
+        QRgb rgb2 = QColor(0,0,0).rgba();//替换的颜色可以是透明的，比如QColor(0,255,0，0)。
+        image.setColor(i,rgb2);
+        //        }
+    }
+    return QPixmap::fromImage(image);
+}
+
+bool Clock::eventFilter(QObject *watched, QEvent *event)
+{
+    if(watched == ui->set_page && event->type() == QEvent::Paint)
+    {
+        showPaint(); //响应函数
+    }
+    if(watched == ui->widget && event->type() == QEvent::Paint)
+    {
+        showPaint1();
+    }
+    if(watched == ui->widget_2 && event->type() == QEvent::Paint)
+    {
+        showPaint2();
+    }
+    if(watched == ui->widget_3 && event->type() == QEvent::Paint)
+    {
+        showPaint3();
+    }
+    if(watched == ui->widget_4 && event->type() == QEvent::Paint)
+    {
+        showPaint4();
+    }
+    if(watched == ui->widget_5 && event->type() == QEvent::Paint)
+    {
+        showPaint5();
+    }
+    if(watched == ui->widget_6 && event->type() == QEvent::Paint)
+    {
+        showPaint6();
+    }
+    return QWidget::eventFilter(watched,event);
+}
+
+//实现响应函数
+void Clock::showPaint()
+{
+    QPainter painter(ui->set_page);
+    painter.setPen(Qt::gray);
+    painter.setBrush(Qt::green);
+    QStyleOption opt;
+    opt.init(this);
+    painter.setBrush(opt.palette.color(QPalette::Base));
+    painter.setPen(Qt::transparent);
+    QRect rect = ui->set_page->rect();
+    rect.setWidth(rect.width() - 0);
+    rect.setHeight(rect.height() - 0);
+    painter.drawRoundedRect(rect, 7, 7);
+    {
+        QPainterPath painterPath;
+        painterPath.addRoundedRect(rect, 0, 0);
+        painter.drawPath(painterPath);
+    }
+}
+
+//实现响应函数
+void Clock::showPaint1()
+{
+    QPainter painter(ui->widget);
+    painter.setPen(Qt::gray);
+    painter.setBrush(Qt::green);
+    QStyleOption opt;
+    opt.init(this);
+    painter.setBrush(opt.palette.color(QPalette::Base));
+
+    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
+    {
+        painter.setBrush(QColor(233, 233, 233));
+    }else{
+        painter.setBrush(QColor(48,48,51));
+    }
+
+    painter.setPen(Qt::transparent);
+    QRect rect = ui->widget->rect();
+    rect.setWidth(rect.width() - 0);
+    rect.setHeight(rect.height() - 0);
+    painter.drawRoundedRect(rect, 7, 7);
+    {
+        QPainterPath painterPath;
+        painterPath.addRoundedRect(rect, 4, 4);
+        painter.drawPath(painterPath);
+    }
+}
+
+void Clock::showPaint2()
+{
+    QPainter painter(ui->widget_2);
+    painter.setPen(Qt::gray);
+    painter.setBrush(Qt::green);
+    QStyleOption opt;
+    opt.init(this);
+    painter.setBrush(opt.palette.color(QPalette::Base));
+
+    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
+    {
+        painter.setBrush(QColor(233, 233, 233));
+    }else{
+        painter.setBrush(QColor(48,48,51));
+    }
+
+    painter.setPen(Qt::transparent);
+    QRect rect = ui->widget_2->rect();
+    rect.setWidth(rect.width() - 0);
+    rect.setHeight(rect.height() - 0);
+    painter.drawRoundedRect(rect, 7, 7);
+    {
+        QPainterPath painterPath;
+        painterPath.addRoundedRect(rect, 4, 4);
+        painter.drawPath(painterPath);
+    }
+}
+
+
+void Clock::showPaint3()
+{
+    QPainter painter(ui->widget_3);
+    painter.setPen(Qt::gray);
+    painter.setBrush(Qt::green);
+    QStyleOption opt;
+    opt.init(this);
+    painter.setBrush(opt.palette.color(QPalette::Base));
+
+    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
+    {
+        painter.setBrush(QColor(233, 233, 233));
+    }else{
+        painter.setBrush(QColor(48,48,51));
+    }
+
+    painter.setPen(Qt::transparent);
+    QRect rect = ui->widget_3->rect();
+    rect.setWidth(rect.width() - 0);
+    rect.setHeight(rect.height() - 0);
+    painter.drawRoundedRect(rect, 7, 7);
+    {
+        QPainterPath painterPath;
+        painterPath.addRoundedRect(rect, 4, 4);
+        painter.drawPath(painterPath);
+    }
+}
+
+void Clock::showPaint4()
+{
+    QPainter painter(ui->widget_4);
+    painter.setPen(Qt::gray);
+    painter.setBrush(Qt::green);
+    QStyleOption opt;
+    opt.init(this);
+    painter.setBrush(opt.palette.color(QPalette::Base));
+
+    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
+    {
+        painter.setBrush(QColor(233, 233, 233));
+    }else{
+        painter.setBrush(QColor(48,48,51));
+    }
+
+    painter.setPen(Qt::transparent);
+    QRect rect = ui->widget_4->rect();
+    rect.setWidth(rect.width() - 0);
+    rect.setHeight(rect.height() - 0);
+    painter.drawRoundedRect(rect, 7, 7);
+    {
+        QPainterPath painterPath;
+        painterPath.addRoundedRect(rect, 4, 4);
+        painter.drawPath(painterPath);
+    }
+}
+
+
+void Clock::showPaint5()
+{
+    QPainter painter(ui->widget_5);
+    painter.setPen(Qt::gray);
+    painter.setBrush(Qt::green);
+    QStyleOption opt;
+    opt.init(this);
+    painter.setBrush(opt.palette.color(QPalette::Base));
+
+    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
+    {
+        painter.setBrush(QColor(233, 233, 233));
+    }else{
+        painter.setBrush(QColor(48,48,51));
+    }
+
+    painter.setPen(Qt::transparent);
+    QRect rect = ui->widget_5->rect();
+    rect.setWidth(rect.width() - 0);
+    rect.setHeight(rect.height() - 0);
+    painter.drawRoundedRect(rect, 7, 7);
+    {
+        QPainterPath painterPath;
+        painterPath.addRoundedRect(rect, 4, 4);
+        painter.drawPath(painterPath);
+    }
+}
+
+void Clock::showPaint6()
+{
+    QPainter painter(ui->widget_6);
+    painter.setPen(Qt::gray);
+    painter.setBrush(Qt::green);
+    QStyleOption opt;
+    opt.init(this);
+    painter.setBrush(opt.palette.color(QPalette::Base));
+
+    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
+    {
+        painter.setBrush(QColor(233,233,233));
+    }else{
+        painter.setBrush(QColor(48,48,51));
+    }
+
+    painter.setPen(Qt::transparent);
+    QRect rect = ui->widget_6->rect();
+    rect.setWidth(rect.width() - 0);
+    rect.setHeight(rect.height() - 0);
+    painter.drawRoundedRect(rect, 7, 7);
+    {
+        QPainterPath painterPath;
+        painterPath.addRoundedRect(rect, 4, 4);
+        painter.drawPath(painterPath);
+    }
 }

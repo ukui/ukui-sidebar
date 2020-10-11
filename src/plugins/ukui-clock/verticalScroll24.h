@@ -21,6 +21,7 @@
 #include <QWidget>
 #include <QPropertyAnimation>
 #include <QPainter>
+#include <QStyleOption>
 
 namespace Ui {
 

@@ -37,7 +37,8 @@ class set_alarm_repeat_Dialog : public QWidget
 public:
     explicit set_alarm_repeat_Dialog(QWidget *parent = nullptr , int rowNum = 0 );
     ~set_alarm_repeat_Dialog();
-    //void paintEvent(QPaintEvent *event);
+
+    void paintEvent(QPaintEvent *event);
 
     set_alarm_repeat_widget *widget[20];
     QListWidgetItem *aItem[20];
@@ -62,6 +63,8 @@ class set_alarm_repeat_widget : public QWidget
 public:
     explicit set_alarm_repeat_widget(QWidget *parent = nullptr);
     ~set_alarm_repeat_widget();
+
+    void paintEvent(QPaintEvent *event);
 
     QLabel *alarmLabel0;
     QPushButton *alarmLabel1;
