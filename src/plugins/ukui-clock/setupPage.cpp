@@ -23,6 +23,8 @@
 #include <QDebug>
 #include "customStyle.h"
 
+extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
+
 setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     QWidget(parent),
     pos_x(position_x),
@@ -32,7 +34,7 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     ui->setupUi(this);
     this->setWindowOpacity(0.5);
 
-    ui->horizontalSlider->setStyle(new CustomStyle("ukui"));
+    //ui->horizontalSlider->setStyle(new CustomStyle("ukui"));
     ui->pushButton->hide();
     ui->label->hide();
     ui->label_2->setAlignment(Qt::AlignHCenter);
@@ -43,12 +45,23 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     ui->pushButton_12->setIcon(bgPixmap);
     ui->pushButton_13->setIcon(bgPixmap);
     ui->pushButton_14->setIcon(bgPixmap);
+    ui->pushButton_10->setProperty("useIconHighlightEffect", true);
+    ui->pushButton_10->setProperty("iconHighlightEffectMode", 1);
+    ui->pushButton_11->setProperty("useIconHighlightEffect", true);
+    ui->pushButton_11->setProperty("iconHighlightEffectMode", 1);
+    ui->pushButton_12->setProperty("useIconHighlightEffect", true);
+    ui->pushButton_12->setProperty("iconHighlightEffectMode", 1);
+    ui->pushButton_13->setProperty("useIconHighlightEffect", true);
+    ui->pushButton_13->setProperty("iconHighlightEffectMode", 1);
+    ui->pushButton_14->setProperty("useIconHighlightEffect", true);
+    ui->pushButton_14->setProperty("iconHighlightEffectMode", 1);
 
     dialog_werk_day = new  set_alarm_repeat_Dialog(ui->widget, 7);
     Time_format = new  set_alarm_repeat_Dialog(ui->widget, 3);
     Pop_up_window = new  set_alarm_repeat_Dialog(ui->widget, 2);
     Reminder_off = new  set_alarm_repeat_Dialog(ui->widget, 5);
     Default_ringtone = new  set_alarm_repeat_Dialog(ui->widget, 4);
+
     connect(dialog_werk_day->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(werk_day_listClickslot()));
     connect(Time_format->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(Time_format_listClickslot()));
     connect(Pop_up_window->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(Pop_up_window_listClickslot()));
@@ -86,6 +99,11 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     Pop_up_window->hide() ;
     Reminder_off->hide() ;
     Default_ringtone->hide() ;
+    ui->widget_2->installEventFilter(this);
+    ui->widget_3->installEventFilter(this);
+    ui->widget_4->installEventFilter(this);
+    ui->widget_5->installEventFilter(this);
+    ui->widget_6->installEventFilter(this);
 }
 
 setuppage::~setuppage()
@@ -496,3 +514,231 @@ void setuppage::Default_ringtone_listClickslot()
     model_setup->submitAll();
 }
 
+
+void setuppage::paintEvent(QPaintEvent *event)
+{
+    Q_UNUSED(event);
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+
+    QStyleOption opt;
+    opt.init(this);
+    painter.setBrush(opt.palette.color(QPalette::Base));
+
+    painter.setPen(Qt::transparent);
+    QRect rect = this->rect();
+    rect.setWidth(rect.width() - 0);
+    rect.setHeight(rect.height() - 0);
+    painter.drawRoundedRect(rect, 7, 7);
+    {
+        QPainterPath painterPath;
+        painterPath.addRoundedRect(rect, 7, 7);
+        painter.drawPath(painterPath);
+    }
+
+    QPainter p(this);
+    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+    QPainterPath rectPath;
+    rectPath.addRoundedRect(this->rect().adjusted(1, 1, -1, -1), 6, 6);
+
+    // 画一个黑底
+    QPixmap pixmap(this->rect().size());
+    pixmap.fill(Qt::transparent);
+    QPainter pixmapPainter(&pixmap);
+    pixmapPainter.setRenderHint(QPainter::Antialiasing);
+    pixmapPainter.setPen(Qt::transparent);
+    pixmapPainter.setBrush(Qt::gray);
+    pixmapPainter.drawPath(rectPath);
+    pixmapPainter.end();
+
+    // 模糊这个黑底
+    QImage img = pixmap.toImage();
+    qt_blurImage(img, 10, false, false);
+
+    // 挖掉中心
+    pixmap = QPixmap::fromImage(img);
+    QPainter pixmapPainter2(&pixmap);
+    pixmapPainter2.setRenderHint(QPainter::Antialiasing);
+    pixmapPainter2.setCompositionMode(QPainter::CompositionMode_Clear);
+    pixmapPainter2.setPen(Qt::transparent);
+    pixmapPainter2.setBrush(QColor(78,78,78));
+    pixmapPainter2.drawPath(rectPath);
+
+    // 绘制阴影
+    p.drawPixmap(this->rect(), pixmap, pixmap.rect());
+    p.setOpacity(0.9);
+    // 绘制一个背景
+    p.save();
+    p.fillPath(rectPath,palette().color(QPalette::Base));
+    p.restore();
+
+    QWidget::paintEvent(event);
+}
+
+bool setuppage::eventFilter(QObject *watched, QEvent *event)
+{
+    if(watched == ui->widget_2 && event->type() == QEvent::Paint)
+    {
+        showPaint();
+    }
+    if(watched == ui->widget_3 && event->type() == QEvent::Paint)
+    {
+        showPaint2();
+    }
+    if(watched == ui->widget_4 && event->type() == QEvent::Paint)
+    {
+        showPaint3();
+    }
+    if(watched == ui->widget_5 && event->type() == QEvent::Paint)
+    {
+        showPaint4();
+    }
+    if(watched == ui->widget_6 && event->type() == QEvent::Paint)
+    {
+        showPaint5();
+    }
+
+    return QWidget::eventFilter(watched,event);
+}
+
+//实现响应函数
+void setuppage::showPaint()
+{
+    QPainter painter(ui->widget_2);
+    painter.setPen(Qt::gray);
+    painter.setBrush(Qt::green);
+    QStyleOption opt;
+    opt.init(this);
+    painter.setBrush(opt.palette.color(QPalette::Base));
+
+    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
+    {
+        painter.setBrush(QColor(233, 233, 233));
+    }else{
+        painter.setBrush(QColor(48,48,51));
+    }
+
+    painter.setPen(Qt::transparent);
+    QRect rect = ui->widget_2->rect();
+    rect.setWidth(rect.width() - 0);
+    rect.setHeight(rect.height() - 0);
+    painter.drawRoundedRect(rect, 7, 7);
+    {
+        QPainterPath painterPath;
+        painterPath.addRoundedRect(rect, 4, 4);
+        painter.drawPath(painterPath);
+    }
+}
+
+void setuppage::showPaint2()
+{
+    QPainter painter(ui->widget_3);
+    painter.setPen(Qt::gray);
+    painter.setBrush(Qt::green);
+    QStyleOption opt;
+    opt.init(this);
+    painter.setBrush(opt.palette.color(QPalette::Base));
+
+    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
+    {
+        painter.setBrush(QColor(233, 233, 233));
+    }else{
+        painter.setBrush(QColor(48,48,51));
+    }
+
+    painter.setPen(Qt::transparent);
+    QRect rect = ui->widget_3->rect();
+    rect.setWidth(rect.width() - 0);
+    rect.setHeight(rect.height() - 0);
+    painter.drawRoundedRect(rect, 7, 7);
+    {
+        QPainterPath painterPath;
+        painterPath.addRoundedRect(rect, 4, 4);
+        painter.drawPath(painterPath);
+    }
+}
+
+
+void setuppage::showPaint3()
+{
+    QPainter painter(ui->widget_4);
+    painter.setPen(Qt::gray);
+    painter.setBrush(Qt::green);
+    QStyleOption opt;
+    opt.init(this);
+    painter.setBrush(opt.palette.color(QPalette::Base));
+
+    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
+    {
+        painter.setBrush(QColor(233, 233, 233));
+    }else{
+        painter.setBrush(QColor(48,48,51));
+    }
+
+    painter.setPen(Qt::transparent);
+    QRect rect = ui->widget_4->rect();
+    rect.setWidth(rect.width() - 0);
+    rect.setHeight(rect.height() - 0);
+    painter.drawRoundedRect(rect, 7, 7);
+    {
+        QPainterPath painterPath;
+        painterPath.addRoundedRect(rect, 4, 4);
+        painter.drawPath(painterPath);
+    }
+}
+
+void setuppage::showPaint4()
+{
+    QPainter painter(ui->widget_5);
+    painter.setPen(Qt::gray);
+    painter.setBrush(Qt::green);
+    QStyleOption opt;
+    opt.init(this);
+    painter.setBrush(opt.palette.color(QPalette::Base));
+
+    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
+    {
+        painter.setBrush(QColor(233, 233, 233));
+    }else{
+        painter.setBrush(QColor(48,48,51));
+    }
+
+    painter.setPen(Qt::transparent);
+    QRect rect = ui->widget_5->rect();
+    rect.setWidth(rect.width() - 0);
+    rect.setHeight(rect.height() - 0);
+    painter.drawRoundedRect(rect, 7, 7);
+    {
+        QPainterPath painterPath;
+        painterPath.addRoundedRect(rect, 4, 4);
+        painter.drawPath(painterPath);
+    }
+}
+
+void setuppage::showPaint5()
+{
+    QPainter painter(ui->widget_6);
+    painter.setPen(Qt::gray);
+    painter.setBrush(Qt::green);
+    QStyleOption opt;
+    opt.init(this);
+    painter.setBrush(opt.palette.color(QPalette::Base));
+
+    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
+    {
+        painter.setBrush(QColor(233, 233, 233));
+    }else{
+        painter.setBrush(QColor(48,48,51));
+    }
+
+    painter.setPen(Qt::transparent);
+    QRect rect = ui->widget_6->rect();
+    rect.setWidth(rect.width() - 0);
+    rect.setHeight(rect.height() - 0);
+    painter.drawRoundedRect(rect, 7, 7);
+    {
+        QPainterPath painterPath;
+        painterPath.addRoundedRect(rect, 4, 4);
+        painter.drawPath(painterPath);
+    }
+}

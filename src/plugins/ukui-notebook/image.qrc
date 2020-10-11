@@ -6,6 +6,7 @@
         <file>image/1x/array_ Reverse_order .png</file>
         <file>image/1x/array_order.png</file>
         <file>image/1x/array.png</file>
+        <file>image/1x/array-new.png</file>
         <file>image/1x/bold.png</file>
         <file>image/1x/copy_to_new_note.png</file>
         <file>image/1x/copy.png</file>
@@ -48,5 +49,11 @@
         <file>image/1x/sort-click.png</file>
         <file>image/1x/sort-hover.png</file>
         <file>image/1x/sort.png</file>
+        <file>image/1x/delete-new.svg</file>
+        <file>image/1x/adjustment-new.svg</file>
+        <file>image/1x/del_line-new.svg</file>
+        <file>image/1x/note_color_new.svg</file>
+        <file>image/1x/number-new.svg</file>
+        <file>image/1x/Symbol-new.svg</file>
     </qresource>
 </RCC>

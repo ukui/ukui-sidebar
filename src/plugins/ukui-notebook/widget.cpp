@@ -207,7 +207,8 @@ void Widget::kyNoteInit()
     m_newKynote = ui->newKynote;
     m_trashButton = ui->trashButton;
     m_countLabel = ui->label;
-    m_sortLabel = ui->sort_btn;
+//    m_sortLabel = ui->sort_btn;
+    m_sortLabel = ui->sortBtn;
     m_viewChangeButton = ui->viewChangeButton;
 
     initListMode();
@@ -220,8 +221,8 @@ void Widget::kyNoteInit()
     setAttribute(Qt::WA_TranslucentBackground);//设置窗口透明显示(毛玻璃效果)
     //    setWindowOpacity(0.8);//窗口透明度
     //弹出位置
-    QDesktopWidget *desktop = QApplication::desktop();
-    move((desktop->width() - this->width())/2, (desktop->height() - this->height())/2);
+    m_pSreenInfo = new adaptScreenInfo();
+    move((m_pSreenInfo->m_screenWidth - this->width() + m_pSreenInfo->m_nScreen_x )/2, (m_pSreenInfo->m_screenHeight - this->height())/2);
     //标题
     this->setWindowTitle(tr("ukui-note"));
     //任务栏图标
@@ -248,7 +249,7 @@ void Widget::kyNoteInit()
 //    ui->sort_btn->hide();
 
     //退出框
-    m_noteExitWindow = new noteExitWindow(this);
+    m_noteExitWindow = new noteExitWindow(this, this);
 
     auto headerBar = new HeaderBar(this);
     headerBar->hide();
@@ -375,26 +376,6 @@ void Widget::migrateNote(QString notePath)
 
 void Widget::set_all_btn_attribute()
 {
-    pixmap1 = QPixmap(":/image/1x/new.png");
-    pixmap2 = QPixmap(":/image/1x/close_light.png");
-    pixmap3 = QPixmap(":/image/1x/mini_light.png");
-    pixmap4 = QPixmap(":/image/1x/more_light.png");
-    pixmap5 = QPixmap(":/image/1x/table.png");
-    // pixmap6 = QPixmap(":/image/1x/ Insert_multiple_box .png");
-    pixmap6 = QPixmap(":/image/1x/delete.png");
-    pixmap7 = QPixmap(":/image/1x/Symbol.png");
-    //pixmap8 = QPixmap(":/image/1x/array.png");
-    //pixmap8 = QPixmap();
-    // pixmap9 = QPixmap(":/image/1x/go-bottom-symbolic.png");
-    pixmap9 = QPixmap(":/image/1x/skin.png");
-    pixmap10 = QPixmap(":/image/1x/close_block.png");
-    pixmap11 = QPixmap(":/image/1x/mini_block.png");
-    pixmap12 = QPixmap(":/image/1x/more_block.png");
-    pixmap13 = QPixmap(":/image/1x/mini2.png");
-    pixmap14 = QPixmap(":/image/1x/mini3.png");
-    pixmap15 = QPixmap(":/image/1x/close2.png");
-    pixmap16 = QPixmap(":/image/1x/close3.png");
-
     m_menu = new QMenu(this);
     m_menuAction = new QAction(m_menu);
     m_menuAction->setText(tr("Empty Note"));
@@ -402,22 +383,15 @@ void Widget::set_all_btn_attribute()
     m_menu->addAction(m_menuAction);
     ui->menuBtn->setMenu(m_menu);
 
-
-
-    ui->newKynote->setIcon(pixmap1);
-    //ui->pushButton_Exit->setIcon(pixmap10);
-    //ui->pushButton_Mini->setIcon(pixmap11);
-    //ui->set_btn->setIcon(pixmap12);
-
-    //m_viewChangeButton->setIcon(pixmap5);
-    m_trashButton->setIcon(pixmap6);
+    ui->newKynote->setIcon(QPixmap(":/image/1x/new.png"));
+    m_trashButton->setIcon(QPixmap(":/image/1x/delete.png"));
     m_trashButton->setIconSize(QSize(36,36));
 
-//    ui->sort_btn->setIcon(pixmap8);
-//    ui->sort_btn->setIconSize(QSize(36,36));
     ui->sort_btn->setStyleSheet("QPushButton{border-image:url(:/image/1x/sort.png);}"
                                 "QPushButton:hover{border-image:url(:/image/1x/sort-hover.png);}"
                                 "QPushButton:pressed{border-image:url(:/image/1x/sort-click.png);}");
+    ui->sort_btn->hide();
+    ui->sortBtn->setIcon(QPixmap(":/image/1x/array-new.png"));
     //隐藏menu下箭头
     //ui->menuBtn->setStyleSheet("QPushButton::menu-indicator{image:none}");
     ui->menuBtn->setProperty("isOptionButton", true);
@@ -439,6 +413,11 @@ void Widget::set_all_btn_attribute()
     ui->pushButton_Exit->setProperty("iconHighlightEffectMode", 1);
     ui->pushButton_Mini->setProperty("useIconHighlightEffect", true);
     ui->pushButton_Mini->setProperty("iconHighlightEffectMode", 1);
+    ui->sortBtn->setProperty("useIconHighlightEffect", true);
+    ui->sortBtn->setProperty("iconHighlightEffectMode", 1);
+    m_trashButton->setProperty("useIconHighlightEffect", true);
+    m_trashButton->setProperty("iconHighlightEffectMode", 1);
+
 
     //取消按钮默认主题灰色背景
     QPalette palette = ui->pushButton_Mini->palette();
@@ -452,6 +431,7 @@ void Widget::set_all_btn_attribute()
     ui->pushButton_Exit->setPalette(palette);
     ui->menuBtn->setPalette(palette);
     ui->searchBtn->setPalette(palette);
+    ui->sortBtn->setPalette(palette);
 
     //设置新建按钮背景文本颜色
     QPalette palette2 = ui->newKynote->palette();
@@ -469,6 +449,7 @@ void Widget::set_all_btn_attribute()
     m_trashButton->setToolTip(tr("Delete Selected Note"));
     m_viewChangeButton->setToolTip(tr("Switch View"));
     ui->sort_btn->setToolTip(tr("Sort"));
+    ui->sortBtn->setToolTip(tr("Sort"));
     ui->pushButton_Exit->setToolTip(tr("Exit"));
     ui->pushButton_Mini->setToolTip(tr("Mini"));
     ui->menuBtn->setToolTip(tr("Menu"));
@@ -550,8 +531,12 @@ void Widget::deleteNote(const QModelIndex &noteIndex, bool isFromUser)
                 QModelIndex index = m_noteView->currentIndex();
                 m_currentSelectedNoteProxy = index;
                 qDebug() << m_currentSelectedNoteProxy;
+                m_noteView->selectionModel()->select(m_currentSelectedNoteProxy, QItemSelectionModel::ClearAndSelect);
+                m_noteView->setCurrentIndex(m_currentSelectedNoteProxy);
+                m_noteView->scrollTo(m_currentSelectedNoteProxy);
             }else{
                 qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
+                // 创建新的空模型索引 此类型的模型索引用于指示模型中的位置无效
                 m_currentSelectedNoteProxy = QModelIndex();
             }
         }
@@ -868,8 +853,7 @@ void Widget::searchInit()
 //    ui->SearchLine->addAction(QIcon::fromTheme("system-search-symbolic"),QLineEdit::LeadingPosition);
 
     delAction = new QAction(ui->SearchLine);
-    QPixmap  delActionimage = pixmap2.scaled(QSize(16,16));
-    delAction->setIcon(delActionimage);
+    delAction->setIcon(QPixmap(":/image/1x/close_light.png").scaled(QSize(16,16)));
 
     connect(delAction, SIGNAL(triggered()), this, SLOT(delAction_del_SearchLine()));
 }
@@ -1120,8 +1104,8 @@ void Widget::onColorChanged(const QColor &color,int noteId)
 void Widget::exitSlot()
 {
     //m_noteExitWindow->setWindowFlags(m_noteExitWindow->windowFlags() | Qt::WindowStaysOnTopHint);
-    m_noteExitWindow->show();
-    m_noteExitWindow->raise();
+    m_noteExitWindow->exec();
+    //m_noteExitWindow->raise();
 }
 
 void Widget::miniSlot()
@@ -1248,6 +1232,7 @@ void Widget::onSearchEditTextChanged(const QString& keyword)
         m_noteView->setAnimationEnabled(true);
         m_isOperationRunning = false;
     }
+    m_countLabel->setText(QObject::tr("%1 records in total").arg(m_proxyModel->rowCount()));
 }
 
 void Widget::changePageSlot()
@@ -1264,6 +1249,20 @@ void Widget::changePageSlot()
         m_viewChangeButton->setIcon(QIcon::fromTheme("view-grid-symbolic"));
         setListFlag(1);
     }
+    if(m_noteModel->rowCount() > 0){
+        qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
+        QModelIndex index = m_noteView->currentIndex();
+        m_currentSelectedNoteProxy = index;
+        qDebug() << m_currentSelectedNoteProxy;
+        m_noteView->selectionModel()->select(m_currentSelectedNoteProxy, QItemSelectionModel::ClearAndSelect);
+        m_noteView->setCurrentIndex(m_currentSelectedNoteProxy);
+        m_noteView->scrollTo(m_currentSelectedNoteProxy);
+    }else{
+        qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
+        // 创建新的空模型索引 此类型的模型索引用于指示模型中的位置无效
+        m_currentSelectedNoteProxy = QModelIndex();
+        qDebug() << m_currentSelectedNoteProxy;
+    }
 }
 
 void Widget::sortSlot()
@@ -1278,11 +1277,13 @@ void Widget::sortSlot()
     {
         if(sortflag)
         {
+            ui->sortBtn->setIcon(QPixmap(":/image/1x/array.png"));
             m_noteModel->sort(0,Qt::DescendingOrder);
             sortflag = 0;
 
         }else
         {
+            ui->sortBtn->setIcon(QPixmap(":/image/1x/array-new.png"));
             m_noteModel->sort(0,Qt::AscendingOrder);
             sortflag = 1;
         }

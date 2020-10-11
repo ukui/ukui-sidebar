@@ -19,23 +19,8 @@ public:
 
     //绘制底部阴影
     // Draw bottom shadow
-    void paintEvent(QPaintEvent *event)
-    {
-        QPainter painter(this);
-        painter.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-        painter.setBrush(QBrush(QColor(86, 86, 86)));
-        painter.setPen(Qt::transparent);
-        QRect rect = this->rect();
-        rect.setWidth(rect.width() - 0);
-        rect.setHeight(rect.height() - 0);
-        painter.drawRoundedRect(rect, 7, 7);
-        {
-            QPainterPath painterPath;
-            painterPath.addRoundedRect(rect, 7, 7);
-            painter.drawPath(painterPath);
-        }
-        QWidget::paintEvent(event);
-    }
+    void paintEvent(QPaintEvent *event);
+
     int close_flag;
 private slots:
     void on_closebtn_clicked();

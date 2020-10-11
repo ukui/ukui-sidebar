@@ -2,6 +2,49 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="tr_TR">
 <context>
+    <name>QWidgetTextControl</name>
+    <message>
+        <source>&amp;Undo</source>
+        <translatorcomment>İptal Et</translatorcomment>
+        <translation type="vanished">İptal Et</translation>
+    </message>
+    <message>
+        <source>&amp;Redo</source>
+        <translatorcomment>Onar</translatorcomment>
+        <translation type="vanished">Onar</translation>
+    </message>
+    <message>
+        <source>Cu&amp;t</source>
+        <translatorcomment>Kes</translatorcomment>
+        <translation type="vanished">Kes</translation>
+    </message>
+    <message>
+        <source>&amp;Copy</source>
+        <translatorcomment>Kopyala</translatorcomment>
+        <translation type="vanished">Kopyala</translation>
+    </message>
+    <message>
+        <source>Copy &amp;Link Location</source>
+        <translatorcomment>Bağlantıyı Kopyala</translatorcomment>
+        <translation type="vanished">Bağlantıyı Kopyala</translation>
+    </message>
+    <message>
+        <source>&amp;Paste</source>
+        <translatorcomment>Yapıştır</translatorcomment>
+        <translation type="vanished">Yapıştır</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translatorcomment>Sil</translatorcomment>
+        <translation type="obsolete">Sil</translation>
+    </message>
+    <message>
+        <source>Select All</source>
+        <translatorcomment>Tümünü Seç</translatorcomment>
+        <translation type="obsolete">Tümünü Seç</translation>
+    </message>
+</context>
+<context>
     <name>feedback</name>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="137"/>
@@ -164,20 +207,20 @@
         <translation>Dosya boyutu 10 MB&apos;ı aşıyor veya dosya biçimi desteklenmiyor</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="606"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="613"/>
         <source>select file</source>
         <translatorcomment>Dosya Seç</translatorcomment>
         <translation>Dosya Seç</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1243"/>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1371"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1257"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1385"/>
         <source>submit</source>
         <translatorcomment>Gönder</translatorcomment>
         <translation>Gönder</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1313"/>
+        <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1327"/>
         <source>del</source>
         <translatorcomment>Sil</translatorcomment>
         <translation>Sil</translation>
@@ -246,6 +289,11 @@
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/submitFail.cpp" line="135"/>
+        <source>Service Unavailable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-feedback/submitFail.cpp" line="138"/>
         <source>unknown mistake</source>
         <translatorcomment>Bilinmeyen Hata</translatorcomment>
         <translation>Bilinmeyen Hata</translation>
@@ -281,57 +329,6 @@
         <source>exit</source>
         <translatorcomment>Çıkış</translatorcomment>
         <translation type="vanished">Çıkış</translation>
-    </message>
-</context>
-<context>
-    <name>QWidgetTextControl</name>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2264"/>
-        <source>&amp;Undo</source>
-        <translatorcomment>İptal Et</translatorcomment>
-        <translation>İptal Et</translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2268"/>
-        <source>&amp;Redo</source>
-        <translatorcomment>Onar</translatorcomment>
-        <translation>Onar</translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2275"/>
-        <source>Cu&amp;t</source>
-        <translatorcomment>Kes</translatorcomment>
-        <translation>Kes</translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2284"/>
-        <source>&amp;Copy</source>
-        <translatorcomment>Kopyala</translatorcomment>
-        <translation>Kopyala</translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2293"/>
-        <source>Copy &amp;Link Location</source>
-        <translatorcomment>Bağlantıyı Kopyala</translatorcomment>
-        <translation>Bağlantıyı Kopyala</translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2301"/>
-        <source>&amp;Paste</source>
-        <translatorcomment>Yapıştır</translatorcomment>
-        <translation>Yapıştır</translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2306"/>
-        <source>Delete</source>
-        <translatorcomment>Sil</translatorcomment>
-        <translation type="unfinished">Sil</translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2315"/>
-        <source>Select All</source>
-        <translatorcomment>Tümünü Seç</translatorcomment>
-        <translation type="unfinished">Tümünü Seç</translation>
     </message>
 </context>
 </TS>

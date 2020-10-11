@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QToolButton>
 #include <QLabel>
+#include <QPushButton>
 
 namespace Ui {
 class Btn_new;
@@ -19,7 +20,7 @@ public:
 
 private:
     Ui::Btn_new *ui;
-    QLabel *IconLabel;
+    QPushButton *IconLabel;
     QLabel *textLabel;
     Clock * m_pclock;
     int clock_num;

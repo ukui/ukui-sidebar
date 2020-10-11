@@ -58,14 +58,15 @@ void noteHeadMenu::paintEvent(QPaintEvent *event)
 
 void noteHeadMenu::buttonInit()
 {
-    QPixmap pixmap1;
-    QPixmap pixmap2;
-    pixmap1 = QPixmap(":/image/1x/close_block.png");
-    pixmap2 = QPixmap(":/image/1x/more_block.png");
-    ui->pushButtonExit->setIcon(pixmap1);
+    ui->pushButtonExit->setIcon(QPixmap(":/image/1x/close_block.png"));
+//    ui->pushButtonExit->setIcon(QIcon::fromTheme("window-close-symbolic"));
     ui->pushButtonExit->setIconSize(QSize(20,20));
-    ui->pushButtonMenu->setIcon(pixmap2);
+    ui->pushButtonMenu->setIcon(QPixmap(":/image/1x/more_block.png"));
     ui->pushButtonMenu->setIconSize(QSize(20,20));
-
+    ui->pushButtonExit->setProperty("useIconHighlightEffect", true);
+    ui->pushButtonExit->setProperty("iconHighlightEffectMode", 1);
     ui->pushButtonMenu->hide();
+    QPalette palette2 = ui->pushButtonExit->palette();
+    palette2.setColor(QPalette::Highlight, Qt::transparent); /* 取消按钮高亮 */
+    ui->pushButtonExit->setPalette(palette2);
 }

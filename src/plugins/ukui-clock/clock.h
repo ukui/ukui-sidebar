@@ -43,6 +43,7 @@
 #include <QLineEdit>
 #include "setupPage.h"
 #include <QPropertyAnimation>
+#include "adaptscreeninfo.h"
 
 class QSpinBox;
 class QComboBox;
@@ -71,31 +72,22 @@ public:
     explicit Clock(QWidget *parent = nullptr);
     ~Clock();
 
-    void paintEvent(QPaintEvent *event)
-    {
-        QPainter painter(this);
-        painter.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-                                                        //Antialiasing
-        painter.setBrush(QBrush(QColor(14, 19, 22)));
-        painter.setPen(Qt::transparent);
-        QRect rect = this->rect();
-        rect.setWidth(rect.width() - 0);
-        rect.setHeight(rect.height() - 0);
-        painter.drawRoundedRect(rect, 7, 7);
-        //也可用QPainterPath 绘制代替 painter.drawRoundedRect(rect, 15, 15);
-        //Qpainterpath drawing can also be used instead
-        {
-            QPainterPath painterPath;
-            painterPath.addRoundedRect(rect, 7, 7);
-            painter.drawPath(painterPath);
-        }
-        QWidget::paintEvent(event);
-    }
+    void paintEvent(QPaintEvent *event);
+    bool eventFilter(QObject *watched, QEvent *event);
+    void showPaint();
+    void showPaint1();
+    void showPaint2();
+    void showPaint3();
+    void showPaint4();
+    void showPaint5();
+    void showPaint6();
+
     Ui::Clock *ui;
     QSqlTableModel *model_setup;
 
 protected:
     void paintEvent1(QPaintEvent *);
+    QPixmap ChangeImageColor(QPixmap sourcePixmap, QColor origColor, QColor destColor);
 
 public slots:
     void on_pushButton_clicked();                                                        //倒计时切换
@@ -161,7 +153,7 @@ private slots:
                                                                                          // Alarm re edit save callback
     void stopwatch_start_Animation();                                                    //倒计时开始动画移动
                                                                                          // Countdown start animation move
-    void stopwatch_stop_Animation();                                                     //倒计时开始动画移动
+    void stopwatch_stop_Animation();                                                     //倒计时结束动画移动
                                                                                          // Countdown start animation move
     void stat_countdown();                                                               //倒计时执行
                                                                                          // Countdown execution
@@ -227,7 +219,7 @@ private slots:
                                                                                          // Turn off the alarm separately if it is not repeated
     int get_alarm_clock_will_ring_days(int num);                                         //计算下次闹钟响起天数间隔
                                                                                          // Calculate the next alarm ring interval
-    int get_alarm_clock_will_ring_days_2(int num);                                         //计算下次闹钟响起天数间隔
+    int get_alarm_clock_will_ring_days_2(int num);                                       //计算下次闹钟响起天数间隔
                                                                                          // Calculate the next alarm ring interval
     QString change_NUM_to_str(int alarmHour);                                            //整型转字符
                                                                                          // Integer to character
@@ -339,6 +331,11 @@ private:
     Btn_new *bta_tool_clock;
     Btn_new *bta_tool_stop;
     close_or_hide *close_or_hide_page;
+    adaptScreenInfo *m_pSreenInfo = nullptr;
+    QPushButton *pushcount;
+    QPushButton *pushclock;
+    QPushButton *pushstop;
+    QPushButton *count_stat;
 };
 
 

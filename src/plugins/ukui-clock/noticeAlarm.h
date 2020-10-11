@@ -40,6 +40,10 @@ public:
     ~Natice_alarm();
      Ui::Natice_alarm *ui;
 
+     bool eventFilter(QObject *watched, QEvent *event);
+     void showPaint();
+
+
 protected:
      //绘制背景
      // Draw background

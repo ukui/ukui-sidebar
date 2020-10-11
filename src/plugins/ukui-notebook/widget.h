@@ -55,6 +55,7 @@
 #include "editPage.h"
 #include "noteExitWindow.h"
 #include "ui_editPage.h"
+#include "adaptscreeninfo.h"
 
 extern int sink;
 
@@ -89,24 +90,6 @@ protected:
 
 private:
     Edit_page *m_notebook;                                          //新建便签指针
-
-    QPixmap pixmap1;
-    QPixmap pixmap2;
-    QPixmap pixmap3;
-    QPixmap pixmap4;
-    QPixmap pixmap5;
-    QPixmap pixmap6;
-    QPixmap pixmap7;
-    QPixmap pixmap8;
-    QPixmap pixmap9;
-    QPixmap pixmap10;
-    QPixmap pixmap11;
-    QPixmap pixmap12;
-    QPixmap pixmap13;
-    QPixmap pixmap14;
-    QPixmap pixmap15;
-    QPixmap pixmap16;
-
     int m_listflag;                                                 //平铺/展开列表切换
     int sortflag;                                                   //升降序切换
     noteExitWindow* m_noteExitWindow=nullptr;                       //退出弹窗
@@ -133,6 +116,7 @@ private:
     QThread* m_dbThread;                                            //数据库线程
     QMenu* m_menu;                                                  //菜单
     QAction* m_menuAction;                                          //菜单动作
+    adaptScreenInfo *m_pSreenInfo;
 
     int m_noteCounter;                                              //便签总数
     int m_trashCounter;                                             //废纸篓总数
