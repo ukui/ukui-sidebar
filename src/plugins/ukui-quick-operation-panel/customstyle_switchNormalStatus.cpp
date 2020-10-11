@@ -75,8 +75,9 @@ void customstyle_switchNormalStatus::drawPrimitive(QStyle::PrimitiveElement elem
                     painter->save();
                     painter->setRenderHint(QPainter::Antialiasing,true);
                     painter->setPen(Qt::NoPen);
-                    QColor color(246, 246, 246);
-                    painter->setBrush(color);
+
+//                    QColor color(246, 246, 246);
+                    painter->setBrush(option->palette.color(QPalette::Button));
                     painter->setOpacity(1);
                     painter->drawRoundedRect(option->rect, 28, 28);
                     painter->restore();
@@ -84,8 +85,8 @@ void customstyle_switchNormalStatus::drawPrimitive(QStyle::PrimitiveElement elem
                     painter->save();
                     painter->setRenderHint(QPainter::Antialiasing,true);
                     painter->setPen(Qt::NoPen);
-                    QColor color(246, 246, 246);
-                    painter->setBrush(color);
+//                    QColor color(246, 246, 246);
+                    painter->setBrush(option->palette.color(QPalette::Button));
                     painter->setOpacity(1);
                     painter->drawRoundedRect(option->rect, 28, 28);
                     painter->restore();
@@ -94,8 +95,8 @@ void customstyle_switchNormalStatus::drawPrimitive(QStyle::PrimitiveElement elem
                 painter->save();
                 painter->setRenderHint(QPainter::Antialiasing,true);
                 painter->setPen(Qt::NoPen);
-                QColor color(246, 246, 246);
-                painter->setBrush(color);
+//                QColor color(246, 246, 246);
+                painter->setBrush(option->palette.color(QPalette::Button));
                 painter->setOpacity(1);
                 painter->drawRoundedRect(option->rect, 28, 28);
                 painter->restore();
