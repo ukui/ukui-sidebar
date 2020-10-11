@@ -16,6 +16,7 @@
 *
 */
 #include "shortcutpanelplugin.h"
+#include <QGSettings>
 
 shortcutPanelPlugin::shortcutPanelPlugin(QObject *parent)
 {
@@ -37,6 +38,7 @@ shortcutPanelPlugin::shortcutPanelPlugin(QObject *parent)
     initShortcutButtonGsetting();  // 初始化记住上次编辑按钮的gsetting值
     initsetShortWidget();          // 布局快捷按钮界面
     setWidget();                   // 将切换按钮和ListView界面set进插件主界面
+    initThemeGsetting();           // 初始化主题gsetting值
 }
 
 /* 初始化插件成员变量 */
@@ -139,8 +141,10 @@ void shortcutPanelPlugin::initShortButtonWidget()
 
     /* 节能模式 */
     m_pPowerSavingMode = new powerSavingMode();
-    ShortButtonWidgetList.append(m_pPowerSavingMode);
-    m_pButtonGsettingValue.append("powersavingmodevalue");
+    if (m_bBacklitFile) {
+        ShortButtonWidgetList.append(m_pPowerSavingMode);
+        m_pButtonGsettingValue.append("powersavingmodevalue");
+    }
     connect(m_pPowerSavingMode->m_pDeleteButton, &QPushButton::clicked, this, [=](){
         setCanceGsettingButtonValue("powersavingmodevalue");
     });
@@ -245,6 +249,32 @@ void shortcutPanelPlugin::initShortcutButtonGsetting()
     return;
 }
 
+/* 初始化主题的gsetting值，监听主题切换 */
+void shortcutPanelPlugin::initThemeGsetting()
+{
+    const QByteArray id(UKUI_THEME_GSETTING_PATH);
+    if (QGSettings::isSchemaInstalled(id)) {
+        m_pthemeGsettingValue = new QGSettings(id);
+        if (m_pthemeGsettingValue) {
+            connect(m_pthemeGsettingValue, &QGSettings::changed, m_pLinelabel_1, [=](QString keyName) {
+                if (keyName == "styleName") {
+                    QPalette palette = m_pLinelabel_1->palette();
+                    QColor color = palette.color(palette.Button);
+                    color.setAlphaF(0.5);
+                    palette.setColor(QPalette::WindowText, color);
+                    m_pLinelabel_1->setPalette(palette);
+                    m_pLinelabel_2->setPalette(palette);
+                    m_pLinelabel_3->setPalette(palette);
+                    m_pLinelabel_1->update();
+                    m_pLinelabel_2->update();
+                    m_pLinelabel_3->update();
+                }
+            });
+        }
+    }
+}
+
+
 /* 布局8个快捷方式的按钮, 初始化 */
 void shortcutPanelPlugin::initsetShortWidget()
 {
@@ -303,9 +333,10 @@ void shortcutPanelPlugin::setWidget()
     m_pLinelabel_1 = new QFrame();
     m_pLinelabel_1->setFrameShape(QFrame::HLine);
     QPalette palette = m_pLinelabel_1->palette();
-    QColor color = palette.color(QPalette::Text);
-    color.setAlphaF(0.1);
+    QColor color = palette.color(palette.Button);
+    color.setAlphaF(0.5);
     palette.setColor(QPalette::WindowText, color);
+
     m_pLinelabel_1->setPalette(palette);
     m_pLinelabel_1->setFixedSize(392, 1);
 
@@ -325,8 +356,8 @@ void shortcutPanelPlugin::setWidget()
     }
 
     m_pLinelabel_3 = new QFrame();
-    m_pLinelabel_3->setFixedSize(392, 1);
     m_pLinelabel_3->setFrameShape(QFrame::HLine);
+    m_pLinelabel_3->setFixedSize(392, 1);
 
     m_pLinelabel_3->setPalette(palette);
     m_pMainVLayout->addWidget(m_pLinelabel_3);

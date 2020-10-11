@@ -69,6 +69,7 @@
 #define SPREAD_BUTTON_PRESS_NAME   "kylin-open-pressed"
 
 #define SHORTCUT_BUTTON_GSETTING_PATH "org.ukui.quick-operation.button.widget"
+#define UKUI_THEME_GSETTING_PATH   "org.ukui.style"
 
 #define PAD_NAME                   "平板模式"
 #define WIFI_NAME                  "Wifi"
@@ -95,6 +96,7 @@ public:
     void initShortButtonWidget();
     void initShortcutButtonGsetting();
     void initsetShortWidget();
+    void initThemeGsetting();
     void setScrollWidget();
     void setWidget();
 
@@ -138,6 +140,7 @@ private:
     QStringList   m_FoldButtonIconNameList;
 
     QGSettings   *m_pGsettingShutcutValue;
+    QGSettings   *m_pthemeGsettingValue;
 
     MyClass data[8];
     QList<QWidget*> ShortButtonWidgetList;
