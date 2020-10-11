@@ -36,7 +36,6 @@ item_new::item_new(QWidget *parent) :
                                  height:17px;\
                                  font-size:18px;\
                                  font-weight:500;\
-                                 color:rgba(255,255,255,1);\
                                  ");
     alarmLabel_w0->setText("闹钟");
 
@@ -45,7 +44,7 @@ item_new::item_new(QWidget *parent) :
                                       //Repetition of alarm clock
     alarmLabel_s0->move(24, 34);
     alarmLabel_s0->setFixedSize(170, 17);
-    alarmLabel_s0->setStyleSheet("font: 9pt ;color: rgb(148, 148, 148);background-color: rgb();\
+    alarmLabel_s0->setStyleSheet("font: 9pt ;background-color: rgb();\
                                  width:42px;\
                                  height:14px;\
                                  font-size:14px;\
@@ -60,7 +59,7 @@ item_new::item_new(QWidget *parent) :
     alarm_line0 = new QFrame(this);
     alarm_line0->move(13, 57);
     alarm_line0->setFixedSize(350, 1);
-    alarm_line0->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);background-color: rgba(255, 255, 255, 0.15);"));
+    alarm_line0->setStyleSheet(QString::fromUtf8("background-color: rgb(102, 102, 102);"));
 
 
     alarmLabel0 = new QLabel(this);//闹钟
@@ -72,7 +71,7 @@ item_new::item_new(QWidget *parent) :
                                height:22px;\
                                font-size:30px;\
                                font-weight:400;\
-                               color:rgba(255,255,255,1);");
+                               ");
     alarmLabel0->setText("00:00");
     alarmLabel0->setVisible(true);
     alarmLabel0->show();
@@ -82,7 +81,7 @@ item_new::item_new(QWidget *parent) :
     alarmLabel1->move(170,0);
     alarmLabel1->setFixedSize(31, 56);
     alarmLabel1->setStyleSheet("font: 10pt;background-color: rgb();\
-                               color:rgba(255,255,255,1);");
+                               ");
     alarmLabel1->setText("上午");
     alarmLabel1->setVisible(true);
 
@@ -93,7 +92,7 @@ item_new::item_new(QWidget *parent) :
     alarm_on_off0->setFixedSize(50, 24);
     alarm_on_off0->setFlat(true);
     alarm_on_off0->setVisible(true);
-    alarm_on_off0->setStyleSheet("border-image: url(:/alarm_on.png);background-color: rgb();border-radius:6px;");
+    alarm_on_off0->setStyleSheet("border-image: url(:/alarm_on.png);background-color: rgb();border-radius:7px;");
 }
 
 item_new::~item_new()

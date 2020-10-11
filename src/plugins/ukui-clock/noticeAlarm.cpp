@@ -23,6 +23,8 @@
 #include <QMediaPlaylist>
 #include <QDebug>
 
+extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
+
 Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
     QWidget(parent),
     num_flag(num),
@@ -61,6 +63,27 @@ Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
 
     natice_init();
     setAttribute(Qt::WA_DeleteOnClose);
+    ui->widget->installEventFilter(this);
+
+    QPalette palette = ui->pushButton_3->palette();
+    QColor ColorPlaceholderText(61,107,229,255);
+    QBrush brush2;
+    brush2.setColor(ColorPlaceholderText);
+    palette.setColor(QPalette::Button,QColor(61,107,229,255));
+    palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
+    ui->pushButton_3->setPalette(palette);
+
+    QPalette palette1 = ui->pushButton->palette();
+    QColor ColorPlaceholderText1(255,255,255,0);
+    QBrush brush;
+    brush.setColor(ColorPlaceholderText1);
+    palette.setBrush(QPalette::Button, brush);
+    ui->pushButton->setPalette(palette1);
+
+    ui->pushButton->setIcon(QIcon::fromTheme("window-close-symbolic"));
+    ui->pushButton->setFlat(true);
+    ui->pushButton->setVisible(true);
+    ui->pushButton->setFocusPolicy(Qt::NoFocus);
 }
 
 Natice_alarm::~Natice_alarm()
@@ -194,4 +217,88 @@ void Natice_alarm::ring()
         timer->start();
         music->play();
     }
+}
+
+
+bool Natice_alarm::eventFilter(QObject *watched, QEvent *event)
+{
+    if(watched == ui->widget && event->type() == QEvent::Paint)
+    {
+        showPaint(); //响应函数
+    }
+    return QWidget::eventFilter(watched,event);
+}
+
+//实现响应函数
+void Natice_alarm::showPaint()
+{
+//    QPainter painter(ui->widget);
+//    painter.setPen(Qt::gray);
+//    painter.setBrush(Qt::green);
+//    QStyleOption opt;
+//    opt.init(this);
+//    painter.setBrush(opt.palette.color(QPalette::Base));
+//    painter.setPen(Qt::transparent);
+//    QRect rect = ui->widget->rect();
+//    rect.setWidth(rect.width() - 0);
+//    rect.setHeight(rect.height() - 0);
+//    painter.drawRoundedRect(rect, 7, 7);
+//    {
+//        QPainterPath painterPath;
+//        painterPath.addRoundedRect(rect, 0, 0);
+//        painter.drawPath(painterPath);
+//    }
+    QPainter painter(ui->widget);
+    painter.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+
+    QStyleOption opt;
+    opt.init(ui->widget);
+    painter.setBrush(opt.palette.color(QPalette::Base));
+
+    painter.setPen(Qt::transparent);
+    QRect rect = ui->widget->rect();
+    rect.setWidth(rect.width() - 0);
+    rect.setHeight(rect.height() - 0);
+    painter.drawRoundedRect(rect, 7, 7);
+    {
+        QPainterPath painterPath;
+        painterPath.addRoundedRect(rect, 7, 7);
+        painter.drawPath(painterPath);
+    }
+
+    QPainter p(ui->widget);
+    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+    QPainterPath rectPath;
+    rectPath.addRoundedRect(ui->widget->rect().adjusted(2, 2, -2, -2), 6, 6);
+
+    // 画一个黑底
+    QPixmap pixmap(ui->widget->rect().size());
+    pixmap.fill(Qt::transparent);
+    QPainter pixmapPainter(&pixmap);
+    pixmapPainter.setRenderHint(QPainter::Antialiasing);
+    pixmapPainter.setPen(Qt::transparent);
+    pixmapPainter.setBrush(Qt::gray);
+    pixmapPainter.drawPath(rectPath);
+    pixmapPainter.end();
+
+    // 模糊这个黑底
+    QImage img = pixmap.toImage();
+    qt_blurImage(img, 10, false, false);
+
+    // 挖掉中心
+    pixmap = QPixmap::fromImage(img);
+    QPainter pixmapPainter2(&pixmap);
+    pixmapPainter2.setRenderHint(QPainter::Antialiasing);
+    pixmapPainter2.setCompositionMode(QPainter::CompositionMode_Clear);
+    pixmapPainter2.setPen(Qt::transparent);
+    pixmapPainter2.setBrush(QColor(78,78,78));
+    pixmapPainter2.drawPath(rectPath);
+
+    // 绘制阴影
+    p.drawPixmap(ui->widget->rect(), pixmap, pixmap.rect());
+    p.setOpacity(0.9);
+    // 绘制一个背景
+    p.save();
+    p.fillPath(rectPath,palette().color(QPalette::Base));
+    p.restore();
 }

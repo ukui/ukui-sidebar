@@ -34,6 +34,15 @@ public:
     explicit setuppage( double , double, QWidget *parent = nullptr );
     ~setuppage();
 
+    void paintEvent(QPaintEvent *event);
+    bool eventFilter(QObject *watched, QEvent *event);
+    void showPaint();
+    void showPaint2();
+    void showPaint3();
+    void showPaint4();
+    void showPaint5();
+
+
     Ui::setuppage *ui;
     set_alarm_repeat_Dialog * dialog_werk_day = nullptr;
     set_alarm_repeat_Dialog * Time_format = nullptr;

@@ -32,14 +32,14 @@ stopwatch_item::stopwatch_item(QWidget *parent) :
                               height:17px;\
                               font-size:18px;\
                               font-weight:400;\
-                              color:rgba(255,255,255,1);");
+                             ");
     stopwatch1->setText("起床铃");
 
 
     stopwatch2 = new QLabel( this);//间隔
     stopwatch2->move(24, 34);
     stopwatch2->setFixedSize(110, 17);
-    stopwatch2->setStyleSheet("font: 9pt ;color: rgb(148, 148, 148);background-color: rgb();width:85px;\
+    stopwatch2->setStyleSheet("font: 9pt ;background-color: rgb();width:85px;\
                               height:14px;\
                               font-size:14px;\
                               font-weight:400;\
@@ -51,15 +51,14 @@ stopwatch_item::stopwatch_item(QWidget *parent) :
     stopwatch_line = new QFrame(this);//线
     stopwatch_line->move(13, 55);
     stopwatch_line->setFixedSize(350, 1);
-    stopwatch_line->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);background-color: rgb(102, 102, 102);"));
+    stopwatch_line->setStyleSheet(QString::fromUtf8("background-color: rgb(102, 102, 102);"));
     stopwatch3 = new QLabel(this);//记次时间
     stopwatch3->move(209,5);
-    stopwatch3->setFixedSize(145, 50);
+    stopwatch3->setFixedSize(145, 54);
     stopwatch3->setStyleSheet("font: 17pt ;background-color: rgb();width:114px;\
                               height:22px;\
                               font-size:30px;\
                               font-weight:400;\
-                              color:rgba(255,255,255,1)\
                               ;");
     stopwatch3->setAlignment(Qt::AlignRight);
     stopwatch3->setText("00:00");
@@ -73,8 +72,7 @@ stopwatch_item::~stopwatch_item()
     delete stopwatch3;
 
     delete stopwatch_line;
-     qDebug()<<"-------stopwatch_item---------";
-
+    qDebug()<<"-------stopwatch_item---------";
 }
 
 

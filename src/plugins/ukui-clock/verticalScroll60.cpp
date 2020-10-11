@@ -111,9 +111,9 @@ void VerticalScroll_60::mouseReleaseEvent(QMouseEvent *)
 void VerticalScroll_60::wheelEvent(QWheelEvent *event)
 {
     if (event->delta() > 0) {
-         if(m_currentValue <= m_minRange)
+        if(m_currentValue <= m_minRange)
             m_currentValue = m_maxRange;
-         else
+        else
             m_currentValue-=1;
     } else {
         if (m_currentValue >= m_maxRange)
@@ -167,7 +167,6 @@ void VerticalScroll_60::paintEvent(QPaintEvent *)
         if (m_currentValue + interval * i <= m_maxRange)
             paintNum(painter, m_currentValue + interval * i, m_deviation + Height / devide * i);
     }
-
 }
 /*
  * 根据偏移量描绘数字
@@ -180,7 +179,7 @@ void VerticalScroll_60::paintNum(QPainter &painter, int num, int deviation)
     int Width = width() - 1;
     int Height = height() - 1;
     int size = (Height - qAbs(deviation)) / m_numSize; //偏移量越大，数字越小
-                                                       //The larger the offset, the smaller the number
+    //The larger the offset, the smaller the number
     int transparency = 255 - 255 * qAbs(deviation) / Height;
     int height = Height / devide;
     int y = Height / 2 + deviation - height / 2;
@@ -189,6 +188,18 @@ void VerticalScroll_60::paintNum(QPainter &painter, int num, int deviation)
     font.setPixelSize(size);
     painter.setFont(font);
     painter.setPen(QColor(255,255,255,transparency));
+
+    QStyleOption opt;
+    opt.init(this);
+    painter.setBrush(opt.palette.color(QPalette::Base));
+
+    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
+    {
+        painter.setPen(QColor(34,34,34,transparency));
+    }else{
+        painter.setPen(QColor(255,255,255,transparency));
+    }
+
     if ( y >= 0 && y + height < Height) {
         painter.drawText(QRectF(0, y, Width, height),
                          Qt::AlignCenter,
