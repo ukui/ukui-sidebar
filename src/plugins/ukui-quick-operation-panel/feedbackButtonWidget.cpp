@@ -14,7 +14,7 @@ void feedbackButtonWidget::initMemberVariables()
     m_pFeedBackButton = new QPushButton();
     connect(m_pFeedBackButton, &switchButton::clicked, this, &feedbackButtonWidget::FeedbackButtonClickSlots);
     m_pFeedBackButton->setFixedSize(56, 56);
-    m_pFeedBackButton->setIcon(QIcon::fromTheme("icon-alarm", QIcon(KYLIN_AlARM_NORMAL_PATH)));
+    m_pFeedBackButton->setIcon(QIcon::fromTheme(KYLIN_FEEDBACK_NORMAL_NAME, QIcon(KYLIN_AlARM_NORMAL_PATH)));
     m_pFeedBackButton->setIconSize(QSize(24, 24));
 
     m_pDeleteButton = new QPushButton();
