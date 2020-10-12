@@ -30,5 +30,10 @@
             <summary>disturb Mode status</summary>
             <description>Remember not to disturb the mode state</description>
         </key>
+        <key name="notificationvalue" type="b">
+            <default>true</default>
+            <summary>notification signals widget size value</summary>
+            <description>notification signals widget size value</description>
+        </key>
     </schema>
 </schemalist>

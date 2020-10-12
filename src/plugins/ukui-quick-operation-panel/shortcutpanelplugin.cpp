@@ -247,6 +247,10 @@ void shortcutPanelPlugin::initShortcutButtonGsetting()
     if (m_pGsettingShutcutValue != nullptr) {
         connect(m_pGsettingShutcutValue, &QGSettings::changed, this, &shortcutPanelPlugin::resetShortWidget);
     }
+    /* 用于记录当前节能模式开关状态 */
+    const QByteArray id_2(UKUI_VOLUME_BRIGHTNESS_GSETTING_ID);
+    if (QGSettings::isSchemaInstalled(id_2))
+        m_pNotificationStatusGsetting = new QGSettings(id_2);
     return;
 }
 
@@ -274,7 +278,6 @@ void shortcutPanelPlugin::initThemeGsetting()
         }
     }
 }
-
 
 /* 布局8个快捷方式的按钮, 初始化 */
 void shortcutPanelPlugin::initsetShortWidget()
@@ -465,7 +468,7 @@ void shortcutPanelPlugin::spreadClikedSlots()
     }
     m_pLinelabel_2->setVisible(true);
     m_pLinelabel_3->setVisible(true);
-    m_pGsettingShutcutValue->set("notificationvalue", true);
+    m_pNotificationStatusGsetting->set("notificationvalue", true);
     m_pMainWidget->update();
     return;
 }
@@ -484,7 +487,7 @@ void shortcutPanelPlugin::foldClikedSlots()
     m_pWeatherWidget->setVisible(false);
     m_pLinelabel_2->setVisible(false);
     m_pLinelabel_3->setVisible(false);
-    m_pGsettingShutcutValue->set("notificationvalue", false);
+    m_pNotificationStatusGsetting->set("notificationvalue", false);
     m_pMainWidget->update();
     return;
 }

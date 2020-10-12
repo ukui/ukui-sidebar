@@ -69,6 +69,8 @@
 #define SPREAD_BUTTON_PRESS_NAME   "kylin-open-pressed"
 
 #define SHORTCUT_BUTTON_GSETTING_PATH "org.ukui.quick-operation.button.widget"
+#define UKUI_VOLUME_BRIGHTNESS_GSETTING_ID     "org.ukui.quick-operation.panel"
+#define UKUI_NOTIFICATION_STATUS_VALUE  "notificationvalue"
 #define UKUI_THEME_GSETTING_PATH   "org.ukui.style"
 
 #define PAD_NAME                   "平板模式"
@@ -140,6 +142,7 @@ private:
     QStringList   m_FoldButtonIconNameList;
 
     QGSettings   *m_pGsettingShutcutValue;
+    QGSettings   *m_pNotificationStatusGsetting;
     QGSettings   *m_pthemeGsettingValue;
 
     MyClass data[8];
