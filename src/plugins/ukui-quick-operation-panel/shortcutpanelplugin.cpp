@@ -244,8 +244,9 @@ void shortcutPanelPlugin::initShortcutButtonGsetting()
     const QByteArray id(SHORTCUT_BUTTON_GSETTING_PATH);
     if(QGSettings::isSchemaInstalled(id))
         m_pGsettingShutcutValue = new QGSettings(id);
-    if (m_pGsettingShutcutValue != nullptr)
+    if (m_pGsettingShutcutValue != nullptr) {
         connect(m_pGsettingShutcutValue, &QGSettings::changed, this, &shortcutPanelPlugin::resetShortWidget);
+    }
     return;
 }
 
@@ -464,6 +465,7 @@ void shortcutPanelPlugin::spreadClikedSlots()
     }
     m_pLinelabel_2->setVisible(true);
     m_pLinelabel_3->setVisible(true);
+    m_pGsettingShutcutValue->set("notificationvalue", true);
     m_pMainWidget->update();
     return;
 }
@@ -482,6 +484,7 @@ void shortcutPanelPlugin::foldClikedSlots()
     m_pWeatherWidget->setVisible(false);
     m_pLinelabel_2->setVisible(false);
     m_pLinelabel_3->setVisible(false);
+    m_pGsettingShutcutValue->set("notificationvalue", false);
     m_pMainWidget->update();
     return;
 }

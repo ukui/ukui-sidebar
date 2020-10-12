@@ -67,5 +67,10 @@
             <summary>feedback button widget value</summary>
             <description>Interacts with the volume component to adjust the volume</description>
         </key>
+        <key name="notificationvalue" type="b">
+            <default>true</default>
+            <summary>notification signals widget size value</summary>
+            <description>Interacts with the volume component to adjust the volume</description>
+        </key>
     </schema>
 </schemalist>
