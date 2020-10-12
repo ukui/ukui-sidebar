@@ -173,7 +173,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
     //收纳和删除按钮布局
     pStorageDeleteButtonHLaout->addItem(new QSpacerItem(1, 10, QSizePolicy::Expanding, QSizePolicy::Fixed));
-    pStorageDeleteButtonHLaout->addWidget(m_pSingleTakeinButton, 0, Qt::AlignRight);
+   // pStorageDeleteButtonHLaout->addWidget(m_pSingleTakeinButton, 0, Qt::AlignRight);
     pStorageDeleteButtonHLaout->addSpacerItem(new QSpacerItem(8, 10, QSizePolicy::Fixed, QSizePolicy::Fixed));
     pStorageDeleteButtonHLaout->addWidget(m_pSingleDeleteButton, 0, Qt::AlignRight);
     pStorageDeleteButtonHLaout->addItem(new QSpacerItem(15, 10, QSizePolicy::Fixed, QSizePolicy::Fixed));
