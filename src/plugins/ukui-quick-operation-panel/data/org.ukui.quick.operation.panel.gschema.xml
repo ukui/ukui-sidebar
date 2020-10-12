@@ -35,5 +35,10 @@
             <summary>notification signals widget size value</summary>
             <description>notification signals widget size value</description>
         </key>
+        <key name="prethemename" type="s">
+            <default>"ukui-default"</default>
+            <summary>Last topic name</summary>
+            <description>Last topic name</description>
+        </key>
     </schema>
 </schemalist>

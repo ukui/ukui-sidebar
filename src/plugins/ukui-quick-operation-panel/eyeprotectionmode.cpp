@@ -4,6 +4,7 @@ eyeProtectionMode::eyeProtectionMode(QWidget *parent) : QWidget(parent)
 {
     initMemberVariables();
     initGsettingValue();
+    setPreStyleName();
     initLayout();
 }
 
@@ -82,6 +83,11 @@ void eyeProtectionMode::initGsettingValue()
         const QByteArray gtkstyleid(GTK_STYLE);
         if (QGSettings::isSchemaInstalled(gtkstyleid))
             m_pgtkstyleGsettings = new QGSettings(gtkstyleid);
+
+        const QByteArray preThemeStatusGsettingID(UKUI_SHORTCUT_GSETTING_VALUEE);
+        if (QGSettings::isSchemaInstalled(preThemeStatusGsettingID))
+            m_pShortCutGsettings = new QGSettings(preThemeStatusGsettingID);
+
     } else {
         m_pEyeModeButton->setIcon(QIcon::fromTheme(KYLIN_EYE_MODE_OPEN_NAME, QIcon(KYLIN_EYE_MODE_OPEN_PATH)));
     }
@@ -152,27 +158,25 @@ void eyeProtectionMode::setEyeButtonStatus(const bool nightMode){
 /*设置主题*/
 void eyeProtectionMode::setUkuiStyle(QString style)
 {
-    if (QString::compare(style,"ukui-white")==0) {
+    if (QString::compare(style, "ukui-default") == 0 || QString::compare(style, "ukui-light") == 0) {
         if (m_pqtstyleGsettings->keys().contains(DEFAULT_QT_STYLE_NAME) || m_pqtstyleGsettings->keys().contains(UKUI_QT_STYLE_NAME))
-            m_pqtstyleGsettings->set(UKUI_QT_STYLE_NAME,"ukui-white");
+            m_pqtstyleGsettings->set(UKUI_QT_STYLE_NAME, style);
         else
-            qWarning()<<tr("don't contains the keys style-name");
+            qWarning() << tr("don't contains the keys style-name");
 
         if (m_pgtkstyleGsettings->keys().contains(DEFAULT_GTK_STYLE_NAME) || m_pgtkstyleGsettings->keys().contains(GTK_STYLE_NAME))
-            m_pgtkstyleGsettings->set(GTK_STYLE_NAME,"ukui-white");
+            m_pgtkstyleGsettings->set(GTK_STYLE_NAME, style);
         else
-            qWarning()<<tr("don't contains the keys style-name");
-
+            qWarning() << tr("don't contains the keys style-name");
     } else {
         if (m_pqtstyleGsettings->keys().contains(DEFAULT_QT_STYLE_NAME) || m_pqtstyleGsettings->keys().contains(UKUI_QT_STYLE_NAME))
-            m_pqtstyleGsettings->set(UKUI_QT_STYLE_NAME,"ukui-black");
+            m_pqtstyleGsettings->set(UKUI_QT_STYLE_NAME, "ukui-black");
         else
-            qWarning()<<tr("don't contains the keys style-name");
+            qWarning() << tr("don't contains the keys style-name");
         if (m_pgtkstyleGsettings->keys().contains(DEFAULT_GTK_STYLE_NAME) || m_pgtkstyleGsettings->keys().contains(GTK_STYLE_NAME))
-            m_pgtkstyleGsettings->set(GTK_STYLE_NAME,"ukui-black");
+            m_pgtkstyleGsettings->set(GTK_STYLE_NAME, "ukui-black");
         else
-            qWarning()<<tr("don't contains the keys style-name");
-
+            qWarning() << tr("don't contains the keys style-name");
     }
 }
 
@@ -187,7 +191,7 @@ void eyeProtectionMode::setupSettings()
 void eyeProtectionMode::writeKwinSettings(bool change, QString theme)
 {
     QString th;
-    if ("ukui-white" == theme)
+    if ("ukui-default" == theme || "ukui-light" == theme)
         th = "0";
     else
         th = "1";
@@ -217,10 +221,23 @@ void eyeProtectionMode::setLabelTextColor()
     this->update();
 }
 
+void eyeProtectionMode::setPreStyleName()
+{
+    m_pCureentTheme = m_pqtstyleGsettings->get("styleName").toString();
+    QString preStyleName = m_pShortCutGsettings->get("prethemename").toString();
+    if (preStyleName != m_pCureentTheme && m_pCureentTheme != "ukui-black") {
+        m_pShortCutGsettings->set("prethemename", m_pCureentTheme);
+    } else {
+        m_pCureentTheme = preStyleName;
+    }
+}
+
 void eyeProtectionMode::EyeButtonClickSlots()
 {
+
     if (QGSettings::isSchemaInstalled(NIGHT_MODE_CONTROL)) {
         if (!m_bModelStatus) {
+            setPreStyleName();
             if (m_pTabletModeGsetting->keys().contains(NIGHT_MODE_KEY)) {
                 setEyeButtonStatus(true);
                 setUkuiStyle("ukui-black");
@@ -230,8 +247,8 @@ void eyeProtectionMode::EyeButtonClickSlots()
         } else {
             if (m_pTabletModeGsetting->keys().contains(NIGHT_MODE_KEY)) {
                 setEyeButtonStatus(false);
-                setUkuiStyle("ukui-white");
-                writeKwinSettings(true,"ukui-white");
+                setUkuiStyle(m_pCureentTheme);
+                writeKwinSettings(true,m_pCureentTheme);
                 m_bModelStatus = false;
             }
         }

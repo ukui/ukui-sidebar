@@ -40,6 +40,7 @@
 #define DEFAULT_GTK_STYLE_NAME "gtkTheme"
 
 #define UKUI_PANEL_SETTINGS "org.ukui.panel.settings"
+#define UKUI_SHORTCUT_GSETTING_VALUEE "org.ukui.quick-operation.panel"
 #define SHOW_NIGHTMODE       "shownightmode"
 
 class eyeProtectionMode : public QWidget
@@ -57,6 +58,7 @@ public:
     void   writeKwinSettings(bool change, QString theme);       // 设置与Kwin　窗口管理器　标题栏颜色
     QColor getSystemPaleteColor();
     void   setLabelTextColor();
+    void   setPreStyleName();
     QPushButton   *m_pDeleteButton;
 
 protected:
@@ -70,6 +72,8 @@ private:
     QStyle        *m_pStyleOpen;
     QStyle        *m_pStyleNormal;
 
+    QString        m_pCureentTheme;
+
     LabelFotmatText *m_pLabelFotmatText;
 
     QSettings     *m_pqsettings;
@@ -77,6 +81,7 @@ private:
     QGSettings    *m_pTabletModeGsetting = nullptr;
     QGSettings    *m_pqtstyleGsettings   = nullptr;
     QGSettings    *m_pgtkstyleGsettings  = nullptr;
+    QGSettings    *m_pShortCutGsettings  = nullptr;
     QVBoxLayout   *m_pVboxButtonLayout   = nullptr;
     QVBoxLayout   *m_pVboxLayout         = nullptr;
 
