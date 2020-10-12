@@ -22,8 +22,10 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QStringList>
+#include <QApplication>
 #include <QIcon>
 #include <QSize>
+
 class PushButton : public QPushButton
 {
 public:

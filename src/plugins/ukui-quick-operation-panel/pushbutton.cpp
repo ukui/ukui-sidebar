@@ -21,11 +21,14 @@ PushButton::PushButton(QStringList path, QStringList iconNameList)
 {
     IconPath = path;
     IconNameList = iconNameList;
+
+    this->setProperty("useIconHighlightEffect", true);
+    this->setProperty("iconHighlightEffectMode", true);
     this->setIcon(QIcon::fromTheme(IconNameList.at(0), QIcon(IconPath.at(0))));
     this->setIconSize(QSize(28, 8));
 
     QPalette palette = this->palette();
-    palette.setColor(QPalette::Highlight, Qt::transparent); /* 取消按钮高亮 */
+//    palette.setColor(QPalette::Highlight, Qt::transparent); /* 取消按钮高亮 */
     palette.setBrush(QPalette::Button, QBrush(QColor(1, 1, 1 , 0)));
     this->setPalette(palette);
 }

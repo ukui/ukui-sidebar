@@ -47,7 +47,7 @@ void alarmButtonInterface::initLayout()
     m_pButtonWidget->setLayout(m_pVboxButtonLayout);
 
     m_pVboxLayout->addWidget(m_pButtonWidget, 0, Qt::AlignCenter);
-    m_pVboxLayout->addItem(new QSpacerItem(5, 4));
+    m_pVboxLayout->addItem(new QSpacerItem(5, 6, QSizePolicy::Fixed));
     m_pVboxLayout->addWidget(m_pAlarmLabel);
     this->setLayout(m_pVboxLayout);
     m_pDeleteButton->setParent(this);
