@@ -727,13 +727,13 @@ QListWidget::item:hover{background-color:rgba(72,72,76,0.5);border-radius:4px;}<
     <rect>
      <x>1</x>
      <y>37</y>
-     <width>20</width>
+     <width>454</width>
      <height>512</height>
     </rect>
    </property>
    <property name="maximumSize">
     <size>
-     <width>20</width>
+     <width>16777215</width>
      <height>16777215</height>
     </size>
    </property>
