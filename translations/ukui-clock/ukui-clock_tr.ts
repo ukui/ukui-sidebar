@@ -13,6 +13,7 @@
         <location filename="../../src/plugins/ukui-clock/clock.ui" line="556"/>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="682"/>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1780"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2007"/>
         <source>start</source>
         <translation>Başlat</translation>
     </message>
