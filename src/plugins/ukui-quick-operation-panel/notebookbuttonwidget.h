@@ -12,8 +12,8 @@
 #include "customstyle_switchNormalStatus.h"
 #include "labelfotmattext.h"
 
-#define KYLIN_BLUETOOTH_NORMAL_NAME     "kylin-icon-notes"
-#define KYLIN_BLUETOOTH_SET_NAME        "kylin-icon-notes-s"
+#define KYLIN_BLUETOOTH_NORMAL_NAME     "ukui-icon-notes"
+#define KYLIN_BLUETOOTH_SET_NAME        "ukui-icon-notes-s"
 
 #define KYLIN_BLUETOOTH_NORMAL_PATH     ":/images/icon-notes.svg"
 #define KYLIN_BLUETOOTH_SET_PATH        ":/images/icon-notes-s.svg"

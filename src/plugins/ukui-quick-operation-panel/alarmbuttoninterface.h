@@ -11,8 +11,8 @@
 #include "switchbutton.h"
 #include "customstyle_switchNormalStatus.h"
 
-#define KYLIN_ALARM_NORMAL_NAME         "kylin-alarm-normal"
-#define KYLIN_ALARM_NORMAL_NAME_SET     "kylin-alarm-normal-s"
+#define KYLIN_ALARM_NORMAL_NAME         "ukui-icon-alarm"
+#define KYLIN_ALARM_NORMAL_NAME_SET     "ukui-icon-alarm-s"
 #define KYLIN_BLUETOOTH_HOVER_NAME      "kylin-alarm-hover"
 #define KYLIN_BLUETOOTH_PRESS_NAME      "kylin-alarm-pressed"
 

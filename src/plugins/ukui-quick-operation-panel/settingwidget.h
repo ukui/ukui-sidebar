@@ -27,8 +27,8 @@
 #include "switchbutton.h"
 #include "customstyle_switchNormalStatus.h"
 
-#define KYLIN_SETTING_NORMAL_NAME       "kylin-icon-allsetting"
-#define KYLIN_SETTING_SET_NAME          "kylin-icon-allsetting-s"
+#define KYLIN_SETTING_NORMAL_NAME       "ukui-icon-allsetting"
+#define KYLIN_SETTING_SET_NAME          "ukui-icon-allsetting-s"
 
 #define KYLIN_SETTING_NORMAL_PATH       ":/images/icon-allsetting.svg"
 #define KYLIN_SETTING_SET_PATH          ":/images/icon-allsetting-s.svg"

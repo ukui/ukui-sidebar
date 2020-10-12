@@ -11,9 +11,9 @@
 #include "switchbutton.h"
 #include "customstyle_switchNormalStatus.h"
 
-#define KYLIN_VPN_NORMAL_NAME     "kylin-icon-VPN"
-#define KYLIN_VPN_SET_NAME        "kylin-icon-VPN-s"
-#define KYLIN_VPN_OPEN_NAME       "Kylin-icon-VPN-open.svg"
+#define KYLIN_VPN_NORMAL_NAME     "ukui-icon-VPN"
+#define KYLIN_VPN_SET_NAME        "ukui-icon-VPN-s"
+#define KYLIN_VPN_OPEN_NAME       "ukui-icon-VPN-open"
 
 #define KYLIN_BLUETOOTH_NORMAL_PATH     ":/images/icon-VPN.svg"
 #define KYLIN_VPN_SET_PATH              ":/images/icon-VPN-s.svg"

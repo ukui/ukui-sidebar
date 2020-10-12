@@ -26,9 +26,9 @@
 #include "switchbutton.h"
 #include "customstyle_switchNormalStatus.h"
 
-#define KYLIN_HOTSPOT_NORMAL_NAME      "kylin-icon-hotspot"
-#define KYLIN_HOTSPOT_SET_NAME       "kylin-icon-hotspot-s"
-#define KYLIN_HOTSPOT_OPEN_NAME       "kylin-icon-hotspot-open"
+#define KYLIN_HOTSPOT_NORMAL_NAME      "ukui-icon-hotspot"
+#define KYLIN_HOTSPOT_SET_NAME         "ukui-icon-hotspot-s"
+#define KYLIN_HOTSPOT_OPEN_NAME        "ukui-icon-hotspot-open"
 
 #define KYLIN_HOTSPOT_NORMAL_PATH      ":/images/icon-hotspot.svg"
 #define KYLIN_HOTSPOT_SET_PATH         ":/image/icon-hotspot-s.svg"

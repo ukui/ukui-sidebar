@@ -19,7 +19,7 @@
 #include "labelfotmattext.h"
 
 #define KYLIN_EYE_MODE_NORMAL_NAME   "ukui-icon-eyeprotectionmode"
-#define KYLIN_EYE_MODE_SET_NAME      "ukui-icon-hotspot-s"
+#define KYLIN_EYE_MODE_SET_NAME      "ukui-icon-eyeprotectionmode-s"
 #define KYLIN_EYE_MODE_OPEN_NAME     "ukui-icon-eyeprotectionmode-open"
 
 #define KYLIN_EYE_MODE_NORMAL_PATH   ":/images/icon-eyeprotectionmode.svg"

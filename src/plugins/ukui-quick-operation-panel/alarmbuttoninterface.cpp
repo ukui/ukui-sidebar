@@ -14,7 +14,7 @@ void alarmButtonInterface::initMemberVariables()
     m_pAlarmButton = new QPushButton();
     connect(m_pAlarmButton, &switchButton::clicked, this, &alarmButtonInterface::AlarmButtonClickSlots);
     m_pAlarmButton->setFixedSize(56, 56);
-    m_pAlarmButton->setIcon(QIcon::fromTheme("icon-alarm", QIcon(KYLIN_AlARM_NORMAL_PATH)));
+    m_pAlarmButton->setIcon(QIcon::fromTheme(KYLIN_ALARM_NORMAL_NAME));
     m_pAlarmButton->setIconSize(QSize(24, 24));
 
     m_pDeleteButton = new QPushButton();

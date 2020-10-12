@@ -14,7 +14,7 @@
 #include "switchbutton.h"
 #include "labelfotmattext.h"
 
-#define KYLIN_POWER_SAVING_NORMAL_NAME   "ukui-icon-powersavingmode-normal"
+#define KYLIN_POWER_SAVING_NORMAL_NAME   "ukui-icon-powersavingmode"
 #define KYLIN_POWER_SAVING_SET_NAME      "ukui-icon-powersavingmode-s"
 #define KYLIN_POWER_SAVING_OPEN_NAME     "ukui-icon-powersavingmode-open"
 

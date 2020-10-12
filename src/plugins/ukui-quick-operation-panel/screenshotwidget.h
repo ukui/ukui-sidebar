@@ -28,8 +28,8 @@
 #include "customstyle_switchNormalStatus.h"
 #include "labelfotmattext.h"
 
-#define KYLIN_SCREENSHOT_NORMAL_NAME    "kylin-icon-screenshot"
-#define KYLIN_SCREENSHOT_SET_NAME       "kylin-icon-screenshot-s"
+#define KYLIN_SCREENSHOT_NORMAL_NAME    "ukui-icon-screenshot"
+#define KYLIN_SCREENSHOT_SET_NAME       "ukui-icon-screenshot-s"
 
 #define KYLIN_SCREENSHOT_NORMAL_PATH    ":/images/icon-screenshot.svg"
 #define KYLIN_SCREENSHOT_SET_PATH       ":/images/icon-screenshot-s.svg"

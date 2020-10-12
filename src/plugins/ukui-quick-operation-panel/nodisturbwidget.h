@@ -34,9 +34,9 @@
 #include "customstyle_switchNormalStatus.h"
 #include "labelfotmattext.h"
 
-#define KYLIN_NODISTURB_NORMAL_NAME     "kylin-icon-DND"
-#define KYLIN_NODISTURB_SET_NAME        "kylin-icon-DND-s"
-#define KYLIN_NODISTURB_OPEN_NAME       "kylin-icon-DND-open"
+#define KYLIN_NODISTURB_NORMAL_NAME     "ukui-icon-DND"
+#define KYLIN_NODISTURB_SET_NAME        "ukui-icon-DND-s"
+#define KYLIN_NODISTURB_OPEN_NAME       "ukui-icon-DND-open"
 
 
 #define KYLIN_NODISTURB_NORMAL_PATH     ":/images/icon-DND.svg"
