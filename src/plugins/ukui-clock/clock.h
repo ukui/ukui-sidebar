@@ -81,6 +81,8 @@ public:
     void showPaint4();
     void showPaint5();
     void showPaint6();
+    void showPaint7();
+    void showPaint8();
 
     Ui::Clock *ui;
     QSqlTableModel *model_setup;
@@ -336,6 +338,8 @@ private:
     QPushButton *pushclock;
     QPushButton *pushstop;
     QPushButton *count_stat;
+    QWidget *shadow;
+    QWidget *shadow1;
 };
 
 

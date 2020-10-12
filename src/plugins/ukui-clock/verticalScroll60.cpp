@@ -178,7 +178,7 @@ void VerticalScroll_60::paintNum(QPainter &painter, int num, int deviation)
 {
     int Width = width() - 1;
     int Height = height() - 1;
-    int size = (Height - qAbs(deviation)) / m_numSize; //偏移量越大，数字越小
+    int size = (Height - qAbs(deviation)) / (m_numSize*1.5); //偏移量越大，数字越小
     //The larger the offset, the smaller the number
     int transparency = 255 - 255 * qAbs(deviation) / Height;
     int height = Height / devide;
@@ -193,11 +193,12 @@ void VerticalScroll_60::paintNum(QPainter &painter, int num, int deviation)
     opt.init(this);
     painter.setBrush(opt.palette.color(QPalette::Base));
 
+    //偏移量越大颜色越浅
     if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
     {
-        painter.setPen(QColor(34,34,34,transparency));
+        painter.setPen(QColor(34+(qAbs(deviation)*2),34+(qAbs(deviation)*2),34+(qAbs(deviation)*2),transparency));
     }else{
-        painter.setPen(QColor(255,255,255,transparency));
+        painter.setPen(QColor(255-(qAbs(deviation)*2),255-(qAbs(deviation)*2),255-(qAbs(deviation)*2),transparency));
     }
 
     if ( y >= 0 && y + height < Height) {
