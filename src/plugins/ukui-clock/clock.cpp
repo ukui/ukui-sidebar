@@ -112,7 +112,7 @@ Clock::Clock(QWidget *parent) :
     clock_init();
     setup_init();
     this->setFixedSize(454,555);
-    this->setWindowOpacity(0.95);
+    //this->setWindowOpacity(0.95);
     //ui->listWidget_2->setMovement(QListView::Static);//禁止元素拖拽// Prohibit element dragging
     //ui->listWidget_2->setMovement(QListView::Free);//元素可以自由拖拽// Elements can be dragged freely
     //ui->listWidget_2->setMovement(QListView::Snap);
@@ -158,21 +158,21 @@ Clock::Clock(QWidget *parent) :
     pushcount = new QPushButton(ui->page_7);
     pushcount->setFixedSize(88,32);
     pushcount->setIconSize(QSize(16,16));
-    pushcount->move(48,13);
+    pushcount->move(48,8);
     pushcount->setIcon(QIcon(":/icon-1.png"));
     pushcount->setText(tr("Count"));
 
     pushclock = new QPushButton(ui->page_7);
     pushclock->setFixedSize(88,32);
     pushclock->setIconSize(QSize(16,16));
-    pushclock->move(182,13);
+    pushclock->move(182,8);
     pushclock->setIcon(QIcon(":/icon-4-16x16.png"));
     pushclock->setText(tr("Alarm"));
 
     pushstop = new QPushButton(ui->page_7);
     pushstop->setFixedSize(88,32);
     pushstop->setIconSize(QSize(16,16));
-    pushstop->move(317,13);
+    pushstop->move(317,8);
     pushstop->setIcon(QIcon(":/icon-2.png"));
     pushstop->setText(tr("Watch"));
 
@@ -204,6 +204,8 @@ Clock::Clock(QWidget *parent) :
     ui->widget_4->installEventFilter(this);
     ui->widget_5->installEventFilter(this);
     ui->widget_6->installEventFilter(this);
+    shadow->installEventFilter(this);
+    shadow1->installEventFilter(this);
 
     ui->lineEdit->setStyleSheet("QLineEdit{background-color:transparent}");
 
@@ -392,6 +394,7 @@ void Clock::clock_init()
     ui->label_4->setAlignment(Qt::AlignHCenter);
     ui->label_5->setAlignment(Qt::AlignHCenter);
     ui->label_9->setAlignment(Qt::AlignHCenter);
+    ui->label_13->setAlignment(Qt::AlignHCenter);
     model = new QSqlTableModel(this);
     model->setTable("clock");
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
@@ -1764,8 +1767,8 @@ void Clock::startbtn_countdown(){
         ui->page_5->RoundBar3->ring_max = 3600;
         ui->page_5->RoundBar3->setValue(3600);//初始化倒计时进度圈
                                               // Initialize countdown progress circle
-//        ui->count_stat->setStyleSheet("QPushButton{width:100px;\
-//                                      height:32px;\
+//      ui->count_stat->setStyleSheet("QPushButton{width:100px;\
+//                                     height:32px;\
 //                                     background: rgba(61,107,229,0.9) ;\
 //                                     border-radius:4px;font: 12pt;}\
 //                                     QPushButton:hover{background-color: rgb(27, 143, 89);}");
@@ -1961,6 +1964,10 @@ void Clock::countdown_set_start_time()
     DotLineDemo *ring_widget = new DotLineDemo(ui->page_4);
     ring_widget->move(0,0);
 
+    shadow1 = new QWidget(ring_widget);
+    shadow1->move(97,162);
+    shadow1->resize(253,40);
+
     timer_ring99 = new VerticalScroll_99(ring_widget);
     QLabel * h_in_m = new QLabel (ring_widget);
     timer_ring60 = new VerticalScroll_60(ring_widget);
@@ -1985,10 +1992,10 @@ void Clock::countdown_set_start_time()
     sec_ring->setText(tr("sec"));
     sec_ring->setStyleSheet("font: 13pt ;color: rgb(148, 148, 148);");
 
-    h_in_m->resize(10,40);
+    h_in_m->resize(10,38);
     h_in_m->setText(":");
     h_in_m->setStyleSheet("font: 30pt 'Sans Serif';");
-    m_in_s->resize(10,40);
+    m_in_s->resize(10,38);
     m_in_s->setText(":");
     m_in_s->setStyleSheet("font: 30pt 'Sans Serif';");
 
@@ -2023,9 +2030,16 @@ void Clock::countdown_set_start_time()
 // Alarm clock initialization digital turntable drawing
 void Clock::alarm_set_start_time()
 {
+    shadow = new QWidget(ui->set_page);
+    shadow->move(89,117);
+    shadow->resize(280,40);
+
     timer_alarm_start24 = new VerticalScroll_24(ui->set_page, this);
     QLabel * h_in_m = new QLabel (ui->set_page);
     timer_alarm_start60 = new VerticalScroll_60(ui->set_page);
+
+    timer_alarm_start24->resize(53,180);
+    timer_alarm_start60->resize(53,180);
 
     QLabel * hour_ring = new QLabel (ui->set_page);
     QLabel * min_ring = new QLabel (ui->set_page);
@@ -2035,7 +2049,7 @@ void Clock::alarm_set_start_time()
 
     h_in_m->resize(10,40);
     h_in_m->setText(":");
-    h_in_m->setStyleSheet("font: 30pt 'Sans Serif';");
+    h_in_m->setStyleSheet("font: 25pt;");
 
     hour_ring->resize(50,30);
     hour_ring->setText(tr("hour"));
@@ -2044,11 +2058,11 @@ void Clock::alarm_set_start_time()
     min_ring->setText(tr("min"));
     min_ring->setStyleSheet("font: 13pt ;color: rgb(148, 148, 148);");
 
-    timer_alarm_start24->move(161, 45);
-    hour_ring->move(162,40);
-    h_in_m->move(217,122);
-    timer_alarm_start60->move(233, 45);
-    min_ring->move(235,40);
+    timer_alarm_start24->move(141, 45);
+    hour_ring->move(142,40);
+    h_in_m->move(221,113);
+    timer_alarm_start60->move(261, 45);
+    min_ring->move(258,40);
 }
 //闹钟初始化工作日选择界面绘制回调
 // Alarm clock initialization workday selection interface drawing callback
@@ -2600,6 +2614,14 @@ bool Clock::eventFilter(QObject *watched, QEvent *event)
     {
         showPaint6();
     }
+    if(watched == shadow && event->type() == QEvent::Paint)
+    {
+        showPaint7();
+    }
+    if(watched == shadow1 && event->type() == QEvent::Paint)
+    {
+        showPaint8();
+    }
     return QWidget::eventFilter(watched,event);
 }
 
@@ -2785,6 +2807,62 @@ void Clock::showPaint6()
 
     painter.setPen(Qt::transparent);
     QRect rect = ui->widget_6->rect();
+    rect.setWidth(rect.width() - 0);
+    rect.setHeight(rect.height() - 0);
+    painter.drawRoundedRect(rect, 7, 7);
+    {
+        QPainterPath painterPath;
+        painterPath.addRoundedRect(rect, 4, 4);
+        painter.drawPath(painterPath);
+    }
+}
+
+void Clock::showPaint7()
+{
+    QPainter painter(shadow);
+    painter.setPen(Qt::gray);
+    painter.setBrush(Qt::green);
+    QStyleOption opt;
+    opt.init(this);
+    painter.setBrush(opt.palette.color(QPalette::Base));
+
+    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
+    {
+        painter.setBrush(QColor(233,233,233));
+    }else{
+        painter.setBrush(QColor(48,48,51));
+    }
+
+    painter.setPen(Qt::transparent);
+    QRect rect = shadow->rect();
+    rect.setWidth(rect.width() - 0);
+    rect.setHeight(rect.height() - 0);
+    painter.drawRoundedRect(rect, 7, 7);
+    {
+        QPainterPath painterPath;
+        painterPath.addRoundedRect(rect, 4, 4);
+        painter.drawPath(painterPath);
+    }
+}
+
+void Clock::showPaint8()
+{
+    QPainter painter(shadow1);
+    painter.setPen(Qt::gray);
+    painter.setBrush(Qt::green);
+    QStyleOption opt;
+    opt.init(this);
+    painter.setBrush(opt.palette.color(QPalette::Base));
+
+    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
+    {
+        painter.setBrush(QColor(233,233,233));
+    }else{
+        painter.setBrush(QColor(48,48,51));
+    }
+
+    painter.setPen(Qt::transparent);
+    QRect rect = shadow1->rect();
     rect.setWidth(rect.width() - 0);
     rect.setHeight(rect.height() - 0);
     painter.drawRoundedRect(rect, 7, 7);
