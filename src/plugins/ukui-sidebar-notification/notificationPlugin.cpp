@@ -128,38 +128,29 @@ NotificationPlugin::NotificationPlugin()
     pQHBoxLayout2->addWidget(m_pClearAllToolButton, 0, Qt::AlignRight);
     pQHBoxLayout2->addSpacerItem(pFixSpacer);
     pQHBoxLayout2->addWidget(pSettingToolButton, 0, Qt::AlignRight);
+    pQHBoxLayout2->addItem(new QSpacerItem(15, 4));
+
     pWidget2->setLayout(pQHBoxLayout2);
-    pWidget2->setFixedHeight(24);
-    pWidget2->setFixedWidth(380);
     pNotificationVBoxLayout->addWidget(pWidget2);
-    //pWidget2->setStyleSheet("QWidget{border:1px solid rgba(255,0,0,1);}");//测试用，画出边界线
-    //消息列表部件，用于装消息列表的
     pNotificationVBoxLayout->addItem(new QSpacerItem(10, 18));
+
+    //消息列表部件，用于装消息列表的
     m_pMsgListWidget = new QWidget;
-    m_pMsgListWidget->setFixedWidth(392);
-    //m_pMsgListWidget->setStyleSheet("QWidget{border:1px solid rgba(255,0,0,1);}");
     pNotificationVBoxLayout->addWidget(m_pMsgListWidget);
-    pNotificationVBoxLayout->addItem(new QSpacerItem(100, 18));
-//    m_pMsgListWidget->setParent(m_pMainWidget);
-    //消息列表部件，用于装两个消息列表的,浮动在m_pMsgListWidget里面
-    m_pMsgDoubleListWidget = new QWidget(m_pMsgListWidget);
-   // m_pMsgDoubleListWidget->setFixedSize(300, 1000);
-//    m_pMsgDoubleListWidget->setStyleSheet("QWidget{border:1px solid rgba(255,0,0,1);}");
+
     QHBoxLayout* pMsgDoubleListHBoxLayout = new QHBoxLayout;
     pMsgDoubleListHBoxLayout->setContentsMargins(0, 0, 0, 0);
     pMsgDoubleListHBoxLayout->setSpacing(0);
-    m_pMsgDoubleListWidget->setLayout(pMsgDoubleListHBoxLayout);
-   // m_pMsgDoubleListWidget->setAttribute(Qt::WA_TranslucentBackground);
-    //双列表部件切换动画
-    m_pSwitchAnimation = new QPropertyAnimation(m_pMsgDoubleListWidget, "geometry", this);
-    m_pSwitchAnimation->setDuration(300);
-    connect(m_pSwitchAnimation, SIGNAL(finished()), this, SLOT(onSwitchMsgBoxFinish()));
+
+    m_pMsgListWidget->setLayout(pMsgDoubleListHBoxLayout);
+    m_pMsgListWidget->setFixedWidth(360);
 
     //通知列表
     m_pQScrollAreaNotify = new ScrollAreaWidget();
     m_pQScrollAreaNotify->setAttribute(Qt::WA_TranslucentBackground);
     m_pQScrollAreaNotify->setFrameShape(QFrame::NoFrame);
-    m_pQScrollAreaNotify->setFixedWidth(390);
+    m_pQScrollAreaNotify->setFixedWidth(360);
+  //  m_pQScrollAreaNotify->setStyleSheet("QWidget{border:1px solid rgba(255,0,0,1);}");
     m_pScrollAreaNotifyVBoxLayout = new QVBoxLayout();
     m_pScrollAreaNotifyVBoxLayout->setContentsMargins(0, 0, 0, 0);
     m_pScrollAreaNotifyVBoxLayout->setSpacing(0);
@@ -169,10 +160,9 @@ NotificationPlugin::NotificationPlugin()
     pInQWidget->setObjectName("QScrollAreaInQWidget");
     pInQWidget->setLayout(m_pScrollAreaNotifyVBoxLayout);
     pInQWidget->setAttribute(Qt::WA_TranslucentBackground);
-//    pInQWidget->setStyleSheet("QWidget{border:1px solid rgba(255,0,0,1);}");
     m_pQScrollAreaNotify->setWidget(pInQWidget);
-   // m_pQScrollAreaNotify->setStyleSheet("QWidget{border:1px solid rgba(255,0,0,1);}");
     m_pMessageCenterLabel = new QLabel(QObject::tr("No new notifications"));
+
     m_pScrollAreaNotifyVBoxLayout->addWidget(m_pMessageCenterLabel, 4, Qt::AlignCenter);
     m_pMessageCenterLabel->setAttribute(Qt::WA_TranslucentBackground);
     QSpacerItem* pVSpacer = new QSpacerItem(10, 1, QSizePolicy::Fixed, QSizePolicy::Expanding);
@@ -183,7 +173,7 @@ NotificationPlugin::NotificationPlugin()
     m_pQScrollAreaTakeIn = new ScrollAreaWidget();
     m_pQScrollAreaTakeIn->setAttribute(Qt::WA_TranslucentBackground);
     m_pQScrollAreaTakeIn->setFrameShape(QFrame::NoFrame);
-    m_pQScrollAreaTakeIn->setFixedWidth(360);
+    m_pQScrollAreaTakeIn->setFixedWidth(390);
 
     m_pScrollAreaTakeInVBoxLayout = new QVBoxLayout();
     m_pScrollAreaTakeInVBoxLayout->setContentsMargins(0,0,0,0);
@@ -237,19 +227,19 @@ QWidget* NotificationPlugin::centerWidget()
 
 void NotificationPlugin::showNotification()
 {
-    if(false == m_bInitialFlag)
-    {
-        m_bInitialFlag = true;
-        qDebug()<<"NotificationPlugin::showNotification 通知列表的高度"<<m_pMsgListWidget->height() <<m_pMsgListWidget->width();
-        //m_pMsgDoubleListWidget->setFixedHeight(m_pMsgListWidget->height());
-        m_pMsgDoubleListWidget->setGeometry(0, 0, m_pMsgListWidget->width(), m_pMsgListWidget->height());
-    }
-    //上面不需要判断，因为在隐藏时，已经切换至通知中心，m_bShowTakeIn为false
-    for(int i = 0; i < m_listAppMsg.count(); i++)
-    {
-        AppMsg* pAppMsg = m_listAppMsg.at(i);
-        pAppMsg->updateAppPushTime();
-    }
+//    if(false == m_bInitialFlag)
+//    {
+//        m_bInitialFlag = true;
+//        qDebug()<<"NotificationPlugin::showNotification 通知列表的高度"<<m_pMsgListWidget->height() <<m_pMsgListWidget->width();
+//        //m_pMsgDoubleListWidget->setFixedHeight(m_pMsgListWidget->height());
+//        m_pMsgDoubleListWidget->setGeometry(0, 0, m_pMsgListWidget->width(), m_pMsgListWidget->height());
+//    }
+//    //上面不需要判断，因为在隐藏时，已经切换至通知中心，m_bShowTakeIn为false
+//    for(int i = 0; i < m_listAppMsg.count(); i++)
+//    {
+//        AppMsg* pAppMsg = m_listAppMsg.at(i);
+//        pAppMsg->updateAppPushTime();
+//    }
 
 }
 
