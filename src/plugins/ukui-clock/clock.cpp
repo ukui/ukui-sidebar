@@ -2004,7 +2004,7 @@ void Clock::countdown_set_start_time()
     count_stat = new QPushButton(ring_widget);
     count_stat->resize(100,32);
     count_stat->move(177,259);
-    count_stat->setText("start");
+    count_stat->setText(tr("start"));
     connect(count_stat, SIGNAL(clicked()), this, SLOT(startbtn_countdown()) );
 
     QPalette palette2 = count_stat->palette();
