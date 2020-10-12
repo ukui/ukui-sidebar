@@ -14,6 +14,8 @@
 #include <QVBoxLayout>
 #include <QDebug>
 #include <QProcess>
+#include <QPainter>
+#include <QApplication>
 #include "iconlabel.h"
 
 #define DEFAULTFACE "/usr/share/ukui/faces/default.png"
@@ -61,7 +63,7 @@ private:
     UserInfomation GetUserInformation(QString objpath);
 
     void setAllControlsLabelInfo();
-
+    QPixmap PixmapToRound(const QPixmap &src, int radius);
 private:
     IconLabel    *m_pHeadPortraitIconLabel;
     QLabel       *m_pNameLabel;

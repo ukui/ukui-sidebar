@@ -135,20 +135,45 @@ void AccountInformation::setAllControlsLabelInfo()
          }
     }
 
-
     m_pNameLabel->setText(user.username);
 
     if (user.accounttype == 1 ){
         m_pIdentityLabel->setText(QObject::tr("administrators"));
     } else {
         m_pIdentityLabel->setText(QObject::tr("Standard users"));
-    } 
+    }
+
     char * iconpath = user.iconfile.toLatin1().data();
     if (!g_file_test(iconpath, G_FILE_TEST_EXISTS)){
         user.iconfile = DEFAULTFACE;
     }
-    m_pHeadPortraitIconLabel->setPixmap(QPixmap(user.iconfile).scaled(QSize(m_pHeadPortraitIconLabel->size())));
+    const auto ratio=devicePixelRatioF();
+    QPixmap facePixmap(user.iconfile);
+    facePixmap = facePixmap.scaled(48*ratio, 48*ratio,  Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    facePixmap = PixmapToRound(facePixmap, 48*ratio/2);
+    facePixmap.setDevicePixelRatio(qApp->devicePixelRatio());
+    m_pHeadPortraitIconLabel->setFixedSize(48, 48);
+    m_pHeadPortraitIconLabel->setPixmap(facePixmap);
     m_pShutDownButton->setIcon(QIcon::fromTheme(KYLIN_SHUT_DOWN_ICON_NAME, QIcon(KYLIN_SHUT_DOWN_ICON_PATH)));
+    m_pShutDownButton->setIconSize(QSize(24, 24));
+}
+
+QPixmap AccountInformation::PixmapToRound(const QPixmap &src, int radius)
+{
+    if (src.isNull()) {
+        return QPixmap();
+    }
+
+    QPixmap pixmapa(src);
+    QPixmap pixmap(radius*2,radius*2);
+    pixmap.fill(Qt::transparent);
+    QPainter painter(&pixmap);
+    painter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    QPainterPath path;
+    path.addEllipse(0, 0, radius*2, radius*2);
+    painter.setClipPath(path);
+    painter.drawPixmap(0, 0, radius*2, radius*2, pixmapa);
+    return pixmap;
 }
 
 void AccountInformation::openShutdownWidgetSlots()
