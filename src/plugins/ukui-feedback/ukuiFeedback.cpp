@@ -769,6 +769,13 @@ void feedback::add_systeminfo()
     if(encoding_info_str.contains(".")){
         QStringList list = encoding_info_str.split(".");
         label_11->setText(list.at(0));
+
+        if(send_encoding_info.contains(".")){
+            QStringList list2 = send_encoding_info.split(".");
+            send_encoding_info.clear();
+            send_encoding_info.append(list2.at(0));
+        }
+
     }
     else{
         label_11->setText(encoding_info_str);
