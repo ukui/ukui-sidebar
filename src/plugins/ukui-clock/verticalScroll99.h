@@ -22,6 +22,8 @@
 #include <QPropertyAnimation>
 #include <QPainter>
 #include <QTimer>
+#include <QStyleOption>
+
 
 namespace Ui {
 

@@ -4,24 +4,23 @@
 <context>
     <name>Edit_page</name>
     <message>
-        <location filename="edit_page.ui" line="14"/>
+        <location filename="../../src/plugins/ukui-notebook/editPage.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="edit_page.cpp" line="49"/>
-        <source>ukui-memo</source>
-        <translatorcomment></translatorcomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="edit_page.cpp" line="751"/>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="48"/>
+        <source>ukui-memo</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="804"/>
         <source>Close</source>
         <translatorcomment>Kapat</translatorcomment>
         <translation>Kapat</translation>
     </message>
     <message>
-        <location filename="edit_page.cpp" line="753"/>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="806"/>
         <source>Open Notepad</source>
         <translatorcomment>Notepad Aç</translatorcomment>
         <translation>Notepad Aç</translation>
@@ -35,22 +34,26 @@
 <context>
     <name>HeaderBar</name>
     <message>
-        <location filename="headerbar.cpp" line="65"/>
-        <source>View Type</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="headerbar.cpp" line="94"/>
+        <location filename="../../src/plugins/ukui-notebook/headerbar.cpp" line="53"/>
         <source>Sort Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Sıralama Türü</translation>
+    </message>
+</context>
+<context>
+    <name>PaletteWidget</name>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/paletteWidget.ui" line="26"/>
+        <source>Form</source>
+        <translation></translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="widget.cpp" line="678"/>
-        <location filename="widget.cpp" line="1026"/>
-        <location filename="widget.cpp" line="1035"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="741"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="1148"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="1157"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="1299"/>
         <source>%1 records in total</source>
         <translatorcomment>Toplam %1 kayıt</translatorcomment>
         <translation>Toplam %1 kayıt</translation>
@@ -59,7 +62,7 @@
 <context>
     <name>Set_font_color_page</name>
     <message>
-        <location filename="set_font_color_page.ui" line="14"/>
+        <location filename="../../src/plugins/ukui-notebook/setFontColorPage.ui" line="14"/>
         <source>Form</source>
         <translation></translation>
     </message>
@@ -67,69 +70,90 @@
 <context>
     <name>Set_font_size_page</name>
     <message>
-        <location filename="set_font_size_page.ui" line="14"/>
+        <location filename="../../src/plugins/ukui-notebook/setFontSizePage.ui" line="14"/>
         <source>Form</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>TextEditWidget</name>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/textEditWidget.ui" line="14"/>
+        <source>Form</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/textEditWidget.ui" line="165"/>
+        <source>14</source>
         <translation></translation>
     </message>
 </context>
 <context>
     <name>Text_editing</name>
     <message>
-        <location filename="text_editing.ui" line="14"/>
+        <location filename="../../src/plugins/ukui-notebook/textEditing.ui" line="14"/>
         <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="text_editing.ui" line="321"/>
-        <source>22</source>
         <translation></translation>
     </message>
 </context>
 <context>
     <name>Widget</name>
     <message>
-        <location filename="widget.ui" line="14"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.ui" line="26"/>
         <source>Widget</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="widget.ui" line="69"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.ui" line="80"/>
         <source>New</source>
         <translatorcomment>Yeni</translatorcomment>
         <translation>Yeni</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="225"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="226"/>
         <source>ukui-note</source>
         <translatorcomment>ukui-not</translatorcomment>
         <translation>ukui-not</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="232"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="789"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="831"/>
+        <source>Welcome to use Kylin Note.</source>
+        <translatorcomment>Not defterine hoş geldiniz.</translatorcomment>
+        <translation>Not defterine hoş geldiniz.</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="856"/>
         <source>Search</source>
         <translatorcomment>Ara</translatorcomment>
         <translation>Ara</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="412"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="468"/>
         <source>Create New Note</source>
         <translatorcomment>Yeni Not Oluştur</translatorcomment>
         <translation>Yeni Not Oluştur</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="413"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="400"/>
+        <source>Empty Note</source>
+        <translatorcomment>Boş Not</translatorcomment>
+        <translation>Boş Not</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="469"/>
         <source>Delete Selected Note</source>
         <translatorcomment>Seçilen Notu Sil</translatorcomment>
         <translation>Seçilen Notu Sil</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="414"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="470"/>
         <source>Switch View</source>
         <translatorcomment>Görünümü Değiştir</translatorcomment>
         <translation>Görünümü Değiştir</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="415"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="471"/>
         <source>Sort</source>
         <translatorcomment>Sırala</translatorcomment>
         <translation>Sırala</translation>
@@ -141,117 +165,121 @@
         <translation>Tema Değiştir</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="417"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="472"/>
         <source>Exit</source>
         <translatorcomment>Çıkış</translatorcomment>
         <translation>Çıkış</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="418"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="473"/>
         <source>Mini</source>
-        <translatorcomment></translatorcomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="726"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="474"/>
+        <source>Menu</source>
+        <translatorcomment>Menü</translatorcomment>
+        <translation>Menü</translation>
+    </message>
+    <message>
         <source>Welcome to use Kylin system, you will experience more intimate service.</source>
-        <translatorcomment>Kylin sistemini kullanmaya hoş geldiniz, daha samimi bir hizmet göreceksiniz.</translatorcomment>
-        <translation>Kylin sistemini kullanmaya hoş geldiniz, daha samimi bir hizmet göreceksiniz.</translation>
+        <translatorcomment>Ukui sistemini kullanmaya hoş geldiniz, daha samimi bir hizmet göreceksiniz.</translatorcomment>
+        <translation>Ukui sistemini kullanmaya hoş geldiniz, daha samimi bir hizmet göreceksiniz.</translation>
     </message>
 </context>
 <context>
     <name>emptyNotes</name>
     <message>
-        <location filename="emptyNotes.ui" line="14"/>
+        <location filename="../../src/plugins/ukui-notebook/emptyNotes.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="emptyNotes.ui" line="44"/>
+        <location filename="../../src/plugins/ukui-notebook/emptyNotes.ui" line="44"/>
         <source>确定要清空便签本吗?</source>
-        <translation type="unfinished">Yapışkan notu silmek istediğinizden emin misiniz?</translation>
+        <translation>Yapışkan notu silmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
-        <location filename="emptyNotes.ui" line="64"/>
+        <location filename="../../src/plugins/ukui-notebook/emptyNotes.ui" line="64"/>
         <source>不再询问</source>
-        <translation type="unfinished">Artık sorma</translation>
+        <translation>Artık Sorma</translation>
     </message>
     <message>
-        <location filename="emptyNotes.ui" line="81"/>
+        <location filename="../../src/plugins/ukui-notebook/emptyNotes.ui" line="81"/>
         <source>取消</source>
-        <translation type="unfinished">İptal et</translation>
+        <translation>İptal Et</translation>
     </message>
     <message>
-        <location filename="emptyNotes.ui" line="98"/>
+        <location filename="../../src/plugins/ukui-notebook/emptyNotes.ui" line="98"/>
         <source>确定</source>
-        <translation type="unfinished">Onayla</translation>
+        <translation>Onayla</translation>
     </message>
 </context>
 <context>
     <name>fontButton</name>
     <message>
-        <location filename="fontButton.ui" line="14"/>
+        <location filename="../../src/plugins/ukui-notebook/fontButton.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
     <name>iconViewModeDelegate</name>
     <message>
-        <location filename="iconviewmodedelegate.cpp" line="343"/>
+        <location filename="../../src/plugins/ukui-notebook/iconViewModeDelegate.cpp" line="420"/>
         <source>Today </source>
         <translatorcomment>Bugün</translatorcomment>
-        <translation>Bugün</translation>
+        <translation>Bugün </translation>
     </message>
     <message>
-        <location filename="iconviewmodedelegate.cpp" line="347"/>
+        <location filename="../../src/plugins/ukui-notebook/iconViewModeDelegate.cpp" line="424"/>
         <source>Yesterday </source>
         <translatorcomment>Dün</translatorcomment>
-        <translation>Dün</translation>
+        <translation>Dün </translation>
     </message>
 </context>
 <context>
     <name>listViewModeDelegate</name>
     <message>
-        <location filename="listViewModeDelegate.cpp" line="373"/>
+        <location filename="../../src/plugins/ukui-notebook/listViewModeDelegate.cpp" line="542"/>
         <source>Today </source>
         <translatorcomment>Bugün</translatorcomment>
-        <translation>Bugün</translation>
+        <translation>Bugün </translation>
     </message>
     <message>
-        <location filename="listViewModeDelegate.cpp" line="377"/>
+        <location filename="../../src/plugins/ukui-notebook/listViewModeDelegate.cpp" line="546"/>
         <source>Yesterday </source>
         <translatorcomment>Dün</translatorcomment>
-        <translation>Dün</translation>
+        <translation>Dün </translation>
     </message>
 </context>
 <context>
     <name>noteExitWindow</name>
     <message>
-        <location filename="noteExitWindow.ui" line="14"/>
+        <location filename="../../src/plugins/ukui-notebook/noteExitWindow.ui" line="19"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="noteExitWindow.ui" line="44"/>
+        <location filename="../../src/plugins/ukui-notebook/noteExitWindow.ui" line="71"/>
         <source>Are you sure to exit the note book?</source>
         <translatorcomment>Not defterinden çıkmak istediğinizden emin misiniz?</translatorcomment>
         <translation>Not defterinden çıkmak istediğinizden emin misiniz?</translation>
     </message>
     <message>
-        <location filename="noteExitWindow.ui" line="64"/>
+        <location filename="../../src/plugins/ukui-notebook/noteExitWindow.ui" line="98"/>
         <source>Close the desktop note page at the same time</source>
         <translatorcomment>Masaüstü not sayfasını aynı anda kapatın</translatorcomment>
         <translation>Masaüstü not sayfasını aynı anda kapatın</translation>
     </message>
     <message>
-        <location filename="noteExitWindow.ui" line="81"/>
+        <location filename="../../src/plugins/ukui-notebook/noteExitWindow.ui" line="114"/>
         <source>No</source>
         <translatorcomment>Hayır</translatorcomment>
         <translation>Hayır</translation>
     </message>
     <message>
-        <location filename="noteExitWindow.ui" line="98"/>
+        <location filename="../../src/plugins/ukui-notebook/noteExitWindow.ui" line="130"/>
         <source>Yes</source>
         <translatorcomment>Evet</translatorcomment>
         <translation>Evet</translation>
@@ -260,33 +288,33 @@
 <context>
     <name>noteHead</name>
     <message>
-        <location filename="noteHead.ui" line="14"/>
+        <location filename="../../src/plugins/ukui-notebook/noteHead.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
     <name>noteHeadMenu</name>
     <message>
-        <location filename="noteHeadMenu.ui" line="14"/>
+        <location filename="../../src/plugins/ukui-notebook/noteHeadMenu.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
     <name>paletteButton</name>
     <message>
-        <location filename="paletteButton.ui" line="14"/>
+        <location filename="../../src/plugins/ukui-notebook/paletteButton.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
     <name>select_color_page</name>
     <message>
-        <location filename="select_color_page.ui" line="14"/>
+        <location filename="../../src/plugins/ukui-notebook/selectColorPage.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 </TS>

@@ -28,10 +28,7 @@ border-radius:4px;
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgba(35,35,37, 1);
-border:1px solid rgba(47,47,51,1);
-border-radius:4px;
-
+    <string notr="true">
 </string>
    </property>
    <widget class="QLabel" name="label">
@@ -86,11 +83,7 @@ border:0px solid rgba();</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">width:280px;
-height:36px;
-background:rgba(48,48,51,1);
-border-radius:4px;
-border:0px solid rgba();</string>
+     <string notr="true"/>
     </property>
     <widget class="QLabel" name="label_18">
      <property name="geometry">
@@ -106,7 +99,6 @@ border:0px solid rgba();</string>
 height:14px;
 font-size:14px;
 font-weight:400;
-color:rgba(255,255,255,1);
 </string>
      </property>
      <property name="text">
@@ -161,7 +153,6 @@ text-align: right</string>
     <property name="styleSheet">
      <string notr="true">width:280px;
 height:36px;
-background:rgba(48,48,51,1);
 border-radius:4px;
 border:0px solid rgba();</string>
     </property>
@@ -178,9 +169,7 @@ border:0px solid rgba();</string>
       <string notr="true">width:39px;
 height:14px;
 font-size:14px;
-
 font-weight:400;
-color:rgba(255,255,255,1);
 </string>
      </property>
      <property name="text">
@@ -235,7 +224,6 @@ text-align: right</string>
     <property name="styleSheet">
      <string notr="true">width:280px;
 height:36px;
-background:rgba(48,48,51,1);
 border-radius:4px;
 border:0px solid rgba();</string>
     </property>
@@ -252,9 +240,7 @@ border:0px solid rgba();</string>
       <string notr="true">width:39px;
 height:14px;
 font-size:14px;
-
 font-weight:400;
-color:rgba(255,255,255,1);
 </string>
      </property>
      <property name="text">
@@ -309,7 +295,6 @@ text-align: right</string>
     <property name="styleSheet">
      <string notr="true">width:280px;
 height:36px;
-background:rgba(48,48,51,1);
 border-radius:4px;
 border:0px solid rgba();</string>
     </property>
@@ -326,9 +311,7 @@ border:0px solid rgba();</string>
       <string notr="true">width:39px;
 height:14px;
 font-size:14px;
-
 font-weight:400;
-color:rgba(255,255,255,1);
 </string>
      </property>
      <property name="text">
@@ -383,7 +366,6 @@ text-align: right</string>
     <property name="styleSheet">
      <string notr="true">width:280px;
 height:36px;
-background:rgba(48,48,51,1);
 border-radius:4px;
 border:0px solid rgba();</string>
     </property>
@@ -400,9 +382,7 @@ border:0px solid rgba();</string>
       <string notr="true">width:39px;
 height:14px;
 font-size:14px;
-
 font-weight:400;
-color:rgba(255,255,255,1);
 </string>
      </property>
      <property name="text">
@@ -460,7 +440,7 @@ height:14px;
 font-size:14px;
 border:0px solid rgba();
 font-weight:400;
-color:rgba(255,255,255,1)</string>
+</string>
     </property>
     <property name="text">
      <string>  Mute</string>
@@ -500,7 +480,7 @@ border:0px solid rgba();</string>
      <string notr="true">font-size:14px;
 border:0px solid rgba();
 font-weight:300;
-color:rgba(255,255,255,1)</string>
+</string>
     </property>
     <property name="text">
      <string>volume</string>
@@ -539,8 +519,8 @@ border:0px solid rgba();
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 57 22pt &quot;Noto Sans Devanagari Md&quot;;
-color: rgba(39,207,129,0.9);
+     <string notr="true">font: 22pt;
+color: rgba(61,107,229,0.9);
 border:0px solid rgba();</string>
     </property>
     <property name="text">

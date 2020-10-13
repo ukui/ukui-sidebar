@@ -120,10 +120,10 @@ void VerticalScroll_24::mouseReleaseEvent(QMouseEvent *)
 void VerticalScroll_24::wheelEvent(QWheelEvent *event)
 {
     if (event->delta() > 0){
-         if (m_currentValue <= m_minRange)
-             m_currentValue = m_maxRange;
-         else
-             m_currentValue-=1;
+        if (m_currentValue <= m_minRange)
+            m_currentValue = m_maxRange;
+        else
+            m_currentValue-=1;
     } else {
         if (m_currentValue >= m_maxRange)
             m_currentValue = m_minRange;
@@ -183,8 +183,8 @@ void VerticalScroll_24::paintNum(QPainter &painter, int num, int deviation)
 {
     int Width = width() - 1;
     int Height = height() - 1;
-    int size = (Height - qAbs(deviation)) / m_numSize; //偏移量越大，数字越小
-                                                       //The larger the offset, the smaller the number
+    int size = (Height - qAbs(deviation)) / (m_numSize*1.5); //偏移量越大，数字越小
+    //The larger the offset, the smaller the number
     int transparency = 255 - 255 * qAbs(deviation) / Height;
     int height = Height / devide;
     int y = Height / 2 + deviation - height / 2;
@@ -193,6 +193,18 @@ void VerticalScroll_24::paintNum(QPainter &painter, int num, int deviation)
     font.setPixelSize(size);
     painter.setFont(font);
     painter.setPen(QColor(255,255,255,transparency));
+
+
+    QStyleOption opt;
+    opt.init(this);
+
+    //偏移量越大颜色越浅
+    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
+    {
+        painter.setPen(QColor(34+(qAbs(deviation)*2),34+(qAbs(deviation)*2),34+(qAbs(deviation)*2),transparency));
+    }else{
+        painter.setPen(QColor(255-(qAbs(deviation)*2),255-(qAbs(deviation)*2),255-(qAbs(deviation)*2),transparency));
+    }
 
     QLinearGradient linearGradient(QPointF(5, 10), QPointF(7, 15));
     linearGradient.setColorAt(0.2, Qt::white);

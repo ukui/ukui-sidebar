@@ -159,9 +159,9 @@ void QRoundProgressBar::paintEvent(QPaintEvent* /*event*/)
 
 //    QRectF baseRect(1, 1, outerRadius-2, outerRadius-2);
 
-    double outerRadius = 176;
+    double outerRadius = 159;
 
-    QRectF baseRect(227 - outerRadius, 220 - outerRadius, outerRadius * 2, outerRadius * 2);
+    QRectF baseRect(227 - outerRadius, 180 - outerRadius, outerRadius * 2, outerRadius * 2);
 
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);
@@ -172,7 +172,7 @@ void QRoundProgressBar::paintEvent(QPaintEvent* /*event*/)
     // background
     drawBackground(p, rect());
     double innerRadius = 140;
-    QRectF innerRect = QRectF((227 - outerRadius) + 8, (220 - outerRadius) + 8, (outerRadius - 8) * 2 , (outerRadius - 8) * 2 );
+    QRectF innerRect = QRectF((227 - outerRadius) + 8, (180 - outerRadius) + 8, (outerRadius - 8) * 2 , (outerRadius - 8) * 2 );
 
     //calculateInnerRect(baseRect, outerRadius, innerRect, innerRadius);
     double arcStep = 360.0 / (m_max - m_min) * m_value;
@@ -207,7 +207,7 @@ void QRoundProgressBar::drawBase(QPainter &p, const QRectF &baseRect,const QRect
     case StyleDonut:
         p.setPen(QPen(QColor(60, 60, 60), 4, Qt::DotLine, Qt::RoundCap, Qt::RoundJoin));
         p.setBrush(Qt::NoBrush);
-        p.drawEllipse(QPointF(227,220),172,172);
+        p.drawEllipse(QPointF(227, 180),155,155);
         break;
     case StylePie:
         p.setPen(QPen(palette().base().color(), m_outlinePenWidth, Qt::DotLine, Qt::RoundCap, Qt::RoundJoin));

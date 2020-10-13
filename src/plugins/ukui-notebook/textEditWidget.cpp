@@ -87,39 +87,19 @@ void TextEditWidget::iconInit()
     p.drawRoundedRect(bmp.rect(),6,6);
     setMask(bmp);
 
-    QPixmap pixmap1=QPixmap(":/image/1x/bold.png");
-    QPixmap pixmap2=QPixmap(":/image/1x/Italic.png");
-    QPixmap pixmap3=QPixmap(":/image/1x/under_line-new.png");
-    QPixmap pixmap4=QPixmap(":/image/1x/del_line.png");
-    QPixmap pixmap5=QPixmap(":/image/1x/Symbol.png");
-    QPixmap pixmap6=QPixmap(":/image/1x/number.png");
+    ui->BoldBtn->setIcon(QPixmap(":/image/1x/bold.png"));
+    ui->ItalicBtn->setIcon(QPixmap(":/image/1x/Italic.png"));
+    ui->underlineBtn->setIcon(QPixmap(":/image/1x/under_line-new.png"));
+    ui->StrikeOutResolvedBtn->setIcon(QPixmap(":/image/1x/del_line.png"));
+//    ui->StrikeOutResolvedBtn->setIconSize(QSize(36,36));
+    ui->showListBtn->setIcon(QPixmap(":/image/1x/Symbol.png"));
+//    ui->showListBtn->setIconSize(QSize(16,16));
+    ui->showNUMList->setIcon(QPixmap(":/image/1x/number.png"));
+//    ui->showNUMList->setIconSize(QSize(16,16));
 
-//    ui->blue_btn->setStyleSheet(QString::fromUtf8("border-top-right-radius:4px;\n"
-//                                                  "border-top-left-radius:0px;\n"
-//                                                  "border-bottom-right-radius:4px;\n"
-//                                                  "border-bottom-left-radius:0px;"));
-//    ui->light_blue_btn->setStyleSheet(QString::fromUtf8("color: rgba(145, 145, 145, 1);\n"
-//                                                        "border-top-left-radius:4px;\n"
-//                                                        "border-top-right-radius:0px;\n"
-//                                                        "border-bottom-left-radius:4px;\n"
-//                                                        "border-bottom-right-radius:0px;\n"));
-
-//    ui->BoldBtn->setIcon(pixmap1);
-//    ui->BoldBtn->setIconSize(QSize(36,36));
-//    ui->ItalicBtn->setIcon(pixmap2);
-//    ui->ItalicBtn->setIconSize(QSize(36,36));
-    //ui->underlineBtn->setIcon(pixmap3);
-    //ui->underlineBtn->setIconSize(QSize(36,36));
-    ui->StrikeOutResolvedBtn->setIcon(pixmap4);
-    ui->StrikeOutResolvedBtn->setIconSize(QSize(36,36));
-    ui->showListBtn->setIcon(pixmap5);
-    ui->showListBtn->setIconSize(QSize(16,16));
-    ui->showNUMList->setIcon(pixmap6);
-    ui->showNUMList->setIconSize(QSize(16,16));
-
-    ui->underlineBtn->setIcon(QIcon::fromTheme("format-text-underline-symbolic"));
-    ui->BoldBtn->setIcon(QIcon::fromTheme("format-text-bold-symbolic"));
-    ui->ItalicBtn->setIcon(QIcon::fromTheme("format-text-italic-symbolic"));
+//    ui->underlineBtn->setIcon(QIcon::fromTheme("format-text-underline-symbolic"));
+//    ui->BoldBtn->setIcon(QIcon::fromTheme("format-text-bold-symbolic"));
+//    ui->ItalicBtn->setIcon(QIcon::fromTheme("format-text-italic-symbolic"));
 
     //取消按钮默认灰色背景
     QPalette palette = ui->BoldBtn->palette();
@@ -153,4 +133,10 @@ void TextEditWidget::iconInit()
     ui->ItalicBtn->setProperty("iconHighlightEffectMode", 1);
     ui->underlineBtn->setProperty("useIconHighlightEffect", true);
     ui->underlineBtn->setProperty("iconHighlightEffectMode", 1);
+    ui->StrikeOutResolvedBtn->setProperty("useIconHighlightEffect", true);
+    ui->StrikeOutResolvedBtn->setProperty("iconHighlightEffectMode", 1);
+    ui->showListBtn->setProperty("useIconHighlightEffect", true);
+    ui->showListBtn->setProperty("iconHighlightEffectMode", 1);
+    ui->showNUMList->setProperty("useIconHighlightEffect", true);
+    ui->showNUMList->setProperty("iconHighlightEffectMode", 1);
 }

@@ -707,6 +707,10 @@ void Edit_page::set_all_btn_attribute()
     //palette.setColor(QPalette::Highlight, Qt::transparent); /* 取消按钮高亮 */
     ui->color_btn->setPalette(palette);
     ui->chang_btn->setPalette(palette);
+    ui->color_btn->setProperty("useIconHighlightEffect", true);
+    ui->color_btn->setProperty("iconHighlightEffectMode", 1);
+    ui->chang_btn->setProperty("useIconHighlightEffect", true);
+    ui->chang_btn->setProperty("iconHighlightEffectMode", 1);
 }
 
 void Edit_page::on_color_btn_clicked()
