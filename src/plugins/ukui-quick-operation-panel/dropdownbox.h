@@ -28,6 +28,7 @@
 #define KYLIN_SCREENSHOT_SET_NAME       "kylin-icon-screenshot-s"
 #define KYLIN_SETTING_SET_NAME          "kylin-icon-allsetting-s"
 #define KYLIN_VPN_SET_PATH              "kylin-icon-VPN-s"
+#define KYLIN_FEEDBACK_SET_PATH         "ukui-icon-feedback-s"
 
 #define KYLIN_EYE_MODE_SET_PATH         ":/images/icon-eyeprotectionmode-s.svg"
 #define KYLIN_AlARM_SET_PATH            ":/images/icon-alarm-s.svg"

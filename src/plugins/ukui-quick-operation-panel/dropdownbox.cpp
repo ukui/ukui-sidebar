@@ -148,7 +148,7 @@ void dropDownBox::initListData()
                    << KYLIN_VPN_SET_PATH << KYLIN_NODISTURB_SET_NAME \
                    << KYLIN_PAD_SET_NAME << KYLIN_CALCULATOR_SET_NAME \
                    << KYLIN_SETTING_SET_NAME << KYLIN_POWER_SAVING_SET_NAME \
-                   << "Feedback_1";
+                   << KYLIN_FEEDBACK_SET_PATH;
 
     m_listIconPath << KYLIN_EYE_MODE_SET_PATH << KYLIN_AlARM_SET_PATH  \
                    << KYLIN_HOTSPOT_SET_PATH  << KYLIN_SCREENSHOT_SET_PATH  \
@@ -156,7 +156,7 @@ void dropDownBox::initListData()
                    << KYLIN_VPN_SET_PATH      << KYLIN_NODISTURB_SET_PATH  \
                    << KYLIN_PC_SET_PATH       << KYLIN_CALCULATOR_SET_PATH  \
                    << KYLIN_SETTING_SET_PATH  << KYLIN_POWER_SAVING_SET_PATH \
-                   << "Feedback_2";
+                   << KYLIN_FEEDBACK_SET_PATH;
 
     m_listEntryName << QObject::tr("Eye care mode") << QObject::tr("Alarm") \
                     << QObject::tr("Hotspot") << QObject::tr("Screenshots") \
@@ -164,7 +164,7 @@ void dropDownBox::initListData()
                     << QObject::tr("VPN") << QObject::tr("No disturbing") \
                     << QObject::tr("Tablet mode") << QObject::tr("Calculator") \
                     << QObject::tr("Setting") << QObject::tr("Energy-saving mode") \
-                    << "Feedback_3";
+                    << QObject::tr("feedback");
     return;
 }
 

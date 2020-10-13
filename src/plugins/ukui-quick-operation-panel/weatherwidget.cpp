@@ -83,6 +83,15 @@ void weatherWidget::initLayout()
     return;
 }
 
+void weatherWidget::mousePressEvent(QMouseEvent *event)
+{
+    QProcess p(0);
+    p.startDetached("indicator-china-weather --show");
+    p.waitForStarted();
+    return;
+    QWidget::mousePressEvent(event);
+}
+
 void weatherWidget::getGsettingChageSlots(QString key)
 {
     if (key == UKUI_WEATHER_GSETTING_KEY) {

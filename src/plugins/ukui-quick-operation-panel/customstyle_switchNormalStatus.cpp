@@ -71,7 +71,7 @@ void customstyle_switchNormalStatus::drawPrimitive(QStyle::PrimitiveElement elem
     if (element == PE_PanelButtonCommand) {
         if (widget) {
             if (option->state & State_MouseOver) {
-                if (option->state &  State_Sunken) {
+                if (option->state & State_Sunken) {
                     painter->save();
                     painter->setRenderHint(QPainter::Antialiasing,true);
                     painter->setPen(Qt::NoPen);

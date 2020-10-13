@@ -9,6 +9,7 @@
 #include <QIcon>
 #include <QGSettings>
 #include <QDebug>
+#include <QProcess>
 
 #define UKUI_WEATHER_GSETTING_ID  "org.china-weather-data.settings"
 #define UKUI_WEATHER_GSETTING_KEY "weather"
@@ -32,6 +33,9 @@ private:
 
     QString m_pweatherString;
     QGSettings *m_pWeatherGsetting = nullptr;
+
+protected:
+    void mousePressEvent(QMouseEvent *event);
 
 private slots:
     void    getGsettingChageSlots(QString key);
