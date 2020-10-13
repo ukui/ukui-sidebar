@@ -87,6 +87,9 @@ public:
 
 protected:
     void paintEvent(QPaintEvent*);
+    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
 private:
     Edit_page *m_notebook;                                          //新建便签指针
@@ -114,9 +117,12 @@ private:
     QQueue<QString> m_searchQueue;                                  //搜索队列
     DBManager* m_dbManager;                                         //数据库
     QThread* m_dbThread;                                            //数据库线程
-    QMenu* m_menu;                                                  //菜单
+    QMenu* m_menu;                                                  //功能菜单
+    QMenu* m_sortMenu;                                              //排序菜单
     QAction* m_menuAction;                                          //菜单动作
     adaptScreenInfo *m_pSreenInfo;
+    QPoint dragPosition;                                            //拖动坐标
+    bool mousePressed;                                              //鼠标是否按下
 
     int m_noteCounter;                                              //便签总数
     int m_trashCounter;                                             //废纸篓总数
@@ -171,7 +177,7 @@ private slots:
     void onColorChanged(const QColor &color, int noteId);           //便签颜色改变槽函数
     void onTrashButtonClicked();                                    //删除槽函数
     void onSearchEditTextChanged(const QString& keyword);           //搜索栏文本改变槽函数
-    void sortSlot();                                                //升/降序槽函数
+    void sortSlot(int index);                                                //升/降序槽函数
     void changePageSlot();                                          //列表平铺切换槽函数
     void delAction_del_SearchLine();                                //搜索清空按钮槽函数
     void on_SearchLine_textChanged(const QString &arg1);            //搜索栏图标显示
@@ -189,6 +195,7 @@ signals:
     void requestMigrateNotes(QList<NoteData *> noteList);           //迁移信号
     void requestMigrateTrash(QList<NoteData *> noteList);           //迁移废纸篓信号
     void requestForceLastRowIndexValue(int index);                  //请求返回受结果的SQL语句影响的行数信号
+    void switchSortTypeRequest(int index);                          //切换排序类型信号
 };
 
 #endif // WIDGET_H

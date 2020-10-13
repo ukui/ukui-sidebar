@@ -201,22 +201,39 @@ int NoteModel::rowCount(const QModelIndex &parent) const
 
 void NoteModel::sort(int column, Qt::SortOrder order)
 {
-    Q_UNUSED(column)
     Q_UNUSED(order)
+    qDebug() << "NoteModel::sort" << column;
+    // 升序
+    if(order == Qt::AscendingOrder){
+        if(column == 0){            //创建时间排序
+            std::stable_sort(m_noteList.begin(), m_noteList.end(), [](NoteData* lhs, NoteData* rhs){
+                return lhs->creationDateTime() > rhs->creationDateTime();
+            });
+        }else if (column == 1){     //修改时间排序
+            std::stable_sort(m_noteList.begin(), m_noteList.end(), [](NoteData* lhs, NoteData* rhs){
+                return lhs->lastModificationdateTime() > rhs->lastModificationdateTime();
+            });
+        }else if (column == 2){     //名称排序
+            std::stable_sort(m_noteList.begin(), m_noteList.end(), [](NoteData* lhs, NoteData* rhs){
+                return lhs->mdContent() > rhs->mdContent();
+            });
+        }
 
-    if(order == Qt::AscendingOrder)
-    {
-        std::stable_sort(m_noteList.begin(), m_noteList.end(), [](NoteData* lhs, NoteData* rhs){
-            return lhs->lastModificationdateTime() > rhs->lastModificationdateTime();
-        });
-    }else if(order == Qt::DescendingOrder)
-    {
-        std::stable_sort(m_noteList.begin(), m_noteList.end(), [](NoteData* lhs, NoteData* rhs){
-            return lhs->lastModificationdateTime() < rhs->lastModificationdateTime();
-        });
+    }else if(order == Qt::DescendingOrder){
+        if(column == 0){            //创建时间排序
+            std::stable_sort(m_noteList.begin(), m_noteList.end(), [](NoteData* lhs, NoteData* rhs){
+                return lhs->creationDateTime() < rhs->creationDateTime();
+            });
+        }else if (column == 1){     //修改时间排序
+            std::stable_sort(m_noteList.begin(), m_noteList.end(), [](NoteData* lhs, NoteData* rhs){
+                return lhs->lastModificationdateTime() < rhs->lastModificationdateTime();
+            });
+        }else if (column == 2){     //名称排序
+            std::stable_sort(m_noteList.begin(), m_noteList.end(), [](NoteData* lhs, NoteData* rhs){
+                return lhs->mdContent() < rhs->mdContent();
+            });
+        }
     }
-
-
     emit dataChanged(index(0), index(rowCount()-1));
 }
 

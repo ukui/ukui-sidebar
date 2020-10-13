@@ -49,6 +49,7 @@ Widget::Widget(QWidget *parent) :
   , m_isContentModified(false)
   , m_isColorModified(false)
   , m_isOperationRunning(false)
+  , mousePressed(false)
 {    
     translator = new QTranslator;
     if (translator->load(QLocale(), QLatin1String("ukui-notebook"), QLatin1String("_"), QLatin1String("/usr/share/ukui-sidebar/ukui-notebook")))
@@ -242,12 +243,6 @@ void Widget::kyNoteInit()
     p.drawRoundedRect(bmp.rect(),6,6);
     setMask(bmp);
 
-
-    //ui->set_btn->hide();
-    //m_viewChangeButton->hide();
-    //ui->frame->hide();
-//    ui->sort_btn->hide();
-
     //退出框
     m_noteExitWindow = new noteExitWindow(this, this);
 
@@ -272,6 +267,7 @@ void Widget::kyNoteConn()
 //    connect(m_noteModel, &NoteModel::rowsMoved, m_noteView, &NoteView::rowsMoved);
     //升/降序按钮
     connect(m_sortLabel,&QPushButton::clicked,this,&Widget::sortSlot);
+    connect(this, &Widget::switchSortTypeRequest, this, &Widget::sortSlot);
     //清空便签
     connect(m_menuAction,&QAction::triggered,this,&Widget::emptyNoteSLot);
     //列表平铺切换
@@ -376,22 +372,13 @@ void Widget::migrateNote(QString notePath)
 
 void Widget::set_all_btn_attribute()
 {
-    m_menu = new QMenu(this);
+    m_menu = new QMenu(ui->menuBtn);
+    m_menu->setProperty("fillIconSymbolicColor", true);
     m_menuAction = new QAction(m_menu);
     m_menuAction->setText(tr("Empty Note"));
-    //m_menu->addAction(tr("Empty Note"));
+//    m_menu->addAction(tr("Empty Note"));
     m_menu->addAction(m_menuAction);
     ui->menuBtn->setMenu(m_menu);
-
-    ui->newKynote->setIcon(QPixmap(":/image/1x/new.png"));
-    m_trashButton->setIcon(QPixmap(":/image/1x/delete.png"));
-    m_trashButton->setIconSize(QSize(36,36));
-
-    ui->sort_btn->setStyleSheet("QPushButton{border-image:url(:/image/1x/sort.png);}"
-                                "QPushButton:hover{border-image:url(:/image/1x/sort-hover.png);}"
-                                "QPushButton:pressed{border-image:url(:/image/1x/sort-click.png);}");
-    ui->sort_btn->hide();
-    ui->sortBtn->setIcon(QPixmap(":/image/1x/array-new.png"));
     //隐藏menu下箭头
     //ui->menuBtn->setStyleSheet("QPushButton::menu-indicator{image:none}");
     ui->menuBtn->setProperty("isOptionButton", true);
@@ -399,6 +386,79 @@ void Widget::set_all_btn_attribute()
     ui->menuBtn->setAutoRaise(false);
     ui->menuBtn->setIconSize(QSize(16, 16));
     ui->menuBtn->setPopupMode(QToolButton::InstantPopup);
+
+    m_sortMenu = new QMenu(ui->sort_btn);
+    auto sortTypeGroup = new QActionGroup(this);
+    sortTypeGroup->setExclusive(true);
+
+    auto createTime = new QAction(sortTypeGroup);
+    createTime->setText(tr("Creation Date"));
+//    createTime->setCheckable(true);
+//    connect(createTime, &QAction::toggled, this, [=](bool checked){
+//        if(checked){
+//            createTime->setIcon(QPixmap(":/image/1x/array_des.png"));
+//        }else {
+//            createTime->setIcon(QPixmap(""));
+//        }
+//    });
+    sortTypeGroup->addAction(createTime);
+
+    auto modifiedDate = new QAction(sortTypeGroup);
+    modifiedDate->setText(tr("Modified Date"));
+//    modifiedDate->setIcon(QPixmap(":/image/1x/array_des.png"));
+//    modifiedDate->setCheckable(true);
+//    modifiedDate->setChecked(true);
+//    connect(modifiedDate, &QAction::toggled, this, [=](bool checked){
+//        if(checked){
+//            modifiedDate->setIcon(QPixmap(":/image/1x/array_des.png"));
+//        }else {
+//            modifiedDate->setIcon(QPixmap(""));
+//        }
+//    });
+    sortTypeGroup->addAction(modifiedDate);
+
+    auto noteName = new QAction(sortTypeGroup);
+    noteName->setText(tr("Note Name"));
+//    noteName->setCheckable(true);
+//    connect(noteName, &QAction::toggled, this, [=](bool checked){
+//        qDebug() << "triggered" << checked;
+//        if(checked){
+//            noteName->setIcon(QPixmap(":/image/1x/array_des.png"));
+//        }else {
+//            noteName->setIcon(QPixmap(""));
+//        }
+//    });
+    sortTypeGroup->addAction(noteName);
+
+    connect(sortTypeGroup, &QActionGroup::triggered, this, [=](QAction *action) {        
+        int index = sortTypeGroup->actions().indexOf(action);
+//        if(sortflag){
+//            action->setIcon(QPixmap(":/image/1x/array_order.png"));
+//        }else{
+//            action->setIcon(QPixmap(":/image/1x/array_des.png"));
+//        }
+
+        qDebug() << "sortTypeGroup triggered" << index << sortflag;
+        emit switchSortTypeRequest(index);
+    });
+    m_sortMenu->addAction(sortTypeGroup->addAction(createTime));
+    m_sortMenu->addAction(sortTypeGroup->addAction(modifiedDate));
+    m_sortMenu->addAction(sortTypeGroup->addAction(noteName));
+    ui->sort_btn->setMenu(m_sortMenu);
+
+    ui->sort_btn->setStyleSheet("QPushButton{border-image:url(:/image/1x/sort.png);}"
+                                "QPushButton:hover{border-image:url(:/image/1x/sort-hover.png);}"
+                                "QPushButton:pressed{border-image:url(:/image/1x/sort-click.png);}"
+                                "QPushButton::menu-indicator{image:none}");
+
+    ui->newKynote->setIcon(QPixmap(":/image/1x/new.png"));
+    m_trashButton->setIcon(QPixmap(":/image/1x/delete.png"));
+    m_trashButton->setIconSize(QSize(36,36));
+
+//    ui->sort_btn->hide();
+    ui->sortBtn->setIcon(QPixmap(":/image/1x/array-new.png"));
+    ui->sortBtn->hide();
+
 
     ui->menuBtn->setIcon(QIcon::fromTheme("open-menu-symbolic"));
     m_viewChangeButton->setIcon(QIcon::fromTheme("view-grid-symbolic"));
@@ -655,6 +715,7 @@ void Widget::showNoteInEditor(const QModelIndex &noteIndex)
 void Widget::selectFirstNote()
 {
     if(m_proxyModel->rowCount() > 0){
+        qDebug() << "selectFirstNote";
         QModelIndex index = m_proxyModel->index(0,0);
         m_noteView->selectionModel()->select(index, QItemSelectionModel::ClearAndSelect);
         //设置索引index所在的页面为当前页面
@@ -715,7 +776,7 @@ void Widget::loadNotes(QList<NoteData *> noteList, int noteCounter)
         m_noteModel->addListNote(noteList);
         //Qt::AscendingOrder 升序排序
         //参见 NoteModel::sort
-        m_noteModel->sort(0,Qt::AscendingOrder);
+        m_noteModel->sort(1,Qt::AscendingOrder);
     }
 
     m_noteCounter = noteCounter;
@@ -874,7 +935,6 @@ void Widget::clearSearch()
 
 void Widget::black_show()
 {
-    this->setObjectName(QString::fromUtf8("便签本"));
 //    ui->widget->setStyleSheet("QWidget{background-color: rgba(19, 20, 20,, 0.1);}");
 //    ui->widget_3->setStyleSheet("QWidget{background-color: rgba(19, 20, 20,, 0.7);}");
 //    ui->widget_2->setStyleSheet("QWidget{background-color: rgba();}");
@@ -917,7 +977,6 @@ void Widget::black_show()
 
 void Widget::light_show()
 {
-    this->setObjectName(QString::fromUtf8("便签本"));
 //    ui->widget->setStyleSheet("QWidget{background-color: rgba(255, 255, 255, 0.9);}");
 //    ui->widget_3->setStyleSheet("QWidget{background-color: rgba();}");
 //    ui->newKynote->setStyleSheet(QString::fromUtf8("background:rgba(61,107,229,1);color: rgb(255, 255, 255);\n"
@@ -956,6 +1015,31 @@ void Widget::light_show()
     //    ui->newKynote->setStyleSheet("QPushButton{border-image: url(:/image/1x/new.png);background:rgba(61,107,229,1);color: rgb(255, 255, 255);}"
     //                                  "QPushButton:hover{border-image: url(:/image/1x/new-big.png);background:rgba(61,107,229,1);color: rgb(255, 255, 255);}"
     //                                  "QPushButton:pressed{border-image: url(:/image/1x/new-big-click.png);background:rgba(61,107,229,1);color: rgb(255, 255, 255);}");
+}
+
+void Widget::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        this->dragPosition = event->globalPos() - frameGeometry().topLeft();
+        this->mousePressed = true;
+    }
+    QWidget::mousePressEvent(event);
+}
+
+void Widget::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        this->mousePressed = false;
+    }
+    QWidget::mouseReleaseEvent(event);
+}
+
+void Widget::mouseMoveEvent(QMouseEvent *event)
+{
+    if (this->mousePressed) {
+        move(event->globalPos() - this->dragPosition);
+    }
+    QWidget::mouseMoveEvent(event);
 }
 
 void Widget::paintEvent(QPaintEvent *e)
@@ -1265,7 +1349,7 @@ void Widget::changePageSlot()
     }
 }
 
-void Widget::sortSlot()
+void Widget::sortSlot(int index)
 {
     qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
     //排序
@@ -1278,13 +1362,12 @@ void Widget::sortSlot()
         if(sortflag)
         {
             ui->sortBtn->setIcon(QPixmap(":/image/1x/array.png"));
-            m_noteModel->sort(0,Qt::DescendingOrder);
+            m_noteModel->sort(index,Qt::DescendingOrder);
             sortflag = 0;
-
         }else
         {
             ui->sortBtn->setIcon(QPixmap(":/image/1x/array-new.png"));
-            m_noteModel->sort(0,Qt::AscendingOrder);
+            m_noteModel->sort(index,Qt::AscendingOrder);
             sortflag = 1;
         }
     }
