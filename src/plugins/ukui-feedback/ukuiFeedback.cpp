@@ -127,7 +127,7 @@ void feedback::UI_init()
 
     if (this->objectName().isEmpty())
         this->setObjectName(QString::fromUtf8("feedback"));
-    this->resize(600, 600);
+    this->setFixedSize(600, 600);
     QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     sizePolicy.setHorizontalStretch(0);
     sizePolicy.setVerticalStretch(0);
@@ -606,7 +606,8 @@ void feedback::resend_info_when_sendfail()
     this->on_pushButton_2_clicked();
 }
 
-//获取图片
+//获取图片   QPoint dragPosition;                                            //拖动坐标
+bool mousePressed;                                              //鼠标是否按下
 //get image
 void feedback::on_pushButton_clicked()
 {
@@ -1498,6 +1499,31 @@ void feedback::paintEvent(QPaintEvent *e)
     p.save();
     p.fillPath(rectPath, option->palette.color(QPalette::Base));
     p.restore();
+}
+
+void feedback::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        this->dragPosition = event->globalPos() - frameGeometry().topLeft();
+        this->mousePressed = true;
+    }
+    QWidget::mousePressEvent(event);
+}
+
+void feedback::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        this->mousePressed = false;
+    }
+    QWidget::mouseReleaseEvent(event);
+}
+
+void feedback::mouseMoveEvent(QMouseEvent *event)
+{
+    if (this->mousePressed) {
+        move(event->globalPos() - this->dragPosition);
+    }
+    QWidget::mouseMoveEvent(event);
 }
 
 

@@ -68,6 +68,8 @@
 #include <QBitmap>
 #include <QGraphicsDropShadowEffect>
 #include <QGSettings/qgsettings.h>
+#include <QMouseEvent>
+
 class QSqlTableModel;
 class QPushButton;
 class QLabel;
@@ -152,6 +154,9 @@ public:
 
 protected:
     void paintEvent(QPaintEvent*);
+    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
 signals:
     void syslog();
@@ -190,6 +195,11 @@ private:
 
     submit_fail *fail_dialog=nullptr;
     submit_success * success_dialog=nullptr;
+
+    QPoint dragPosition;                                            //拖动坐标
+    bool mousePressed;                                              //鼠标是否按下
+
+
 //logflag
     int syslogflag = 0;
     int apportlogflag = 0;
