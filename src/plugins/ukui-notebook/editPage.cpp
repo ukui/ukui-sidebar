@@ -42,6 +42,7 @@ Edit_page::Edit_page(Widget* page, int noteId, QWidget *parent) :
   , m_editColor(0,0,0)
   , m_noteId(noteId)
   , m_lastBlockList(0)
+  , mousePressed(false)
 {
     ui->setupUi(this);
     //标题
@@ -89,6 +90,31 @@ Edit_page::Edit_page(Widget* page, int noteId, QWidget *parent) :
 Edit_page::~Edit_page()
 {
     delete ui;
+}
+
+void Edit_page::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        this->dragPosition = event->globalPos() - frameGeometry().topLeft();
+        this->mousePressed = true;
+    }
+    QWidget::mousePressEvent(event);
+}
+
+void Edit_page::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        this->mousePressed = false;
+    }
+    QWidget::mouseReleaseEvent(event);
+}
+
+void Edit_page::mouseMoveEvent(QMouseEvent *event)
+{
+    if (this->mousePressed) {
+        move(event->globalPos() - this->dragPosition);
+    }
+    QWidget::mouseMoveEvent(event);
 }
 
 void Edit_page::paintEvent(QPaintEvent *event)

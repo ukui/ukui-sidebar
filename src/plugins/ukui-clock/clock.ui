@@ -182,10 +182,7 @@ border-radius:4px;
          </rect>
         </property>
         <property name="styleSheet">
-         <string notr="true">width:39px;
-height:14px;
-font-size:14px;
-font-weight:400;
+         <string notr="true">
 </string>
         </property>
         <property name="text">
@@ -303,11 +300,7 @@ border-radius:4px;
          </rect>
         </property>
         <property name="styleSheet">
-         <string notr="true">width:39px;
-height:14px;
-font-size:14px;
-font-weight:400;
-</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string>  Remind</string>
@@ -868,10 +861,7 @@ border-radius:4px;
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">width:39px;
-height:14px;
-font-size:14px;
-font-weight:400;
+      <string notr="true">
 </string>
      </property>
      <property name="text">
@@ -918,10 +908,7 @@ border-radius:4px;
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">width:39px;
-height:14px;
-font-size:14px;
-font-weight:400;
+      <string notr="true">
 </string>
      </property>
      <property name="text">
@@ -989,10 +976,7 @@ border-radius:4px;
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">width:39px;
-height:14px;
-font-size:14px;
-font-weight:400;
+      <string notr="true">
 </string>
      </property>
      <property name="text">
@@ -1060,11 +1044,7 @@ border-radius:4px;
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">width:39px;
-height:14px;
-font-size:14px;
-font-weight:400;
-</string>
+      <string notr="true"/>
      </property>
      <property name="text">
       <string>  ring time</string>

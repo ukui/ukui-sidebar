@@ -61,6 +61,9 @@ public:
     void contextMenuEvent(QContextMenuEvent *event);
     void enterEvent(QEvent *);
     void leaveEvent(QEvent *);
+    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
 private slots:
     void slotCursorPositionChanged();
@@ -114,6 +117,9 @@ private:
     QColor color_num[11];
 
     QPointer<QTextList> m_lastBlockList;
+
+    QPoint dragPosition;                                            //拖动坐标
+    bool mousePressed;                                              //鼠标是否按下
 
 signals:
     void texthasChanged(int noteId, int id);
