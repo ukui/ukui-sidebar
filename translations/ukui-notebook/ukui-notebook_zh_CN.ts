@@ -145,16 +145,19 @@
     <message>
         <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="395"/>
         <source>Creation Date</source>
+        <translatorcomment>创建时间</translatorcomment>
         <translation>创建时间</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="407"/>
         <source>Modified Date</source>
+        <translatorcomment>修改时间</translatorcomment>
         <translation>修改时间</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="421"/>
         <source>Note Name</source>
+        <translatorcomment>便签名称</translatorcomment>
         <translation>便签名称</translation>
     </message>
     <message>
