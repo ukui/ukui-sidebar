@@ -606,8 +606,7 @@ void feedback::resend_info_when_sendfail()
     this->on_pushButton_2_clicked();
 }
 
-//获取图片   QPoint dragPosition;                                            //拖动坐标
-bool mousePressed;                                              //鼠标是否按下
+//获取图片
 //get image
 void feedback::on_pushButton_clicked()
 {
