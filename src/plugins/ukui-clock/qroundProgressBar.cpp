@@ -159,7 +159,7 @@ void QRoundProgressBar::paintEvent(QPaintEvent* /*event*/)
 
 //    QRectF baseRect(1, 1, outerRadius-2, outerRadius-2);
 
-    double outerRadius = 176;
+    double outerRadius = 159;
 
     QRectF baseRect(227 - outerRadius, 180 - outerRadius, outerRadius * 2, outerRadius * 2);
 
@@ -207,7 +207,7 @@ void QRoundProgressBar::drawBase(QPainter &p, const QRectF &baseRect,const QRect
     case StyleDonut:
         p.setPen(QPen(QColor(60, 60, 60), 4, Qt::DotLine, Qt::RoundCap, Qt::RoundJoin));
         p.setBrush(Qt::NoBrush);
-        p.drawEllipse(QPointF(227, 180),172,172);
+        p.drawEllipse(QPointF(227, 180),155,155);
         break;
     case StylePie:
         p.setPen(QPen(palette().base().color(), m_outlinePenWidth, Qt::DotLine, Qt::RoundCap, Qt::RoundJoin));

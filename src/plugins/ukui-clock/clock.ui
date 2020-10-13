@@ -182,10 +182,7 @@ border-radius:4px;
          </rect>
         </property>
         <property name="styleSheet">
-         <string notr="true">width:39px;
-height:14px;
-font-size:14px;
-font-weight:400;
+         <string notr="true">
 </string>
         </property>
         <property name="text">
@@ -303,11 +300,7 @@ border-radius:4px;
          </rect>
         </property>
         <property name="styleSheet">
-         <string notr="true">width:39px;
-height:14px;
-font-size:14px;
-font-weight:400;
-</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string>  Remind</string>
@@ -695,7 +688,7 @@ QListWidget::item:hover{background-color:rgba(72,72,76,0.5);border-radius:4px;}<
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>30</y>
+     <y>37</y>
      <width>454</width>
      <height>300</height>
     </rect>
@@ -829,17 +822,14 @@ opacity:0.45;
    <widget class="QLabel" name="label_13">
     <property name="geometry">
      <rect>
-      <x>189</x>
+      <x>125</x>
       <y>3</y>
-      <width>74</width>
-      <height>18</height>
+      <width>200</width>
+      <height>28</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">width:74px;
-height:18px;
-font-size:18px;
-font-weight:400;
+     <string notr="true">font:  13pt;
 </string>
     </property>
     <property name="text">
@@ -871,10 +861,7 @@ border-radius:4px;
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">width:39px;
-height:14px;
-font-size:14px;
-font-weight:400;
+      <string notr="true">
 </string>
      </property>
      <property name="text">
@@ -921,10 +908,7 @@ border-radius:4px;
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">width:39px;
-height:14px;
-font-size:14px;
-font-weight:400;
+      <string notr="true">
 </string>
      </property>
      <property name="text">
@@ -992,10 +976,7 @@ border-radius:4px;
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">width:39px;
-height:14px;
-font-size:14px;
-font-weight:400;
+      <string notr="true">
 </string>
      </property>
      <property name="text">
@@ -1063,11 +1044,7 @@ border-radius:4px;
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">width:39px;
-height:14px;
-font-size:14px;
-font-weight:400;
-</string>
+      <string notr="true"/>
      </property>
      <property name="text">
       <string>  ring time</string>
@@ -1122,6 +1099,22 @@ text-align: right</string>
      <string/>
     </property>
    </widget>
+   <widget class="Line" name="line_6">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>545</width>
+      <height>1</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(102, 102, 102,0.05);</string>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
   </widget>
   <widget class="QPushButton" name="pushButton_12">
    <property name="geometry">
@@ -1161,8 +1154,8 @@ text-align: right</string>
     <string>On</string>
    </property>
   </action>
-  <zorder>stackedWidget_3</zorder>
   <zorder>set_page</zorder>
+  <zorder>stackedWidget_3</zorder>
   <zorder>stackedWidget</zorder>
   <zorder>pushButton_12</zorder>
   <zorder>pushButton_4</zorder>

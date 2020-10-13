@@ -263,8 +263,10 @@ void feedback::UI_init()
     label_6->setStyleSheet(QString::fromUtf8("font: 11pt \"Sans Serif\";\n"
                                              "color: rgb(255, 0, 0);"));
     lineEdit_2 = new QLineEdit(centralwidget);
-    lineEdit_2->setObjectName(QString::fromUtf8("lineEdit_2"));
-    lineEdit_2->setGeometry(QRect(140, 275, 320, 30));
+        lineEdit_2->setObjectName(QString::fromUtf8("lineEdit_2"));
+        lineEdit_2->setGeometry(QRect(140, 275, 320, 30));
+
+
 
 
     label_7 = new QLabel(centralwidget);
@@ -769,6 +771,13 @@ void feedback::add_systeminfo()
     if(encoding_info_str.contains(".")){
         QStringList list = encoding_info_str.split(".");
         label_11->setText(list.at(0));
+        qDebug()<<"-------------"<<encoding_info_str<<"-----------"<<send_encoding_info;
+
+        if(send_encoding_info.contains(".")){
+            QStringList list2 = send_encoding_info.split(".");
+            send_encoding_info.clear();
+            send_encoding_info.append(list2.at(0));
+        }
     }
     else{
         label_11->setText(encoding_info_str);

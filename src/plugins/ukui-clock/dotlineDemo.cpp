@@ -21,7 +21,7 @@
 DotLineDemo::DotLineDemo(QWidget *parent):
      QWidget(parent)
 {
-    this->resize(454, 370);
+    this->resize(454, 362);
 }
 
 DotLineDemo::~DotLineDemo()
@@ -45,5 +45,5 @@ void DotLineDemo::paintEvent(QPaintEvent *event)
     //color: rgb(148, 148, 148);   Qt::gray
     painter.setPen(QPen(QColor(60, 60, 60), 4, Qt::DotLine, Qt::RoundCap, Qt::RoundJoin));
     painter.setBrush(Qt::NoBrush);
-    painter.drawEllipse(QPointF(226, 180), 170, 170);
+    painter.drawEllipse(QPointF(226, 180), 155, 155);
 }

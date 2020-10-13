@@ -81,6 +81,14 @@ public:
     void showPaint4();
     void showPaint5();
     void showPaint6();
+    void showPaint7();
+    void showPaint8();
+
+    void mousePressEvent(QMouseEvent *event);
+
+    void mouseReleaseEvent(QMouseEvent *event);
+
+    void mouseMoveEvent(QMouseEvent *event);
 
     Ui::Clock *ui;
     QSqlTableModel *model_setup;
@@ -336,6 +344,11 @@ private:
     QPushButton *pushclock;
     QPushButton *pushstop;
     QPushButton *count_stat;
+    QWidget *shadow;
+    QWidget *shadow1;
+
+    QPoint dragPosition;                                            //拖动坐标
+    bool mousePressed;                                              //鼠标是否按下
 };
 
 
