@@ -106,6 +106,7 @@ Clock::Clock(QWidget *parent) :
                                                /*  Open window borderless  */
     this->setAttribute(Qt::WA_TranslucentBackground);
     //ui->set_page->setStyleSheet("QWidget{background-color: rgba(14, 19, 22, 0.95);}");
+    mousePressed = 0;
     button_image_init();
     Countdown_init();
     stopwatch_init();
@@ -2871,4 +2872,31 @@ void Clock::showPaint8()
         painterPath.addRoundedRect(rect, 4, 4);
         painter.drawPath(painterPath);
     }
+}
+
+void Clock::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        this->dragPosition = event->globalPos() - frameGeometry().topLeft();
+        this->mousePressed = true;
+    }
+    QWidget::mousePressEvent(event);
+}
+
+void Clock::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        this->mousePressed = false;
+    }
+
+    QWidget::mouseReleaseEvent(event);
+}
+
+void Clock::mouseMoveEvent(QMouseEvent *event)
+{
+    if (this->mousePressed) {
+        move(event->globalPos() - this->dragPosition);
+    }
+
+    QWidget::mouseMoveEvent(event);
 }
