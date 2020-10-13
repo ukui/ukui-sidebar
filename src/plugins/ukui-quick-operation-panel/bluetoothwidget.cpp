@@ -66,7 +66,7 @@ void bluetoothWidget::initMemberVariables()
     m_pStyleOpen   = new CustomStyle_SwitchOpenStatus("ukui-default");
     m_pStyleNormal = new customstyle_switchNormalStatus("ukui-default");
 
-    this->setFixedSize(63, 78);
+    this->setFixedSize(63, 82);
     this->setContentsMargins(0, 0, 0, 0);
     return;
 }

@@ -28,8 +28,8 @@ PushButton::PushButton(QStringList path, QStringList iconNameList)
     this->setIconSize(QSize(28, 8));
 
     QPalette palette = this->palette();
-//    palette.setColor(QPalette::Highlight, Qt::transparent); /* 取消按钮高亮 */
-    palette.setBrush(QPalette::Button, QBrush(QColor(1, 1, 1 , 0)));
+//    palette.setColor(QPalette::Highlight, Qt::transparent);   /* 取消按钮高亮 */
+    this->setFlat(true);                                        /* 设置按钮无背景 */
     this->setPalette(palette);
 }
 

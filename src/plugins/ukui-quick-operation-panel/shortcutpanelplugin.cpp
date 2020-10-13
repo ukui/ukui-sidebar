@@ -53,7 +53,7 @@ void shortcutPanelPlugin::initMemberVariables()
     m_pButtonHLaout->setSpacing(0);
 
     m_pShortGLayout  = new QGridLayout;
-    m_pShortGLayout->setContentsMargins(32, 16, 18, 32);
+    m_pShortGLayout->setContentsMargins(30, 16, 16, 16);
     m_pShortGLayout->setHorizontalSpacing(35);
     m_pShortGLayout->setVerticalSpacing(16);
 

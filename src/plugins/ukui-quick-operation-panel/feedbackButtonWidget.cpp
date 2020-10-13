@@ -37,7 +37,7 @@ void feedbackButtonWidget::initMemberVariables()
     m_pStyleNormal = new customstyle_switchNormalStatus("ukui-default");
     m_pFeedBackButton->setStyle(m_pStyleNormal);
 
-    this->setFixedSize(63, 78);
+    this->setFixedSize(63, 82);
     this->setContentsMargins(0, 0, 0, 0);
 }
 

@@ -1,5 +1,5 @@
 #include "alarmbuttoninterface.h"
-
+#include <QDebug>
 alarmButtonInterface::alarmButtonInterface(QWidget *parent) : QWidget(parent)
 {
     initMemberVariables();
@@ -37,7 +37,7 @@ void alarmButtonInterface::initMemberVariables()
     m_pStyleNormal = new customstyle_switchNormalStatus("ukui-default");
     m_pAlarmButton->setStyle(m_pStyleNormal);
 
-    this->setFixedSize(63, 78);
+    this->setFixedSize(63, 82);
     this->setContentsMargins(0, 0, 0, 0);
 }
 
@@ -47,12 +47,13 @@ void alarmButtonInterface::initLayout()
     m_pButtonWidget->setLayout(m_pVboxButtonLayout);
 
     m_pVboxLayout->addWidget(m_pButtonWidget, 0, Qt::AlignCenter);
-    m_pVboxLayout->addItem(new QSpacerItem(5, 6, QSizePolicy::Fixed));
+    m_pVboxLayout->addItem(new QSpacerItem(5, 4, QSizePolicy::Fixed));
     m_pVboxLayout->addWidget(m_pAlarmLabel);
     this->setLayout(m_pVboxLayout);
     m_pDeleteButton->setParent(this);
     m_pDeleteButton->move(43, 0);
     m_pDeleteButton->setVisible(false);
+    qDebug() << "闹钟" <<  m_pAlarmButton->size() << m_pAlarmLabel->size();
     return;
 }
 
