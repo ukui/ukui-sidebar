@@ -34,11 +34,9 @@ void weatherWidget::initMemberVariables()
 
 void weatherWidget::initLabelData()
 {
-    QPixmap pixmap = QIcon::fromTheme("indicator-china-weather").pixmap(QSize(m_pWeatherIconLabel->size()));
-    m_pWeatherIconLabel->setPixmap(pixmap);
     m_pweatherString = m_pWeatherGsetting->get(UKUI_WEATHER_GSETTING_KEY).toString();
-
     QStringList WeatherInfoList = m_pweatherString.split(",");
+    qDebug() << "天气初始化值" << WeatherInfoList;
     setLabelData(WeatherInfoList);
     return;
 }
@@ -56,6 +54,8 @@ void weatherWidget::setLabelData(QStringList WeatherInfoList)
         WeatherInfo = QStringLiteral("%1 %2 %3").arg(WeatherInfoList.at(2)) \
                 .arg(WeatherInfoList.at(3)).arg(WeatherInfoList.at(5));
     m_pAreaLabel->setText(WeatherInfo);
+    QPixmap pixmap = QIcon::fromTheme(WeatherInfoList.at(9)).pixmap(QSize(m_pWeatherIconLabel->size()));
+    m_pWeatherIconLabel->setPixmap(pixmap);
     return;
 }
 
