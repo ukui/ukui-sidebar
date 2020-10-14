@@ -37,13 +37,14 @@ Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
     QPixmap dialogPixmap = QPixmap(":/clock.ico");
     this->setWindowTitle(tr("Ring prompt"));
     this->setWindowIcon(dialogPixmap);
-    ui->label->setAlignment(Qt::AlignHCenter);
     ui->label_2->setAlignment(Qt::AlignHCenter);
     ui->label_3->setAlignment(Qt::AlignHCenter);
     ui->label_4->setAlignment(Qt::AlignHCenter);
 
 
     this->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
+    Qt::WindowFlags m_flags = windowFlags();
+    this->setWindowFlags(m_flags | Qt::WindowStaysOnTopHint);
 
     timer_value2 = timer_value;
 
@@ -84,6 +85,8 @@ Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
     ui->pushButton->setFlat(true);
     ui->pushButton->setVisible(true);
     ui->pushButton->setFocusPolicy(Qt::NoFocus);
+    ui->pushButton->setProperty("useIconHighlightEffect", true);
+    ui->pushButton->setProperty("iconHighlightEffectMode", true);
 }
 
 Natice_alarm::~Natice_alarm()

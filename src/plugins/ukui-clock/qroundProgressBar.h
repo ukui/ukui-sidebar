@@ -20,6 +20,7 @@
 #define QROUNDPROGRESSBAR_H
 
 #include <QWidget>
+#include <QStyleOption>
 
 /**
  * @brief The QRoundProgressBar class represents a circular progress bar and maintains its API
@@ -255,6 +256,7 @@ protected:
     int m_updateFlags;
 
     float m_innerOuterRate = 1;
+    QStyleOption opt;
 };
 
 #endif // QROUNDPROGRESSBAR_H

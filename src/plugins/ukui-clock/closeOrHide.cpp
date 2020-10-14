@@ -32,6 +32,8 @@ close_or_hide::close_or_hide(QWidget *parent) :
     ui->closebtn->setFlat(true);
     ui->closebtn->setVisible(true);
     ui->closebtn->setFocusPolicy(Qt::NoFocus);
+    ui->closebtn->setProperty("useIconHighlightEffect", true);
+    ui->closebtn->setProperty("iconHighlightEffectMode", true);
 }
 
 close_or_hide::~close_or_hide()

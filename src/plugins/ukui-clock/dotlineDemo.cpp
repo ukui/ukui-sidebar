@@ -17,6 +17,7 @@
 */
 #include "dotlineDemo.h"
 #include <QDebug>
+#include <QStyleOption>
 
 DotLineDemo::DotLineDemo(QWidget *parent):
      QWidget(parent)
@@ -44,6 +45,16 @@ void DotLineDemo::paintEvent(QPaintEvent *event)
 
     //color: rgb(148, 148, 148);   Qt::gray
     painter.setPen(QPen(QColor(60, 60, 60), 4, Qt::DotLine, Qt::RoundCap, Qt::RoundJoin));
+
+    QStyleOption opt;
+    opt.init(this);
+    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
+    {
+        painter.setPen(QPen(QColor(233,233,233), 4, Qt::DotLine, Qt::RoundCap, Qt::RoundJoin));
+    }else{
+        painter.setPen(QPen(QColor(60, 60, 60), 4, Qt::DotLine, Qt::RoundCap, Qt::RoundJoin));
+    }
+
     painter.setBrush(Qt::NoBrush);
     painter.drawEllipse(QPointF(226, 180), 155, 155);
 }

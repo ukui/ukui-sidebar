@@ -28,8 +28,7 @@ border-radius:4px;
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">
-</string>
+    <string notr="true"/>
    </property>
    <widget class="QLabel" name="label">
     <property name="geometry">
@@ -519,9 +518,8 @@ border:0px solid rgba();
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 22pt;
-color: rgba(61,107,229,0.9);
-border:0px solid rgba();</string>
+     <string notr="true">font: 14pt;
+</string>
     </property>
     <property name="text">
      <string>setting</string>

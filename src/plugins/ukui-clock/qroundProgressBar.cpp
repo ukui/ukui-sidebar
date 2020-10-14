@@ -22,6 +22,8 @@
 #include <QtGui/QPainter>
 #include <QtGui/QPainterPath>
 #include <QDebug>
+#include <QStyleOption>
+//#include <QGSettings>
 
 
 QRoundProgressBar::QRoundProgressBar(QWidget *parent) :
@@ -203,9 +205,37 @@ void QRoundProgressBar::drawBackground(QPainter &p, const QRectF &baseRect)
 
 void QRoundProgressBar::drawBase(QPainter &p, const QRectF &baseRect,const QRectF &innerRect)
 {
-    switch (m_barStyle) {
+    //监听主题改变
+//    const QByteArray id(THEME_QT_SCHEMA);
+//    if(QGSettings::isSchemaInstalled(id))
+//    {
+//        QGSettings *styleSettings = new QGSettings(id);
+//        connect(styleSettings, &QGSettings::changed, this, [=](const QString &key)
+//        {
+//            auto style = styleSettings->get(key).toString();
+//            qDebug() << "当前主题名:" << style;
+//            if (key == "styleName")
+//            {
+//                currentTheme = styleSettings->get(MODE_QT_KEY).toString();
+//                qDebug() << "当前主题名:" << currentTheme;
+//            }
+//        });
+//    }
+
+    QStyleOption opt;
+    opt.init(this);
+    switch (m_barStyle)
+    {
     case StyleDonut:
-        p.setPen(QPen(QColor(60, 60, 60), 4, Qt::DotLine, Qt::RoundCap, Qt::RoundJoin));
+        p.setPen(QPen(QColor(160, 160, 160), 4, Qt::DotLine, Qt::RoundCap, Qt::RoundJoin));
+
+//        if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
+//        {
+//            p.setPen(QPen(QColor(233,233,233), 4, Qt::DotLine, Qt::RoundCap, Qt::RoundJoin));
+//        }else{
+//            p.setPen(QPen(QColor(60, 60, 60), 4, Qt::DotLine, Qt::RoundCap, Qt::RoundJoin));
+//        }
+
         p.setBrush(Qt::NoBrush);
         p.drawEllipse(QPointF(227, 180),155,155);
         break;
