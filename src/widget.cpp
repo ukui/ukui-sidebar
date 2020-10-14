@@ -688,7 +688,7 @@ void Widget::paintEvent(QPaintEvent *event)
     QRect rect = this->rect();
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     p.setBrush(opt.palette.color(QPalette::Base));
-    p.setOpacity(0.7);
+    p.setOpacity(tranSparency);
     p.setPen(Qt::NoPen);
     p.drawRoundedRect(rect, 12, 12);
     QWidget::paintEvent(event);

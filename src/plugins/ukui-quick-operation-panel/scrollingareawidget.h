@@ -9,6 +9,7 @@
 #include <QIcon>
 #include <QDebug>
 #include <QGSettings>
+#include "picturetowhite.h"
 
 #define UKUI_VOLUME_BRIGHTNESS_GSETTING_ID "org.ukui.quick-operation.panel"
 #define UKUI_VOLUME_KEY "volumesize"
@@ -27,6 +28,8 @@ private:
     void initGsettingValue();
     void initSlideStatus();
     void initLayout();
+    void setVolumeStatusIcon(int value);
+    void setLightStatusIcon(int value);
 
 private:
     QHBoxLayout *m_pHMainLayout;
@@ -36,8 +39,6 @@ private:
     QSlider     *m_pVolumeSlide;
     QHBoxLayout *m_pHVolumeLayout;
 
-
-
     QWidget     *m_pBrightNessWidget;
     QLabel      *m_pBrightIconLabel;
     QSlider     *m_pBrightSlide;
@@ -45,6 +46,8 @@ private:
 
     QGSettings  *m_pVolumeLightSetting = nullptr;
     QGSettings  *m_pBrightNessSetting  = nullptr;
+
+    PictureToWhite *m_pPictureToWhite;
 
 private slots:
     void setSliderValue(QString key);

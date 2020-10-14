@@ -39,6 +39,7 @@ SOURCES += \
     iconlabel.cpp \
     labelfotmattext.cpp \
     notebookbuttonwidget.cpp \
+    picturetowhite.cpp \
     powersavingmode.cpp \
     scrollingareawidget.cpp \
     swichButtonOpenStatus.cpp \
@@ -70,6 +71,7 @@ HEADERS += \
     iconlabel.h \
     labelfotmattext.h \
     notebookbuttonwidget.h \
+    picturetowhite.h \
     powersavingmode.h \
     scrollingareawidget.h \
     swichButtonOpenStatus.h \

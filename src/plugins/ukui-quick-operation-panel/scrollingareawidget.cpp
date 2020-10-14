@@ -1,5 +1,6 @@
 #include "scrollingareawidget.h"
 
+
 ScrollingAreaWidget::ScrollingAreaWidget(QWidget *parent) : QWidget(parent)
 {
     initMemberVariable();
@@ -15,9 +16,13 @@ void ScrollingAreaWidget::initMemberVariable()
     m_pHMainLayout->setSpacing(0);
     this->setContentsMargins(0, 0, 0, 0);
 
+    m_pPictureToWhite = new PictureToWhite();
+
     m_pVolumeWidget      = new QWidget();
     m_pVolumeWidget->setContentsMargins(0, 0, 0, 0);
     m_pVolumeIconLabel   = new QLabel();
+    m_pVolumeIconLabel->setProperty("useIconHighlightEffect", true);
+    m_pVolumeIconLabel->setProperty("iconHighlightEffectMode", true);
     m_pVolumeIconLabel->setFixedSize(24, 24);
     m_pVolumeSlide       = new QSlider(Qt::Horizontal);
     m_pVolumeSlide->setFixedSize(120, 20);
@@ -69,22 +74,24 @@ void ScrollingAreaWidget::initSlideStatus()
 {
     int value = m_pVolumeLightSetting->get(UKUI_VOLUME_KEY).toInt();
     m_pVolumeSlide->setValue(value);
+    setVolumeStatusIcon(value);
 
     value = m_pBrightNessSetting->get(UKUI_BRIGHTNESS_KEY).toInt();
     m_pBrightSlide->setValue(value);
+    setLightStatusIcon(value);
     return;
 }
 
 void ScrollingAreaWidget::initLayout()
 {
-    m_pVolumeIconLabel->setPixmap(QIcon::fromTheme("audio-volume-high-symbolic").pixmap(m_pVolumeIconLabel->size()));
+    m_pVolumeIconLabel->setPixmap(QIcon::fromTheme("ukui-icon-sound-middle").pixmap(m_pVolumeIconLabel->size()));
     m_pHVolumeLayout->addWidget(m_pVolumeIconLabel);
     m_pHVolumeLayout->addItem(new QSpacerItem(3, 1));
     m_pHVolumeLayout->addWidget(m_pVolumeSlide);
     m_pVolumeWidget->setLayout(m_pHVolumeLayout);
     m_pVolumeWidget->setFixedHeight(24);
 
-    m_pBrightIconLabel->setPixmap(QIcon::fromTheme("display-brightness-symbolic").pixmap(m_pBrightIconLabel->size()));
+    m_pBrightIconLabel->setPixmap(QIcon::fromTheme("ukui-icon-light-0").pixmap(m_pBrightIconLabel->size()));
     m_pBrightLayout->addWidget(m_pBrightIconLabel);
     m_pBrightLayout->addItem(new QSpacerItem(3, 1));
     m_pBrightLayout->addWidget(m_pBrightSlide);
@@ -107,25 +114,55 @@ void ScrollingAreaWidget::setSliderValue(QString key)
     if (key == UKUI_VOLUME_KEY) {
         value = m_pVolumeLightSetting->get(UKUI_VOLUME_KEY).toInt();
         m_pVolumeSlide->setValue(value);
+        setVolumeStatusIcon(value);
     } else if (key == UKUI_BRIGHTNESS_KEY) {
         value = m_pBrightNessSetting->get(UKUI_BRIGHTNESS_KEY).toInt();
         m_pBrightSlide->setValue(value);
+        setLightStatusIcon(value);
     }
     return;
+}
+
+/* 根据声音大小值设置状态图标 */
+void ScrollingAreaWidget::setVolumeStatusIcon(int value)
+{
+    if (value == 0)
+        m_pVolumeIconLabel->setPixmap(QIcon::fromTheme("ukui-icon-sound-closed").pixmap(m_pVolumeIconLabel->size()));
+    else if (value > 0 && value <= 35)
+        m_pVolumeIconLabel->setPixmap(QIcon::fromTheme("ukui-icon-sound-low").pixmap(m_pVolumeIconLabel->size()));
+    else if (value >= 36 && value <= 65)
+        m_pVolumeIconLabel->setPixmap(QIcon::fromTheme("ukui-icon-sound-middle").pixmap(m_pVolumeIconLabel->size()));
+    else
+       m_pVolumeIconLabel->setPixmap(QIcon::fromTheme("ukui-icon-sound-high").pixmap(m_pVolumeIconLabel->size()));
+}
+
+/* 根据亮度值设置状态图标 */
+void ScrollingAreaWidget::setLightStatusIcon(int value)
+{
+    if (value == 0)
+        m_pBrightIconLabel->setPixmap(QIcon::fromTheme("ukui-icon-light-0").pixmap(m_pBrightIconLabel->size()));
+    else if (value > 0 && value <= 25)
+        m_pBrightIconLabel->setPixmap(QIcon::fromTheme("ukui-icon-light-25").pixmap(m_pBrightIconLabel->size()));
+    else if (value >25 && value <= 50)
+        m_pBrightIconLabel->setPixmap(QIcon::fromTheme("ukui-icon-light-50").pixmap(m_pBrightIconLabel->size()));
+    else if (value > 50 && value <= 75)
+        m_pBrightIconLabel->setPixmap(QIcon::fromTheme("ukui-icon-light-75").pixmap(m_pBrightIconLabel->size()));
+    else if (value > 75)
+        m_pBrightIconLabel->setPixmap(QIcon::fromTheme("ukui-icon-light-100").pixmap(m_pBrightIconLabel->size()));
 }
 
 /* 改变音量滚动条时，修改gsetting值，通知音量组件修改，同步 */
 void ScrollingAreaWidget::setVolumeSlideSlots(int value)
 {
-    qDebug() << "123123131音量滚动条时" << value;
     m_pVolumeLightSetting->set(UKUI_VOLUME_KEY, value);
+    setVolumeStatusIcon(value);
     return;
 }
 
 /* 改变亮度滚动条时，修改gsetting值，通知修改亮度，同步 */
 void ScrollingAreaWidget::setBrightSlideSlots(int value)
 {
-    qDebug() << "123123131亮度滚动条时";
     m_pBrightNessSetting->set(UKUI_BRIGHTNESS_KEY, value);
+    setLightStatusIcon(value);
     return;
 }
