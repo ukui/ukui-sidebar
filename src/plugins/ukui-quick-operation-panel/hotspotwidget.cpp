@@ -50,6 +50,7 @@ void hotspotWidget::initMemberVariables()
     m_pDeleteButton->setIconSize(QSize(12, 12));
 
     m_photspotLabel = new QLabel(QObject::tr("Hotspot"));
+    m_photspotLabel->setFixedWidth(60);
     m_photspotLabel->setAlignment(Qt::AlignHCenter);
 
     m_pVboxLayout = new QVBoxLayout();

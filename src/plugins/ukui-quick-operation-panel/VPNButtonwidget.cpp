@@ -22,8 +22,11 @@ void diturbModeWidget::initMemberVariables()
     m_pDeleteButton->setIcon(QIcon(KYLIN_DELETE_ICONPATH));
     m_pDeleteButton->setIconSize(QSize(12, 12));
 
+    m_pLabelFotmatText = new LabelFotmatText;
+
     m_pVPNLabel  = new QLabel();
-    m_pVPNLabel->setText(QObject::tr("VPN"));
+    m_pVPNLabel->setFixedWidth(60);
+    m_pVPNLabel->setText(m_pLabelFotmatText->SetFormatBody(QObject::tr("VPN"), m_pVPNLabel));
     m_pVPNLabel->setAlignment(Qt::AlignHCenter);
 
     m_pVboxButtonLayout = new QVBoxLayout();

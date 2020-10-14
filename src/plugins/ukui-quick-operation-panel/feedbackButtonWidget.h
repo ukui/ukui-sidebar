@@ -5,8 +5,10 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QProcess>
+#include <QGSettings>
 #include "switchbutton.h"
 #include "customstyle_switchNormalStatus.h"
+#include "labelfotmattext.h"
 
 #define KYLIN_FEEDBACK_NORMAL_NAME         "ukui-icon-feedback"
 #define KYLIN_ALARM_NORMAL_NAME_SET        "ukui-icon-feedback-s"
@@ -30,6 +32,7 @@ private:
 private:
     QWidget         *m_pButtonWidget;
     QPushButton     *m_pFeedBackButton;
+    LabelFotmatText *m_pLabelFotmatText;
     QLabel          *m_pFeedBackLabel;
 
     QVBoxLayout     *m_pVboxButtonLayout;

@@ -27,6 +27,7 @@ void AutomaticRotationWidget::initMemberVariables()
     m_pVboxButtonLayout->setSpacing(0);
 
     m_pAutomaticRotationLabel = new QLabel();
+    m_pAutomaticRotationLabel->setFixedWidth(60);
     m_pAutomaticRotationLabel->setText(m_pLabelFotmatText->SetFormatBody(QObject::tr("Auto rotate"), m_pAutomaticRotationLabel));
     m_pAutomaticRotationLabel->setAlignment(Qt::AlignHCenter);
 

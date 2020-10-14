@@ -59,7 +59,7 @@ void nodisturbWidget::initMemberVariables()
     m_pStyleOpen = new CustomStyle_SwitchOpenStatus("ukui-default");
 
     m_pnodisturbLabel = new QLabel();
-    m_pnodisturbLabel->setFixedWidth(63);
+    m_pnodisturbLabel->setFixedWidth(60);
     m_pnodisturbLabel->setText(m_pLabelFotmatText->SetFormatBody(QObject::tr("No disturbing"), m_pnodisturbLabel));
     m_pnodisturbLabel->setAlignment(Qt::AlignHCenter);
 

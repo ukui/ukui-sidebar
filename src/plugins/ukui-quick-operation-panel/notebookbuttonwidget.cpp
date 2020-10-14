@@ -25,7 +25,7 @@ void notebookButtonWidget::initMemberVariables()
     m_pDeleteButton->setIconSize(QSize(12, 12));
 
     m_pNoteLabel  = new QLabel();
-    m_pNoteLabel->setFixedWidth(63);
+    m_pNoteLabel->setFixedWidth(60);
     m_pNoteLabel->setText(m_pLabelFotmatText->SetFormatBody(QObject::tr("NoteBook"), m_pNoteLabel));
     m_pNoteLabel->setAlignment(Qt::AlignHCenter);
 

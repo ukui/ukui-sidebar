@@ -22,8 +22,11 @@ void alarmButtonInterface::initMemberVariables()
     m_pDeleteButton->setIcon(QIcon(KYLIN_DELETE_ICONPATH));
     m_pDeleteButton->setIconSize(QSize(12, 12));
 
+    m_pLabelFotmatText = new LabelFotmatText;
+
     m_pAlarmLabel  = new QLabel();
-    m_pAlarmLabel->setText(QObject::tr("Alarm"));
+    m_pAlarmLabel->setFixedWidth(60);
+    m_pAlarmLabel->setText(m_pLabelFotmatText->SetFormatBody(QObject::tr("Alarm"), m_pAlarmLabel));
     m_pAlarmLabel->setAlignment(Qt::AlignHCenter);
 
     m_pVboxButtonLayout = new QVBoxLayout();
@@ -53,7 +56,6 @@ void alarmButtonInterface::initLayout()
     m_pDeleteButton->setParent(this);
     m_pDeleteButton->move(43, 0);
     m_pDeleteButton->setVisible(false);
-    qDebug() << "闹钟" <<  m_pAlarmButton->size() << m_pAlarmLabel->size();
     return;
 }
 

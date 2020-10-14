@@ -56,7 +56,7 @@ void padWidget::initMemberVariables()
     m_pStyleOpen = new CustomStyle_SwitchOpenStatus("ukui-default");
 
     m_pPadLabel = new QLabel();
-    m_pPadLabel->setFixedWidth(64);
+    m_pPadLabel->setFixedWidth(60);
     m_pPadLabel->setText(m_pLabelFotmatText->SetFormatBody(QObject::tr("Tablet Mode"), m_pPadLabel));
     m_pPadLabel->setAlignment(Qt::AlignHCenter);
 

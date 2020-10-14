@@ -4,13 +4,19 @@
 #include <QObject>
 #include <QFontMetrics>
 #include <QLabel>
+#include <QGSettings>
 
-class LabelFotmatText
+class LabelFotmatText : public QObject
 {
+    Q_OBJECT
 public:
     LabelFotmatText();
     QString SetFormatBody(QString text, QLabel *CopyDataLabal);
-    bool m_bTooltips = false;
+    void    setWidgetFont();
+    void    initLabelText();
+    bool    m_bTooltips = false;
+    QLabel  *m_pLabel;
+    QString m_pFormatBody;
 };
 
 #endif // LABELFOTMATTEXT_H

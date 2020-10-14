@@ -36,6 +36,8 @@ private:
     QSlider     *m_pVolumeSlide;
     QHBoxLayout *m_pHVolumeLayout;
 
+
+
     QWidget     *m_pBrightNessWidget;
     QLabel      *m_pBrightIconLabel;
     QSlider     *m_pBrightSlide;

@@ -22,8 +22,11 @@ void feedbackButtonWidget::initMemberVariables()
     m_pDeleteButton->setIcon(QIcon(KYLIN_DELETE_ICONPATH));
     m_pDeleteButton->setIconSize(QSize(12, 12));
 
+    m_pLabelFotmatText = new LabelFotmatText;
+
     m_pFeedBackLabel  = new QLabel();
-    m_pFeedBackLabel->setText(QObject::tr("Feedback"));
+    m_pFeedBackLabel->setFixedWidth(60);
+    m_pFeedBackLabel->setText(m_pLabelFotmatText->SetFormatBody(QObject::tr("Feedback"), m_pFeedBackLabel));
     m_pFeedBackLabel->setAlignment(Qt::AlignHCenter);
 
     m_pVboxButtonLayout = new QVBoxLayout();

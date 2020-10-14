@@ -53,7 +53,7 @@ void calculatorWidget::initMemberVariables()
     m_pcalculatorButton->setStyle(m_pStyleNormal);
 
     m_pcalculatorLabel = new QLabel();
-    m_pcalculatorLabel->setFixedWidth(63);
+    m_pcalculatorLabel->setFixedWidth(60);
     m_pcalculatorLabel->setText(m_pLabelFotmatText->SetFormatBody(QObject::tr("Calculator"), m_pcalculatorLabel));
     m_pcalculatorLabel->setAlignment(Qt::AlignHCenter);
 

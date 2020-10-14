@@ -51,7 +51,7 @@ void bluetoothWidget::initMemberVariables()
     m_pDeleteButton->setIconSize(QSize(12, 12));
 
     m_pbluetoothLabel = new QLabel();
-    m_pbluetoothLabel->setFixedWidth(63);
+    m_pbluetoothLabel->setFixedWidth(60);
     m_pbluetoothLabel->setText(m_pLabelFotmatText->SetFormatBody(QObject::tr("Bluetooth"), m_pbluetoothLabel));
     m_pbluetoothLabel->setAlignment(Qt::AlignHCenter);
 

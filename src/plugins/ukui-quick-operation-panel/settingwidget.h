@@ -26,6 +26,7 @@
 #include <QProcess>
 #include "switchbutton.h"
 #include "customstyle_switchNormalStatus.h"
+#include "labelfotmattext.h"
 
 #define KYLIN_SETTING_NORMAL_NAME       "ukui-icon-allsetting"
 #define KYLIN_SETTING_SET_NAME          "ukui-icon-allsetting-s"
@@ -48,6 +49,8 @@ private:
     QWidget      *m_pWidgetButton;
     QPushButton  *m_psettingButton;
     QLabel       *m_psettingLabel;
+
+    LabelFotmatText *m_pLabelFotmatText;
 
     QStyle        *m_pStyleNormal;
 

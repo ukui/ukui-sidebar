@@ -52,7 +52,7 @@ void screenshotWidget::initMemberVariables()
     m_pDeleteButton->setIconSize(QSize(12, 12));
 
     m_pscreenshotlabel = new QLabel();
-    m_pscreenshotlabel->setFixedWidth(63);
+    m_pscreenshotlabel->setFixedWidth(60);
     m_pscreenshotlabel->setText(m_pLabelFotmatText->SetFormatBody(QObject::tr("Screenshots"), m_pscreenshotlabel));
     m_pscreenshotlabel->setAlignment(Qt::AlignHCenter);
 

@@ -10,7 +10,7 @@
 #include <QProcess>
 #include "switchbutton.h"
 #include "customstyle_switchNormalStatus.h"
-
+#include "labelfotmattext.h"
 #define KYLIN_ALARM_NORMAL_NAME         "ukui-icon-alarm"
 #define KYLIN_ALARM_NORMAL_NAME_SET     "ukui-icon-alarm-s"
 #define KYLIN_BLUETOOTH_HOVER_NAME      "kylin-alarm-hover"
@@ -34,6 +34,8 @@ private:
     QWidget         *m_pButtonWidget;
     QPushButton     *m_pAlarmButton;
     QLabel          *m_pAlarmLabel;
+
+    LabelFotmatText *m_pLabelFotmatText;
 
     QVBoxLayout     *m_pVboxButtonLayout;
     QVBoxLayout     *m_pVboxLayout;

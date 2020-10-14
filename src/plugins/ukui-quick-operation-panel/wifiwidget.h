@@ -31,6 +31,7 @@
 #include "switchbutton.h"
 #include "swichButtonOpenStatus.h"
 #include "customstyle_switchNormalStatus.h"
+#include "labelfotmattext.h"
 
 #define CONTROL_CENTER_WIFI "org.ukui.control-center.wifi.switch"
 
@@ -65,6 +66,8 @@ public:
 private:
     QWidget      *m_pWidgetButton;
     switchButton *m_pWifiButton;
+
+    LabelFotmatText *m_pLabelFotmatText;
     QLabel       *m_pWifiLabel;
 
     QStyle       *m_pStyleOpen;

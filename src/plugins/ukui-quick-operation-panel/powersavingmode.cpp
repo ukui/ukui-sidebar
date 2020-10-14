@@ -34,7 +34,7 @@ void powerSavingMode::initMemberVariables()
     m_pStyleOpen = new CustomStyle_SwitchOpenStatus("ukui-default");
 
     m_pPowerModeLabel = new QLabel();
-    m_pPowerModeLabel->setFixedWidth(64);
+    m_pPowerModeLabel->setFixedWidth(60);
     m_pPowerModeLabel->setText(m_pLabelFotmatText->SetFormatBody(QObject::tr("Energy-saving mode"), m_pPowerModeLabel));
     m_pPowerModeLabel->setAlignment(Qt::AlignHCenter);
 
