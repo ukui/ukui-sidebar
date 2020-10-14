@@ -226,6 +226,7 @@ Clock::Clock(QWidget *parent) :
     ui->pushButton->setProperty("iconHighlightEffectMode", 1);
     ui->horizontalLayout->setContentsMargins(0,0,0,0);
 
+    count_stat->setEnabled(false);
 }
 
 Clock::~Clock()
@@ -1759,12 +1760,6 @@ void Clock::startbtn_countdown(){
         ui->page_5->RoundBar3->ring_max = 3600;
         ui->page_5->RoundBar3->setValue(3600);//初始化倒计时进度圈
                                               // Initialize countdown progress circle
-//      ui->count_stat->setStyleSheet("QPushButton{width:100px;\
-//                                     height:32px;\
-//                                     background: rgba(61,107,229,0.9) ;\
-//                                     border-radius:4px;font: 12pt;}\
-//                                     QPushButton:hover{background-color: rgb(27, 143, 89);}");
-
         countdown_timer->stop();
         ui->page_5->timer->stop();
         countdown_isStarted=0;
@@ -2007,13 +2002,56 @@ void Clock::countdown_set_start_time()
     connect(count_stat, SIGNAL(clicked()), this, SLOT(startbtn_countdown()) );
 
     QPalette palette2 = count_stat->palette();
-    QColor ColorPlaceholderText2(61,107,229,255);
+    QColor ColorPlaceholderText2(233,233,233,255);
     QBrush brush2;
     brush2.setColor(ColorPlaceholderText2);
-    palette2.setColor(QPalette::Button,QColor(61,107,229,255));
-    palette2.setBrush(QPalette::ButtonText, QBrush(Qt::white));
+    palette2.setColor(QPalette::Button,QColor(233,233,233,255));
+    //palette2.setBrush(QPalette::ButtonText, QBrush(Qt::white));
     count_stat->setPalette(palette2);
+
+    QTimer *timer_count_start;
+    timer_count_start = new QTimer();
+    connect(timer_count_start, SIGNAL(timeout()), this, SLOT(count_stat_btn_gray()));
+    timer_count_start->setInterval(100);
+    timer_count_start->start();
 }
+
+void Clock::count_stat_btn_gray()
+{
+    if(timer_ring99->m_currentValue==0 && timer_ring60->m_currentValue==0 && timer_ring60_2->m_currentValue==0) {
+        count_stat->setEnabled(false);
+        QStyleOption opt;
+        opt.init(this);
+        if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
+        {
+            QPalette palette2 = count_stat->palette();
+            QColor ColorPlaceholderText2(233,233,233,255);
+            QBrush brush2;
+            brush2.setColor(ColorPlaceholderText2);
+            palette2.setColor(QPalette::Button,QColor(233,233,233,255));
+            palette2.setBrush(QPalette::ButtonText, QBrush(QColor(158,158,158,255)));
+            count_stat->setPalette(palette2);
+        }else{
+            QPalette palette2 = count_stat->palette();
+            QColor ColorPlaceholderText2(45,45,48,255);
+            QBrush brush2;
+            brush2.setColor(ColorPlaceholderText2);
+            palette2.setColor(QPalette::Button,QColor(45,45,48,255));
+            palette2.setBrush(QPalette::ButtonText, QBrush(QColor(58,58,58,255)));
+            count_stat->setPalette(palette2);
+        }
+    }else{
+        count_stat->setEnabled(true);
+        QPalette palette2 = count_stat->palette();
+        QColor ColorPlaceholderText2(61,107,229,255);
+        QBrush brush2;
+        brush2.setColor(ColorPlaceholderText2);
+        palette2.setColor(QPalette::Button,QColor(61,107,229,255));
+        palette2.setBrush(QPalette::ButtonText, QBrush(Qt::white));
+        count_stat->setPalette(palette2);
+    }
+}
+
 //-----------------------------------------闹钟初始化---------------------------------------------------
 //---------------------------------- Alarm initialization --------------------------------------------
 
