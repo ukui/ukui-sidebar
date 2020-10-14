@@ -48,6 +48,8 @@ delete_msg::delete_msg(QWidget *parent) :
     ui->closebtn->setFlat(true);
     ui->closebtn->setVisible(true);
     ui->closebtn->setFocusPolicy(Qt::NoFocus);
+    ui->closebtn->setProperty("useIconHighlightEffect", true);
+    ui->closebtn->setProperty("iconHighlightEffectMode", true);
 }
 
 delete_msg::~delete_msg()

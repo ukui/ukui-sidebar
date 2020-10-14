@@ -114,9 +114,6 @@ Clock::Clock(QWidget *parent) :
     setup_init();
     this->setFixedSize(454,555);
     //this->setWindowOpacity(0.95);
-    //ui->listWidget_2->setMovement(QListView::Static);//禁止元素拖拽// Prohibit element dragging
-    //ui->listWidget_2->setMovement(QListView::Free);//元素可以自由拖拽// Elements can be dragged freely
-    //ui->listWidget_2->setMovement(QListView::Snap);
     //实现鼠标左键滑动效果
     // Realize the sliding effect of left mouse button
     ui->listWidget -> setFrameShape(QListWidget::NoFrame);
@@ -137,23 +134,6 @@ Clock::Clock(QWidget *parent) :
     m_pSreenInfo = new adaptScreenInfo();
     qDebug()<<m_pSreenInfo->m_screenWidth<<m_pSreenInfo->m_screenHeight;
     move((m_pSreenInfo->m_screenWidth - this->width() + m_pSreenInfo->m_nScreen_x )/2, (m_pSreenInfo->m_screenHeight - this->height())/2);
-
-
-    QIcon bta_tool_count_icon = QIcon(":/icon-1.png");
-    bta_tool_count = new Btn_new(1, this, bta_tool_count_icon, tr("Count down"), ui->page_7);
-    bta_tool_count->setFixedSize(88,32);
-    bta_tool_count->move(48,13);
-
-
-    QIcon bta_tool_clock_icon = QIcon(":/icon-4-16x16.png");
-    bta_tool_clock = new Btn_new(2, this, bta_tool_clock_icon, tr("Alarm"), ui->page_7);
-    bta_tool_clock->setFixedSize(88,32);
-    bta_tool_clock->move(182,13);
-
-    QIcon bta_tool_stop_icon = QIcon(":/icon-2.png");
-    bta_tool_stop = new Btn_new(3, this, bta_tool_stop_icon, tr("Stopwatch"), ui->page_7);
-    bta_tool_stop->setFixedSize(88,32);
-    bta_tool_stop->move(317,13);
 
 
     pushcount = new QPushButton(ui->page_7);
@@ -184,13 +164,18 @@ Clock::Clock(QWidget *parent) :
     pushstop->setProperty("useIconHighlightEffect", true);
     pushstop->setProperty("iconHighlightEffectMode", 1);
 
+    pushclock->setCheckable(true);
+    pushcount->setCheckable(true);
+    pushstop->setCheckable(true);
+    pushclock->setAutoExclusive(true);
+    pushcount->setAutoExclusive(true);
+    pushstop->setAutoExclusive(true);
+
+    pushclock->setChecked(true);
+
     connect(pushcount, SIGNAL(clicked()), this, SLOT(on_pushButton_clicked()));
     connect(pushclock, SIGNAL(clicked()), this, SLOT(on_pushButton_2_clicked()));
     connect(pushstop, SIGNAL(clicked()), this, SLOT(on_pushButton_3_clicked()));
-
-    bta_tool_count->hide();
-    bta_tool_clock->hide();
-    bta_tool_stop->hide();
 
     on_pushButton_2_clicked();//初始显示闹钟界面
                               // Initial display alarm interface
@@ -291,20 +276,25 @@ void Clock::button_image_init()
     ui->pushButton->setVisible(true);
     ui->pushButton->setFocusPolicy(Qt::NoFocus);
 
-    ui->pushButton_4->setFlat(true);
-    ui->pushButton_4->setVisible(true);
-    ui->pushButton_4->setFocusPolicy(Qt::NoFocus);
-
-    ui->pushButton_5->setIcon(QIcon::fromTheme("window-close-symbolic"));
     ui->pushButton_4->setIcon(QIcon::fromTheme("window-minimize-symbolic"));
-    ui->pushButton_5->setFlat(true);
-    ui->pushButton_5->setVisible(true);
-    ui->pushButton_5->setFocusPolicy(Qt::NoFocus);
-
+    ui->pushButton_5->setIcon(QIcon::fromTheme("window-close-symbolic"));
     ui->pushButton_12->setIcon(QIcon::fromTheme("open-menu-symbolic"));
+    ui->pushButton_4->setFlat(true);
+    ui->pushButton_5->setFlat(true);
     ui->pushButton_12->setFlat(true);
+    ui->pushButton_4->setVisible(true);
+    ui->pushButton_5->setVisible(true);
     ui->pushButton_12->setVisible(true);
+    ui->pushButton_4->setFocusPolicy(Qt::NoFocus);
+    ui->pushButton_5->setFocusPolicy(Qt::NoFocus);
     ui->pushButton_12->setFocusPolicy(Qt::NoFocus);
+    ui->pushButton_4->setProperty("useIconHighlightEffect", true);
+    ui->pushButton_5->setProperty("useIconHighlightEffect", true);
+    ui->pushButton_12->setProperty("useIconHighlightEffect", true);
+    ui->pushButton_4->setProperty("iconHighlightEffectMode", true);
+    ui->pushButton_5->setProperty("iconHighlightEffectMode", true);
+    ui->pushButton_12->setProperty("iconHighlightEffectMode", true);
+
 }
 
 //倒计时页初始化
@@ -751,6 +741,7 @@ void Clock::on_pushButton_clicked()
     palette1.setBrush(QPalette::Button, brush);
     pushclock->setPalette(palette1);
     pushstop->setPalette(palette1);
+
 }
 
 //闹钟窗口切换
@@ -1006,8 +997,8 @@ void Clock::notice_dialog_show(int close_time, int alarm_num)
     } else {
         dialog1->move(screen_width-450,screen_height-300);
     }
-    Qt::WindowFlags m_flags = windowFlags();
-    dialog1->setWindowFlags(m_flags | Qt::WindowStaysOnTopHint);
+//    Qt::WindowFlags m_flags = windowFlags();
+//    dialog1->setWindowFlags(m_flags | Qt::WindowStaysOnTopHint);
     dialog1->show();
 }
 
@@ -1743,8 +1734,8 @@ void Clock::countdown_notice_dialog_show()
         dialog1->move(screen_width-450,screen_height-300);
     }
 
-    Qt::WindowFlags m_flags = windowFlags();
-    dialog1->setWindowFlags(m_flags | Qt::WindowStaysOnTopHint);
+//    Qt::WindowFlags m_flags = windowFlags();
+//    dialog1->setWindowFlags(m_flags | Qt::WindowStaysOnTopHint);
     dialog1->show();
 }
 
@@ -2032,7 +2023,7 @@ void Clock::countdown_set_start_time()
 void Clock::alarm_set_start_time()
 {
     shadow = new QWidget(ui->set_page);
-    shadow->move(89,117);
+    shadow->move(85,117);
     shadow->resize(280,40);
 
     timer_alarm_start24 = new VerticalScroll_24(ui->set_page, this);
@@ -2061,8 +2052,8 @@ void Clock::alarm_set_start_time()
 
     timer_alarm_start24->move(141, 45);
     hour_ring->move(142,40);
-    h_in_m->move(221,113);
-    timer_alarm_start60->move(261, 45);
+    h_in_m->move(220,113);
+    timer_alarm_start60->move(258, 45);
     min_ring->move(258,40);
 }
 //闹钟初始化工作日选择界面绘制回调

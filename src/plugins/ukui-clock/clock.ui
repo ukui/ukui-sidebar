@@ -182,8 +182,7 @@ border-radius:4px;
          </rect>
         </property>
         <property name="styleSheet">
-         <string notr="true">
-</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string>  Remind</string>
@@ -768,9 +767,9 @@ QListWidget::item:hover{background-color:rgba(72,72,76,0.5);border-radius:4px;}<
    <widget class="QLabel" name="label_12">
     <property name="geometry">
      <rect>
-      <x>127</x>
+      <x>25</x>
       <y>214</y>
-      <width>200</width>
+      <width>400</width>
       <height>25</height>
      </rect>
     </property>
@@ -839,7 +838,7 @@ opacity:0.45;
    <widget class="QWidget" name="widget" native="true">
     <property name="geometry">
      <rect>
-      <x>87</x>
+      <x>85</x>
       <y>252</y>
       <width>280</width>
       <height>36</height>
@@ -861,8 +860,7 @@ border-radius:4px;
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">
-</string>
+      <string notr="true"/>
      </property>
      <property name="text">
       <string>  Name</string>
@@ -886,7 +884,7 @@ border-radius:4px;
    <widget class="QWidget" name="widget_2" native="true">
     <property name="geometry">
      <rect>
-      <x>87</x>
+      <x>85</x>
       <y>302</y>
       <width>280</width>
       <height>36</height>
@@ -908,8 +906,7 @@ border-radius:4px;
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">
-</string>
+      <string notr="true"/>
      </property>
      <property name="text">
       <string>  repeat</string>
@@ -954,7 +951,7 @@ text-align: right</string>
    <widget class="QWidget" name="widget_3" native="true">
     <property name="geometry">
      <rect>
-      <x>87</x>
+      <x>85</x>
       <y>352</y>
       <width>280</width>
       <height>36</height>
@@ -976,8 +973,7 @@ border-radius:4px;
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">
-</string>
+      <string notr="true"/>
      </property>
      <property name="text">
       <string>  Remind</string>
@@ -1022,7 +1018,7 @@ text-align: right</string>
    <widget class="QWidget" name="widget_4" native="true">
     <property name="geometry">
      <rect>
-      <x>87</x>
+      <x>85</x>
       <y>402</y>
       <width>280</width>
       <height>36</height>
