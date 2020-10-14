@@ -57,8 +57,7 @@
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">
-</string>
+        <string notr="true"/>
        </property>
        <widget class="QPushButton" name="pushButton">
         <property name="geometry">
@@ -79,7 +78,7 @@
        <widget class="QLabel" name="label">
         <property name="geometry">
          <rect>
-          <x>177</x>
+          <x>10</x>
           <y>10</y>
           <width>100</width>
           <height>23</height>

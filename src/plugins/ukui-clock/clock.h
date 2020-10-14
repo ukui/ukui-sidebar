@@ -335,9 +335,7 @@ private:
     QPropertyAnimation *animation1;
     QPropertyAnimation *animation2;
     QPropertyAnimation *animation3;
-    Btn_new *bta_tool_count;
-    Btn_new *bta_tool_clock;
-    Btn_new *bta_tool_stop;
+
     close_or_hide *close_or_hide_page;
     adaptScreenInfo *m_pSreenInfo = nullptr;
     QPushButton *pushcount;
