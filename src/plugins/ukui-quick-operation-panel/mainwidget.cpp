@@ -17,6 +17,8 @@
 */
 #include "mainwidget.h"
 #include <QDebug>
+extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
+
 MainWidget::MainWidget()
 {
     createAction();
@@ -38,15 +40,37 @@ void MainWidget::createAction()
 //重新绘制背景色
 void MainWidget::paintEvent(QPaintEvent *event)
 {
-    QStyleOption opt;
-    opt.init(this);
     QPainter p(this);
-    QRect rect = this->rect();
-    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-    p.setBrush(opt.palette.color(QPalette::Base));
-    p.setOpacity(1);
-    p.setPen(Qt::NoPen);
-    p.drawRoundedRect(rect, 12, 12);
+    p.setRenderHint(QPainter::Antialiasing);
+    QPainterPath rectPath;
+    rectPath.addRoundedRect(this->rect().adjusted(0, 8, 0, 0), 12, 12);
+
+    QPixmap pixmap(this->rect().size());
+    pixmap.fill(Qt::transparent);
+    QPainter pixmapPainter(&pixmap);
+    pixmapPainter.setRenderHint(QPainter::Antialiasing);
+    pixmapPainter.setPen(Qt::transparent);
+    pixmapPainter.setBrush(Qt::black);
+    pixmapPainter.drawPath(rectPath);
+    pixmapPainter.end();
+
+    QImage img = pixmap.toImage();
+    qt_blurImage(img, 10, false, false);
+
+
+    pixmap = QPixmap::fromImage(img);
+    QPainter pixmapPainter2(&pixmap);
+    pixmapPainter2.setRenderHint(QPainter::Antialiasing);
+    pixmapPainter2.setCompositionMode(QPainter::CompositionMode_Clear);
+    pixmapPainter2.setPen(Qt::transparent);
+    pixmapPainter2.setBrush(Qt::transparent);
+    pixmapPainter2.drawPath(rectPath);
+
+    p.drawPixmap(this->rect(), pixmap, pixmap.rect());
+    QStyleOption *option = new QStyleOption();
+    p.save();
+    p.fillPath(rectPath, option->palette.color(QPalette::Base));
+    p.restore();
     QWidget::paintEvent(event);
 }
 

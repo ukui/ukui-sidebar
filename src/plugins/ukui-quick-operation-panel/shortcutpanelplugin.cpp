@@ -61,9 +61,9 @@ void shortcutPanelPlugin::initMemberVariables()
     m_pMainWidget->setContentsMargins(0, 0, 0, 0);
 
     if (m_bBacklitFile) {
-        m_pMainWidget->setFixedSize(392, 486);
+        m_pMainWidget->setFixedSize(392, 492);
     } else {
-        m_pMainWidget->setFixedSize(392, 430);
+        m_pMainWidget->setFixedSize(392, 438);
     }
 
     m_pButtonWidget = new QWidget;
@@ -326,6 +326,7 @@ void shortcutPanelPlugin::setWidget()
 
     m_pShortWidget->setLayout(m_pShortGLayout);
 
+    m_pMainVLayout->addItem(new QSpacerItem(8, 8, QSizePolicy::Fixed));
     m_pMainVLayout->addWidget(m_pButtonWidget);
     m_pMainVLayout->addItem(new QSpacerItem(10, 10, QSizePolicy::Fixed));
 
@@ -462,9 +463,9 @@ void shortcutPanelPlugin::spreadClikedSlots()
     m_pShortWidget->setFixedHeight(297);
     if (m_bBacklitFile) {
         m_pScrollingAreaWidget->setVisible(true);
-        m_pMainWidget->setFixedHeight(486);
+        m_pMainWidget->setFixedHeight(492);
     } else {
-        m_pMainWidget->setFixedHeight(430);
+        m_pMainWidget->setFixedHeight(438);
     }
     m_pLinelabel_2->setVisible(true);
     m_pLinelabel_3->setVisible(true);
@@ -480,7 +481,7 @@ void shortcutPanelPlugin::foldClikedSlots()
     m_pfoldButton->setVisible(false);
     setGridLayoutWidgetHide();
     m_pShortWidget->setFixedHeight(102);
-    m_pMainWidget->setFixedHeight(184);
+    m_pMainWidget->setFixedHeight(192);
     if (m_bBacklitFile) {
         m_pScrollingAreaWidget->setVisible(false);
     }

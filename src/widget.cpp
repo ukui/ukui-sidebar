@@ -404,9 +404,9 @@ void Widget::showAnimationAction(const QVariant &value)
     int x = Rect.x();
     if (m_pPeonySite == Widget::PanelDown
           || m_pPeonySite == Widget::PanelUp) {
-        mostGrandWidget::getInstancemostGrandWidget()->setProperty("blurRegion", QRegion(QRect(x + 8, 8, 392, m_nScreenHeight - connectTaskBarDbus() - 16)));
+        mostGrandWidget::getInstancemostGrandWidget()->setProperty("blurRegion", QRegion(QRect(x + 8, 8, 392, m_nScreenHeight - connectTaskBarDbus() - 16), QRegion::Ellipse));
     } else {
-        mostGrandWidget::getInstancemostGrandWidget()->setProperty("blurRegion", QRegion(QRect(x + 8, 8, 392, m_nScreenHeight - 16)));
+        mostGrandWidget::getInstancemostGrandWidget()->setProperty("blurRegion", QRegion(QRect(x + 8, 8, 392, m_nScreenHeight - 16), QRegion::Ellipse));
     }
 }
 
@@ -596,7 +596,6 @@ void Widget::InitializeHomeScreenGeometry()
     if (count > 1) {
         m_nScreen_x = screen[0]->geometry().x();
         m_nScreen_y = screen[0]->geometry().y();
-
     } else {
         m_nScreen_x = 0;
         m_nScreen_y = 0;
@@ -686,16 +685,6 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
 
 void Widget::paintEvent(QPaintEvent *event)
 {
-//    QStyleOption opt;
-//    opt.init(this);
-//    QPainter p(this);
-//    QRect rect = this->rect();
-//    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-//    p.setBrush(opt.palette.color(QPalette::Base));
-//    p.setOpacity(tranSparency);
-//    p.setPen(Qt::NoPen);
-//    p.drawRoundedRect(rect, 12, 12);
-//    QWidget::paintEvent(event);
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);
     QPainterPath rectPath;
