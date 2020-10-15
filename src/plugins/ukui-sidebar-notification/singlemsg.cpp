@@ -390,7 +390,7 @@ void SingleMsg::setBodyLabelWordWrap(bool bFlag)
     m_pBodyLabel->setWordWrap(bFlag);
     QFont font14;
     font14.setPixelSize(14);
-    m_pBodyLabel->setFont(font14);
+   // m_pBodyLabel->setFont(font14);
     QFontMetrics fontMetrics(m_pBodyLabel->font());
     QString strLineHeight24Body;
     strLineHeight24Body.append("<p style='line-height:24px'>").append(m_strBody).append("</p>");
