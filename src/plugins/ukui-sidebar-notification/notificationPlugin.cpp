@@ -121,8 +121,6 @@ NotificationPlugin::NotificationPlugin()
     QFont font = m_pNotificationLabel->font();
     font.setPixelSize(16);
     m_pNotificationLabel->setFont(font);
-  //  m_pNotificationLabel->setFixedSize(64, 24);
-    //qDebug() << "123121344444444" << m_pNotificationLabel->height();
 
     pQHBoxLayout2->addSpacerItem(pHSpacer);
     pQHBoxLayout2->addWidget(m_pClearAllToolButton, 0, Qt::AlignRight);
@@ -156,7 +154,7 @@ NotificationPlugin::NotificationPlugin()
     m_pScrollAreaNotifyVBoxLayout->setSpacing(0);
 
     //通知列表的最内层部件
-    inside_widget* pInQWidget = new inside_widget();
+    pInQWidget = new inside_widget();
     pInQWidget->setObjectName("QScrollAreaInQWidget");
     pInQWidget->setLayout(m_pScrollAreaNotifyVBoxLayout);
     pInQWidget->setAttribute(Qt::WA_TranslucentBackground);
@@ -169,6 +167,8 @@ NotificationPlugin::NotificationPlugin()
     m_pScrollAreaNotifyVBoxLayout->addSpacerItem(pVSpacer);
     pMsgDoubleListHBoxLayout->addWidget(m_pQScrollAreaNotify, 0);
 
+    // 初始化主题gsetting，监听主题信号改变
+    initGsettingValue();
     //收纳列表
     m_pQScrollAreaTakeIn = new ScrollAreaWidget();
     m_pQScrollAreaTakeIn->setAttribute(Qt::WA_TranslucentBackground);
@@ -223,24 +223,6 @@ NotificationPlugin::NotificationPlugin()
 QWidget* NotificationPlugin::centerWidget()
 {
     return  m_pMainWidget;
-}
-
-void NotificationPlugin::showNotification()
-{
-//    if(false == m_bInitialFlag)
-//    {
-//        m_bInitialFlag = true;
-//        qDebug()<<"NotificationPlugin::showNotification 通知列表的高度"<<m_pMsgListWidget->height() <<m_pMsgListWidget->width();
-//        //m_pMsgDoubleListWidget->setFixedHeight(m_pMsgListWidget->height());
-//        m_pMsgDoubleListWidget->setGeometry(0, 0, m_pMsgListWidget->width(), m_pMsgListWidget->height());
-//    }
-//    //上面不需要判断，因为在隐藏时，已经切换至通知中心，m_bShowTakeIn为false
-//    for(int i = 0; i < m_listAppMsg.count(); i++)
-//    {
-//        AppMsg* pAppMsg = m_listAppMsg.at(i);
-//        pAppMsg->updateAppPushTime();
-//    }
-
 }
 
 void NotificationPlugin::hideNotification()
@@ -422,7 +404,7 @@ void NotificationPlugin::onClearAllMessage()
         if(1 == m_pScrollAreaNotifyVBoxLayout->count())
         {
             m_pMessageCenterLabel->setVisible(true);
-            m_pScrollAreaNotifyVBoxLayout->insertWidget(0, m_pMessageCenterLabel, 0, Qt::AlignHCenter);
+            m_pScrollAreaNotifyVBoxLayout->insertWidget(0, m_pMessageCenterLabel, 4, Qt::AlignHCenter);
         }
 
     }
@@ -456,13 +438,6 @@ void NotificationPlugin::onCloseAppMsg(QString strAppName)
     {
         onClearAppMsg(pAppMsg);
     }
-
-    //通过查找m_listTakeInAppMsg列表看该app是否已存在
-    //AppMsg* pTakeinAppMsg = getTakeinAppMsgAndIndexByName(strAppName, nIndex);
-    //if(NULL != pTakeinAppMsg)
-    //{
-    //    onClearTakeInAppMsg(pTakeinAppMsg);
-    //}
 }
 
 //配置实时更新通知消息最大数
@@ -671,3 +646,17 @@ void NotificationPlugin::onSwitchMsgBoxFinish()
     }
 }
 
+void NotificationPlugin::initGsettingValue()
+{
+    const QByteArray id(UKUI_QT_STYLE);
+    if (QGSettings::isSchemaInstalled(id)) {
+        m_pTabletModeGsetting = new QGSettings(id);
+        connect(m_pTabletModeGsetting, &QGSettings::changed, [=]() {
+            m_pMessageCenterLabel->setAttribute(Qt::WA_TranslucentBackground);
+            m_pMessageCenterLabel->update();
+            pInQWidget->update();
+            m_pMainWidget->update();
+        });
+    }
+    return;
+}

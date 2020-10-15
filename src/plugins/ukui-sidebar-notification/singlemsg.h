@@ -72,7 +72,6 @@ private:
     QWidget*        m_pStorageDeleteButtonWidget;
 
     QLabel*         m_pTimeLabel;                   //时间标签
-    ButtonWidget*   m_pSingleTakeinButton;          //单条消息中的收纳按钮
     ButtonWidget*   m_pSingleDeleteButton;          //单条消息中的删除按钮
     QLabel*         m_pSummaryLabel;                //在动画中暂定高26px
     QLabel*         m_pBodyLabel;                   //正文标签,收缩时,在动画中暂定高24px

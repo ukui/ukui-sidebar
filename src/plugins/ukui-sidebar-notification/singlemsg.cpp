@@ -134,32 +134,10 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     QSize normalIconSize(16, 16);
     QSize pressedIconSize(14, 14);
 
-    //单独收纳按钮
-    if(false == m_bTakeInFlag)
-    {
-        QString strIcon = ":/images/box-16-translucent.svg";
-        QString strHoverIcon = ":/images/box-16.svg";
-        QString strPressIcon = ":/images/box-14-translucent.svg";
-        m_pSingleTakeinButton = new ButtonWidget(strIcon, strHoverIcon, strPressIcon, normalIconSize, pressedIconSize);
-        connect(m_pSingleTakeinButton, SIGNAL(Sig_clicked()), this, SLOT(onTakeIn()));
-    }
-    else
-    {
-        QString strIcon = ":/images/exitbox-16-translucent.svg";
-        QString strHoverIcon = ":/images/exitbox-16.svg";
-        QString strPressIcon = ":/images/exitbox-14-translucent.svg";
-        m_pSingleTakeinButton = new ButtonWidget(strIcon, strHoverIcon, strPressIcon, normalIconSize, pressedIconSize);
-        connect(m_pSingleTakeinButton, SIGNAL(Sig_clicked()), this, SLOT(onRecover()));
-    }
-
     //单独删除按钮
-    QString strIcon = ":/images/hover-translucent.svg";
-    QString strHoverIcon = ":/images/hover.svg";
 
-    QSize deleteNormalIconSize(14, 14);
-    QSize deletePressedIconSize(12, 12);
-    m_pSingleDeleteButton = new ButtonWidget(strIcon, strHoverIcon, strIcon,deleteNormalIconSize,deletePressedIconSize);
-    connect(m_pSingleDeleteButton, SIGNAL(Sig_clicked()), this, SLOT(onDele()));
+    m_pSingleDeleteButton = new ButtonWidget();
+    connect(m_pSingleDeleteButton->m_pDeleteButton, &QPushButton::clicked, this, &SingleMsg::onDele);
     m_pStorageDeleteButtonWidget->hide();
 
     //设置标签布局
@@ -191,13 +169,10 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     pMainVLaout->addWidget(m_pIconWidget, 0);
     m_pIconWidget->setAttribute(Qt::WA_TranslucentBackground);
 
-
-
-     m_pStorageDeleteButtonWidget->setAttribute(Qt::WA_TranslucentBackground);
+    m_pStorageDeleteButtonWidget->setAttribute(Qt::WA_TranslucentBackground);
 
     //内容部件,将主题正文以及剩余条数显示装入内容部件
     m_pContextWidget = new QWidget;
-
 
     //内容部件的垂直布局器
     QVBoxLayout* pVContextLayout = new QVBoxLayout();
@@ -460,7 +435,6 @@ void SingleMsg::enterEvent(QEvent *event)
     if((true == m_bMain) && (true == m_bFold) && (m_nShowLeftCount > 0))
     {
         emit Sig_onMainEnter();
-
     }
 
     return;

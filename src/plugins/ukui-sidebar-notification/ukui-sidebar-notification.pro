@@ -29,7 +29,8 @@ SOURCES += \
     buttonwidget.cpp \
     customstylePushbutton2.cpp \
     External_Widget.cpp \
-    Inside_Widget.cpp
+    Inside_Widget.cpp \
+    picturetowhite.cpp
 
 INCLUDEPATH    += ../../plugin-interface \
                  /usr/include/dconf
@@ -43,7 +44,9 @@ HEADERS += \
     buttonwidget.h \
     customstylePushbutton2.h \
     External_Widget.h \
-    Inside_Widget.h
+    Inside_Widget.h \
+    picturetowhite.h
+
 DISTFILES += notificationPlugin.json
 
 unix {

@@ -16,7 +16,6 @@ void external_widget::paintEvent(QPaintEvent *e)
 
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     p.setBrush(QBrush(QColor(255,255,255)));
-
     p.setOpacity(0);
     p.setPen(Qt::NoPen);
     p.drawRoundedRect(rect,24,24);

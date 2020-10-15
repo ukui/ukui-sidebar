@@ -323,10 +323,6 @@ void Widget::initAimation()
 //动画展开
 void Widget::showAnimation()
 {
-    NotificationInterface* pNotificationPluginObject = qobject_cast<NotificationInterface*>(m_pNotificationPluginObject);
-    if (nullptr != pNotificationPluginObject && false == m_bfinish)
-        pNotificationPluginObject->showNotification();       //当动画展开时给插件一个通知
-
     int  AnimaStartSideBarSite[4];                           //侧边栏动画开始位置
     int  AnimaStopSidebarSite[4];                            //侧边栏动画结束位置
 
@@ -671,7 +667,6 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
 {
     if (obj == this) {
         if (event->type() == QEvent::WindowDeactivate && true == m_bShowFlag && true == m_bClipboardFlag) {
-            qDebug() << "Widget::eventFilter 消失";
             mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
             hideAnimation();
             m_bShowFlag = false;

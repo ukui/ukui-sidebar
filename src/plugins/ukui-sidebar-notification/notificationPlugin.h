@@ -26,6 +26,7 @@
 #include "External_Widget.h"
 #include "Inside_Widget.h"
 
+#define UKUI_QT_STYLE          "org.ukui.style"
 
 class AppMsg;
 class ScrollAreaWidget;
@@ -45,11 +46,11 @@ class NotificationPlugin : public QObject, public NotificationInterface
 public:
     NotificationPlugin();
     virtual QWidget* centerWidget() override;    
-    virtual void showNotification() override;
     virtual void hideNotification() override;
     AppMsg* getAppMsgAndIndexByName(QString strAppName, int& nIndex);
     AppMsg* getTakeinAppMsgAndIndexByName(QString strAppName, int& nIndex);
     void modifyNotifyWidgetTransparency(double transparency);
+    void initGsettingValue();
 private:
     external_widget*              m_pMainWidget;
     QList<AppMsg*>          m_listAppMsg;                       //对于SingleMsg类对象用list表记录
@@ -72,9 +73,12 @@ private:
     QLabel*                 m_pTakeInCoutLabel;                 //收纳盒计数统计Label
     bool                    m_bInitialFlag;                     //初始化标志
 
+    inside_widget* pInQWidget;
+
     double                  transparency = 0.7;
-    QGSettings              *m_pTransparency = nullptr;                  //透明度gsetting值
+    QGSettings              *m_pTransparency = nullptr;         //透明度gsetting值
     QGSettings              *m_pEnablenotice = nullptr;         //通知中心开关
+    QGSettings              *m_pTabletModeGsetting = nullptr;   //主题gsetting值
 signals:
     void Sig_onNewNotification();
 

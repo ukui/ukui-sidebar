@@ -25,85 +25,49 @@
 #include <QSvgWidget>
 #include <QDebug>
 
-ButtonWidget::ButtonWidget(QString strIcon, QString strHoverIcon, QString strPressIcon,QSize normalIconSize,QSize pressIconSize)
+ButtonWidget::ButtonWidget()
 {
-    m_strIcon = strIcon;
-    m_strHoverIcon = strHoverIcon;
-    m_strPressIcon = strPressIcon;
+    initMemberVariables();
+    initGsettingValue();
+    return;
+}
 
-    this->setFixedWidth(24);
-    this->setFixedHeight(24);
+void ButtonWidget::initMemberVariables()
+{
+    this->setFixedSize(24, 24);
     QVBoxLayout* pVBoxLayout = new QVBoxLayout;
     pVBoxLayout->setContentsMargins(0,0,0,0);
     pVBoxLayout->setSpacing(0);
 
-    m_ToolButton = new QLabel;
-    m_pTakeinSvgRender = new QSvgRenderer(m_ToolButton);
-    m_pTakeinSvgRender->load(m_strIcon);
-    m_ToolButton->setAttribute(Qt::WA_TranslucentBackground);
-    m_pTakeinPixmap = new QPixmap(normalIconSize);
-    m_pTakeinPressPixmap = new QPixmap(pressIconSize);
-    m_pTakeinPixmap->fill(Qt::transparent);
-    QPainter takeinPainter(m_pTakeinPixmap);
-    m_pTakeinSvgRender->render(&takeinPainter);
-    m_ToolButton->setPixmap(*m_pTakeinPixmap);
-
-    pVBoxLayout->addWidget(m_ToolButton, 0, Qt::AlignHCenter | Qt::AlignVCenter);
+    m_pDeleteButton = new QPushButton;
+    m_pDeleteButton->setProperty("iconHighlightEffectMode", true);
+    QPalette palette = this->palette();
+    palette.setColor(QPalette::Highlight, Qt::transparent);      /* 取消按钮高亮 */
+    m_pDeleteButton->setPalette(palette);
+    m_pDeleteButton->setFixedSize(24, 24);
+    m_pDeleteButton->setFlat(true);
+    m_pDeleteButton->setIcon(QIcon::fromTheme(UKUI_CLOSE_ICON));
+    m_pDeleteButton->setIconSize(QSize(24, 24));
+    pVBoxLayout->addWidget(m_pDeleteButton, 0, Qt::AlignHCenter | Qt::AlignVCenter);
     this->setLayout(pVBoxLayout);
-
-    return;
 }
 
-void ButtonWidget::enterEvent(QEvent *event)
+void ButtonWidget::initGsettingValue()
 {
-    Q_UNUSED(event);
-    m_pTakeinSvgRender->load(m_strHoverIcon);
-    m_pTakeinPixmap->fill(Qt::transparent);
-    QPainter takeinPainter(m_pTakeinPixmap);
-    m_pTakeinSvgRender->render(&takeinPainter);
-    m_ToolButton->setPixmap(*m_pTakeinPixmap);
-
-    return;
-}
-
-void ButtonWidget::leaveEvent(QEvent *event)
-{
-    Q_UNUSED(event);
-    m_pTakeinSvgRender->load(m_strIcon);
-    m_pTakeinPixmap->fill(Qt::transparent);
-    QPainter takeinPainter(m_pTakeinPixmap);
-    m_pTakeinSvgRender->render(&takeinPainter);
-    m_ToolButton->setPixmap(*m_pTakeinPixmap);
-
-    return;
-}
-
-//鼠标点击事件
-void ButtonWidget::mousePressEvent(QMouseEvent *event)
-{
-    if (event->buttons() == Qt::LeftButton)
-    {
-        m_pTakeinSvgRender->load(m_strPressIcon);
-        m_pTakeinPressPixmap->fill(Qt::transparent);
-        QPainter takeinPainter(m_pTakeinPressPixmap);
-        m_pTakeinSvgRender->render(&takeinPainter);
-        m_ToolButton->setPixmap(*m_pTakeinPressPixmap);
+    const QByteArray id(UKUI_QT_STYLE);
+    if (QGSettings::isSchemaInstalled(id)) {
+        m_pTabletModeGsetting = new QGSettings(id);
+        connect(m_pTabletModeGsetting, &QGSettings::changed, [=](QString key) {
+            if (UKUI_QT_STYLE_NAME_KEY == key) {
+                QString styleName = m_pTabletModeGsetting->get(UKUI_QT_STYLE_NAME_KEY).toString();
+                qDebug() << styleName;
+                if (styleName == UKUI_QT_DARK_NAME) {
+                    m_pDeleteButton->setProperty("useIconHighlightEffect", true);
+                } else {
+                    m_pDeleteButton->setProperty("useIconHighlightEffect", false);
+                }
+            }
+        });
     }
-
-    return;
-}
-
-void ButtonWidget::mouseReleaseEvent(QMouseEvent *event)
-{
-    int x = event->x();
-    int y = event->y();
-    qDebug()<<"ButtonWidget::mouseReleaseEvent" <<x << y;
-
-    //假如在QRect(0, 0, 24, 24));这个区域里，就发出信号
-    if (x >= 0 && x <= 24 && y >= 0 && y<=24)
-    {
-        emit Sig_clicked();
-    }
-
     return;
 }

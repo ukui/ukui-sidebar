@@ -21,32 +21,31 @@
 
 #include <QWidget>
 #include <QLabel>
-
-class QSvgRenderer;
+#include <QIcon>
+#include <QPixmap>
+#include <QPushButton>
+#include <QGSettings>
+#include "picturetowhite.h"
+#define UKUI_QT_STYLE          "org.ukui.style"
+#define UKUI_QT_STYLE_NAME_KEY "styleName"
+#define UKUI_QT_DARK_NAME      "ukui-dark"
+#define UKUI_CLOSE_ICON        "window-close-symbolic"
 
 class ButtonWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ButtonWidget(QString strIcon, QString strHoverIcon, QString strPressIcon,QSize nomalIconSize,QSize pressIconSize);
-
-protected:
-    virtual void enterEvent(QEvent *event) override;
-    virtual void leaveEvent(QEvent *event) override;
-    virtual void mousePressEvent(QMouseEvent *event) override;
-    virtual void mouseReleaseEvent(QMouseEvent *event) override;
+    explicit ButtonWidget();
+    void initMemberVariables();
+    void initGsettingValue();
+    QPushButton*    m_pDeleteButton;
 
 private:
-    QLabel*         m_ToolButton;
-    QSvgRenderer*   m_pTakeinSvgRender;
     QPixmap*        m_pTakeinPixmap;                //收纳默认或悬停时的像素
     QPixmap*        m_pTakeinPressPixmap;           //收纳点击时的像素
-
+    QGSettings      *m_pTabletModeGsetting;
     bool            m_bTakeInFlag;
-    QString         m_strIcon;
-    QString         m_strHoverIcon;
-    QString         m_strPressIcon;
-
+    PictureToWhite  *m_pPictureToWhite;
 signals:
     void            Sig_clicked();
 
