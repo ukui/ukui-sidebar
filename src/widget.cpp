@@ -25,6 +25,7 @@
 #include <QGuiApplication>
 #include "customstyle.h"
 
+extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 double tranSparency = 0.7;
 
 Widget::Widget(QWidget *parent) : QWidget (parent)
@@ -304,7 +305,7 @@ void Widget::initTranslation()
 void Widget::initLayout()
 {
     m_pMainQVBoxLayout = new QVBoxLayout;
-    m_pMainQVBoxLayout->setContentsMargins(0, 0, 0, 0);
+    m_pMainQVBoxLayout->setContentsMargins(8, 8, 8, 8);
     m_pMainQVBoxLayout->setSpacing(0);
     return;
 }
@@ -335,57 +336,57 @@ void Widget::showAnimation()
         case Widget::PanelDown :
             {
                 //起始位置的坐标
-                AnimaStartSideBarSite[0] = 392;
+                AnimaStartSideBarSite[0] = 408;
                 AnimaStartSideBarSite[1] = 0;
-                AnimaStartSideBarSite[2] = 392;
-                AnimaStartSideBarSite[3] = m_nScreenHeight - connectTaskBarDbus() - 15;
+                AnimaStartSideBarSite[2] = 408;
+                AnimaStartSideBarSite[3] = m_nScreenHeight - connectTaskBarDbus() ;
                 //结束位置坐标
                 AnimaStopSidebarSite[0]  = 0;
                 AnimaStopSidebarSite[1]  = 0;
-                AnimaStopSidebarSite[2]  = 392;
-                AnimaStopSidebarSite[3]  = m_nScreenHeight  - connectTaskBarDbus() - 15;
+                AnimaStopSidebarSite[2]  = 408;
+                AnimaStopSidebarSite[3]  = m_nScreenHeight  - connectTaskBarDbus();
             }
             break;
         case Widget::PanelUp:
             {
                 //起始位置的坐标
-                AnimaStartSideBarSite[0] = 392;
+                AnimaStartSideBarSite[0] = 408;
                 AnimaStartSideBarSite[1] = 0;
-                AnimaStartSideBarSite[2] = 392;
-                AnimaStartSideBarSite[3] = m_nScreenHeight  - connectTaskBarDbus() - 15;
+                AnimaStartSideBarSite[2] = 408;
+                AnimaStartSideBarSite[3] = m_nScreenHeight  - connectTaskBarDbus();
                 //结束位置坐标
                 AnimaStopSidebarSite[0]  = 0;
                 AnimaStopSidebarSite[1]  = 0;;
-                AnimaStopSidebarSite[2]  = 392;
-                AnimaStopSidebarSite[3]  = m_nScreenHeight - connectTaskBarDbus() - 15;
+                AnimaStopSidebarSite[2]  = 408;
+                AnimaStopSidebarSite[3]  = m_nScreenHeight - connectTaskBarDbus();
             }
             break;
         case Widget::PanelLeft:
             {
                 //起始位置的坐标
-                AnimaStartSideBarSite[0] = -400;
+                AnimaStartSideBarSite[0] = -408;
                 AnimaStartSideBarSite[1] = 0;
-                AnimaStartSideBarSite[2] = 392;
-                AnimaStartSideBarSite[3] = m_nScreenHeight - 15;
+                AnimaStartSideBarSite[2] = 408;
+                AnimaStartSideBarSite[3] = m_nScreenHeight;
                 //结束位置坐标
                 AnimaStopSidebarSite[0]  = 0;
                 AnimaStopSidebarSite[1]  = 0;
-                AnimaStopSidebarSite[2]  = 392;
-                AnimaStopSidebarSite[3]  = m_nScreenHeight - 15;
+                AnimaStopSidebarSite[2]  = 408;
+                AnimaStopSidebarSite[3]  = m_nScreenHeight;
             }
             break;
         case Widget::PanelRight:
             {
                 //起始位置的坐标
-                AnimaStartSideBarSite[0] = 400;
+                AnimaStartSideBarSite[0] = 408;
                 AnimaStartSideBarSite[1] = 0;
-                AnimaStartSideBarSite[2] = 392;
-                AnimaStartSideBarSite[3] = m_nScreenHeight - 15;
+                AnimaStartSideBarSite[2] = 408;
+                AnimaStartSideBarSite[3] = m_nScreenHeight;
                 //结束位置坐标
                 AnimaStopSidebarSite[0]  = 0;
                 AnimaStopSidebarSite[1]  = 0;
-                AnimaStopSidebarSite[2]  = 392;
-                AnimaStopSidebarSite[3]  = m_nScreenHeight - 15;
+                AnimaStopSidebarSite[2]  = 408;
+                AnimaStopSidebarSite[3]  = m_nScreenHeight;
             }
             break;
         default:
@@ -403,9 +404,9 @@ void Widget::showAnimationAction(const QVariant &value)
     int x = Rect.x();
     if (m_pPeonySite == Widget::PanelDown
           || m_pPeonySite == Widget::PanelUp) {
-        mostGrandWidget::getInstancemostGrandWidget()->setProperty("blurRegion", QRegion(QRect(x, 0, 400, m_nScreenHeight - connectTaskBarDbus())));
+        mostGrandWidget::getInstancemostGrandWidget()->setProperty("blurRegion", QRegion(QRect(x + 8, 8, 392, m_nScreenHeight - connectTaskBarDbus() - 16)));
     } else {
-        mostGrandWidget::getInstancemostGrandWidget()->setProperty("blurRegion", QRegion(QRect(x, 0, 400, m_nScreenHeight)));
+        mostGrandWidget::getInstancemostGrandWidget()->setProperty("blurRegion", QRegion(QRect(x + 8, 8, 392, m_nScreenHeight - 16)));
     }
 }
 
@@ -435,13 +436,13 @@ void Widget::hideAnimation()
                 //起始位置的坐标
                 AnimaStartSideBarSite[0] = 0;
                 AnimaStartSideBarSite[1] = 0;
-                AnimaStartSideBarSite[2] = 392;
-                AnimaStartSideBarSite[3] = m_nScreenHeight - connectTaskBarDbus() - 15;
+                AnimaStartSideBarSite[2] = 408;
+                AnimaStartSideBarSite[3] = m_nScreenHeight - connectTaskBarDbus();
                 //结束位置坐标
                 AnimaStopSidebarSite[0]  = 450;
                 AnimaStopSidebarSite[1]  = 0;
-                AnimaStopSidebarSite[2]  = 392;
-                AnimaStopSidebarSite[3]  = m_nScreenHeight  - connectTaskBarDbus() - 15;
+                AnimaStopSidebarSite[2]  = 408;
+                AnimaStopSidebarSite[3]  = m_nScreenHeight  - connectTaskBarDbus();
             }
             break;
         case Widget::PanelUp:
@@ -449,13 +450,13 @@ void Widget::hideAnimation()
                 //起始位置的坐标
                 AnimaStartSideBarSite[0] = 0;
                 AnimaStartSideBarSite[1] = 0;
-                AnimaStartSideBarSite[2] = 392;
-                AnimaStartSideBarSite[3] = m_nScreenHeight  - connectTaskBarDbus() - 15;
+                AnimaStartSideBarSite[2] = 408;
+                AnimaStartSideBarSite[3] = m_nScreenHeight  - connectTaskBarDbus();
                 //结束位置坐标
                 AnimaStopSidebarSite[0]  = 450;
                 AnimaStopSidebarSite[1]  = 0;
-                AnimaStopSidebarSite[2]  = 392;
-                AnimaStopSidebarSite[3]  = m_nScreenHeight - connectTaskBarDbus() - 15;
+                AnimaStopSidebarSite[2]  = 408;
+                AnimaStopSidebarSite[3]  = m_nScreenHeight - connectTaskBarDbus();
             }
             break;
         case Widget::PanelLeft:
@@ -463,13 +464,13 @@ void Widget::hideAnimation()
                 //起始位置的坐标
                 AnimaStartSideBarSite[0] = 0;
                 AnimaStartSideBarSite[1] = 0;
-                AnimaStartSideBarSite[2] = 392;
-                AnimaStartSideBarSite[3] = m_nScreenHeight - 15;
+                AnimaStartSideBarSite[2] = 408;
+                AnimaStartSideBarSite[3] = m_nScreenHeight;
                 //结束位置坐标
-                AnimaStopSidebarSite[0]  = -410;
+                AnimaStopSidebarSite[0]  = -420;
                 AnimaStopSidebarSite[1]  = 0;
-                AnimaStopSidebarSite[2]  = 392;
-                AnimaStopSidebarSite[3]  = m_nScreenHeight - 15;
+                AnimaStopSidebarSite[2]  = 408;
+                AnimaStopSidebarSite[3]  = m_nScreenHeight;
             }
             break;
         case Widget::PanelRight:
@@ -477,13 +478,13 @@ void Widget::hideAnimation()
                 //起始位置的坐标
                 AnimaStartSideBarSite[0] = 0;
                 AnimaStartSideBarSite[1] = 0;
-                AnimaStartSideBarSite[2] = 392;
-                AnimaStartSideBarSite[3] = m_nScreenHeight - 15;
+                AnimaStartSideBarSite[2] = 408;
+                AnimaStartSideBarSite[3] = m_nScreenHeight;
                 //结束位置坐标
                 AnimaStopSidebarSite[0]  = 450;
                 AnimaStopSidebarSite[1]  = 0;
-                AnimaStopSidebarSite[2]  = 392;
-                AnimaStopSidebarSite[3]  = m_nScreenHeight - 15;
+                AnimaStopSidebarSite[2]  = 408;
+                AnimaStopSidebarSite[3]  = m_nScreenHeight;
             }
             break;
         default:
@@ -623,29 +624,29 @@ void Widget::MostGrandWidgetCoordinates()
     switch (getPanelSite()) {
         case Widget::PanelDown :
             {
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(392, m_nScreenHeight - connectTaskBarDbus() - 15);
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400, m_nScreen_y + 8);
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(408, m_nScreenHeight - connectTaskBarDbus());
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 408, m_nScreen_y);
             }
             break;
         case Widget::PanelUp:
             {
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(392, m_nScreenHeight - connectTaskBarDbus() - 15); \
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400,  \
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(408, m_nScreenHeight - connectTaskBarDbus()); \
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 408,  \
                                                                                              connectTaskBarDbus() \
-                                                                                             + m_nScreen_y + 8);
+                                                                                             + m_nScreen_y);
             }
             break;
         case Widget::PanelLeft:
             {
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(392, m_nScreenHeight - 15);
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + connectTaskBarDbus() + 8, m_nScreen_y + 8);
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(408, m_nScreenHeight);
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + connectTaskBarDbus(), m_nScreen_y);
             }
             break;
         case Widget::PanelRight:
             {
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(400, m_nScreenHeight - 15);
-                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 400 - connectTaskBarDbus(), \
-                                                                                             m_nScreen_y + 8);
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetSize(408, m_nScreenHeight);
+                mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(m_nScreen_x + m_nScreenWidth - 408 - connectTaskBarDbus(), \
+                                                                                             m_nScreen_y);
             }
             break;
         default:
@@ -685,15 +686,47 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
 
 void Widget::paintEvent(QPaintEvent *event)
 {
-    QStyleOption opt;
-    opt.init(this);
+//    QStyleOption opt;
+//    opt.init(this);
+//    QPainter p(this);
+//    QRect rect = this->rect();
+//    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+//    p.setBrush(opt.palette.color(QPalette::Base));
+//    p.setOpacity(tranSparency);
+//    p.setPen(Qt::NoPen);
+//    p.drawRoundedRect(rect, 12, 12);
+//    QWidget::paintEvent(event);
     QPainter p(this);
-    QRect rect = this->rect();
-    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-    p.setBrush(opt.palette.color(QPalette::Base));
-//    qDebug() << opt.palette.color(QPalette::Base);
-    p.setOpacity(tranSparency);
-    p.setPen(Qt::NoPen);
-    p.drawRoundedRect(rect, 12, 12);
-    QWidget::paintEvent(event);
+    p.setRenderHint(QPainter::Antialiasing);
+    QPainterPath rectPath;
+    rectPath.addRoundedRect(this->rect().adjusted(8, 8, -8, -8), 12, 12);
+
+    QPixmap pixmap(this->rect().size());
+    pixmap.fill(Qt::transparent);
+    QPainter pixmapPainter(&pixmap);
+    pixmapPainter.setRenderHint(QPainter::Antialiasing);
+    pixmapPainter.setPen(Qt::transparent);
+    pixmapPainter.setBrush(Qt::black);
+    pixmapPainter.drawPath(rectPath);
+    pixmapPainter.end();
+
+    QImage img = pixmap.toImage();
+    qt_blurImage(img, 10, false, false);
+
+
+    pixmap = QPixmap::fromImage(img);
+    QPainter pixmapPainter2(&pixmap);
+    pixmapPainter2.setRenderHint(QPainter::Antialiasing);
+    pixmapPainter2.setCompositionMode(QPainter::CompositionMode_Clear);
+    pixmapPainter2.setPen(Qt::transparent);
+    pixmapPainter2.setBrush(Qt::transparent);
+    pixmapPainter2.drawPath(rectPath);
+
+    p.drawPixmap(this->rect(), pixmap, pixmap.rect());
+    QStyleOption *option = new QStyleOption();
+    p.save();
+    QColor color = option->palette.color(QPalette::Base);
+    color.setAlphaF(tranSparency);
+    p.fillPath(rectPath, color);
+    p.restore();
 }
