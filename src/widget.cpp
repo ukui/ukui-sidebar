@@ -67,6 +67,9 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     /* 安装事件过滤器 */
     installEventFilter(this);
 
+    connect(qApp, &QApplication::paletteChanged, this, [=](){
+        qDebug() << "系统画板变化";
+    });
     /* 监听gsetting，修改所有窗口的字体 */
     setAllWidgetFont();
 
@@ -98,12 +101,12 @@ bool Widget::loadNotificationPlugin()
     QPluginLoader pluginLoader(pluginsDir.absoluteFilePath("libnotification_plugin.so"));
 
     m_pNotificationPluginObject = pluginLoader.instance();
-    if(nullptr == m_pNotificationPluginObject) {
+    if (nullptr == m_pNotificationPluginObject) {
         return false;
     }
 
     NotificationInterface* pNotificationPluginObject = qobject_cast<NotificationInterface*>(m_pNotificationPluginObject);
-    if(nullptr == pNotificationPluginObject) {
+    if (nullptr == pNotificationPluginObject) {
         return false;
     }
 
@@ -604,7 +607,7 @@ void Widget::setAllWidgetFont()
 {
     const QByteArray id("org.ukui.style");
         QGSettings * fontSetting = new QGSettings(id);
-        connect(fontSetting, &QGSettings::changed,[=](QString key){
+        connect(fontSetting, &QGSettings::changed,[=](QString key) {
             if ("systemFont" == key || "systemFontSize" ==key) {
                 QFont font = this->font();
                 for (auto widget : qApp->allWidgets()) {
@@ -688,6 +691,7 @@ void Widget::paintEvent(QPaintEvent *event)
     QRect rect = this->rect();
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     p.setBrush(opt.palette.color(QPalette::Base));
+//    qDebug() << opt.palette.color(QPalette::Base);
     p.setOpacity(tranSparency);
     p.setPen(Qt::NoPen);
     p.drawRoundedRect(rect, 12, 12);

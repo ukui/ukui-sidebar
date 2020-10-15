@@ -22,6 +22,7 @@ void inside_widget::paintEvent(QPaintEvent *e)
     QRect rect = this->rect();
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     p.setBrush(opt.palette.color(QPalette::Base));
+//    qDebug() << "1" << opt.palette.color(QPalette::Base);
     p.setOpacity(tranSparency);
     p.setPen(Qt::NoPen);
     p.drawRoundedRect(rect,0,0);

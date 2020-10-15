@@ -1,3 +1,20 @@
+/*
+* Copyright (C) 2020 Tianjin KYLIN Information Technology Co., Ltd.
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 3, or (at your option)
+* any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
+*
+*/
 #include "weatherwidget.h"
 
 weatherWidget::weatherWidget(QWidget *parent) : QWidget(parent)
@@ -12,6 +29,8 @@ void weatherWidget::initMemberVariables()
 {
     m_pWeatherIconLabel = new QLabel();
     m_pWeatherIconLabel->setFixedSize(16, 16);
+
+    m_pPictureToWhite = new PictureToWhite();
 
     m_pAreaLabel = new QLabel();
     m_pAreaLabel->setFixedHeight(18);
@@ -36,7 +55,6 @@ void weatherWidget::initLabelData()
 {
     m_pweatherString = m_pWeatherGsetting->get(UKUI_WEATHER_GSETTING_KEY).toString();
     QStringList WeatherInfoList = m_pweatherString.split(",");
-    qDebug() << "天气初始化值" << WeatherInfoList;
     setLabelData(WeatherInfoList);
     return;
 }
@@ -55,6 +73,7 @@ void weatherWidget::setLabelData(QStringList WeatherInfoList)
                 .arg(WeatherInfoList.at(3)).arg(WeatherInfoList.at(5));
     m_pAreaLabel->setText(WeatherInfo);
     QPixmap pixmap = QIcon::fromTheme(WeatherInfoList.at(9)).pixmap(QSize(m_pWeatherIconLabel->size()));
+    pixmap = m_pPictureToWhite->drawSymbolicColoredPixmap(pixmap);
     m_pWeatherIconLabel->setPixmap(pixmap);
     return;
 }
@@ -66,7 +85,6 @@ void weatherWidget::initGSettingValue()
     if (QGSettings::isSchemaInstalled(id_2))
         m_pWeatherGsetting = new QGSettings(id_2);
     if (m_pWeatherGsetting != nullptr) {
-        qDebug() << "当前的gsetting的key值" << m_pWeatherGsetting->keys();
         connect(m_pWeatherGsetting, &QGSettings::changed, this, &weatherWidget::getGsettingChageSlots);
     }
     return;

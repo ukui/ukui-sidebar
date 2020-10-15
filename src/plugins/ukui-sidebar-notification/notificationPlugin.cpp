@@ -63,7 +63,7 @@ NotificationPlugin::NotificationPlugin()
     m_pTakeInBoxToolButton = new TakeInBoxToolButton();
     m_pTakeInBoxToolButton->setStyle(new CustomStyle_pushbutton_2("ukui-default"));
     connect(m_pTakeInBoxToolButton, SIGNAL(Sig_clicked()), this, SLOT(onShowTakeInMessage()));
-       //QToolButton添加svg图片
+    //QToolButton添加svg图片
     m_pSvgRender = new QSvgRenderer(pWidget1);
     m_pSvgRender->load(QString(":/images/box-24.svg"));
     m_pTakeInBoxToolButton->setFixedSize(30,30);

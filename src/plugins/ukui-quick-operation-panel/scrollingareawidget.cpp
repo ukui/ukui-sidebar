@@ -1,3 +1,20 @@
+/*
+* Copyright (C) 2020 Tianjin KYLIN Information Technology Co., Ltd.
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 3, or (at your option)
+* any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
+*
+*/
 #include "scrollingareawidget.h"
 
 
@@ -113,6 +130,7 @@ void ScrollingAreaWidget::setSliderValue(QString key)
     int value;
     if (key == UKUI_VOLUME_KEY) {
         value = m_pVolumeLightSetting->get(UKUI_VOLUME_KEY).toInt();
+        qDebug() << "当前音量值" << value;
         m_pVolumeSlide->setValue(value);
         setVolumeStatusIcon(value);
     } else if (key == UKUI_BRIGHTNESS_KEY) {
@@ -127,13 +145,14 @@ void ScrollingAreaWidget::setSliderValue(QString key)
 void ScrollingAreaWidget::setVolumeStatusIcon(int value)
 {
     if (value == 0)
-        m_pVolumeIconLabel->setPixmap(QIcon::fromTheme("ukui-icon-sound-closed").pixmap(m_pVolumeIconLabel->size()));
+        m_pVolumeIconLabel->setPixmap(QIcon::fromTheme("ukui-icon-sound-low").pixmap(m_pVolumeIconLabel->size()));
     else if (value > 0 && value <= 35)
         m_pVolumeIconLabel->setPixmap(QIcon::fromTheme("ukui-icon-sound-low").pixmap(m_pVolumeIconLabel->size()));
     else if (value >= 36 && value <= 65)
         m_pVolumeIconLabel->setPixmap(QIcon::fromTheme("ukui-icon-sound-middle").pixmap(m_pVolumeIconLabel->size()));
     else
        m_pVolumeIconLabel->setPixmap(QIcon::fromTheme("ukui-icon-sound-high").pixmap(m_pVolumeIconLabel->size()));
+    m_pVolumeIconLabel->update();
 }
 
 /* 根据亮度值设置状态图标 */
@@ -149,6 +168,7 @@ void ScrollingAreaWidget::setLightStatusIcon(int value)
         m_pBrightIconLabel->setPixmap(QIcon::fromTheme("ukui-icon-light-75").pixmap(m_pBrightIconLabel->size()));
     else if (value > 75)
         m_pBrightIconLabel->setPixmap(QIcon::fromTheme("ukui-icon-light-100").pixmap(m_pBrightIconLabel->size()));
+    m_pBrightIconLabel->update();
 }
 
 /* 改变音量滚动条时，修改gsetting值，通知音量组件修改，同步 */
