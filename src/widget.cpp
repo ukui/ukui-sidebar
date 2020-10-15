@@ -402,12 +402,16 @@ void Widget::showAnimationAction(const QVariant &value)
 {
     QRect Rect = value.value<QRect>();
     int x = Rect.x();
+    QPainterPath path;
     if (m_pPeonySite == Widget::PanelDown
           || m_pPeonySite == Widget::PanelUp) {
-        mostGrandWidget::getInstancemostGrandWidget()->setProperty("blurRegion", QRegion(QRect(x + 8, 8, 392, m_nScreenHeight - connectTaskBarDbus() - 16), QRegion::Ellipse));
+        path.addRoundedRect(QRect(x + 8, 8, 392, m_nScreenHeight - connectTaskBarDbus() - 16), 12, 12);
     } else {
-        mostGrandWidget::getInstancemostGrandWidget()->setProperty("blurRegion", QRegion(QRect(x + 8, 8, 392, m_nScreenHeight - 16), QRegion::Ellipse));
+        path.addRoundedRect(QRect(x + 8, 8, 392, m_nScreenHeight - 16), 12, 12);
     }
+    QRegion Region(path.toFillPolygon().toPolygon());
+    mostGrandWidget::getInstancemostGrandWidget()->setProperty("blurRegion", Region);
+    return;
 }
 
 void Widget::showAnimationFinish()
