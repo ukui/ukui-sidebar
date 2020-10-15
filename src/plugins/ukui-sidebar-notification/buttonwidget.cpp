@@ -102,7 +102,11 @@ void ButtonWidget::mouseReleaseEvent(QMouseEvent *event)
     //假如在QRect(0, 0, 24, 24));这个区域里，就发出信号
     if (x >= 0 && x <= 24 && y >= 0 && y<=24)
     {
-        emit Sig_clicked();
+//        emit Sig_clicked();
+        if (Qt::LeftButton == event->button())
+        {
+            emit Sig_clicked();
+        }
     }
 
     return;
