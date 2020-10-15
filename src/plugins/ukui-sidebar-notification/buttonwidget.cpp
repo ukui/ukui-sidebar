@@ -68,6 +68,5 @@ void ButtonWidget::initGsettingValue()
                 }
             }
         });
-    }
     return;
 }
