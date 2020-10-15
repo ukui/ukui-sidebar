@@ -35,11 +35,11 @@ void eyeProtectionMode::initMemberVariables()
 
     m_pLabelFotmatText = new LabelFotmatText;
 
-    m_pEyeModeButton = new QPushButton();
+    m_pEyeModeButton = new ShortcutButton();
     m_pEyeModeButton->setFixedSize(56, 56);
     m_pEyeModeButton->setIcon(QIcon::fromTheme(KYLIN_EYE_MODE_NORMAL_NAME, QIcon(KYLIN_EYE_MODE_NORMAL_PATH)));
     m_pEyeModeButton->setIconSize(QSize(24, 24));
-    connect(m_pEyeModeButton, &switchButton::clicked, this, &eyeProtectionMode::EyeButtonClickSlots);
+    connect(m_pEyeModeButton, &ShortcutButton::clicked, this, &eyeProtectionMode::EyeButtonClickSlots);
 
     m_pDeleteButton = new QPushButton();
     m_pDeleteButton->setFixedSize(20, 20);
@@ -77,17 +77,18 @@ void eyeProtectionMode::initGsettingValue()
 
     // 夜间模式的初始化
     const QByteArray id(NIGHT_MODE_CONTROL);
-    if(QGSettings::isSchemaInstalled(id)) {
+    if (QGSettings::isSchemaInstalled(id)) {
         m_pTabletModeGsetting = new QGSettings(id);
         if (m_pTabletModeGsetting->keys().contains(NIGHT_MODE_KEY)) {
             m_bModelStatus = m_pTabletModeGsetting->get(NIGHT_MODE_KEY).toBool();
+            m_pEyeModeButton->m_bStatusButton = m_bModelStatus;
             setEyeButtonStatus(m_bModelStatus);
         }
         else
             qDebug()<<"nightmodestatus is not exit";
 
         connect(m_pTabletModeGsetting, &QGSettings::changed, this, [=](const QString &key) {
-            if (key==NIGHT_MODE_KEY) {
+            if (key == NIGHT_MODE_KEY) {
                 setEyeButtonStatus(m_pTabletModeGsetting->get(NIGHT_MODE_KEY).toBool());
             }
         });

@@ -36,13 +36,14 @@ void settingWidget::initMemberVariables()
     m_pVboxButtonLayout     = new QVBoxLayout();
     m_pVboxButtonLayout->setContentsMargins(0, 0, 0, 0);
 
-    m_psettingButton = new QPushButton();
+    m_psettingButton = new ShortcutButton();
+    m_psettingButton->m_bStatusButton = false;
     m_psettingButton->setFixedSize(56, 56);
     m_psettingButton->setIcon(QIcon::fromTheme(KYLIN_SETTING_NORMAL_NAME, QIcon(KYLIN_SETTING_NORMAL_PATH)));
     m_psettingButton->setIconSize(QSize(24, 24));
     m_pStyleNormal = new customstyle_switchNormalStatus("ukui-default");
     m_psettingButton->setStyle(m_pStyleNormal);
-    connect(m_psettingButton, &switchButton::clicked, this, &settingWidget::settingButtonClick);
+    connect(m_psettingButton, &ShortcutButton::clicked, this, &settingWidget::settingButtonClick);
 
     m_pDeleteButton = new QPushButton();
     m_pDeleteButton->setFixedSize(20, 20);

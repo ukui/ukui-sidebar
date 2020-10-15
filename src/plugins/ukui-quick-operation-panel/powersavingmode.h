@@ -26,9 +26,7 @@
 #include <QVBoxLayout>
 #include <QDebug>
 #include <QStyleOption>
-#include "swichButtonOpenStatus.h"
-#include "customstyle_switchNormalStatus.h"
-#include "switchbutton.h"
+#include "shortcutbutton.h"
 #include "labelfotmattext.h"
 
 #define KYLIN_POWER_SAVING_NORMAL_NAME   "ukui-icon-powersavingmode"
@@ -67,8 +65,8 @@ protected:
     void paintEvent(QPaintEvent *e);
 
 private:
-    QWidget       *m_pWidgetButton;
-    QPushButton   *m_pPowerModeButton;
+    QWidget         *m_pWidgetButton;
+    ShortcutButton  *m_pPowerModeButton;
     LabelFotmatText *m_pLabelFotmatText;
 
     QLabel        *m_pPowerModeLabel;

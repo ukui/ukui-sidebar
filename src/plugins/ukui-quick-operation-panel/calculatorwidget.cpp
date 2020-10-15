@@ -38,11 +38,12 @@ void calculatorWidget::initMemberVariables()
 
     m_pLabelFotmatText = new LabelFotmatText;
 
-    m_pcalculatorButton = new QPushButton();
+    m_pcalculatorButton = new ShortcutButton();
+    m_pcalculatorButton->m_bStatusButton = false;
     m_pcalculatorButton->setFixedSize(56, 56);
     m_pcalculatorButton->setIcon(QIcon::fromTheme(KYLIN_CALCULATOR_NORMAL_NAME, QIcon(KYLIN_CALCULATOR_NORMAL_PATH)));
     m_pcalculatorButton->setIconSize(QSize(24, 24));
-    connect(m_pcalculatorButton, &switchButton::clicked, this, &calculatorWidget::calculatorButtonClickSlots);
+    connect(m_pcalculatorButton, &ShortcutButton::clicked, this, &calculatorWidget::calculatorButtonClickSlots);
 
     m_pDeleteButton = new QPushButton();
     m_pDeleteButton->setFixedSize(20, 20);

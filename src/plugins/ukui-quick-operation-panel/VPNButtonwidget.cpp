@@ -28,9 +28,10 @@ void diturbModeWidget::initMemberVariables()
     m_pButtonWidget = new QWidget();
     m_pButtonWidget->setFixedSize(56, 56);
 
-    m_pVPNButton = new QPushButton();
+    m_pVPNButton = new ShortcutButton();
+    m_pVPNButton->m_bStatusButton = false;
     m_pVPNButton->setIcon(QIcon::fromTheme(KYLIN_VPN_NORMAL_NAME, QIcon(KYLIN_BLUETOOTH_NORMAL_PATH)));
-    connect(m_pVPNButton, &switchButton::clicked, this, &diturbModeWidget::VPNButtonClickSLots);
+    connect(m_pVPNButton, &ShortcutButton::clicked, this, &diturbModeWidget::VPNButtonClickSLots);
     m_pVPNButton->setFixedSize(56, 56);
     m_pVPNButton->setIconSize(QSize(24, 24));
 

@@ -26,8 +26,7 @@
 #include <QVBoxLayout>
 #include <QProcess>
 #include <QStyle>
-#include "customstyle_switchNormalStatus.h"
-#include "switchbutton.h"
+#include "shortcutbutton.h"
 #include "labelfotmattext.h"
 
 #define KYLIN_CALCULATOR_NORMAL_PATH    ":/images/icon-calculator.svg"
@@ -48,10 +47,10 @@ public:
     QPushButton   *m_pDeleteButton;
 
 private:
-    QWidget       *m_pWidgetButton;
-    QPushButton   *m_pcalculatorButton;
-    QLabel        *m_pcalculatorLabel;
-    QStyle        *m_pStyleNormal;
+    QWidget        *m_pWidgetButton;
+    ShortcutButton *m_pcalculatorButton;
+    QLabel         *m_pcalculatorLabel;
+    QStyle         *m_pStyleNormal;
 
     LabelFotmatText *m_pLabelFotmatText;
 

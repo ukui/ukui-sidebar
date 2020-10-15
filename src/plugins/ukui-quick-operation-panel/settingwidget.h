@@ -24,8 +24,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QProcess>
-#include "switchbutton.h"
-#include "customstyle_switchNormalStatus.h"
+#include "shortcutbutton.h"
 #include "labelfotmattext.h"
 
 #define KYLIN_SETTING_NORMAL_NAME       "ukui-icon-allsetting"
@@ -46,9 +45,9 @@ public:
     QPushButton  *m_pDeleteButton;
 
 private:
-    QWidget      *m_pWidgetButton;
-    QPushButton  *m_psettingButton;
-    QLabel       *m_psettingLabel;
+    QWidget         *m_pWidgetButton;
+    ShortcutButton  *m_psettingButton;
+    QLabel          *m_psettingLabel;
 
     LabelFotmatText *m_pLabelFotmatText;
 

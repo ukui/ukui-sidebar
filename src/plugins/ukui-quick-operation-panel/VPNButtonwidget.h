@@ -25,8 +25,7 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QProcess>
-#include "switchbutton.h"
-#include "customstyle_switchNormalStatus.h"
+#include "shortcutbutton.h"
 #include "labelfotmattext.h"
 
 #define KYLIN_VPN_NORMAL_NAME     "ukui-icon-VPN"
@@ -51,7 +50,7 @@ private:
 
 private:
     QWidget         *m_pButtonWidget;
-    QPushButton     *m_pVPNButton;
+    ShortcutButton  *m_pVPNButton;
 
     QLabel          *m_pVPNLabel;
     LabelFotmatText *m_pLabelFotmatText;

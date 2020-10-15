@@ -26,9 +26,7 @@
 #include <QVBoxLayout>
 #include <QtDBus>
 #include <QStyleOption>
-#include "switchbutton.h"
-#include "swichButtonOpenStatus.h"
-#include "customstyle_switchNormalStatus.h"
+#include "shortcutbutton.h"
 #include "labelfotmattext.h"
 
 #define KYLIN_BLUETOOTH_NORMAL_NAME     "kylin-icon-bluetooth"
@@ -60,7 +58,7 @@ public:
 
 private:
     QWidget         *m_pWidgetButton;
-    QPushButton     *m_pbluetoothButton;
+    ShortcutButton  *m_pbluetoothButton;
     QLabel          *m_pbluetoothLabel;
 
     LabelFotmatText *m_pLabelFotmatText;

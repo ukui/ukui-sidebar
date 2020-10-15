@@ -38,13 +38,14 @@ void screenshotWidget::initMemberVariables()
 
     m_pLabelFotmatText = new LabelFotmatText();
 
-    m_pscreenshotButton = new QPushButton();
+    m_pscreenshotButton = new ShortcutButton();
+    m_pscreenshotButton->m_bStatusButton = false;
     m_pscreenshotButton->setIcon(QIcon::fromTheme(KYLIN_SCREENSHOT_NORMAL_NAME, QIcon(KYLIN_SCREENSHOT_NORMAL_PATH)));
     m_pscreenshotButton->setFixedSize(56, 56);
     m_pscreenshotButton->setIconSize(QSize(24, 24));
     m_pStyleNormal = new customstyle_switchNormalStatus("ukui-default");
     m_pscreenshotButton->setStyle(m_pStyleNormal);
-    connect(m_pscreenshotButton, &switchButton::clicked, this, &screenshotWidget::sreenShotButtonClickedSlots);
+    connect(m_pscreenshotButton, &ShortcutButton::clicked, this, &screenshotWidget::sreenShotButtonClickedSlots);
 
     m_pDeleteButton = new QPushButton();
     m_pDeleteButton->setFixedSize(20, 20);

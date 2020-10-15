@@ -25,8 +25,7 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QProcess>
-#include "switchbutton.h"
-#include "customstyle_switchNormalStatus.h"
+#include "shortcutbutton.h"
 #include "labelfotmattext.h"
 
 #define KYLIN_BLUETOOTH_NORMAL_NAME     "ukui-icon-notes"
@@ -49,7 +48,7 @@ private:
 
 private:
     QWidget         *m_pButtonWidget;
-    QPushButton     *m_pNoteButton;
+    ShortcutButton  *m_pNoteButton;
     QLabel          *m_pNoteLabel;
 
     LabelFotmatText *m_pLabelFotmatText;

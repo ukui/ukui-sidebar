@@ -29,9 +29,7 @@
 #include <QProcess>
 #include <QStyleOption>
 #include <QDebug>
-
-#include "swichButtonOpenStatus.h"
-#include "customstyle_switchNormalStatus.h"
+#include "shortcutbutton.h"
 #include "switchbutton.h"
 #include "labelfotmattext.h"
 
@@ -82,14 +80,14 @@ protected:
     void paintEvent(QPaintEvent *e);
 
 private:
-    QWidget       *m_pWidgetButton;
-    QPushButton   *m_pEyeModeButton;
-    QLabel        *m_pEyeModeLabel;
+    QWidget        *m_pWidgetButton;
+    ShortcutButton *m_pEyeModeButton;
+    QLabel         *m_pEyeModeLabel;
 
-    QStyle        *m_pStyleOpen;
-    QStyle        *m_pStyleNormal;
+    QStyle         *m_pStyleOpen;
+    QStyle         *m_pStyleNormal;
 
-    QString        m_pCureentTheme;
+    QString         m_pCureentTheme;
 
     LabelFotmatText *m_pLabelFotmatText;
 

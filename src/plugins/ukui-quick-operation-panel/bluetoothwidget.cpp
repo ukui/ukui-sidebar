@@ -40,8 +40,8 @@ void bluetoothWidget::initMemberVariables()
 
     m_pLabelFotmatText = new LabelFotmatText;
 
-    m_pbluetoothButton = new QPushButton();
-    connect(m_pbluetoothButton, &switchButton::clicked, this, &bluetoothWidget::bluetoothButtonClickSlots);
+    m_pbluetoothButton = new ShortcutButton();
+    connect(m_pbluetoothButton, &ShortcutButton::clicked, this, &bluetoothWidget::bluetoothButtonClickSlots);
     m_pbluetoothButton->setFixedSize(56, 56);
     m_pbluetoothButton->setIconSize(QSize(24, 24));
 
@@ -106,6 +106,7 @@ void bluetoothWidget::initBluetoothStatus()
 {
     QDBusMessage msg = m_pServiceInterface->call("GetBluetoothStatus");
     m_bbluetoothStatus = msg.arguments().at(0).toBool();
+    m_pbluetoothButton->m_bStatusButton = m_bbluetoothStatus;
     setBluetoothStatus();
 }
 

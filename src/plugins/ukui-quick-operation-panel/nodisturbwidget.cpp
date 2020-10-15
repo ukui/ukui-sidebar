@@ -40,7 +40,7 @@ void nodisturbWidget::initMemberVariables()
 
     m_pLabelFotmatText = new LabelFotmatText;
 
-    m_pnodisturbButton = new QPushButton();
+    m_pnodisturbButton = new ShortcutButton();
     connect(m_pnodisturbButton, &QPushButton::clicked, this, &nodisturbWidget::setNodisturbButtonSlots);
     m_pnodisturbButton->setFixedSize(56, 56);
     m_pnodisturbButton->setIcon(QIcon::fromTheme(KYLIN_NODISTURB_NORMAL_NAME, QIcon(KYLIN_NODISTURB_NORMAL_PATH)));
@@ -80,8 +80,10 @@ void nodisturbWidget::initGsettingValue()
     const QByteArray id(UKUI_VOLUME_BRIGHTNESS_GSETTING_ID);
     if(QGSettings::isSchemaInstalled(id))
         m_pTabletModeGsetting = new QGSettings(id);
-    if (m_pTabletModeGsetting != nullptr && m_pTabletModeGsetting->keys().contains(KYLIN_DISTURB_GSETTING_VALUE_STATUS))
+    if (m_pTabletModeGsetting != nullptr && m_pTabletModeGsetting->keys().contains(KYLIN_DISTURB_GSETTING_VALUE_STATUS)) {
         m_bModelStatus = m_pTabletModeGsetting->get(KYLIN_DISTURB_GSETTING_VALUE_STATUS).toBool();
+        m_pnodisturbButton->m_bStatusButton = m_bModelStatus;
+    }
     return;
 }
 

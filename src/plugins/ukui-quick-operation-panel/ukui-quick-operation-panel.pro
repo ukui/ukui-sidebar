@@ -42,6 +42,7 @@ SOURCES += \
     picturetowhite.cpp \
     powersavingmode.cpp \
     scrollingareawidget.cpp \
+    shortcutbutton.cpp \
     swichButtonOpenStatus.cpp \
     bluetoothwidget.cpp \
     calculatorwidget.cpp \
@@ -74,6 +75,7 @@ HEADERS += \
     picturetowhite.h \
     powersavingmode.h \
     scrollingareawidget.h \
+    shortcutbutton.h \
     swichButtonOpenStatus.h \
     bluetoothwidget.h \
     calculatorwidget.h \

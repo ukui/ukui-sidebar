@@ -30,8 +30,9 @@ void notebookButtonWidget::initMemberVariables()
 
     m_pLabelFotmatText = new LabelFotmatText;
 
-    m_pNoteButton = new QPushButton();
-    connect(m_pNoteButton, &switchButton::clicked, this, &notebookButtonWidget::NoteButtonClickSlots);
+    m_pNoteButton = new ShortcutButton();
+    m_pNoteButton->m_bStatusButton = false;
+    connect(m_pNoteButton, &ShortcutButton::clicked, this, &notebookButtonWidget::NoteButtonClickSlots);
     m_pNoteButton->setIcon(QIcon::fromTheme(KYLIN_BLUETOOTH_NORMAL_NAME, QIcon(KYLIN_BLUETOOTH_NORMAL_PATH)));
     m_pNoteButton->setFixedSize(56, 56);
     m_pNoteButton->setIconSize(QSize(24, 24));

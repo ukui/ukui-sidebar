@@ -35,10 +35,10 @@ void powerSavingMode::initMemberVariables()
 
     m_pLabelFotmatText = new LabelFotmatText;
 
-    m_pPowerModeButton = new QPushButton();
+    m_pPowerModeButton = new ShortcutButton();
     m_pPowerModeButton->setFixedSize(56, 56);
     m_pPowerModeButton->setIconSize(QSize(24, 24));
-    connect(m_pPowerModeButton, &switchButton::clicked, this, &powerSavingMode::PowerSavingButtonClickSlots);
+    connect(m_pPowerModeButton, &ShortcutButton::clicked, this, &powerSavingMode::PowerSavingButtonClickSlots);
 
     m_pDeleteButton = new QPushButton();
     m_pDeleteButton->setFixedSize(20, 20);
@@ -85,6 +85,7 @@ void powerSavingMode::initGsettingValue()
 void powerSavingMode::initButtonStatus()
 {
     m_bModelStatus = m_pSavingModeButtonStatusGsetting->get(UKUI_ENERGY_SAVING_MODE_KEY).toBool();
+    m_pPowerModeButton->m_bStatusButton = m_bModelStatus;
     if (m_bModelStatus) {
         m_pPowerModeButton->setStyle(m_pStyleOpen);
         m_pPowerModeButton->setIcon(QIcon::fromTheme(KYLIN_POWER_SAVING_OPEN_NAME, QIcon(KYLIN_POWER_SAVING_OPEN_PATH)));

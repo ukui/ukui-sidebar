@@ -28,8 +28,9 @@ void alarmButtonInterface::initMemberVariables()
     m_pButtonWidget = new QWidget();
     m_pButtonWidget->setFixedSize(56, 56);
 
-    m_pAlarmButton = new QPushButton();
-    connect(m_pAlarmButton, &switchButton::clicked, this, &alarmButtonInterface::AlarmButtonClickSlots);
+    m_pAlarmButton = new ShortcutButton();
+    m_pAlarmButton->m_bStatusButton = false;     // 切换主题，判断按钮是不是状态按钮；
+    connect(m_pAlarmButton, &ShortcutButton::clicked, this, &alarmButtonInterface::AlarmButtonClickSlots);
     m_pAlarmButton->setFixedSize(56, 56);
     m_pAlarmButton->setIcon(QIcon::fromTheme(KYLIN_ALARM_NORMAL_NAME));
     m_pAlarmButton->setIconSize(QSize(24, 24));

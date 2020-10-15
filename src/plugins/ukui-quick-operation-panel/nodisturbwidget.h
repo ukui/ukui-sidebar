@@ -29,9 +29,7 @@
 #include <QDebug>
 #include <QStyleOption>
 
-#include "switchbutton.h"
-#include "swichButtonOpenStatus.h"
-#include "customstyle_switchNormalStatus.h"
+#include "shortcutbutton.h"
 #include "labelfotmattext.h"
 
 #define KYLIN_NODISTURB_NORMAL_NAME     "ukui-icon-DND"
@@ -67,7 +65,7 @@ public:
 
 private:
     QWidget       *m_pWidgetButton;
-    QPushButton   *m_pnodisturbButton;
+    ShortcutButton   *m_pnodisturbButton;
     QLabel        *m_pnodisturbLabel;
 
     LabelFotmatText *m_pLabelFotmatText;
