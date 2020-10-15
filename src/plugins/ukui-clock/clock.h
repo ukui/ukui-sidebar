@@ -231,6 +231,7 @@ private slots:
                                                                                          // Calculate the next alarm ring interval
     QString change_NUM_to_str(int alarmHour);                                            //整型转字符
                                                                                          // Integer to character
+    void count_stat_btn_gray();
 
 private:
     QPoint m_startPoint;
