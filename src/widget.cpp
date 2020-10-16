@@ -699,8 +699,7 @@ void Widget::paintEvent(QPaintEvent *event)
     pixmapPainter.end();
 
     QImage img = pixmap.toImage();
-    qt_blurImage(img, 10, false, false);
-
+    qt_blurImage(img, 8, false, false);
 
     pixmap = QPixmap::fromImage(img);
     QPainter pixmapPainter2(&pixmap);
@@ -717,4 +716,5 @@ void Widget::paintEvent(QPaintEvent *event)
     color.setAlphaF(tranSparency);
     p.fillPath(rectPath, color);
     p.restore();
+    QWidget::paintEvent(event);
 }

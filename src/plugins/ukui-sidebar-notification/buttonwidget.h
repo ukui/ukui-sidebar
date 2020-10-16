@@ -36,6 +36,7 @@ class ButtonWidget : public QWidget
     Q_OBJECT
 public:
     explicit ButtonWidget();
+    ~ButtonWidget();
     void initMemberVariables();
     void initGsettingValue();
     QPushButton*    m_pDeleteButton;
@@ -50,7 +51,7 @@ signals:
     void            Sig_clicked();
 
 public slots:
-
+    void ChangedSlots(QString key);
 };
 
 #endif // BUTTONWIDGET_H

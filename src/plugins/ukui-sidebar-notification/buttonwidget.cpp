@@ -32,6 +32,13 @@ ButtonWidget::ButtonWidget()
     return;
 }
 
+ButtonWidget::~ButtonWidget()
+{
+    disconnect(m_pTabletModeGsetting, &QGSettings::changed, this, &ButtonWidget::ChangedSlots);
+    m_pDeleteButton = nullptr;
+    m_pTabletModeGsetting = nullptr;
+}
+
 void ButtonWidget::initMemberVariables()
 {
     this->setFixedSize(24, 24);
@@ -57,17 +64,20 @@ void ButtonWidget::initGsettingValue()
     const QByteArray id(UKUI_QT_STYLE);
     if (QGSettings::isSchemaInstalled(id)) {
         m_pTabletModeGsetting = new QGSettings(id);
-        connect(m_pTabletModeGsetting, &QGSettings::changed, [=](QString key) {
-            if (UKUI_QT_STYLE_NAME_KEY == key) {
-                QString styleName = m_pTabletModeGsetting->get(UKUI_QT_STYLE_NAME_KEY).toString();
-                qDebug() << styleName;
-                if (styleName == UKUI_QT_DARK_NAME) {
-                    m_pDeleteButton->setProperty("useIconHighlightEffect", true);
-                } else {
-                    m_pDeleteButton->setProperty("useIconHighlightEffect", false);
-                }
-            }
-        });
+        connect(m_pTabletModeGsetting, &QGSettings::changed, this, &ButtonWidget::ChangedSlots);
     }
     return;
+}
+
+void ButtonWidget::ChangedSlots(QString key)
+{
+    if (UKUI_QT_STYLE_NAME_KEY == key && m_pTabletModeGsetting != nullptr) {
+        QString styleName = m_pTabletModeGsetting->get(UKUI_QT_STYLE_NAME_KEY).toString();
+        qDebug() << styleName;
+        if (styleName == UKUI_QT_DARK_NAME) {
+            m_pDeleteButton->setProperty("useIconHighlightEffect", true);
+        } else {
+            m_pDeleteButton->setProperty("useIconHighlightEffect", false);
+        }
+    }
 }

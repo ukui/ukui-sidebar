@@ -55,8 +55,7 @@ void MainWidget::paintEvent(QPaintEvent *event)
     pixmapPainter.end();
 
     QImage img = pixmap.toImage();
-    qt_blurImage(img, 10, false, false);
-
+    qt_blurImage(img, 4, false, false);
 
     pixmap = QPixmap::fromImage(img);
     QPainter pixmapPainter2(&pixmap);
