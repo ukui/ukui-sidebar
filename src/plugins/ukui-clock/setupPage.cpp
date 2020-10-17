@@ -88,11 +88,76 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     repeat_on_Pixmap = QPixmap(":/object-select-symbolic.png");
     repeat_off_Pixmap = QPixmap("");
 
-    ui->pushButton_6->setText(model_setup->index(0, 14).data().toString());
-    ui->pushButton_7->setText(model_setup->index(0, 15).data().toString());
-    ui->pushButton_8->setText(model_setup->index(0, 16).data().toString());
-    ui->pushButton_9->setText(model_setup->index(0, 17).data().toString());
-    ui->pushButton_15->setText(model_setup->index(0, 5).data().toString());
+    QString werk_day;
+    QString Time = model_setup->index(0, 15).data().toString();
+    QString Pop_up = model_setup->index(0, 16).data().toString();
+    QString Reminder = model_setup->index(0, 17).data().toString();
+    QString Default = model_setup->index(0, 5).data().toString();
+
+    int werk = 0;
+    for (int i=0; i<7; i++) {
+        if (model_setup->index(0, i+7).data().toInt()) {
+            if(i == 0){
+                werk_day = werk_day + tr("Mon");
+            }else if(i == 1){
+                werk_day = werk_day + tr("Tue");
+            }else if(i == 2){
+                werk_day = werk_day + tr("Wed");
+            }else if(i == 3){
+                werk_day = werk_day + tr("Thu");
+            }else if(i == 4){
+                werk_day = werk_day + tr("Fri");
+            }else if(i == 5){
+                werk_day = werk_day + tr("Sat");
+            }else if(i == 6){
+                werk_day = werk_day + tr("Sun");
+            }
+        }else{
+            werk = 1;
+        }
+    }
+    if(Time == "Following system" || "跟随系统"){
+        Time = tr("Following system");
+    }else if(Time == "24 hour system" || "24小时制(23:59:59)"){
+        Time = tr("24 hour system");
+    }else if(Time == "12 hour system" || "12小时制(下午11:59:59)"){
+        Time = tr("12 hour system");
+    }
+    if(Pop_up == "Notification" || "通知栏弹窗"){
+        Pop_up = tr("Notification");
+    }else if(Pop_up == "Full screen" || "全屏弹窗"){
+        Pop_up = tr("Full screen");
+    }
+    if(Reminder == "Alert in 2 minutes" || "2分钟后提醒"){
+        Reminder = tr("Alert in 2 minutes");
+    }else if(Reminder == "Alert in 5 minutes" || "5分钟后提醒"){
+        Reminder = tr("Alert in 5 minutes");
+    }else if(Reminder == "Alert in 10 minutes" || "10分钟后提醒"){
+        Reminder = tr("Alert in 10 minutes");
+    }else if(Reminder == "Alert in 30 minutes" || "30分钟后提醒"){
+        Reminder = tr("Alert in 30 minutes");
+    }else if(Reminder == "Alert in 60 minutes" || "60分钟后提醒"){
+        Reminder = tr("Alert in 60 minutes");
+    }
+    if(Default == "glass" || "玻璃"){
+        Default = tr("glass");
+    }else if(Default == "bark" || "犬吠"){
+        Default = tr("bark");
+    }else if(Default == "sonar" || "声呐"){
+        Default = tr("sonar");
+    }else if(Default == "drip" || "雨滴"){
+        Default = tr("drip");
+    }
+
+    if(werk){
+        ui->pushButton_6->setText(werk_day);
+    }else {
+        ui->pushButton_6->setText(tr("Every day"));
+    }
+    ui->pushButton_7->setText(Time);
+    ui->pushButton_8->setText(Pop_up);
+    ui->pushButton_9->setText(Reminder);
+    ui->pushButton_15->setText(Default);
 
     dialog_werk_day->hide();
     Time_format->hide() ;
