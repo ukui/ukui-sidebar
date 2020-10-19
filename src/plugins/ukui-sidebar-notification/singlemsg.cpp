@@ -215,14 +215,16 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
         QFontMetrics fontMetrics(m_pBodyLabel->font());
         int fontSize = fontMetrics.width(strLineHeight24Body);
-        QString formatBody = strLineHeight24Body;
+        formatBody = strLineHeight24Body;
 
         m_pBodyLabel->setWordWrap(false);
         if(fontSize > (m_pBodyLabel->width() + 209))
         {
             formatBody = fontMetrics.elidedText(strLineHeight24Body, Qt::ElideRight, m_pBodyLabel->width() + 180);
         }
+
         m_pBodyLabel->setText(formatBody);
+        setnotificationlabel(m_pBodyLabel);
         pVContextLayout->addWidget(m_pBodyLabel, 0, Qt::AlignLeft);
     }
 
@@ -249,6 +251,18 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     return;
 }
 
+void SingleMsg::setnotificationlabel(QLabel* setlabel )
+{
+
+
+    const QByteArray id(MESSAGE_THEME);
+        QGSettings * fontSetting = new QGSettings(id);
+        connect(fontSetting, &QGSettings::changed,[=](){
+            setlabel->setText(formatBody);
+
+        });
+
+}
 
 void SingleMsg::paintEvent(QPaintEvent *e)
 {
