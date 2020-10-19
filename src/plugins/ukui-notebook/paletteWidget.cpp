@@ -35,11 +35,36 @@ PaletteWidget::PaletteWidget(QWidget *parent) :
     p.setRenderHint(QPainter::Antialiasing);
     p.drawRoundedRect(bmp.rect(),6,6);
     setMask(bmp);
+    btnSetup();
 }
 
 PaletteWidget::~PaletteWidget()
 {
     delete ui;
+}
+
+void PaletteWidget::btnSetup()
+{
+    ui->blueBtn->setStyleSheet("background:rgba(76,119,231,1);"
+                               "border-radius:2px;");
+    ui->redBtn->setStyleSheet("background:rgba(250,108,99,1);"
+                               "border-radius:2px;");
+    ui->darkGreenBtn->setStyleSheet("background:rgba(15,161,90,1);"
+                               "border-radius:2px;");
+    ui->orangeBtn->setStyleSheet("background:rgba(255,151,47,1);"
+                               "border-radius:2px;");
+    ui->purpleBtn->setStyleSheet("background:rgba(186,123,216,1);"
+                               "border-radius:2px;");
+    ui->goldenBtn->setStyleSheet("background:rgba(248,209,93,1);"
+                               "border-radius:2px;");
+    ui->lightBlueBtn->setStyleSheet("background:rgba(42,162,217,1);"
+                               "border-radius:2px;");
+    ui->lightGreenBtn->setStyleSheet("background:rgba(110,207,67,1);"
+                               "border-radius:2px;");
+    ui->yellowBtn->setStyleSheet("background:rgba(250,243,175,1);"
+                               "border-radius:2px;");
+    ui->pinkBtn->setStyleSheet("background:rgba(245,80,159,1);"
+                               "border-radius:2px;");
 }
 
 void PaletteWidget::paintEvent(QPaintEvent *event)

@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QPushButton" name="BoldBtn">
+  <widget class="QPushButton" name="boldBtn">
    <property name="geometry">
     <rect>
      <x>5</x>
@@ -41,7 +41,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="showNUMList">
+  <widget class="QPushButton" name="orderedBtn">
    <property name="geometry">
     <rect>
      <x>145</x>
@@ -81,7 +81,7 @@
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="StrikeOutResolvedBtn">
+  <widget class="QPushButton" name="strikeOutBtn">
    <property name="geometry">
     <rect>
      <x>80</x>
@@ -112,7 +112,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="showListBtn">
+  <widget class="QPushButton" name="unorderedBtn">
    <property name="geometry">
     <rect>
      <x>120</x>
@@ -149,7 +149,7 @@
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="light_blue_btn">
+  <widget class="QPushButton" name="fontSizeBtn">
    <property name="geometry">
     <rect>
      <x>183</x>
@@ -158,6 +158,9 @@
      <height>25</height>
     </rect>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
    <property name="styleSheet">
     <string notr="true"/>
    </property>
@@ -165,7 +168,7 @@
     <string>14</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="blue_btn">
+  <widget class="QPushButton" name="styleBtn">
    <property name="geometry">
     <rect>
      <x>215</x>
@@ -224,7 +227,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="blue_btn_2">
+  <widget class="QPushButton" name="fontColorBtn">
    <property name="geometry">
     <rect>
      <x>222</x>
@@ -284,7 +287,7 @@
     <enum>QFrame::Raised</enum>
    </property>
   </widget>
-  <widget class="QPushButton" name="ItalicBtn">
+  <widget class="QPushButton" name="italicBtn">
    <property name="geometry">
     <rect>
      <x>30</x>

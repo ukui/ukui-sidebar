@@ -26,7 +26,6 @@ TextEditWidget::TextEditWidget(QWidget *parent) :
     ui(new Ui::TextEditWidget)
 {
     ui->setupUi(this);
-
     iconInit();
 }
 
@@ -87,56 +86,56 @@ void TextEditWidget::iconInit()
     p.drawRoundedRect(bmp.rect(),6,6);
     setMask(bmp);
 
-    ui->BoldBtn->setIcon(QPixmap(":/image/1x/bold.png"));
-    ui->ItalicBtn->setIcon(QPixmap(":/image/1x/Italic.png"));
+    ui->boldBtn->setIcon(QPixmap(":/image/1x/bold.png"));
+    ui->italicBtn->setIcon(QPixmap(":/image/1x/Italic.png"));
     ui->underlineBtn->setIcon(QPixmap(":/image/1x/under_line-new.png"));
-    ui->StrikeOutResolvedBtn->setIcon(QPixmap(":/image/1x/del_line.png"));
-//    ui->StrikeOutResolvedBtn->setIconSize(QSize(36,36));
-    ui->showListBtn->setIcon(QPixmap(":/image/1x/Symbol.png"));
-//    ui->showListBtn->setIconSize(QSize(16,16));
-    ui->showNUMList->setIcon(QPixmap(":/image/1x/number.png"));
-//    ui->showNUMList->setIconSize(QSize(16,16));
+    ui->strikeOutBtn->setIcon(QPixmap(":/image/1x/del_line.png"));
+//    ui->strikeOutBtn->setIconSize(QSize(36,36));
+    ui->unorderedBtn->setIcon(QPixmap(":/image/1x/Symbol.png"));
+//    ui->unorderedBtn->setIconSize(QSize(16,16));
+    ui->orderedBtn->setIcon(QPixmap(":/image/1x/number.png"));
+//    ui->orderedBtn->setIconSize(QSize(16,16));
 
 //    ui->underlineBtn->setIcon(QIcon::fromTheme("format-text-underline-symbolic"));
-//    ui->BoldBtn->setIcon(QIcon::fromTheme("format-text-bold-symbolic"));
-//    ui->ItalicBtn->setIcon(QIcon::fromTheme("format-text-italic-symbolic"));
+//    ui->boldBtn->setIcon(QIcon::fromTheme("format-text-bold-symbolic"));
+//    ui->italicBtn->setIcon(QIcon::fromTheme("format-text-italic-symbolic"));
 
     //取消按钮默认灰色背景
-    QPalette palette = ui->BoldBtn->palette();
+    QPalette palette = ui->boldBtn->palette();
     QColor ColorPlaceholderText(255,255,255,0);
     QBrush brush;
     brush.setColor(ColorPlaceholderText);
     palette.setBrush(QPalette::Button, brush);
     palette.setBrush(QPalette::ButtonText, brush);
-    ui->BoldBtn->setPalette(palette);
-    ui->ItalicBtn->setPalette(palette);
+    ui->boldBtn->setPalette(palette);
+    ui->italicBtn->setPalette(palette);
     ui->underlineBtn->setPalette(palette);
-    ui->StrikeOutResolvedBtn->setPalette(palette);
-    ui->showListBtn->setPalette(palette);
-    ui->showNUMList->setPalette(palette);
+    ui->strikeOutBtn->setPalette(palette);
+    ui->unorderedBtn->setPalette(palette);
+    ui->orderedBtn->setPalette(palette);
 
-    QPalette palette2 = ui->blue_btn_2->palette();
+    QPalette palette2 = ui->fontColorBtn->palette();
     palette2.setColor(QPalette::Highlight, Qt::transparent); /* 取消按钮高亮 */
-    ui->blue_btn_2->setPalette(palette2);
+    ui->fontColorBtn->setPalette(palette2);
 
-    ui->BoldBtn->setCheckable(true);
-    ui->ItalicBtn->setCheckable(true);
+    ui->boldBtn->setCheckable(true);
+    ui->italicBtn->setCheckable(true);
     ui->underlineBtn->setCheckable(true);
-    ui->StrikeOutResolvedBtn->setCheckable(true);
-    ui->showListBtn->setCheckable(true);
-    ui->showNUMList->setCheckable(true);
-    ui->light_blue_btn->setCheckable(false);
+    ui->strikeOutBtn->setCheckable(true);
+    ui->unorderedBtn->setCheckable(true);
+    ui->orderedBtn->setCheckable(true);
+    ui->fontSizeBtn->setCheckable(false);
 
-    ui->BoldBtn->setProperty("useIconHighlightEffect", true);
-    ui->BoldBtn->setProperty("iconHighlightEffectMode", 1);
-    ui->ItalicBtn->setProperty("useIconHighlightEffect", true);
-    ui->ItalicBtn->setProperty("iconHighlightEffectMode", 1);
+    ui->boldBtn->setProperty("useIconHighlightEffect", true);
+    ui->boldBtn->setProperty("iconHighlightEffectMode", 1);
+    ui->italicBtn->setProperty("useIconHighlightEffect", true);
+    ui->italicBtn->setProperty("iconHighlightEffectMode", 1);
     ui->underlineBtn->setProperty("useIconHighlightEffect", true);
     ui->underlineBtn->setProperty("iconHighlightEffectMode", 1);
-    ui->StrikeOutResolvedBtn->setProperty("useIconHighlightEffect", true);
-    ui->StrikeOutResolvedBtn->setProperty("iconHighlightEffectMode", 1);
-    ui->showListBtn->setProperty("useIconHighlightEffect", true);
-    ui->showListBtn->setProperty("iconHighlightEffectMode", 1);
-    ui->showNUMList->setProperty("useIconHighlightEffect", true);
-    ui->showNUMList->setProperty("iconHighlightEffectMode", 1);
+    ui->strikeOutBtn->setProperty("useIconHighlightEffect", true);
+    ui->strikeOutBtn->setProperty("iconHighlightEffectMode", 1);
+    ui->unorderedBtn->setProperty("useIconHighlightEffect", true);
+    ui->unorderedBtn->setProperty("iconHighlightEffectMode", 1);
+    ui->orderedBtn->setProperty("useIconHighlightEffect", true);
+    ui->orderedBtn->setProperty("iconHighlightEffectMode", 1);
 }

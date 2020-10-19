@@ -46,6 +46,8 @@
 #include <vector>
 #include <QTableView>
 #include <QPainterPath>
+#include <QSettings>
+#include <QGSettings>
 
 #include "myThrow.h"
 #include "noteView.h"
@@ -62,6 +64,18 @@ extern int sink;
 #define     tristateButton(className,imageUrl)     (""#className"{image:url("#imageUrl".svg);}   \
     "#className":hover{image:url("#imageUrl"-hover.svg);}  \
     "#className":pressed{image:url("#imageUrl"-click.svg);}")
+
+/**
+ * ukui style
+ */
+#define THEME_QT_SCHEMA "org.ukui.style"
+#define MODE_QT_KEY "style-name"
+#define FONT_SIZE "system-font-size"
+
+/**
+ * ukui-control-center
+ */
+#define PERSONALISE_SCHEMA "org.ukui.control-center.personalise"
 
 
 namespace Ui {
@@ -120,9 +134,11 @@ private:
     QMenu* m_menu;                                                  //功能菜单
     QMenu* m_sortMenu;                                              //排序菜单
     QAction* m_menuAction;                                          //菜单动作
-    adaptScreenInfo *m_pSreenInfo;
+    adaptScreenInfo *m_pSreenInfo;                                  //屏幕信息
     QPoint dragPosition;                                            //拖动坐标
     bool mousePressed;                                              //鼠标是否按下
+    QString currentTheme;                                           //当前主题名
+    double m_transparency;                                          //透明度
 
     int m_noteCounter;                                              //便签总数
     int m_trashCounter;                                             //废纸篓总数
@@ -136,6 +152,7 @@ private:
     void kyNoteConn();                                              //绑定槽函数
     void initIconMode();                                            //初始化图标
     void initListMode();                                            //初始化列表
+    void listenToGsettings();                                       //监听gsettings
     void black_show();                                              //黑色主题
     void light_show();                                              //白色主题
     void set_all_btn_attribute();                                   //初始化按钮

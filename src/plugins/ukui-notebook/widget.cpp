@@ -59,10 +59,10 @@ Widget::Widget(QWidget *parent) :
 
     ui->setupUi(this);
     setupDatabases();
+    listenToGsettings();
     kyNoteInit();
     kyNoteConn();
-    QTimer::singleShot(200,this, SLOT(InitData()));
-    //setStyle(new CustomStyle("ukui-light"));
+    QTimer::singleShot(200,this, SLOT(InitData()));    
 }
 
 Widget::~Widget()
@@ -202,7 +202,7 @@ void Widget::kyNoteInit()
     qDebug() << "kyNote init";
     sortflag = 1;//排序
     m_listflag = 1;//平铺\列表
-    m_isThemeChanged = -1;//主题
+    m_isThemeChanged = 0;//ukui-default
 
     m_ukui_SearchLine = ui->SearchLine;
     m_newKynote = ui->newKynote;
@@ -314,6 +314,43 @@ void Widget::kyNoteConn()
             m_dbManager, &DBManager::onForceLastRowIndexValueRequested, Qt::BlockingQueuedConnection);
 
     connect(m_dbManager, &DBManager::notesReceived, this, &Widget::loadNotes);
+}
+
+void Widget::listenToGsettings()
+{
+    //监听主题改变
+    const QByteArray id(THEME_QT_SCHEMA);
+    if(QGSettings::isSchemaInstalled(id)){
+        QGSettings *styleSettings = new QGSettings(id);
+        connect(styleSettings, &QGSettings::changed, this, [=](const QString &key){
+            auto style = styleSettings->get(key).toString();
+            if (key == "styleName"){
+                currentTheme = styleSettings->get(MODE_QT_KEY).toString();
+                if(currentTheme == "ukui-default"){
+                    m_isThemeChanged = 0;
+                }else if(style == "ukui-dark"){
+                    m_isThemeChanged = 1;
+                }
+            }
+        });
+    }
+
+    const QByteArray idd(PERSONALISE_SCHEMA);
+
+    if(QGSettings::isSchemaInstalled(idd))
+    {
+        QGSettings *opacitySettings = new QGSettings(idd);
+        connect(opacitySettings,&QGSettings::changed, this, [=](const QString &key){
+            if(key == "transparency"){
+                QStringList keys = opacitySettings->keys();
+                if (keys.contains("transparency")){
+                    m_transparency = opacitySettings->get("transparency").toDouble();
+                }
+            }
+            repaint();
+        });
+        m_transparency = opacitySettings->get("transparency").toDouble();
+    }
 }
 
 void Widget::checkMigration()

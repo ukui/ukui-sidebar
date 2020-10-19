@@ -42,6 +42,9 @@ public:
 protected:
     void paintEvent(QPaintEvent *event) override;
 
+private:
+    void btnSetup();
+
 };
 
 #endif // PALETTEWIDGET_H
