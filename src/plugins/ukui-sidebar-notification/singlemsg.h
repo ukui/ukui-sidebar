@@ -24,7 +24,7 @@
 #include <QDateTime>
 #include <QVBoxLayout>
 #include <QStyleOption>
-
+#include <QGSettings>
 #define MESSAGE_THEME  "org.ukui.style"
 class AppMsg;
 class ButtonWidget;
@@ -34,6 +34,7 @@ class SingleMsg : public QWidget
     Q_OBJECT
 public:
     SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, QString strSummary, QDateTime dateTime, QString strBody, bool bTakeInFlag = false);
+    ~SingleMsg();
     void updatePushTime();
     void setBodyLabelWordWrap(bool bFlag);
     void setLeftItem(int nShowLeftCount);
@@ -81,6 +82,7 @@ private:
     QTimer*         m_pSetDeleDelayTimer;
     QWidget*        m_pContextWidget;
     QString         formatBody;
+    QGSettings      *fontSetting;
     void            setnotificationlabel(QLabel* setlabel);
 
 
@@ -123,6 +125,7 @@ public slots:
     void            updateDeleUpperMove(const QVariant &value);     //更新删除上移时的移动数据
     void            onDeleUpperMoveFinish();                        //处理删除上移完成时的函数
     void            startAnimationDeleLeftMove();                   //开启删除左移动画
+    void            resetLabelTextSlots();
 };
 
 #endif // SINGLEMSG_H

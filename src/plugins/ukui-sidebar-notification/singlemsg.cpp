@@ -251,17 +251,16 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     return;
 }
 
-void SingleMsg::setnotificationlabel(QLabel* setlabel )
+SingleMsg::~SingleMsg()
 {
+    disconnect(fontSetting, &QGSettings::changed, this, &SingleMsg::resetLabelTextSlots);
+}
 
-
+void SingleMsg::setnotificationlabel(QLabel* setlabel)
+{
     const QByteArray id(MESSAGE_THEME);
-        QGSettings * fontSetting = new QGSettings(id);
-        connect(fontSetting, &QGSettings::changed,[=](){
-            setlabel->setText(formatBody);
-
-        });
-
+        fontSetting = new QGSettings(id);
+        connect(fontSetting, &QGSettings::changed, this, &SingleMsg::resetLabelTextSlots);
 }
 
 void SingleMsg::paintEvent(QPaintEvent *e)
@@ -306,8 +305,8 @@ void SingleMsg::paintEvent(QPaintEvent *e)
     }
  //   this->update();
     QWidget::paintEvent(e);
-
 }
+
 void SingleMsg::updatePushTime()
 {
     QDateTime currentDateTime(QDateTime::currentDateTime());
@@ -627,6 +626,11 @@ void SingleMsg::startAnimationDeleLeftMove()
 
 }
 
+void SingleMsg::resetLabelTextSlots()
+{
+    m_pBodyLabel->setText(formatBody);
+}
+
 //开启删除上移动画
 void SingleMsg::startAnimationDeleUpperMove()
 {
@@ -801,7 +805,6 @@ void SingleMsg::updateDeleUpperMove(const QVariant &value)
         m_pAnimationBaseMapWidget->setVisible(false);           //当填充控件减至0以后，就需要减少底部6个px的空白
         m_pAppVLaout->setContentsMargins(0,0,0,(y2 + y1));
     }
-
 }
 
 //处理删除上移完成时的函数
