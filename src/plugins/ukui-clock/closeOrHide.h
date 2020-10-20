@@ -5,6 +5,8 @@
 #include <QStyleOption>
 #include <QPainter>
 #include <QPainterPath>
+#include <QGSettings/qgsettings.h>
+
 namespace Ui {
 class close_or_hide;
 }

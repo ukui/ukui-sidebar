@@ -76,11 +76,6 @@ public:
     bool eventFilter(QObject *watched, QEvent *event);
     void showPaint();
     void showPaint1();
-    void showPaint2();
-    void showPaint3();
-    void showPaint4();
-    void showPaint5();
-    void showPaint6();
     void showPaint7();
     void showPaint8();
 
@@ -348,6 +343,12 @@ private:
 
     QPoint dragPosition;                                            //拖动坐标
     bool mousePressed;                                              //鼠标是否按下
+
+    Btn_new *count_sel;
+    Btn_new *count_sel_1;
+    Btn_new *repeat_sel;
+    Btn_new *time_sel;
+    Btn_new *ring_sel;
 };
 
 

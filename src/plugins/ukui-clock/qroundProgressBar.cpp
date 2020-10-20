@@ -205,7 +205,7 @@ void QRoundProgressBar::drawBackground(QPainter &p, const QRectF &baseRect)
 
 void QRoundProgressBar::drawBase(QPainter &p, const QRectF &baseRect,const QRectF &innerRect)
 {
-    //监听主题改变
+//监听主题改变
 //    const QByteArray id(THEME_QT_SCHEMA);
 //    if(QGSettings::isSchemaInstalled(id))
 //    {

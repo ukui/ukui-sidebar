@@ -42,6 +42,7 @@ stopwatch_item::stopwatch_item(QWidget *parent) :
     stopwatch2->setStyleSheet("font: 9pt ;background-color: rgb();width:85px;\
                               height:14px;\
                               font-size:14px;\
+                              color:rgba(148, 148, 148,1);\
                               font-weight:400;\
                               opacity:0.45;");
     stopwatch2->setText("工作日");
