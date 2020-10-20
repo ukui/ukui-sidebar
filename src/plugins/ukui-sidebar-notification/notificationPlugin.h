@@ -74,6 +74,7 @@ private:
     bool                    m_bInitialFlag;                     //初始化标志
 
     inside_widget* pInQWidget;
+    QTimer                  *myTimer;// 定时器对象
 
     double                  transparency = 0.7;
     QGSettings              *m_pTransparency = nullptr;         //透明度gsetting值
