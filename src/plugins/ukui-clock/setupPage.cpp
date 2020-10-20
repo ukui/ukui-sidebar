@@ -21,6 +21,7 @@
 #include <QPixmap>
 #include "setAlarmRepeatDialog.h"
 #include <QDebug>
+#include <QBitmap>
 #include "customStyle.h"
 
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
@@ -31,6 +32,13 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     pos_y(position_y),
     ui(new Ui::setuppage)
 {
+    setWindowFlags(Qt::FramelessWindowHint);
+    setAttribute(Qt::WA_TranslucentBackground);
+
+    this->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
+    Qt::WindowFlags m_flags = windowFlags();
+    this->setWindowFlags(m_flags | Qt::WindowStaysOnTopHint);
+
     ui->setupUi(this);
     this->setWindowOpacity(0.5);
     ui->pushButton->hide();
@@ -47,8 +55,7 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     connect(Reminder_off->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(Reminder_off_listClickslot()));
     connect(Default_ringtone->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(Default_ringtone_listClickslot()));
 
-
-    repeat_sel = new Btn_new(0, tr("  work"), this);
+    repeat_sel = new Btn_new(10, tr("  work"), this);
     Time_sel = new Btn_new(0, tr("  Time"), this);
     Pop_sel = new Btn_new(0, tr("  Pop-up"), this);
     duration_sel = new Btn_new(0, tr("  duration"), this);
@@ -622,7 +629,7 @@ void setuppage::paintEvent(QPaintEvent *event)
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     QPainterPath rectPath;
-    rectPath.addRoundedRect(this->rect().adjusted(1, 1, -1, -1), 6, 6);
+    rectPath.addRoundedRect(this->rect().adjusted(6, 6, -6, -6), 6, 6);
 
     // 画一个黑底
     QPixmap pixmap(this->rect().size());
