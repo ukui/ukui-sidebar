@@ -113,7 +113,7 @@ Clock::Clock(QWidget *parent) :
     clock_init();
     setup_init();
     this->setFixedSize(454,555);
-    //this->setWindowOpacity(0.95);
+    this->setWindowOpacity(0.98);
     //实现鼠标左键滑动效果
     // Realize the sliding effect of left mouse button
     ui->listWidget -> setFrameShape(QListWidget::NoFrame);
@@ -185,11 +185,6 @@ Clock::Clock(QWidget *parent) :
     ui->set_page->hide();
     ui->set_page->installEventFilter(this);
     ui->widget->installEventFilter(this);
-    ui->widget_2->installEventFilter(this);
-    ui->widget_3->installEventFilter(this);
-    ui->widget_4->installEventFilter(this);
-    ui->widget_5->installEventFilter(this);
-    ui->widget_6->installEventFilter(this);
     shadow->installEventFilter(this);
     shadow1->installEventFilter(this);
 
@@ -296,6 +291,17 @@ void Clock::button_image_init()
     ui->pushButton_5->setProperty("iconHighlightEffectMode", true);
     ui->pushButton_12->setProperty("iconHighlightEffectMode", true);
 
+    count_sel = new Btn_new(0, tr("  Remind"), ui->page_4);
+    count_sel->move(89,358);
+    count_sel_1 = new Btn_new(0, tr("  Remind"), ui->page_5);
+    count_sel_1->move(89,358);
+
+    repeat_sel = new Btn_new(0, tr("  repeat"), ui->set_page);
+    repeat_sel->move(85,302);
+    time_sel = new Btn_new(0, tr("  Remind"), ui->set_page);
+    time_sel->move(85,352);
+    ring_sel = new Btn_new(0, tr("  ring time"), ui->set_page);
+    ring_sel->move(85,402);
 }
 
 //倒计时页初始化
@@ -309,8 +315,6 @@ void Clock::Countdown_init()
     // Signals and slots
     connect(ui->count_stat, SIGNAL(clicked()), this, SLOT(startbtn_countdown()) );
     connect(countdown_timer, SIGNAL(timeout()), this, SLOT(stat_countdown()));
-    ui->pushButton_19->setIcon(bgPixmap);
-    ui->pushButton_21->setIcon(bgPixmap);
     //设置定时器每个多少毫秒发送一个timeout()信号
     // Set the timer to send a timeout () signal every milliseconds
     countdown_timer->setInterval(1000);
@@ -370,9 +374,6 @@ void Clock::stopwatch_init()
 // Alarm page initialization
 void Clock::clock_init()
 {
-    ui->pushButton_10->setIcon(bgPixmap);
-    ui->pushButton_7->setIcon(bgPixmap);
-    ui->pushButton_16->setIcon(bgPixmap);
     ui->lineEdit->setAlignment(Qt::AlignRight);
     QTimer *timer_clock = new QTimer(this);
     connect(timer_clock, SIGNAL(timeout()), this, SLOT(timerUpdate()) );//动态获取时间
@@ -402,17 +403,12 @@ void Clock::clock_init()
     connect(ui->pushButton_8, SIGNAL(clicked()), this, SLOT(deleteAlarm()) );
     connect(ui->set_alarm_savebtn, SIGNAL(clicked()), this, SLOT(set_alarm_save()) );
     connect(ui->set_alarm_cancelbtn, SIGNAL(clicked()), this, SLOT(alarm_Cancel_save()) );
-    connect(ui->pushButton_10, SIGNAL(clicked()), this, SLOT(alarm_repeat()) );
-    connect(ui->pushButton_6, SIGNAL(clicked()), this, SLOT(alarm_repeat()) );
-    connect(ui->pushButton_7, SIGNAL(clicked()), this, SLOT(select_Music()) );
-    connect(ui->pushButton_11, SIGNAL(clicked()), this, SLOT(select_Music()) );
-    connect(ui->pushButton_16, SIGNAL(clicked()), this, SLOT(time_Music()) );
-    connect(ui->pushButton_17, SIGNAL(clicked()), this, SLOT(time_Music()) );
+    connect(repeat_sel, SIGNAL(clicked()), this, SLOT(alarm_repeat()) );
+    connect(time_sel, SIGNAL(clicked()), this, SLOT(select_Music()) );
+    connect(ring_sel, SIGNAL(clicked()), this, SLOT(time_Music()) );
     connect(ui->pushButton_12, SIGNAL(clicked()), this, SLOT(set_up_page()) );
-    connect(ui->pushButton_20, SIGNAL(clicked()), this, SLOT(countdown_music_sellect()));
-    connect(ui->pushButton_22, SIGNAL(clicked()), this, SLOT(countdown_music_sellect()));
-    connect(ui->pushButton_19, SIGNAL(clicked()), this, SLOT(countdown_music_sellect()));
-    connect(ui->pushButton_21, SIGNAL(clicked()), this, SLOT(countdown_music_sellect()));
+    connect(count_sel, SIGNAL(clicked()), this, SLOT(countdown_music_sellect()));
+    connect(count_sel_1, SIGNAL(clicked()), this, SLOT(countdown_music_sellect()));
 
 
     //单击时间提示计时器
@@ -442,8 +438,8 @@ void Clock::setup_init()
     countdown_set_start_time();//倒计时初始化数字转盘
                                //Countdown initialization digital turntable
     ui->label_8->hide();
-    ui->pushButton_20->setText(model_setup->index(0, 19).data().toString());
-    ui->pushButton_22->setText(model_setup->index(0, 19).data().toString());
+    count_sel->textLabel->setText(model_setup->index(0, 19).data().toString());
+    count_sel_1->textLabel->setText(model_setup->index(0, 19).data().toString());
     alarm_set_start_time();//闹钟初始化数字转盘
                            // Alarm initialization digital turntable
     model_setup_set(); //设置数据库初始化
@@ -461,8 +457,8 @@ void Clock::setup_init()
     }else if(Default == "drip" || "雨滴"){
         Default = tr("drip");
     }
-    ui->pushButton_20->setText(Default);
-    ui->pushButton_22->setText(Default);
+    count_sel->textLabel->setText(Default);
+    count_sel_1->textLabel->setText(Default);
     for (int i = 0; i < 9; i++) {
         repeat_day[i] = 0;
     }
@@ -1100,6 +1096,8 @@ void Clock::updateAlarmClock()
                 w1[alarmNum]->alarmLabel_s0->setText(tr("Every day"));
             }else if(werk_str == "Workingday" || werk_str == "工作日"){
                 w1[alarmNum]->alarmLabel_s0->setText(tr("Workingday"));
+            }else if(werk_str == "No repetition" || werk_str == "不重复"){
+                w1[alarmNum]->alarmLabel_s0->setText(tr("No repetition"));
             }
         }
         connect( w1[alarmNum]->alarm_on_off0, SIGNAL(clicked()), this, SLOT(On_Off_Alarm()) );
@@ -1180,12 +1178,12 @@ void Clock::set_Alarm_Clock()
     model_setup->select();//调用默认设置
                           // Call default settings
     repeat_str_model = tr("Workingday");
-    ui->pushButton_6->setText(repeat_str_model+tr("(default)"));
+    repeat_sel->textLabel->setText(repeat_str_model+tr("(default)"));
     for (int i=0; i<7; i++) {
         repeat_day[i] = model_setup->index(0, i+7).data().toInt();
     }
     time_music_str_model = tr("2min");
-    ui->pushButton_17->setText(time_music_str_model+tr("(default)"));
+    ring_sel->textLabel->setText(time_music_str_model+tr("(default)"));
 
     music_str_model = model_setup->index(0, 5).data().toString();
     if(music_str_model == "glass" || "玻璃"){
@@ -1198,7 +1196,7 @@ void Clock::set_Alarm_Clock()
         music_str_model = tr("drip");
     }
 
-    ui->pushButton_11->setText(music_str_model+tr("(default)"));
+    time_sel->textLabel->setText(music_str_model+tr("(default)"));
     clock_name = tr("Alarm");
     ui->lineEdit->setText(clock_name);
 }
@@ -1357,12 +1355,15 @@ void Clock::listdoubleClickslot()
         }
     }
     if(werk){
-        ui->pushButton_6->setText(werk_day);
+        repeat_sel->textLabel->setText(werk_day);
     }else {
-        ui->pushButton_6->setText(tr("Every day"));
+        repeat_sel->textLabel->setText(tr("Every day"));
     }
     if(model->index(num, 5).data().toString() == tr("  work") || model->index(num, 5).data().toString() == tr("  工作日")){
-        ui->pushButton_6->setText(tr("  work"));
+        repeat_sel->textLabel->setText(tr("  work"));
+    }
+    if(model->index(num, 5).data().toString() == tr("No repetition") || model->index(num, 5).data().toString() == tr("不重复")){
+        repeat_sel->textLabel->setText(tr("No repetition"));
     }
     repeat_str_model = model->index(num, 5).data().toString();
 
@@ -1378,8 +1379,7 @@ void Clock::listdoubleClickslot()
     }else if(Reminder == "drip" || "雨滴"){
         Reminder = tr("drip");
     }
-    ui->pushButton_11->setText(Reminder);
-
+    time_sel->textLabel->setText(Reminder);
 
 
     music_str_model = model->index(num, 13).data().toString();
@@ -1393,7 +1393,7 @@ void Clock::listdoubleClickslot()
     }else if(music_str_model == "6min" || "6分钟"){
         music_str_model = tr("6min");
     }
-    ui->pushButton_17->setText(music_str_model);
+    ring_sel->textLabel->setText(music_str_model);
     time_music_str_model = model->index(num, 13).data().toString();
 
 
@@ -1780,8 +1780,8 @@ void Clock::count_music_listClickslot()
     }
 
     model_setup->setData(model_setup->index(0, 19), music);
-    ui->pushButton_20->setText(music);
-    ui->pushButton_22->setText(music);
+    count_sel->textLabel->setText(music);
+    count_sel_1->textLabel->setText(music);
     count_music_sellect->close();
     model_setup->submitAll();
 }
@@ -2261,7 +2261,7 @@ void Clock::repeat_listClickslot()
     switch (num)
     {
     case 0:
-        ui->pushButton_6->setText(tr("No repetition"));
+        repeat_sel->textLabel->setText(tr("No repetition"));
         repeat_str_model = tr("No repetition");
         for (int i=0; i<7; i++) {
             repeat_day[i] = 1;
@@ -2273,7 +2273,7 @@ void Clock::repeat_listClickslot()
         return;
         break;
     case 1:
-        ui->pushButton_6->setText(tr("Workingday"));
+        repeat_sel->textLabel->setText(tr("Workingday"));
         repeat_str_model = tr("Workingday");
         for (int i=0; i<7; i++) {
             if(model_setup->index(0, i+7).data().toInt()) {
@@ -2391,7 +2391,7 @@ void Clock::repeat_listClickslot()
     }
     if(repeat_day[0]&&repeat_day[1]&&repeat_day[2]&&repeat_day[3]&&repeat_day[4]&&repeat_day[5]&&repeat_day[6])
         repeat_str = tr("Every day");
-    ui->pushButton_6->setText(repeat_str);
+    repeat_sel->textLabel->setText(repeat_str);
     repeat_str_model = repeat_str;
     repeat_str="";
 }
@@ -2453,7 +2453,7 @@ void Clock::music_listClickslot()
     default:
         break;
     }
-    ui->pushButton_11->setText(music_str_model);
+    time_sel->textLabel->setText(music_str_model);
     dialog_music->close();
 }
 //闹钟初始化音乐时长选择界面回调
@@ -2508,7 +2508,8 @@ void Clock::time_music_listClickslot()
     default:
         break;
     }
-    ui->pushButton_17->setText(time_music_str_model);
+    ring_sel->textLabel->setText(time_music_str_model);
+
     time_music->close();
 }
 
@@ -2552,51 +2553,55 @@ void Clock::model_setup_set()
 // Set page draw callback
 void Clock::set_up_page()
 {
-        QPointF position1 = QCursor::pos();
-        if(!setup_page){
+    //手动构造一个鼠标移走的事件
+    //Manually construct an event to move the mouse away
+    repeat_sel->setAttribute(Qt::WA_UnderMouse, false);
+    QHoverEvent hoverEvent(QEvent::HoverLeave, QPoint(40, 40), QPoint(0, 0));
+    QCoreApplication::sendEvent(repeat_sel, &hoverEvent);
+
+    QPointF position1 = QCursor::pos();
+    if(!setup_page){
         setup_page = new setuppage(position1.x(), position1.y(),  this);
         connect(setup_page->ui->pushButton, SIGNAL(clicked()), this, SLOT(alarm_clcok_Self_starting()) );
         connect(setup_page->ui->pushButton_2, SIGNAL(clicked()), this, SLOT(Mute_starting()) );
         connect(setup_page->ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(set_volume_Value(int)));
         grand = new QWidget(setup_page->ui->widget);
-        }
-        setup_page->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
-        setup_page->setFixedSize(380,450);
+    }
+    setup_page->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
+    setup_page->setFixedSize(380,450);
 
-        QPointF position = this->pos();
+    QPointF position = this->pos();
 
-        setup_page->move(position.x()+38,position.y()+27);
-        //setup_page->setStyleSheet("QWidget{background-color: rgba(36,36,37, 0);}");
-        //setup_page->ui->widget->setStyleSheet("QWidget{background-color: rgba(36,36,37, 0.9);}");
-        //setup_page->setWindowOpacity(0.95);
+    setup_page->move(position.x()+38,position.y()+27);
+    setup_page->setWindowOpacity(0.98);
 
-        //属性记忆重绘制
-        // Attribute memory redrawing
-        if (model_setup->index(0, 0).data().toInt()) {
-            setup_page->ui->pushButton->setStyleSheet("border-image: url(:/alarm_on.png);");
-        } else {
-            setup_page->ui->pushButton->setStyleSheet("border-image: url(:/alarm_off.png);");
-        }
-        if (model_setup->index(0, 1).data().toInt()) {
-            setup_page->ui->pushButton_2->setStyleSheet("border-image: url(:/alarm_on.png);\
-                                                        border-radius:6px;\
-                                                        border:0px solid rgba();");
-        } else {
-            setup_page->ui->pushButton_2->setStyleSheet("border-image: url(:/alarm_off.png);\
-                                                        border-radius:6px;\
-                                                        border:0px solid rgba();");
-        }
-        setup_page->ui->horizontalSlider->setValue(model_setup->index(0, 6).data().toInt());
+    //属性记忆重绘制
+    // Attribute memory redrawing
+    if (model_setup->index(0, 0).data().toInt()) {
+        setup_page->ui->pushButton->setStyleSheet("border-image: url(:/alarm_on.png);");
+    } else {
+        setup_page->ui->pushButton->setStyleSheet("border-image: url(:/alarm_off.png);");
+    }
+    if (model_setup->index(0, 1).data().toInt()) {
+        setup_page->ui->pushButton_2->setStyleSheet("border-image: url(:/alarm_on.png);\
+                                                    border-radius:6px;\
+                border:0px solid rgba();");
+    } else {
+        setup_page->ui->pushButton_2->setStyleSheet("border-image: url(:/alarm_off.png);\
+                                                    border-radius:6px;\
+                border:0px solid rgba();");
+    }
+    setup_page->ui->horizontalSlider->setValue(model_setup->index(0, 6).data().toInt());
 
-        if (model_setup->index(0, 1).data().toInt()) {
-            grand->resize(197,24);
-            grand->move(128,406);
-            grand->setStyleSheet("QWidget{background-color: rgba(14, 19, 22, 0);border:0px solid rgba();}");
-            grand->show();
-        } else {
-            grand->hide();
-        }
-        setup_page->show();
+    if (model_setup->index(0, 1).data().toInt()) {
+        grand->resize(197,24);
+        grand->move(128,406);
+        grand->setStyleSheet("QWidget{background-color: rgba(14, 19, 22, 0);border:0px solid rgba();}");
+        grand->show();
+    } else {
+        grand->hide();
+    }
+    setup_page->show();
 }
 
 //开机自启动开关;
@@ -2739,26 +2744,6 @@ bool Clock::eventFilter(QObject *watched, QEvent *event)
     {
         showPaint1();
     }
-    if(watched == ui->widget_2 && event->type() == QEvent::Paint)
-    {
-        showPaint2();
-    }
-    if(watched == ui->widget_3 && event->type() == QEvent::Paint)
-    {
-        showPaint3();
-    }
-    if(watched == ui->widget_4 && event->type() == QEvent::Paint)
-    {
-        showPaint4();
-    }
-    if(watched == ui->widget_5 && event->type() == QEvent::Paint)
-    {
-        showPaint5();
-    }
-    if(watched == ui->widget_6 && event->type() == QEvent::Paint)
-    {
-        showPaint6();
-    }
     if(watched == shadow && event->type() == QEvent::Paint)
     {
         showPaint7();
@@ -2810,148 +2795,6 @@ void Clock::showPaint1()
 
     painter.setPen(Qt::transparent);
     QRect rect = ui->widget->rect();
-    rect.setWidth(rect.width() - 0);
-    rect.setHeight(rect.height() - 0);
-    painter.drawRoundedRect(rect, 7, 7);
-    {
-        QPainterPath painterPath;
-        painterPath.addRoundedRect(rect, 4, 4);
-        painter.drawPath(painterPath);
-    }
-}
-
-void Clock::showPaint2()
-{
-    QPainter painter(ui->widget_2);
-    painter.setPen(Qt::gray);
-    painter.setBrush(Qt::green);
-    QStyleOption opt;
-    opt.init(this);
-    painter.setBrush(opt.palette.color(QPalette::Base));
-
-    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
-    {
-        painter.setBrush(QColor(233, 233, 233));
-    }else{
-        painter.setBrush(QColor(48,48,51));
-    }
-
-    painter.setPen(Qt::transparent);
-    QRect rect = ui->widget_2->rect();
-    rect.setWidth(rect.width() - 0);
-    rect.setHeight(rect.height() - 0);
-    painter.drawRoundedRect(rect, 7, 7);
-    {
-        QPainterPath painterPath;
-        painterPath.addRoundedRect(rect, 4, 4);
-        painter.drawPath(painterPath);
-    }
-}
-
-
-void Clock::showPaint3()
-{
-    QPainter painter(ui->widget_3);
-    painter.setPen(Qt::gray);
-    painter.setBrush(Qt::green);
-    QStyleOption opt;
-    opt.init(this);
-    painter.setBrush(opt.palette.color(QPalette::Base));
-
-    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
-    {
-        painter.setBrush(QColor(233, 233, 233));
-    }else{
-        painter.setBrush(QColor(48,48,51));
-    }
-
-    painter.setPen(Qt::transparent);
-    QRect rect = ui->widget_3->rect();
-    rect.setWidth(rect.width() - 0);
-    rect.setHeight(rect.height() - 0);
-    painter.drawRoundedRect(rect, 7, 7);
-    {
-        QPainterPath painterPath;
-        painterPath.addRoundedRect(rect, 4, 4);
-        painter.drawPath(painterPath);
-    }
-}
-
-void Clock::showPaint4()
-{
-    QPainter painter(ui->widget_4);
-    painter.setPen(Qt::gray);
-    painter.setBrush(Qt::green);
-    QStyleOption opt;
-    opt.init(this);
-    painter.setBrush(opt.palette.color(QPalette::Base));
-
-    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
-    {
-        painter.setBrush(QColor(233, 233, 233));
-    }else{
-        painter.setBrush(QColor(48,48,51));
-    }
-
-    painter.setPen(Qt::transparent);
-    QRect rect = ui->widget_4->rect();
-    rect.setWidth(rect.width() - 0);
-    rect.setHeight(rect.height() - 0);
-    painter.drawRoundedRect(rect, 7, 7);
-    {
-        QPainterPath painterPath;
-        painterPath.addRoundedRect(rect, 4, 4);
-        painter.drawPath(painterPath);
-    }
-}
-
-
-void Clock::showPaint5()
-{
-    QPainter painter(ui->widget_5);
-    painter.setPen(Qt::gray);
-    painter.setBrush(Qt::green);
-    QStyleOption opt;
-    opt.init(this);
-    painter.setBrush(opt.palette.color(QPalette::Base));
-
-    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
-    {
-        painter.setBrush(QColor(233, 233, 233));
-    }else{
-        painter.setBrush(QColor(48,48,51));
-    }
-
-    painter.setPen(Qt::transparent);
-    QRect rect = ui->widget_5->rect();
-    rect.setWidth(rect.width() - 0);
-    rect.setHeight(rect.height() - 0);
-    painter.drawRoundedRect(rect, 7, 7);
-    {
-        QPainterPath painterPath;
-        painterPath.addRoundedRect(rect, 4, 4);
-        painter.drawPath(painterPath);
-    }
-}
-
-void Clock::showPaint6()
-{
-    QPainter painter(ui->widget_6);
-    painter.setPen(Qt::gray);
-    painter.setBrush(Qt::green);
-    QStyleOption opt;
-    opt.init(this);
-    painter.setBrush(opt.palette.color(QPalette::Base));
-
-    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
-    {
-        painter.setBrush(QColor(233,233,233));
-    }else{
-        painter.setBrush(QColor(48,48,51));
-    }
-
-    painter.setPen(Qt::transparent);
-    QRect rect = ui->widget_6->rect();
     rect.setWidth(rect.width() - 0);
     rect.setHeight(rect.height() - 0);
     painter.drawRoundedRect(rect, 7, 7);

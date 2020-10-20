@@ -4,55 +4,36 @@
 #include "clock.h"
 #include <QPainterPath>
 
-Btn_new::Btn_new(int num, Clock *widget, QIcon icon, QString name, QWidget *parent) :
-    QToolButton(parent),
-    m_pclock(widget),
+Btn_new::Btn_new(int num, QString name, QWidget *parent) :
+    QPushButton(parent),
     clock_num(num)
 {
-    //this->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    this->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-    QPixmap pixmap = icon.pixmap(QSize(16, 16));
-    IconLabel = new QPushButton();
-    IconLabel->setFixedSize(24, 24);
-    IconLabel->setIcon(pixmap);
-    textLabel = new QLabel();
+    QPixmap pixmap = QPixmap(":/go-bottom-symbolic.png");
+    nameLabel = new QLabel(this);
+    textLabel = new QLabel(this);
+    IconLabel = new QLabel(this);
+    noName = new QLabel(this);
+    nameLabel->setFixedSize(71, 36);
+    textLabel->setFixedSize(171, 36);
+    IconLabel->setFixedSize(27, 36);
+    noName->setFixedSize(9, 36);
+    nameLabel->move(0, 0);
+    textLabel->move(71, 0);
+    noName->move(244, 0);
+    IconLabel->move(253, 0);
+    nameLabel->setText(name);
     textLabel->setText(name);
-    QHBoxLayout *ToolButtonLaout = new QHBoxLayout();
-    ToolButtonLaout->addItem(new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum));
-    ToolButtonLaout->addWidget(IconLabel, 0, Qt::AlignCenter);
-    ToolButtonLaout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding));
-    ToolButtonLaout->addWidget(textLabel, 0, Qt::AlignCenter);
-    ToolButtonLaout->addItem(new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum));
-    ToolButtonLaout->setContentsMargins(0,0,0,0);
-    this->setLayout(ToolButtonLaout);
+    IconLabel->setPixmap(pixmap);
+    textLabel->setAlignment(Qt::AlignRight | Qt::AlignCenter);
 
-    IconLabel->setProperty("useIconHighlightEffect", true);
-    IconLabel->setProperty("iconHighlightEffectMode", 1);
+    this->resize(280,36);
 
-
-    QPalette palette = IconLabel->palette();
-    QColor ColorPlaceholderText(61,107,229,255);
-    QBrush brush2;
-    brush2.setColor(ColorPlaceholderText);
-    palette.setColor(QPalette::Button,QColor(61,107,229,255));
-    palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
-    IconLabel->setPalette(palette);
-
-
+    QPalette palette;
+    palette.setColor(QPalette::ButtonText,QColor(148, 148, 148, 255));
+    textLabel->setPalette(palette);
 }
 
 Btn_new::~Btn_new()
 {
 
-}
-
-void Btn_new::mouseReleaseEvent(QMouseEvent *event)
-{
-    if(clock_num == 1){
-        m_pclock->on_pushButton_clicked();
-    }else if(clock_num == 2){
-        m_pclock->on_pushButton_2_clicked();
-    }else{
-        m_pclock->on_pushButton_3_clicked();
-    }
 }

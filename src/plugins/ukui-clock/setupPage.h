@@ -22,6 +22,9 @@
 #include "setupPage.h"
 #include "setAlarmRepeatDialog.h"
 #include <QSqlTableModel>
+#include <QHoverEvent>
+#include <btnNew.h>
+#include <QGSettings/QGSettings>
 namespace Ui {
 class setuppage;
 }
@@ -37,11 +40,8 @@ public:
     void paintEvent(QPaintEvent *event);
     bool eventFilter(QObject *watched, QEvent *event);
     void showPaint();
+    void showPaint1();
     void showPaint2();
-    void showPaint3();
-    void showPaint4();
-    void showPaint5();
-
 
     Ui::setuppage *ui;
     set_alarm_repeat_Dialog * dialog_werk_day = nullptr;
@@ -49,6 +49,13 @@ public:
     set_alarm_repeat_Dialog * Pop_up_window = nullptr;
     set_alarm_repeat_Dialog * Reminder_off = nullptr;
     set_alarm_repeat_Dialog * Default_ringtone = nullptr;
+
+    void showEvent(QShowEvent *event)
+
+    {
+    this->setAttribute(Qt::WA_Mapped);
+    QWidget::showEvent(event);
+    }
 
 private slots:
     void Mute_starting();                                                                //静音开关回调
@@ -80,6 +87,13 @@ private:
     double pos_x;
     double pos_y;
 
+    Btn_new *repeat_sel;
+    Btn_new *Time_sel;
+    Btn_new *Pop_sel;
+    Btn_new *duration_sel;
+    Btn_new *ringtone_sel;
+
+    QGSettings *style_settings;
 };
 
 #endif // SETUPPAGE_H
