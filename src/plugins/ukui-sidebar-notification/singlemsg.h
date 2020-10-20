@@ -25,6 +25,7 @@
 #include <QVBoxLayout>
 #include <QStyleOption>
 
+#define MESSAGE_THEME  "org.ukui.style"
 class AppMsg;
 class ButtonWidget;
 
@@ -79,6 +80,8 @@ private:
     QLabel*         m_pShowLeftItemLabel;           //显示该应用未展开条数
     QTimer*         m_pSetDeleDelayTimer;
     QWidget*        m_pContextWidget;
+    QString         formatBody;
+    void            setnotificationlabel(QLabel* setlabel);
 
 
 
