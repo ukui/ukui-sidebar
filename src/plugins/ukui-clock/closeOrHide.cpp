@@ -1,5 +1,6 @@
 #include "closeOrHide.h"
 #include "ui_closeOrHide.h"
+#include "QDebug"
 
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 

@@ -12,6 +12,7 @@ TARGET = ukui-clock
 TEMPLATE = app
 
 LIBS    +=  -lX11
+PKGCONFIG += gsettings-qt
 
 SOURCES += \
     adaptscreeninfo.cpp \

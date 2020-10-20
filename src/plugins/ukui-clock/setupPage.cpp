@@ -33,28 +33,7 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
 {
     ui->setupUi(this);
     this->setWindowOpacity(0.5);
-
-    //ui->horizontalSlider->setStyle(new CustomStyle("ukui"));
     ui->pushButton->hide();
-    ui->label->hide();
-    ui->label_2->setAlignment(Qt::AlignHCenter);
-    ui->label_4->setAlignment(Qt::AlignHCenter);
-    QPixmap bgPixmap = QPixmap(":/go-bottom-symbolic.png");
-    ui->pushButton_10->setIcon(bgPixmap);
-    ui->pushButton_11->setIcon(bgPixmap);
-    ui->pushButton_12->setIcon(bgPixmap);
-    ui->pushButton_13->setIcon(bgPixmap);
-    ui->pushButton_14->setIcon(bgPixmap);
-    ui->pushButton_10->setProperty("useIconHighlightEffect", true);
-    ui->pushButton_10->setProperty("iconHighlightEffectMode", 1);
-    ui->pushButton_11->setProperty("useIconHighlightEffect", true);
-    ui->pushButton_11->setProperty("iconHighlightEffectMode", 1);
-    ui->pushButton_12->setProperty("useIconHighlightEffect", true);
-    ui->pushButton_12->setProperty("iconHighlightEffectMode", 1);
-    ui->pushButton_13->setProperty("useIconHighlightEffect", true);
-    ui->pushButton_13->setProperty("iconHighlightEffectMode", 1);
-    ui->pushButton_14->setProperty("useIconHighlightEffect", true);
-    ui->pushButton_14->setProperty("iconHighlightEffectMode", 1);
 
     dialog_werk_day = new  set_alarm_repeat_Dialog(ui->widget, 7);
     Time_format = new  set_alarm_repeat_Dialog(ui->widget, 3);
@@ -68,16 +47,23 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     connect(Reminder_off->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(Reminder_off_listClickslot()));
     connect(Default_ringtone->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(Default_ringtone_listClickslot()));
 
-    connect(ui->pushButton_10, SIGNAL(clicked()), this, SLOT(werk_day_set()) );
-    connect(ui->pushButton_6, SIGNAL(clicked()), this, SLOT(werk_day_set()) );
-    connect(ui->pushButton_11, SIGNAL(clicked()), this, SLOT(Time_format_set()) );
-    connect(ui->pushButton_7, SIGNAL(clicked()), this, SLOT(Time_format_set()) );
-    connect(ui->pushButton_12, SIGNAL(clicked()), this, SLOT(Pop_up_window_set()) );
-    connect(ui->pushButton_8, SIGNAL(clicked()), this, SLOT(Pop_up_window_set()) );
-    connect(ui->pushButton_13, SIGNAL(clicked()), this, SLOT(Reminder_off_set()) );
-    connect(ui->pushButton_9, SIGNAL(clicked()), this, SLOT(Reminder_off_set()) );
-    connect(ui->pushButton_14, SIGNAL(clicked()), this, SLOT(Default_ringtone_set()) );
-    connect(ui->pushButton_15, SIGNAL(clicked()), this, SLOT(Default_ringtone_set()) );
+
+    repeat_sel = new Btn_new(0, tr("  work"), this);
+    Time_sel = new Btn_new(0, tr("  Time"), this);
+    Pop_sel = new Btn_new(0, tr("  Pop-up"), this);
+    duration_sel = new Btn_new(0, tr("  duration"), this);
+    ringtone_sel = new Btn_new(0, tr("  ringtone"), this);
+    repeat_sel->move(45, 97);
+    Time_sel->move(45, 147);
+    Pop_sel ->move(45, 197);
+    duration_sel->move(45, 247);
+    ringtone_sel->move(45, 297);
+
+    connect(repeat_sel, SIGNAL(clicked()), this, SLOT(werk_day_set()) );
+    connect(Time_sel, SIGNAL(clicked()), this, SLOT(Time_format_set()) );
+    connect(Pop_sel, SIGNAL(clicked()), this, SLOT(Pop_up_window_set()) );
+    connect(duration_sel, SIGNAL(clicked()), this, SLOT(Reminder_off_set()) );
+    connect(ringtone_sel, SIGNAL(clicked()), this, SLOT(Default_ringtone_set()) );
 
     model_setup = new QSqlTableModel(this);
     model_setup->setTable("setup");
@@ -150,25 +136,36 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     }
 
     if(werk){
-        ui->pushButton_6->setText(werk_day);
+        repeat_sel->textLabel->setText(werk_day);
     }else {
-        ui->pushButton_6->setText(tr("Every day"));
+        repeat_sel->textLabel->setText(werk_day);
     }
-    ui->pushButton_7->setText(Time);
-    ui->pushButton_8->setText(Pop_up);
-    ui->pushButton_9->setText(Reminder);
-    ui->pushButton_15->setText(Default);
+    Time_sel->textLabel->setText(Time);
+    Pop_sel->textLabel->setText(Pop_up);
+    duration_sel->textLabel->setText(Reminder);
+    ringtone_sel->textLabel->setText(Default);
 
     dialog_werk_day->hide();
     Time_format->hide() ;
     Pop_up_window->hide() ;
     Reminder_off->hide() ;
     Default_ringtone->hide() ;
-    ui->widget_2->installEventFilter(this);
-    ui->widget_3->installEventFilter(this);
-    ui->widget_4->installEventFilter(this);
-    ui->widget_5->installEventFilter(this);
-    ui->widget_6->installEventFilter(this);
+
+    QPalette palette1 = ui->pushButton_4->palette();
+    QColor ColorPlaceholderText3(255,255,255,0);
+    QBrush brush;
+    brush.setColor(ColorPlaceholderText3);
+    palette1.setBrush(QPalette::Button, brush);
+    ui->pushButton_4->setPalette(palette1);
+    ui->pushButton_5->setPalette(palette1);
+    ui->pushButton_6->setPalette(palette1);
+    ui->pushButton_4->setEnabled(false);
+    ui->pushButton_5->setEnabled(false);
+    ui->pushButton_6->setEnabled(false);
+
+    ui->pushButton_4->installEventFilter(this);
+    ui->pushButton_5->installEventFilter(this);
+    ui->pushButton_6->installEventFilter(this);
 }
 
 setuppage::~setuppage()
@@ -180,7 +177,6 @@ setuppage::~setuppage()
     delete  Reminder_off ;
     delete  Default_ringtone ;
     delete  ui;
-    qDebug()<<"-------setuppage-----2----";
 }
 
 void setuppage::Mute_starting()
@@ -191,6 +187,12 @@ void setuppage::Mute_starting()
 // Default workday date setting callback
 void setuppage::werk_day_set()
 {
+    //手动构造一个鼠标移走的事件
+    //Manually construct an event to move the mouse away
+    repeat_sel->setAttribute(Qt::WA_UnderMouse, false);
+    QHoverEvent hoverEvent(QEvent::HoverLeave, QPoint(40, 40), QPoint(0, 0));
+    QCoreApplication::sendEvent(repeat_sel, &hoverEvent);
+
     dialog_werk_day->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
     dialog_werk_day->setAttribute(Qt::WA_TranslucentBackground);
     QPointF position = parentWidget()->pos();
@@ -222,7 +224,7 @@ void setuppage::werk_day_listClickslot()
     QString repeat_str;
     int num=dialog_werk_day->listWidget->currentRow();
     QString day[7] ;
-    day[0]= tr("Mon");
+    day[0] = tr("Mon");
     day[1] = tr("Tue");
     day[2] = tr("Wed");
     day[3] = tr("Thu");
@@ -376,7 +378,7 @@ void setuppage::werk_day_listClickslot()
             &&model_setup->index(0, 13).data().toInt()) {
         repeat_str = tr("Every day");
     }
-    ui->pushButton_6->setText(repeat_str);
+    repeat_sel->textLabel->setText(repeat_str);
     model_setup->setData(model_setup->index(0, 14), repeat_str);
 
     repeat_str="";
@@ -387,6 +389,10 @@ void setuppage::werk_day_listClickslot()
 // Time format callback
 void setuppage::Time_format_set()
 {
+    Time_sel->setAttribute(Qt::WA_UnderMouse, false);
+    QHoverEvent hoverEvent(QEvent::HoverLeave, QPoint(40, 40), QPoint(0, 0));
+    QCoreApplication::sendEvent(Time_sel, &hoverEvent);
+
     Time_format->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
     Time_format->setAttribute(Qt::WA_TranslucentBackground);
     QPointF position = parentWidget()->pos();
@@ -431,7 +437,7 @@ void setuppage::Time_format_listClickslot()
         break;
     }
 
-    ui->pushButton_7->setText(model_setup->index(0, 15).data().toString());
+    Time_sel->textLabel->setText(model_setup->index(0, 15).data().toString());
     Time_format->hide();
     model_setup->submitAll();
 }
@@ -439,6 +445,10 @@ void setuppage::Time_format_listClickslot()
 // Pop up mode setting callback
 void setuppage::Pop_up_window_set()
 {
+    Pop_sel->setAttribute(Qt::WA_UnderMouse, false);
+    QHoverEvent hoverEvent(QEvent::HoverLeave, QPoint(40, 40), QPoint(0, 0));
+    QCoreApplication::sendEvent(Pop_sel, &hoverEvent);
+
     Pop_up_window->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
     Pop_up_window->setAttribute(Qt::WA_TranslucentBackground);;
     QPointF position = parentWidget()->pos();
@@ -472,7 +482,7 @@ void setuppage::Pop_up_window_listClickslot()
     } else {
         model_setup->setData(model_setup->index(0, 16), tr("Full screen"));
     }
-    ui->pushButton_8->setText(model_setup->index(0, 16).data().toString());
+    Pop_sel->textLabel->setText(model_setup->index(0, 16).data().toString());
     Pop_up_window->hide();
     model_setup->submitAll();
 }
@@ -481,6 +491,10 @@ void setuppage::Pop_up_window_listClickslot()
 // Reminder close callback
 void setuppage::Reminder_off_set()
 {
+    duration_sel->setAttribute(Qt::WA_UnderMouse, false);
+    QHoverEvent hoverEvent(QEvent::HoverLeave, QPoint(40, 40), QPoint(0, 0));
+    QCoreApplication::sendEvent(duration_sel, &hoverEvent);
+
     Reminder_off->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
     Reminder_off->setAttribute(Qt::WA_TranslucentBackground);
     QPointF position = parentWidget()->pos();
@@ -527,7 +541,7 @@ void setuppage::Reminder_off_listClickslot()
     default:
         break;
     }
-    ui->pushButton_9->setText(model_setup->index(0, 17).data().toString());
+    duration_sel->textLabel->setText(model_setup->index(0, 17).data().toString());
     Reminder_off->hide();
     model_setup->submitAll();
 }
@@ -535,6 +549,10 @@ void setuppage::Reminder_off_listClickslot()
 // Default ringtone setting callback
 void setuppage::Default_ringtone_set()
 {
+    ringtone_sel->setAttribute(Qt::WA_UnderMouse, false);
+    QHoverEvent hoverEvent(QEvent::HoverLeave, QPoint(40, 40), QPoint(0, 0));
+    QCoreApplication::sendEvent(ringtone_sel, &hoverEvent);
+
     Default_ringtone->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
     Default_ringtone->setAttribute(Qt::WA_TranslucentBackground);
     QPointF position = parentWidget()->pos();
@@ -574,7 +592,7 @@ void setuppage::Default_ringtone_listClickslot()
     default:
         break;
     }
-    ui->pushButton_15->setText(model_setup->index(0, 5).data().toString());
+    ringtone_sel->textLabel->setText(model_setup->index(0, 5).data().toString());
     Default_ringtone->hide();
     model_setup->submitAll();
 }
@@ -642,25 +660,17 @@ void setuppage::paintEvent(QPaintEvent *event)
 
 bool setuppage::eventFilter(QObject *watched, QEvent *event)
 {
-    if(watched == ui->widget_2 && event->type() == QEvent::Paint)
+    if(watched == ui->pushButton_4 && event->type() == QEvent::Paint)
     {
-        showPaint();
+        showPaint(); //响应函数
     }
-    if(watched == ui->widget_3 && event->type() == QEvent::Paint)
+    if(watched == ui->pushButton_5 && event->type() == QEvent::Paint)
+    {
+        showPaint1();
+    }
+    if(watched == ui->pushButton_6 && event->type() == QEvent::Paint)
     {
         showPaint2();
-    }
-    if(watched == ui->widget_4 && event->type() == QEvent::Paint)
-    {
-        showPaint3();
-    }
-    if(watched == ui->widget_5 && event->type() == QEvent::Paint)
-    {
-        showPaint4();
-    }
-    if(watched == ui->widget_6 && event->type() == QEvent::Paint)
-    {
-        showPaint5();
     }
 
     return QWidget::eventFilter(watched,event);
@@ -669,141 +679,56 @@ bool setuppage::eventFilter(QObject *watched, QEvent *event)
 //实现响应函数
 void setuppage::showPaint()
 {
-    QPainter painter(ui->widget_2);
-    painter.setPen(Qt::gray);
-    painter.setBrush(Qt::green);
+    QPalette palette = ui->pushButton_4->palette();
+    QColor ColorPlaceholderText(248,163,76,255);
+    QBrush brush3;
+    brush3.setColor(ColorPlaceholderText);
     QStyleOption opt;
     opt.init(this);
-    painter.setBrush(opt.palette.color(QPalette::Base));
-
     if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
     {
-        painter.setBrush(QColor(233, 233, 233));
+        palette.setBrush(QPalette::ButtonText, QBrush(QColor(0, 0, 0)));
     }else{
-        painter.setBrush(QColor(48,48,51));
+        palette.setBrush(QPalette::ButtonText, QBrush(QColor(255, 255, 255)));
     }
 
-    painter.setPen(Qt::transparent);
-    QRect rect = ui->widget_2->rect();
-    rect.setWidth(rect.width() - 0);
-    rect.setHeight(rect.height() - 0);
-    painter.drawRoundedRect(rect, 7, 7);
+    ui->pushButton_4->setPalette(palette);
+}
+
+//实现响应函数
+void setuppage::showPaint1()
+{
+    QPalette palette = ui->pushButton_5->palette();
+    QColor ColorPlaceholderText(248,163,76,255);
+    QBrush brush3;
+    brush3.setColor(ColorPlaceholderText);
+    QStyleOption opt;
+    opt.init(this);
+    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
     {
-        QPainterPath painterPath;
-        painterPath.addRoundedRect(rect, 4, 4);
-        painter.drawPath(painterPath);
+        palette.setBrush(QPalette::ButtonText, QBrush(QColor(0, 0, 0)));
+    }else{
+        palette.setBrush(QPalette::ButtonText, QBrush(QColor(255, 255, 255)));
     }
+
+    ui->pushButton_5->setPalette(palette);
 }
 
 void setuppage::showPaint2()
 {
-    QPainter painter(ui->widget_3);
-    painter.setPen(Qt::gray);
-    painter.setBrush(Qt::green);
+    QPalette palette = ui->pushButton_6->palette();
+    QColor ColorPlaceholderText(248,163,76,255);
+    QBrush brush3;
+    brush3.setColor(ColorPlaceholderText);
     QStyleOption opt;
     opt.init(this);
-    painter.setBrush(opt.palette.color(QPalette::Base));
 
     if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
     {
-        painter.setBrush(QColor(233, 233, 233));
+        palette.setBrush(QPalette::ButtonText, QBrush(QColor(0, 0, 0)));
     }else{
-        painter.setBrush(QColor(48,48,51));
+        palette.setBrush(QPalette::ButtonText, QBrush(QColor(255, 255, 255)));
     }
 
-    painter.setPen(Qt::transparent);
-    QRect rect = ui->widget_3->rect();
-    rect.setWidth(rect.width() - 0);
-    rect.setHeight(rect.height() - 0);
-    painter.drawRoundedRect(rect, 7, 7);
-    {
-        QPainterPath painterPath;
-        painterPath.addRoundedRect(rect, 4, 4);
-        painter.drawPath(painterPath);
-    }
-}
-
-
-void setuppage::showPaint3()
-{
-    QPainter painter(ui->widget_4);
-    painter.setPen(Qt::gray);
-    painter.setBrush(Qt::green);
-    QStyleOption opt;
-    opt.init(this);
-    painter.setBrush(opt.palette.color(QPalette::Base));
-
-    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
-    {
-        painter.setBrush(QColor(233, 233, 233));
-    }else{
-        painter.setBrush(QColor(48,48,51));
-    }
-
-    painter.setPen(Qt::transparent);
-    QRect rect = ui->widget_4->rect();
-    rect.setWidth(rect.width() - 0);
-    rect.setHeight(rect.height() - 0);
-    painter.drawRoundedRect(rect, 7, 7);
-    {
-        QPainterPath painterPath;
-        painterPath.addRoundedRect(rect, 4, 4);
-        painter.drawPath(painterPath);
-    }
-}
-
-void setuppage::showPaint4()
-{
-    QPainter painter(ui->widget_5);
-    painter.setPen(Qt::gray);
-    painter.setBrush(Qt::green);
-    QStyleOption opt;
-    opt.init(this);
-    painter.setBrush(opt.palette.color(QPalette::Base));
-
-    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
-    {
-        painter.setBrush(QColor(233, 233, 233));
-    }else{
-        painter.setBrush(QColor(48,48,51));
-    }
-
-    painter.setPen(Qt::transparent);
-    QRect rect = ui->widget_5->rect();
-    rect.setWidth(rect.width() - 0);
-    rect.setHeight(rect.height() - 0);
-    painter.drawRoundedRect(rect, 7, 7);
-    {
-        QPainterPath painterPath;
-        painterPath.addRoundedRect(rect, 4, 4);
-        painter.drawPath(painterPath);
-    }
-}
-
-void setuppage::showPaint5()
-{
-    QPainter painter(ui->widget_6);
-    painter.setPen(Qt::gray);
-    painter.setBrush(Qt::green);
-    QStyleOption opt;
-    opt.init(this);
-    painter.setBrush(opt.palette.color(QPalette::Base));
-
-    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
-    {
-        painter.setBrush(QColor(233, 233, 233));
-    }else{
-        painter.setBrush(QColor(48,48,51));
-    }
-
-    painter.setPen(Qt::transparent);
-    QRect rect = ui->widget_6->rect();
-    rect.setWidth(rect.width() - 0);
-    rect.setHeight(rect.height() - 0);
-    painter.drawRoundedRect(rect, 7, 7);
-    {
-        QPainterPath painterPath;
-        painterPath.addRoundedRect(rect, 4, 4);
-        painter.drawPath(painterPath);
-    }
+    ui->pushButton_6->setPalette(palette);
 }
