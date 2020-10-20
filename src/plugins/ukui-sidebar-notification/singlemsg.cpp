@@ -291,6 +291,7 @@ void SingleMsg::paintEvent(QPaintEvent *e)
           p.setOpacity(0.35);
           p.setPen(Qt::NoPen);
           p.drawRoundedRect(rect,6,6);
+          this->update();
               break;
           }
       case PRESS: {
@@ -299,10 +300,11 @@ void SingleMsg::paintEvent(QPaintEvent *e)
         p.setPen(Qt::NoPen);
 
         p.drawRoundedRect(rect,6,6);
+        this->update();
               break;
           }
     }
-    this->update();
+ //   this->update();
     QWidget::paintEvent(e);
 
 }
