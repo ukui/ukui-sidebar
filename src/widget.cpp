@@ -184,7 +184,7 @@ void Widget::iconActivated(QSystemTrayIcon::ActivationReason reason)
             tranSparency = m_pTransparency->get("transparency").toDouble();
         }
     }
-    qDebug() << "获取的透明度为:" << tranSparency;
+
     switch (reason) {
         case QSystemTrayIcon::Trigger: {
             if (m_bShowFlag) {

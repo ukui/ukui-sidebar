@@ -79,7 +79,7 @@ void diturbModeWidget::initLayout()
 void diturbModeWidget::VPNButtonClickSLots()
 {
     QProcess p(0);
-    p.startDetached("ukui-control-center -v");
+    p.startDetached("ukui-control-center -g");
     p.waitForStarted();
     return;
 }
