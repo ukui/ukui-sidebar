@@ -449,8 +449,20 @@ void Clock::setup_init()
     model_setup_set(); //设置数据库初始化
                        // Set database initialization
     text_timerUpdate();
-    ui->pushButton_20->setText(model_setup->index(0, 19).data().toString());
-    ui->pushButton_22->setText(model_setup->index(0, 19).data().toString());
+
+
+    QString Default = model_setup->index(0, 19).data().toString();
+    if(Default == "glass" || "玻璃"){
+        Default = tr("glass");
+    }else if(Default == "bark" || "犬吠"){
+        Default = tr("bark");
+    }else if(Default == "sonar" || "声呐"){
+        Default = tr("sonar");
+    }else if(Default == "drip" || "雨滴"){
+        Default = tr("drip");
+    }
+    ui->pushButton_20->setText(Default);
+    ui->pushButton_22->setText(Default);
     for (int i = 0; i < 9; i++) {
         repeat_day[i] = 0;
     }
@@ -1055,7 +1067,41 @@ void Clock::updateAlarmClock()
             w1[alarmNum]->alarm_on_off0->setStyleSheet("border-image: url(:/alarm_on.png); border-radius:7px;");
         }
         w1[alarmNum]->alarmLabel_w0->setText(model->index(alarmNum, 14).data().toString());
-        w1[alarmNum]->alarmLabel_s0->setText(model->index(alarmNum, 5).data().toString());
+
+
+        QString werk_str =  model->index(alarmNum, 5).data().toString();
+        QString werk_day ;
+        int werk = 0;
+        for (int i=0; i<7; i++) {
+            if (model->index(alarmNum, 6+i).data().toInt()) {
+                if(i == 0){
+                    werk_day = werk_day + tr("Mon");
+                }else if(i == 1){
+                    werk_day = werk_day + tr("Tue");
+                }else if(i == 2){
+                    werk_day = werk_day + tr("Wed");
+                }else if(i == 3){
+                    werk_day = werk_day + tr("Thu");
+                }else if(i == 4){
+                    werk_day = werk_day + tr("Fri");
+                }else if(i == 5){
+                    werk_day = werk_day + tr("Sat");
+                }else if(i == 6){
+                    werk_day = werk_day + tr("Sun");
+                }
+            }else{
+                werk = 1;
+            }
+        }
+        if(werk){
+            w1[alarmNum]->alarmLabel_s0->setText(werk_day);
+        }else {
+            if(werk_str == tr("Every day") || werk_str == "每天"){
+                w1[alarmNum]->alarmLabel_s0->setText(tr("Every day"));
+            }else if(werk_str == "Workingday" || werk_str == "工作日"){
+                w1[alarmNum]->alarmLabel_s0->setText(tr("Workingday"));
+            }
+        }
         connect( w1[alarmNum]->alarm_on_off0, SIGNAL(clicked()), this, SLOT(On_Off_Alarm()) );
     }
 }
@@ -1140,7 +1186,18 @@ void Clock::set_Alarm_Clock()
     }
     time_music_str_model = tr("2min");
     ui->pushButton_17->setText(time_music_str_model+tr("(default)"));
+
     music_str_model = model_setup->index(0, 5).data().toString();
+    if(music_str_model == "glass" || "玻璃"){
+        music_str_model = tr("glass");
+    }else if(music_str_model == "bark" || "犬吠"){
+        music_str_model = tr("bark");
+    }else if(music_str_model == "sonar" || "声呐"){
+        music_str_model = tr("sonar");
+    }else if(music_str_model == "drip" || "雨滴"){
+        music_str_model = tr("drip");
+    }
+
     ui->pushButton_11->setText(music_str_model+tr("(default)"));
     clock_name = tr("Alarm");
     ui->lineEdit->setText(clock_name);
@@ -1276,15 +1333,73 @@ void Clock::listdoubleClickslot()
 
     qDebug() << num  <<model->index(num, 5).data().toString();
     qDebug() << num  <<model->index(num, 2).data().toString();
-
-    ui->pushButton_6->setText(model->index(num, 5).data().toString());
+    QString werk_day ;
+    int werk = 0;
+    for (int i=0; i<7; i++) {
+        if (model->index(num, 6+i).data().toInt()) {
+            if(i == 0){
+                werk_day = werk_day + tr("Mon");
+            }else if(i == 1){
+                werk_day = werk_day + tr("Tue");
+            }else if(i == 2){
+                werk_day = werk_day + tr("Wed");
+            }else if(i == 3){
+                werk_day = werk_day + tr("Thu");
+            }else if(i == 4){
+                werk_day = werk_day + tr("Fri");
+            }else if(i == 5){
+                werk_day = werk_day + tr("Sat");
+            }else if(i == 6){
+                werk_day = werk_day + tr("Sun");
+            }
+        }else{
+            werk = 1;
+        }
+    }
+    if(werk){
+        ui->pushButton_6->setText(werk_day);
+    }else {
+        ui->pushButton_6->setText(tr("Every day"));
+    }
+    if(model->index(num, 5).data().toString() == tr("  work") || model->index(num, 5).data().toString() == tr("  工作日")){
+        ui->pushButton_6->setText(tr("  work"));
+    }
     repeat_str_model = model->index(num, 5).data().toString();
-    ui->pushButton_11->setText(model->index(num, 2).data().toString());
-    music_str_model = model->index(num, 2).data().toString();
-    ui->pushButton_17->setText(model->index(num, 13).data().toString());
+
+
+
+    QString Reminder =  model->index(num, 2).data().toString();
+    if(Reminder == "glass" || "玻璃"){
+        Reminder = tr("glass");
+    }else if(Reminder == "bark" || "犬吠"){
+        Reminder = tr("bark");
+    }else if(Reminder == "sonar" || "声呐"){
+        Reminder = tr("sonar");
+    }else if(Reminder == "drip" || "雨滴"){
+        Reminder = tr("drip");
+    }
+    ui->pushButton_11->setText(Reminder);
+
+
+
+    music_str_model = model->index(num, 13).data().toString();
+
+    if(music_str_model == "2min" || "2分钟"){
+        music_str_model = tr("2min");
+    }else if(music_str_model == "3min" || "3分钟"){
+        music_str_model = tr("3min");
+    }else if(music_str_model == "4min" || "4分钟"){
+        music_str_model = tr("4min");
+    }else if(music_str_model == "6min" || "6分钟"){
+        music_str_model = tr("6min");
+    }
+    ui->pushButton_17->setText(music_str_model);
     time_music_str_model = model->index(num, 13).data().toString();
+
+
     clock_name = model->index(num, 14).data().toString();
     ui->lineEdit->setText(clock_name);
+
 
     for (int i=0; i<7; i++) {
         if (model->index(num, 6+i).data().toInt()) {

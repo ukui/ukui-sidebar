@@ -263,8 +263,8 @@ void feedback::UI_init()
     label_6->setStyleSheet(QString::fromUtf8("font: 11pt \"Sans Serif\";\n"
                                              "color: rgb(255, 0, 0);"));
     lineEdit_2 = new QLineEdit(centralwidget);
-        lineEdit_2->setObjectName(QString::fromUtf8("lineEdit_2"));
-        lineEdit_2->setGeometry(QRect(140, 275, 320, 30));
+    lineEdit_2->setObjectName(QString::fromUtf8("lineEdit_2"));
+    lineEdit_2->setGeometry(QRect(140, 275, 320, 30));
 
 
 
@@ -928,7 +928,7 @@ void feedback::on_pushButton_2_clicked()
     if (2==v.validate(email_str,pos)) {
 
     } else {
-        lineEdit_2->setStyle(new CustomStyle("ukui"));
+//        lineEdit_2->setStyle(new CustomStyle("ukui"));
         pushButton_2->setEnabled(false);
         pushButton_2->setPalette(palette_gray);
         email_err_msg_label->show();
@@ -1332,7 +1332,7 @@ void feedback::update_add_file_window()
 
         int filesize_width = file_widget[filenum]->filesize_label0->geometry().width();
 
-        file_widget[filenum]->deletebtn0->setGeometry(filename_width+filesize_width+20,0,35,20);
+        file_widget[filenum]->deletebtn0->setGeometry(filename_width+filesize_width+20,0,35,22);
         file_widget[filenum]->deletebtn0->setText(tr("del"));
         file_widget[filenum]->deletebtn0->setStyleSheet("font: 12px ;color: rgb(61,107,229);");
         file_widget[filenum]->deletebtn0->setFlat(true);
