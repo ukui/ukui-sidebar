@@ -96,6 +96,7 @@ private:
 private slots:
     void openShutdownWidgetSlots();
     void openContorlCenterWidgetSlots();
+    void AccountSlots(QString property, QMap<QString, QVariant> propertyMap, QStringList propertyList);
 
 Q_SIGNALS:
 

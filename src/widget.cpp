@@ -68,9 +68,6 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     /* 安装事件过滤器 */
     installEventFilter(this);
 
-    connect(qApp, &QApplication::paletteChanged, this, [=](){
-        qDebug() << "系统画板变化";
-    });
     /* 监听gsetting，修改所有窗口的字体 */
     setAllWidgetFont();
 
@@ -182,7 +179,7 @@ void Widget::setIcon(QIcon icon)
 void Widget::iconActivated(QSystemTrayIcon::ActivationReason reason)
 {
     //获取透明度
-    if (QGSettings::isSchemaInstalled(UKUI_TRANSPARENCY_SETTING)){
+    if (QGSettings::isSchemaInstalled(UKUI_TRANSPARENCY_SETTING)) {
         if (m_pTransparency->keys().contains("transparency")) {
             tranSparency = m_pTransparency->get("transparency").toDouble();
         }

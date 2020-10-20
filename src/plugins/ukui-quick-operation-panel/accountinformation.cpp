@@ -117,6 +117,9 @@ UserInfomation AccountInformation::GetUserInformation(QString objpath)
                                             "org.freedesktop.DBus.Properties",
                                             QDBusConnection::systemBus());
 
+    iproperty->connection().connect("org.freedesktop.Accounts",objpath, "org.freedesktop.DBus.Properties", "PropertiesChanged",
+                                    this, SLOT(AccountSlots(QString, QMap<QString, QVariant>, QStringList)));
+
     QDBusReply<QMap<QString, QVariant> > reply = iproperty->call("GetAll", "org.freedesktop.Accounts.User");
     if (reply.isValid()) {
         QMap<QString, QVariant> propertyMap;
@@ -145,23 +148,23 @@ void AccountInformation::setAllControlsLabelInfo()
 {
     QStringList objectpaths = getUserObjectPath();
     UserInfomation user;
-    for (QString objectpath : objectpaths){
+    for (QString objectpath : objectpaths) {
         user = GetUserInformation(objectpath);
-        if(user.current == true && user.logined == true){
+        if (user.current == true && user.logined == true) {
             break; 
          }
     }
 
     m_pNameLabel->setText(user.username);
 
-    if (user.accounttype == 1 ){
+    if (user.accounttype == 1 ) {
         m_pIdentityLabel->setText(QObject::tr("administrators"));
     } else {
         m_pIdentityLabel->setText(QObject::tr("Standard users"));
     }
 
     char * iconpath = user.iconfile.toLatin1().data();
-    if (!g_file_test(iconpath, G_FILE_TEST_EXISTS)){
+    if (!g_file_test(iconpath, G_FILE_TEST_EXISTS)) {
         user.iconfile = DEFAULTFACE;
     }
     const auto ratio=devicePixelRatioF();
@@ -207,4 +210,19 @@ void AccountInformation::openContorlCenterWidgetSlots()
     p.startDetached("ukui-control-center -u");
     p.waitForStarted();
     return;
+}
+
+void AccountInformation::AccountSlots(QString property, QMap<QString, QVariant> propertyMap, QStringList propertyList)
+{
+    Q_UNUSED(property);
+    Q_UNUSED(propertyList);
+    if (propertyMap.keys().contains("IconFile")) {
+        const auto ratio=devicePixelRatioF();
+        QPixmap facePixmap(propertyMap.value("IconFile").toString());
+        facePixmap = facePixmap.scaled(48*ratio, 48*ratio,  Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        facePixmap = PixmapToRound(facePixmap, 48*ratio/2);
+        facePixmap.setDevicePixelRatio(qApp->devicePixelRatio());
+        m_pHeadPortraitIconLabel->setFixedSize(48, 48);
+        m_pHeadPortraitIconLabel->setPixmap(facePixmap);
+    }
 }
