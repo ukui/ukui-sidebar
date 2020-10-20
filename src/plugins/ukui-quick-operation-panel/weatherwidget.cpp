@@ -87,6 +87,12 @@ void weatherWidget::initGSettingValue()
     if (m_pWeatherGsetting != nullptr) {
         connect(m_pWeatherGsetting, &QGSettings::changed, this, &weatherWidget::getGsettingChageSlots);
     }
+
+    const QByteArray id_3(UKUI_QT_STYLE);
+    if (QGSettings::isSchemaInstalled(id_3)) {
+        m_pTabletModeGsetting = new QGSettings(id_3);
+        connect(m_pTabletModeGsetting, &QGSettings::changed, this, &weatherWidget::changIconStatusSlots);
+    }
     return;
 }
 
@@ -118,4 +124,11 @@ void weatherWidget::getGsettingChageSlots(QString key)
     QStringList WeatherInfoList = m_pweatherString.split(",");
     setLabelData(WeatherInfoList);
     return;
+}
+
+void weatherWidget::changIconStatusSlots(QString key)
+{
+    if (key == UKUI_QT_STYLE_NAME_KEY) {
+        initLabelData();
+    }
 }

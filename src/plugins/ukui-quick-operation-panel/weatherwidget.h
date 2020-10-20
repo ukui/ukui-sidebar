@@ -32,6 +32,10 @@
 #define UKUI_WEATHER_GSETTING_ID  "org.china-weather-data.settings"
 #define UKUI_WEATHER_GSETTING_KEY "weather"
 
+#define UKUI_QT_STYLE          "org.ukui.style"
+#define UKUI_QT_STYLE_NAME_KEY "styleName"
+
+
 class weatherWidget : public QWidget
 {
     Q_OBJECT
@@ -53,12 +57,14 @@ private:
 
     QString m_pweatherString;
     QGSettings *m_pWeatherGsetting = nullptr;
+    QGSettings *m_pTabletModeGsetting = nullptr;
 
 protected:
     void mousePressEvent(QMouseEvent *event);
 
 private slots:
     void    getGsettingChageSlots(QString key);
+    void    changIconStatusSlots(QString key);
 
 Q_SIGNALS:
 

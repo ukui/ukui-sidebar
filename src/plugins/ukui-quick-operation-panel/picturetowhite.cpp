@@ -19,7 +19,7 @@
 
 PictureToWhite::PictureToWhite(QObject *parent) : QObject(parent)
 {
-
+    initGsettingValue();
 }
 
 void PictureToWhite::initGsettingValue()
@@ -29,17 +29,18 @@ void PictureToWhite::initGsettingValue()
     stylelist << STYLE_NAME_KEY_DARK << STYLE_NAME_KEY_WHITE << STYLE_NAME_KEY_DEFAULT;
     if (QGSettings::isSchemaInstalled(id)) {
         m_pgsettings = new QGSettings(id);
-        if (stylelist.contains(m_pgsettings->get(STYLE_NAME).toString()))
-            tray_icon_color=TRAY_ICON_COLOR_LOGHT;
+        if (stylelist.contains(m_pgsettings->get(STYLE_NAME).toString()) && m_pgsettings->get(STYLE_NAME).toString() == STYLE_NAME_KEY_WHITE)
+            tray_icon_color = TRAY_ICON_COLOR_LOGHT;
         else
-            tray_icon_color=TRAY_ICON_COLOR_DRAK;
-        }
+            tray_icon_color = TRAY_ICON_COLOR_DRAK;
+    }
     connect(m_pgsettings, &QGSettings::changed, this, [=] (const QString &key) {
         if (key==STYLE_NAME) {
-            if (stylelist.contains(m_pgsettings->get(STYLE_NAME).toString()))
-                tray_icon_color=TRAY_ICON_COLOR_LOGHT;
+            if (stylelist.contains(m_pgsettings->get(STYLE_NAME).toString()) && m_pgsettings->get(STYLE_NAME).toString() == STYLE_NAME_KEY_WHITE)
+                tray_icon_color = TRAY_ICON_COLOR_LOGHT;
             else
-                tray_icon_color=TRAY_ICON_COLOR_DRAK;
+                tray_icon_color = TRAY_ICON_COLOR_DRAK;
+
         }
     });
 }

@@ -23,6 +23,7 @@
 #include <QString>
 #include <QVariant>
 #include <QPixmap>
+#include <QDebug>
 
 #define ORG_UKUI_STYLE            "org.ukui.style"
 #define STYLE_NAME                "styleName"
