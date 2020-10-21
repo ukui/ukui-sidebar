@@ -649,27 +649,18 @@ void NotificationPlugin::onSwitchMsgBoxFinish()
 void NotificationPlugin::initGsettingValue()
 {
     myTimer = new QTimer;
-
+    connect(myTimer,&QTimer::timeout,[=](){
+                        m_pMessageCenterLabel->setAttribute(Qt::WA_TranslucentBackground);
+                        m_pMessageCenterLabel->update();
+                        pInQWidget->update();
+                        m_pMainWidget->update();
+                        myTimer->stop();
+              });
     const QByteArray id(UKUI_QT_STYLE);
     if (QGSettings::isSchemaInstalled(id)) {
         m_pTabletModeGsetting = new QGSettings(id);
         connect(m_pTabletModeGsetting, &QGSettings::changed, [=]() {
-//            m_pMessageCenterLabel->setAttribute(Qt::WA_TranslucentBackground);
-//            m_pMessageCenterLabel->update();
-//            pInQWidget->update();
-//            m_pMainWidget->update();
-
-            connect(myTimer,&QTimer::timeout,[=](){
-                                m_pMessageCenterLabel->setAttribute(Qt::WA_TranslucentBackground);
-                                m_pMessageCenterLabel->update();
-                                pInQWidget->update();
-                                m_pMainWidget->update();
-                                qDebug()<<"okokookokoko";
-                                myTimer->stop();
-                      });
-
             myTimer->start(20);
-
         });
     }
     return;
