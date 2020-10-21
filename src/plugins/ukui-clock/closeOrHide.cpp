@@ -135,6 +135,7 @@ void close_or_hide::mouseReleaseEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
         this->mousePressed = false;
+        this->setCursor(Qt::ArrowCursor);
     }
 
     QWidget::mouseReleaseEvent(event);
@@ -144,6 +145,7 @@ void close_or_hide::mouseMoveEvent(QMouseEvent *event)
 {
     if (this->mousePressed) {
         move(event->globalPos() - this->dragPosition);
+        this->setCursor(Qt::ClosedHandCursor);
     }
 
     QWidget::mouseMoveEvent(event);

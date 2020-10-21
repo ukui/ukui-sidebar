@@ -66,17 +66,16 @@ public:
     void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
 private:
-    void interfaceSetup();                                           //
+    void initSetup();                                                // 初始配置
     void slotsSetup();                                               // 配置槽函数
-    void listenToGsettings();
-    void btnSetup();
-    void palette_ui();
-    void fontChanged();
-    void set_color();
+    void listenToGsettings();                                        // 监听主题
+    void btnSetup();                                                 // 初始化按钮
+    void mergeFormatOnWordOrSelection(const QTextCharFormat &format);// 字体设置
+    void fontChanged(const QFont &f);                                // 当前光标下字体格式获取
+    void fontColorChanged(const QColor &c);                          // 当前光标下字体颜色获取
+    void initColor();
 
-    QPixmap pixmap1;
-    QPixmap pixmap2;
-    QPixmap pixmap3;
+private:
     select_color_page *color_page;
     Text_editing *text_edit_page;
     QTimer *timer;
@@ -85,26 +84,23 @@ private:
 
     QPointer<QTextList> m_lastBlockList;
 
-    QPoint dragPosition;                                            // 拖动坐标
-    bool mousePressed;                                              // 鼠标是否按下
-    bool defaultStyle;                                              // 主题标志
+    QPoint dragPosition;                                             // 拖动坐标
+    bool mousePressed;                                               // 鼠标是否按下
+    bool defaultStyle;                                               // 主题标志
 
 private slots:
-    void slotCursorPositionChanged();
-    void textChangedSlot();
-
-    void closeSlot();
-    void add_new_page();
-    void show_note_page();
-    void setBoldSlot();                                             // 加粗
-    void setItalicSlot();                                           // 斜体
-    void setUnderlineSlot();                                        // 下划线
-    void setStrikeOutSlot();                                        // 删除线
-    void setUnorderedListSlot(bool checked);                        // 无序列表
-    void setOrderedListSlot(bool checked);                          // 有序列表
+    void cursorPositionChangedSlot();                                // 当前光标位置改变
+    void currentCharFormatChangedSlot(const QTextCharFormat &format);// 当前字体格式改变
+    void textChangedSlot();                                          // 当前便签页身份id
+    void setBoldSlot();                                              // 加粗
+    void setItalicSlot();                                            // 斜体
+    void setUnderlineSlot();                                         // 下划线
+    void setStrikeOutSlot();                                         // 删除线
+    void setUnorderedListSlot(bool checked);                         // 无序列表
+    void setOrderedListSlot(bool checked);                           // 有序列表
     void list(bool checked, QTextListFormat::Style style);
-    void setFontSizeSlot();                                         // 设置字体大小
-    void setFontColorSlot();                                        // 设置字体颜色
+    void setFontSizeSlot();                                          // 设置字体大小
+    void setFontColorSlot();                                         // 设置字体颜色
     // 调色按钮
     void blueBtnSlot();
     void redBtnSlot();

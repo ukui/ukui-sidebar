@@ -29,7 +29,7 @@ Set_font_color_page::Set_font_color_page(QWidget *parent) :
 
     ui->listWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->listWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
+    ui->listWidget->setSelectionMode(QAbstractItemView::NoSelection);
     set_color();
     set_listwidget();
 }
