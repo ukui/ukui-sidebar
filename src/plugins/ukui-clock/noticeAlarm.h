@@ -22,6 +22,7 @@
 #include <QPainter>
 #include <QTime>
 #include <QTimer>
+#include <QMouseEvent>
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
 #include <QStyleOption>
@@ -42,6 +43,9 @@ public:
 
      bool eventFilter(QObject *watched, QEvent *event);
      void showPaint();
+     void mousePressEvent(QMouseEvent *event);
+     void mouseReleaseEvent(QMouseEvent *event);
+     void mouseMoveEvent(QMouseEvent *event);
 
 
 protected:
@@ -72,6 +76,8 @@ private:
     int timer_value2;
     int full_flag=1;
     QSqlTableModel *model_setup;
+    QPoint dragPosition;                                            //拖动坐标
+    bool mousePressed;                                              //鼠标是否按下
 };
 
 #endif // NATICE_ALARM_H

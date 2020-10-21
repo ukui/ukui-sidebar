@@ -583,9 +583,9 @@ QListWidget::item:hover{background-color:rgba(72,72,76,0.5);border-radius:4px;}<
   <widget class="QWidget" name="set_page" native="true">
    <property name="geometry">
     <rect>
-     <x>2</x>
+     <x>5</x>
      <y>37</y>
-     <width>450</width>
+     <width>444</width>
      <height>512</height>
     </rect>
    </property>
@@ -601,7 +601,7 @@ QListWidget::item:hover{background-color:rgba(72,72,76,0.5);border-radius:4px;}<
    <widget class="QPushButton" name="pushButton_8">
     <property name="geometry">
      <rect>
-      <x>177</x>
+      <x>172</x>
       <y>462</y>
       <width>100</width>
       <height>32</height>
@@ -633,7 +633,7 @@ QListWidget::item:hover{background-color:rgba(72,72,76,0.5);border-radius:4px;}<
    <widget class="QLabel" name="label_12">
     <property name="geometry">
      <rect>
-      <x>25</x>
+      <x>22</x>
       <y>214</y>
       <width>400</width>
       <height>25</height>
@@ -655,7 +655,7 @@ opacity:0.45;
    <widget class="QPushButton" name="set_alarm_cancelbtn">
     <property name="geometry">
      <rect>
-      <x>62</x>
+      <x>57</x>
       <y>462</y>
       <width>100</width>
       <height>32</height>
@@ -671,7 +671,7 @@ opacity:0.45;
    <widget class="QPushButton" name="set_alarm_savebtn">
     <property name="geometry">
      <rect>
-      <x>292</x>
+      <x>287</x>
       <y>462</y>
       <width>100</width>
       <height>32</height>
@@ -687,7 +687,7 @@ opacity:0.45;
    <widget class="QLabel" name="label_13">
     <property name="geometry">
      <rect>
-      <x>125</x>
+      <x>123</x>
       <y>3</y>
       <width>200</width>
       <height>28</height>
@@ -704,7 +704,7 @@ opacity:0.45;
    <widget class="QWidget" name="widget" native="true">
     <property name="geometry">
      <rect>
-      <x>85</x>
+      <x>82</x>
       <y>252</y>
       <width>280</width>
       <height>36</height>

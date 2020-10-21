@@ -5,6 +5,7 @@
 #include <QStyleOption>
 #include <QPainter>
 #include <QPainterPath>
+#include <QMouseEvent>
 #include <QGSettings/qgsettings.h>
 
 namespace Ui {
@@ -23,6 +24,10 @@ public:
     // Draw bottom shadow
     void paintEvent(QPaintEvent *event);
 
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+
     int close_flag;
 private slots:
     void on_closebtn_clicked();
@@ -33,6 +38,8 @@ private slots:
 
 private:
     Ui::close_or_hide *ui;
+    QPoint dragPosition;                                            //拖动坐标
+    bool mousePressed;                                              //鼠标是否按下
 };
 
 #endif // CLOSE_OR_HIDE_H
