@@ -17,6 +17,7 @@
 */
 #include "mainwidget.h"
 #include <QDebug>
+#include <QApplication>
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 
 MainWidget::MainWidget()
@@ -66,9 +67,8 @@ void MainWidget::paintEvent(QPaintEvent *event)
     pixmapPainter2.drawPath(rectPath);
 
     p.drawPixmap(this->rect(), pixmap, pixmap.rect());
-    QStyleOption *option = new QStyleOption();
     p.save();
-    p.fillPath(rectPath, option->palette.color(QPalette::Base));
+    p.fillPath(rectPath, qApp->palette().color(QPalette::Base));
     p.restore();
     QWidget::paintEvent(event);
 }

@@ -667,9 +667,9 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
             mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
             hideAnimation();
             m_bShowFlag = false;
-            return true;
+            return false;
         } else if (event->type() == QEvent::StyleChange) {
-            return true;
+            return false;
         }
     }
 
@@ -707,9 +707,8 @@ void Widget::paintEvent(QPaintEvent *event)
     pixmapPainter2.drawPath(rectPath);
 
     p.drawPixmap(this->rect(), pixmap, pixmap.rect());
-    QStyleOption *option = new QStyleOption();
     p.save();
-    QColor color = option->palette.color(QPalette::Base);
+    QColor color = qApp->palette().color(QPalette::Base);
     color.setAlphaF(tranSparency);
     p.fillPath(rectPath, color);
     p.restore();
