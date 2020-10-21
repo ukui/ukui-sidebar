@@ -47,6 +47,8 @@ public:
     void startAnimationFold();                          //开启折叠动画
     void startAnimationDeleUpperMove();                 //开启删除上移动画
 
+    QString setlabeltest();
+
     uint        getPushTime() {return m_uNotifyTime;}
     QDateTime   getPushDateTime() {return m_dateTime;}
     QString     getIcon() {return m_strIconPath;}

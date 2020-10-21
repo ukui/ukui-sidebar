@@ -204,26 +204,16 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
     if(false == m_strBody.isEmpty())
     {
-        QString strLineHeight24Body;
-        strLineHeight24Body.append("<p style='line-height:24px'>").append(m_strBody).append("</p>");
+
         m_pBodyLabel = new QLabel();
         m_pBodyLabel->setFixedWidth(315);
         m_pBodyLabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
         m_pBodyLabel->adjustSize();
         m_pBodyLabel->setAttribute(Qt::WA_TranslucentBackground);
 
+        QString my_matBodey = setlabeltest();
 
-        QFontMetrics fontMetrics(m_pBodyLabel->font());
-        int fontSize = fontMetrics.width(strLineHeight24Body);
-        formatBody = strLineHeight24Body;
-
-        m_pBodyLabel->setWordWrap(false);
-        if(fontSize > (m_pBodyLabel->width() + 209))
-        {
-            formatBody = fontMetrics.elidedText(strLineHeight24Body, Qt::ElideRight, m_pBodyLabel->width() + 180);
-        }
-
-        m_pBodyLabel->setText(formatBody);
+        m_pBodyLabel->setText(my_matBodey);
         setnotificationlabel(m_pBodyLabel);
         pVContextLayout->addWidget(m_pBodyLabel, 0, Qt::AlignLeft);
     }
@@ -250,6 +240,23 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pSetDeleDelayTimer = new QTimer(this);
     return;
 }
+
+QString SingleMsg::setlabeltest()
+{
+    QString strLineHeight24Body;
+    strLineHeight24Body.append("<p style='line-height:24px'>").append(m_strBody).append("</p>");
+    QFontMetrics fontMetrics(m_pBodyLabel->font());
+    int fontSize = fontMetrics.width(strLineHeight24Body);
+    formatBody = strLineHeight24Body;
+
+    m_pBodyLabel->setWordWrap(false);
+    if(fontSize > (m_pBodyLabel->width() + 209))
+    {
+        formatBody = fontMetrics.elidedText(strLineHeight24Body, Qt::ElideRight, m_pBodyLabel->width() + 180);
+    }
+    return formatBody;
+}
+
 
 SingleMsg::~SingleMsg()
 {
