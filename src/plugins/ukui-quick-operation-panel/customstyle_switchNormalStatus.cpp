@@ -20,7 +20,7 @@
 
 #include <QStyleOption>
 #include <QPainter>
-
+#include <QApplication>
 #include <QDebug>
 
 customstyle_switchNormalStatus::customstyle_switchNormalStatus(const QString &proxyStyleName, QObject *parent) : QProxyStyle (proxyStyleName)
@@ -94,7 +94,7 @@ void customstyle_switchNormalStatus::drawPrimitive(QStyle::PrimitiveElement elem
                 painter->save();
                 painter->setRenderHint(QPainter::Antialiasing,true);
                 painter->setPen(Qt::NoPen);
-                painter->setBrush(option->palette.color(QPalette::Button));
+                painter->setBrush(qApp->palette().color(QPalette::Button));
                 painter->setOpacity(1);
                 painter->drawRoundedRect(option->rect, 28, 28);
                 painter->restore();

@@ -264,7 +264,7 @@ void shortcutPanelPlugin::initThemeGsetting()
             connect(m_pthemeGsettingValue, &QGSettings::changed, m_pLinelabel_1, [=](QString keyName) {
                 if (keyName == "styleName") {
                     QPalette palette = m_pLinelabel_1->palette();
-                    QColor color = palette.color(palette.Button);
+                    QColor color = qApp->palette().color(palette.Button);
                     color.setAlphaF(0.5);
                     palette.setColor(QPalette::WindowText, color);
                     m_pLinelabel_1->setPalette(palette);

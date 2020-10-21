@@ -661,10 +661,12 @@ void NotificationPlugin::initGsettingValue()
     const QByteArray id(UKUI_QT_STYLE);
     if (QGSettings::isSchemaInstalled(id)) {
         m_pTabletModeGsetting = new QGSettings(id);
-        connect(m_pTabletModeGsetting, &QGSettings::changed, [=]() {
-            myTimer->start(20);
-            m_pClearAllToolButton->setStyle(m_pcleanSettingButtonStyle);
-            m_pSettingToolButton->setStyle(m_pcleanSettingButtonStyle);
+        connect(m_pTabletModeGsetting, &QGSettings::changed, [=](QString key) {
+            if (key == UKUI_QT_STYLE_NAME_KEY) {
+                myTimer->start(20);
+                m_pClearAllToolButton->setStyle(m_pcleanSettingButtonStyle);
+                m_pSettingToolButton->setStyle(m_pcleanSettingButtonStyle);
+            }
         });
     }
     return;

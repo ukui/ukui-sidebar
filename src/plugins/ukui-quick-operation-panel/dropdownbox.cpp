@@ -59,6 +59,7 @@ void EntryWidget::initLayout()
 void EntryWidget::leaveEvent(QEvent *event)
 {
     status = NORMAL;
+    this->update();
     QWidget::leaveEvent(event);
 }
 
@@ -82,6 +83,7 @@ void EntryWidget::paintEvent(QPaintEvent *event)
         case HOVER: {
             QColor color(156, 156, 156);
             p.setBrush(QBrush(color));
+            this->update();
             break;
         }
     }
@@ -90,7 +92,6 @@ void EntryWidget::paintEvent(QPaintEvent *event)
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     p.drawRoundedRect(opt.rect, 4, 4);
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
-    this->update();
     QWidget::paintEvent(event);
 }
 

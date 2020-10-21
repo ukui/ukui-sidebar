@@ -27,6 +27,7 @@
 #include "Inside_Widget.h"
 
 #define UKUI_QT_STYLE          "org.ukui.style"
+#define UKUI_QT_STYLE_NAME_KEY "styleName"
 
 class AppMsg;
 class ScrollAreaWidget;

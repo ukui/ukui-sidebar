@@ -73,7 +73,7 @@ void CustomStyle_SwitchOpenStatus::drawPrimitive(QStyle::PrimitiveElement elemen
             if (option->state & State_MouseOver) {
                 if (option->state &  State_Sunken) {
                     painter->save();
-                    painter->setRenderHint(QPainter::Antialiasing,true);
+                    painter->setRenderHint(QPainter::Antialiasing, true);
                     painter->setPen(Qt::NoPen);
                     QColor color(50,87,202,255);
                     painter->setBrush(color);
@@ -81,7 +81,7 @@ void CustomStyle_SwitchOpenStatus::drawPrimitive(QStyle::PrimitiveElement elemen
                     painter->restore();
                 } else {
                     painter->save();
-                    painter->setRenderHint(QPainter::Antialiasing,true);
+                    painter->setRenderHint(QPainter::Antialiasing, true);
                     painter->setPen(Qt::NoPen);
                     QColor color(107,142,235,255);
                     painter->setBrush(color);

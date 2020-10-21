@@ -1,6 +1,6 @@
 #include "Inside_Widget.h"
 #include <QDebug>
-
+#include <QApplication>
 inside_widget::inside_widget(QWidget *parent) : QWidget(parent)
 {
     if (QGSettings::isSchemaInstalled(UKUI_TRANSPARENCY_SETTING)) {
@@ -16,12 +16,10 @@ inside_widget::inside_widget(QWidget *parent) : QWidget(parent)
 
 void inside_widget::paintEvent(QPaintEvent *e)
 {
-    QStyleOption opt;
-    opt.init(this);
     QPainter p(this);
     QRect rect = this->rect();
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-    p.setBrush(opt.palette.color(QPalette::Base));
+    p.setBrush(qApp->palette().color(QPalette::Base));
 //    qDebug() << "1" << opt.palette.color(QPalette::Base);
     p.setOpacity(tranSparency);
     p.setPen(Qt::NoPen);

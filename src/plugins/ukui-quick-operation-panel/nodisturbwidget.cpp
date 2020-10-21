@@ -152,6 +152,7 @@ void nodisturbWidget::setNodisturbButtonSlots()
         m_pTabletModeGsetting->set(KYLIN_DISTURB_GSETTING_VALUE_STATUS, m_bModelStatus);
         m_pTabletModeGsetting->set(KYLIN_DISTURB_GSETTING_VALUE_SOUNDOFF, m_bModelStatus);
         m_pTabletModeGsetting->set(KULIN_DISTURB_GSETTING_VALUE_NOTIFYCLOSE, m_bModelStatus);
+        m_pnodisturbButton->m_bStatusButton = m_bModelStatus;
     }
     setLabelTextColor();
     return;

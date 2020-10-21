@@ -28,7 +28,7 @@
 #include <QDebug>
 #include <QTimer>
 #include <QThread>
-
+#include <QApplication>
 
 SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, QString strSummary, QDateTime dateTime, QString strBody, bool bTakeInFlag)
 {
@@ -272,8 +272,6 @@ void SingleMsg::setnotificationlabel(QLabel* setlabel)
 
 void SingleMsg::paintEvent(QPaintEvent *e)
 {
-    QStyleOption opt;
-    opt.init(this);
     QPainter p(this);
     QRect rect = this->rect();
     rect.setWidth(rect.width() - 1);
@@ -286,14 +284,14 @@ void SingleMsg::paintEvent(QPaintEvent *e)
 
     switch (status) {
       case NORMAL: {
-              p.setBrush(opt.palette.color(QPalette::Base));
+              p.setBrush(qApp->palette().color(QPalette::Base));
               p.setOpacity(0.23);
               p.setPen(Qt::NoPen);
               p.drawRoundedRect(rect,6,6);
               break;
           }
       case HOVER: {
-          p.setBrush(opt.palette.color(QPalette::Base));
+          p.setBrush(qApp->palette().color(QPalette::Base));
           p.setOpacity(0.35);
           p.setPen(Qt::NoPen);
           p.drawRoundedRect(rect,6,6);
@@ -301,7 +299,7 @@ void SingleMsg::paintEvent(QPaintEvent *e)
               break;
           }
       case PRESS: {
-        p.setBrush(opt.palette.color(QPalette::Base));
+        p.setBrush(qApp->palette().color(QPalette::Base));
         p.setOpacity(0.4);
         p.setPen(Qt::NoPen);
 

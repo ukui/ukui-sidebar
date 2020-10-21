@@ -1,5 +1,5 @@
 #include "shortcutbutton.h"
-
+#include <QDebug>
 ShortcutButton::ShortcutButton()
 {
     initButtonStyle();
@@ -22,6 +22,7 @@ void ShortcutButton::initGsettingValue()
             if (UKUI_QT_STYLE_NAME_KEY == key) {
                 if (m_bStatusButton) {
                     this->setStyle(m_pButtonOpenStatus);
+                    qDebug() << "是否进入这么";
                 } else {
                     this->setStyle(m_pButtonNormalStatus);
                 }
