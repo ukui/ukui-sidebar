@@ -42,6 +42,8 @@
 #define UKUI_TRANSPARENCY_SETTING "org.ukui.control-center.personalise"
 #define UKUI_PANEL_SETTING "org.ukui.panel.settings"
 
+#define UKUI_QT_STYLE_NAME_KEY "styleName"
+
 class QGroupBox;
 class QGridLayout;
 class QVBoxLayout;

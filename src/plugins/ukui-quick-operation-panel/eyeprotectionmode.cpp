@@ -271,6 +271,7 @@ void eyeProtectionMode::EyeButtonClickSlots()
             }
         }
         m_pTabletModeGsetting->set(NIGHT_MODE_KEY, m_bModelStatus);
+        m_pEyeModeButton->m_bStatusButton = m_bModelStatus;
         this->update();
     }
 }

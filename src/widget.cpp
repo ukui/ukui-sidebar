@@ -611,6 +611,17 @@ void Widget::setAllWidgetFont()
                     widget->setFont(font);
                 }
             }
+            if (UKUI_QT_STYLE_NAME_KEY == key) {
+                QFont font = this->font();
+                QPalette palette;
+                QColor color = qApp->palette().color(QPalette::Text);
+                palette.setColor(QPalette::Text, color);
+                qDebug() << "dasdasdasdasdas12312312312312";
+                for (auto widget : qApp->allWidgets()) {
+                    widget->setFont(font);
+                    widget->setPalette(palette);
+                }
+            }
         });
 }
 

@@ -150,6 +150,7 @@ void powerSavingMode::PowerSavingButtonClickSlots()
         m_bModelStatus = false;
     }
     m_pSavingModeButtonStatusGsetting->set(UKUI_ENERGY_SAVING_MODE_KEY, m_bModelStatus);
+    m_pPowerModeButton->m_bStatusButton = m_bModelStatus;
     m_pPowerModeButton->update();
     setLabelTextColor();
 }
