@@ -57,63 +57,66 @@ public:
     int id;
     int m_noteId;
 
-    void paintEvent(QPaintEvent*);
-    void contextMenuEvent(QContextMenuEvent *event);
-    void enterEvent(QEvent *);
-    void leaveEvent(QEvent *);
-
-private slots:
-    void slotCursorPositionChanged();
-    void textChangedSlot();
-
-    void on_color_btn_clicked();
-    void blue_btn_change();
-    void pink_btn_change();
-    void dark_green_btn_change();
-    void orang_btn_change();
-    void Violet_btn_change();
-    void Golden_btn_change();
-    void light_blue_btn_change();
-    void light_green_btn_change();
-    void yellow_btn_change();
-    void white_btn_change();
-    void closeSlot();
-    void add_new_page();
-    void show_note_page();
-    void color_clicked();
-    void on_chang_btn_clicked();
-    void showBoldBtn();
-    void showItalicBtn();
-    void showUnderlineBtn();
-    void showStrikeOutResolved();
-    //void showCurrentFormatChanged(const QTextCharFormat &);
-    void showList(bool checked);
-    void showNUMList(bool checked);
-    void list(bool checked, QTextListFormat::Style style);
-    void showSizeSpinBix();
-    void showFontColorSlot();
+    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
+    void contextMenuEvent(QContextMenuEvent *event) Q_DECL_OVERRIDE;
+    void enterEvent(QEvent *event) Q_DECL_OVERRIDE;
+    void leaveEvent(QEvent *event) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
 private:
-    void set_all_btn_attribute();
+    void interfaceSetup();                                           //
+    void slotsSetup();                                               // 配置槽函数
+    void listenToGsettings();
+    void btnSetup();
     void palette_ui();
-    void set_select_color_page();
-    void set_text_editing_page();
     void fontChanged();
-    void light_show();
-    void black_show();
     void set_color();
 
     QPixmap pixmap1;
     QPixmap pixmap2;
     QPixmap pixmap3;
     select_color_page *color_page;
-    PaletteWidget *paletteWidget;
     Text_editing *text_edit_page;
     QTimer *timer;
     QString color[11];
     QColor color_num[11];
 
     QPointer<QTextList> m_lastBlockList;
+
+    QPoint dragPosition;                                            // 拖动坐标
+    bool mousePressed;                                              // 鼠标是否按下
+    bool defaultStyle;                                              // 主题标志
+
+private slots:
+    void slotCursorPositionChanged();
+    void textChangedSlot();
+
+    void closeSlot();
+    void add_new_page();
+    void show_note_page();
+    void setBoldSlot();                                             // 加粗
+    void setItalicSlot();                                           // 斜体
+    void setUnderlineSlot();                                        // 下划线
+    void setStrikeOutSlot();                                        // 删除线
+    void setUnorderedListSlot(bool checked);                        // 无序列表
+    void setOrderedListSlot(bool checked);                          // 有序列表
+    void list(bool checked, QTextListFormat::Style style);
+    void setFontSizeSlot();                                         // 设置字体大小
+    void setFontColorSlot();                                        // 设置字体颜色
+    // 调色按钮
+    void blueBtnSlot();
+    void redBtnSlot();
+    void darkGreenBtnSlot();
+    void orangeBtnSlot();
+    void purpleBtnSlot();
+    void goldenBtnSlot();
+    void lightBlueBtnSlot();
+    void lightGreenBtnSlot();
+    void yellowBtnSlot();
+    void defaultBtnSlot();
+    void pinkBtnSlot();
 
 signals:
     void texthasChanged(int noteId, int id);

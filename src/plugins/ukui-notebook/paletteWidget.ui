@@ -25,7 +25,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QPushButton" name="defaultBtn">
+  <widget class="QPushButton" name="pinkBtn">
    <property name="geometry">
     <rect>
      <x>230</x>
@@ -35,8 +35,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background:rgba(255,255,255,1);
-border-radius:2px;</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string/>
@@ -52,8 +51,7 @@ border-radius:2px;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background:rgba(255,151,47,1);
-border-radius:2px;</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string/>
@@ -69,14 +67,13 @@ border-radius:2px;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background:rgba(250,243,175,1);
-border-radius:2px;</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="violetBtn">
+  <widget class="QPushButton" name="purpleBtn">
    <property name="geometry">
     <rect>
      <x>105</x>
@@ -86,8 +83,7 @@ border-radius:2px;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background:rgba(186,123,216,1);
-border-radius:2px;</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string/>
@@ -103,14 +99,13 @@ border-radius:2px;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background:rgba(42,162,217,1);
-border-radius:2px;</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pinkBtn">
+  <widget class="QPushButton" name="redBtn">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -120,8 +115,7 @@ border-radius:2px;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background:rgba(250,108,99,1);
-border-radius:2px;</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string/>
@@ -137,8 +131,7 @@ border-radius:2px;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background:rgba(15,161,90,1);
-border-radius:2px;</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string/>
@@ -154,8 +147,7 @@ border-radius:2px;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background:rgba(76,119,231,1);
-border-radius:2px;</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string/>
@@ -171,8 +163,7 @@ border-radius:2px;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background:rgba(110,207,67,1);
-border-radius:2px;</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string/>
@@ -188,8 +179,7 @@ border-radius:2px;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background:rgba(248,209,93,1);
-border-radius:2px;</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string/>

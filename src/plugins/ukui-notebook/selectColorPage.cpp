@@ -40,7 +40,6 @@ select_color_page::select_color_page(Widget* page ,QWidget *parent) :
     this->setAttribute(Qt::WA_TranslucentBackground);    
     this->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));//透明
     setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
-    //connect(pNotebook->ui->sort_2_btn,SIGNAL(clicked()),this,SLOT(color_clicked()));
 
     paletteWidget->setGeometry(QRect(0, 5, 250, 35));
     paletteWidget->show();
@@ -50,8 +49,6 @@ select_color_page::~select_color_page()
 {
     delete ui;
 }
-
-
 
 void select_color_page::paintEvent(QPaintEvent *e)
 {
@@ -81,32 +78,4 @@ void select_color_page::paintEvent(QPaintEvent *e)
 
     drawPath.addPolygon(trianglePolygon);
     painter.drawPath(drawPath);
-}
-
-void select_color_page::color_clicked()
-{
-    qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
-    if(sink)
-    {
-        qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
-        light_show();
-    }
-    else
-        black_show();
-}
-
-void select_color_page::black_show()
-{
-//    ui->widget->setStyleSheet(QString::fromUtf8("background:rgb(19,20,20);\n"
-//                                                "border-radius:4px;"));
-//    ui->white_btn->setStyleSheet(QString::fromUtf8("background:rgba(236,238,242,1);\n"
-//                                                   "border-radius:2px;"));
-}
-
-void select_color_page::light_show()
-{
-//    ui->widget->setStyleSheet(QString::fromUtf8("background:rgb(240,240,240);\n"
-//                                                "border-radius:4px;"));
-//    ui->white_btn->setStyleSheet(QString::fromUtf8("background:rgb(19,20,20);\n"
-//                                                   "border-radius:2px;"));
 }

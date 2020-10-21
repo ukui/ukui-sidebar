@@ -43,12 +43,8 @@ public:
     Ui::select_color_page *ui;
     Widget *pNotebook;
     PaletteWidget *paletteWidget;
-private slots:
-    void color_clicked();
 
 private:
-    void black_show();
-    void light_show();
     // 小三角起始位置;
     int m_startX = 180;
     // 小三角的宽度;

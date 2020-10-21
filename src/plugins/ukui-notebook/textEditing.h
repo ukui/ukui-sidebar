@@ -53,9 +53,6 @@ protected:
     void paintEvent(QPaintEvent *) override;
 
 private:
-    void light_show();
-    void black_show();
-
     // 小三角起始位置;
     int m_startX = 220;
     // 小三角的宽度;
@@ -65,10 +62,9 @@ private:
 
     QTimer *timer;
 
-private slots:
-    void color_clicked();
-    void on_light_blue_btn_clicked();
-    void on_blue_btn_2_clicked();
+private:
+    void initSetup();
+    void slotsSetup();
 };
 
 #endif // TEXT_EDITING_H
