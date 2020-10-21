@@ -182,7 +182,7 @@ private:
 
 
 private slots:
-    void InitData();                                                //初始化加载第一个便签
+    void initData();                                                //初始化加载第一个便签
     void loadNotes(QList<NoteData *> noteList, int noteCounter);    //加载便签列表
     void exitSlot();                                                //关闭按钮槽函数
     void miniSlot();                                                //最小化按钮槽函数

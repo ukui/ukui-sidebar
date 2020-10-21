@@ -43,6 +43,7 @@ Edit_page::Edit_page(Widget* page, int noteId, QWidget *parent) :
   , m_noteId(noteId)
   , m_lastBlockList(0)
   , mousePressed(false)
+  , defaultStyle(true)
   , pNotebook(page)
   , color_page(new select_color_page(pNotebook))
   , text_edit_page(new Text_editing(pNotebook))
@@ -476,8 +477,6 @@ void Edit_page::set_color()
     color[6]="background:rgba(42,162,217,1);";
     color[7]="background:rgba(110,207,67,1);";
     color[8]="background:rgba(250,243,175,1);";
-    color[9]="background:rgba(236,238,242,1);";
-    color[10]="background:rgba(0,0,0,1);";
 
     color_num[0]=QColor(76,119,231);
     color_num[1]=QColor(250,108,99);
@@ -488,20 +487,52 @@ void Edit_page::set_color()
     color_num[6]=QColor(42,162,217);
     color_num[7]=QColor(110,207,67);
     color_num[8]=QColor(250,243,175);
-    color_num[9]=QColor(236,238,242);
-    color_num[10]=QColor(0,0,0);
+    color_num[9]=QColor(0,0,0);
+
+    //监听主题改变
+    const QByteArray id(THEME_QT_SCHEMA);
+    if(QGSettings::isSchemaInstalled(id)){
+        QGSettings *styleSettings = new QGSettings(id);
+        QString style = styleSettings->get(MODE_QT_KEY).toString();
+        if(style == "ukui-default"){
+            color[9]="background:rgba(0,0,0,1);";
+        }else {
+            color[9]="background:rgba(255,255,255,1);";
+        }
+        text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet(color[9]+"border-radius:3px;");
+        connect(styleSettings, &QGSettings::changed, this, [=](const QString &key){
+            if (key == "styleName"){
+                QString currentTheme = styleSettings->get(MODE_QT_KEY).toString();
+                if(currentTheme == "ukui-default"){
+                    color[9]="background:rgba(0,0,0,1);";
+                }else if(currentTheme == "ukui-dark"){
+                    color[9]="background:rgba(255,255,255,1);";
+                }
+            }
+            if(defaultStyle){
+                text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet(color[9]+"border-radius:3px;");
+            }
+        });
+    }
 }
 
 void Edit_page::setFontColorSlot ()
 {
-    qDebug()<<"--------------";
+    qDebug()<<"setFontColorSlot";
     int num = text_edit_page->set_color_fort_page->ui->listWidget->currentRow();
     text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet(color[num]+"border-radius:3px;");
 
     QTextCharFormat fmt;
-    fmt.setForeground(color_num[num]);
-    ui->textEdit->mergeCurrentCharFormat(fmt);
-
+    if(num != 9){
+        defaultStyle = false;
+        fmt.setForeground(color_num[num]);
+        ui->textEdit->mergeCurrentCharFormat(fmt);
+    }else {
+        defaultStyle = true;
+        fmt.setForeground(palette().color(QPalette::Text));
+//        fmt.clearForeground();
+        ui->textEdit->mergeCurrentCharFormat(fmt);
+    }
     text_edit_page->set_color_fort_page->close();
 }
 

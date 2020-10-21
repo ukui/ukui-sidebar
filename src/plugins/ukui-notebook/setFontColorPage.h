@@ -24,9 +24,16 @@
 #include <QString>
 #include <QStyleOption>
 #include <QPainter>
+#include <QGSettings>
 
 #include "paletteButton.h"
 #include "ui_paletteButton.h"
+
+/**
+ * ukui style
+ */
+#define THEME_QT_SCHEMA "org.ukui.style"
+#define MODE_QT_KEY "style-name"
 
 namespace Ui {
 class Set_font_color_page;
