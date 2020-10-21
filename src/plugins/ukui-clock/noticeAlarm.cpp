@@ -235,28 +235,10 @@ bool Natice_alarm::eventFilter(QObject *watched, QEvent *event)
 //实现响应函数
 void Natice_alarm::showPaint()
 {
-    QPainter painter(ui->widget);
-    painter.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-
-    QStyleOption opt;
-    opt.init(ui->widget);
-    painter.setBrush(opt.palette.color(QPalette::Base));
-
-    painter.setPen(Qt::transparent);
-    QRect rect = ui->widget->rect();
-    rect.setWidth(rect.width() - 0);
-    rect.setHeight(rect.height() - 0);
-    painter.drawRoundedRect(rect, 7, 7);
-    {
-        QPainterPath painterPath;
-        painterPath.addRoundedRect(rect, 7, 7);
-        painter.drawPath(painterPath);
-    }
-
     QPainter p(ui->widget);
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     QPainterPath rectPath;
-    rectPath.addRoundedRect(ui->widget->rect().adjusted(2, 2, -2, -2), 6, 6);
+    rectPath.addRoundedRect(ui->widget->rect().adjusted(3, 3, -3, -3), 6, 6);
 
     // 画一个黑底
     QPixmap pixmap(ui->widget->rect().size());
@@ -306,12 +288,14 @@ void Natice_alarm::mouseReleaseEvent(QMouseEvent *event)
     }
 
     QWidget::mouseReleaseEvent(event);
+    this->setCursor(Qt::ArrowCursor);
 }
 
 void Natice_alarm::mouseMoveEvent(QMouseEvent *event)
 {
     if (this->mousePressed) {
         move(event->globalPos() - this->dragPosition);
+        this->setCursor(Qt::ClosedHandCursor);
     }
 
     QWidget::mouseMoveEvent(event);
