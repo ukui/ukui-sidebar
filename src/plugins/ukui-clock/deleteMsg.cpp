@@ -132,3 +132,30 @@ void delete_msg::paintEvent(QPaintEvent *event)
     p.fillPath(rectPath,palette().color(QPalette::Base));
     p.restore();
 }
+
+void delete_msg::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        this->dragPosition = event->globalPos() - frameGeometry().topLeft();
+        this->mousePressed = true;
+    }
+    QWidget::mousePressEvent(event);
+}
+
+void delete_msg::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        this->mousePressed = false;
+    }
+
+    QWidget::mouseReleaseEvent(event);
+}
+
+void delete_msg::mouseMoveEvent(QMouseEvent *event)
+{
+    if (this->mousePressed) {
+        move(event->globalPos() - this->dragPosition);
+    }
+
+    QWidget::mouseMoveEvent(event);
+}

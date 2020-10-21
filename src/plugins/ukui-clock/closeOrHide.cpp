@@ -121,3 +121,30 @@ void close_or_hide::paintEvent(QPaintEvent *event)
     p.fillPath(rectPath,palette().color(QPalette::Base));
     p.restore();
 }
+
+void close_or_hide::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        this->dragPosition = event->globalPos() - frameGeometry().topLeft();
+        this->mousePressed = true;
+    }
+    QWidget::mousePressEvent(event);
+}
+
+void close_or_hide::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        this->mousePressed = false;
+    }
+
+    QWidget::mouseReleaseEvent(event);
+}
+
+void close_or_hide::mouseMoveEvent(QMouseEvent *event)
+{
+    if (this->mousePressed) {
+        move(event->globalPos() - this->dragPosition);
+    }
+
+    QWidget::mouseMoveEvent(event);
+}
