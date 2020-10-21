@@ -68,10 +68,11 @@ public:
 private:
     void initSetup();                                                // 初始配置
     void slotsSetup();                                               // 配置槽函数
-    void listenToGsettings();
-    void btnSetup();
+    void listenToGsettings();                                        // 监听主题
+    void btnSetup();                                                 // 初始化按钮
     void mergeFormatOnWordOrSelection(const QTextCharFormat &format);// 字体设置
     void fontChanged(const QFont &f);                                // 当前光标下字体格式获取
+    void fontColorChanged(const QColor &c);                          // 当前光标下字体颜色获取
     void initColor();
 
 private:

@@ -346,8 +346,9 @@ void Edit_page::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
 
 void Edit_page::fontChanged(const QFont &f)
 {
-    qDebug() << "font Changed";
-//    f_fontsize->setCurrentIndex(f_fontsize->findText(QString::number(f.pointSize())));
+    qDebug() << "font Changed" << f.pointSize();
+    text_edit_page->set_size_page->ui->listWidget->setCurrentRow(f.pointSize() - 10);
+    text_edit_page->texteditwidget->ui->fontSizeBtn->setText(QString::number(f.pointSize()));
     text_edit_page->texteditwidget->ui->boldBtn->setChecked(f.bold());
     text_edit_page->texteditwidget->ui->italicBtn->setChecked(f.italic());
     text_edit_page->texteditwidget->ui->underlineBtn->setChecked(f.underline());
@@ -371,7 +372,20 @@ void Edit_page::fontChanged(const QFont &f)
       }
 }
 
-void Edit_page::list(bool checked, QTextListFormat::Style style) {
+void Edit_page::fontColorChanged(const QColor &c)
+{
+    qDebug() << "fontColorChanged" << c.name();
+    QString _Stylesheet;
+    QString _BgColor;
+    _BgColor = c.name();
+    _Stylesheet = "background-color: %1;";
+    _Stylesheet = _Stylesheet.arg(_BgColor);
+
+    text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet(_Stylesheet +"border-radius:3px;");
+}
+
+void Edit_page::list(bool checked, QTextListFormat::Style style)
+{
     QTextCursor cursor = ui->textEdit->textCursor();
     cursor.beginEditBlock();
     if (!checked) {
@@ -425,6 +439,7 @@ void Edit_page::currentCharFormatChangedSlot(const QTextCharFormat &format)
 {
     qDebug() << "currentCharFormatChangedSlot";
     fontChanged(format.font());
+    fontColorChanged((format.foreground().isOpaque()) ? format.foreground().color() : QColor());
 }
 
 void Edit_page::textChangedSlot()
