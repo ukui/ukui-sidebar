@@ -86,19 +86,12 @@ Clock::Clock(QWidget *parent) :
     createConnection();
 
     QBitmap bmp(this->size());
-
     bmp.fill();
-
     QPainter p(&bmp);
-
     p.setPen(Qt::NoPen);
-
     p.setBrush(Qt::black);
-
     p.setRenderHint(QPainter::Antialiasing);
-
     p.drawRoundedRect(bmp.rect(),6,6);
-
     setMask(bmp);
 
     this->setWindowTitle(tr("Alarm"));
@@ -113,7 +106,7 @@ Clock::Clock(QWidget *parent) :
     clock_init();
     setup_init();
     this->setFixedSize(454,555);
-    this->setWindowOpacity(0.98);
+    this->setWindowOpacity(0.97);
     //实现鼠标左键滑动效果
     // Realize the sliding effect of left mouse button
     ui->listWidget -> setFrameShape(QListWidget::NoFrame);
@@ -296,7 +289,7 @@ void Clock::button_image_init()
     count_sel_1 = new Btn_new(0, tr("  Remind"), ui->page_5);
     count_sel_1->move(89,358);
 
-    repeat_sel = new Btn_new(0, tr("  repeat"), ui->set_page);
+    repeat_sel = new Btn_new(10, tr("  repeat"), ui->set_page);
     repeat_sel->move(85,302);
     time_sel = new Btn_new(0, tr("  Remind"), ui->set_page);
     time_sel->move(85,352);
@@ -2660,29 +2653,29 @@ void Clock::set_volume_Value(int value)
 
 void Clock::paintEvent(QPaintEvent *event)
 {
-    Q_UNUSED(event);
-    QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+//    Q_UNUSED(event);
+//    QPainter painter(this);
+//    painter.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
 
-    QStyleOption opt;
-    opt.init(this);
-    painter.setBrush(opt.palette.color(QPalette::Base));
+//    QStyleOption opt;
+//    opt.init(this);
+//    painter.setBrush(opt.palette.color(QPalette::Base));
 
-    painter.setPen(Qt::transparent);
-    QRect rect = this->rect();
-    rect.setWidth(rect.width() - 0);
-    rect.setHeight(rect.height() - 0);
-    painter.drawRoundedRect(rect, 7, 7);
-    {
-        QPainterPath painterPath;
-        painterPath.addRoundedRect(rect, 7, 7);
-        painter.drawPath(painterPath);
-    }
+//    painter.setPen(Qt::transparent);
+//    QRect rect = this->rect();
+//    rect.setWidth(rect.width() - 0);
+//    rect.setHeight(rect.height() - 0);
+//    painter.drawRoundedRect(rect, 7, 7);
+//    {
+//        QPainterPath painterPath;
+//        painterPath.addRoundedRect(rect, 7, 7);
+//        painter.drawPath(painterPath);
+//    }
 
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     QPainterPath rectPath;
-    rectPath.addRoundedRect(this->rect().adjusted(2, 2, -2, -2), 6, 6);
+    rectPath.addRoundedRect(this->rect().adjusted(4, 4, -4, -4), 4, 4);
 
     // 画一个黑底
     QPixmap pixmap(this->rect().size());
@@ -2704,15 +2697,18 @@ void Clock::paintEvent(QPaintEvent *event)
     pixmapPainter2.setRenderHint(QPainter::Antialiasing);
     pixmapPainter2.setCompositionMode(QPainter::CompositionMode_Clear);
     pixmapPainter2.setPen(Qt::transparent);
-    pixmapPainter2.setBrush(QColor(78,78,78));
+    pixmapPainter2.setBrush(QColor(178,78,78,0));
     pixmapPainter2.drawPath(rectPath);
 
     // 绘制阴影
     p.drawPixmap(this->rect(), pixmap, pixmap.rect());
-    p.setOpacity(0.9);
+    //p.setOpacity(0.9);
     // 绘制一个背景
     p.save();
-    p.fillPath(rectPath,palette().color(QPalette::Base));
+
+    QStyleOption opt;
+    opt.init(this);
+    p.fillPath(rectPath,opt.palette.color(QPalette::Base));
     p.restore();
 }
 
