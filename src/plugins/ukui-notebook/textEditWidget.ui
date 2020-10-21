@@ -249,7 +249,7 @@
     </size>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(245, 255, 180);
+    <string notr="true">
 </string>
    </property>
    <property name="text">

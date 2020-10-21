@@ -85,8 +85,9 @@ private:
 
     QPointer<QTextList> m_lastBlockList;
 
-    QPoint dragPosition;                                            //拖动坐标
-    bool mousePressed;                                              //鼠标是否按下
+    QPoint dragPosition;                                            // 拖动坐标
+    bool mousePressed;                                              // 鼠标是否按下
+    bool defaultStyle;                                              // 主题标志
 
 private slots:
     void slotCursorPositionChanged();

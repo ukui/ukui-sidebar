@@ -62,7 +62,7 @@ Widget::Widget(QWidget *parent) :
     listenToGsettings();
     kyNoteInit();
     kyNoteConn();
-    QTimer::singleShot(200,this, SLOT(InitData()));    
+    QTimer::singleShot(200,this, SLOT(initData()));
 }
 
 Widget::~Widget()
@@ -78,8 +78,9 @@ Widget::~Widget()
 }
 
 // 初始化数据库中的数据并选中第一个便签（如果有）
-void Widget::InitData()
+void Widget::initData()
 {
+    qDebug() << "kyNote initData";
     QFileInfo fi(m_settingsDatabase->fileName());
     QDir dir(fi.absolutePath());
     QString oldNoteDBPath(dir.path() + QStringLiteral("/Notes.ini"));
