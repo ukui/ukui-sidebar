@@ -68,7 +68,9 @@ private:
     QLabel*                 m_pNotificationLabel;               //重要的通知和不重要的通知标签
     QSvgRenderer*           m_pSvgRender;
     TakeInBoxToolButton*    m_pTakeInBoxToolButton;
-    QPushButton*  m_pClearAllToolButton;
+    QPushButton*            m_pClearAllToolButton;
+    QPushButton*            m_pSettingToolButton;
+    QStyle*                 m_pcleanSettingButtonStyle;
     QPixmap*                m_pPixmap;
     QLabel*                 m_pTakeInCoutLabel;                 //收纳盒计数统计Label
     bool                    m_bInitialFlag;                     //初始化标志

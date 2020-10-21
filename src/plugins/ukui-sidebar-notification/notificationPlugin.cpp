@@ -103,17 +103,19 @@ NotificationPlugin::NotificationPlugin()
     m_pNotificationLabel->setAttribute(Qt::WA_TranslucentBackground);
     QSpacerItem* pHSpacer = new QSpacerItem(300, 10, QSizePolicy::Expanding, QSizePolicy::Fixed);
 
+    m_pcleanSettingButtonStyle = new CustomStyle_pushbutton_2("ukui-default");
+
     m_pClearAllToolButton = new QPushButton();
     connect(m_pClearAllToolButton, SIGNAL(clicked()), this, SLOT(onClearAllMessage()));
     m_pClearAllToolButton->setText(QObject::tr("Clean up"));
-    m_pClearAllToolButton->setStyle(new CustomStyle_pushbutton_2("ukui-default"));
+    m_pClearAllToolButton->setStyle(m_pcleanSettingButtonStyle);
     QSpacerItem* pFixSpacer = new QSpacerItem(5, 10, QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    QPushButton* pSettingToolButton = new QPushButton();
-    pSettingToolButton->setObjectName("setting");
-    connect(pSettingToolButton, SIGNAL(clicked()), this, SLOT(onCallControlPanel()));
-    pSettingToolButton->setText(QObject::tr("Set up"));
-    pSettingToolButton->setStyle(new CustomStyle_pushbutton_2("ukui-default"));
+    m_pSettingToolButton = new QPushButton();
+    m_pSettingToolButton->setObjectName("setting");
+    connect(m_pSettingToolButton, SIGNAL(clicked()), this, SLOT(onCallControlPanel()));
+    m_pSettingToolButton->setText(QObject::tr("Set up"));
+    m_pSettingToolButton->setStyle(m_pcleanSettingButtonStyle);
 
     pQHBoxLayout2->setContentsMargins(0, 0, 0, 0);
     pQHBoxLayout2->addWidget(m_pNotificationLabel, 0, Qt::AlignLeft);
@@ -125,7 +127,7 @@ NotificationPlugin::NotificationPlugin()
     pQHBoxLayout2->addSpacerItem(pHSpacer);
     pQHBoxLayout2->addWidget(m_pClearAllToolButton, 0, Qt::AlignRight);
     pQHBoxLayout2->addSpacerItem(pFixSpacer);
-    pQHBoxLayout2->addWidget(pSettingToolButton, 0, Qt::AlignRight);
+    pQHBoxLayout2->addWidget(m_pSettingToolButton, 0, Qt::AlignRight);
     pQHBoxLayout2->addItem(new QSpacerItem(15, 4));
 
     pWidget2->setLayout(pQHBoxLayout2);
@@ -661,6 +663,8 @@ void NotificationPlugin::initGsettingValue()
         m_pTabletModeGsetting = new QGSettings(id);
         connect(m_pTabletModeGsetting, &QGSettings::changed, [=]() {
             myTimer->start(20);
+            m_pClearAllToolButton->setStyle(m_pcleanSettingButtonStyle);
+            m_pSettingToolButton->setStyle(m_pcleanSettingButtonStyle);
         });
     }
     return;
