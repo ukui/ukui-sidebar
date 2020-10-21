@@ -49,7 +49,7 @@ Edit_page::Edit_page(Widget* page, int noteId, QWidget *parent) :
   , text_edit_page(new Text_editing(pNotebook))
 {
     ui->setupUi(this);
-    interfaceSetup();
+    initSetup();
     slotsSetup();
 //    listenToGsettings();
 }
@@ -139,7 +139,41 @@ void Edit_page::leaveEvent(QEvent *event)
     m_noteHead->show();
 }
 
-void Edit_page::interfaceSetup()
+void Edit_page::contextMenuEvent(QContextMenuEvent *event)
+{
+    Q_UNUSED(event);
+    QMenu * menu = new QMenu(this);
+    menu->resize(50,20);
+    if(!pNotebook->m_isThemeChanged)
+    {
+        menu->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
+                                              "background:rgb(255,255,255);\n"
+                                              ""));
+    }else{
+
+        menu->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);\n"
+                                              "background:rgb(19,20,20);\n"
+                                              ""));
+    }
+#if (QT_VERSION >= QT_VERSION_CHECK(5,12,0))
+    QAction * delete_the_widget = new QAction(tr("Close"));
+    delete_the_widget->setIcon(QIcon(":/image/1x/delete.png"));
+    QAction * t3 = new QAction(tr("Open Notepad"));
+    t3->setIcon(QIcon(":/image/1x/open_note-book.png"));
+//    connect(delete_the_widget, SIGNAL(triggered()), this, SLOT(closeSlot()));
+//    connect(t3, SIGNAL(triggered()), this, SLOT(show_note_page()));
+    menu->addAction(delete_the_widget);
+    menu->addAction(t3);
+//    QAction * t1 = new QAction(tr("New"));
+//    t1->setIcon(QIcon(":/image/1x/sourch.png"));
+//    connect(t1, SIGNAL(triggered()), this, SLOT(add_new_page()));
+//    menu->addAction(t1);
+    menu->move(cursor().pos()); //让菜单显示的位置在鼠标的坐标上
+    //menu->show();
+#endif
+}
+
+void Edit_page::initSetup()
 {
     //标题
     this->setWindowTitle(tr("ukui-memo"));
@@ -159,7 +193,9 @@ void Edit_page::interfaceSetup()
     setWindowFlags(Qt::FramelessWindowHint);
     // 配置按钮
     btnSetup();
-    set_color();
+    initColor();
+    // 获取字体按钮状态
+    fontChanged(ui->textEdit->font());
 
     m_noteHead = new noteHead(this);
     m_noteHeadMenu = new noteHeadMenu(this);
@@ -175,12 +211,34 @@ void Edit_page::interfaceSetup()
     // 禁用右键菜单
     ui->textEdit->setContextMenuPolicy(Qt::NoContextMenu);
 //    ui->textEdit->setFontPointSize(14);
-    fontChanged();
+}
+
+void Edit_page::btnSetup()
+{
+    ui->formatBtn->setIcon(QPixmap(":/image/1x/adjustment.png"));
+    ui->formatBtn->setIconSize(QSize(36,36));
+    ui->paletteBtn->setIcon(QPixmap(":/image/1x/note_color.png"));
+    ui->paletteBtn->setIconSize(QSize(36,36));
+    QPalette palette = ui->paletteBtn->palette();
+    QColor ColorPlaceholderText(255,255,255,0);
+    QBrush brush;
+    brush.setColor(ColorPlaceholderText);
+    palette.setBrush(QPalette::Button, brush);
+    palette.setBrush(QPalette::ButtonText, brush);
+    //palette.setColor(QPalette::Highlight, Qt::transparent); /* 取消按钮高亮 */
+    ui->paletteBtn->setPalette(palette);
+    ui->formatBtn->setPalette(palette);
+    ui->paletteBtn->setProperty("useIconHighlightEffect", true);
+    ui->paletteBtn->setProperty("iconHighlightEffectMode", 1);
+    ui->formatBtn->setProperty("useIconHighlightEffect", true);
+    ui->formatBtn->setProperty("iconHighlightEffectMode", 1);
 }
 
 void Edit_page::slotsSetup()
 {
-    connect(m_noteHeadMenu->ui->pushButtonExit,&QPushButton::clicked,this,&Edit_page::closeSlot);
+    connect(m_noteHeadMenu->ui->pushButtonExit, &QPushButton::clicked, this, [=](){
+        this->close();
+    });
     connect(ui->textEdit,&QTextEdit::textChanged,this,&Edit_page::textChangedSlot);
     // 调色板菜单
     connect(ui->paletteBtn, &QPushButton::clicked, this, [=](){
@@ -216,7 +274,8 @@ void Edit_page::slotsSetup()
     connect(text_edit_page->texteditwidget->ui->strikeOutBtn, &QPushButton::clicked, this, &Edit_page::setStrikeOutSlot);
     connect(text_edit_page->texteditwidget->ui->unorderedBtn, &QPushButton::clicked, this, &Edit_page::setUnorderedListSlot);
     connect(text_edit_page->texteditwidget->ui->orderedBtn, &QPushButton::clicked, this, &Edit_page::setOrderedListSlot);
-    connect(ui->textEdit, &QTextEdit::cursorPositionChanged, this, &Edit_page::slotCursorPositionChanged);
+    connect(ui->textEdit, &QTextEdit::cursorPositionChanged, this, &Edit_page::cursorPositionChangedSlot);
+    connect(ui->textEdit, &QTextEdit::currentCharFormatChanged, this, &Edit_page::currentCharFormatChangedSlot);
 }
 
 void Edit_page::listenToGsettings()
@@ -274,8 +333,26 @@ void Edit_page::listenToGsettings()
     }
 }
 
-void Edit_page::fontChanged() {
+void Edit_page::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
+{
+    QTextCursor cursor = ui->textEdit->textCursor();
+    if (!cursor.hasSelection()) {
+        cursor.select(QTextCursor::WordUnderCursor);
+        }
+    cursor.mergeCharFormat(format);
+    ui->textEdit->mergeCurrentCharFormat(format);
+    ui->textEdit->setFocus(Qt::TabFocusReason);
+}
+
+void Edit_page::fontChanged(const QFont &f)
+{
     qDebug() << "font Changed";
+//    f_fontsize->setCurrentIndex(f_fontsize->findText(QString::number(f.pointSize())));
+    text_edit_page->texteditwidget->ui->boldBtn->setChecked(f.bold());
+    text_edit_page->texteditwidget->ui->italicBtn->setChecked(f.italic());
+    text_edit_page->texteditwidget->ui->underlineBtn->setChecked(f.underline());
+    text_edit_page->texteditwidget->ui->strikeOutBtn->setChecked(f.strikeOut());
+
     if (ui->textEdit->textCursor().currentList()) {
         QTextListFormat lfmt = ui->textEdit->textCursor().currentList()->format();
         if (lfmt.style() == QTextListFormat::ListDisc) {
@@ -294,30 +371,60 @@ void Edit_page::fontChanged() {
       }
 }
 
-void Edit_page::slotCursorPositionChanged() {
-    qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
+void Edit_page::list(bool checked, QTextListFormat::Style style) {
+    QTextCursor cursor = ui->textEdit->textCursor();
+    cursor.beginEditBlock();
+    if (!checked) {
+        qDebug() << "unchecked";
+        QTextBlockFormat obfmt = cursor.blockFormat();
+        QTextBlockFormat bfmt;
+        bfmt.setIndent(obfmt.indent());
+        cursor.setBlockFormat(bfmt);
+      } else {
+        qDebug() << "checked";
+        QTextListFormat listFmt;
+        if (cursor.currentList()) {
+            listFmt = cursor.currentList()->format();
+            }
+        listFmt.setStyle(style);
+        cursor.createList(listFmt);
+        }
+    cursor.endEditBlock();
+}
+
+/**************** Slots *******************/
+
+void Edit_page::cursorPositionChangedSlot()
+{
+    qDebug() << "cursorPositionChangedSlot";
     QTextList *l = ui->textEdit->textCursor().currentList();
     if (m_lastBlockList && (l == m_lastBlockList || (l != 0 && m_lastBlockList != 0
-                                 && l->format().style() == m_lastBlockList->format().style()))) {
+                                                     && l->format().style() == m_lastBlockList->format().style()))) {
         return;
-        }
+    }
     m_lastBlockList = l;
     if (l) {
         QTextListFormat lfmt = l->format();
         if (lfmt.style() == QTextListFormat::ListDisc) {
             text_edit_page->texteditwidget->ui->unorderedBtn->setChecked(true);
             text_edit_page->texteditwidget->ui->orderedBtn->setChecked(false);
-          } else if (lfmt.style() == QTextListFormat::ListDecimal) {
+        } else if (lfmt.style() == QTextListFormat::ListDecimal) {
             text_edit_page->texteditwidget->ui->unorderedBtn->setChecked(false);
             text_edit_page->texteditwidget->ui->orderedBtn->setChecked(true);
-          } else {
+        } else {
             text_edit_page->texteditwidget->ui->unorderedBtn->setChecked(false);
             text_edit_page->texteditwidget->ui->orderedBtn->setChecked(false);
-            }
-      } else {
+        }
+    } else {
         text_edit_page->texteditwidget->ui->unorderedBtn->setChecked(false);
         text_edit_page->texteditwidget->ui->orderedBtn->setChecked(false);
-        }
+    }
+}
+
+void Edit_page::currentCharFormatChangedSlot(const QTextCharFormat &format)
+{
+    qDebug() << "currentCharFormatChangedSlot";
+    fontChanged(format.font());
 }
 
 void Edit_page::textChangedSlot()
@@ -329,22 +436,21 @@ void Edit_page::textChangedSlot()
 //加粗
 void Edit_page::setBoldSlot()
 {
-    qDebug()<<"-------setBoldSlot------------";
+    qDebug() << "setBoldSlot";
     QTextCharFormat fmt;
     fmt.setFontWeight(text_edit_page->texteditwidget->ui->boldBtn->isCheckable() ? QFont::Bold : QFont::Normal);
-
+//    mergeFormatOnWordOrSelection(fmt);
     QTextCursor cursor = ui->textEdit->textCursor();
     if (!cursor.hasSelection()){
-        qDebug()<<"-------setBoldSlot------------111";
         cursor.select(QTextCursor::WordUnderCursor);
     }
     if(cursor.charFormat().fontWeight() == QFont::Bold)
     {
-        qDebug() << "textfont bold";
+        qDebug() << "current cursor charFormat QFont::Bold";
         fmt.setFontWeight(QFont::Normal);
         ui->textEdit->mergeCurrentCharFormat(fmt);
     }else{
-        qDebug() << "textfont bold222";
+        qDebug() << "current cursor charFormat QFont::Normal";
         fmt.setFontWeight(QFont::Bold);
         ui->textEdit->mergeCurrentCharFormat(fmt);
     }
@@ -355,17 +461,15 @@ void Edit_page::setItalicSlot()
 {
     qDebug()<<"-------setItalicSlot------------";
     QTextCharFormat fmt;
-    fmt.setFontItalic(text_edit_page->texteditwidget->ui->italicBtn->isCheckable() );// ? QFont::StyleItalic : QFont::Normal);
+    fmt.setFontItalic(text_edit_page->texteditwidget->ui->italicBtn->isCheckable());// ? QFont::StyleItalic : QFont::Normal);
+//    mergeFormatOnWordOrSelection(fmt);
 
     QTextCursor cursor = ui->textEdit->textCursor();
-    qDebug() << cursor.charFormat().fontItalic();
     if(cursor.charFormat().fontItalic())  //return boolProperty(FontItalic)
     {
-        qDebug() << "italic true";
         fmt.setFontItalic(QFont::StyleNormal);
         ui->textEdit->mergeCurrentCharFormat(fmt);
     }else{
-        qDebug() << "italic false";
         fmt.setFontItalic(QFont::StyleItalic);
         ui->textEdit->mergeCurrentCharFormat(fmt);
     }
@@ -374,12 +478,12 @@ void Edit_page::setItalicSlot()
 //下划线
 void Edit_page::setUnderlineSlot()
 {
-    qDebug()<<"-------setUnderlineSlot------------";
+    qDebug() << "setUnderlineSlot";
     QTextCharFormat fmt;
     fmt.setFontUnderline(text_edit_page->texteditwidget->ui->underlineBtn->isCheckable());// ? QFont::UnderlineResolved : QFont::Normal );
+//    mergeFormatOnWordOrSelection(fmt);
 
     QTextCursor cursor = ui->textEdit->textCursor();
-    qDebug() << cursor.charFormat().fontItalic();
     if(cursor.charFormat().fontUnderline())  //
     {
         fmt.setFontUnderline(QFont::StyleNormal);
@@ -392,13 +496,13 @@ void Edit_page::setUnderlineSlot()
 //删除线
 void Edit_page::setStrikeOutSlot()
 {
-    qDebug()<<"-------setStrikeOutSlot------------";
+    qDebug() << "setStrikeOutSlot";
     QTextCharFormat fmt;
     fmt.setFontStrikeOut(text_edit_page->texteditwidget->ui->strikeOutBtn->isCheckable());// ? QFont::StrikeOutResolved : QFont::Normal );
+//    mergeFormatOnWordOrSelection(fmt);
 
     QTextCursor cursor = ui->textEdit->textCursor();
-    qDebug() << cursor.charFormat().fontItalic();
-    if(cursor.charFormat().fontStrikeOut())  //
+    if(cursor.charFormat().fontStrikeOut())
     {
         fmt.setFontStrikeOut(QFont::StyleNormal);
         ui->textEdit->mergeCurrentCharFormat(fmt);
@@ -431,42 +535,21 @@ void Edit_page::setOrderedListSlot(bool checked)
     list(checked, QTextListFormat::ListDecimal);
 }
 
-void Edit_page::list(bool checked, QTextListFormat::Style style) {
-    QTextCursor cursor = ui->textEdit->textCursor();
-    cursor.beginEditBlock();
-    if (!checked) {
-        qDebug() << "unchecked";
-        QTextBlockFormat obfmt = cursor.blockFormat();
-        QTextBlockFormat bfmt;
-        bfmt.setIndent(obfmt.indent());
-        cursor.setBlockFormat(bfmt);
-      } else {
-        qDebug() << "checked";
-        QTextListFormat listFmt;
-        if (cursor.currentList()) {
-            listFmt = cursor.currentList()->format();
-            }
-        listFmt.setStyle(style);
-        cursor.createList(listFmt);
-        }
-    cursor.endEditBlock();
-}
-
 //字号
 void Edit_page::setFontSizeSlot()
 {
-    qDebug()<<"--------------";
+    qDebug() << "setFontSizeSlot";
     int num = text_edit_page->set_size_page->ui->listWidget->currentRow();
     text_edit_page->texteditwidget->ui->fontSizeBtn->setText(QString::number(num+10));
     text_edit_page->set_size_page->close();
 
     QTextCharFormat fmt;
     fmt.setFontPointSize(num+10);
-    ui->textEdit->mergeCurrentCharFormat(fmt);
+    mergeFormatOnWordOrSelection(fmt);
 }
 
 //调色板
-void Edit_page::set_color()
+void Edit_page::initColor()
 {
     color[0]="background:rgba(76,119,231,1);";
     color[1]="background:rgba(250,108,99,1);";
@@ -518,7 +601,7 @@ void Edit_page::set_color()
 
 void Edit_page::setFontColorSlot ()
 {
-    qDebug()<<"setFontColorSlot";
+    qDebug() << "setFontColorSlot";
     int num = text_edit_page->set_color_fort_page->ui->listWidget->currentRow();
     text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet(color[num]+"border-radius:3px;");
 
@@ -539,9 +622,7 @@ void Edit_page::setFontColorSlot ()
 void Edit_page::blueBtnSlot()
 {
     m_editColor = QColor(76,119,231);
-    qDebug() << "blue btn click" << m_editColor.value();
     emit colorhasChanged(m_editColor,m_noteId);
-    qDebug() << "emit colorhasChanged";
     m_noteHead->color_widget = QColor(76,119,231);
     m_noteHeadMenu->color_widget = QColor(76,119,231);
     QString _Stylesheet;
@@ -551,14 +632,9 @@ void Edit_page::blueBtnSlot()
     _Stylesheet = _Stylesheet.arg(_BgColor);
     m_noteHeadMenu->ui->pushButtonExit->setStyleSheet(_Stylesheet);
     m_noteHeadMenu->ui->pushButtonMenu->setStyleSheet(_Stylesheet);
-
-    QPixmap pixmap1;
-    QPixmap pixmap2;
-    pixmap1 = QPixmap(":/image/1x/close_block.png");
-    pixmap2 = QPixmap(":/image/1x/more_block.png");
-    m_noteHeadMenu->ui->pushButtonExit->setIcon(pixmap1);
+    m_noteHeadMenu->ui->pushButtonExit->setIcon(QPixmap(":/image/1x/close_block.png"));
     m_noteHeadMenu->ui->pushButtonExit->setIconSize(QSize(20,20));
-    m_noteHeadMenu->ui->pushButtonMenu->setIcon(pixmap2);
+    m_noteHeadMenu->ui->pushButtonMenu->setIcon(QPixmap(":/image/1x/more_block.png"));
     m_noteHeadMenu->ui->pushButtonMenu->setIconSize(QSize(20,20));
     update();
 }
@@ -576,14 +652,9 @@ void Edit_page::redBtnSlot()
     _Stylesheet = _Stylesheet.arg(_BgColor);
     m_noteHeadMenu->ui->pushButtonExit->setStyleSheet(_Stylesheet);
     m_noteHeadMenu->ui->pushButtonMenu->setStyleSheet(_Stylesheet);
-
-    QPixmap pixmap1;
-    QPixmap pixmap2;
-    pixmap1 = QPixmap(":/image/1x/close_block.png");
-    pixmap2 = QPixmap(":/image/1x/more_block.png");
-    m_noteHeadMenu->ui->pushButtonExit->setIcon(pixmap1);
+    m_noteHeadMenu->ui->pushButtonExit->setIcon(QPixmap(":/image/1x/close_block.png"));
     m_noteHeadMenu->ui->pushButtonExit->setIconSize(QSize(20,20));
-    m_noteHeadMenu->ui->pushButtonMenu->setIcon(pixmap2);
+    m_noteHeadMenu->ui->pushButtonMenu->setIcon(QPixmap(":/image/1x/more_block.png"));
     m_noteHeadMenu->ui->pushButtonMenu->setIconSize(QSize(20,20));
     update();
 }
@@ -601,14 +672,9 @@ void Edit_page::darkGreenBtnSlot()
     _Stylesheet = _Stylesheet.arg(_BgColor);
     m_noteHeadMenu->ui->pushButtonExit->setStyleSheet(_Stylesheet);
     m_noteHeadMenu->ui->pushButtonMenu->setStyleSheet(_Stylesheet);
-
-    QPixmap pixmap1;
-    QPixmap pixmap2;
-    pixmap1 = QPixmap(":/image/1x/close_block.png");
-    pixmap2 = QPixmap(":/image/1x/more_block.png");
-    m_noteHeadMenu->ui->pushButtonExit->setIcon(pixmap1);
+    m_noteHeadMenu->ui->pushButtonExit->setIcon(QPixmap(":/image/1x/close_block.png"));
     m_noteHeadMenu->ui->pushButtonExit->setIconSize(QSize(20,20));
-    m_noteHeadMenu->ui->pushButtonMenu->setIcon(pixmap2);
+    m_noteHeadMenu->ui->pushButtonMenu->setIcon(QPixmap(":/image/1x/more_block.png"));
     m_noteHeadMenu->ui->pushButtonMenu->setIconSize(QSize(20,20));
     update();
 }
@@ -626,14 +692,9 @@ void Edit_page::orangeBtnSlot()
     _Stylesheet = _Stylesheet.arg(_BgColor);
     m_noteHeadMenu->ui->pushButtonExit->setStyleSheet(_Stylesheet);
     m_noteHeadMenu->ui->pushButtonMenu->setStyleSheet(_Stylesheet);
-
-    QPixmap pixmap1;
-    QPixmap pixmap2;
-    pixmap1 = QPixmap(":/image/1x/close_block.png");
-    pixmap2 = QPixmap(":/image/1x/more_block.png");
-    m_noteHeadMenu->ui->pushButtonExit->setIcon(pixmap1);
+    m_noteHeadMenu->ui->pushButtonExit->setIcon(QPixmap(":/image/1x/close_block.png"));
     m_noteHeadMenu->ui->pushButtonExit->setIconSize(QSize(20,20));
-    m_noteHeadMenu->ui->pushButtonMenu->setIcon(pixmap2);
+    m_noteHeadMenu->ui->pushButtonMenu->setIcon(QPixmap(":/image/1x/more_block.png"));
     m_noteHeadMenu->ui->pushButtonMenu->setIconSize(QSize(20,20));
     update();
 }
@@ -651,14 +712,9 @@ void Edit_page::purpleBtnSlot()
     _Stylesheet = _Stylesheet.arg(_BgColor);
     m_noteHeadMenu->ui->pushButtonExit->setStyleSheet(_Stylesheet);
     m_noteHeadMenu->ui->pushButtonMenu->setStyleSheet(_Stylesheet);
-
-    QPixmap pixmap1;
-    QPixmap pixmap2;
-    pixmap1 = QPixmap(":/image/1x/close_block.png");
-    pixmap2 = QPixmap(":/image/1x/more_block.png");
-    m_noteHeadMenu->ui->pushButtonExit->setIcon(pixmap1);
+    m_noteHeadMenu->ui->pushButtonExit->setIcon(QPixmap(":/image/1x/close_block.png"));
     m_noteHeadMenu->ui->pushButtonExit->setIconSize(QSize(20,20));
-    m_noteHeadMenu->ui->pushButtonMenu->setIcon(pixmap2);
+    m_noteHeadMenu->ui->pushButtonMenu->setIcon(QPixmap(":/image/1x/more_block.png"));
     m_noteHeadMenu->ui->pushButtonMenu->setIconSize(QSize(20,20));
     update();
 }
@@ -676,14 +732,9 @@ void Edit_page::goldenBtnSlot()
     _Stylesheet = _Stylesheet.arg(_BgColor);
     m_noteHeadMenu->ui->pushButtonExit->setStyleSheet(_Stylesheet);
     m_noteHeadMenu->ui->pushButtonMenu->setStyleSheet(_Stylesheet);
-
-    QPixmap pixmap1;
-    QPixmap pixmap2;
-    pixmap1 = QPixmap(":/image/1x/close_block.png");
-    pixmap2 = QPixmap(":/image/1x/more_block.png");
-    m_noteHeadMenu->ui->pushButtonExit->setIcon(pixmap1);
+    m_noteHeadMenu->ui->pushButtonExit->setIcon(QPixmap(":/image/1x/close_block.png"));
     m_noteHeadMenu->ui->pushButtonExit->setIconSize(QSize(20,20));
-    m_noteHeadMenu->ui->pushButtonMenu->setIcon(pixmap2);
+    m_noteHeadMenu->ui->pushButtonMenu->setIcon(QPixmap(":/image/1x/more_block.png"));
     m_noteHeadMenu->ui->pushButtonMenu->setIconSize(QSize(20,20));
     update();
 }
@@ -701,14 +752,9 @@ void Edit_page::lightBlueBtnSlot()
     _Stylesheet = _Stylesheet.arg(_BgColor);
     m_noteHeadMenu->ui->pushButtonExit->setStyleSheet(_Stylesheet);
     m_noteHeadMenu->ui->pushButtonMenu->setStyleSheet(_Stylesheet);
-
-    QPixmap pixmap1;
-    QPixmap pixmap2;
-    pixmap1 = QPixmap(":/image/1x/close_block.png");
-    pixmap2 = QPixmap(":/image/1x/more_block.png");
-    m_noteHeadMenu->ui->pushButtonExit->setIcon(pixmap1);
+    m_noteHeadMenu->ui->pushButtonExit->setIcon(QPixmap(":/image/1x/close_block.png"));
     m_noteHeadMenu->ui->pushButtonExit->setIconSize(QSize(20,20));
-    m_noteHeadMenu->ui->pushButtonMenu->setIcon(pixmap2);
+    m_noteHeadMenu->ui->pushButtonMenu->setIcon(QPixmap(":/image/1x/more_block.png"));
     m_noteHeadMenu->ui->pushButtonMenu->setIconSize(QSize(20,20));
     update();
 }
@@ -726,14 +772,9 @@ void Edit_page::lightGreenBtnSlot()
     _Stylesheet = _Stylesheet.arg(_BgColor);
     m_noteHeadMenu->ui->pushButtonExit->setStyleSheet(_Stylesheet);
     m_noteHeadMenu->ui->pushButtonMenu->setStyleSheet(_Stylesheet);
-
-    QPixmap pixmap1;
-    QPixmap pixmap2;
-    pixmap1 = QPixmap(":/image/1x/close_block.png");
-    pixmap2 = QPixmap(":/image/1x/more_block.png");
-    m_noteHeadMenu->ui->pushButtonExit->setIcon(pixmap1);
+    m_noteHeadMenu->ui->pushButtonExit->setIcon(QPixmap(":/image/1x/close_block.png"));
     m_noteHeadMenu->ui->pushButtonExit->setIconSize(QSize(20,20));
-    m_noteHeadMenu->ui->pushButtonMenu->setIcon(pixmap2);
+    m_noteHeadMenu->ui->pushButtonMenu->setIcon(QPixmap(":/image/1x/more_block.png"));
     m_noteHeadMenu->ui->pushButtonMenu->setIconSize(QSize(20,20));
     update();
 }
@@ -751,14 +792,9 @@ void Edit_page::yellowBtnSlot()
     _Stylesheet = _Stylesheet.arg(_BgColor);
     m_noteHeadMenu->ui->pushButtonExit->setStyleSheet(_Stylesheet);
     m_noteHeadMenu->ui->pushButtonMenu->setStyleSheet(_Stylesheet);
-
-    QPixmap pixmap1;
-    QPixmap pixmap2;
-    pixmap1 = QPixmap(":/image/1x/close_block.png");
-    pixmap2 = QPixmap(":/image/1x/more_block.png");
-    m_noteHeadMenu->ui->pushButtonExit->setIcon(pixmap1);
+    m_noteHeadMenu->ui->pushButtonExit->setIcon(QPixmap(":/image/1x/close_block.png"));
     m_noteHeadMenu->ui->pushButtonExit->setIconSize(QSize(20,20));
-    m_noteHeadMenu->ui->pushButtonMenu->setIcon(pixmap2);
+    m_noteHeadMenu->ui->pushButtonMenu->setIcon(QPixmap(":/image/1x/more_block.png"));
     m_noteHeadMenu->ui->pushButtonMenu->setIconSize(QSize(20,20));
     update();
 }
@@ -776,33 +812,23 @@ void Edit_page::pinkBtnSlot()
     _Stylesheet = _Stylesheet.arg(_BgColor);
     m_noteHeadMenu->ui->pushButtonExit->setStyleSheet(_Stylesheet);
     m_noteHeadMenu->ui->pushButtonMenu->setStyleSheet(_Stylesheet);
-
-    QPixmap pixmap1;
-    QPixmap pixmap2;
-    pixmap1 = QPixmap(":/image/1x/close_block.png");
-    pixmap2 = QPixmap(":/image/1x/more_block.png");
-    m_noteHeadMenu->ui->pushButtonExit->setIcon(pixmap1);
+    m_noteHeadMenu->ui->pushButtonExit->setIcon(QPixmap(":/image/1x/close_block.png"));
     m_noteHeadMenu->ui->pushButtonExit->setIconSize(QSize(20,20));
-    m_noteHeadMenu->ui->pushButtonMenu->setIcon(pixmap2);
+    m_noteHeadMenu->ui->pushButtonMenu->setIcon(QPixmap(":/image/1x/more_block.png"));
     m_noteHeadMenu->ui->pushButtonMenu->setIconSize(QSize(20,20));
     update();
 }
 
 void Edit_page::defaultBtnSlot()
 {
-    qDebug() << "white_btn_change" << pNotebook->m_isThemeChanged;
     if(pNotebook->m_isThemeChanged){
         qDebug() << "白色便签头";
         m_editColor = QColor(255,255,255);
         m_noteHead->color_widget = QColor(255,255,255);
         m_noteHeadMenu->color_widget = QColor(255,255,255);
-        QPixmap pixmap1;
-        QPixmap pixmap2;
-        pixmap1 = QPixmap(":/image/1x/close_block.png");
-        pixmap2 = QPixmap(":/image/1x/more_block.png");
-        m_noteHeadMenu->ui->pushButtonExit->setIcon(pixmap1);
+        m_noteHeadMenu->ui->pushButtonExit->setIcon(QPixmap(":/image/1x/close_block.png"));
         m_noteHeadMenu->ui->pushButtonExit->setIconSize(QSize(20,20));
-        m_noteHeadMenu->ui->pushButtonMenu->setIcon(pixmap2);
+        m_noteHeadMenu->ui->pushButtonMenu->setIcon(QPixmap(":/image/1x/more_block.png"));
         m_noteHeadMenu->ui->pushButtonMenu->setIconSize(QSize(20,20));
 
         QString _Stylesheet;
@@ -817,13 +843,9 @@ void Edit_page::defaultBtnSlot()
         m_editColor = QColor(0,0,0);
         m_noteHead->color_widget = QColor(0,0,0);
         m_noteHeadMenu->color_widget = QColor(0,0,0);
-        QPixmap pixmap1;
-        QPixmap pixmap2;
-        pixmap1 = QPixmap(":/image/1x/close_light.png");
-        pixmap2 = QPixmap(":/image/1x/more_light.png");
-        m_noteHeadMenu->ui->pushButtonExit->setIcon(pixmap1);
+        m_noteHeadMenu->ui->pushButtonExit->setIcon(QPixmap(":/image/1x/close_block.png"));
         m_noteHeadMenu->ui->pushButtonExit->setIconSize(QSize(20,20));
-        m_noteHeadMenu->ui->pushButtonMenu->setIcon(pixmap2);
+        m_noteHeadMenu->ui->pushButtonMenu->setIcon(QPixmap(":/image/1x/more_block.png"));
         m_noteHeadMenu->ui->pushButtonMenu->setIconSize(QSize(20,20));
 
         QString _Stylesheet;
@@ -839,79 +861,4 @@ void Edit_page::defaultBtnSlot()
 
     emit colorhasChanged(m_editColor,m_noteId);
     update();
-}
-
-void Edit_page::btnSetup()
-{
-    pixmap1 = QPixmap(":/image/1x/note_color.png");
-    pixmap2 = QPixmap(":/image/1x/adjustment.png");
-    pixmap3 = QPixmap(":/image/1x/note_color.png");
-    ui->formatBtn->setIcon(pixmap2);
-    ui->formatBtn->setIconSize(QSize(36,36));
-    ui->paletteBtn->setIcon(pixmap3);
-    ui->paletteBtn->setIconSize(QSize(36,36));
-    QPalette palette = ui->paletteBtn->palette();
-    QColor ColorPlaceholderText(255,255,255,0);
-    QBrush brush;
-    brush.setColor(ColorPlaceholderText);
-    palette.setBrush(QPalette::Button, brush);
-    palette.setBrush(QPalette::ButtonText, brush);
-    //palette.setColor(QPalette::Highlight, Qt::transparent); /* 取消按钮高亮 */
-    ui->paletteBtn->setPalette(palette);
-    ui->formatBtn->setPalette(palette);
-    ui->paletteBtn->setProperty("useIconHighlightEffect", true);
-    ui->paletteBtn->setProperty("iconHighlightEffectMode", 1);
-    ui->formatBtn->setProperty("useIconHighlightEffect", true);
-    ui->formatBtn->setProperty("iconHighlightEffectMode", 1);
-}
-
-void Edit_page::contextMenuEvent(QContextMenuEvent *event)
-{
-    Q_UNUSED(event);
-    QMenu * menu = new QMenu(this);
-    menu->resize(50,20);
-    if(!pNotebook->m_isThemeChanged)
-    {
-        menu->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
-                                              "background:rgb(255,255,255);\n"
-                                              ""));
-    }else{
-
-        menu->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);\n"
-                                              "background:rgb(19,20,20);\n"
-                                              ""));
-    }
-#if (QT_VERSION >= QT_VERSION_CHECK(5,12,0))
-    QAction * delete_the_widget = new QAction(tr("Close"));
-    delete_the_widget->setIcon(QIcon(":/image/1x/delete.png"));
-    QAction * t3 = new QAction(tr("Open Notepad"));
-    t3->setIcon(QIcon(":/image/1x/open_note-book.png"));
-    connect(delete_the_widget, SIGNAL(triggered()), this, SLOT(closeSlot()));
-    connect(t3, SIGNAL(triggered()), this, SLOT(show_note_page()));
-    menu->addAction(delete_the_widget);
-    menu->addAction(t3);
-//    QAction * t1 = new QAction(tr("New"));
-//    t1->setIcon(QIcon(":/image/1x/sourch.png"));
-//    connect(t1, SIGNAL(triggered()), this, SLOT(add_new_page()));
-//    menu->addAction(t1);
-    menu->move(cursor().pos()); //让菜单显示的位置在鼠标的坐标上
-    //menu->show();
-#endif
-}
-
-void Edit_page::closeSlot()
-{
-    this->close();
-}
-
-void Edit_page::add_new_page()
-{
-    //    Edit_page *new_page = new Edit_page(this->pNotebook,NULL);
-    //    this->pNotebook->m_editors.push_back(new_page);
-    //    new_page->show();
-}
-
-void Edit_page::show_note_page()
-{
-    pNotebook->show();
 }
