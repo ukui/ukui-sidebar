@@ -21,6 +21,7 @@
 #include <QDialog>
 #include <QStyleOption>
 #include <QPainter>
+#include <QMouseEvent>
 #include <QPainterPath>
 namespace Ui {
 class delete_msg;
@@ -38,6 +39,9 @@ public:
     // Draw bottom shadow
     void paintEvent(QPaintEvent *event);
     Ui::delete_msg *ui;
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
 
 private slots:
     void on_closebtn_clicked();
@@ -47,7 +51,8 @@ private slots:
     void on_cancelbtn_clicked();
 
 private:
-
+    QPoint dragPosition;                                            //拖动坐标
+    bool mousePressed;                                              //鼠标是否按下
 };
 
 #endif // DELETE_MSG_H

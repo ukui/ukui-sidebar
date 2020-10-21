@@ -290,11 +290,11 @@ void Clock::button_image_init()
     count_sel_1->move(89,358);
 
     repeat_sel = new Btn_new(10, tr("  repeat"), ui->set_page);
-    repeat_sel->move(85,302);
+    repeat_sel->move(82,302);
     time_sel = new Btn_new(0, tr("  Remind"), ui->set_page);
-    time_sel->move(85,352);
+    time_sel->move(82,352);
     ring_sel = new Btn_new(0, tr("  ring time"), ui->set_page);
-    ring_sel->move(85,402);
+    ring_sel->move(82,402);
 }
 
 //倒计时页初始化
@@ -2169,7 +2169,7 @@ void Clock::count_stat_btn_gray()
 void Clock::alarm_set_start_time()
 {
     shadow = new QWidget(ui->set_page);
-    shadow->move(85,117);
+    shadow->move(82,117);
     shadow->resize(280,40);
 
     timer_alarm_start24 = new VerticalScroll_24(ui->set_page, this);
@@ -2196,8 +2196,8 @@ void Clock::alarm_set_start_time()
     min_ring->setText(tr("min"));
     min_ring->setStyleSheet("font: 13pt ;color: rgb(148, 148, 148);");
 
-    timer_alarm_start24->move(141, 45);
-    hour_ring->move(142,40);
+    timer_alarm_start24->move(139, 45);
+    hour_ring->move(140,40);
     h_in_m->move(220,113);
     timer_alarm_start60->move(258, 45);
     min_ring->move(258,40);
@@ -2653,25 +2653,7 @@ void Clock::set_volume_Value(int value)
 
 void Clock::paintEvent(QPaintEvent *event)
 {
-//    Q_UNUSED(event);
-//    QPainter painter(this);
-//    painter.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-
-//    QStyleOption opt;
-//    opt.init(this);
-//    painter.setBrush(opt.palette.color(QPalette::Base));
-
-//    painter.setPen(Qt::transparent);
-//    QRect rect = this->rect();
-//    rect.setWidth(rect.width() - 0);
-//    rect.setHeight(rect.height() - 0);
-//    painter.drawRoundedRect(rect, 7, 7);
-//    {
-//        QPainterPath painterPath;
-//        painterPath.addRoundedRect(rect, 7, 7);
-//        painter.drawPath(painterPath);
-//    }
-
+    Q_UNUSED(event);
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     QPainterPath rectPath;
@@ -2721,11 +2703,8 @@ QPixmap Clock::ChangeImageColor(QPixmap sourcePixmap, QColor origColor, QColor d
 
     for (int i = 0; i < rgbVector.size(); ++i)
     {
-        //        if(rgbVector.at(i) == rgb)
-        //        {
         QRgb rgb2 = QColor(0,0,0).rgba();//替换的颜色可以是透明的，比如QColor(0,255,0，0)。
         image.setColor(i,rgb2);
-        //        }
     }
     return QPixmap::fromImage(image);
 }
@@ -2784,7 +2763,7 @@ void Clock::showPaint1()
 
     if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
     {
-        painter.setBrush(QColor(233, 233, 233));
+        painter.setBrush(QColor(217, 217, 217));
     }else{
         painter.setBrush(QColor(48,48,51));
     }
@@ -2812,7 +2791,7 @@ void Clock::showPaint7()
 
     if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
     {
-        painter.setBrush(QColor(233,233,233));
+        painter.setBrush(QColor(217, 217, 217));
     }else{
         painter.setBrush(QColor(48,48,51));
     }

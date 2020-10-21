@@ -235,22 +235,6 @@ bool Natice_alarm::eventFilter(QObject *watched, QEvent *event)
 //实现响应函数
 void Natice_alarm::showPaint()
 {
-//    QPainter painter(ui->widget);
-//    painter.setPen(Qt::gray);
-//    painter.setBrush(Qt::green);
-//    QStyleOption opt;
-//    opt.init(this);
-//    painter.setBrush(opt.palette.color(QPalette::Base));
-//    painter.setPen(Qt::transparent);
-//    QRect rect = ui->widget->rect();
-//    rect.setWidth(rect.width() - 0);
-//    rect.setHeight(rect.height() - 0);
-//    painter.drawRoundedRect(rect, 7, 7);
-//    {
-//        QPainterPath painterPath;
-//        painterPath.addRoundedRect(rect, 0, 0);
-//        painter.drawPath(painterPath);
-//    }
     QPainter painter(ui->widget);
     painter.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
 
@@ -304,4 +288,31 @@ void Natice_alarm::showPaint()
     p.save();
     p.fillPath(rectPath,palette().color(QPalette::Base));
     p.restore();
+}
+
+void Natice_alarm::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        this->dragPosition = event->globalPos() - frameGeometry().topLeft();
+        this->mousePressed = true;
+    }
+    QWidget::mousePressEvent(event);
+}
+
+void Natice_alarm::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        this->mousePressed = false;
+    }
+
+    QWidget::mouseReleaseEvent(event);
+}
+
+void Natice_alarm::mouseMoveEvent(QMouseEvent *event)
+{
+    if (this->mousePressed) {
+        move(event->globalPos() - this->dragPosition);
+    }
+
+    QWidget::mouseMoveEvent(event);
 }

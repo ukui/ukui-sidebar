@@ -80,9 +80,7 @@ public:
     void showPaint8();
 
     void mousePressEvent(QMouseEvent *event);
-
     void mouseReleaseEvent(QMouseEvent *event);
-
     void mouseMoveEvent(QMouseEvent *event);
 
     Ui::Clock *ui;
