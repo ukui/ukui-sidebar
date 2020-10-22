@@ -77,6 +77,12 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     }
 
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
+    /* 监听键盘事件 */
+    XEventMonitor::instance()->start();
+    connect(XEventMonitor::instance(), SIGNAL(keyRelease(QString)),
+           this,SLOT(XkbEventsRelease(QString)));
+    connect(XEventMonitor::instance(), SIGNAL(keyPress(QString)),
+           this,SLOT(XkbEventsPress(QString)));
     qInfo() << "---------------------------主界面加载完毕---------------------------";
 }
 
