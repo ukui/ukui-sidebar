@@ -63,7 +63,8 @@ int main(int argc, char *argv[])
     }
 
     /* 如果系统中有实例在运行则退出 */
-    QtSingleApplication a(argc, argv);
+    QString id = QString(QLatin1String(getenv("DISPLAY")));
+    QtSingleApplication a(id, argc, argv);
     if (a.isRunning()) {
         a.sendMessage(QApplication::arguments().length() > 1 ? QApplication::arguments().at(1) : a.applicationFilePath());
         qDebug() << QObject::tr("ukui-sidebar is already running!");
