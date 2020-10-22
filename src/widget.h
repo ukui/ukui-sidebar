@@ -106,6 +106,7 @@ private:
     QDBusInterface*             m_pServiceInterface;                            // 获取任务栏的高度
     bool                        m_bShowFlag = false;                            // 控制托盘栏点击事件的标志位
     bool                        m_bClipboardFlag = true;                        // 剪贴板编辑框打开和关闭时控制侧边栏是否关闭
+    bool                        m_winFlag = false;
     int                         m_nScreenWidth;                                 // 屏幕分辨率的宽
     int                         m_nScreenHeight;                                // 屏幕分辨率的高
     int                         m_nScreen_x;                                    // 主屏的起始坐标X
@@ -143,6 +144,8 @@ private slots :
     void OpenControlCenterSettings();                                           // 打开控制中心的通知中心
     void ClickPanelHideSidebarSlots();                                          // 左键点击任务栏时隐藏侧边栏
     void bootOptionsFilter(QString opt);                                        // 过滤终端命令
+    void XkbEventsPress(const QString &keycode);
+    void XkbEventsRelease(const QString &keycode);
 };
 
 #endif // WIDGET_H

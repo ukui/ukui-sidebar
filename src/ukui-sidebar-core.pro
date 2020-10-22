@@ -31,7 +31,8 @@ SOURCES += \
         customstyleCleanPushbutton.cpp \
         qtsingleapplication.cpp \
         qtlockedfile.cpp \
-        qtlocalpeer.cpp
+        qtlocalpeer.cpp \
+        xeventmonitor.cpp
 
 
 INCLUDEPATH += ./plugin-interface
@@ -45,7 +46,8 @@ HEADERS += \
         customstyleCleanPushbutton.h \
         qtsingleapplication.h \
         qtlockedfile.h \
-        qtlocalpeer.h
+        qtlocalpeer.h \
+        xeventmonitor.h
 
 
 INCLUDEPATH +=./plugin-interface ./plugin-sub-manager
@@ -61,7 +63,7 @@ unix {
 
 CONFIG += link_pkgconfig
 
-PKGCONFIG +=gio-2.0 glib-2.0 gio-unix-2.0
+PKGCONFIG +=gio-2.0 glib-2.0 gio-unix-2.0 xtst
 LIBS += -lX11 -lgio-2.0 -lgobject-2.0 -lglib-2.0
 
 desktopfile.files = data/ukui-sidebar.desktop

@@ -24,6 +24,7 @@
 #include <QtDBus>
 #include <QGuiApplication>
 #include "customstyle.h"
+#include "xeventmonitor.h"
 
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 double tranSparency = 0.7;
@@ -81,7 +82,63 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
 
 Widget::~Widget()
 {
+    XEventMonitor::instance()->quit();
+}
 
+void Widget::XkbEventsPress(const QString &keycode)
+{
+    QString KeyName;
+    if (keycode.length() >= 8){
+        KeyName = keycode.left(8);
+    }
+    if(KeyName.compare("Super_L+")==0){
+        m_winFlag = true;
+    }
+    if(m_winFlag && keycode == "Super_L"){
+        m_winFlag = false;
+        return;
+    }
+
+}
+
+void Widget::XkbEventsRelease(const QString &keycode)
+{
+    QString KeyName;
+    static bool winFlag=false;
+    if (keycode.length() >= 8){
+        KeyName = keycode.left(8);
+    }
+    if(KeyName.compare("Super_L+")==0){
+        winFlag = true;
+    }
+    if(winFlag && keycode == "Super_L"){
+        winFlag = false;
+        return;
+    }else if(m_winFlag && keycode == "Super_L")
+        return;
+
+    if(keycode == "Super_L+a")
+    {
+        if(m_bShowFlag)
+        {
+            mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
+            hideAnimation();
+            //this->hide();
+        }
+        else{
+            mostGrandWidget::getInstancemostGrandWidget()->hide();
+            MostGrandWidgetCoordinates();
+            mostGrandWidget::getInstancemostGrandWidget()->show();
+            showAnimation();
+            m_bShowFlag = true;
+            setIcon(QIcon::fromTheme("kylin-tool-box", QIcon(TRAY_ICON)));
+            /*
+            this->show();
+            this->raise();
+            this->activateWindow();
+            */
+        }
+    }
 }
 
 //加载通知中心插件
