@@ -26,17 +26,17 @@ void PictureToWhite::initGsettingValue()
 {
     const QByteArray id(ORG_UKUI_STYLE);
     QStringList stylelist;
-    stylelist << STYLE_NAME_KEY_DARK << STYLE_NAME_KEY_WHITE << STYLE_NAME_KEY_DEFAULT;
+    stylelist << STYLE_NAME_KEY_DARK << STYLE_NAME_KEY_LIGHT << STYLE_NAME_KEY_DEFAULT;
     if (QGSettings::isSchemaInstalled(id)) {
         m_pgsettings = new QGSettings(id);
-        if (stylelist.contains(m_pgsettings->get(STYLE_NAME).toString()) && m_pgsettings->get(STYLE_NAME).toString() == STYLE_NAME_KEY_WHITE)
+        if (stylelist.contains(m_pgsettings->get(STYLE_NAME).toString()) && m_pgsettings->get(STYLE_NAME).toString() == STYLE_NAME_KEY_LIGHT)
             tray_icon_color = TRAY_ICON_COLOR_LOGHT;
         else
             tray_icon_color = TRAY_ICON_COLOR_DRAK;
     }
     connect(m_pgsettings, &QGSettings::changed, this, [=] (const QString &key) {
         if (key==STYLE_NAME) {
-            if (stylelist.contains(m_pgsettings->get(STYLE_NAME).toString()) && m_pgsettings->get(STYLE_NAME).toString() == STYLE_NAME_KEY_WHITE)
+            if (stylelist.contains(m_pgsettings->get(STYLE_NAME).toString()) && m_pgsettings->get(STYLE_NAME).toString() == STYLE_NAME_KEY_LIGHT)
                 tray_icon_color = TRAY_ICON_COLOR_LOGHT;
             else
                 tray_icon_color = TRAY_ICON_COLOR_DRAK;
@@ -50,6 +50,7 @@ QPixmap PictureToWhite::drawSymbolicColoredPixmap(const QPixmap &source)
     QColor gray(128,128,128);
     QColor standard (31,32,34);
     QImage img = source.toImage();
+    qDebug() << "tray_icon_color-->" << tray_icon_color;
     for (int x = 0; x < img.width(); x++) {
         for (int y = 0; y < img.height(); y++) {
             auto color = img.pixelColor(x, y);
