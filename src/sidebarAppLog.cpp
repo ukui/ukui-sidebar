@@ -41,9 +41,7 @@ bool static ensureDirExist(const QString &dirPath)
 {
     QDir dir(dirPath);
     if (dir.exists())
-    {
         return true;
-    }
 
     return dir.mkpath(dirPath);
 }
@@ -52,9 +50,7 @@ void customLogMessageHandler(QtMsgType type, const QMessageLogContext& context, 
 {
     Q_UNUSED(context);
     if (type < s_logLevel)
-    {
         return;
-    }
 
     QString logInfo;
     QString logTime = QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss");

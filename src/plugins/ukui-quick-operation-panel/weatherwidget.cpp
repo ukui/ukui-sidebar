@@ -53,9 +53,11 @@ void weatherWidget::initMemberVariables()
 
 void weatherWidget::initLabelData()
 {
-    m_pweatherString = m_pWeatherGsetting->get(UKUI_WEATHER_GSETTING_KEY).toString();
-    QStringList WeatherInfoList = m_pweatherString.split(",");
-    setLabelData(WeatherInfoList);
+    if (m_pweatherString != nullptr) {
+        m_pweatherString = m_pWeatherGsetting->get(UKUI_WEATHER_GSETTING_KEY).toString();
+        QStringList WeatherInfoList = m_pweatherString.split(",");
+        setLabelData(WeatherInfoList);
+    }
     return;
 }
 
