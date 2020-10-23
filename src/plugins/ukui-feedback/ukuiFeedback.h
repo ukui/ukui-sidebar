@@ -40,7 +40,7 @@
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkRequest>
 #include <vector>
-
+#include <QMouseEvent>
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCheckBox>
@@ -152,6 +152,9 @@ public:
 
 protected:
     void paintEvent(QPaintEvent*);
+    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
 signals:
     void syslog();
@@ -238,6 +241,12 @@ private:
     int pixmap_i = 0;
     bool window_is_close_flag  = false;
     bool file_send_failed_flag = true;
+
+
+    QPoint dragPosition;                                            //拖动坐标
+    bool mousePressed = false;                                              //鼠标是否按下
+
+
 
 };
 #endif // FEEDBACK_H
