@@ -94,13 +94,13 @@ Widget::~Widget()
 void Widget::XkbEventsPress(const QString &keycode)
 {
     QString KeyName;
-    if (keycode.length() >= 8){
+    if (keycode.length() >= 8) {
         KeyName = keycode.left(8);
     }
-    if(KeyName.compare("Super_L+")==0){
+    if (KeyName.compare("Super_L+")==0) {
         m_winFlag = true;
     }
-    if(m_winFlag && keycode == "Super_L"){
+    if (m_winFlag && keycode == "Super_L") {
         m_winFlag = false;
         return;
     }
@@ -111,27 +111,24 @@ void Widget::XkbEventsRelease(const QString &keycode)
 {
     QString KeyName;
     static bool winFlag=false;
-    if (keycode.length() >= 8){
+    if (keycode.length() >= 8) {
         KeyName = keycode.left(8);
     }
-    if(KeyName.compare("Super_L+")==0){
+    if (KeyName.compare("Super_L+") == 0) {
         winFlag = true;
     }
-    if(winFlag && keycode == "Super_L"){
+    if (winFlag && keycode == "Super_L") {
         winFlag = false;
         return;
-    }else if(m_winFlag && keycode == "Super_L")
+    } else if (m_winFlag && keycode == "Super_L")
         return;
 
-    if(keycode == "Super_L+a")
-    {
-        if(m_bShowFlag)
-        {
+    if (keycode == "Super_L+a") {
+        if (m_bShowFlag) {
             mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
             hideAnimation();
             //this->hide();
-        }
-        else{
+        } else {
             mostGrandWidget::getInstancemostGrandWidget()->hide();
             MostGrandWidgetCoordinates();
             mostGrandWidget::getInstancemostGrandWidget()->show();
