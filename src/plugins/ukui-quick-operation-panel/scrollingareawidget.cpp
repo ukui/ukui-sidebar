@@ -17,7 +17,6 @@
 */
 #include "scrollingareawidget.h"
 
-
 ScrollingAreaWidget::ScrollingAreaWidget(QWidget *parent) : QWidget(parent)
 {
     initMemberVariable();
@@ -174,7 +173,9 @@ void ScrollingAreaWidget::setLightStatusIcon(int value)
 /* 改变音量滚动条时，修改gsetting值，通知音量组件修改，同步 */
 void ScrollingAreaWidget::setVolumeSlideSlots(int value)
 {
-    m_pVolumeLightSetting->set(UKUI_VOLUME_KEY, value);
+    if (nullptr != m_pVolumeLightSetting) {
+        m_pVolumeLightSetting->set(UKUI_VOLUME_KEY, value);
+    }
     setVolumeStatusIcon(value);
     return;
 }
@@ -182,7 +183,9 @@ void ScrollingAreaWidget::setVolumeSlideSlots(int value)
 /* 改变亮度滚动条时，修改gsetting值，通知修改亮度，同步 */
 void ScrollingAreaWidget::setBrightSlideSlots(int value)
 {
-    m_pBrightNessSetting->set(UKUI_BRIGHTNESS_KEY, value);
+    if (nullptr != m_pBrightNessSetting) {
+        m_pBrightNessSetting->set(UKUI_BRIGHTNESS_KEY, value);
+    }
     setLightStatusIcon(value);
     return;
 }
