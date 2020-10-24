@@ -36,7 +36,7 @@ void submit_fail::UI_init()
         this->setObjectName(QString::fromUtf8("submit_fail"));
     setWindowTitle(tr("submit fail"));
 
-    this->resize(350, 230);
+    this->setFixedSize(350, 230);
 
     this->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
     QBitmap bmp(this->size());

@@ -30,7 +30,7 @@ void submit_success::UI_init()
 {
     if (this->objectName().isEmpty())
         this->setObjectName(QString::fromUtf8("submit_success"));
-    this->resize(350, 230);
+    this->setFixedSize(350, 230);
     setWindowTitle(tr("Submitted success "));
     this->setAttribute(Qt::WA_TranslucentBackground);
     this->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);

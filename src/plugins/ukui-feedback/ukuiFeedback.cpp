@@ -127,7 +127,7 @@ void feedback::UI_init()
 
     if (this->objectName().isEmpty())
         this->setObjectName(QString::fromUtf8("feedback"));
-    this->resize(600, 600);
+    this->setFixedSize(600, 600);
     QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     sizePolicy.setHorizontalStretch(0);
     sizePolicy.setVerticalStretch(0);
@@ -170,7 +170,7 @@ void feedback::UI_init()
 
     //set submit button palette
     QString style_name = style_settings->get("style-name").toString();
-    if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0)){
+    if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0) || (style_name.compare("ukui-light")==0)){
         palette_gray.setBrush(QPalette::Button, QColor(233,233,233));
         palette_gray.setBrush(QPalette::ButtonText, QColor(255,255,255));
 
@@ -348,11 +348,8 @@ void feedback::UI_init()
     label_11 = new QLabel(frame_2);
     label_11->setObjectName(QString::fromUtf8("label_11"));
     label_11->setGeometry(QRect(15, 50, 200, 20));
-    qDebug()<<"22222";
 
-
-    qDebug()<<"@22222";
-    if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0)){
+    if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0) || (style_name.compare("ukui-light")==0)){
         verticalWidget->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);\n"
                                                         "border-top-left-radius:4px;\n"
                                                         "\n"
@@ -509,7 +506,7 @@ void feedback::feedback_init()
 void feedback::style_changed(QString)
 {
     QString style_name =  style_settings->get("style-name").toString();
-    if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0)){
+    if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0) || (style_name.compare("ukui-light")==0)){
         palette_gray.setBrush(QPalette::Button, QColor(233,233,233));
         palette_blue.setBrush(QPalette::ButtonText, QColor(255,255,255));
     }else if((style_name.compare("ukui-dark")==0) || (style_name.compare("ukui-black")==0)){
@@ -522,7 +519,7 @@ void feedback::style_changed(QString)
     else{
         pushButton_2->setPalette(palette_gray);
     }
-    if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0)){
+    if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0) || (style_name.compare("ukui-light")==0)){
         verticalWidget->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);\n"
                                                         "border-top-left-radius:4px;\n"
                                                         "\n"
@@ -928,7 +925,7 @@ void feedback::on_pushButton_2_clicked()
     if (2==v.validate(email_str,pos)) {
 
     } else {
-//        lineEdit_2->setStyle(new CustomStyle("ukui"));
+        //        lineEdit_2->setStyle(new CustomStyle("ukui"));
         pushButton_2->setEnabled(false);
         pushButton_2->setPalette(palette_gray);
         email_err_msg_label->show();
@@ -1318,16 +1315,16 @@ void feedback::update_add_file_window()
             filename_labelstr = file_name_list.at(filenum).left(30) + "...";
         }
 
-        file_widget[filenum]->filename_label0->move(0,5);
+        file_widget[filenum]->filename_label0->move(0,4);
         file_widget[filenum]->filename_label0->setText(filename_labelstr);
-        file_widget[filenum]->filename_label0->setStyleSheet("font: 12px ;");
+        file_widget[filenum]->filename_label0->setStyleSheet("font: 11px ;");
         file_widget[filenum]->filename_label0->adjustSize();
 
         int filename_width = file_widget[filenum]->filename_label0->geometry().width();
 
-        file_widget[filenum]->filesize_label0->move(filename_width+10,5);
+        file_widget[filenum]->filesize_label0->move(filename_width+10,4);
         file_widget[filenum]->filesize_label0->setText(file_size_list.at(filenum));
-        file_widget[filenum]->filesize_label0->setStyleSheet("font: 12px ;");
+        file_widget[filenum]->filesize_label0->setStyleSheet("font: 11px ;");
         file_widget[filenum]->filesize_label0->adjustSize();
 
         int filesize_width = file_widget[filenum]->filesize_label0->geometry().width();
@@ -1500,6 +1497,34 @@ void feedback::paintEvent(QPaintEvent *e)
     p.save();
     p.fillPath(rectPath, option->palette.color(QPalette::Base));
     p.restore();
+}
+
+void feedback::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        this->dragPosition = event->globalPos() - frameGeometry().topLeft();
+        this->mousePressed = true;
+
+    }
+    QWidget::mousePressEvent(event);
+}
+
+void feedback::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        this->mousePressed = false;
+        this->setCursor(Qt::ArrowCursor);
+    }
+    QWidget::mouseReleaseEvent(event);
+}
+
+void feedback::mouseMoveEvent(QMouseEvent *event)
+{
+    if (this->mousePressed) {
+        move(event->globalPos() - this->dragPosition);
+        this->setCursor(Qt::ClosedHandCursor);
+    }
+    QWidget::mouseMoveEvent(event);
 }
 
 
