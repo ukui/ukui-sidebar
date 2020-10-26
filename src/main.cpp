@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
     }
 
     /* 如果系统中有实例在运行则退出 */
-    QString id = QString(QLatin1String(getenv("DISPLAY")));
+    QString id = QString("ukui-sidebar-" + QLatin1String(getenv("DISPLAY")));
     QtSingleApplication a(id, argc, argv);
     if (a.isRunning()) {
         a.sendMessage(QApplication::arguments().length() > 1 ? QApplication::arguments().at(1) : a.applicationFilePath());
