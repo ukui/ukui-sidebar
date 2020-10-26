@@ -74,7 +74,7 @@ void shortcutPanelPlugin::initMemberVariables()
 
     /* 账户信息界面 */
     m_PAccountInfoWidget    = new AccountInformation();
-    m_PAccountInfoWidget->setFixedSize(392, 48);
+//    m_PAccountInfoWidget->setFixedSize(392, 48);
 
     /* 添加和完成按钮 */
     m_pEditConfirmationArea = new EditConfirmationArea();
@@ -98,7 +98,7 @@ void shortcutPanelPlugin::initMemberVariables()
 
     /* 显示天气界面 */
     m_pWeatherWidget = new weatherWidget();
-    m_pWeatherWidget->setFixedSize(392, 50);
+//    m_pWeatherWidget->setFixedSize(392, 50);
 
     m_SpreadButtonIconList << SPREAD_BUTTON_NORMAL << SPREAD_BUTTON_HOVER << SPREAD_BUTTON_PRESS;
     m_FoldButtonIconList   << FOLD_BUTTON_NORMAL   << FOLD_BUTTON_HOVER   << FOLD_BUTTON_PRESS;

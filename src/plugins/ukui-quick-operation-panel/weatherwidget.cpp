@@ -33,11 +33,11 @@ void weatherWidget::initMemberVariables()
     m_pPictureToWhite = new PictureToWhite();
 
     m_pAreaLabel = new QLabel();
-    m_pAreaLabel->setFixedHeight(18);
+//    m_pAreaLabel->setFixedHeight(18);
 
-    QFont font = m_pAreaLabel->font();
-    font.setPixelSize(12);
-    m_pAreaLabel->setFont(font);
+//    QFont font = m_pAreaLabel->font();
+//    font.setPixelSize(12);
+//    m_pAreaLabel->setFont(font);
 
     QPalette palette = m_pAreaLabel->palette();
     QColor color(89, 89, 89, 255);
@@ -53,7 +53,8 @@ void weatherWidget::initMemberVariables()
 
 void weatherWidget::initLabelData()
 {
-    if (m_pweatherString != nullptr) {
+    if (m_pWeatherGsetting != nullptr) {
+        qDebug() << "23132132132131";
         m_pweatherString = m_pWeatherGsetting->get(UKUI_WEATHER_GSETTING_KEY).toString();
         QStringList WeatherInfoList = m_pweatherString.split(",");
         setLabelData(WeatherInfoList);

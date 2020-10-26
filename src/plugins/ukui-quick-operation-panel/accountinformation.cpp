@@ -64,7 +64,7 @@ void AccountInformation::initMemberVariable()
 
     m_pInfoWidget = new QWidget();
     m_pInfoWidget->setContentsMargins(0, 0, 0, 0);
-    m_pInfoWidget->setFixedHeight(48);
+//    m_pInfoWidget->setFixedHeight(48);
 }
 
 void AccountInformation::initLayout()
@@ -72,7 +72,7 @@ void AccountInformation::initLayout()
     /* 设置中间俩个label界面 */
     m_pVLabelLayout->addWidget(m_pNameLabel, Qt::AlignVCenter);
     m_pVLabelLayout->addWidget(m_pIdentityLabel, Qt::AlignVCenter);
-    m_pVLabelLayout->addItem(new QSpacerItem(1, 5));
+    m_pVLabelLayout->addItem(new QSpacerItem(1, 5, QSizePolicy::Fixed));
     m_pInfoWidget->setLayout(m_pVLabelLayout);
 
     m_pMainLayout->addItem(new QSpacerItem(32, 10));
