@@ -744,10 +744,18 @@ void feedback::add_systeminfo()
     //2.获取桌面环境信息
     //Access to desktop environment information
     char * desktop = getenv("DESKTOP_SESSION");
+    if(desktop != NULL){
     desktop_info.append(desktop);
     send_dekstop_info.append(desktop);
     desktop_info_str = QString::fromStdString(desktop_info);
     label_12->setText(desktop_info_str);
+    }
+    else{
+        desktop_info.append("None");
+        send_dekstop_info.append("None");
+        desktop_info_str = QString::fromStdString(desktop_info);
+        label_12->setText(desktop_info_str);
+    }
     //3.获取编码格式
     //Get the coding format
     char *encoding = getenv("LANG");
