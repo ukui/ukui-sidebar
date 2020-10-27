@@ -151,7 +151,7 @@ void ClipboardWidgetEntry::enterEvent(QEvent *e)
     } else if (m_dataFormat == ENTRYIMAGE) {
         m_pCopyDataLabal->setFixedSize(110, 75);
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
-        emit previewShowImage(this);//发送预览信号
+//        emit previewShowImage(this);//发送预览信号
 #endif
     } else {
         m_pCopyDataLabal->setFixedSize(260, 34);
@@ -191,7 +191,7 @@ void ClipboardWidgetEntry::leaveEvent(QEvent *e)
     } else if (m_dataFormat == ENTRYIMAGE) {
         m_pCopyDataLabal->setFixedSize(110, 75);
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
-        emit previewHideImage(this);//发送退出预览信号
+//        emit previewHideImage(this);//发送退出预览信号
 #endif
         this->update();
     }
