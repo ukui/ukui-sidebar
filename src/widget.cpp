@@ -56,6 +56,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     if (false == loadNotificationPlugin())
         qWarning() << "Notification center plug-in failed to load";
 
+    /* 加载快捷操作面板插件 */
     if (false == loadQuickOperationPlugin())
         qWarning() << "The shortcut panel failed to load";
 
@@ -76,13 +77,14 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
         m_pTransparency = new QGSettings(UKUI_TRANSPARENCY_SETTING);
     }
 
-    this->setWindowFlags(Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
     /* 监听键盘事件 */
     XEventMonitor::instance()->start();
     connect(XEventMonitor::instance(), SIGNAL(keyRelease(QString)),
            this,SLOT(XkbEventsRelease(QString)));
     connect(XEventMonitor::instance(), SIGNAL(keyPress(QString)),
            this,SLOT(XkbEventsPress(QString)));
+
+    this->setWindowFlags(Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
     qInfo() << "---------------------------主界面加载完毕---------------------------";
 }
 
@@ -327,7 +329,6 @@ int Widget::getPanelSite()
         QDBusMessage msg = m_pServiceInterface->call("GetPanelPosition", QVariant("Site"));
         panelPosition = msg.arguments().at(0).toInt();
     }
-    qDebug() << "panel所在的位置" << panelPosition;
     return panelPosition;
 }
 
@@ -565,7 +566,7 @@ void Widget::onResolutionChanged(const QRect argc)
 {
     Q_UNUSED(argc);
     qDebug() << "屏幕分辨率发生变化";
-    GetsAvailableAreaScreen();                               //获取屏幕可用高度区域
+    GetsAvailableAreaScreen();       //获取屏幕可用高度区域
     InitializeHomeScreenGeometry();
     return;
 }
@@ -649,8 +650,7 @@ void Widget::OpenControlCenterSettings()
 void Widget::InitializeHomeScreenGeometry()
 {
     QList<QScreen*> screen = QGuiApplication::screens();
-    int count = m_pDeskWgt->screenCount();
-    if (count > 1) {
+    if (screen.count() > 1) {
         m_nScreen_x = screen[0]->geometry().x();
         m_nScreen_y = screen[0]->geometry().y();
     } else {
@@ -662,10 +662,10 @@ void Widget::InitializeHomeScreenGeometry()
 /* 监听gsetting，修改所有的字体 */
 void Widget::setAllWidgetFont()
 {
-    const QByteArray id("org.ukui.style");
+    const QByteArray id(THEME_QT_PATH);
         QGSettings * fontSetting = new QGSettings(id);
         connect(fontSetting, &QGSettings::changed,[=](QString key) {
-            if ("systemFont" == key || "systemFontSize" ==key) {
+            if (UKUI_THEME_FONT_KEY == key || UKUI_THEME_FONT_SIZE_KEY ==key) {
                 QFont font = this->font();
                 for (auto widget : qApp->allWidgets()) {
                     widget->setFont(font);

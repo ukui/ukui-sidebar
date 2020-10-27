@@ -42,7 +42,10 @@
 #define UKUI_TRANSPARENCY_SETTING "org.ukui.control-center.personalise"
 #define UKUI_PANEL_SETTING "org.ukui.panel.settings"
 
-#define UKUI_QT_STYLE_NAME_KEY "styleName"
+#define THEME_QT_PATH "org.ukui.style"
+#define UKUI_QT_STYLE_NAME_KEY    "styleName"
+#define UKUI_THEME_FONT_KEY       "systemFont"
+#define UKUI_THEME_FONT_SIZE_KEY  "systemFontSize"
 
 class QGroupBox;
 class QGridLayout;
