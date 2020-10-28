@@ -94,20 +94,18 @@ void ScrollingAreaWidget::initSlideStatus()
 
     value = m_pBrightNessSetting->get(UKUI_BRIGHTNESS_KEY).toInt();
     m_pBrightSlide->setValue(value);
-    setLightStatusIcon(value);
+    setLightStatusIcon();
     return;
 }
 
 void ScrollingAreaWidget::initLayout()
 {
-    m_pVolumeIconLabel->setPixmap(QIcon::fromTheme("ukui-icon-sound-middle").pixmap(m_pVolumeIconLabel->size()));
     m_pHVolumeLayout->addWidget(m_pVolumeIconLabel);
     m_pHVolumeLayout->addItem(new QSpacerItem(3, 1));
     m_pHVolumeLayout->addWidget(m_pVolumeSlide);
     m_pVolumeWidget->setLayout(m_pHVolumeLayout);
     m_pVolumeWidget->setFixedHeight(24);
 
-    m_pBrightIconLabel->setPixmap(QIcon::fromTheme("ukui-icon-light-0").pixmap(m_pBrightIconLabel->size()));
     m_pBrightLayout->addWidget(m_pBrightIconLabel);
     m_pBrightLayout->addItem(new QSpacerItem(3, 1));
     m_pBrightLayout->addWidget(m_pBrightSlide);
@@ -135,7 +133,7 @@ void ScrollingAreaWidget::setSliderValue(QString key)
     } else if (key == UKUI_BRIGHTNESS_KEY) {
         value = m_pBrightNessSetting->get(UKUI_BRIGHTNESS_KEY).toInt();
         m_pBrightSlide->setValue(value);
-        setLightStatusIcon(value);
+        setLightStatusIcon();
     }
     return;
 }
@@ -144,29 +142,21 @@ void ScrollingAreaWidget::setSliderValue(QString key)
 void ScrollingAreaWidget::setVolumeStatusIcon(int value)
 {
     if (value == 0)
-        m_pVolumeIconLabel->setPixmap(QIcon::fromTheme("ukui-icon-sound-low").pixmap(m_pVolumeIconLabel->size()));
+        m_pVolumeIconLabel->setPixmap(QIcon::fromTheme("audio-volume-muted-panel").pixmap(m_pVolumeIconLabel->size()));
     else if (value > 0 && value <= 35)
-        m_pVolumeIconLabel->setPixmap(QIcon::fromTheme("ukui-icon-sound-low").pixmap(m_pVolumeIconLabel->size()));
+        m_pVolumeIconLabel->setPixmap(QIcon::fromTheme("audio-volume-low-panel").pixmap(m_pVolumeIconLabel->size()));
     else if (value >= 36 && value <= 65)
-        m_pVolumeIconLabel->setPixmap(QIcon::fromTheme("ukui-icon-sound-middle").pixmap(m_pVolumeIconLabel->size()));
+        m_pVolumeIconLabel->setPixmap(QIcon::fromTheme("audio-volume-medium-panel").pixmap(m_pVolumeIconLabel->size()));
     else
-       m_pVolumeIconLabel->setPixmap(QIcon::fromTheme("ukui-icon-sound-high").pixmap(m_pVolumeIconLabel->size()));
+       m_pVolumeIconLabel->setPixmap(QIcon::fromTheme("audio-volume-high-panel").pixmap(m_pVolumeIconLabel->size()));
     m_pVolumeIconLabel->update();
 }
 
 /* 根据亮度值设置状态图标 */
-void ScrollingAreaWidget::setLightStatusIcon(int value)
+void ScrollingAreaWidget::setLightStatusIcon()
 {
-    if (value == 0)
-        m_pBrightIconLabel->setPixmap(QIcon::fromTheme("ukui-icon-light-0").pixmap(m_pBrightIconLabel->size()));
-    else if (value > 0 && value <= 25)
-        m_pBrightIconLabel->setPixmap(QIcon::fromTheme("ukui-icon-light-25").pixmap(m_pBrightIconLabel->size()));
-    else if (value >25 && value <= 50)
-        m_pBrightIconLabel->setPixmap(QIcon::fromTheme("ukui-icon-light-50").pixmap(m_pBrightIconLabel->size()));
-    else if (value > 50 && value <= 75)
-        m_pBrightIconLabel->setPixmap(QIcon::fromTheme("ukui-icon-light-75").pixmap(m_pBrightIconLabel->size()));
-    else if (value > 75)
-        m_pBrightIconLabel->setPixmap(QIcon::fromTheme("ukui-icon-light-100").pixmap(m_pBrightIconLabel->size()));
+
+    m_pBrightIconLabel->setPixmap(QIcon::fromTheme("display-brightness-symbolic").pixmap(m_pBrightIconLabel->size()));
     m_pBrightIconLabel->update();
 }
 
@@ -186,6 +176,6 @@ void ScrollingAreaWidget::setBrightSlideSlots(int value)
     if (nullptr != m_pBrightNessSetting) {
         m_pBrightNessSetting->set(UKUI_BRIGHTNESS_KEY, value);
     }
-    setLightStatusIcon(value);
+    setLightStatusIcon();
     return;
 }

@@ -46,7 +46,7 @@ private:
     void initSlideStatus();
     void initLayout();
     void setVolumeStatusIcon(int value);
-    void setLightStatusIcon(int value);
+    void setLightStatusIcon();
 
 private:
     QHBoxLayout *m_pHMainLayout;
