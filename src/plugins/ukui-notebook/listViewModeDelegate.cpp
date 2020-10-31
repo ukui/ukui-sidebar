@@ -173,13 +173,6 @@ void listViewModeDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         painter->setBrush(QColor(40,40,46));
     }
 
-
-//    if(sink == 0)
-//    {
-//        painter->setBrush(QColor(40,40,46));
-//    }else{
-//        painter->setBrush(QColor(245,245,245));
-//    }
     painter->setPen(Qt::transparent);
     opt.rect.setWidth(678);
     opt.rect.setHeight(opt.rect.height() - 0);
@@ -238,11 +231,7 @@ void listViewModeDelegate::paintBackground(QPainter *painter, const QStyleOption
                 {
                     painter->setBrush(QBrush(m_selectColor));
                 }
-//                if(sink == 0){
-//                painter->setBrush(QBrush(m_selectColor));
-//                }else{
-//                    painter->setBrush(QBrush(QColor(255,255,255)));
-//                }
+
                 painter->setPen(Qt::transparent);
                 QPainterPath painterPath;
                 painterPath.addRoundedRect(opt.rect, 0, 0);
@@ -261,11 +250,7 @@ void listViewModeDelegate::paintBackground(QPainter *painter, const QStyleOption
                 {
                     painter->setBrush(QBrush(m_selectColor));
                 }
-//                if(sink == 0){
-//                painter->setBrush(QBrush(m_selectColor));
-//                }else{
-//                    painter->setBrush(QBrush(QColor(255,255,255)));
-//                }
+
                 painter->setPen(Qt::transparent);
                 QPainterPath painterPath;
                 painterPath.addRoundedRect(opt.rect, 0, 0);
@@ -286,12 +271,7 @@ void listViewModeDelegate::paintBackground(QPainter *painter, const QStyleOption
             {
                 painter->setBrush(QBrush(m_selectColor));
             }
-//            if(sink == 0){
-//            painter->setBrush(QBrush(m_selectColor));
-//            }else{
-//                painter->setBrush(QBrush(QColor(255,255,255)));
-//            }
-            //painter->setBrush(QBrush(m_defaultColor));
+
             painter->setPen(Qt::transparent);
             QPainterPath painterPath;
             painterPath.addRoundedRect(opt.rect, 0, 0);
@@ -315,11 +295,7 @@ void listViewModeDelegate::paintBackground(QPainter *painter, const QStyleOption
         {
             painter->setBrush(QBrush(m_hoverColor));
         }
-//        if(sink == 0){
-//        painter->setBrush(QBrush(m_hoverColor));
-//        }else{
-//           painter->setBrush(QBrush(QColor(205,205,205)));
-//        }
+
         painter->setPen(Qt::transparent);
         QPainterPath painterPath;
         painterPath.addRoundedRect(opt.rect, 0, 0);
@@ -420,14 +396,6 @@ void listViewModeDelegate::paintLabels(QPainter* painter, const QStyleOptionView
         drawStr(titleRectPosX, titleRectPosY, titleRectWidth, titleRectHeight, QColor(244,244,244), titleFont, title);
         drawStr(dateRectPosX, dateRectPosY, dateRectWidth, dateRectHeight, QColor(244,244,244), m_dateFont, date);
     }
-//    if(sink == 1)
-//    {
-//        drawStr(titleRectPosX, titleRectPosY, titleRectWidth, titleRectHeight, QColor(0,0,0), titleFont, title);
-//        drawStr(dateRectPosX, dateRectPosY, dateRectWidth, dateRectHeight, QColor(0,0,0), m_dateFont, date);
-//    }else{
-//        drawStr(titleRectPosX, titleRectPosY, titleRectWidth, titleRectHeight, QColor(244,244,244), titleFont, title);
-//        drawStr(dateRectPosX, dateRectPosY, dateRectWidth, dateRectHeight, QColor(244,244,244), m_dateFont, date);
-//    }
 }
 
 void listViewModeDelegate::paintTitle(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const

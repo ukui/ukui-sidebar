@@ -59,11 +59,10 @@
 #include "ui_editPage.h"
 #include "adaptscreeninfo.h"
 
-extern int sink;
-
+#define     FIRST_LINE_MAX 80
 #define     tristateButton(className,imageUrl)     (""#className"{image:url("#imageUrl".svg);}   \
-    "#className":hover{image:url("#imageUrl"-hover.svg);}  \
-    "#className":pressed{image:url("#imageUrl"-click.svg);}")
+            "#className":hover{image:url("#imageUrl"-hover.svg);}  \
+            "#className":pressed{image:url("#imageUrl"-click.svg);}")
 
 /**
  * ukui style
@@ -109,12 +108,12 @@ private:
     Edit_page *m_notebook;                                          //新建便签指针
     int m_listflag;                                                 //平铺/展开列表切换
     int sortflag;                                                   //升降序切换
-    noteExitWindow* m_noteExitWindow=nullptr;                       //退出弹窗
+    noteExitWindow* m_noteExitWindow;                               //退出弹窗
     QAction *searchAction;                                          //搜索栏图标
     QAction *delAction;                                             //搜索栏删除图标
     QTimer* m_autoSaveTimer;                                        //自动保存定时器
     QSettings* m_settingsDatabase;                                  //配置文件
-    QLineEdit* m_ukui_SearchLine;                                   //搜索栏
+    QLineEdit* m_searchLine;                                        //搜索栏
     QPushButton* m_newKynote;                                       //新建按钮
     QPushButton* m_trashButton;                                     //删除按钮
     QLabel* m_countLabel;                                           //item记数
@@ -153,9 +152,7 @@ private:
     void initIconMode();                                            //初始化图标
     void initListMode();                                            //初始化列表
     void listenToGsettings();                                       //监听gsettings
-    void black_show();                                              //黑色主题
-    void light_show();                                              //白色主题
-    void set_all_btn_attribute();                                   //初始化按钮
+    void btnInit();                                                 //初始化按钮
     void searchInit();                                              //初始化搜索栏
     void createNewNote();                                           //新建便签
     void deleteNote(const QModelIndex& noteIndex, bool isFromUser=true);//删除便签
@@ -194,10 +191,8 @@ private slots:
     void onColorChanged(const QColor &color, int noteId);           //便签颜色改变槽函数
     void onTrashButtonClicked();                                    //删除槽函数
     void onSearchEditTextChanged(const QString& keyword);           //搜索栏文本改变槽函数
-    void sortSlot(int index);                                                //升/降序槽函数
+    void sortSlot(int index);                                       //排序槽函数
     void changePageSlot();                                          //列表平铺切换槽函数
-    void delAction_del_SearchLine();                                //搜索清空按钮槽函数
-    void on_SearchLine_textChanged(const QString &arg1);            //搜索栏图标显示
     void setNoteNullSlot();                                         //便签页关闭置空槽函数
     void emptyNoteSLot();                                           //清空便签槽函数
 
