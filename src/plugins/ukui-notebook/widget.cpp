@@ -23,6 +23,7 @@
 #include "editPage.h"
 #include "headerbar.h"
 #include "customStyle.h"
+#include "CloseButton/closebutton.h"
 
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 
@@ -517,7 +518,6 @@ void Widget::btnInit()
     ui->pushButton_Mini->setPalette(palette);
     ui->pushButton_Exit->setPalette(palette);
     ui->menuBtn->setPalette(palette);
-    ui->searchBtn->setPalette(palette);
     ui->sortBtn->setPalette(palette);
 
     //设置新建按钮背景文本颜色
@@ -931,7 +931,6 @@ void Widget::searchInit()
     m_searchLine->setProperty("useIconHighlightEffect", true);
     m_searchLine->setProperty("iconHighlightEffectMode", 1);
     m_searchLine->addAction(searchAction,QLineEdit::LeadingPosition);  //图片在左侧
-    ui->searchBtn->hide();
 
     delAction = new QAction(m_searchLine);
 //    delAction->setIcon(QPixmap(":/image/1x/close_light.png").scaled(QSize(16,16)));
