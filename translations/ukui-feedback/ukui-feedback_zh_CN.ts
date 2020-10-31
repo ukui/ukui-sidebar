@@ -55,8 +55,8 @@
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="190"/>
         <source>feedback</source>
-        <translatorcomment>问题反馈</translatorcomment>
-        <translation>问题反馈</translation>
+        <translatorcomment>用户反馈</translatorcomment>
+        <translation type="unfinished">用户反馈</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="196"/>
