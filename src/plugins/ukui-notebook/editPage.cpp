@@ -206,7 +206,7 @@ void Edit_page::initSetup()
     m_noteHeadMenu->hide();
 
     ui->textEdit->setFrameShape(QFrame::NoFrame);
-    ui->textEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+//    ui->textEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->textEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     // 禁用右键菜单
     ui->textEdit->setContextMenuPolicy(Qt::NoContextMenu);

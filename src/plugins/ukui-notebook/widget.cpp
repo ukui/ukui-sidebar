@@ -1188,6 +1188,7 @@ void Widget::listClickSlot(const QModelIndex& index)
 //* 将所选便笺内容加载到textedit
 void Widget::listDoubleClickSlot(const QModelIndex& index)
 {
+    qDebug() << "list double click";
     int noteId = index.data(NoteModel::NoteID).toInt();
     qDebug() << noteId << index;
     int isExistInMeditors = 0;
@@ -1195,14 +1196,13 @@ void Widget::listDoubleClickSlot(const QModelIndex& index)
     for(auto it = m_editors.begin(); it!=m_editors.end();it++)
     {
         if ((*it)->m_noteId == noteId) {
-            qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
             isExistInMeditors = 1;
             m_notebook = *it;
+            m_notebook->raise();
             break;
         }
     }
     if (isExistInMeditors == 0) {
-        qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
         m_notebook =  new Edit_page(this,noteId);
         m_editors.push_back(m_notebook);
         m_notebook->id = m_editors.size() - 1;
@@ -1227,7 +1227,7 @@ void Widget::listDoubleClickSlot(const QModelIndex& index)
 
 void Widget::onSearchEditTextChanged(const QString& keyword)
 {
-    qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
+    qDebug() << "onSearchEditTextChanged";
     m_searchQueue.enqueue(keyword);
 
     if(m_searchLine->text().isEmpty()){
@@ -1239,7 +1239,6 @@ void Widget::onSearchEditTextChanged(const QString& keyword)
     }
 
     if(!m_isOperationRunning){
-        qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
         m_isOperationRunning = true;
 
         // disable animation while searching

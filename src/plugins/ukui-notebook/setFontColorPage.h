@@ -25,6 +25,7 @@
 #include <QStyleOption>
 #include <QPainter>
 #include <QGSettings>
+#include <QDebug>
 
 #include "paletteButton.h"
 #include "ui_paletteButton.h"
