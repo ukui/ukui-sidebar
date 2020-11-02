@@ -270,7 +270,7 @@ void SidebarClipboardPlugin::createWidgetEntry()
 
     /* hash插入QMimeData，保留原数据 */
     s_pDataHashValue->WidgetEntry  = w;
-    s_pDataHashValue->MimeData = copyMinedata(mimeData);
+    s_pDataHashValue->MimeData = nullptr;
     s_pDataHashValue->Clipbaordformat = format;
     s_pDataHashValue->associatedDb = "";
     if (s_pDataHashValue->Clipbaordformat == TEXT) {

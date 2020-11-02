@@ -25,6 +25,7 @@ enum DataType {
     Image,
     File
 };
+
 typedef struct  clipboardOriginalDataHash {
     ClipboardWidgetEntry* WidgetEntry;
     const QMimeData* MimeData;
