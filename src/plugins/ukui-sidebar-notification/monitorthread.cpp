@@ -41,7 +41,6 @@ extern "C" {
 MonitorThread::MonitorThread(NotificationPlugin *parent)
 {
     m_parent = parent;
-    m_bEnabled = true;
 
     getSettingsValue();
     this->moveToThread(this);
@@ -256,12 +255,6 @@ void MonitorThread::appNotifySettingChangedSlot()
 void MonitorThread::readOutputData()
 {
     QByteArray output = m_pProcess->readAllStandardOutput();
-
-    if(false == m_bEnabled) //上面的内容必须读空再返回，不然就一直有缓存
-    {
-        return;
-    }
-
     QString str_output = output;
     if(str_output.isEmpty())
     {
@@ -284,21 +277,13 @@ void MonitorThread::readOutputData()
     return;
 }
 
-void MonitorThread::switchEnable(bool bEnabled)
-{
-    if(m_bEnabled != bEnabled)
-    {
-        m_bEnabled = bEnabled;
-    }
-}
-
 void MonitorThread::run()
 {
     system("killall dbus-monitor");
-    m_pProcess = new QProcess(this);
+    m_pProcess = new QProcess();
     m_pProcess->start("dbus-monitor interface=org.freedesktop.Notifications");
 
-    QTimer* pTimer = new QTimer(this);
+    QTimer* pTimer = new QTimer();
     connect(pTimer, SIGNAL(timeout()), this, SLOT(readOutputData()));
     pTimer->start(1000);
 

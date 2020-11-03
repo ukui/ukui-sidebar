@@ -27,7 +27,6 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
     m_bTakeInFlag = bTakeInFlag;
     m_strAppName = strAppName;
     this->setFixedWidth(380);
-    //this->adjustSize();
 
     m_nMaxCount = 20;
 
@@ -53,9 +52,7 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
     m_pBaseMapWidget->setObjectName("BaseMap");
     m_pBaseMapWidget->setFixedWidth(360);
     m_pBaseMapWidget->setFixedHeight(6);
-    m_pBaseMapWidget->setStyleSheet("QWidget{background:rgba(255,255,255,0.04);border-top-left-radius:0px;border-top-right-radius:0px;border-bottom-left-radius:6px;border-bottom-right-radius:6px;}");
-    pBaseMapVLaout->addWidget(m_pBaseMapWidget, 0 , Qt::AlignHCenter);
-
+    m_pAppBaseMapWidget->setAttribute(Qt::WA_TranslucentBackground);
     m_pAppBaseMapWidget->setLayout(pBaseMapVLaout);
     m_pMainVLaout->addWidget(m_pAppBaseMapWidget, 0 , Qt::AlignHCenter);
     m_pAppBaseMapWidget->setVisible(false);
@@ -78,21 +75,22 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
     return;
 }
 
-//void AppMsg::paintEvent(QPaintEvent *)
-//{
-//    QPainter p(this);
+void AppMsg::paintEvent(QPaintEvent *)
+{
+    QPainter p(this);
 
 
-//    QRect rect = this->rect();
-//    rect.setWidth(rect.width() - 1);
-//    rect.setHeight(rect.height() - 1);
-//    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-//    p.setBrush(QBrush(QColor(255, 255, 255, 10)));
-//    p.setPen(Qt::transparent);
+    QRect rect = this->rect();
+    rect.setWidth(rect.width() - 1);
+    rect.setHeight(rect.height() - 1);
+    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+    p.setBrush(QBrush(QColor(255, 255, 255, 10)));
+    p.setPen(Qt::transparent);
 
-//    p.drawRoundedRect(rect,6,6);
-//}
+    p.drawRoundedRect(rect,6,6);
 
+
+}
 //统计应用剩余显示条数
 void AppMsg::statisticLeftItem()
 {
@@ -158,6 +156,7 @@ void AppMsg::addSingleMsg(QString strIconPath, QString strSummary, QDateTime dat
         SingleMsg* pFirstMsg = m_listSingleMsg.at(0);
         pFirstMsg->setMainFlag(false);
         pFirstMsg->setShowLeftItemFlag(false);
+
         //只有已经折叠的才需要将现有的正文设置为缩略显示
         if(true == m_bFold)
         {
@@ -509,13 +508,13 @@ void AppMsg::setAppFold()
 //应用主消息进入
 void AppMsg::onMainMsgEnter()
 {
-    m_pBaseMapWidget->setStyleSheet("QWidget{background:rgba(255,255,255,0.1);border-top-left-radius:0px;border-top-right-radius:0px;border-bottom-left-radius:6px;border-bottom-right-radius:6px;}");
+    //m_pBaseMapWidget->setStyleSheet("QWidget{background:rgba(255,255,255,0.1);border-top-left-radius:0px;border-top-right-radius:0px;border-bottom-left-radius:6px;border-bottom-right-radius:6px;}");
 }
 
 //应用主消息离开
 void AppMsg::onMainMsgLeave()
 {
-    m_pBaseMapWidget->setStyleSheet("QWidget{background:rgba(255,255,255,0.04);border-top-left-radius:0px;border-top-right-radius:0px;border-bottom-left-radius:6px;border-bottom-right-radius:6px;}");
+    //m_pBaseMapWidget->setStyleSheet("QWidget{background:rgba(255,255,255,0.04);border-top-left-radius:0px;border-top-right-radius:0px;border-bottom-left-radius:6px;border-bottom-right-radius:6px;}");
 }
 
 void AppMsg::onShowBaseMap()

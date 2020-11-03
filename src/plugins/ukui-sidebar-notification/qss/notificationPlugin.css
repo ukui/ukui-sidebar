@@ -8,18 +8,18 @@ QWidget{
 /*    background:rgba(26,26,26,0.95);*/
 }
 
-QWidget#NotificationCenter{
-    background:transparent;
-}
+/*QWidget#NotificationCenter{
+    background:rgba(19,19,20,0.5);
+}*/
 
 QWidget#SingleNotification{
     background:rgba(255,255,255,0.12);
     border-radius:6px;
 }
 
-QWidget#QScrollAreaInQWidget{
-    background:rgba(19,19,20,0.7);
-}
+/*QWidget#QScrollAreaInQWidget{
+    background:rgba(19,19,20,0.1);
+}*/
 
 QWidget#BaseMap{
     background:rgba(255,255,255,0.06);
@@ -36,13 +36,13 @@ QWidget#BaseMap{
     width:400px;
 }*/
 
-/*QWidget#NotificationName{
+QWidget#NotificationName{
     margin-left: 11px;
     margin-top: 0px;
     margin-right: 28px;
     margin-bottom: 0px;
     width:390px;
-}*/
+}
 
 QToolButton#takein{
     border:0px solid #242424;
