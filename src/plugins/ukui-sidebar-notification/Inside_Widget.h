@@ -13,7 +13,7 @@ public:
 
     QGSettings   *m_pTransparency;
     double        m_dTranSparency = 0.7;
-    void  initGsettingTransparency();
+    void          initGsettingTransparency();
 protected:
     void paintEvent(QPaintEvent *e);
 

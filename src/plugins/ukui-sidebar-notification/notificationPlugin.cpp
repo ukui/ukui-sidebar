@@ -393,7 +393,7 @@ void NotificationPlugin::onClearAppMsg(AppMsg* pAppMsg)
     if(0 == m_listAppMsg.count() && 1 == m_pScrollAreaNotifyVBoxLayout->count())
     {
         m_pMessageCenterLabel->setVisible(true);
-        m_pScrollAreaNotifyVBoxLayout->insertWidget(0, m_pMessageCenterLabel, 0, Qt::AlignHCenter);
+        m_pScrollAreaNotifyVBoxLayout->insertWidget(0, m_pMessageCenterLabel, 4, Qt::AlignHCenter);
     }
 
     return;
@@ -415,7 +415,7 @@ void NotificationPlugin::onClearAllMessage()
         if(1 == m_pScrollAreaNotifyVBoxLayout->count())
         {
             m_pMessageCenterLabel->setVisible(true);
-            m_pScrollAreaNotifyVBoxLayout->insertWidget(0, m_pMessageCenterLabel, 0, Qt::AlignHCenter);
+            m_pScrollAreaNotifyVBoxLayout->insertWidget(0, m_pMessageCenterLabel, 4, Qt::AlignHCenter);
         }
 
     }
