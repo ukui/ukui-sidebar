@@ -687,49 +687,20 @@ void Widget::selectNote(const QModelIndex &noteIndex)
 
 void Widget::showNoteInEditor(const QModelIndex &noteIndex)
 {
-    qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
+    qDebug() << "showNoteInEditor";
 
     QString content = noteIndex.data(NoteModel::NoteContent).toString();
     QDateTime dateTime = noteIndex.data(NoteModel::NoteLastModificationDateTime).toDateTime();
     //int scrollbarPos = noteIndex.data(NoteModel::NoteScrollbarPos).toInt();
     int noteColor = noteIndex.data(NoteModel::NoteColor).toInt();
-    QString mdContent = noteIndex.data(NoteModel::NoteMdContent).toString();
+//    QString mdContent = noteIndex.data(NoteModel::NoteMdContent).toString();
 
-    qDebug() << mdContent << "!!!!!!!!" << content;
     const listViewModeDelegate delegate;
     QColor m_color = delegate.intToQcolor(noteColor);
     // set text and date
     m_notebook->ui->textEdit->setText(content);
     m_notebook->m_noteHead->color_widget = QColor(m_color);
     m_notebook->m_noteHeadMenu->color_widget = QColor(m_color);
-    QString _Stylesheet;
-    QString _BgColor;
-    _BgColor = m_color.name();
-    _Stylesheet = "background-color: %1;";
-    _Stylesheet = _Stylesheet.arg(_BgColor);
-    m_notebook->m_noteHeadMenu->ui->pushButtonExit->setStyleSheet(_Stylesheet);
-    m_notebook->m_noteHeadMenu->ui->pushButtonMenu->setStyleSheet(_Stylesheet);
-    if(m_color == QColor(0,0,0))
-    {qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
-        QPixmap pixmap1;
-        QPixmap pixmap2;
-        pixmap1 = QPixmap(":/image/1x/close_light.png");
-        pixmap2 = QPixmap(":/image/1x/more_light.png");
-        m_notebook->m_noteHeadMenu->ui->pushButtonExit->setIcon(pixmap1);
-        m_notebook->m_noteHeadMenu->ui->pushButtonExit->setIconSize(QSize(20,20));
-        m_notebook->m_noteHeadMenu->ui->pushButtonMenu->setIcon(pixmap2);
-        m_notebook->m_noteHeadMenu->ui->pushButtonMenu->setIconSize(QSize(20,20));
-    }else
-    {qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
-        QPixmap pixmap1;
-        QPixmap pixmap2;
-        pixmap1 = QPixmap(":/image/1x/close_block.png");
-        pixmap2 = QPixmap(":/image/1x/more_block.png");
-        m_notebook->m_noteHeadMenu->ui->pushButtonExit->setIcon(pixmap1);
-        m_notebook->m_noteHeadMenu->ui->pushButtonExit->setIconSize(QSize(20,20));
-        m_notebook->m_noteHeadMenu->ui->pushButtonMenu->setIcon(pixmap2);
-        m_notebook->m_noteHeadMenu->ui->pushButtonMenu->setIconSize(QSize(20,20));
-    }
     m_notebook->update();
 
     QString noteDate = dateTime.toString(Qt::ISODate);

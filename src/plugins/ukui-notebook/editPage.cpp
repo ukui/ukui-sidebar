@@ -135,8 +135,8 @@ void Edit_page::enterEvent(QEvent *event)
 void Edit_page::leaveEvent(QEvent *event)
 {
     Q_UNUSED(event);
-    m_noteHeadMenu->hide();
     m_noteHead->show();
+    m_noteHeadMenu->hide();
 }
 
 void Edit_page::contextMenuEvent(QContextMenuEvent *event)
@@ -200,17 +200,14 @@ void Edit_page::initSetup()
     m_noteHead = new noteHead(this);
     m_noteHeadMenu = new noteHeadMenu(this);
 
-    m_noteHead->move(0,0);
-    m_noteHeadMenu->move(0,0);
-    m_noteHead->show();
+    ui->verticalLayout_3->addWidget(m_noteHead);
+    ui->verticalLayout_3->addWidget(m_noteHeadMenu);
     m_noteHeadMenu->hide();
 
     ui->textEdit->setFrameShape(QFrame::NoFrame);
-//    ui->textEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->textEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     // 禁用右键菜单
     ui->textEdit->setContextMenuPolicy(Qt::NoContextMenu);
-//    ui->textEdit->setFontPointSize(14);
 }
 
 void Edit_page::btnSetup()
@@ -574,7 +571,7 @@ void Edit_page::initColor()
     color[5]="background:rgba(248,209,93,1);";
     color[6]="background:rgba(42,162,217,1);";
     color[7]="background:rgba(110,207,67,1);";
-    color[8]="background:rgba(250,243,175,1);";
+    color[8]="background:rgba(144,101,255,1);";
 
     color_num[0]=QColor(76,119,231);
     color_num[1]=QColor(250,108,99);
@@ -584,7 +581,7 @@ void Edit_page::initColor()
     color_num[5]=QColor(248,209,93);
     color_num[6]=QColor(42,162,217);
     color_num[7]=QColor(110,207,67);
-    color_num[8]=QColor(250,243,175);
+    color_num[8]=QColor(144,101,255);
     color_num[9]=QColor(0,0,0);
 
     //监听主题改变
@@ -640,37 +637,20 @@ void Edit_page::blueBtnSlot()
     emit colorhasChanged(m_editColor,m_noteId);
     m_noteHead->color_widget = QColor(76,119,231);
     m_noteHeadMenu->color_widget = QColor(76,119,231);
-    QString _Stylesheet;
-    QString _BgColor;
-    _BgColor = m_editColor.name();
-    _Stylesheet = "background-color: %1;";
-    _Stylesheet = _Stylesheet.arg(_BgColor);
-    m_noteHeadMenu->ui->pushButtonExit->setStyleSheet(_Stylesheet);
-    m_noteHeadMenu->ui->pushButtonMenu->setStyleSheet(_Stylesheet);
-    m_noteHeadMenu->ui->pushButtonExit->setIcon(QPixmap(":/image/1x/close_block.png"));
-    m_noteHeadMenu->ui->pushButtonExit->setIconSize(QSize(20,20));
-    m_noteHeadMenu->ui->pushButtonMenu->setIcon(QPixmap(":/image/1x/more_block.png"));
-    m_noteHeadMenu->ui->pushButtonMenu->setIconSize(QSize(20,20));
     update();
 }
 
 void Edit_page::redBtnSlot()
 {
-    m_editColor = QColor(250,108,99);
+    m_editColor = QColor(255,108,99);
     emit colorhasChanged(m_editColor,m_noteId);
     m_noteHead->color_widget = QColor(250,108,99);
     m_noteHeadMenu->color_widget = QColor(250,108,99);
-    QString _Stylesheet;
-    QString _BgColor;
-    _BgColor = m_editColor.name();
-    _Stylesheet = "background-color: %1;";
-    _Stylesheet = _Stylesheet.arg(_BgColor);
-    m_noteHeadMenu->ui->pushButtonExit->setStyleSheet(_Stylesheet);
-    m_noteHeadMenu->ui->pushButtonMenu->setStyleSheet(_Stylesheet);
-    m_noteHeadMenu->ui->pushButtonExit->setIcon(QPixmap(":/image/1x/close_block.png"));
-    m_noteHeadMenu->ui->pushButtonExit->setIconSize(QSize(20,20));
-    m_noteHeadMenu->ui->pushButtonMenu->setIcon(QPixmap(":/image/1x/more_block.png"));
-    m_noteHeadMenu->ui->pushButtonMenu->setIconSize(QSize(20,20));
+
+//    QString _BgColor = m_editColor.name();
+//    QString _Stylesheet = "background-color: %1;";
+//    _Stylesheet = _Stylesheet.arg(_BgColor);
+//    m_noteHeadMenu->ui->pushButtonExit->setStyleSheet(_Stylesheet);
     update();
 }
 
@@ -680,17 +660,6 @@ void Edit_page::darkGreenBtnSlot()
     emit colorhasChanged(m_editColor,m_noteId);
     m_noteHead->color_widget =QColor(15,161,90);
     m_noteHeadMenu->color_widget =QColor(15,161,90);
-    QString _Stylesheet;
-    QString _BgColor;
-    _BgColor = m_editColor.name();
-    _Stylesheet = "background-color: %1;";
-    _Stylesheet = _Stylesheet.arg(_BgColor);
-    m_noteHeadMenu->ui->pushButtonExit->setStyleSheet(_Stylesheet);
-    m_noteHeadMenu->ui->pushButtonMenu->setStyleSheet(_Stylesheet);
-    m_noteHeadMenu->ui->pushButtonExit->setIcon(QPixmap(":/image/1x/close_block.png"));
-    m_noteHeadMenu->ui->pushButtonExit->setIconSize(QSize(20,20));
-    m_noteHeadMenu->ui->pushButtonMenu->setIcon(QPixmap(":/image/1x/more_block.png"));
-    m_noteHeadMenu->ui->pushButtonMenu->setIconSize(QSize(20,20));
     update();
 }
 
@@ -700,17 +669,6 @@ void Edit_page::orangeBtnSlot()
     emit colorhasChanged(m_editColor,m_noteId);
     m_noteHead->color_widget =QColor(255,151,47);
     m_noteHeadMenu->color_widget =QColor(255,151,47);
-    QString _Stylesheet;
-    QString _BgColor;
-    _BgColor = m_editColor.name();
-    _Stylesheet = "background-color: %1;";
-    _Stylesheet = _Stylesheet.arg(_BgColor);
-    m_noteHeadMenu->ui->pushButtonExit->setStyleSheet(_Stylesheet);
-    m_noteHeadMenu->ui->pushButtonMenu->setStyleSheet(_Stylesheet);
-    m_noteHeadMenu->ui->pushButtonExit->setIcon(QPixmap(":/image/1x/close_block.png"));
-    m_noteHeadMenu->ui->pushButtonExit->setIconSize(QSize(20,20));
-    m_noteHeadMenu->ui->pushButtonMenu->setIcon(QPixmap(":/image/1x/more_block.png"));
-    m_noteHeadMenu->ui->pushButtonMenu->setIconSize(QSize(20,20));
     update();
 }
 
@@ -720,17 +678,6 @@ void Edit_page::purpleBtnSlot()
     emit colorhasChanged(m_editColor,m_noteId);
     m_noteHead->color_widget = QColor(186,123,216);
     m_noteHeadMenu->color_widget = QColor(186,123,216);
-    QString _Stylesheet;
-    QString _BgColor;
-    _BgColor = m_editColor.name();
-    _Stylesheet = "background-color: %1;";
-    _Stylesheet = _Stylesheet.arg(_BgColor);
-    m_noteHeadMenu->ui->pushButtonExit->setStyleSheet(_Stylesheet);
-    m_noteHeadMenu->ui->pushButtonMenu->setStyleSheet(_Stylesheet);
-    m_noteHeadMenu->ui->pushButtonExit->setIcon(QPixmap(":/image/1x/close_block.png"));
-    m_noteHeadMenu->ui->pushButtonExit->setIconSize(QSize(20,20));
-    m_noteHeadMenu->ui->pushButtonMenu->setIcon(QPixmap(":/image/1x/more_block.png"));
-    m_noteHeadMenu->ui->pushButtonMenu->setIconSize(QSize(20,20));
     update();
 }
 
@@ -740,17 +687,6 @@ void Edit_page::goldenBtnSlot()
     emit colorhasChanged(m_editColor,m_noteId);
     m_noteHead->color_widget = QColor(248,209,93);
     m_noteHeadMenu->color_widget = QColor(248,209,93);
-    QString _Stylesheet;
-    QString _BgColor;
-    _BgColor = m_editColor.name();
-    _Stylesheet = "background-color: %1;";
-    _Stylesheet = _Stylesheet.arg(_BgColor);
-    m_noteHeadMenu->ui->pushButtonExit->setStyleSheet(_Stylesheet);
-    m_noteHeadMenu->ui->pushButtonMenu->setStyleSheet(_Stylesheet);
-    m_noteHeadMenu->ui->pushButtonExit->setIcon(QPixmap(":/image/1x/close_block.png"));
-    m_noteHeadMenu->ui->pushButtonExit->setIconSize(QSize(20,20));
-    m_noteHeadMenu->ui->pushButtonMenu->setIcon(QPixmap(":/image/1x/more_block.png"));
-    m_noteHeadMenu->ui->pushButtonMenu->setIconSize(QSize(20,20));
     update();
 }
 
@@ -760,17 +696,6 @@ void Edit_page::lightBlueBtnSlot()
     emit colorhasChanged(m_editColor,m_noteId);
     m_noteHead->color_widget = QColor(42,162,217);
     m_noteHeadMenu->color_widget = QColor(42,162,217);
-    QString _Stylesheet;
-    QString _BgColor;
-    _BgColor = m_editColor.name();
-    _Stylesheet = "background-color: %1;";
-    _Stylesheet = _Stylesheet.arg(_BgColor);
-    m_noteHeadMenu->ui->pushButtonExit->setStyleSheet(_Stylesheet);
-    m_noteHeadMenu->ui->pushButtonMenu->setStyleSheet(_Stylesheet);
-    m_noteHeadMenu->ui->pushButtonExit->setIcon(QPixmap(":/image/1x/close_block.png"));
-    m_noteHeadMenu->ui->pushButtonExit->setIconSize(QSize(20,20));
-    m_noteHeadMenu->ui->pushButtonMenu->setIcon(QPixmap(":/image/1x/more_block.png"));
-    m_noteHeadMenu->ui->pushButtonMenu->setIconSize(QSize(20,20));
     update();
 }
 
@@ -780,37 +705,15 @@ void Edit_page::lightGreenBtnSlot()
     emit colorhasChanged(m_editColor,m_noteId);
     m_noteHead->color_widget = QColor(110,207,67);
     m_noteHeadMenu->color_widget = QColor(110,207,67);
-    QString _Stylesheet;
-    QString _BgColor;
-    _BgColor = m_editColor.name();
-    _Stylesheet = "background-color: %1;";
-    _Stylesheet = _Stylesheet.arg(_BgColor);
-    m_noteHeadMenu->ui->pushButtonExit->setStyleSheet(_Stylesheet);
-    m_noteHeadMenu->ui->pushButtonMenu->setStyleSheet(_Stylesheet);
-    m_noteHeadMenu->ui->pushButtonExit->setIcon(QPixmap(":/image/1x/close_block.png"));
-    m_noteHeadMenu->ui->pushButtonExit->setIconSize(QSize(20,20));
-    m_noteHeadMenu->ui->pushButtonMenu->setIcon(QPixmap(":/image/1x/more_block.png"));
-    m_noteHeadMenu->ui->pushButtonMenu->setIconSize(QSize(20,20));
     update();
 }
 
 void Edit_page::yellowBtnSlot()
 {
-    m_editColor = QColor(250,243,175);
+    m_editColor = QColor(144,101,255);
     emit colorhasChanged(m_editColor,m_noteId);
-    m_noteHead->color_widget = QColor(250,243,175);
-    m_noteHeadMenu->color_widget = QColor(250,243,175);
-    QString _Stylesheet;
-    QString _BgColor;
-    _BgColor = m_editColor.name();
-    _Stylesheet = "background-color: %1;";
-    _Stylesheet = _Stylesheet.arg(_BgColor);
-    m_noteHeadMenu->ui->pushButtonExit->setStyleSheet(_Stylesheet);
-    m_noteHeadMenu->ui->pushButtonMenu->setStyleSheet(_Stylesheet);
-    m_noteHeadMenu->ui->pushButtonExit->setIcon(QPixmap(":/image/1x/close_block.png"));
-    m_noteHeadMenu->ui->pushButtonExit->setIconSize(QSize(20,20));
-    m_noteHeadMenu->ui->pushButtonMenu->setIcon(QPixmap(":/image/1x/more_block.png"));
-    m_noteHeadMenu->ui->pushButtonMenu->setIconSize(QSize(20,20));
+    m_noteHead->color_widget = QColor(144,101,255);
+    m_noteHeadMenu->color_widget = QColor(144,101,255);
     update();
 }
 
@@ -820,17 +723,6 @@ void Edit_page::pinkBtnSlot()
     emit colorhasChanged(m_editColor,m_noteId);
     m_noteHead->color_widget = QColor(245,80,159);
     m_noteHeadMenu->color_widget = QColor(245,80,159);
-    QString _Stylesheet;
-    QString _BgColor;
-    _BgColor = m_editColor.name();
-    _Stylesheet = "background-color: %1;";
-    _Stylesheet = _Stylesheet.arg(_BgColor);
-    m_noteHeadMenu->ui->pushButtonExit->setStyleSheet(_Stylesheet);
-    m_noteHeadMenu->ui->pushButtonMenu->setStyleSheet(_Stylesheet);
-    m_noteHeadMenu->ui->pushButtonExit->setIcon(QPixmap(":/image/1x/close_block.png"));
-    m_noteHeadMenu->ui->pushButtonExit->setIconSize(QSize(20,20));
-    m_noteHeadMenu->ui->pushButtonMenu->setIcon(QPixmap(":/image/1x/more_block.png"));
-    m_noteHeadMenu->ui->pushButtonMenu->setIconSize(QSize(20,20));
     update();
 }
 

@@ -37,7 +37,6 @@ public:
     void paintEvent(QPaintEvent *event);
     QColor color_widget;
 
-
 private:
     Ui::noteHead *ui;
 };
