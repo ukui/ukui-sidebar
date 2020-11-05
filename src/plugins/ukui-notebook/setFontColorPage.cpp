@@ -76,7 +76,7 @@ void Set_font_color_page::set_color()
     if(QGSettings::isSchemaInstalled(id)){
         QGSettings *styleSettings = new QGSettings(id);
         QString style = styleSettings->get(MODE_QT_KEY).toString();
-        if(style == "ukui-default"){
+        if(style == "ukui-default" || style == "ukui-white"){
             color[9]="background:rgba(0,0,0,1);";
         }else {
             color[9]="background:rgba(255,255,255,1);";
@@ -84,10 +84,10 @@ void Set_font_color_page::set_color()
         connect(styleSettings, &QGSettings::changed, this, [=](const QString &key){
             if (key == "styleName"){
                 QString currentTheme = styleSettings->get(MODE_QT_KEY).toString();
-                if(currentTheme == "ukui-default"){
+                if(currentTheme == "ukui-default" || currentTheme == "ukui-white"){
                     color[9]="background:rgba(0,0,0,1);";
                     list_page[9]->ui->label->setStyleSheet(color[9]+"border-radius:3px;");
-                }else if(currentTheme == "ukui-dark"){
+                }else if(currentTheme == "ukui-dark" || currentTheme == "ukui-black"){
                     color[9]="background:rgba(255,255,255,1);";
                     list_page[9]->ui->label->setStyleSheet(color[9]+"border-radius:3px;");
                 }
