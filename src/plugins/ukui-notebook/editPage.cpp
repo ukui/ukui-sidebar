@@ -51,7 +51,6 @@ Edit_page::Edit_page(Widget* page, int noteId, QWidget *parent) :
     ui->setupUi(this);
     initSetup();
     slotsSetup();
-//    listenToGsettings();
 }
 
 Edit_page::~Edit_page()
@@ -273,61 +272,6 @@ void Edit_page::slotsSetup()
     connect(text_edit_page->texteditwidget->ui->orderedBtn, &QPushButton::clicked, this, &Edit_page::setOrderedListSlot);
     connect(ui->textEdit, &QTextEdit::cursorPositionChanged, this, &Edit_page::cursorPositionChangedSlot);
     connect(ui->textEdit, &QTextEdit::currentCharFormatChanged, this, &Edit_page::currentCharFormatChangedSlot);
-}
-
-void Edit_page::listenToGsettings()
-{
-    qDebug() << "Edit_page::listenToGsettings";
-    //监听主题改变
-    const QByteArray id(THEME_QT_SCHEMA);
-    if(QGSettings::isSchemaInstalled(id)){
-        QGSettings *styleSettings = new QGSettings(id);
-        auto style = styleSettings->get(MODE_QT_KEY).toString();
-        if(style == "ukui-default"){
-//            QPalette palette = color_page->paletteWidget->ui->pinkBtn->palette();
-//            palette.setBrush(QPalette::Button, QColor(0,0,0));
-//            color_page->paletteWidget->ui->pinkBtn->setPalette(palette);
-            color_page->paletteWidget->ui->pinkBtn->setStyleSheet("background:rgba(0,0,0,1);"
-                                                                     "border-radius:2px;");
-        }else if(style == "ukui-dark"){
-            color_page->paletteWidget->ui->pinkBtn->setStyleSheet("background:rgba(255,255,255,1);"
-                                                                     "border-radius:2px;");
-        }
-        qDebug() << "Edit_page::listenToGsettings 当前主题名:" << style;
-        connect(styleSettings, &QGSettings::changed, this, [=](const QString &key){
-            qDebug() << "当前主题改变" << key;
-            if (key == "styleName"){
-                QString currentTheme = styleSettings->get(MODE_QT_KEY).toString();
-                qDebug() << "currentTheme" << currentTheme;
-                if(currentTheme == "ukui-default"){
-                    qDebug() << "styleSettings changed ukui-default";
-                    color_page->paletteWidget->ui->pinkBtn->setStyleSheet("background:rgba(0,0,0,1);"
-                                                                             "border-radius:2px;");
-                }else if(currentTheme == "ukui-dark"){
-                    qDebug() << "styleSettings changed ukui-dark";
-                    color_page->paletteWidget->ui->pinkBtn->setStyleSheet("background:rgba(255,255,255,1);"
-                                                                             "border-radius:2px;");
-                }
-            }
-        });
-    }
-
-    const QByteArray idd(PERSONALISE_SCHEMA);
-
-    if(QGSettings::isSchemaInstalled(idd))
-    {
-        QGSettings *opacitySettings = new QGSettings(idd);
-        connect(opacitySettings,&QGSettings::changed, this, [=](const QString &key){
-            if(key == "transparency"){
-                QStringList keys = opacitySettings->keys();
-                if (keys.contains("transparency")){
-                    double m_transparency = opacitySettings->get("transparency").toDouble();
-                }
-            }
-            repaint();
-        });
-        double m_transparency = opacitySettings->get("transparency").toDouble();
-    }
 }
 
 void Edit_page::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
@@ -582,33 +526,6 @@ void Edit_page::initColor()
     color_num[6]=QColor(42,162,217);
     color_num[7]=QColor(110,207,67);
     color_num[8]=QColor(144,101,255);
-    color_num[9]=QColor(0,0,0);
-
-    //监听主题改变
-    const QByteArray id(THEME_QT_SCHEMA);
-    if(QGSettings::isSchemaInstalled(id)){
-        QGSettings *styleSettings = new QGSettings(id);
-        QString style = styleSettings->get(MODE_QT_KEY).toString();
-        if(style == "ukui-default"){
-            color[9]="background:rgba(0,0,0,1);";
-        }else {
-            color[9]="background:rgba(255,255,255,1);";
-        }
-        text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet(color[9]+"border-radius:3px;");
-        connect(styleSettings, &QGSettings::changed, this, [=](const QString &key){
-            if (key == "styleName"){
-                QString currentTheme = styleSettings->get(MODE_QT_KEY).toString();
-                if(currentTheme == "ukui-default"){
-                    color[9]="background:rgba(0,0,0,1);";
-                }else if(currentTheme == "ukui-dark"){
-                    color[9]="background:rgba(255,255,255,1);";
-                }
-            }
-            if(defaultStyle){
-                text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet(color[9]+"border-radius:3px;");
-            }
-        });
-    }
 }
 
 void Edit_page::setFontColorSlot ()
