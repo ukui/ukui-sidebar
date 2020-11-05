@@ -24,6 +24,7 @@
 #include "headerbar.h"
 #include "customStyle.h"
 #include "CloseButton/closebutton.h"
+#include <unistd.h>
 
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 
@@ -327,6 +328,13 @@ void Widget::listenToGsettings()
                     m_isThemeChanged = 1;
                 }
             }
+            QTimer::singleShot(500,this, [=](){
+                QList<QWidget *> wid = m_searchLine->findChildren<QWidget *>();
+                for (int i=0; i < wid.count(); i++){
+                    qDebug() << "find children";
+                    wid.at(i)->setAttribute(Qt::WA_Hover, false);
+                }
+            });
         });
     }
 
@@ -902,6 +910,17 @@ void Widget::searchInit()
     m_searchLine->setProperty("useIconHighlightEffect", true);
     m_searchLine->setProperty("iconHighlightEffectMode", 1);
     m_searchLine->addAction(searchAction,QLineEdit::LeadingPosition);  //图片在左侧
+//    m_searchLine->setAttribute(Qt::WA_Hover, true);
+
+    QTimer::singleShot(500,this, [=](){
+        QList<QWidget *> wid = m_searchLine->findChildren<QWidget *>();
+        for (int i=0; i < wid.count(); i++){
+            qDebug() << "find children";
+            wid.at(i)->setAttribute(Qt::WA_Hover, false);
+        }
+    });
+
+
 
     delAction = new QAction(m_searchLine);
 //    delAction->setIcon(QPixmap(":/image/1x/close_light.png").scaled(QSize(16,16)));
