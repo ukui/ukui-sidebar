@@ -17,9 +17,9 @@
         <file>image/1x/go-bottom-symbolic.png</file>
         <file>image/1x/Italic.png</file>
         <file>image/1x/list.png</file>
-        <file>image/1x/new-big-click.png</file>
-        <file>image/1x/new-big.png</file>
-        <file>image/1x/new.png</file>
+        <file>image/1x/new-normal.png</file>
+        <file>image/1x/new-hover.png</file>
+        <file>image/1x/new-click.png</file>
         <file>image/1x/note_color.png</file>
         <file>image/1x/number.png</file>
         <file>image/1x/open_note-book.png</file>
@@ -36,12 +36,12 @@
         <file>image/kylin-notebook.svg</file>
         <file>image/1x/sourch.png</file>
         <file>image/1x/skin.png</file>
-        <file>image/1x/more_block.png</file>
+        <file>image/1x/menu-black.png</file>
+        <file>image/1x/menu-light.png</file>
         <file>image/1x/mini_block.png</file>
-        <file>image/1x/close_block.png</file>
-        <file>image/1x/close_light.png</file>
+        <file>image/1x/close-black.png</file>
+        <file>image/1x/close-light.png</file>
         <file>image/1x/mini_light.png</file>
-        <file>image/1x/more_light.png</file>
         <file>image/1x/close2.png</file>
         <file>image/1x/close3.png</file>
         <file>image/1x/mini2.png</file>

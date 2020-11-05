@@ -68,7 +68,7 @@ void Set_font_color_page::set_color()
     color[5]="background:rgba(248,209,93,1);";
     color[6]="background:rgba(42,162,217,1);";
     color[7]="background:rgba(110,207,67,1);";
-    color[8]="background:rgba(250,243,175,1);";
+    color[8]="background:rgba(144,101,255,1);";
 //    color[9]="background:rgba(236,238,242,1);";
 
     //监听主题改变

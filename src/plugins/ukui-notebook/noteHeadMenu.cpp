@@ -17,9 +17,12 @@
 */
 
 #include <QPainterPath>
+#include <QDebug>
 
 #include "noteHeadMenu.h"
 #include "ui_noteHeadMenu.h"
+
+static QPixmap drawSymbolicColoredPixmap (const QPixmap&, QPushButton *);
 
 noteHeadMenu::noteHeadMenu(QWidget *parent) :
     QWidget(parent)
@@ -28,7 +31,7 @@ noteHeadMenu::noteHeadMenu(QWidget *parent) :
 
 {
     ui->setupUi(this);
-    this->resize(250,20);
+    setMinimumSize(250,34);
     buttonInit();
 }
 
@@ -58,15 +61,44 @@ void noteHeadMenu::paintEvent(QPaintEvent *event)
 
 void noteHeadMenu::buttonInit()
 {
-    ui->pushButtonExit->setIcon(QPixmap(":/image/1x/close_block.png"));
-//    ui->pushButtonExit->setIcon(QIcon::fromTheme("window-close-symbolic"));
-    ui->pushButtonExit->setIconSize(QSize(20,20));
-    ui->pushButtonMenu->setIcon(QPixmap(":/image/1x/more_block.png"));
-    ui->pushButtonMenu->setIconSize(QSize(20,20));
-    ui->pushButtonExit->setProperty("useIconHighlightEffect", true);
-    ui->pushButtonExit->setProperty("iconHighlightEffectMode", 1);
+    ui->pushButtonExit->setIcon(drawSymbolicColoredPixmap(QIcon::fromTheme("window-close-symbolic").pixmap(16,16), ui->pushButtonExit));
+    ui->pushButtonMenu->setIcon(drawSymbolicColoredPixmap(QIcon::fromTheme("open-menu-symbolic").pixmap(16,16), ui->pushButtonMenu));
+
+    QString _Stylesheet = "QPushButton{background-color: rgba(0,0,0,0);}"
+                  "QPushButton:hover{background-color: rgba(0,0,0,0.12);}"
+                  "QPushButton:pressed{background-color: rgba(0,0,0,0.2);}";
+
+    ui->pushButtonNew->setStyleSheet("QPushButton{border-image:url(:/image/1x/new-normal.png);}"
+                                "QPushButton:hover{border-image:url(:/image/1x/new-hover.png);}"
+                                "QPushButton:pressed{border-image:url(:/image/1x/new-click.png);}");
+
+    ui->pushButtonExit->setStyleSheet(_Stylesheet);
+    ui->pushButtonMenu->setStyleSheet(_Stylesheet);
+
+    QPalette palette = ui->pushButtonExit->palette();
+    palette.setColor(QPalette::Highlight, Qt::transparent); /* 取消按钮高亮 */
+    ui->pushButtonExit->setPalette(palette);
+    ui->pushButtonMenu->setPalette(palette);
+
     ui->pushButtonMenu->hide();
-    QPalette palette2 = ui->pushButtonExit->palette();
-    palette2.setColor(QPalette::Highlight, Qt::transparent); /* 取消按钮高亮 */
-    ui->pushButtonExit->setPalette(palette2);
+    ui->pushButtonNew->hide();
+}
+
+QPixmap drawSymbolicColoredPixmap(const QPixmap& source, QPushButton *btn)
+{
+    QColor baseColor = btn->palette().color(QPalette::Text).light(150);
+    QImage img = source.toImage();
+
+    qDebug() << "drawSymbolicColoredPixmap" << baseColor.red() << baseColor.green() <<baseColor.blue();
+    for (int x = 0; x < img.width(); ++x) {
+        for (int y = 0; y < img.height(); ++y) {
+            auto color = img.pixelColor(x, y);
+            color.setRed(255 - baseColor.red());
+            color.setGreen(255 - baseColor.green());
+            color.setBlue(255 - baseColor.blue());
+            img.setPixelColor(x, y, color);
+        }
+    }
+
+    return QPixmap::fromImage(img);
 }

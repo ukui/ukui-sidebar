@@ -27,7 +27,7 @@ noteHead::noteHead(QWidget *parent) :
   , ui(new Ui::noteHead)
 {
     ui->setupUi(this);
-    this->resize(250,8);
+    setMinimumSize(250, 8);
 }
 
 noteHead::~noteHead()

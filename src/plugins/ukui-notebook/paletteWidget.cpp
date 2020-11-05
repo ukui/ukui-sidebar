@@ -61,7 +61,7 @@ void PaletteWidget::btnSetup()
                                "border-radius:2px;");
     ui->lightGreenBtn->setStyleSheet("background:rgba(110,207,67,1);"
                                "border-radius:2px;");
-    ui->yellowBtn->setStyleSheet("background:rgba(250,243,175,1);"
+    ui->yellowBtn->setStyleSheet("background:rgba(144,101,255,1);"
                                "border-radius:2px;");
     ui->pinkBtn->setStyleSheet("background:rgba(245,80,159,1);"
                                "border-radius:2px;");
