@@ -662,8 +662,10 @@ void Widget::ClipboardHideSlots()
 /* 接受任务栏点击信号，当任务栏点击左键时，关闭任务栏 */
 void Widget::ClickPanelHideSidebarSlots()
 {
-    mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
-    hideAnimation();
+    if (m_bClipboardFlag) {
+        mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
+        hideAnimation();
+    }
     return;
 }
 
@@ -798,7 +800,7 @@ void Widget::bootOptionsFilter(QString opt){
 bool Widget::eventFilter(QObject *obj, QEvent *event)
 {
     if (obj == this) {
-        if (/*(*/event->type() == QEvent::WindowDeactivate/* || (event->type() == QEvent::WindowUnblocked)) */ \
+        if (event->type() == QEvent::WindowDeactivate \
                 && true == m_bShowFlag && true == m_bClipboardFlag) {
             qDebug() << "Widget::eventFilter 消失";
             mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
