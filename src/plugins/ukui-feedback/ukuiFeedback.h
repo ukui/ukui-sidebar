@@ -40,7 +40,7 @@
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkRequest>
 #include <vector>
-#include <QMouseEvent>
+
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCheckBox>
@@ -68,6 +68,8 @@
 #include <QBitmap>
 #include <QGraphicsDropShadowEffect>
 #include <QGSettings/qgsettings.h>
+#include <QMouseEvent>
+
 class QSqlTableModel;
 class QPushButton;
 class QLabel;
@@ -126,6 +128,11 @@ public:
     QGSettings *style_settings;
     QPalette palette_blue;
     QPalette palette_gray;
+
+    QLabel *logoLabel;
+    QLabel *titleLabel;
+    QPushButton * titleBtn;
+
 
     //*************************
     void UI_init();
@@ -193,6 +200,11 @@ private:
 
     submit_fail *fail_dialog=nullptr;
     submit_success * success_dialog=nullptr;
+
+    QPoint dragPosition;                                            //拖动坐标
+    bool mousePressed;                                              //鼠标是否按下
+
+
 //logflag
     int syslogflag = 0;
     int apportlogflag = 0;
@@ -241,12 +253,6 @@ private:
     int pixmap_i = 0;
     bool window_is_close_flag  = false;
     bool file_send_failed_flag = true;
-
-
-    QPoint dragPosition;                                            //拖动坐标
-    bool mousePressed = false;                                              //鼠标是否按下
-
-
 
 };
 #endif // FEEDBACK_H
