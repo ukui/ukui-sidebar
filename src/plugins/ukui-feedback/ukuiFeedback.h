@@ -129,6 +129,11 @@ public:
     QPalette palette_blue;
     QPalette palette_gray;
 
+    QLabel *logoLabel;
+    QLabel *titleLabel;
+    QPushButton * titleBtn;
+
+
     //*************************
     void UI_init();
     void systeminfo_show(QPointF pt);

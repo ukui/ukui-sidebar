@@ -186,6 +186,23 @@ void feedback::UI_init()
     centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
     centralwidget->setAttribute(Qt::WA_TranslucentBackground);
 
+    logoLabel = new QLabel(centralwidget);
+    logoLabel->setPixmap(QPixmap("://image/24x24/kylin-feedback.png"));
+    logoLabel->setGeometry(QRect(8,8,24,24));
+
+    titleLabel = new QLabel(centralwidget);
+    titleLabel->setText(tr("feedback"));
+    titleLabel->setGeometry(QRect(40,11,56,19));
+    titleLabel->setStyleSheet(QString::fromUtf8("font: 14px;\n"));
+
+    titleBtn = new QPushButton(centralwidget);
+    titleBtn->setGeometry(QRect(486,14,30,30));
+    titleBtn->setIcon(QIcon::fromTheme("application-menu"));
+    titleBtn->setPalette(palette);
+    titleBtn->setProperty("useIconHighlightEffect", true);
+    titleBtn->setProperty("iconHighlightEffectMode", 1);
+
+
     label = new QLabel(centralwidget);
     label->setText(tr("feedback"));
     label->setObjectName(QString::fromUtf8("label"));
