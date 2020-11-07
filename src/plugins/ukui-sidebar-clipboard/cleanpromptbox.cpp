@@ -39,7 +39,7 @@ CleanPromptBox::CleanPromptBox()
 
 
     this->setLayout(m_pHintWidgetVLaout);
-    this->setWindowFlags(Qt::FramelessWindowHint);
+    this->setWindowFlags(Qt::Popup/*Qt::FramelessWindowHint*/);
     this->setAttribute(Qt::WA_TranslucentBackground);
     return;
 }
@@ -51,8 +51,10 @@ void CleanPromptBox::initGsettingTransparency()
         m_pTransparency = new QGSettings(UKUI_TRANSPARENCY_SETTING);
         m_dTranSparency = m_pTransparency->get("transparency").toDouble();
         connect(m_pTransparency, &QGSettings::changed, this, [=](QString value) {
-           // qDebug() << value;
-            m_dTranSparency = m_pTransparency->get("transparency").toDouble();;
+            if (value == "transparency") {
+                qDebug() << "hello world23333";
+                m_dTranSparency = m_pTransparency->get("transparency").toDouble();
+            }
         });
     }
 }

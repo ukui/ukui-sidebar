@@ -798,7 +798,8 @@ void Widget::bootOptionsFilter(QString opt){
 bool Widget::eventFilter(QObject *obj, QEvent *event)
 {
     if (obj == this) {
-        if (event->type() == QEvent::WindowDeactivate && true == m_bShowFlag && true == m_bClipboardFlag) {
+        if (/*(*/event->type() == QEvent::WindowDeactivate/* || (event->type() == QEvent::WindowUnblocked)) */ \
+                && true == m_bShowFlag && true == m_bClipboardFlag) {
             qDebug() << "Widget::eventFilter 消失";
             mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
             hideAnimation();
@@ -809,7 +810,6 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
             return true;
         }
     }
-
     if (!isActiveWindow() && true == m_bShowFlag) {
         activateWindow();
     }

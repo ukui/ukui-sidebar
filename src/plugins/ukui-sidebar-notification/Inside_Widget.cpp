@@ -19,7 +19,6 @@ void inside_widget::initGsettingTransparency()
 
 void inside_widget::paintEvent(QPaintEvent *e)
 {
-
     QPainter p(this);
 
     QRect rect = this->rect();
@@ -30,6 +29,5 @@ void inside_widget::paintEvent(QPaintEvent *e)
     p.setOpacity(m_dTranSparency);
     p.setPen(Qt::NoPen);
     p.drawRoundedRect(rect,0,0);
-
     QWidget::paintEvent(e);
 }
