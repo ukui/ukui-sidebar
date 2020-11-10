@@ -18,11 +18,13 @@
 #include "mainwidget.h"
 #include <QDebug>
 #include <QApplication>
+
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 
 MainWidget::MainWidget()
 {
     createAction();
+    getTransParency();
 }
 
 // 创建动作
@@ -36,6 +38,31 @@ void MainWidget::createAction()
     this->addAction(SetAction);
     this->addAction(EditAction);
 //    this->setContextMenuPolicy(Qt::ActionsContextMenu);
+}
+
+// 获取当前的透明底，并计算当前透明度匹配值
+void MainWidget::getTransParency()
+{
+    if (QGSettings::isSchemaInstalled(UKUI_TRANSPARENCY_SETTING)) {
+        m_pTransparency = new QGSettings(UKUI_TRANSPARENCY_SETTING);
+        if (nullptr != m_pTransparency) {
+            m_dtranSparency = m_pTransparency->get("transparency").toDouble();
+            setTransParency();
+            connect(m_pTransparency, &QGSettings::changed, this, [=](QString key) {
+                if (key == "transparency") {
+                    m_dtranSparency = m_pTransparency->get("transparency").toDouble();
+                    setTransParency();
+                }
+            });
+        }
+    }
+}
+
+// 设置当前匹配的透明度值
+void MainWidget::setTransParency()
+{
+    m_dtranSparency = 1 - (1 - m_dtranSparency) / 2.0;
+    return;
 }
 
 //重新绘制背景色
@@ -65,7 +92,7 @@ void MainWidget::paintEvent(QPaintEvent *event)
     pixmapPainter2.setPen(Qt::transparent);
     pixmapPainter2.setBrush(Qt::transparent);
     pixmapPainter2.drawPath(rectPath);
-
+    p.setOpacity(m_dtranSparency);
     p.drawPixmap(this->rect(), pixmap, pixmap.rect());
     p.save();
     p.fillPath(rectPath, qApp->palette().color(QPalette::Base));
