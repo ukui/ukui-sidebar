@@ -22,6 +22,7 @@
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
 #include <QDebug>
+#include <QPainterPath>
 
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 
