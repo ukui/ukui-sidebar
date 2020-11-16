@@ -143,7 +143,7 @@ void listViewModeDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     int m_noteColor{index.data(NoteModel::NoteColor).toInt()};
     painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     painter->setBrush(QBrush(intToQcolor(m_noteColor)));
-
+    painter->setOpacity(1);
     painter->setPen(Qt::transparent);
     opt.rect.setWidth(678);
     opt.rect.setHeight(opt.rect.height() - 5);
@@ -155,34 +155,39 @@ void listViewModeDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
 
     //绘制第二层底色背景
     painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-
+//    painter->setOpacity(0.65);
     painter->setBrush(opt.palette.color(QPalette::Base));
 
-    //系统默认 255 、 248  深色模式 34 30
-    if(painter->brush().color().value() == 255)
-    {
-        painter->setBrush(QColor(245,245,245));
-    }else if(painter->brush().color().value() == 248)
-    {
-        painter->setBrush(QColor(245,245,245));
-    }else if(painter->brush().color().value() == 30)
-    {
-        painter->setBrush(QColor(40,40,46));
-    }else if(painter->brush().color().value() == 34)
-    {
-        painter->setBrush(QColor(40,40,46));
-    }
+//    //系统默认 255 、 248  深色模式 34 30
+//    if(painter->brush().color().value() == 255)
+//    {
+//        painter->setBrush(QColor(245,245,245));
+//    }else if(painter->brush().color().value() == 248)
+//    {
+//        painter->setBrush(QColor(245,245,245));
+//    }else if(painter->brush().color().value() == 30)
+//    {
+//        painter->setBrush(QColor(40,40,46));
+//    }else if(painter->brush().color().value() == 34)
+//    {
+//        painter->setBrush(QColor(40,40,46));
+//    }
 
     painter->setPen(Qt::transparent);
-    opt.rect.setWidth(678);
+
     opt.rect.setHeight(opt.rect.height() - 0);
     opt.rect.setLeft(opt.rect.left() + 5);
+    opt.rect.setWidth(673);
     {
         QPainterPath painterPath;
         painterPath.addRoundedRect(opt.rect, 0, 0);
+//        painterPath.setFillRule(Qt::WindingFill); // 多块区域组合填充模式
+//        painterPath.addRect(0, opt.rect.height() - 10, 10, 10); // 填充左下角
+//        painterPath.addRect(0, 0, 10, 10); // 填充左上角
+//        painter->setClipPath(painterPath);
         painter->drawPath(painterPath);
+//        painter->drawRect(opt.rect);
     }
-
     paintBackground(painter, opt, index);
     paintLabels(painter, option, index);
 }

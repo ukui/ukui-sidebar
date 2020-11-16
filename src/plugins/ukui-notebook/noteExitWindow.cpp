@@ -33,6 +33,11 @@ noteExitWindow::noteExitWindow(Widget* page, QWidget *parent) :
     setAttribute(Qt::WA_TranslucentBackground);
     setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
 
+    QPainterPath blurPath;
+    blurPath.addRoundedRect(rect().adjusted(6, 6, -6, -6), 6, 6);      //增加圆角
+    setProperty("useSystemStyleBlur", true);
+    setProperty("blurRegion", QRegion(blurPath.toFillPolygon().toPolygon()));//使用QPainterPath的api生成多边形Region
+
     QBitmap bmp(this->size());
     bmp.fill();
     QPainter p(&bmp);
@@ -85,6 +90,7 @@ void noteExitWindow::paintEvent(QPaintEvent *event)
 
     // 绘制一个背景
     p.save();
+    p.setOpacity(0.7);
     p.fillPath(rectPath,palette().color(QPalette::Base));
     p.restore();
 }

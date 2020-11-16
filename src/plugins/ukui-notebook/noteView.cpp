@@ -37,7 +37,9 @@ NoteView::NoteView(QWidget *parent)
 {
     //不可编辑
     setEditTriggers(QAbstractItemView::NoEditTriggers);
+    setWindowOpacity(0.7);
     setAttribute(Qt::WA_TranslucentBackground);//设置窗口透明显示(毛玻璃效果)
+    viewport()->setAttribute(Qt::WA_TranslucentBackground);
     //一次性定时器,槽函数只处理一次
     QTimer::singleShot(0, this, SLOT(init()));
 }
@@ -99,61 +101,22 @@ void NoteView::animateRemovedRow(const QModelIndex& parent, int start, int end)
 
 void NoteView::paintEvent(QPaintEvent *e)
 {
-    Q_UNUSED(e);
-    listViewModeDelegate* delegate = static_cast<listViewModeDelegate*>(itemDelegate());
-    if(delegate != Q_NULLPTR)
-    {
-        delegate->setCurrentSelectedIndex(currentIndex());
-    }
+//    listViewModeDelegate* delegate = static_cast<listViewModeDelegate*>(itemDelegate());
+//    if(delegate != Q_NULLPTR)
+//    {
+//        delegate->setCurrentSelectedIndex(currentIndex());
+//    }
 
     QStyleOption opt;
     opt.init(this);
-    QPainter p(this);
-
+    QPainter p(this->viewport());
+//    p.setRenderHint(QPainter::Antialiasing);
     p.setBrush(opt.palette.color(QPalette::Base));
-    //qDebug() << "paintEvent" << p.brush().color().value();
-    p.setOpacity(0.3);
+    p.setOpacity(0.7);
     p.setPen(Qt::NoPen);
+    p.drawRoundedRect(opt.rect,1,1);
 
-    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-    //p.drawRoundedRect(opt.rect,6,6);
-    //style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
-    //QListView::paintEvent(e);
-}
-
-void NoteView::rowsInserted(const QModelIndex &parent, int start, int end)
-{
-    qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
-    if(start == end && m_animationEnabled)
-        animateAddedRow(parent, start, end);
-
-    QListView::rowsInserted(parent, start, end);
-}
-
-void NoteView::rowsAboutToBeRemoved(const QModelIndex &parent, int start, int end)
-{
-    qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
-    if(start == end){
-        listViewModeDelegate* delegate = static_cast<listViewModeDelegate*>(itemDelegate());
-        if(delegate != Q_NULLPTR){
-            QModelIndex idx = model()->index(start,0);
-            delegate->setCurrentSelectedIndex(QModelIndex());
-
-            if(m_animationEnabled){
-                qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
-                delegate->setState(listViewModeDelegate::Remove, idx);
-            }else{
-                delegate->setState(listViewModeDelegate::Normal, idx);
-            }
-
-            // TODO find a way to finish this function till the animation stops
-            while(delegate->animationState() == QTimeLine::Running){
-                qApp->processEvents();
-            }
-        }
-    }
-
-    QListView::rowsAboutToBeRemoved(parent, start, end);
+    QListView::paintEvent(e);
 }
 
 void NoteView::rowsAboutToBeMoved(const QModelIndex &sourceParent, int sourceStart, int sourceEnd,
@@ -240,43 +203,43 @@ void NoteView::mouseReleaseEvent(QMouseEvent* e)
     QListView::mouseReleaseEvent(e);
 }
 
-bool NoteView::viewportEvent(QEvent* e)
-{
-    qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
-    if(model() != Q_NULLPTR){
-        switch (e->type()) {
-        case QEvent::Leave:{
-            QPoint pt = mapFromGlobal(QCursor::pos());
-            QModelIndex index = indexAt(QPoint(10, pt.y()));
-            if(index.row() > 0){
-                index = model()->index(index.row()-1, 0);
-                listViewModeDelegate* delegate = static_cast<listViewModeDelegate*>(itemDelegate());
-                if(delegate != Q_NULLPTR){
-                    delegate->setHoveredIndex(QModelIndex());
-                    viewport()->update(visualRect(index));
-                }
-            }
-            break;
-        }
-        //鼠标按键按下
-        case QEvent::MouseButtonPress:{
-            qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
-            //将全局屏幕坐标pos转换为小部件坐标
-            QPoint pt = mapFromGlobal(QCursor::pos());
-            //返回在内容坐标中包含点x，y的可见项的索引。如果在指定的点上没有项，或者项不可见，则返回-1。
-            QModelIndex index = indexAt(QPoint(10, pt.y()));
-            if(!index.isValid())
-                emit viewportPressed();
+//bool NoteView::viewportEvent(QEvent* e)
+//{
+//    qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
+//    if(model() != Q_NULLPTR){
+//        switch (e->type()) {
+//        case QEvent::Leave:{
+//            QPoint pt = mapFromGlobal(QCursor::pos());
+//            QModelIndex index = indexAt(QPoint(10, pt.y()));
+//            if(index.row() > 0){
+//                index = model()->index(index.row()-1, 0);
+//                listViewModeDelegate* delegate = static_cast<listViewModeDelegate*>(itemDelegate());
+//                if(delegate != Q_NULLPTR){
+//                    delegate->setHoveredIndex(QModelIndex());
+//                    viewport()->update(visualRect(index));
+//                }
+//            }
+//            break;
+//        }
+//        //鼠标按键按下
+//        case QEvent::MouseButtonPress:{
+//            qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
+//            //将全局屏幕坐标pos转换为小部件坐标
+//            QPoint pt = mapFromGlobal(QCursor::pos());
+//            //返回在内容坐标中包含点x，y的可见项的索引。如果在指定的点上没有项，或者项不可见，则返回-1。
+//            QModelIndex index = indexAt(QPoint(10, pt.y()));
+//            if(!index.isValid())
+//                emit viewportPressed();
 
-            break;
-        }
-        default:
-            break;
-        }
-    }
+//            break;
+//        }
+//        default:
+//            break;
+//        }
+//    }
 
-    return QListView::viewportEvent(e);
-}
+//    return QListView::viewportEvent(e);
+//}
 
 void NoteView::setCurrentRowActive(bool isActive)
 {
@@ -300,7 +263,7 @@ void NoteView::setupSignalsSlots()
     // current selectected row changed
     connect(selectionModel(), &QItemSelectionModel::currentRowChanged, [this]
             (const QModelIndex & current, const QModelIndex & previous){
-
+        qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
         if(model() != Q_NULLPTR){
             if(current.row() < previous.row()){
                 if(current.row() > 0){
@@ -318,6 +281,7 @@ void NoteView::setupSignalsSlots()
 
     // row was entered
     connect(this, &NoteView::entered,[this](QModelIndex index){
+        qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
         if(model() != Q_NULLPTR){
             if(index.row() > 1){
                 QModelIndex prevPrevIndex = model()->index(index.row()-2, 0);
@@ -347,21 +311,6 @@ void NoteView::setupSignalsSlots()
 
             QModelIndex lastIndex = model()->index(model()->rowCount()-2, 0);
             viewport()->update(visualRect(lastIndex));
-        }
-    });
-
-    // remove/add offset right side
-    connect(this->verticalScrollBar(), &QScrollBar::rangeChanged,[this](int min, int max){
-        Q_UNUSED(min)
-
-        listViewModeDelegate* delegate = static_cast<listViewModeDelegate*>(itemDelegate());
-        if(delegate != Q_NULLPTR){
-            if(max > 0){
-                delegate->setRowRightOffset(2);
-            }else{
-                delegate->setRowRightOffset(0);
-            }
-            viewport()->update();
         }
     });
 }
