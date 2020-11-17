@@ -111,7 +111,7 @@ void NoteView::paintEvent(QPaintEvent *e)
     opt.init(this);
     QPainter p(this->viewport());
 //    p.setRenderHint(QPainter::Antialiasing);
-    p.setBrush(opt.palette.color(QPalette::Base));
+    p.setBrush(opt.palette.color(QPalette::Window));
     p.setOpacity(0.7);
     p.setPen(Qt::NoPen);
     p.drawRoundedRect(opt.rect,1,1);
