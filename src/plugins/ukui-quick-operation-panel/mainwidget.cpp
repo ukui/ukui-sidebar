@@ -25,6 +25,7 @@ MainWidget::MainWidget()
 {
     createAction();
     getTransParency();
+//    setTransParency();
 }
 
 // 创建动作
@@ -58,10 +59,27 @@ void MainWidget::getTransParency()
     }
 }
 
-// 设置当前匹配的透明度值
+/* 设置当前匹配的透明度值
+  设计要求，快速操作面板比通知中心透明度高0.3；
+  思路如下:
+  由于窗口透明度叠加，所以只能通过算比例;
+  相当于100束光照进来，透明度为0.3，则剩下的光就是70束；
+  在透过第二层为0.6的玻璃时，光束就只剩下28束，但是我们想要的是没有通过第一层过滤的，直接得到40束，表达式如下：
+  100*(1 - 通知中心透明度) * X(所求的比例) = 100 * (1 - (通知中心透明度 + 0.3));
+  当比例大于0.7小于0.9时，俩个透明度的比例差为0.1；
+  当大于0.9.就直接将透明度设置为1，俩层叠加，视觉效果较明显
+ */
 void MainWidget::setTransParency()
 {
-    m_dtranSparency = 1 - (1 - m_dtranSparency) / 2.0;
+//    qDebug() << "透明度123123213" << m_dtranSparency << 1- (m_dtranSparency + 0.3) << 1.0 - m_dtranSparency;
+    if (m_dtranSparency >= 0.7 && m_dtranSparency < 0.9) {
+        m_dtranSparency = (1 - (m_dtranSparency + 0.1)) / (1.0 - m_dtranSparency);
+    } else if (m_dtranSparency < 0.7) {
+        m_dtranSparency = (1 - (m_dtranSparency + 0.3)) / (1.0 - m_dtranSparency);
+    } else {
+        m_dtranSparency = 1;
+    }
+//    qDebug() << "透明度123123213" << m_dtranSparency;
     return;
 }
 
