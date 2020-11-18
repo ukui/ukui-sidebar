@@ -23,6 +23,7 @@
 #include <QPainter>
 #include <QDebug>
 #include <QScroller>
+#include <QPainterPath>
 
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 

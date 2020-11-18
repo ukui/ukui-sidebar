@@ -22,6 +22,7 @@
 #include "setAlarmRepeatDialog.h"
 #include <QDebug>
 #include <QBitmap>
+#include <QPainterPath>
 #include "customStyle.h"
 
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
