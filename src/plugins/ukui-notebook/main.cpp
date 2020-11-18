@@ -21,6 +21,7 @@
 #include "widget.h"
 #include "singleApplication.h"
 #include <X11/Xlib.h>
+//#include <KWindowEffects>
 
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
@@ -98,7 +99,10 @@ int main(int argc, char *argv[])
     if(!a.isRunning()){
         Widget w;
         a.w = &w;
+        w.setProperty("useSystemStyleBlur", true);
         w.show();
+//        w.setAttribute(Qt::WA_TranslucentBackground);
+//        KWindowEffects::enableBlurBehind(w.winId(),true);
         return a.exec();
     }
     return 0;
