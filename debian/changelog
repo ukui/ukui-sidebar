@@ -1,10 +1,4 @@
-ukui-sidebar (1.1.1-0014) v101; urgency=medium
-
-  * New upstream bugfix release:
-    - Add vnc support
-    - Update Code specification
-    - Add relay libxtst-dev
-    - Delete the feedback widget
+  * New upstream release.
 
  -- liushanwen <liushanwen@kylinos.cn>  Thu, 05 Nov 2020 13:51:15 +0800
 
