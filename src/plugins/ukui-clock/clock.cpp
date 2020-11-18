@@ -361,7 +361,8 @@ void Clock::stopwatch_init()
     ui->pushButton_Start->raise();
     ui->pushButton_ring->raise();
     ui->pushButton_timeselect->raise();
-    ui->pushButton_timeselect->hide();
+    ui->pushButton_timeselect->setEnabled(false);
+    ui->pushButton_ring->setEnabled(false);
 }
 //闹钟页初始化
 // Alarm page initialization
@@ -540,6 +541,8 @@ void Clock::Count_down()
 void Clock::on_pushButton_Start_clicked()
 {
     if (!isStarted) {
+        ui->pushButton_timeselect->setEnabled(true);
+        ui->pushButton_ring->setEnabled(true);
         ui->pushButton_timeselect->hide();
         ui->pushButton_Start->setText(tr("suspend"));
 
@@ -665,6 +668,8 @@ void Clock::on_pushButton_timeselect_clicked()
     if (nullptr != timer) {
         if (isStarted)
             return;
+        ui->pushButton_timeselect->setEnabled(false);
+        ui->pushButton_ring->setEnabled(false);
         timer->stop();
         timer_2->stop();
         ui->label_4->setText("00:00.00");
