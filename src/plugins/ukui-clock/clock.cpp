@@ -277,12 +277,14 @@ void Clock::button_image_init()
     ui->pushButton_4->setFocusPolicy(Qt::NoFocus);
     ui->pushButton_5->setFocusPolicy(Qt::NoFocus);
     ui->pushButton_12->setFocusPolicy(Qt::NoFocus);
-    ui->pushButton_4->setProperty("useIconHighlightEffect", true);
-    ui->pushButton_5->setProperty("useIconHighlightEffect", true);
-    ui->pushButton_12->setProperty("useIconHighlightEffect", true);
-    ui->pushButton_4->setProperty("iconHighlightEffectMode", true);
-    ui->pushButton_5->setProperty("iconHighlightEffectMode", true);
-    ui->pushButton_12->setProperty("iconHighlightEffectMode", true);
+
+    ui->pushButton_4->setProperty("isWindowButton", 0x3);
+    ui->pushButton_5->setProperty("isWindowButton", 0x2);
+    ui->pushButton_12->setProperty("isWindowButton", 0x3);
+
+    ui->pushButton_4->setProperty("useIconHighlightEffect", 0x3);
+    ui->pushButton_5->setProperty("useIconHighlightEffect", 0x8);
+    ui->pushButton_12->setProperty("useIconHighlightEffect", 0x3);
 
     count_sel = new Btn_new(0, tr("  Remind"), ui->page_4);
     count_sel->move(89,358);
