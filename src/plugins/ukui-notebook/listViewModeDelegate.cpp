@@ -32,9 +32,9 @@
 
 listViewModeDelegate::listViewModeDelegate(QObject *parent)
     : QStyledItemDelegate(parent),
-      m_titleFont(QStringLiteral(""), 14, 30),              //标题字体
-      m_titleSelectedFont(QStringLiteral(""), 14),          //
-      m_dateFont(QStringLiteral(""), 10),                   //日期字体
+      m_titleFont(QStringLiteral("Noto Sans CJK SC"), 10.5),              //标题字体
+      m_titleSelectedFont(QStringLiteral("Noto Sans CJK SC"), 11),        //标题选中字体
+      m_dateFont(QStringLiteral("Noto Sans CJK SC"), 9),                  //日期字体
       m_titleColor(255, 255, 255),                          //标题颜色
       m_dateColor(255, 255, 255),                           //日期颜色
       m_ActiveColor(218, 233, 239),
@@ -143,46 +143,37 @@ void listViewModeDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     int m_noteColor{index.data(NoteModel::NoteColor).toInt()};
     painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     painter->setBrush(QBrush(intToQcolor(m_noteColor)));
-
+    painter->setOpacity(1);
     painter->setPen(Qt::transparent);
-    opt.rect.setWidth(678);
-    opt.rect.setHeight(opt.rect.height() - 5);
+    opt.rect.setWidth(5);
+    opt.rect.setHeight(opt.rect.height() - 8);
     {
         QPainterPath painterPath;
-        painterPath.addRoundedRect(opt.rect, 7, 7);
+        painterPath.addRoundedRect(opt.rect, 4, 4);
+        painterPath.setFillRule(Qt::WindingFill); // 多块区域组合填充模式
+        painterPath.addRect(opt.rect.x() + 1, opt.rect.y(), 4, 4);
+        painterPath.addRect(opt.rect.x() + 1, opt.rect.y() + opt.rect.height() - 4, 4, 4);
         painter->drawPath(painterPath);
     }
 
     //绘制第二层底色背景
     painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-
-    painter->setBrush(opt.palette.color(QPalette::Base));
-
-    //系统默认 255 、 248  深色模式 34 30
-    if(painter->brush().color().value() == 255)
-    {
-        painter->setBrush(QColor(245,245,245));
-    }else if(painter->brush().color().value() == 248)
-    {
-        painter->setBrush(QColor(245,245,245));
-    }else if(painter->brush().color().value() == 30)
-    {
-        painter->setBrush(QColor(40,40,46));
-    }else if(painter->brush().color().value() == 34)
-    {
-        painter->setBrush(QColor(40,40,46));
-    }
-
+    painter->setOpacity(0.65);
+    painter->setBrush(opt.palette.color(QPalette::Window));
     painter->setPen(Qt::transparent);
-    opt.rect.setWidth(678);
+
     opt.rect.setHeight(opt.rect.height() - 0);
     opt.rect.setLeft(opt.rect.left() + 5);
+    opt.rect.setWidth(673);
     {
         QPainterPath painterPath;
-        painterPath.addRoundedRect(opt.rect, 0, 0);
+        painterPath.addRoundedRect(opt.rect, 4, 4);
+        painterPath.setFillRule(Qt::WindingFill); // 多块区域组合填充模
+        painterPath.addRect(opt.rect.x(), opt.rect.y(), 4, 4);
+        painterPath.addRect(opt.rect.x(), opt.rect.y() + opt.rect.height() - 4, 4, 4);
         painter->drawPath(painterPath);
     }
-
+    painter->setOpacity(1);
     paintBackground(painter, opt, index);
     paintLabels(painter, option, index);
 }
@@ -201,7 +192,7 @@ QSize listViewModeDelegate::sizeHint(const QStyleOptionViewItem &option, const Q
     }else{
         result.setHeight(m_rowHeight);
     }
-    //qDebug() << "sizeHint" << result;
+//    qDebug() << "sizeHint" << result;
     return result;
 }
 
@@ -219,100 +210,72 @@ void listViewModeDelegate::paintBackground(QPainter *painter, const QStyleOption
         //应用程序是可见的，并被选择在前面。
         if(qApp->applicationState() == Qt::ApplicationActive){      //返回应用程序的当前状态。
             if(m_isActive){//用指定的画笔填充给定的矩形。
+                qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
                 painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
                 painter->setBrush(opt.palette.color(QPalette::Base));
-
-                //系统默认 255 、 248  深色模式 34 30
-                if(painter->brush().color().value() == 255)
-                {
-                    painter->setBrush(QColor(255,255,255));
-                }
-                else if(painter->brush().color().value() == 34)
-                {
-                    painter->setBrush(QBrush(m_selectColor));
-                }
-
                 painter->setPen(Qt::transparent);
                 QPainterPath painterPath;
-                painterPath.addRoundedRect(opt.rect, 0, 0);
+                painterPath.addRoundedRect(opt.rect, 4, 4);
+                painterPath.setFillRule(Qt::WindingFill); // 多块区域组合填充模
+                painterPath.addRect(opt.rect.x(), opt.rect.y(), 4, 4);
+                painterPath.addRect(opt.rect.x(), opt.rect.y() + opt.rect.height() - 4, 4, 4);
                 painter->drawPath(painterPath);
-                //painter->fillRect(option.rect, QBrush(m_ActiveColor));//浅蓝
             }else{
+                qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
                 painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
                 painter->setBrush(opt.palette.color(QPalette::Base));
-
-                //系统默认 255 、 248  深色模式 34 30
-                if(painter->brush().color().value() == 255)
-                {
-                    painter->setBrush(QColor(255,255,255));
-                }
-                else if(painter->brush().color().value() == 34)
-                {
-                    painter->setBrush(QBrush(m_selectColor));
-                }
-
+                painter->setOpacity(0.97);
                 painter->setPen(Qt::transparent);
+
                 QPainterPath painterPath;
-                painterPath.addRoundedRect(opt.rect, 0, 0);
+                painterPath.addRoundedRect(opt.rect, 4, 4);
+                painterPath.setFillRule(Qt::WindingFill); // 多块区域组合填充模
+                painterPath.addRect(opt.rect.x(), opt.rect.y(), 4, 4);
+                painterPath.addRect(opt.rect.x(), opt.rect.y() + opt.rect.height() - 4, 4, 4);
                 painter->drawPath(painterPath);
-                //painter->fillRect(option.rect, QBrush(m_notActiveColor));//深蓝
             }
             //应用程序可见，但未选择显示在前面
         }else if(qApp->applicationState() == Qt::ApplicationInactive){
+            qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
             painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
             painter->setBrush(opt.palette.color(QPalette::Base));
 
-            //系统默认 255 、 248  深色模式 34 30
-            if(painter->brush().color().value() == 255)
-            {
-                painter->setBrush(QColor(255,255,255));
-            }
-            else if(painter->brush().color().value() == 34)
-            {
-                painter->setBrush(QBrush(m_selectColor));
-            }
-
             painter->setPen(Qt::transparent);
             QPainterPath painterPath;
-            painterPath.addRoundedRect(opt.rect, 0, 0);
+            painterPath.addRoundedRect(opt.rect, 4, 4);
+            painterPath.setFillRule(Qt::WindingFill); // 多块区域组合填充模
+            painterPath.addRect(opt.rect.x(), opt.rect.y(), 4, 4);
+            painterPath.addRect(opt.rect.x(), opt.rect.y() + opt.rect.height() - 4, 4, 4);
             painter->drawPath(painterPath);
-            //painter->fillRect(option.rect, QBrush(m_defaultColor));
         }
     }
     //鼠标悬停时颜色
     //用于指示小部件是否在鼠标下。
     else if((option.state & QStyle::State_MouseOver) == QStyle::State_MouseOver){
-        //qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
+        qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
         painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
         painter->setBrush(opt.palette.color(QPalette::Base));
-
-        //系统默认 255 、 248  深色模式 34 30
-        if(painter->brush().color().value() == 255)
-        {
-            painter->setBrush(QColor(205,205,205));
-        }
-        else if(painter->brush().color().value() == 34)
-        {
-            painter->setBrush(QBrush(m_hoverColor));
-        }
+        painter->setOpacity(0.78);
 
         painter->setPen(Qt::transparent);
         QPainterPath painterPath;
-        painterPath.addRoundedRect(opt.rect, 0, 0);
+        painterPath.addRoundedRect(opt.rect, 4, 4);
+        painterPath.setFillRule(Qt::WindingFill); // 多块区域组合填充模
+        painterPath.addRect(opt.rect.x(), opt.rect.y(), 4, 4);
+        painterPath.addRect(opt.rect.x(), opt.rect.y() + opt.rect.height() - 4, 4, 4);
         painter->drawPath(painterPath);
-        //painter->fillRect(option.rect, QBrush(m_hoverColor));//灰色
     //当前item未选中 未悬停时颜色
     }else if((index.row() !=  m_currentSelectedIndex.row() - 1)
              && (index.row() !=  m_hoveredIndex.row() - 1)){
+        qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
         painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-        //painter->fillRect(option.rect, QBrush(m_defaultColor));//黑色
     }
 
 }
 
 void listViewModeDelegate::paintLabels(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-    const int leftOffsetX = 20;  // 左边距
+    const int leftOffsetX = 28;  // 左边距
     const int topOffsetY = 18;   // 标题上方的空格
     const int spaceY = 5;        // 标题和日期之间的空格
 
@@ -383,19 +346,8 @@ void listViewModeDelegate::paintLabels(QPainter* painter, const QStyleOptionView
     // 绘图标题和日期
     title = fmTitle.elidedText(title, Qt::ElideRight, int(titleRectWidth));
 
-    painter->setBrush(opt.palette.color(QPalette::Base));
-
-    //系统默认 255 、 248  深色模式 34 30
-    if(painter->brush().color().value() == 255)
-    {
-        drawStr(titleRectPosX, titleRectPosY, titleRectWidth, titleRectHeight, QColor(0,0,0), titleFont, title);
-        drawStr(dateRectPosX, dateRectPosY, dateRectWidth, dateRectHeight, QColor(0,0,0), m_dateFont, date);
-    }
-    else if(painter->brush().color().value() == 34)
-    {
-        drawStr(titleRectPosX, titleRectPosY, titleRectWidth, titleRectHeight, QColor(244,244,244), titleFont, title);
-        drawStr(dateRectPosX, dateRectPosY, dateRectWidth, dateRectHeight, QColor(244,244,244), m_dateFont, date);
-    }
+    drawStr(titleRectPosX, titleRectPosY, titleRectWidth, titleRectHeight, opt.palette.color(QPalette::Text), titleFont, title);
+    drawStr(dateRectPosX, dateRectPosY, dateRectWidth, dateRectHeight, opt.palette.color(QPalette::Text), m_dateFont, date);
 }
 
 void listViewModeDelegate::paintTitle(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
@@ -434,6 +386,7 @@ void listViewModeDelegate::paintTitle(QPainter* painter, const QStyleOptionViewI
 
     auto drawStr = [painter](double posX, double posY, double width, double height, QColor color, QFont font, QString str){
         QRectF rect(posX, posY, width, height);
+//        painter->setOpacity(0.75);
         painter->setPen(color);
         painter->setFont(font);
         painter->drawText(rect, Qt::AlignBottom, str);
@@ -507,11 +460,11 @@ QString listViewModeDelegate::parseDateTime(const QDateTime &dateTime) const
     auto currDateTime = QDateTime::currentDateTime();
 
     if(dateTime.date() == currDateTime.date()){
-        d = tr("Today ");
+        d = tr("Today  ");
         d.append(usLocale.toString(dateTime.time(),"hh:mm"));
         return d;
     }else if(dateTime.daysTo(currDateTime) == 1){
-        d = tr("Yesterday ");
+        d = tr("Yesterday  ");
         d.append(usLocale.toString(dateTime.time(),"hh:mm"));
         return d;
     }
@@ -520,7 +473,7 @@ QString listViewModeDelegate::parseDateTime(const QDateTime &dateTime) const
 //        return usLocale.toString(dateTime.date(), "dddd");
 //    }
 
-    return dateTime.toString("yyyy/MM/dd hh:mm");
+    return dateTime.toString("yyyy/MM/dd  hh:mm");
 }
 
 void listViewModeDelegate::setActive(bool isActive)
