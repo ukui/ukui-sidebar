@@ -117,7 +117,6 @@ private:
     QPushButton* m_newKynote;                                       //新建按钮
     QPushButton* m_trashButton;                                     //删除按钮
     QLabel* m_countLabel;                                           //item记数
-    QPushButton* m_sortLabel;                                       //升/降序按钮
     QPushButton* m_viewChangeButton;                                //列表/平铺切换按钮
     NoteView* m_noteView;                                           //listview
     QTableView* m_noteTable;                                        //tableview
@@ -183,7 +182,6 @@ private slots:
     void loadNotes(QList<NoteData *> noteList, int noteCounter);    //加载便签列表
     void exitSlot();                                                //关闭按钮槽函数
     void miniSlot();                                                //最小化按钮槽函数
-    void editSlot();                                                //编辑按钮槽函数
     void newSlot();                                                 //新建按钮槽函数
     void listClickSlot(const QModelIndex &index);                   //item单击事件槽函数
     void listDoubleClickSlot(const QModelIndex &);                  //item双击事件槽函数
