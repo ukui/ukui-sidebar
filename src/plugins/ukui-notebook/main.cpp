@@ -23,6 +23,10 @@
 #include <X11/Xlib.h>
 //#include <KWindowEffects>
 
+/*!
+ * \brief myMessageOutput
+ * 日志打印输出
+ */
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
     // 加锁
@@ -35,32 +39,35 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
     switch(type)
     {
     case QtDebugMsg:
-        strMsg = QString("Debug:");
+        strMsg = QString("Debug    ");
         break;
     case QtWarningMsg:
-        strMsg = QString("Warning:");
+        strMsg = QString("Warning    ");
         break;
     case QtCriticalMsg:
-        strMsg = QString("Critical:");
+        strMsg = QString("Critical    ");
         break;
     case QtFatalMsg:
-        strMsg = QString("Fatal:");
+        strMsg = QString("Fatal    ");
         break;
     case QtInfoMsg:
-        strMsg = QString("Info:");
+        strMsg = QString("Info    ");
         break;
     }
 
     // 设置输出信息格式
     QString strDateTime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss ddd");
-    QString strMessage = QString("Message:%1 File:%2  Line:%3  Function:%4  DateTime:%5")
-            .arg(localMsg.constData()).arg(context.file).arg(context.line).arg(context.function).arg(strDateTime);
+//    QString strMessage = QString("[Message]: %1 [File]: %2  [Line]: %3  [Function]: %4  [DateTime]: %5")
+//            .arg(localMsg.constData()).arg(context.file).arg(context.line).arg(context.function).arg(strDateTime);
+    QString strMessage = QString("[DateTime]: %1  [Message]: %2  [Line]: %3  [Function]: %4")
+            .arg(strDateTime).arg(localMsg.constData()).arg(context.line).arg(context.function);
 
     // 输出信息至文件中（读写、追加形式）
-    QFile file("log.txt");
+    QString url_filepath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/.config/kylin-note/output.log";
+    QFile file(url_filepath);
     file.open(QIODevice::ReadWrite | QIODevice::Append);
     QTextStream stream(&file);
-    stream << strMessage << "\r\n";
+    stream << strMsg << strMessage << "\r\n";
     file.flush();
     file.close();
 
@@ -82,10 +89,13 @@ int getScreenWidth() {
     return width;
 }
 
+/*!
+ * \brief main
+ */
 int main(int argc, char *argv[])
 {
     //自定义消息处理
-    //qInstallMessageHandler(myMessageOutput);
+    qInstallMessageHandler(myMessageOutput);
 
     if (getScreenWidth() > 2560) {
         #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
