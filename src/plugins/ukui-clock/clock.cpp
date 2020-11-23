@@ -1209,6 +1209,7 @@ void Clock::set_Alarm_Clock()
 // Alarm new interface save callback
 void Clock::set_alarm_save()
 {
+    ui->lineEdit->setText(ui->lineEdit->text().remove(QRegExp("\\s")));//去除所以空格
     if(ui->lineEdit->text().isEmpty()){
         delete_msg *deletemsg = new delete_msg();
         deletemsg->ui->label_5->setText(tr("Please set alarm name!"));
