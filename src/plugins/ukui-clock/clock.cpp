@@ -441,7 +441,12 @@ void Clock::setup_init()
     model_setup_set(); //设置数据库初始化
                        // Set database initialization
     text_timerUpdate();
+    ui->lineEdit->setMaxLength(9);//限制闹钟名字长度为9个字符
 
+    //设置输入框无视空格
+//    QRegExp rx = QRegExp("[\40]*");
+//    QRegExpValidator* validator = new QRegExpValidator(rx);
+//    ui->lineEdit->setValidator(validator);
 
     QString Default = model_setup->index(0, 19).data().toString();
     if(Default == "glass" || "玻璃"){
@@ -466,7 +471,6 @@ void Clock::setup_init()
     connect(dialog_music->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(music_listClickslot()));
     connect(time_music->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(time_music_listClickslot()));
 }
-
 
 //时间间隔执行
 // Interval calculation execution callback
