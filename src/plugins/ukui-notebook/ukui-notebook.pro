@@ -7,14 +7,15 @@
 include(./env.pri)
 include($$PROJECT_COMPONENTSOURCE/closebutton.pri)
 
-QT       += core gui printsupport sql concurrent network
+QT  +=  core gui printsupport sql concurrent network KWindowSystem dbus x11extras
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = ukui-notebook
 TEMPLATE = app
 
-LIBS    +=  -lX11
+LIBS  +=  -lpthread
+LIBS  +=  -lX11 -lXrandr -lXinerama -lXi -lXcursor
 
 PKGCONFIG += gsettings-qt
 
@@ -40,6 +41,7 @@ TRANSLATIONS += \
         ../../../translations/ukui-notebook/ukui-notebook_tr.ts
 
 SOURCES += \
+    utils/xatom-helper.cpp \
     adaptscreeninfo.cpp \
     customStyle.cpp \
     dbManager.cpp \
@@ -69,6 +71,7 @@ SOURCES += \
     widget.cpp
 
 HEADERS += \
+    utils/xatom-helper.h \
     adaptscreeninfo.h \
     customStyle.h \
     dbManager.h \
