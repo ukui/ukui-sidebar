@@ -704,6 +704,7 @@ void feedback::systeminfo_show(QPointF pt)
 {
     verticalWidget->setGeometry(pt.x()+5,pt.y()+15,220,80);
     verticalWidget->show();
+    this->activateWindow();
 }
 
 //系统信息隐藏
@@ -1483,7 +1484,7 @@ void feedback::set_request_header()
 void feedback::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e);
-
+    QStyleOption *option = new QStyleOption();
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);
     QPainterPath rectPath;
@@ -1495,7 +1496,7 @@ void feedback::paintEvent(QPaintEvent *e)
     QPainter pixmapPainter(&pixmap);
     pixmapPainter.setRenderHint(QPainter::Antialiasing);
     pixmapPainter.setPen(Qt::transparent);
-    pixmapPainter.setBrush(Qt::black);
+    pixmapPainter.setBrush(option->palette.color(QPalette::Text));
     pixmapPainter.drawPath(rectPath);
     pixmapPainter.end();
     // 模糊这个黑底
@@ -1519,7 +1520,7 @@ void feedback::paintEvent(QPaintEvent *e)
 
     // 随便绘制一个背景
     //Draw a random background.
-    QStyleOption *option = new QStyleOption();
+
     p.save();
     p.fillPath(rectPath, option->palette.color(QPalette::Base));
     p.restore();
