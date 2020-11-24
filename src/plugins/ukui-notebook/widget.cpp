@@ -233,7 +233,7 @@ void Widget::error_throw()
  */
 void Widget::kyNoteInit()
 {
-    qDebug() << "kyNote init";
+    qDebug() << "\033[32m" << "kyNote init";
     sortflag = 1;           //排序
     m_listflag = 1;         //平铺\列表
     m_isThemeChanged = 0;   //ukui-default
@@ -248,11 +248,12 @@ void Widget::kyNoteInit()
 
     setMouseTracking(true);               //设置鼠标追踪
     //窗口属性
-    setWindowFlags(Qt::FramelessWindowHint);    //开启窗口无边框
+//    setWindowFlags(Qt::FramelessWindowHint);    //开启窗口无边框
     setAttribute(Qt::WA_TranslucentBackground); //设置窗口透明显示(毛玻璃效果)
 //    setWindowOpacity(0.7);                    //窗口透明度
+
     QPainterPath blurPath;
-    blurPath.addRoundedRect(rect().adjusted(6, 6, -6, -6), 6, 6);      //增加圆角
+    blurPath.addRoundedRect(rect().adjusted(0, 0, -0, -0), 6, 6);      //增加圆角
     setProperty("useSystemStyleBlur", true);
     setProperty("blurRegion", QRegion(blurPath.toFillPolygon().toPolygon()));//使用QPainterPath的api生成多边形Region
 
@@ -269,14 +270,14 @@ void Widget::kyNoteInit()
     //搜索
     searchInit();
 
-    QBitmap bmp(this->size());
-    bmp.fill();
-    QPainter p(&bmp);
-    p.setPen(Qt::NoPen);
-    p.setBrush(Qt::black);
-    p.setRenderHint(QPainter::Antialiasing);
-    p.drawRoundedRect(bmp.rect(),6,6);
-    setMask(bmp);
+//    QBitmap bmp(this->size());
+//    bmp.fill();
+//    QPainter p(&bmp);
+//    p.setPen(Qt::NoPen);
+//    p.setBrush(Qt::black);
+//    p.setRenderHint(QPainter::Antialiasing);
+//    p.drawRoundedRect(bmp.rect(),6,6);
+//    setMask(bmp);
 
     //退出框
     m_noteExitWindow = new noteExitWindow(this, this);
@@ -1084,47 +1085,47 @@ void Widget::mouseMoveEvent(QMouseEvent *event)
  * \brief Widget::paintEvent
  *
  */
-void Widget::paintEvent(QPaintEvent *e)
+void Widget::paintEvent(QPaintEvent *event)
 {
-    Q_UNUSED(e);
+    Q_UNUSED(event);
 //    QStyleOption opt;
 //    opt.init(this);
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     QPainterPath rectPath;
-    rectPath.addRoundedRect(this->rect().adjusted(6, 6, -6, -6), 6, 6); // 左上右下
+    rectPath.addRoundedRect(this->rect(), 6, 6); // 左上右下
 
-    // 画一个黑底
-    QPixmap pixmap(this->rect().size());
-    pixmap.fill(Qt::transparent);
-    QPainter pixmapPainter(&pixmap);
-    pixmapPainter.setRenderHint(QPainter::Antialiasing);
-    pixmapPainter.setPen(Qt::transparent);
-    pixmapPainter.setBrush(Qt::black);
-    pixmapPainter.drawPath(rectPath);
-    pixmapPainter.end();
+//    // 画一个黑底
+//    QPixmap pixmap(this->rect().size());
+//    pixmap.fill(Qt::transparent);
+//    QPainter pixmapPainter(&pixmap);
+//    pixmapPainter.setRenderHint(QPainter::Antialiasing);
+//    pixmapPainter.setPen(Qt::transparent);
+//    pixmapPainter.setBrush(Qt::black);
+//    pixmapPainter.drawPath(rectPath);
+//    pixmapPainter.end();
 
-    // 模糊这个黑底
-    QImage img = pixmap.toImage();
-    qt_blurImage(img, 10, false, false);
+//    // 模糊这个黑底
+//    QImage img = pixmap.toImage();
+//    qt_blurImage(img, 10, false, false);
 
-    // 挖掉中心
-    pixmap = QPixmap::fromImage(img);
-    QPainter pixmapPainter2(&pixmap);
-    pixmapPainter2.setRenderHint(QPainter::Antialiasing);
-    pixmapPainter2.setCompositionMode(QPainter::CompositionMode_Clear);
-    pixmapPainter2.setPen(Qt::transparent);
-    pixmapPainter2.setBrush(Qt::transparent);
-    pixmapPainter2.drawPath(rectPath);
+//    // 挖掉中心
+//    pixmap = QPixmap::fromImage(img);
+//    QPainter pixmapPainter2(&pixmap);
+//    pixmapPainter2.setRenderHint(QPainter::Antialiasing);
+//    pixmapPainter2.setCompositionMode(QPainter::CompositionMode_Clear);
+//    pixmapPainter2.setPen(Qt::transparent);
+//    pixmapPainter2.setBrush(Qt::transparent);
+//    pixmapPainter2.drawPath(rectPath);
 
-    // 绘制阴影
-    p.drawPixmap(this->rect(), pixmap, pixmap.rect());
+//    // 绘制阴影
+//    p.drawPixmap(this->rect(), pixmap, pixmap.rect());
 
-    // 绘制一个背景
-    p.save();
+//    // 绘制一个背景
+//    p.save();
     p.setOpacity(0.7);
     p.fillPath(rectPath,palette().color(QPalette::Window));
-    p.restore();
+//    p.restore();
 }
 
 /********************Slots************************/

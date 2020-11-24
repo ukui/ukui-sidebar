@@ -164,7 +164,7 @@ void listViewModeDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
 
     opt.rect.setHeight(opt.rect.height() - 0);
     opt.rect.setLeft(opt.rect.left() + 5);
-    opt.rect.setWidth(673);
+    opt.rect.setWidth(683);
     {
         QPainterPath painterPath;
         painterPath.addRoundedRect(opt.rect, 4, 4);

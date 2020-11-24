@@ -99,7 +99,7 @@ public:
     void setListFlag(const int &listflag);                          //设置列表切换标志位
 
 protected:
-    void paintEvent(QPaintEvent*);
+    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
