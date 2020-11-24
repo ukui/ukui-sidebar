@@ -87,7 +87,7 @@ void screenshotWidget::initLayout()
 void screenshotWidget::sreenShotButtonClickedSlots()
 {
     QProcess p(0);
-    p.startDetached("kylin-screenshot");
+    p.startDetached("kylin-screenshot gui");
     p.waitForStarted();
     return;
 }

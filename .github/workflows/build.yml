@@ -23,7 +23,7 @@ jobs:
       - name: Refresh pacman repository
         run: pacman -Sy
       - name: Install build dependencies
-        run: pacman -S --noconfirm base-devel qt5-base qt5-multimedia qt5-svg qt5-tools gsettings-qt dconf glib2 kwindowsystem glibc
+        run: pacman -S --noconfirm base-devel qt5-base qt5-multimedia qt5-svg qt5-tools gsettings-qt dconf glib2 kwindowsystem glibc xtst
       - name: QMake configure & Make
         run: |
           mkdir build;
@@ -43,7 +43,7 @@ jobs:
       - name: Update apt repository
         run: apt-get update -y
       - name: Install build dependcies
-        run: apt-get install -y build-essential qt5-default qttools5-dev-tools qtmultimedia5-dev libglib2.0-dev qtbase5-dev libqt5svg5-dev qttools5-dev-tools libgsettings-qt-dev libdconf-dev libkf5windowsystem-dev
+        run: apt-get install -y build-essential qt5-default qttools5-dev-tools qtmultimedia5-dev libglib2.0-dev qtbase5-dev libqt5svg5-dev qttools5-dev-tools libgsettings-qt-dev libdconf-dev libkf5windowsystem-dev libxtst-dev
       - name: QMake configure & Make
         run: |
           mkdir build;
@@ -61,7 +61,7 @@ jobs:
       - name: Install curl and patch
         run: dnf install --refresh -y curl patch
       - name: Install build dependencies
-        run: dnf install -y which gcc gcc-c++ make cmake cmake-rpm-macros autoconf automake intltool rpm-build qt5-rpm-macros  qt5-qtbase-devel qt5-qttools-devel glib2-devel qt5-qtbase-devel qt5-qtsvg-devel dconf-devel gsettings-qt-devel qt5-qtmultimedia-devel kf5-kwindowsystem-devel
+        run: dnf install -y which gcc gcc-c++ make cmake cmake-rpm-macros autoconf automake intltool rpm-build qt5-rpm-macros  qt5-qtbase-devel qt5-qttools-devel glib2-devel qt5-qtbase-devel qt5-qtsvg-devel dconf-devel gsettings-qt-devel qt5-qtmultimedia-devel kf5-kwindowsystem-devel xtst-devel
       - name: QMake configure & Make
         run: |
           mkdir build;
@@ -81,7 +81,7 @@ jobs:
       - name: Update apt repository
         run: apt-get update -y
       - name: Install build dependcies
-        run: apt-get install -y build-essential qt5-default qttools5-dev-tools qtmultimedia5-dev libglib2.0-dev qtbase5-dev libqt5svg5-dev qttools5-dev-tools libgsettings-qt-dev libdconf-dev libkf5windowsystem-dev
+        run: apt-get install -y build-essential qt5-default qttools5-dev-tools qtmultimedia5-dev libglib2.0-dev qtbase5-dev libqt5svg5-dev qttools5-dev-tools libgsettings-qt-dev libdconf-dev libkf5windowsystem-dev libxtst-dev
       - name: QMake configure & Make
         run: |
           mkdir build;
