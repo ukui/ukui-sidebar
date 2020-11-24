@@ -164,7 +164,7 @@ void listViewModeDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
 
     opt.rect.setHeight(opt.rect.height() - 0);
     opt.rect.setLeft(opt.rect.left() + 5);
-    opt.rect.setWidth(673);
+    opt.rect.setWidth(683);
     {
         QPainterPath painterPath;
         painterPath.addRoundedRect(opt.rect, 4, 4);
@@ -210,7 +210,6 @@ void listViewModeDelegate::paintBackground(QPainter *painter, const QStyleOption
         //应用程序是可见的，并被选择在前面。
         if(qApp->applicationState() == Qt::ApplicationActive){      //返回应用程序的当前状态。
             if(m_isActive){//用指定的画笔填充给定的矩形。
-                qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
                 painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
                 painter->setBrush(opt.palette.color(QPalette::Base));
                 painter->setPen(Qt::transparent);
@@ -221,7 +220,6 @@ void listViewModeDelegate::paintBackground(QPainter *painter, const QStyleOption
                 painterPath.addRect(opt.rect.x(), opt.rect.y() + opt.rect.height() - 4, 4, 4);
                 painter->drawPath(painterPath);
             }else{
-                qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
                 painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
                 painter->setBrush(opt.palette.color(QPalette::Base));
                 painter->setOpacity(0.97);
@@ -236,7 +234,6 @@ void listViewModeDelegate::paintBackground(QPainter *painter, const QStyleOption
             }
             //应用程序可见，但未选择显示在前面
         }else if(qApp->applicationState() == Qt::ApplicationInactive){
-            qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
             painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
             painter->setBrush(opt.palette.color(QPalette::Base));
 
@@ -252,7 +249,6 @@ void listViewModeDelegate::paintBackground(QPainter *painter, const QStyleOption
     //鼠标悬停时颜色
     //用于指示小部件是否在鼠标下。
     else if((option.state & QStyle::State_MouseOver) == QStyle::State_MouseOver){
-        qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
         painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
         painter->setBrush(opt.palette.color(QPalette::Base));
         painter->setOpacity(0.78);
@@ -267,7 +263,6 @@ void listViewModeDelegate::paintBackground(QPainter *painter, const QStyleOption
     //当前item未选中 未悬停时颜色
     }else if((index.row() !=  m_currentSelectedIndex.row() - 1)
              && (index.row() !=  m_hoveredIndex.row() - 1)){
-        qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
         painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     }
 

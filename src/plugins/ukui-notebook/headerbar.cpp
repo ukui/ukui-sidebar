@@ -153,14 +153,11 @@ void HeaderBarStyle::drawComplexControl(QStyle::ComplexControl control, const QS
     //to draw in our expected.
     qDebug() << "drawComplexControl";
     if (control == CC_ToolButton) {
-        qDebug() << "######";
         QStyleOptionToolButton button = *qstyleoption_cast<const QStyleOptionToolButton *>(option);
         //The button has a popup menu.
         //if (button.features.testFlag(QStyleOptionToolButton::HasMenu)) {
-            qDebug() << "drawComplexControl 1111";
             button.features = QStyleOptionToolButton::None;
             if (!widget->property("isOptionButton").toBool()) {
-                qDebug() << "drawComplexControl 2222";
                 button.features |= QStyleOptionToolButton::HasMenu;
                 button.features |= QStyleOptionToolButton::MenuButtonPopup;
                 //QStyle::SubControls 此枚举描述可用的子控件

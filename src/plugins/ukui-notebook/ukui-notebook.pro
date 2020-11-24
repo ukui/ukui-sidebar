@@ -7,14 +7,15 @@
 include(./env.pri)
 include($$PROJECT_COMPONENTSOURCE/closebutton.pri)
 
-QT       += core gui printsupport sql concurrent network
+QT  +=  core gui printsupport sql concurrent network KWindowSystem dbus x11extras
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = ukui-notebook
 TEMPLATE = app
 
-LIBS    +=  -lX11
+LIBS  +=  -lpthread
+LIBS  +=  -lX11 -lXrandr -lXinerama -lXi -lXcursor
 
 PKGCONFIG += gsettings-qt
 
@@ -23,6 +24,7 @@ PKGCONFIG += gsettings-qt
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
+DEFINES += QT_MESSAGELOGCONTEXT
 
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -39,6 +41,7 @@ TRANSLATIONS += \
         ../../../translations/ukui-notebook/ukui-notebook_tr.ts
 
 SOURCES += \
+    utils/xatom-helper.cpp \
     adaptscreeninfo.cpp \
     customStyle.cpp \
     dbManager.cpp \
@@ -68,6 +71,7 @@ SOURCES += \
     widget.cpp
 
 HEADERS += \
+    utils/xatom-helper.h \
     adaptscreeninfo.h \
     customStyle.h \
     dbManager.h \
