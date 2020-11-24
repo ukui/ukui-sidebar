@@ -1563,11 +1563,14 @@ void Clock::listClickslot()
         if (day_next) {
            ui->label_7->setText(QString::number(day_next)+tr(" days ")+QString::number(x_h)+tr(" hour ")+QString::number(x_m)+tr(" min bell rings"));
         } else {
-            ui->label_7->setText(QString::number(x_h)+tr(" hour ")+QString::number(x_m)+tr(" min bell rings"));
+           ui->label_7->setText(QString::number(x_h)+tr(" hour ")+QString::number(x_m)+tr(" min bell rings"));
         }
     }
     if (!(model->rowCount())) {
         ui->label_7->setText("");
+    }
+    if (model->index(num, 3).data().toInt()){
+        ui->label_7->setText(tr("Remaining time"));
     }
 }
 
