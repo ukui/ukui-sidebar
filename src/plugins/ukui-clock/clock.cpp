@@ -277,12 +277,14 @@ void Clock::button_image_init()
     ui->pushButton_4->setFocusPolicy(Qt::NoFocus);
     ui->pushButton_5->setFocusPolicy(Qt::NoFocus);
     ui->pushButton_12->setFocusPolicy(Qt::NoFocus);
-    ui->pushButton_4->setProperty("useIconHighlightEffect", true);
-    ui->pushButton_5->setProperty("useIconHighlightEffect", true);
-    ui->pushButton_12->setProperty("useIconHighlightEffect", true);
-    ui->pushButton_4->setProperty("iconHighlightEffectMode", true);
-    ui->pushButton_5->setProperty("iconHighlightEffectMode", true);
-    ui->pushButton_12->setProperty("iconHighlightEffectMode", true);
+
+    ui->pushButton_4->setProperty("isWindowButton", 0x3);
+    ui->pushButton_5->setProperty("isWindowButton", 0x2);
+    ui->pushButton_12->setProperty("isWindowButton", 0x3);
+
+    ui->pushButton_4->setProperty("useIconHighlightEffect", 0x3);
+    ui->pushButton_5->setProperty("useIconHighlightEffect", 0x8);
+    ui->pushButton_12->setProperty("useIconHighlightEffect", 0x3);
 
     count_sel = new Btn_new(0, tr("  Remind"), ui->page_4);
     count_sel->move(89,358);
@@ -361,7 +363,8 @@ void Clock::stopwatch_init()
     ui->pushButton_Start->raise();
     ui->pushButton_ring->raise();
     ui->pushButton_timeselect->raise();
-    ui->pushButton_timeselect->hide();
+    ui->pushButton_timeselect->setEnabled(false);
+    ui->pushButton_ring->setEnabled(false);
 }
 //闹钟页初始化
 // Alarm page initialization
@@ -438,7 +441,12 @@ void Clock::setup_init()
     model_setup_set(); //设置数据库初始化
                        // Set database initialization
     text_timerUpdate();
+    ui->lineEdit->setMaxLength(9);//限制闹钟名字长度为9个字符
 
+    //设置输入框无视空格
+//    QRegExp rx = QRegExp("[\40]*");
+//    QRegExpValidator* validator = new QRegExpValidator(rx);
+//    ui->lineEdit->setValidator(validator);
 
     QString Default = model_setup->index(0, 19).data().toString();
     if(Default == "glass" || "玻璃"){
@@ -463,7 +471,6 @@ void Clock::setup_init()
     connect(dialog_music->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(music_listClickslot()));
     connect(time_music->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(time_music_listClickslot()));
 }
-
 
 //时间间隔执行
 // Interval calculation execution callback
@@ -540,6 +547,8 @@ void Clock::Count_down()
 void Clock::on_pushButton_Start_clicked()
 {
     if (!isStarted) {
+        ui->pushButton_timeselect->setEnabled(true);
+        ui->pushButton_ring->setEnabled(true);
         ui->pushButton_timeselect->hide();
         ui->pushButton_Start->setText(tr("suspend"));
 
@@ -665,6 +674,8 @@ void Clock::on_pushButton_timeselect_clicked()
     if (nullptr != timer) {
         if (isStarted)
             return;
+        ui->pushButton_timeselect->setEnabled(false);
+        ui->pushButton_ring->setEnabled(false);
         timer->stop();
         timer_2->stop();
         ui->label_4->setText("00:00.00");
@@ -1198,6 +1209,7 @@ void Clock::set_Alarm_Clock()
 // Alarm new interface save callback
 void Clock::set_alarm_save()
 {
+    ui->lineEdit->setText(ui->lineEdit->text().remove(QRegExp("\\s")));//去除所以空格
     if(ui->lineEdit->text().isEmpty()){
         delete_msg *deletemsg = new delete_msg();
         deletemsg->ui->label_5->setText(tr("Please set alarm name!"));

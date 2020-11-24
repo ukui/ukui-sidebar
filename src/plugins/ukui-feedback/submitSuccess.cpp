@@ -30,7 +30,7 @@ void submit_success::UI_init()
 {
     if (this->objectName().isEmpty())
         this->setObjectName(QString::fromUtf8("submit_success"));
-    this->setFixedSize(350, 230);
+    this->resize(350, 230);
     setWindowTitle(tr("Submitted success "));
     this->setAttribute(Qt::WA_TranslucentBackground);
     this->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
@@ -51,6 +51,15 @@ void submit_success::UI_init()
 
     setMask(bmp);
     //----- ------------------------
+
+    QLabel *logoLabel = new QLabel(this);
+    logoLabel->setPixmap(QPixmap("://image/24x24/kylin-feedback.png"));
+    logoLabel->setGeometry(QRect(8,8,24,24));
+
+    QLabel *titleLabel = new QLabel(this);
+    titleLabel->setText(tr("feedback"));
+    titleLabel->setGeometry(QRect(40,11,56,19));
+    titleLabel->setStyleSheet(QString::fromUtf8("font: 14px;\n"));
 
     label = new QLabel(this);
     label->setText(tr("submitted success"));

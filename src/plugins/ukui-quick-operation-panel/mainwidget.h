@@ -26,12 +26,15 @@
 #include <QDebug>
 #include <QMenu>
 #include <QAction>
+#include <QGSettings>
 
 #define KYLIN_EDIT_MENU_ICON_PATH ":/images/icon-edit.svg"
 #define KYLIN_EDIT_MENU_ICON_NAME "document-edit-symbolic"
 
 #define KYLIN_SET_MENU_ICON_PATH  ":/images/icon-setting.svg"
 #define KYLIN_SET_MENU_ICON_NAME  "document-properties-symbolic"
+
+#define UKUI_TRANSPARENCY_SETTING "org.ukui.control-center.personalise"
 
 class MainWidget : public QWidget
 {
@@ -41,6 +44,8 @@ public:
 
 private:
     void createAction();
+    void getTransParency();
+    void setTransParency();
 
 protected:
     void paintEvent(QPaintEvent *event);
@@ -49,6 +54,8 @@ protected:
 private:
     QAction *SetAction;
     QAction *EditAction;
+    QGSettings *m_pTransparency;
+    double      m_dtranSparency;
 
 private slots:
 

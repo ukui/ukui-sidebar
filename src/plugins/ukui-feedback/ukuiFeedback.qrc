@@ -16,5 +16,6 @@
         <file>image/success.png</file>
         <file>image/failed.png</file>
         <file>image/addfile.png</file>
+        <file>image/24x24/kylin-feedback.png</file>
     </qresource>
 </RCC>

@@ -465,7 +465,7 @@ void shortcutPanelPlugin::spreadClikedSlots()
         m_pScrollingAreaWidget->setVisible(true);
         m_pMainWidget->setFixedHeight(492);
     } else {
-        m_pMainWidget->setFixedHeight(438);
+        m_pMainWidget->setFixedHeight(445);
     }
     m_pLinelabel_2->setVisible(true);
     m_pLinelabel_3->setVisible(true);
@@ -480,8 +480,8 @@ void shortcutPanelPlugin::foldClikedSlots()
     m_pSpreadButton->setVisible(true);
     m_pfoldButton->setVisible(false);
     setGridLayoutWidgetHide();
-    m_pShortWidget->setFixedHeight(102);
-    m_pMainWidget->setFixedHeight(192);
+    m_pShortWidget->setFixedHeight(107);
+    m_pMainWidget->setFixedHeight(199);
     if (m_bBacklitFile) {
         m_pScrollingAreaWidget->setVisible(false);
     }

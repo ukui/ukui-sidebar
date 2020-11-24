@@ -34,6 +34,7 @@ void systeminfo_button::enterEvent(QEvent *e)
 {
     QPointF position = QCursor::pos();
     pfeedback->systeminfo_show(position);
+    pfeedback->setFocus();
 }
 
 void systeminfo_button::leaveEvent(QEvent *e)

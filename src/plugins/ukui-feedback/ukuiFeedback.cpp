@@ -170,7 +170,7 @@ void feedback::UI_init()
 
     //set submit button palette
     QString style_name = style_settings->get("style-name").toString();
-    if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0) || (style_name.compare("ukui-light")==0)){
+    if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0)){
         palette_gray.setBrush(QPalette::Button, QColor(233,233,233));
         palette_gray.setBrush(QPalette::ButtonText, QColor(255,255,255));
 
@@ -185,6 +185,23 @@ void feedback::UI_init()
     centralwidget = new QWidget(this);
     centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
     centralwidget->setAttribute(Qt::WA_TranslucentBackground);
+
+    logoLabel = new QLabel(centralwidget);
+    logoLabel->setPixmap(QPixmap("://image/24x24/kylin-feedback.png"));
+    logoLabel->setGeometry(QRect(8,8,24,24));
+
+    titleLabel = new QLabel(centralwidget);
+    titleLabel->setText(tr("feedback"));
+    titleLabel->setGeometry(QRect(40,11,56,19));
+    titleLabel->setStyleSheet(QString::fromUtf8("font: 14px;\n"));
+
+    titleBtn = new QPushButton(centralwidget);
+    titleBtn->setGeometry(QRect(486,14,30,30));
+    titleBtn->setIcon(QIcon::fromTheme("application-menu"));
+    titleBtn->setPalette(palette);
+    titleBtn->setProperty("useIconHighlightEffect", true);
+    titleBtn->setProperty("iconHighlightEffectMode", 1);
+
 
     label = new QLabel(centralwidget);
     label->setText(tr("feedback"));
@@ -267,8 +284,6 @@ void feedback::UI_init()
     lineEdit_2->setGeometry(QRect(140, 275, 320, 30));
 
 
-
-
     label_7 = new QLabel(centralwidget);
     label_7->setText(tr("Upload"));
     label_7->setObjectName(QString::fromUtf8("label_7"));
@@ -348,8 +363,11 @@ void feedback::UI_init()
     label_11 = new QLabel(frame_2);
     label_11->setObjectName(QString::fromUtf8("label_11"));
     label_11->setGeometry(QRect(15, 50, 200, 20));
+    qDebug()<<"22222";
 
-    if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0) || (style_name.compare("ukui-light")==0)){
+
+    qDebug()<<"@22222";
+    if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0)){
         verticalWidget->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);\n"
                                                         "border-top-left-radius:4px;\n"
                                                         "\n"
@@ -506,7 +524,7 @@ void feedback::feedback_init()
 void feedback::style_changed(QString)
 {
     QString style_name =  style_settings->get("style-name").toString();
-    if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0) || (style_name.compare("ukui-light")==0)){
+    if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0)){
         palette_gray.setBrush(QPalette::Button, QColor(233,233,233));
         palette_blue.setBrush(QPalette::ButtonText, QColor(255,255,255));
     }else if((style_name.compare("ukui-dark")==0) || (style_name.compare("ukui-black")==0)){
@@ -519,7 +537,7 @@ void feedback::style_changed(QString)
     else{
         pushButton_2->setPalette(palette_gray);
     }
-    if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0) || (style_name.compare("ukui-light")==0)){
+    if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0)){
         verticalWidget->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);\n"
                                                         "border-top-left-radius:4px;\n"
                                                         "\n"
@@ -686,6 +704,7 @@ void feedback::systeminfo_show(QPointF pt)
 {
     verticalWidget->setGeometry(pt.x()+5,pt.y()+15,220,80);
     verticalWidget->show();
+    this->activateWindow();
 }
 
 //系统信息隐藏
@@ -743,10 +762,18 @@ void feedback::add_systeminfo()
     //2.获取桌面环境信息
     //Access to desktop environment information
     char * desktop = getenv("DESKTOP_SESSION");
+    if(desktop != NULL){
     desktop_info.append(desktop);
     send_dekstop_info.append(desktop);
     desktop_info_str = QString::fromStdString(desktop_info);
     label_12->setText(desktop_info_str);
+    }
+    else{
+        desktop_info.append("None");
+        send_dekstop_info.append("None");
+        desktop_info_str = QString::fromStdString(desktop_info);
+        label_12->setText(desktop_info_str);
+    }
     //3.获取编码格式
     //Get the coding format
     char *encoding = getenv("LANG");
@@ -768,13 +795,13 @@ void feedback::add_systeminfo()
     if(encoding_info_str.contains(".")){
         QStringList list = encoding_info_str.split(".");
         label_11->setText(list.at(0));
-        qDebug()<<"-------------"<<encoding_info_str<<"-----------"<<send_encoding_info;
 
         if(send_encoding_info.contains(".")){
             QStringList list2 = send_encoding_info.split(".");
             send_encoding_info.clear();
             send_encoding_info.append(list2.at(0));
         }
+
     }
     else{
         label_11->setText(encoding_info_str);
@@ -925,7 +952,7 @@ void feedback::on_pushButton_2_clicked()
     if (2==v.validate(email_str,pos)) {
 
     } else {
-        //        lineEdit_2->setStyle(new CustomStyle("ukui"));
+        lineEdit_2->setStyle(new CustomStyle("ukui"));
         pushButton_2->setEnabled(false);
         pushButton_2->setPalette(palette_gray);
         email_err_msg_label->show();
@@ -1315,21 +1342,21 @@ void feedback::update_add_file_window()
             filename_labelstr = file_name_list.at(filenum).left(30) + "...";
         }
 
-        file_widget[filenum]->filename_label0->move(0,4);
+        file_widget[filenum]->filename_label0->move(0,5);
         file_widget[filenum]->filename_label0->setText(filename_labelstr);
-        file_widget[filenum]->filename_label0->setStyleSheet("font: 11px ;");
+        file_widget[filenum]->filename_label0->setStyleSheet("font: 12px ;");
         file_widget[filenum]->filename_label0->adjustSize();
 
         int filename_width = file_widget[filenum]->filename_label0->geometry().width();
 
-        file_widget[filenum]->filesize_label0->move(filename_width+10,4);
+        file_widget[filenum]->filesize_label0->move(filename_width+10,5);
         file_widget[filenum]->filesize_label0->setText(file_size_list.at(filenum));
-        file_widget[filenum]->filesize_label0->setStyleSheet("font: 11px ;");
+        file_widget[filenum]->filesize_label0->setStyleSheet("font: 12px ;");
         file_widget[filenum]->filesize_label0->adjustSize();
 
         int filesize_width = file_widget[filenum]->filesize_label0->geometry().width();
 
-        file_widget[filenum]->deletebtn0->setGeometry(filename_width+filesize_width+20,0,35,22);
+        file_widget[filenum]->deletebtn0->setGeometry(filename_width+filesize_width+20,0,35,20);
         file_widget[filenum]->deletebtn0->setText(tr("del"));
         file_widget[filenum]->deletebtn0->setStyleSheet("font: 12px ;color: rgb(61,107,229);");
         file_widget[filenum]->deletebtn0->setFlat(true);
@@ -1457,7 +1484,7 @@ void feedback::set_request_header()
 void feedback::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e);
-
+    QStyleOption *option = new QStyleOption();
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);
     QPainterPath rectPath;
@@ -1469,7 +1496,7 @@ void feedback::paintEvent(QPaintEvent *e)
     QPainter pixmapPainter(&pixmap);
     pixmapPainter.setRenderHint(QPainter::Antialiasing);
     pixmapPainter.setPen(Qt::transparent);
-    pixmapPainter.setBrush(Qt::black);
+    pixmapPainter.setBrush(option->palette.color(QPalette::Text));
     pixmapPainter.drawPath(rectPath);
     pixmapPainter.end();
     // 模糊这个黑底
@@ -1493,7 +1520,7 @@ void feedback::paintEvent(QPaintEvent *e)
 
     // 随便绘制一个背景
     //Draw a random background.
-    QStyleOption *option = new QStyleOption();
+
     p.save();
     p.fillPath(rectPath, option->palette.color(QPalette::Base));
     p.restore();
@@ -1504,7 +1531,6 @@ void feedback::mousePressEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton) {
         this->dragPosition = event->globalPos() - frameGeometry().topLeft();
         this->mousePressed = true;
-
     }
     QWidget::mousePressEvent(event);
 }
@@ -1513,7 +1539,6 @@ void feedback::mouseReleaseEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
         this->mousePressed = false;
-        this->setCursor(Qt::ArrowCursor);
     }
     QWidget::mouseReleaseEvent(event);
 }
@@ -1522,7 +1547,6 @@ void feedback::mouseMoveEvent(QMouseEvent *event)
 {
     if (this->mousePressed) {
         move(event->globalPos() - this->dragPosition);
-        this->setCursor(Qt::ClosedHandCursor);
     }
     QWidget::mouseMoveEvent(event);
 }

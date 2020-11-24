@@ -29,7 +29,7 @@ SingleApplication::SingleApplication(int &argc, char **argv)
 
     // 取应用程序名作为LocalServer的名字
     // Take the application name as the name of localserver
-    _serverName = QFileInfo(QCoreApplication::applicationFilePath()).fileName();
+    _serverName = QFileInfo(QCoreApplication::applicationFilePath()).fileName() + QLatin1String(getenv("DISPLAY"));
 
     _initLocalConnection();
 }

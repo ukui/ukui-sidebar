@@ -42,7 +42,7 @@ protected:
     void mouseMoveEvent(QMouseEvent* e) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent* e) Q_DECL_OVERRIDE;
     void mouseReleaseEvent(QMouseEvent* e) Q_DECL_OVERRIDE;
-    bool viewportEvent(QEvent* e) Q_DECL_OVERRIDE;
+//    bool viewportEvent(QEvent* e) Q_DECL_OVERRIDE;
 
 private:
     bool m_isScrollBarHidden;
@@ -61,10 +61,6 @@ public slots:
 
 private slots:
     void init();
-
-protected slots:
-    void rowsInserted(const QModelIndex &parent, int start, int end) Q_DECL_OVERRIDE;
-    void rowsAboutToBeRemoved(const QModelIndex &parent, int start, int end) Q_DECL_OVERRIDE;
 
 signals:
     void viewportPressed();
