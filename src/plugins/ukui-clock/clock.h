@@ -44,6 +44,7 @@
 #include "setupPage.h"
 #include <QPropertyAnimation>
 #include "adaptscreeninfo.h"
+#include <QCloseEvent>
 
 class QSpinBox;
 class QComboBox;
@@ -89,6 +90,7 @@ public:
 protected:
     void paintEvent1(QPaintEvent *);
     QPixmap ChangeImageColor(QPixmap sourcePixmap, QColor origColor, QColor destColor);
+    void closeEvent(QCloseEvent *event);
 
 public slots:
     void on_pushButton_clicked();                                                        //倒计时切换

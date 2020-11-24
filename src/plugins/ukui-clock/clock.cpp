@@ -234,6 +234,25 @@ Clock::~Clock()
     delete ui->page_5;
     delete ui;
 }
+
+void Clock::closeEvent(QCloseEvent *event)
+{
+        QPointF position = this->pos();
+        close_or_hide_page->move(position.x()+67,position.y()+250);
+        close_or_hide_page->exec();
+
+        if(close_or_hide_page->close_flag==1){
+            event->accept();
+            exit(0);
+        }else if(close_or_hide_page->close_flag==2){
+            event->ignore();
+            this->hide();
+            close_or_hide_page->close_flag = 0;
+        }else{
+            event->ignore();
+        }
+}
+
 //闹钟按钮图片初始化
 // Alarm button picture initialization
 void Clock::button_image_init()
@@ -722,6 +741,7 @@ void Clock::on_pushButton_5_clicked()
         exit(0);
     }else if(close_or_hide_page->close_flag==2){
         this->hide();
+        close_or_hide_page->close_flag = 0;
     }
 }
 
