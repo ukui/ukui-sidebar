@@ -23,7 +23,7 @@
 VerticalScroll_99::VerticalScroll_99(QWidget *parent) :
     QWidget(parent),
     m_minRange(0),     //最小值默认为0  // The minimum value defaults to 0
-    m_maxRange(48),    //最大值默认99   // Max default 24
+    m_maxRange(24),    //最大值默认99   // Max default 24
     m_currentValue(0), //当前值默认0    // Current value defaults to 0
     isDragging(false),
     m_deviation(0),   //默认偏移量为0   // The default offset is 0
