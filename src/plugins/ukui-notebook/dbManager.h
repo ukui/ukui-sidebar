@@ -43,7 +43,6 @@ private:
     QList<NoteData *> getAllNotes();
     bool addNote(NoteData* note);
     bool removeNote(NoteData* note);
-    bool permanantlyRemoveAllNotes();
     bool updateNote(NoteData* note);
     bool migrateNote(NoteData* note);
     bool migrateTrash(NoteData* note);
@@ -52,7 +51,7 @@ signals:
     void notesReceived(QList<NoteData*> noteList, int noteCounter);
 
 public slots:
-
+    bool permanantlyRemoveAllNotes();
     void onNotesListRequested();
     void onOpenDBManagerRequested(QString path, bool doCreate);
     void onCreateUpdateRequested(NoteData* note);

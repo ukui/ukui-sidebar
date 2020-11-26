@@ -192,13 +192,14 @@ private slots:
     void sortSlot(int index);                                       //排序槽函数
     void changePageSlot();                                          //列表平铺切换槽函数
     void setNoteNullSlot();                                         //便签页关闭置空槽函数
-    void emptyNoteSLot();                                           //清空便签槽函数
+    void clearNoteSlot();                                           //清空便签槽函数
 
 signals:
     void requestNotesList();                                        //加载列表请求信号
     void requestOpenDBManager(QString path, bool doCreate);         //打开数据库信号
     void requestCreateUpdateNote(NoteData* note);                   //数据库更新信号
     void requestDeleteNote(NoteData* note);                         //数据库同步删除信号
+    void requestClearNote();                                        //清空数据库
     void requestRestoreNotes(QList<NoteData *> noteList);           //重加载信号
     void requestImportNotes(QList<NoteData *> noteList);            //导入信号
     void requestExportNotes(QString fileName);                      //导出信号
