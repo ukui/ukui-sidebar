@@ -305,7 +305,7 @@ void Widget::kyNoteConn()
 //    connect(m_sortLabel,&QPushButton::clicked,this,&Widget::sortSlot);
     connect(this, &Widget::switchSortTypeRequest, this, &Widget::sortSlot);
     //清空便签
-    connect(m_menuAction,&QAction::triggered,this,&Widget::emptyNoteSLot);
+    connect(m_menuAction,&QAction::triggered,this,&Widget::clearNoteSlot);
     //列表平铺切换
     connect(m_viewChangeButton,&QPushButton::clicked,this,&Widget::changePageSlot);
     //搜索栏文本输入
@@ -330,6 +330,8 @@ void Widget::kyNoteConn()
             m_dbManager, &DBManager::onCreateUpdateRequested, Qt::BlockingQueuedConnection);
     connect(this, &Widget::requestDeleteNote,
             m_dbManager, &DBManager::onDeleteNoteRequested);
+    connect(this, &Widget::requestClearNote,
+            m_dbManager, &DBManager::permanantlyRemoveAllNotes);
     //    connect(this, &Widget::requestRestoreNotes,
     //            m_dbManager, &DBManager::onRestoreNotesRequested, Qt::BlockingQueuedConnection);
     //    connect(this, &Widget::requestImportNotes,
@@ -1425,15 +1427,13 @@ void Widget::sortSlot(int index)
 }
 
 /*!
- * \brief Widget::emptyNoteSLot
+ * \brief Widget::clearNoteSlot
  *
  */
-void Widget::emptyNoteSLot()
+void Widget::clearNoteSlot()
 {
-    while(m_currentSelectedNoteProxy.isValid())
-    {
-        deleteSelectedNote();
-    }
+    m_noteModel->clearNotes();
+    emit requestClearNote();
     m_countLabel->setText(QObject::tr("%1 records in total").arg(m_proxyModel->rowCount()));
 }
 
