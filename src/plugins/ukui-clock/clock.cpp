@@ -2556,7 +2556,7 @@ void Clock::model_setup_set()
         model_setup->insertRow(setup_rowNum);
         model_setup->setData(model_setup->index(setup_rowNum, 0), int(0));//自启动  Self starting
         model_setup->setData(model_setup->index(setup_rowNum, 1), int(0));//静音    Mute
-        model_setup->setData(model_setup->index(setup_rowNum, 2), int(1));//时间格式 Time format
+        model_setup->setData(model_setup->index(setup_rowNum, 2), int(3));//时间格式 Time format
         model_setup->setData(model_setup->index(setup_rowNum, 3), int(0));//弹窗    Popup
         model_setup->setData(model_setup->index(setup_rowNum, 4), int(0));//提醒关闭 Reminder off
         model_setup->setData(model_setup->index(setup_rowNum, 5), tr("glass"));

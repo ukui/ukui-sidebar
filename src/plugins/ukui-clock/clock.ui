@@ -29,7 +29,7 @@
     <string notr="true"/>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="page">
     <widget class="QStackedWidget" name="stackedWidget_4">
@@ -387,7 +387,7 @@ border-radius:0px 0px 6px 6px;
      <property name="geometry">
       <rect>
        <x>80</x>
-       <y>50</y>
+       <y>30</y>
        <width>31</width>
        <height>22</height>
       </rect>
