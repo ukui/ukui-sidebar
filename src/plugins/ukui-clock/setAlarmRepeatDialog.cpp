@@ -124,14 +124,14 @@ set_alarm_repeat_widget::set_alarm_repeat_widget(QWidget *parent):
     this->setFixedSize(276, 32);
 
     alarmLabel0 = new QLabel(this);
-    alarmLabel0->move(5, 9);
-    alarmLabel0->setFixedSize(100, 17);
-    alarmLabel0->setStyleSheet("font: 11pt ;background-color: rgb();");
+    alarmLabel0->move(5, 0);
+    alarmLabel0->setFixedSize(160, 32);
+    alarmLabel0->setStyleSheet("background-color: rgb();");
     alarmLabel0->setText("选项");
 
     alarmLabel1 = new QPushButton(this);
-    alarmLabel1->move(240, 9);
-    alarmLabel1->setFixedSize(34, 17);
+    alarmLabel1->move(240, 0);
+    alarmLabel1->setFixedSize(34, 32);
     alarmLabel1->setStyleSheet("background-color: rgb();");
     alarmLabel1->setText("");
 }
