@@ -73,6 +73,7 @@ private:
     void fontChanged(const QFont &f);                                // 当前光标下字体格式获取
     void fontColorChanged(const QColor &c);                          // 当前光标下字体颜色获取
     void initColor();
+    void listenToGsettings();
 
 private:
     select_color_page *color_page;
