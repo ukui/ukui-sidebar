@@ -362,7 +362,8 @@ void Widget::listenToGsettings()
             auto style = styleSettings->get(key).toString();
             if (key == "styleName"){
                 currentTheme = styleSettings->get(MODE_QT_KEY).toString();
-                if(currentTheme == "ukui-default" || currentTheme == "ukui-white"){
+                if(currentTheme == "ukui-default" || currentTheme == "ukui-white"
+                        || currentTheme == "ukui-light" || currentTheme == "ukui"){
                     m_isThemeChanged = 0;
                 }else if(style == "ukui-dark" || currentTheme == "ukui-black"){
                     m_isThemeChanged = 1;
