@@ -405,14 +405,11 @@ void setuppage::Time_format_set()
     Time_format->setAttribute(Qt::WA_TranslucentBackground);
     QPointF position = parentWidget()->pos();
     Time_format->move(position.x()+83,position.y()+212);
-    Time_format->resize(280,110);
-    Time_format->listWidget->setFixedSize(280,110);
+    Time_format->resize(280,100);
+    Time_format->listWidget->setFixedSize(280,100);
     Time_format->widget[0]->alarmLabel0->setText(tr("Following system"));
-    Time_format->widget[0]->alarmLabel0->setFixedSize(200,17);
     Time_format->widget[1]->alarmLabel0->setText(tr("24 hour system"));
-    Time_format->widget[1]->alarmLabel0->setFixedSize(200,17);
     Time_format->widget[2]->alarmLabel0->setText(tr("12 hour system"));
-    Time_format->widget[2]->alarmLabel0->setFixedSize(200,17);
 
     Time_format->show();
 
@@ -509,11 +506,6 @@ void setuppage::Reminder_off_set()
     Reminder_off->move(position.x()+83,position.y()+312);
     Reminder_off->resize(280,170);
     Reminder_off->listWidget->setFixedSize(280,170);
-    Reminder_off->widget[0]->alarmLabel0->setFixedSize(200,17);
-    Reminder_off->widget[1]->alarmLabel0->setFixedSize(200,17);
-    Reminder_off->widget[2]->alarmLabel0->setFixedSize(200,17);
-    Reminder_off->widget[3]->alarmLabel0->setFixedSize(200,17);
-    Reminder_off->widget[4]->alarmLabel0->setFixedSize(200,17);
     Reminder_off->widget[0]->alarmLabel0->setText(tr("Alert in 2 minutes"));
     Reminder_off->widget[1]->alarmLabel0->setText(tr("Alert in 5 minutes"));
     Reminder_off->widget[2]->alarmLabel0->setText(tr("Alert in 10 minutes"));
