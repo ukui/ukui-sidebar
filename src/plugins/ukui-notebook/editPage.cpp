@@ -360,7 +360,8 @@ void Edit_page::listenToGsettings()
         QGSettings *styleSettings = new QGSettings(id);
         auto style = styleSettings->get("styleName").toString();
         if(ui->textEdit->document()->isEmpty()){
-            if(style == "ukui-default" || style == "ukui-white"){
+            if(style == "ukui-default" || style == "ukui-white"
+                    || style == "ukui-light" || style == "ukui"){
                 text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet("background-color: black;"
                                                                                 "border-radius:3px;");
             }else if(style == "ukui-dark" || style == "ukui-black"){
@@ -372,7 +373,8 @@ void Edit_page::listenToGsettings()
         connect(styleSettings, &QGSettings::changed, this, [=](const QString &key){
             if( key == "styleName" ){
                 QString currentTheme = styleSettings->get(MODE_QT_KEY).toString();
-                if(currentTheme == "ukui-default" || currentTheme == "ukui-white"){
+                if(currentTheme == "ukui-default" || currentTheme == "ukui-white"
+                        || currentTheme == "ukui-light" || currentTheme == "ukui"){
                     text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet("background-color: black;"
                                                                                     "border-radius:3px;");
                 }else if(currentTheme == "ukui-dark" || currentTheme == "ukui-black"){
