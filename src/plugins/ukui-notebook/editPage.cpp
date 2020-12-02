@@ -234,6 +234,9 @@ void Edit_page::btnSetup()
 void Edit_page::slotsSetup()
 {
     connect(m_noteHeadMenu->ui->pushButtonExit, &QPushButton::clicked, this, [=](){
+        if(ui->textEdit->document()->isEmpty()){
+            emit isEmptyNote(m_noteId);
+        }
         this->close();
     });
     connect(ui->textEdit,&QTextEdit::textChanged,this,&Edit_page::textChangedSlot);

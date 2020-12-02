@@ -679,7 +679,7 @@ void Widget::deleteNote(const QModelIndex &noteIndex, bool isFromUser)
     qDebug() << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
     if(noteIndex.isValid()){
         // delete from model
-        QModelIndex indexToBeRemoved = m_proxyModel->mapToSource(m_currentSelectedNoteProxy);
+        QModelIndex indexToBeRemoved = m_proxyModel->mapToSource(noteIndex);
         NoteData* noteTobeRemoved = m_noteModel->removeNote(indexToBeRemoved);
 
         noteTobeRemoved->setDeletionDateTime(QDateTime::currentDateTime());
@@ -846,6 +846,48 @@ void Widget::createNewNote()
         m_noteView->setCurrentIndex(m_currentSelectedNoteProxy);
         m_isOperationRunning = false;
     }
+    int noteId = m_currentSelectedNoteProxy.data(NoteModel::NoteID).toInt();
+
+    m_notebook =  new Edit_page(this,noteId);
+    m_editors.push_back(m_notebook);
+    m_notebook->id = m_editors.size() - 1;
+
+    if(sender() != Q_NULLPTR){
+        //获取当前选中item下标
+        //QModelIndex indexInProxy = m_proxyModel->index(index.row(), 0);
+        //加载便签
+        selectNote(m_currentSelectedNoteProxy);
+        m_noteView->setCurrentRowActive(false);
+    }
+    connect(m_editors[m_editors.size() - 1], &Edit_page::isEmptyNote, this, [=](int noteId){
+        qDebug()<< "isEmptyNote";
+//        m_editors.erase(m_editors[m_editors.size() - 1]);
+
+        qDebug() << "receive signal isEmptyNote" << noteId;
+        for(int count = 0; count <= m_proxyModel->rowCount();count ++)
+        {
+            QModelIndex m_tmpIndex = m_proxyModel->index(count,0);
+            if(m_tmpIndex.data(NoteModel::NoteID).toInt() == noteId){
+                qDebug() << m_tmpIndex.data(NoteModel::NoteID).toInt();
+                QModelIndex sourceIndex = m_proxyModel->mapToSource(m_tmpIndex);
+                qDebug() << sourceIndex << m_tmpIndex;
+                deleteNote(m_tmpIndex, true);
+                break;
+            }
+        }
+
+//        if(m_tmpIndex.isValid()){
+//            deleteNote(m_tmpIndex, true);
+//        }
+
+    });
+    connect(m_editors[m_editors.size() - 1], SIGNAL(texthasChanged(int,int)), this, SLOT(onTextEditTextChanged(int, int)));
+    connect(m_editors[m_editors.size() - 1], SIGNAL(colorhasChanged(QColor,int)), this, SLOT(onColorChanged(QColor,int)));
+    //设置鼠标焦点
+    m_notebook->ui->textEdit->setFocus();
+    //移动光标至行末
+    m_notebook->ui->textEdit->moveCursor(QTextCursor::End, QTextCursor::MoveAnchor);
+    m_notebook->show();
 }
 
 /*!
@@ -1310,6 +1352,7 @@ void Widget::listDoubleClickSlot(const QModelIndex& index)
             isExistInMeditors = 1;
             m_notebook = *it;
             m_notebook->raise();
+            m_notebook->activateWindow();
             break;
         }
     }
@@ -1433,8 +1476,14 @@ void Widget::sortSlot(int index)
  */
 void Widget::clearNoteSlot()
 {
+    for(auto it = m_editors.begin(); it != m_editors.end();it++){
+        (*it)->close();
+        delete (*it);
+    }
+
     m_noteModel->clearNotes();
     emit requestClearNote();
+
     m_countLabel->setText(QObject::tr("%1 records in total").arg(m_proxyModel->rowCount()));
 }
 

@@ -117,6 +117,7 @@ private slots:
 signals:
     void texthasChanged(int noteId, int id);
     void colorhasChanged(const QColor &color,int);
+    void isEmptyNote(int noteId);
 };
 
 #endif // EDIT_PAGE_H
