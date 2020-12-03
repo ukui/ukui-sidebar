@@ -32,8 +32,8 @@ set_alarm_repeat_Dialog::set_alarm_repeat_Dialog(QWidget *parent , int rowNum ) 
     QWidget(parent)
 {
     setupUi(this);
-    this->setStyleSheet("border-radius:4px;border:0px  rgba();");
-    this->listWidget->setStyleSheet("background-color: rgba(255, 255, 255,0);");
+    //this->setStyleSheet("border-radius:4px;border:0px  rgba();");
+    //this->listWidget->setStyleSheet("background-color: rgba(233,233,233,0);");
 
     this->setWindowOpacity(0.9);
     for (int i = 0; i < rowNum_all; i++) {
@@ -56,7 +56,7 @@ void set_alarm_repeat_Dialog::set_aItem(int rowNum)
 {
     aItem[rowNum] =new QListWidgetItem;
     aItem[rowNum]->setSizeHint(QSize(276, 32));
-//    aItem[rowNum]->setTextColor(QColor(255, 0, 0, 255));
+    aItem[rowNum]->setTextColor(QColor(255, 0, 0, 255));
     listWidget->addItem(aItem[rowNum]);
     listWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     listWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -74,7 +74,7 @@ void set_alarm_repeat_Dialog::setupUi(QWidget( *set_alarm_repeat_Dialog))
     listWidget = new QListWidget(set_alarm_repeat_Dialog);
     listWidget->setObjectName(QString::fromUtf8("listWidget"));
     listWidget->setGeometry(QRect(0, 0, 280, 162));
-    //listWidget->setStyleSheet("selection-background-color: rgba(39,207,129,0.9);");
+//  listWidget->setStyleSheet("selection-background-color: rgba(39,207,129,0.9);");
 
     retranslateUi(set_alarm_repeat_Dialog);
 
@@ -117,10 +117,37 @@ void set_alarm_repeat_Dialog::paintEvent(QPaintEvent *event)
     QWidget::paintEvent(event);
 }
 
+bool set_alarm_repeat_Dialog::eventFilter(QObject *watched, QEvent *event)
+{
+    if(watched == listWidget && event->type() == QEvent::Paint)
+    {
+        showPaint(); //响应函数
+    }
+    return QWidget::eventFilter(watched,event);
+}
+
+//实现响应函数 listwidget上色
+void set_alarm_repeat_Dialog::showPaint()
+{
+    QPalette palette = listWidget->palette();
+    QColor ColorPlaceholderText(248,163,76,255);
+    QBrush brush3;
+    brush3.setColor(ColorPlaceholderText);
+    QStyleOption opt;
+    opt.init(this);
+    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
+    {
+        palette.setBrush(QPalette::Background, QBrush(QColor(133, 233, 233)));
+    }else{
+        palette.setBrush(QPalette::Background, QBrush(QColor(48,48,51)));
+    }
+    listWidget->setPalette(palette);
+}
+
+
 set_alarm_repeat_widget::set_alarm_repeat_widget(QWidget *parent):
     QWidget(parent)
 {
-    //this->setStyleSheet("border-radius:12px;");
     this->setFixedSize(276, 32);
 
     alarmLabel0 = new QLabel(this);
@@ -129,7 +156,7 @@ set_alarm_repeat_widget::set_alarm_repeat_widget(QWidget *parent):
     alarmLabel0->setStyleSheet("background-color: rgb();");
     alarmLabel0->setText("选项");
 
-    alarmLabel1 = new QPushButton(this);
+    alarmLabel1 = new ClickableLabel(this);
     alarmLabel1->move(240, 0);
     alarmLabel1->setFixedSize(34, 32);
     alarmLabel1->setStyleSheet("background-color: rgb();");
@@ -145,30 +172,5 @@ set_alarm_repeat_widget::~set_alarm_repeat_widget()
 
 void set_alarm_repeat_widget::paintEvent(QPaintEvent *event)
 {
-//    Q_UNUSED(event);
-//    QPainter painter(this);
-//    painter.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
 
-//    QStyleOption opt;
-//    opt.init(this);
-//    painter.setBrush(opt.palette.color(QPalette::Base));
-
-//    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
-//    {
-//        painter.setBrush(QColor(121,121,121));
-//    }else{
-//        painter.setBrush(QColor(48,48,51));
-//    }
-
-//    painter.setPen(Qt::transparent);
-//    QRect rect = this->rect();
-//    rect.setWidth(rect.width() - 0);
-//    rect.setHeight(rect.height() - 0);
-//    painter.drawRoundedRect(rect, 7, 7);
-//    {
-//        QPainterPath painterPath;
-//        painterPath.addRoundedRect(rect, 7, 7);
-//        painter.drawPath(painterPath);
-//    }
-//    QWidget::paintEvent(event);
 }
