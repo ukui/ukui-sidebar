@@ -50,6 +50,7 @@ Edit_page::Edit_page(Widget* page, int noteId, QWidget *parent) :
 {
     ui->setupUi(this);
     initSetup();
+    listenToGsettings();
     slotsSetup();
 }
 
@@ -233,6 +234,9 @@ void Edit_page::btnSetup()
 void Edit_page::slotsSetup()
 {
     connect(m_noteHeadMenu->ui->pushButtonExit, &QPushButton::clicked, this, [=](){
+        if(ui->textEdit->document()->isEmpty()){
+            emit isEmptyNote(m_noteId);
+        }
         this->close();
     });
     connect(ui->textEdit,&QTextEdit::textChanged,this,&Edit_page::textChangedSlot);
@@ -287,7 +291,7 @@ void Edit_page::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
 
 void Edit_page::fontChanged(const QFont &f)
 {
-    qDebug() << "font Changed" << f.pointSize();
+    qDebug() << "font Changed" << f.pointSize() << f.bold();
     text_edit_page->set_size_page->ui->listWidget->setCurrentRow(f.pointSize() - 10);
     text_edit_page->texteditwidget->ui->fontSizeBtn->setText(QString::number(f.pointSize()));
     text_edit_page->texteditwidget->ui->boldBtn->setChecked(f.bold());
@@ -347,6 +351,44 @@ void Edit_page::list(bool checked, QTextListFormat::Style style)
     cursor.endEditBlock();
 }
 
+/*!
+ * \brief Edit_page::listenToGsettings
+ *
+ */
+void Edit_page::listenToGsettings()
+{
+    //监听主题改变
+    const QByteArray id(THEME_QT_SCHEMA);
+    if(QGSettings::isSchemaInstalled(id)){
+        QGSettings *styleSettings = new QGSettings(id);
+        auto style = styleSettings->get("styleName").toString();
+        if(ui->textEdit->document()->isEmpty()){
+            if(style == "ukui-default" || style == "ukui-white"
+                    || style == "ukui-light" || style == "ukui"){
+                text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet("background-color: black;"
+                                                                                "border-radius:3px;");
+            }else if(style == "ukui-dark" || style == "ukui-black"){
+                text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet("background-color: white;"
+                                                                                "border-radius:3px;");
+            }
+        }
+
+        connect(styleSettings, &QGSettings::changed, this, [=](const QString &key){
+            if( key == "styleName" ){
+                QString currentTheme = styleSettings->get(MODE_QT_KEY).toString();
+                if(currentTheme == "ukui-default" || currentTheme == "ukui-white"
+                        || currentTheme == "ukui-light" || currentTheme == "ukui"){
+                    text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet("background-color: black;"
+                                                                                    "border-radius:3px;");
+                }else if(currentTheme == "ukui-dark" || currentTheme == "ukui-black"){
+                    text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet("background-color: white;"
+                                                                                    "border-radius:3px;");
+                }
+            }
+        });
+    }
+}
+
 /**************** Slots *******************/
 
 void Edit_page::cursorPositionChangedSlot()
@@ -380,7 +422,8 @@ void Edit_page::currentCharFormatChangedSlot(const QTextCharFormat &format)
 {
     qDebug() << "currentCharFormatChangedSlot";
     fontChanged(format.font());
-    fontColorChanged((format.foreground().isOpaque()) ? format.foreground().color() : QColor());
+//    fontColorChanged((format.foreground().isOpaque()) ? format.foreground().color() : QColor());
+    fontColorChanged(format.foreground().color());
 }
 
 void Edit_page::textChangedSlot()
@@ -395,11 +438,8 @@ void Edit_page::setBoldSlot()
     qDebug() << "setBoldSlot";
     QTextCharFormat fmt;
     fmt.setFontWeight(text_edit_page->texteditwidget->ui->boldBtn->isCheckable() ? QFont::Bold : QFont::Normal);
-//    mergeFormatOnWordOrSelection(fmt);
+
     QTextCursor cursor = ui->textEdit->textCursor();
-    if (!cursor.hasSelection()){
-        cursor.select(QTextCursor::WordUnderCursor);
-    }
     if(cursor.charFormat().fontWeight() == QFont::Bold)
     {
         qDebug() << "current cursor charFormat QFont::Bold";
