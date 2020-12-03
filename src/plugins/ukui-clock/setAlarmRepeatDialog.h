@@ -22,6 +22,7 @@
 #include <QListWidgetItem>
 #include <QLabel>
 #include <QPainter>
+#include "clickableLabel.h"
 
 namespace Ui {
 class set_alarm_repeat_Dialog;
@@ -39,6 +40,9 @@ public:
     ~set_alarm_repeat_Dialog();
 
     void paintEvent(QPaintEvent *event);
+    bool eventFilter(QObject *watched, QEvent *event);
+
+    void showPaint();
 
     set_alarm_repeat_widget *widget[20];
     QListWidgetItem *aItem[20];
@@ -67,7 +71,8 @@ public:
     void paintEvent(QPaintEvent *event);
 
     QLabel *alarmLabel0;
-    QPushButton *alarmLabel1;
+    //QPushButton
+    ClickableLabel *alarmLabel1;
 
 private:
 

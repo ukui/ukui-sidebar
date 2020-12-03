@@ -460,7 +460,7 @@ void Clock::setup_init()
     model_setup_set(); //设置数据库初始化
                        // Set database initialization
     text_timerUpdate();
-    ui->lineEdit->setMaxLength(9);//限制闹钟名字长度为9个字符
+    ui->lineEdit->setMaxLength(8);//限制闹钟名字长度为9个字符
 
     //设置输入框无视空格
 //    QRegExp rx = QRegExp("[\40]*");
@@ -2264,9 +2264,9 @@ void Clock::alarm_repeat()
         dialog_repeat->widget[8]->alarmLabel0->setText(tr("Sun"));
         for (int i=0; i<7; i++) {
             if (repeat_day[i]) {
-                dialog_repeat->widget[i+2]->alarmLabel1->setIcon(repeat_on_Pixmap);
+                dialog_repeat->widget[i+2]->alarmLabel1->setPixmap(repeat_on_Pixmap);
             } else {
-                dialog_repeat->widget[i+2]->alarmLabel1->setIcon(repeat_off_Pixmap);
+                dialog_repeat->widget[i+2]->alarmLabel1->setPixmap(repeat_off_Pixmap);
             }
         }
         dialog_repeat->show();
@@ -2294,7 +2294,7 @@ void Clock::repeat_listClickslot()
         for (int i=0; i<7; i++) {
             repeat_day[i] = 1;
             qDebug() << repeat_day[i];
-            dialog_repeat->widget[i+2]->alarmLabel1->setIcon(repeat_off_Pixmap);
+            dialog_repeat->widget[i+2]->alarmLabel1->setPixmap(repeat_off_Pixmap);
         }
 
         dialog_repeat->close();
@@ -2307,105 +2307,105 @@ void Clock::repeat_listClickslot()
             if(model_setup->index(0, i+7).data().toInt()) {
                 repeat_day[i] = 1;
                 qDebug() << repeat_day[i];
-                dialog_repeat->widget[i+2]->alarmLabel1->setIcon(repeat_on_Pixmap);
+                dialog_repeat->widget[i+2]->alarmLabel1->setPixmap(repeat_on_Pixmap);
             } else {
                 repeat_day[i] = 0;
-                dialog_repeat->widget[i+2]->alarmLabel1->setIcon(repeat_off_Pixmap);
+                dialog_repeat->widget[i+2]->alarmLabel1->setPixmap(repeat_off_Pixmap);
             }
         }
-        dialog_repeat->widget[7]->alarmLabel1->setIcon(repeat_on_Pixmap);
-        dialog_repeat->widget[8]->alarmLabel1->setIcon(repeat_on_Pixmap);
+        dialog_repeat->widget[7]->alarmLabel1->setPixmap(repeat_on_Pixmap);
+        dialog_repeat->widget[8]->alarmLabel1->setPixmap(repeat_on_Pixmap);
         dialog_repeat->close();
         return;
         break;
     case 2:
         if (repeat_day[0] == 0 ) {
             repeat_day[0] = 1;
-            dialog_repeat->widget[2]->alarmLabel1->setIcon(repeat_on_Pixmap);
+            dialog_repeat->widget[2]->alarmLabel1->setPixmap(repeat_on_Pixmap);
         } else {
             if(repeat_day[1]== 0 && repeat_day[2]== 0 && repeat_day[3]== 0 && repeat_day[4]== 0 && repeat_day[5]== 0 && repeat_day[6]== 0){
                  //防止全部勾选被取消
             }else{
             repeat_day[0] = 0;
-            dialog_repeat->widget[2]->alarmLabel1->setIcon(repeat_off_Pixmap);
+            dialog_repeat->widget[2]->alarmLabel1->setPixmap(repeat_off_Pixmap);
             }
         }
         break;
     case 3:
         if(repeat_day[1] == 0 ) {
             repeat_day[1] = 1;
-            dialog_repeat->widget[3]->alarmLabel1->setIcon(repeat_on_Pixmap);
+            dialog_repeat->widget[3]->alarmLabel1->setPixmap(repeat_on_Pixmap);
         } else {
             if(repeat_day[0]== 0 && repeat_day[2]== 0 && repeat_day[3]== 0 && repeat_day[4]== 0 && repeat_day[5]== 0 && repeat_day[6]== 0){
 
             }else{
             repeat_day[1] = 0;
-            dialog_repeat->widget[3]->alarmLabel1->setIcon(repeat_off_Pixmap);
+            dialog_repeat->widget[3]->alarmLabel1->setPixmap(repeat_off_Pixmap);
             }
         }
         break;
     case 4:
         if (repeat_day[2] == 0 ) {
             repeat_day[2] = 1;
-            dialog_repeat->widget[4]->alarmLabel1->setIcon(repeat_on_Pixmap);
+            dialog_repeat->widget[4]->alarmLabel1->setPixmap(repeat_on_Pixmap);
         } else {
             if(repeat_day[1]== 0 && repeat_day[0]== 0 && repeat_day[3]== 0 && repeat_day[4]== 0 && repeat_day[5]== 0 && repeat_day[6]== 0){
 
             }else{
             repeat_day[2] = 0;
-            dialog_repeat->widget[4]->alarmLabel1->setIcon(repeat_off_Pixmap);
+            dialog_repeat->widget[4]->alarmLabel1->setPixmap(repeat_off_Pixmap);
             }
         }
         break;
     case 5:
         if (repeat_day[3] == 0 ) {
             repeat_day[3] = 1;
-            dialog_repeat->widget[5]->alarmLabel1->setIcon(repeat_on_Pixmap);
+            dialog_repeat->widget[5]->alarmLabel1->setPixmap(repeat_on_Pixmap);
         } else {
             if(repeat_day[1]== 0 && repeat_day[2]== 0 && repeat_day[0]== 0 && repeat_day[4]== 0 && repeat_day[5]== 0 && repeat_day[6]== 0){
 
             }else{
             repeat_day[3] = 0;
-            dialog_repeat->widget[5]->alarmLabel1->setIcon(repeat_off_Pixmap);
+            dialog_repeat->widget[5]->alarmLabel1->setPixmap(repeat_off_Pixmap);
             }
         }
         break;
     case 6:
         if (repeat_day[4] == 0 ) {
             repeat_day[4] = 1;
-            dialog_repeat->widget[6]->alarmLabel1->setIcon(repeat_on_Pixmap);
+            dialog_repeat->widget[6]->alarmLabel1->setPixmap(repeat_on_Pixmap);
         } else {
             if(repeat_day[1]== 0 && repeat_day[2]== 0 && repeat_day[3]== 0 && repeat_day[0]== 0 && repeat_day[5]== 0 && repeat_day[6]== 0){
 
             }else{
             repeat_day[4] = 0;
-            dialog_repeat->widget[6]->alarmLabel1->setIcon(repeat_off_Pixmap);
+            dialog_repeat->widget[6]->alarmLabel1->setPixmap(repeat_off_Pixmap);
             }
         }
         break;
     case 7:
         if (repeat_day[5] == 0 ) {
             repeat_day[5] = 1;
-            dialog_repeat->widget[7]->alarmLabel1->setIcon(repeat_on_Pixmap);
+            dialog_repeat->widget[7]->alarmLabel1->setPixmap(repeat_on_Pixmap);
         } else {
             if(repeat_day[1]== 0 && repeat_day[2]== 0 && repeat_day[3]== 0 && repeat_day[4]== 0 && repeat_day[0]== 0 && repeat_day[6]== 0){
 
             }else{
             repeat_day[5] = 0;
-            dialog_repeat->widget[7]->alarmLabel1->setIcon(repeat_off_Pixmap);
+            dialog_repeat->widget[7]->alarmLabel1->setPixmap(repeat_off_Pixmap);
             }
         }
         break;
     case 8:
         if (repeat_day[6] == 0 ) {
             repeat_day[6] = 1;
-            dialog_repeat->widget[8]->alarmLabel1->setIcon(repeat_on_Pixmap);
+            dialog_repeat->widget[8]->alarmLabel1->setPixmap(repeat_on_Pixmap);
         } else {
             if(repeat_day[1]== 0 && repeat_day[2]== 0 && repeat_day[3]== 0 && repeat_day[4]== 0 && repeat_day[5]== 0 && repeat_day[0]== 0){
 
             }else{
             repeat_day[6] = 0;
-            dialog_repeat->widget[8]->alarmLabel1->setIcon(repeat_off_Pixmap);
+            dialog_repeat->widget[8]->alarmLabel1->setPixmap(repeat_off_Pixmap);
             }
         }
         break;

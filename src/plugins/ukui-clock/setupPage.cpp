@@ -217,9 +217,9 @@ void setuppage::werk_day_set()
 
     for (int i=0; i<7; i++) {
         if (model_setup->index(0, i+7).data().toInt()) {
-            dialog_werk_day->widget[i]->alarmLabel1->setIcon(repeat_on_Pixmap);
+            dialog_werk_day->widget[i]->alarmLabel1->setPixmap(repeat_on_Pixmap);
         } else {
-            dialog_werk_day->widget[i]->alarmLabel1->setIcon(repeat_off_Pixmap);
+            dialog_werk_day->widget[i]->alarmLabel1->setPixmap(repeat_off_Pixmap);
         }
     }
     dialog_werk_day->show();
@@ -252,11 +252,11 @@ void setuppage::werk_day_listClickslot()
                     model_setup->index(0, 13).data().toInt()==0){
             }else{
                 model_setup->setData(model_setup->index(0, 7), 0);
-                dialog_werk_day->widget[0]->alarmLabel1->setIcon(repeat_off_Pixmap);
+                dialog_werk_day->widget[0]->alarmLabel1->setPixmap(repeat_off_Pixmap);
             }
         }else{
             model_setup->setData(model_setup->index(0, 7), 1);
-            dialog_werk_day->widget[0]->alarmLabel1->setIcon(repeat_on_Pixmap);
+            dialog_werk_day->widget[0]->alarmLabel1->setPixmap(repeat_on_Pixmap);
         }
 
         break;
@@ -271,11 +271,11 @@ void setuppage::werk_day_listClickslot()
                     model_setup->index(0, 13).data().toInt()==0 ){
             }else{
                 model_setup->setData(model_setup->index(0, 8), 0);
-                dialog_werk_day->widget[1]->alarmLabel1->setIcon(repeat_off_Pixmap);
+                dialog_werk_day->widget[1]->alarmLabel1->setPixmap(repeat_off_Pixmap);
             }
         }else{
             model_setup->setData(model_setup->index(0, 8), 1);
-            dialog_werk_day->widget[1]->alarmLabel1->setIcon(repeat_on_Pixmap);
+            dialog_werk_day->widget[1]->alarmLabel1->setPixmap(repeat_on_Pixmap);
         }
 
         break;
@@ -290,11 +290,11 @@ void setuppage::werk_day_listClickslot()
                     model_setup->index(0, 13).data().toInt()==0 ){
             }else{
                 model_setup->setData(model_setup->index(0, 9), 0);
-                dialog_werk_day->widget[2]->alarmLabel1->setIcon(repeat_off_Pixmap);
+                dialog_werk_day->widget[2]->alarmLabel1->setPixmap(repeat_off_Pixmap);
             }
         }else{
             model_setup->setData(model_setup->index(0, 9), 1);
-            dialog_werk_day->widget[2]->alarmLabel1->setIcon(repeat_on_Pixmap);
+            dialog_werk_day->widget[2]->alarmLabel1->setPixmap(repeat_on_Pixmap);
         }
 
         break;
@@ -309,11 +309,11 @@ void setuppage::werk_day_listClickslot()
                     model_setup->index(0, 13).data().toInt()==0 ){
             }else{
                 model_setup->setData(model_setup->index(0, 10), 0);
-                dialog_werk_day->widget[3]->alarmLabel1->setIcon(repeat_off_Pixmap);
+                dialog_werk_day->widget[3]->alarmLabel1->setPixmap(repeat_off_Pixmap);
             }
         }else{
             model_setup->setData(model_setup->index(0, 10), 1);
-            dialog_werk_day->widget[3]->alarmLabel1->setIcon(repeat_on_Pixmap);
+            dialog_werk_day->widget[3]->alarmLabel1->setPixmap(repeat_on_Pixmap);
         }
         break;
 
@@ -327,11 +327,11 @@ void setuppage::werk_day_listClickslot()
                     model_setup->index(0, 13).data().toInt()==0 ){
             }else{
                 model_setup->setData(model_setup->index(0, 11), 0);
-                dialog_werk_day->widget[4]->alarmLabel1->setIcon(repeat_off_Pixmap);
+                dialog_werk_day->widget[4]->alarmLabel1->setPixmap(repeat_off_Pixmap);
             }
         } else {
             model_setup->setData(model_setup->index(0, 11), 1);
-            dialog_werk_day->widget[4]->alarmLabel1->setIcon(repeat_on_Pixmap);
+            dialog_werk_day->widget[4]->alarmLabel1->setPixmap(repeat_on_Pixmap);
         }
         break;
 
@@ -345,11 +345,11 @@ void setuppage::werk_day_listClickslot()
                     model_setup->index(0, 13).data().toInt()==0 ){
             }else{
                 model_setup->setData(model_setup->index(0, 12), 0);
-                dialog_werk_day->widget[5]->alarmLabel1->setIcon(repeat_off_Pixmap);
+                dialog_werk_day->widget[5]->alarmLabel1->setPixmap(repeat_off_Pixmap);
             }
         } else {
             model_setup->setData(model_setup->index(0, 12), 1);
-            dialog_werk_day->widget[5]->alarmLabel1->setIcon(repeat_on_Pixmap);
+            dialog_werk_day->widget[5]->alarmLabel1->setPixmap(repeat_on_Pixmap);
         }
         break;
 
@@ -363,11 +363,11 @@ void setuppage::werk_day_listClickslot()
                     model_setup->index(0, 7).data().toInt()==0 ){
             }else{
                 model_setup->setData(model_setup->index(0, 13), 0);
-                dialog_werk_day->widget[6]->alarmLabel1->setIcon(repeat_off_Pixmap);
+                dialog_werk_day->widget[6]->alarmLabel1->setPixmap(repeat_off_Pixmap);
             }
         } else {
             model_setup->setData(model_setup->index(0, 13), 1);
-            dialog_werk_day->widget[6]->alarmLabel1->setIcon(repeat_on_Pixmap);
+            dialog_werk_day->widget[6]->alarmLabel1->setPixmap(repeat_on_Pixmap);
         }
         break;
 
