@@ -848,7 +848,6 @@ void Clock::text_timerUpdate()
     if(model_setup->index(0, 2).data().toInt() == 1){
         ui->label_6->setText(change_NUM_to_str(time_H)+":"+change_NUM_to_str(time_M)+":"+change_NUM_to_str(time_S));
         ui->label_15->setText("");
-        ui->label_17->setText("");
         if(system_time_flag == 0){
             system_time_flag = 1;
             for (int i = 0; i < rowNum; i++) {
@@ -863,11 +862,9 @@ void Clock::text_timerUpdate()
         if (time_H >=12) {
             ui->label_6->setText(change_NUM_to_str(time_H - 12)+":"+change_NUM_to_str(time_M)+":"+change_NUM_to_str(time_S));
             ui->label_15->setText(tr("PM"));
-            ui->label_17->setText(tr("PM"));
         } else {
             ui->label_6->setText(change_NUM_to_str(time_H)+":"+change_NUM_to_str(time_M)+":"+change_NUM_to_str(time_S));
             ui->label_15->setText(tr("AM"));
-            ui->label_17->setText(tr("AM"));
         }
 
         if(time_H == 0)
@@ -891,7 +888,6 @@ void Clock::text_timerUpdate()
         if (str_output.compare("'24'\n") == 0) {
             ui->label_6->setText(change_NUM_to_str(time_H)+":"+change_NUM_to_str(time_M)+":"+change_NUM_to_str(time_S));
             ui->label_15->setText("");
-            ui->label_17->setText("");
             if (system_time_flag == 0) {
                 system_time_flag = 1;
                 for(int i = 0; i < rowNum; i++) {
@@ -906,11 +902,9 @@ void Clock::text_timerUpdate()
             if (time_H >= 12) {
                 ui->label_6->setText(change_NUM_to_str(time_H - 12)+":"+change_NUM_to_str(time_M)+":"+change_NUM_to_str(time_S));
                 ui->label_15->setText(tr("PM"));
-                ui->label_17->setText(tr("PM"));
             } else {
                 ui->label_6->setText(change_NUM_to_str(time_H)+":"+change_NUM_to_str(time_M)+":"+change_NUM_to_str(time_S));
                 ui->label_15->setText(tr("AM"));
-                ui->label_17->setText(tr("AM"));
             }
 
             if(time_H == 0)
@@ -918,7 +912,6 @@ void Clock::text_timerUpdate()
 
             if(time_H == 12)
                 ui->label_6->setText(change_NUM_to_str(time_H)+":"+change_NUM_to_str(time_M)+":"+change_NUM_to_str(time_S));
-
 
             if (system_time_flag == 1) {
                 system_time_flag = 0;
