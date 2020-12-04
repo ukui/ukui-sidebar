@@ -751,7 +751,7 @@ border-radius:4px;
     <property name="geometry">
      <rect>
       <x>50</x>
-      <y>80</y>
+      <y>123</y>
       <width>31</width>
       <height>22</height>
      </rect>
