@@ -243,7 +243,7 @@
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="996"/>
         <source> Seconds to close</source>
-        <translation> saniye sonra kapanacak</translation>
+        <translation> Saniye sonra kapanacak</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1091"/>
@@ -474,12 +474,12 @@
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1355"/>
         <source>  工作日</source>
-        <translation></translation>
+        <translation>  İş günü</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1358"/>
         <source>不重复</source>
-        <translation></translation>
+        <translation>Tekrar etmiyor</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2414"/>
