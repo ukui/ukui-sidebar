@@ -153,11 +153,8 @@ submit_fail::~submit_fail()
 
 void submit_fail::on_pushButton_2_clicked()
 {
-    //    this->hide();
-    //    parentWnd->window_close();
-    parentWnd->pushButton_2->setEnabled(true);
+    parentWnd->browseBtn->setEnabled(true);
     close();
-
 }
 void submit_fail::close_fail_window()
 {
@@ -172,13 +169,10 @@ void submit_fail::resend_feedbackinfo()
 void submit_fail::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e);
-
-
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);
     QPainterPath rectPath;
     rectPath.addRoundedRect(this->rect().adjusted(10, 10, -10, -10), 5, 5);
-
     QPixmap pixmap(this->rect().size());
     pixmap.fill(Qt::transparent);
     QPainter pixmapPainter(&pixmap);
@@ -187,11 +181,8 @@ void submit_fail::paintEvent(QPaintEvent *e)
     pixmapPainter.setBrush(Qt::black);
     pixmapPainter.drawPath(rectPath);
     pixmapPainter.end();
-
     QImage img = pixmap.toImage();
     qt_blurImage(img, 10, false, false);
-
-
     pixmap = QPixmap::fromImage(img);
     QPainter pixmapPainter2(&pixmap);
     pixmapPainter2.setRenderHint(QPainter::Antialiasing);
@@ -199,7 +190,6 @@ void submit_fail::paintEvent(QPaintEvent *e)
     pixmapPainter2.setPen(Qt::transparent);
     pixmapPainter2.setBrush(Qt::transparent);
     pixmapPainter2.drawPath(rectPath);
-
     p.drawPixmap(this->rect(), pixmap, pixmap.rect());
     QStyleOption *option = new QStyleOption();
     p.save();

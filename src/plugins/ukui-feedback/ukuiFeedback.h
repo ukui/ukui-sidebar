@@ -35,12 +35,10 @@
 #include <fstream>
 #include <iostream>
 #include <cstring>
-
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkRequest>
 #include <vector>
-
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCheckBox>
@@ -55,12 +53,10 @@
 #include <QtWidgets/QWidget>
 #include <browseButton.h>
 #include <systeminfoButton.h>
-
-#include  <QListWidget>
+#include <QListWidget>
 #include <QStyleOption>
 #include <QPainter>
 #include <QPixmap>
-#include "fileitemInit.h"
 #include <QTimer>
 #include"hidebtnHover.h"
 #include <QJsonObject>
@@ -69,6 +65,8 @@
 #include <QGraphicsDropShadowEffect>
 #include <QGSettings/qgsettings.h>
 #include <QMouseEvent>
+
+#include "fileitemInit.h"
 
 class QSqlTableModel;
 class QPushButton;
@@ -83,52 +81,49 @@ class feedback : public QMainWindow
 public:
     feedback(QWidget *parent = nullptr);
     ~feedback();
-
-
     //ui***********************
-    QWidget *centralwidget;
-    QLabel *label;
-    QComboBox *comboBox;
-    QLabel *label_3;
-    QFrame *frame;
-    QTextEdit *textEdit;
-    QLabel *label_4;
-    QLabel *label_5;
-    QLabel *label_6;
-    QLabel *email_err_msg_label;
-    QLineEdit *lineEdit_2;
-    QLabel *label_7;
-    QLabel *addfile_label;
-    QLabel *tip_label;
-    browse_button *pushButton;
-    QCheckBox *checkBox_4;
-    QPushButton *pushButton_2;
-    systeminfo_button *pushButton_3;
-    QLabel *label_2;
+    QWidget *centralWidget;
+    QLabel *feedbackLabel;
+    QComboBox *typeComboBox;
+    QLabel *descriptionLabel;
+    QFrame *descriptionFrame;
+    QTextEdit *descriptionTextEdit;
+    QLabel *emailLabel;
+    QLabel *starLabel;
+    QLabel *starsLabel;
+    QLabel *emailErrMsgLabel;
+    QLineEdit *emailLineEdit;
+    QLabel *uploadLabel;
+    QLabel *addfileLabel;
+    QLabel *tipLabel;
+    browseButton *browseBtn;
+    QCheckBox *getInfoCheckBox;
+    QPushButton *submitBtn;
+    systeminfo_button *sysInfoBtn;
+    QLabel *typeLabel;
     QWidget *verticalWidget;
-    QFrame *frame_2;
+    QFrame *verticalFrame;
     QGraphicsDropShadowEffect *effect;
-    QLabel *label_10;
-    QLabel *label_12;
-    QLabel *label_11;
+    QLabel *sysInfoLabel;
+    QLabel *desktopInfoLabel;
+    QLabel *codeLabel;
     QWidget *layoutWidget;
     QHBoxLayout *horizontalLayout;
-    QCheckBox *checkBox;
-    QCheckBox *checkBox_2;
-    QCheckBox *checkBox_3;
-    QLabel *label_8;
-    QLabel *label_9;
-    QLabel *label_13;
-    QPushButton *pushButton_mix;
-    QPushButton *pushButton_close;
-    QListWidget * file_listwidget;
-    QListWidgetItem * file_listwidget_item[5];
-    fileitem_init* file_widget[5];
-    QPixmap submitting_pixmap[8];
-    QGSettings *style_settings;
-    QPalette palette_blue;
-    QPalette palette_gray;
-
+    QCheckBox *syslogCheckBox;
+    QCheckBox *apportLogCheckBox;
+    QCheckBox *dpkgLogCheckBox;
+    QLabel *logFileLabel;
+    QLabel *tipsLabel;
+    QLabel *errorTipLabel;
+    QPushButton *minBtn;
+    QPushButton *closeBtn;
+    QListWidget * fileListWidget;
+    QListWidgetItem * fileListWidgetItem[5];
+    fileItemInit* fileWidget[5];
+    QPixmap submittingPixmap[8];
+    QGSettings *styleSettings;
+    QPalette paletteBlue;
+    QPalette paletteGray;
     QLabel *logoLabel;
     QLabel *titleLabel;
     QPushButton * titleBtn;
@@ -136,24 +131,41 @@ public:
 
     //*************************
     void UI_init();
+
     void systeminfo_show(QPointF pt);
+
     void systeminfo_hide();
+
     void add_systeminfo();
+
     void feedback_init();
+
     void feedback_info_init();
+
     void set_all_disable_in_submit();
+
     void set_all_enable_after_submit();
+
     QByteArray get_today_syslog();
+
     void add_fileinfo_model();
+
     void update_add_file_window();
-    void update_linedit_add_or_del_file();
+
     bool all_file_size_than_10M();
+
     void httpclient_init();
+
     void set_request_header();
+
     void send_file_httpserver(QString uid);
+
     void window_close();
+
     void resend_info_when_sendfail();
+
     void add_file_to_Part(QString filepath,QString file_type,QString file_name);
+
     void finishedSlot(QNetworkReply*);
 
 
@@ -167,27 +179,27 @@ signals:
     void syslog();
 
 private slots:
-    void on_pushButton_clicked();
+    void on_browseBtn_clicked();
 
     void on_textEdit_textChanged();
 
-    void on_pushButton_mix_clicked();
+    void on_minBtn_clicked();
 
-    void on_pushButton_close_clicked();
+    void on_closeBtn_clicked();
 
-    void on_checkBox_stateChanged(int state);
+    void on_syslogCheckBox_stateChanged(int state);
 
-    void on_checkBox_2_stateChanged(int state);
+    void on_apportLogCheckBox_stateChanged(int state);
 
-    void on_checkBox_3_stateChanged(int state);
+    void on_dpkgLogCheckBox_stateChanged(int state);
 
-    void on_checkBox_4_stateChanged(int state);
+    void on_getInfoCheckBox_stateChanged(int state);
 
     void on_comboBox_currentIndexChanged(const QString &arg1);
 
-    void on_pushButton_2_clicked();
+    void on_submitBtn_clicked();
 
-    void on_lineEdit_2_textChanged();
+    void on_emailLineEdit_textChanged();
 
     void del_file_button_clicked();
 

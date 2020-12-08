@@ -42,7 +42,6 @@ void systeminfo_button::leaveEvent(QEvent *e)
     pfeedback->systeminfo_hide();
 }
 
-//Resource/feedback_en.qm
 void systeminfo_button::setFeedBack(feedback *p)
 {
     pfeedback = p;

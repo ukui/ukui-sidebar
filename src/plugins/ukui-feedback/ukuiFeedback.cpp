@@ -62,7 +62,7 @@ feedback::feedback(QWidget *parent)
         QApplication::installTranslator(translator_qt);
     else
         qDebug() << "cannot load translator ukui-feedback_" << QLocale::system().name() << ".qm!";
-    style_settings = new QGSettings("org.ukui.style");
+    styleSettings = new QGSettings("org.ukui.style");
     UI_init();
     feedback_init();
     setAttribute(Qt::WA_TranslucentBackground);
@@ -86,47 +86,44 @@ feedback::~feedback()
     if(fail_dialog != nullptr)
         delete fail_dialog;
     //************************** UI
-    delete file_listwidget;
-    delete pushButton_mix;
-    delete pushButton_close;
-    delete label_13;
-    delete checkBox_3;
-    delete checkBox_2;
-    delete checkBox;
+    delete fileListWidget;
+    delete minBtn;
+    delete closeBtn;
+    delete errorTipLabel;
+    delete dpkgLogCheckBox;
+    delete apportLogCheckBox;
+    delete syslogCheckBox;
     delete horizontalLayout;
     delete layoutWidget;
-    delete label_9;
-    delete label_8;
-    delete label_10;
-    delete label_11;
+    delete tipsLabel;
+    delete logFileLabel;
+    delete sysInfoLabel;
+    delete codeLabel;
     delete effect;
-    delete frame_2;
+    delete verticalFrame;
     delete verticalWidget;
-    delete pushButton_3;
-    delete pushButton_2;
-    delete checkBox_4;
-    delete pushButton;
+    delete sysInfoBtn;
+    delete submitBtn;
+    delete getInfoCheckBox;
+    delete browseBtn;
 
-    delete lineEdit_2;
-    delete textEdit;
-    delete label_7;
-    delete label_6;
-    delete label_5;
-    delete email_err_msg_label;
-    delete label_4;
-    delete frame;
-    delete label_3;
-    delete label_2;
-    delete comboBox;
-    delete label;
-    delete centralwidget;
+    delete emailLineEdit;
+    delete descriptionTextEdit;
+    delete uploadLabel;
+    delete starsLabel;
+    delete starLabel;
+    delete emailErrMsgLabel;
+    delete emailLabel;
+    delete descriptionFrame;
+    delete descriptionLabel;
+    delete typeLabel;
+    delete typeComboBox;
+    delete feedbackLabel;
+    delete centralWidget;
 }
 
 void feedback::UI_init()
 {
-
-    if (this->objectName().isEmpty())
-        this->setObjectName(QString::fromUtf8("feedback"));
     this->setFixedSize(600, 600);
     QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     sizePolicy.setHorizontalStretch(0);
@@ -169,33 +166,32 @@ void feedback::UI_init()
     palette.setBrush(QPalette::ButtonText, brush);
 
     //set submit button palette
-    QString style_name = style_settings->get("style-name").toString();
-    if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0)){
-        palette_gray.setBrush(QPalette::Button, QColor(233,233,233));
-        palette_gray.setBrush(QPalette::ButtonText, QColor(255,255,255));
+    QString style_name = styleSettings->get("style-name").toString();
+    if ((style_name.compare("ukui-white") == 0 ) || (style_name.compare("ukui-default") == 0 )) {
+        paletteGray.setBrush(QPalette::Button, QColor(233,233,233));
+        paletteGray.setBrush(QPalette::ButtonText, QColor(255,255,255));
 
-    }else if((style_name.compare("ukui-dark")==0) || (style_name.compare("ukui-black")==0)){
-        palette_gray.setBrush(QPalette::Button, QColor(57,58,62));
-        palette_gray.setBrush(QPalette::ButtonText, QColor(255,255,255));
+    }else if ((style_name.compare("ukui-dark") == 0 ) || (style_name.compare("ukui-black") == 0 )) {
+        paletteGray.setBrush(QPalette::Button, QColor(57,58,62));
+        paletteGray.setBrush(QPalette::ButtonText, QColor(255,255,255));
     }
 
-    palette_blue.setBrush(QPalette::Button, QColor(61,107,229));
-    palette_blue.setBrush(QPalette::ButtonText, QColor(255,255,255));
+    paletteBlue.setBrush(QPalette::Button, QColor(61,107,229));
+    paletteBlue.setBrush(QPalette::ButtonText, QColor(255,255,255));
 
-    centralwidget = new QWidget(this);
-    centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
-    centralwidget->setAttribute(Qt::WA_TranslucentBackground);
+    centralWidget = new QWidget(this);
+    centralWidget->setAttribute(Qt::WA_TranslucentBackground);
 
-    logoLabel = new QLabel(centralwidget);
+    logoLabel = new QLabel(centralWidget);
     logoLabel->setPixmap(QPixmap("://image/24x24/kylin-feedback.png"));
     logoLabel->setGeometry(QRect(8,8,24,24));
 
-    titleLabel = new QLabel(centralwidget);
+    titleLabel = new QLabel(centralWidget);
     titleLabel->setText(tr("feedback"));
     titleLabel->setGeometry(QRect(40,11,56,19));
     titleLabel->setStyleSheet(QString::fromUtf8("font: 14px;\n"));
 
-    titleBtn = new QPushButton(centralwidget);
+    titleBtn = new QPushButton(centralWidget);
     titleBtn->setGeometry(QRect(486,14,30,30));
     titleBtn->setIcon(QIcon::fromTheme("application-menu"));
     titleBtn->setPalette(palette);
@@ -203,139 +199,123 @@ void feedback::UI_init()
     titleBtn->setProperty("iconHighlightEffectMode", 1);
 
 
-    label = new QLabel(centralwidget);
-    label->setText(tr("feedback"));
-    label->setObjectName(QString::fromUtf8("label"));
-    label->setGeometry(QRect(35, 40, 160, 41));
-    label->setStyleSheet(QString::fromUtf8("font: 24px;\n"));
+    feedbackLabel = new QLabel(centralWidget);
+    feedbackLabel->setText(tr("feedback"));
+    feedbackLabel->setGeometry(QRect(35, 40, 160, 41));
+    feedbackLabel->setStyleSheet(QString::fromUtf8("font: 24px;\n"));
 
-    label_2 = new QLabel(centralwidget);
-    label_2->setText(tr("Backtype"));
-    label_2->setObjectName(QString::fromUtf8("label_2"));
-    label_2->setGeometry(QRect(35, 105, 61, 20));
-    label_2->setStyleSheet(QString::fromUtf8("font: 14px;\n"
+    typeLabel = new QLabel(centralWidget);
+    typeLabel->setText(tr("Backtype"));
+    typeLabel->setGeometry(QRect(35, 105, 61, 20));
+    typeLabel->setStyleSheet(QString::fromUtf8("font: 14px;\n"
                                              ""));
-    comboBox = new QComboBox(centralwidget);
-    comboBox->addItem(QString(tr("system issue")));
-    comboBox->addItem(QString(tr("suggestions")));
-    comboBox->addItem(QString(tr("Business Cooperation")));
-    comboBox->addItem(QString(tr("other")));
-    comboBox->setObjectName(QString::fromUtf8("comboBox"));
-    comboBox->setGeometry(QRect(140, 105, 320, 30));
-    comboBox->setStyle(new CustomStyle());
+    typeComboBox = new QComboBox(centralWidget);
+    typeComboBox->addItem(QString(tr("system issue")));
+    typeComboBox->addItem(QString(tr("suggestions")));
+    typeComboBox->addItem(QString(tr("Business Cooperation")));
+    typeComboBox->addItem(QString(tr("other")));
+    typeComboBox->setGeometry(QRect(140, 105, 320, 30));
+    typeComboBox->setStyle(new CustomStyle());
     //设置combobox中item的高度和宽度
     //Set the height and width of the ITEM in COMBOBOX
-    comboBox->setStyleSheet("QComboBox { min-height: 30px; }"
+    typeComboBox->setStyleSheet("QComboBox { min-height: 30px; }"
                             "QComboBox QAbstractItemView::item{ min-height: 30px; }");
-    comboBox->setView(new QListView());
+    typeComboBox->setView(new QListView());
 
-    label_3 = new QLabel(centralwidget);
-    label_3->setText(tr("Description"));
-    label_3->setObjectName(QString::fromUtf8("label_3"));
-    label_3->setGeometry(QRect(35, 145, 75, 20));
-    label_3->setStyleSheet(QString::fromUtf8("font: 14px ;\n"
+    descriptionLabel = new QLabel(centralWidget);
+    descriptionLabel->setText(tr("Description"));
+    descriptionLabel->setGeometry(QRect(35, 145, 75, 20));
+    descriptionLabel->setStyleSheet(QString::fromUtf8("font: 14px ;\n"
                                              ""));
-    frame = new QFrame(centralwidget);
-    frame->setObjectName(QString::fromUtf8("frame"));
-    frame->setGeometry(QRect(140, 145, 320, 120));
-    frame->setFrameShape(QFrame::StyledPanel);
-    frame->setFrameShadow(QFrame::Raised);
+    descriptionFrame = new QFrame(centralWidget);
+    descriptionFrame->setGeometry(QRect(140, 145, 320, 120));
+    descriptionFrame->setFrameShape(QFrame::StyledPanel);
+    descriptionFrame->setFrameShadow(QFrame::Raised);
 
-    textEdit = new QTextEdit(frame);
-    textEdit->setObjectName(QString::fromUtf8("textEdit"));
-    textEdit->setGeometry(QRect(10, 10, 300, 100));
-    textEdit->setFrameShape(QFrame::NoFrame);
+    descriptionTextEdit = new QTextEdit(descriptionFrame);
+    descriptionTextEdit->setGeometry(QRect(10, 10, 300, 100));
+    descriptionTextEdit->setFrameShape(QFrame::NoFrame);
 
 #if QT_VERSION >= 0x050c00
-    textEdit->setPlaceholderText(tr("Please enter content"));
+    descriptionTextEdit->setPlaceholderText(tr("Please enter content"));
 #endif
 
     //不接受富文本
     //Non-acceptance of rich text
-    textEdit->setAcceptRichText(false);
+    descriptionTextEdit->setAcceptRichText(false);
 
-    label_4 = new QLabel(centralwidget);
-    label_4->setText(tr("Email"));
-    label_4->setObjectName(QString::fromUtf8("label_4"));
-    label_4->setGeometry(QRect(35, 275, 35, 23));
-    label_4->setStyleSheet(QString::fromUtf8("font: 14px;\n"
+    emailLabel = new QLabel(centralWidget);
+    emailLabel->setText(tr("Email"));
+    emailLabel->setGeometry(QRect(35, 275, 35, 23));
+    emailLabel->setStyleSheet(QString::fromUtf8("font: 14px;\n"
                                              ""));
 
-    email_err_msg_label = new QLabel(centralwidget);
-    email_err_msg_label->setText(tr("wrong format"));
-    email_err_msg_label->setGeometry(QRect(470,275,100,25));
-    email_err_msg_label->setStyleSheet(QString::fromUtf8("font: 14px;color: rgb(255, 0, 0);"));
-    email_err_msg_label->hide();
+    emailErrMsgLabel = new QLabel(centralWidget);
+    emailErrMsgLabel->setText(tr("wrong format"));
+    emailErrMsgLabel->setGeometry(QRect(470,275,100,25));
+    emailErrMsgLabel->setStyleSheet(QString::fromUtf8("font: 14px;color: rgb(255, 0, 0);"));
+    emailErrMsgLabel->hide();
 
-    label_5 = new QLabel(centralwidget);
-    label_5->setText(tr("*"));
-    label_5->setObjectName(QString::fromUtf8("label_5"));
-    label_5->setGeometry(QRect(110, 143, 16, 16));
-    label_5->setStyleSheet(QString::fromUtf8("font: 11px;\n"
+    starLabel = new QLabel(centralWidget);
+    starLabel->setText(tr("*"));
+    starLabel->setGeometry(QRect(110, 143, 16, 16));
+    starLabel->setStyleSheet(QString::fromUtf8("font: 11px;\n"
                                              "color: rgb(255, 0, 0);"));
-    label_6 = new QLabel(centralwidget);
-    label_6->setText(tr("*"));
-    label_6->setObjectName(QString::fromUtf8("label_6"));
-    label_6->setGeometry(QRect(75, 277, 16, 16));
-    label_6->setStyleSheet(QString::fromUtf8("font: 11pt \"Sans Serif\";\n"
+    starsLabel = new QLabel(centralWidget);
+    starsLabel->setText(tr("*"));
+    starsLabel->setGeometry(QRect(75, 277, 16, 16));
+    starsLabel->setStyleSheet(QString::fromUtf8("font: 11pt \"Sans Serif\";\n"
                                              "color: rgb(255, 0, 0);"));
-    lineEdit_2 = new QLineEdit(centralwidget);
-    lineEdit_2->setObjectName(QString::fromUtf8("lineEdit_2"));
-    lineEdit_2->setGeometry(QRect(140, 275, 320, 30));
+    emailLineEdit = new QLineEdit(centralWidget);
+    emailLineEdit->setGeometry(QRect(140, 275, 320, 30));
 
 
-    label_7 = new QLabel(centralwidget);
-    label_7->setText(tr("Upload"));
-    label_7->setObjectName(QString::fromUtf8("label_7"));
-    label_7->setGeometry(QRect(35,365, 61, 30));
-    label_7->setStyleSheet(QString::fromUtf8("font: 14px ;\n"
+    uploadLabel = new QLabel(centralWidget);
+    uploadLabel->setText(tr("Upload"));
+    uploadLabel->setGeometry(QRect(35,365, 61, 30));
+    uploadLabel->setStyleSheet(QString::fromUtf8("font: 14px ;\n"
                                              ""));
 
-    addfile_label = new QLabel(centralwidget);
-    addfile_label->setGeometry(QRect(140,373,16,16));
-    addfile_label->setPixmap(QPixmap("://image/addfile.png"));
+    addfileLabel = new QLabel(centralWidget);
+    addfileLabel->setGeometry(QRect(140,373,16,16));
+    addfileLabel->setPixmap(QPixmap("://image/addfile.png"));
 
-    tip_label = new QLabel(centralwidget);
-    tip_label->setText(tr("(File size cannot exceed 10MB)"));
-    tip_label->setGeometry(QRect(250,367,230,30));
-    tip_label->setEnabled(false);
+    tipLabel = new QLabel(centralWidget);
+    tipLabel->setText(tr("(File size cannot exceed 10MB)"));
+    tipLabel->setGeometry(QRect(250,367,230,30));
+    tipLabel->setEnabled(false);
 
-    pushButton = new browse_button(centralwidget);
-    pushButton->setText(tr("add file"));
-    pushButton->setGeometry(QRect(160, 367, 80, 30));
-    pushButton->setFlat(true);
-    pushButton->setStyleSheet("font: 14px;color:rgb(61,107,229)\n");
+    browseBtn = new browseButton(centralWidget);
+    browseBtn->setText(tr("add file"));
+    browseBtn->setGeometry(QRect(160, 367, 80, 30));
+    browseBtn->setFlat(true);
+    browseBtn->setStyleSheet("font: 14px;color:rgb(61,107,229)\n");
 
-
-
-    checkBox_4 = new QCheckBox(centralwidget);
-    checkBox_4->setText(tr("get mine"));
-    checkBox_4->setObjectName(QString::fromUtf8("checkBox_4"));
-    checkBox_4->setGeometry(QRect(34, 536, 110, 19));
-    checkBox_4->setStyleSheet(" spacing: 6px;");
-    checkBox_4->setStyleSheet(QString::fromUtf8("font: 14px;"));
+    getInfoCheckBox = new QCheckBox(centralWidget);
+    getInfoCheckBox->setText(tr("get mine"));
+    getInfoCheckBox->setGeometry(QRect(34, 536, 110, 19));
+    getInfoCheckBox->setStyleSheet(" spacing: 6px;");
+    getInfoCheckBox->setStyleSheet(QString::fromUtf8("font: 14px;"));
 
 
-    pushButton_2 = new QPushButton(centralwidget);
-    pushButton_2->setText(tr("Submit"));
-    pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
-    pushButton_2->setGeometry(QRect(444, 526, 120, 40));
-    pushButton_2->setEnabled(false);
-    pushButton_2->setPalette(palette_gray);
-    pushButton_2->setProperty("useIconHighlightEffect", true);
-    pushButton_2->setProperty("iconHighlightEffectMode", 1);
+    submitBtn = new QPushButton(centralWidget);
+    submitBtn->setText(tr("Submit"));
+    submitBtn->setGeometry(QRect(444, 526, 120, 40));
+    submitBtn->setEnabled(false);
+    submitBtn->setPalette(paletteGray);
+    submitBtn->setProperty("useIconHighlightEffect", true);
+    submitBtn->setProperty("iconHighlightEffectMode", 1);
 
-    pushButton_3 = new systeminfo_button(centralwidget);
-    pushButton_3->setText(tr("osinfo"));
-    pushButton_3->setGeometry(QRect(138, 534, 68, 24));
-    pushButton_3->setFeedBack(this);
-    pushButton_3->setFlat(true);
-    pushButton_3->setEnabled(false);
-    pushButton_3->setStyleSheet(QString::fromUtf8("font: 14px;color:rgb(61,107,229)\n"));
+    sysInfoBtn = new systeminfo_button(centralWidget);
+    sysInfoBtn->setText(tr("osinfo"));
+    sysInfoBtn->setGeometry(QRect(138, 534, 68, 24));
+    sysInfoBtn->setFeedBack(this);
+    sysInfoBtn->setFlat(true);
+    sysInfoBtn->setEnabled(false);
+    sysInfoBtn->setStyleSheet(QString::fromUtf8("font: 14px;color:rgb(61,107,229)\n"));
 
 
     verticalWidget = new QWidget();
-    verticalWidget->setObjectName(QString::fromUtf8("verticalWidget"));
     verticalWidget->setWindowFlags(Qt::FramelessWindowHint| Qt::WindowStaysOnTopHint);
     verticalWidget->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
     verticalWidget->hide();
@@ -343,31 +323,24 @@ void feedback::UI_init()
     //Set window transparency
     verticalWidget->setAttribute(Qt::WA_TranslucentBackground);
 
-    frame_2 = new QFrame(verticalWidget);
-    frame_2->setObjectName(QString::fromUtf8("frame_2"));
-    frame_2->setGeometry(QRect(0, 0, 217,77));
-    frame_2->setFrameShape(QFrame::StyledPanel);
-    frame_2->setFrameShadow(QFrame::Raised);
+    verticalFrame = new QFrame(verticalWidget);
+    verticalFrame->setGeometry(QRect(0, 0, 217,77));
+    verticalFrame->setFrameShape(QFrame::StyledPanel);
+    verticalFrame->setFrameShadow(QFrame::Raised);
     effect = new QGraphicsDropShadowEffect;
     effect->setOffset(1,1);
     effect->setColor(QColor(80,80,80));
     effect->setBlurRadius(10);
-    frame_2->setGraphicsEffect(effect);
+    verticalFrame->setGraphicsEffect(effect);
 
-    label_10 = new QLabel(frame_2);
-    label_10->setObjectName(QString::fromUtf8("label_10"));
-    label_10->setGeometry(QRect(15, 10, 200, 20));
-    label_12 = new QLabel(frame_2);
-    label_12->setObjectName(QString::fromUtf8("label_12"));
-    label_12->setGeometry(QRect(15, 30, 200, 20));
-    label_11 = new QLabel(frame_2);
-    label_11->setObjectName(QString::fromUtf8("label_11"));
-    label_11->setGeometry(QRect(15, 50, 200, 20));
-    qDebug()<<"22222";
+    sysInfoLabel = new QLabel(verticalFrame);
+    sysInfoLabel->setGeometry(QRect(15, 10, 200, 20));
+    desktopInfoLabel = new QLabel(verticalFrame);
+    desktopInfoLabel->setGeometry(QRect(15, 30, 200, 20));
+    codeLabel = new QLabel(verticalFrame);
+    codeLabel->setGeometry(QRect(15, 50, 200, 20));
 
-
-    qDebug()<<"@22222";
-    if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0)){
+    if ((style_name.compare("ukui-white") == 0 ) || (style_name.compare("ukui-default") == 0 )) {
         verticalWidget->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);\n"
                                                         "border-top-left-radius:4px;\n"
                                                         "\n"
@@ -378,13 +351,13 @@ void feedback::UI_init()
                                                         "border-bottom-right-radius:4px;\n"
                                                         "border:0.5px solid black;\n"
                                                         ""));
-        frame_2->setStyleSheet("border-color: rgba(255,255,255,0.1);");
-        label_11->setStyleSheet(QString::fromUtf8("border-color: rgb(255,255,255);color:rgb(0,0,0);font:12px;"));
-        label_12->setStyleSheet(QString::fromUtf8("border-color: rgb(255,255,255);color:rgb(0,0,0);font:12px;"));
-        label_10->setStyleSheet(QString::fromUtf8("border-color: rgb(255,255,255);color:rgb(0,0,0);font:12px;"));
+        verticalFrame->setStyleSheet("border-color: rgba(255,255,255,0.1);");
+        codeLabel->setStyleSheet(QString::fromUtf8("border-color: rgb(255,255,255);color:rgb(0,0,0);font:12px;"));
+        desktopInfoLabel->setStyleSheet(QString::fromUtf8("border-color: rgb(255,255,255);color:rgb(0,0,0);font:12px;"));
+        sysInfoLabel->setStyleSheet(QString::fromUtf8("border-color: rgb(255,255,255);color:rgb(0,0,0);font:12px;"));
 
 
-    }else if((style_name.compare("ukui-dark")==0) || (style_name.compare("ukui-black")==0)){
+    }else if ((style_name.compare("ukui-dark") == 0 ) || (style_name.compare("ukui-black") == 0 )) {
         verticalWidget->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 0, 0);\n"
                                                         "border-top-left-radius:4px;\n"
                                                         "\n"
@@ -395,123 +368,103 @@ void feedback::UI_init()
                                                         "border-bottom-right-radius:4px;\n"
                                                         "border:0.5px solid black;\n"
                                                         ""));
-        frame_2->setStyleSheet("border-color: rgba(0, 0, 0,0.1);");
-        label_11->setStyleSheet(QString::fromUtf8("border-color: rgb(0, 0, 0);color:rgb(255,255,255);font:12px;"));
-        label_12->setStyleSheet(QString::fromUtf8("border-color: rgb(0, 0, 0);color:rgb(255,255,255);font:12px;"));
-        label_10->setStyleSheet(QString::fromUtf8("border-color: rgb(0, 0, 0);color:rgb(255,255,255);font:12px;"));
+        verticalFrame->setStyleSheet("border-color: rgba(0, 0, 0,0.1);");
+        codeLabel->setStyleSheet(QString::fromUtf8("border-color: rgb(0, 0, 0);color:rgb(255,255,255);font:12px;"));
+        desktopInfoLabel->setStyleSheet(QString::fromUtf8("border-color: rgb(0, 0, 0);color:rgb(255,255,255);font:12px;"));
+        sysInfoLabel->setStyleSheet(QString::fromUtf8("border-color: rgb(0, 0, 0);color:rgb(255,255,255);font:12px;"));
     }
 
-    label_8 = new QLabel(centralwidget);
-    label_8->setText(tr("Log file"));
-    label_8->setObjectName(QString::fromUtf8("label_8"));
-    label_8->setGeometry(QRect(35, 325, 71, 23));
-    label_8->setStyleSheet(QString::fromUtf8("font: 14px;\n"
+    logFileLabel = new QLabel(centralWidget);
+    logFileLabel->setText(tr("Log file"));
+    logFileLabel->setGeometry(QRect(35, 325, 71, 23));
+    logFileLabel->setStyleSheet(QString::fromUtf8("font: 14px;\n"
                                              ""));
-    label_9 = new QLabel(centralwidget);
-    label_9->setText(tr("200 words"));
-    label_9->setObjectName(QString::fromUtf8("label_9"));
-    label_9->setGeometry(QRect(470, 145, 60, 18));
-    label_9->setStyleSheet(QString::fromUtf8("color: rgb(136, 136, 136);\n"
+    tipsLabel = new QLabel(centralWidget);
+    tipsLabel->setText(tr("200 words"));
+    tipsLabel->setGeometry(QRect(470, 145, 60, 18));
+    tipsLabel->setStyleSheet(QString::fromUtf8("color: rgb(136, 136, 136);\n"
                                              "font: 12px;"));
 
 
-    layoutWidget = new QWidget(centralwidget);
-    layoutWidget->setObjectName(QString::fromUtf8("layoutWidget"));
+    layoutWidget = new QWidget(centralWidget);
     layoutWidget->setGeometry(QRect(140, 327,  320, 23));
     horizontalLayout = new QHBoxLayout(layoutWidget);
-    horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
     horizontalLayout->setSizeConstraint(QLayout::SetMinAndMaxSize);
     horizontalLayout->setContentsMargins(0, 0, 0, 0);
     horizontalLayout->setGeometry(QRect(140,325, 320, 23));
-    checkBox = new QCheckBox(layoutWidget);
-    checkBox->setText(tr("syslog"));
-    checkBox->setObjectName(QString::fromUtf8("checkBox"));
-    checkBox->setStyleSheet(QString::fromUtf8("font: 14px;\n"
-                                              ""));
-    horizontalLayout->addWidget(checkBox);
+    syslogCheckBox = new QCheckBox(layoutWidget);
+    syslogCheckBox->setText(tr("syslog"));
+    syslogCheckBox->setStyleSheet(QString::fromUtf8("font: 14px;\n"));
+    horizontalLayout->addWidget(syslogCheckBox);
 
-    checkBox_2 = new QCheckBox(layoutWidget);
-    checkBox_2->setText(tr("apport.log"));
-    checkBox_2->setObjectName(QString::fromUtf8("checkBox_2"));
-    checkBox_2->setStyleSheet(QString::fromUtf8("font: 14px ;\n"
-                                                "spacing: 5px;"
-                                                ""));
-    horizontalLayout->addWidget(checkBox_2);
+    apportLogCheckBox = new QCheckBox(layoutWidget);
+    apportLogCheckBox->setText(tr("apport.log"));
+    apportLogCheckBox->setStyleSheet(QString::fromUtf8("font: 14px ;spacing: 5px;"));
+    horizontalLayout->addWidget(apportLogCheckBox);
 
-    checkBox_3 = new QCheckBox(layoutWidget);
-    checkBox_3->setText(tr("dpkg.log"));
-    checkBox_3->setObjectName(QString::fromUtf8("checkBox_3"));
-    checkBox_3->setStyleSheet(QString::fromUtf8("font: 14px;\n"
-                                                "spacing: 5px;\n"
-                                                ""));
+    dpkgLogCheckBox = new QCheckBox(layoutWidget);
+    dpkgLogCheckBox->setText(tr("dpkg.log"));
+    dpkgLogCheckBox->setStyleSheet(QString::fromUtf8("font: 14px;spacing: 5px;"));
+    horizontalLayout->addWidget(dpkgLogCheckBox);
 
-    horizontalLayout->addWidget(checkBox_3);
+    errorTipLabel = new QLabel(centralWidget);
+    errorTipLabel->setText(tr("File size exceeds 10MB or file format is not supported"));
+    errorTipLabel->setGeometry(QRect(140, 407, 300, 16));
+    errorTipLabel->hide();
+    errorTipLabel->setStyleSheet(QString::fromUtf8("color: rgb(255, 0, 0);font:12px"));
+    this->setCentralWidget(centralWidget);
 
+    minBtn = new QPushButton(centralWidget);
+    minBtn->setGeometry(QRect(520, 14, 30, 30));
+    minBtn->setIcon(QIcon::fromTheme("window-minimize-symbolic"));
+    minBtn->setPalette(palette);
+    minBtn->setProperty("useIconHighlightEffect", true);
+    minBtn->setProperty("iconHighlightEffectMode", 1);
 
-    label_13 = new QLabel(centralwidget);
-    label_13->setText(tr("File size exceeds 10MB or file format is not supported"));
-    label_13->setObjectName(QString::fromUtf8("label_13"));
-    label_13->setGeometry(QRect(140, 407, 300, 16));
-    label_13->hide();
-    label_13->setStyleSheet(QString::fromUtf8("color: rgb(255, 0, 0);font:12px"));
-    this->setCentralWidget(centralwidget);
+    connect(minBtn,SIGNAL(clicked()),this,SLOT(on_minBtn_clicked()));
 
+    closeBtn = new QPushButton(centralWidget);
+    closeBtn->setGeometry(QRect(554, 14, 30, 30));
+    closeBtn->setIcon(QIcon::fromTheme("window-close-symbolic"));
+    closeBtn->setPalette(palette);
+    closeBtn->setProperty("useIconHighlightEffect", true);
+    closeBtn->setProperty("iconHighlightEffectMode", 1);
 
-    pushButton_mix = new QPushButton(centralwidget);
-    pushButton_mix->setGeometry(QRect(520, 14, 30, 30));
-    pushButton_mix->setIcon(QIcon::fromTheme("window-minimize-symbolic"));
-    pushButton_mix->setPalette(palette);
-    pushButton_mix->setProperty("useIconHighlightEffect", true);
-    pushButton_mix->setProperty("iconHighlightEffectMode", 1);
+    fileListWidget = new QListWidget(this);
+    fileListWidget->setGeometry(QRect(140,407,320,100));
 
-    connect(pushButton_mix,SIGNAL(clicked()),this,SLOT(on_pushButton_mix_clicked()));
+    fileListWidget->setAttribute(Qt::WA_TranslucentBackground);
+    fileListWidget->setFrameShape(QListWidget::NoFrame);
 
-    pushButton_close = new QPushButton(centralwidget);
-    pushButton_close->setGeometry(QRect(554, 14, 30, 30));
-    pushButton_close->setIcon(QIcon::fromTheme("window-close-symbolic"));
-    pushButton_close->setPalette(palette);
-    pushButton_close->setProperty("useIconHighlightEffect", true);
-    pushButton_close->setProperty("iconHighlightEffectMode", 1);
+    fileListWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    fileListWidget->setSelectionMode(QAbstractItemView::NoSelection);
 
-    file_listwidget = new QListWidget(this);
-    file_listwidget->setGeometry(QRect(140,407,320,100));
+    submittingPixmap[0] =QPixmap(":/image/conning-a/1.png");
+    submittingPixmap[1] =QPixmap(":/image/conning-a/2.png");
+    submittingPixmap[2] =QPixmap(":/image/conning-a/3.png");
+    submittingPixmap[3] =QPixmap(":/image/conning-a/4.png");
+    submittingPixmap[4] =QPixmap(":/image/conning-a/5.png");
+    submittingPixmap[5] =QPixmap(":/image/conning-a/6.png");
+    submittingPixmap[6] =QPixmap(":/image/conning-a/7.png");
+    submittingPixmap[7] =QPixmap(":/image/conning-a/8.png");
 
-    file_listwidget->setAttribute(Qt::WA_TranslucentBackground);
-    file_listwidget->setFrameShape(QListWidget::NoFrame);
-
-    file_listwidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    file_listwidget->setSelectionMode(QAbstractItemView::NoSelection);
-
-
-    submitting_pixmap[0] =QPixmap(":/image/conning-a/1.png");
-    submitting_pixmap[1] =QPixmap(":/image/conning-a/2.png");
-    submitting_pixmap[2] =QPixmap(":/image/conning-a/3.png");
-    submitting_pixmap[3] =QPixmap(":/image/conning-a/4.png");
-    submitting_pixmap[4] =QPixmap(":/image/conning-a/5.png");
-    submitting_pixmap[5] =QPixmap(":/image/conning-a/6.png");
-    submitting_pixmap[6] =QPixmap(":/image/conning-a/7.png");
-    submitting_pixmap[7] =QPixmap(":/image/conning-a/8.png");
-
-    connect(pushButton_close,SIGNAL(clicked()),this,SLOT(on_pushButton_close_clicked()));
-    connect(pushButton,SIGNAL(clicked()),this,SLOT(on_pushButton_clicked()));
-    connect(pushButton_2,SIGNAL(clicked()),this,SLOT(on_pushButton_2_clicked()));
-    connect(checkBox,SIGNAL(stateChanged(int)),this,SLOT(on_checkBox_stateChanged(int)));
-    connect(checkBox_2,SIGNAL(stateChanged(int)),this,SLOT(on_checkBox_2_stateChanged(int)));
-    connect(checkBox_3,SIGNAL(stateChanged(int)),this,SLOT(on_checkBox_3_stateChanged(int)));
-    connect(checkBox_4,SIGNAL(stateChanged(int)),this,SLOT(on_checkBox_4_stateChanged(int)));
-    connect(comboBox,SIGNAL(currentIndexChanged(QString)),this,SLOT(on_comboBox_currentIndexChanged(QString)));
-    connect(textEdit,SIGNAL(textChanged()),this,SLOT(on_textEdit_textChanged()));
-    connect(lineEdit_2,SIGNAL(textChanged(QString)),this,SLOT(on_lineEdit_2_textChanged()));
+    connect( closeBtn, SIGNAL(clicked()), this, SLOT(on_closeBtn_clicked()) );
+    connect( browseBtn, SIGNAL(clicked()), this, SLOT(on_browseBtn_clicked()) );
+    connect( submitBtn, SIGNAL(clicked()), this, SLOT(on_submitBtn_clicked()) );
+    connect( syslogCheckBox, SIGNAL(stateChanged(int)), this, SLOT(on_syslogCheckBox_stateChanged(int)) );
+    connect( apportLogCheckBox, SIGNAL(stateChanged(int)), this, SLOT(on_apportLogCheckBox_stateChanged(int)) );
+    connect( dpkgLogCheckBox, SIGNAL(stateChanged(int)), this, SLOT(on_dpkgLogCheckBox_stateChanged(int)) );
+    connect( getInfoCheckBox, SIGNAL(stateChanged(int)), this, SLOT(on_getInfoCheckBox_stateChanged(int)) );
+    connect( typeComboBox, SIGNAL(currentIndexChanged(QString)), this, SLOT(on_comboBox_currentIndexChanged(QString)) );
+    connect( descriptionTextEdit, SIGNAL(textChanged()), this, SLOT(on_textEdit_textChanged()) );
+    connect( emailLineEdit, SIGNAL(textChanged(QString)), this, SLOT(on_emailLineEdit_textChanged()) );
 
     add_systeminfo();
-
 }
 
 void feedback::feedback_init()
 {
-
-
-    connect(style_settings,SIGNAL(changed(QString)),this,SLOT(style_changed(QString)));
+    connect(styleSettings,SIGNAL(changed(QString)),this,SLOT(style_changed(QString)));
 
     //http客户端初始化
     //HTTP client initialization
@@ -523,21 +476,21 @@ void feedback::feedback_init()
 
 void feedback::style_changed(QString)
 {
-    QString style_name =  style_settings->get("style-name").toString();
-    if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0)){
-        palette_gray.setBrush(QPalette::Button, QColor(233,233,233));
-        palette_blue.setBrush(QPalette::ButtonText, QColor(255,255,255));
-    }else if((style_name.compare("ukui-dark")==0) || (style_name.compare("ukui-black")==0)){
-        palette_gray.setBrush(QPalette::Button, QColor(57,58,62));
-        palette_blue.setBrush(QPalette::ButtonText, QColor(255,255,255));
+    QString style_name =  styleSettings->get("style-name").toString();
+    if ((style_name.compare("ukui-white") == 0 ) || (style_name.compare("ukui-default") == 0 )) {
+        paletteGray.setBrush(QPalette::Button, QColor(233,233,233));
+        paletteBlue.setBrush(QPalette::ButtonText, QColor(255,255,255));
+    }else if ((style_name.compare("ukui-dark") == 0 ) || (style_name.compare("ukui-black") == 0 )) {
+        paletteGray.setBrush(QPalette::Button, QColor(57,58,62));
+        paletteBlue.setBrush(QPalette::ButtonText, QColor(255,255,255));
     }
-    if(pushButton_2->isEnabled()){
-        pushButton_2->setPalette(palette_blue);
+    if (submitBtn->isEnabled()) {
+        submitBtn->setPalette(paletteBlue);
     }
     else{
-        pushButton_2->setPalette(palette_gray);
+        submitBtn->setPalette(paletteGray);
     }
-    if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0)){
+    if ((style_name.compare("ukui-white") == 0 ) || (style_name.compare("ukui-default") == 0 )) {
         verticalWidget->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);\n"
                                                         "border-top-left-radius:4px;\n"
                                                         "\n"
@@ -548,13 +501,13 @@ void feedback::style_changed(QString)
                                                         "border-bottom-right-radius:4px;\n"
                                                         "border:0.5px solid black;\n"
                                                         ""));
-        frame_2->setStyleSheet("border-color: rgba(255,255,255,0.1);");
-        label_11->setStyleSheet(QString::fromUtf8("border-color: rgb(255,255,255);color:rgb(0,0,0);font:12px;"));
-        label_12->setStyleSheet(QString::fromUtf8("border-color: rgb(255,255,255);color:rgb(0,0,0);font:12px;"));
-        label_10->setStyleSheet(QString::fromUtf8("border-color: rgb(255,255,255);color:rgb(0,0,0);font:12px;"));
+        verticalFrame->setStyleSheet("border-color: rgba(255,255,255,0.1);");
+        codeLabel->setStyleSheet(QString::fromUtf8("border-color: rgb(255,255,255);color:rgb(0,0,0);font:12px;"));
+        desktopInfoLabel->setStyleSheet(QString::fromUtf8("border-color: rgb(255,255,255);color:rgb(0,0,0);font:12px;"));
+        sysInfoLabel->setStyleSheet(QString::fromUtf8("border-color: rgb(255,255,255);color:rgb(0,0,0);font:12px;"));
 
 
-    }else if((style_name.compare("ukui-dark")==0) || (style_name.compare("ukui-black")==0)){
+    }else if ((style_name.compare("ukui-dark") == 0) || (style_name.compare("ukui-black") == 0 )) {
         verticalWidget->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 0, 0);\n"
                                                         "border-top-left-radius:4px;\n"
                                                         "\n"
@@ -565,10 +518,10 @@ void feedback::style_changed(QString)
                                                         "border-bottom-right-radius:4px;\n"
                                                         "border:0.5px solid black;\n"
                                                         ""));
-        frame_2->setStyleSheet("border-color: rgba(0, 0, 0,0.1);");
-        label_11->setStyleSheet(QString::fromUtf8("border-color: rgb(0, 0, 0);color:rgb(255,255,255);font:12px;"));
-        label_12->setStyleSheet(QString::fromUtf8("border-color: rgb(0, 0, 0);color:rgb(255,255,255);font:12px;"));
-        label_10->setStyleSheet(QString::fromUtf8("border-color: rgb(0, 0, 0);color:rgb(255,255,255);font:12px;"));
+        verticalFrame->setStyleSheet("border-color: rgba(0, 0, 0,0.1);");
+        codeLabel->setStyleSheet(QString::fromUtf8("border-color: rgb(0, 0, 0);color:rgb(255,255,255);font:12px;"));
+        desktopInfoLabel->setStyleSheet(QString::fromUtf8("border-color: rgb(0, 0, 0);color:rgb(255,255,255);font:12px;"));
+        sysInfoLabel->setStyleSheet(QString::fromUtf8("border-color: rgb(0, 0, 0);color:rgb(255,255,255);font:12px;"));
     }
 
 }
@@ -577,8 +530,8 @@ void feedback::style_changed(QString)
 //Click the Submit button to replace the loaded image
 void feedback::submit_change_load_image()
 {
-    pushButton_2->setText("");
-    pushButton_2->setIcon(submitting_pixmap[pixmap_i]);
+    submitBtn->setText("");
+    submitBtn->setIcon(submittingPixmap[pixmap_i]);
     pixmap_i++;
     if (pixmap_i == 8 )
         pixmap_i = 0;
@@ -586,7 +539,7 @@ void feedback::submit_change_load_image()
 
 //最小化窗口
 //Minimization Window
-void feedback::on_pushButton_mix_clicked()
+void feedback::on_minBtn_clicked()
 {
     this->showNormal();
     this->showMinimized();
@@ -594,7 +547,7 @@ void feedback::on_pushButton_mix_clicked()
 
 //关闭窗口
 // close window
-void feedback::on_pushButton_close_clicked()
+void feedback::on_closeBtn_clicked()
 {
     if (file_send_failed_flag) {
         this->close();
@@ -620,12 +573,12 @@ void feedback::window_close()
 //Resend after failing to send
 void feedback::resend_info_when_sendfail()
 {
-    this->on_pushButton_2_clicked();
+    this->on_submitBtn_clicked();
 }
 
 //获取图片
 //get image
-void feedback::on_pushButton_clicked()
+void feedback::on_browseBtn_clicked()
 {
     filename=QFileDialog::getOpenFileName(this,tr("select file"),"/","(*.gif *.jpg *.png *.pptx *.wps *.xlsx *.pdf *.txt *.docx)",0);
 
@@ -633,11 +586,11 @@ void feedback::on_pushButton_clicked()
         return;
     //判断文件个数， 最多传五个附件
     //Determine the number of documents and upload up to five attachments
-    if (file_name_list.size() ==0) {
+    if (file_name_list.size() == 0 ) {
         //添加附件框改变
         //Add attachment box changes
         add_fileinfo_model();
-    } else if(file_name_list.size() >= 5) {
+    } else if( file_name_list.size() >= 5 ) {
         return ;
     } else {
         int file_diff_flags = 0;
@@ -647,7 +600,7 @@ void feedback::on_pushButton_clicked()
             if (filename.compare(file_path_list.at(fileNum)) == 0)
                 file_diff_flags++;
         }
-        if (file_diff_flags == 0) {
+        if ( file_diff_flags == 0 ) {
             //添加附件框改变
             //Add attachment box changes
             add_fileinfo_model();
@@ -659,8 +612,8 @@ void feedback::on_pushButton_clicked()
 //Set the maximum number of characters in the detail description box.
 void feedback::on_textEdit_textChanged()
 {
-    textContent = textEdit->toPlainText();
-    if (textContent.isEmpty()){
+    textContent = descriptionTextEdit->toPlainText();
+    if ( textContent.isEmpty() ){
         describeflag = 0;
     } else {
         //详细描述是否填写
@@ -669,33 +622,33 @@ void feedback::on_textEdit_textChanged()
     }
     //邮箱和详细描述都已经填写
     //Mailbox and detailed description have been filled in.
-    if (emailflag == 1 && describeflag == 1) {
+    if ( emailflag == 1 && describeflag == 1 ) {
         //设置提交按钮属性
         //Set submit button properties
-        pushButton_2->setEnabled(true);
-        pushButton_2->setPalette(palette_blue);
+        submitBtn->setEnabled(true);
+        submitBtn->setPalette(paletteBlue);
     } else {
         //设置提交按钮属性
         //Set submit button properties
-        pushButton_2->setEnabled(false);
-        pushButton_2->setPalette(palette_gray);
+        submitBtn->setEnabled(false);
+        submitBtn->setPalette(paletteGray);
     }
     int length = textContent.count();
     // 最大字符数
     //Maximum number of characters
     int maxLength = 200;
-    if (length > maxLength) {
-        QTextCursor cursor = textEdit->textCursor();
+    if ( length > maxLength ) {
+        QTextCursor cursor = descriptionTextEdit->textCursor();
         cursor.movePosition(QTextCursor::End);
-        if (cursor.hasSelection()) {
+        if ( cursor.hasSelection() ) {
             cursor.clearSelection();
         }
         cursor.deletePreviousChar();
         //设置当前的光标为更改后的光标
         //Set the current cursor to the changed cursor
-        textEdit->setTextCursor(cursor);
+        descriptionTextEdit->setTextCursor(cursor);
     }
-    length = textEdit->toPlainText().count();
+    length = descriptionTextEdit->toPlainText().count();
 }
 
 //系统信息显示
@@ -736,43 +689,43 @@ void feedback::add_systeminfo()
     string system_version_id;
     string s;
     ifstream fp("/etc/os-release");
-    if (!fp) {
+    if ( !fp ) {
         system_info = "None";
     } else {
-        while (getline(fp,s)) {
+        while ( getline(fp,s) ) {
             string::size_type idx;
-            idx = s.find("=");
+            idx = s.find( "=" );
             if (idx == string::npos) {
                 //不存在
             } else {
                 string str2 = s.substr(0,idx);
-                if (str2 == "NAME") {
+                if ( str2 == "NAME" ) {
                     system_name = s.substr(5);
-                } else if(str2 =="VERSION_ID") {
+                } else if( str2 =="VERSION_ID" ) {
                     system_version_id = s.substr(11);
                 }
             }
         }
         system_info = os_info +system_name +" " + system_version_id;
     }
-    send_os_info = QString::fromStdString(system_name +" " + system_version_id);
+    send_os_info = QString::fromStdString( system_name + " " + system_version_id);
     system_info_str = QString::fromStdString(system_info);
     system_info_str.remove(QChar('"'), Qt::CaseInsensitive);
-    label_10->setText(system_info_str);
+    sysInfoLabel->setText(system_info_str);
     //2.获取桌面环境信息
     //Access to desktop environment information
     char * desktop = getenv("DESKTOP_SESSION");
     if(desktop != NULL){
-    desktop_info.append(desktop);
-    send_dekstop_info.append(desktop);
-    desktop_info_str = QString::fromStdString(desktop_info);
-    label_12->setText(desktop_info_str);
+        desktop_info.append(desktop);
+        send_dekstop_info.append(desktop);
+        desktop_info_str = QString::fromStdString(desktop_info);
+        desktopInfoLabel->setText(desktop_info_str);
     }
     else{
         desktop_info.append("None");
         send_dekstop_info.append("None");
         desktop_info_str = QString::fromStdString(desktop_info);
-        label_12->setText(desktop_info_str);
+        desktopInfoLabel->setText(desktop_info_str);
     }
     //3.获取编码格式
     //Get the coding format
@@ -781,7 +734,7 @@ void feedback::add_systeminfo()
     emcoding_2 = (char *)malloc(8);
     if (encoding == NULL) {
         QString locale = QLocale::system().name();
-        if (locale == "en_US") {
+        if ( locale == "en_US" ) {
             strcpy(emcoding_2, "en_US");
         } else {
             strcpy(emcoding_2, "zh_CN");
@@ -794,9 +747,9 @@ void feedback::add_systeminfo()
     encoding_info_str = QString::fromStdString(encoding_info);
     if(encoding_info_str.contains(".")){
         QStringList list = encoding_info_str.split(".");
-        label_11->setText(list.at(0));
+        codeLabel->setText(list.at(0));
 
-        if(send_encoding_info.contains(".")){
+        if ( send_encoding_info.contains(".") ) {
             QStringList list2 = send_encoding_info.split(".");
             send_encoding_info.clear();
             send_encoding_info.append(list2.at(0));
@@ -804,13 +757,13 @@ void feedback::add_systeminfo()
 
     }
     else{
-        label_11->setText(encoding_info_str);
+        codeLabel->setText(encoding_info_str);
     }
 }
 
 //syslog点选
 //syslog click
-void feedback::on_checkBox_stateChanged(int state)
+void feedback::on_syslogCheckBox_stateChanged(int state)
 {
 
     if (state == Qt::Checked) {
@@ -826,16 +779,16 @@ void feedback::on_checkBox_stateChanged(int state)
      email address to activate the submission.
     */
     if ((all_file_size_than_10M() == false) && describeflag == 1 && emailflag == 1 ) {
-        label_13->hide();
-        file_listwidget->move(140,407);
-        pushButton_2->setEnabled(true);
-        pushButton_2->setPalette(palette_blue);
+        errorTipLabel->hide();
+        fileListWidget->move(140,407);
+        submitBtn->setEnabled(true);
+        submitBtn->setPalette(paletteBlue);
     }
 }
 
 //apport.log点选
 //apport.log click on
-void feedback::on_checkBox_2_stateChanged(int state)
+void feedback::on_apportLogCheckBox_stateChanged(int state)
 {
 
     if (state == Qt::Checked) {
@@ -851,16 +804,16 @@ void feedback::on_checkBox_2_stateChanged(int state)
      email address to activate the submission.
     */
     if ((all_file_size_than_10M() == false) && describeflag == 1 && emailflag == 1 ) {
-        label_13->hide();
-        file_listwidget->move(140,407);
-        pushButton_2->setEnabled(true);
-        pushButton_2->setPalette(palette_blue);
+        errorTipLabel->hide();
+        fileListWidget->move(140,407);
+        submitBtn->setEnabled(true);
+        submitBtn->setPalette(paletteBlue);
     }
 }
 
 //dpkglog点选
 //dpkglog click
-void feedback::on_checkBox_3_stateChanged(int state)
+void feedback::on_dpkgLogCheckBox_stateChanged(int state)
 {
     if (state == Qt::Checked) {
         emit syslog();
@@ -875,16 +828,16 @@ void feedback::on_checkBox_3_stateChanged(int state)
      email address to activate the submission.
     */
     if ((all_file_size_than_10M() == false) && describeflag == 1 && emailflag == 1 ) {
-        label_13->hide();
-        file_listwidget->move(140,407);
-        pushButton_2->setEnabled(true);
-        pushButton_2->setPalette(palette_blue);
+        errorTipLabel->hide();
+        fileListWidget->move(140,407);
+        submitBtn->setEnabled(true);
+        submitBtn->setPalette(paletteBlue);
     }
 }
 
 //是否获取系统信息
 //Access to system information
-void feedback::on_checkBox_4_stateChanged(int state)
+void feedback::on_getInfoCheckBox_stateChanged(int state)
 {
     if (state == Qt::Checked) {
         get_systeminfoflag = 1;
@@ -900,7 +853,7 @@ void feedback::on_checkBox_4_stateChanged(int state)
 void feedback::on_comboBox_currentIndexChanged(const QString &arg1)
 {
     Q_UNUSED(arg1);
-    feedback_type = comboBox->currentText();
+    feedback_type = typeComboBox->currentText();
 }
 
 //提交过程中所有控件不可以操作
@@ -908,17 +861,17 @@ void feedback::on_comboBox_currentIndexChanged(const QString &arg1)
 void feedback::set_all_disable_in_submit()
 {
     //    comboBox->setEnabled(false);
-    textEdit->setEnabled(false);
-    lineEdit_2->setEnabled(false);
-    checkBox->setEnabled(false);
-    checkBox_2->setEnabled(false);
-    checkBox_3->setEnabled(false);
-    checkBox_4->setEnabled(false);
-    pushButton->setEnabled(false);
-    pushButton_2->setEnabled(false);
-    pushButton_2->setPalette(palette_blue);
-    for (int filenum = 0; filenum < file_name_list.size(); filenum++)
-        file_widget[filenum]->deletebtn0->setEnabled(false);
+    descriptionTextEdit->setEnabled(false);
+    emailLineEdit->setEnabled(false);
+    syslogCheckBox->setEnabled(false);
+    apportLogCheckBox->setEnabled(false);
+    dpkgLogCheckBox->setEnabled(false);
+    getInfoCheckBox->setEnabled(false);
+    browseBtn->setEnabled(false);
+    submitBtn->setEnabled(false);
+    submitBtn->setPalette(paletteBlue);
+    for ( int filenum = 0; filenum < file_name_list.size(); filenum++ )
+        fileWidget[filenum]->deletebtn0->setEnabled(false);
 }
 
 //提交完成后所有控件还原
@@ -926,53 +879,53 @@ void feedback::set_all_disable_in_submit()
 void feedback::set_all_enable_after_submit()
 {
     //    comboBox->setEnabled(true);
-    textEdit->setEnabled(true);
-    lineEdit_2->setEnabled(true);
-    checkBox->setEnabled(true);
-    checkBox_2->setEnabled(true);
-    checkBox_3->setEnabled(true);
-    checkBox_4->setEnabled(true);
-    pushButton->setEnabled(true);
-    pushButton_2->setEnabled(true);
-    pushButton_2->setPalette(palette_blue);
+    descriptionTextEdit->setEnabled(true);
+    emailLineEdit->setEnabled(true);
+    syslogCheckBox->setEnabled(true);
+    apportLogCheckBox->setEnabled(true);
+    dpkgLogCheckBox->setEnabled(true);
+    getInfoCheckBox->setEnabled(true);
+    browseBtn->setEnabled(true);
+    submitBtn->setEnabled(true);
+    submitBtn->setPalette(paletteBlue);
     for (int filenum = 0; filenum< file_name_list.size();filenum++)
     {
-        file_widget[filenum]->deletebtn0->setEnabled(true);
+        fileWidget[filenum]->deletebtn0->setEnabled(true);
     }
 }
 //提交按钮
 //Submit button
-void feedback::on_pushButton_2_clicked()
+void feedback::on_submitBtn_clicked()
 {
     //判断邮箱格式
     //Determining Email Format
     QRegExp rx("^[\\w-]+(\\.[\\w-]+)*@[\\w-]+(\\.[\\w-]+)+");
     int pos=0;
     QRegExpValidator v(rx, 0);
-    if (2==v.validate(email_str,pos)) {
+    if ( 2==v.validate(email_str,pos) ) {
 
     } else {
-        lineEdit_2->setStyle(new CustomStyle("ukui"));
-        pushButton_2->setEnabled(false);
-        pushButton_2->setPalette(palette_gray);
-        email_err_msg_label->show();
+        emailLineEdit->setStyle(new CustomStyle("ukui"));
+        submitBtn->setEnabled(false);
+        submitBtn->setPalette(paletteGray);
+        emailErrMsgLabel->show();
         return ;
     }
 
     //判断文件总大小是否超过10M，如果超过，提示
     //Determine if the total file size exceeds 10M, if so, prompt
-    if (all_file_size_than_10M() == true) {
-        label_13->show();
-        file_listwidget->move(140,430);
-        pushButton_2->setEnabled(false);
-        pushButton_2->setPalette(palette_gray);
+    if ( all_file_size_than_10M() == true ) {
+        errorTipLabel->show();
+        fileListWidget->move(140,430);
+        submitBtn->setEnabled(false);
+        submitBtn->setPalette(paletteGray);
         return;
     }
 
-    label_13->hide();
-    file_listwidget->move(140,407);
-    pushButton_2->setEnabled(false);
-    pushButton_2->setPalette(palette_blue);
+    errorTipLabel->hide();
+    fileListWidget->move(140,407);
+    submitBtn->setEnabled(false);
+    submitBtn->setPalette(paletteBlue);
 
     qDebug()<<"submitting_timer->start();";
     submitting_timer->start();
@@ -993,7 +946,7 @@ void feedback::on_pushButton_2_clicked()
 
     feedback_info_json.insert("email",email_str);
 
-    if (get_systeminfoflag == 1) {
+    if ( get_systeminfoflag == 1 ) {
         feedback_info_json.insert("version",send_os_info);
         feedback_info_json.insert("desktop",send_dekstop_info);
         feedback_info_json.insert("language",send_encoding_info);
@@ -1008,7 +961,7 @@ void feedback::on_pushButton_2_clicked()
     //Read the server address from the configuration file
     QFile  file_url(url_filepath);
     QFileInfo url_fileinfo(url_filepath);
-    if (!url_fileinfo.isFile()) {
+    if ( !url_fileinfo.isFile() ) {
         file_url.open(QIODevice::ReadWrite | QIODevice::Text);
         file_url.write("http://feedback.ubuntukylin.com/v1/issue/");
         urlstring.append("http://feedback.ubuntukylin.com/v1/issue/");
@@ -1032,7 +985,7 @@ void feedback::on_pushButton_2_clicked()
     timer_http.start();
     loop.exec();
 
-    if (timer_http.isActive()) {
+    if ( timer_http.isActive() ) {
         if (window_is_close_flag == false) {
             timer_http.stop();
             finishedSlot(pReply);
@@ -1079,10 +1032,10 @@ void feedback::add_file_to_Part(QString filepath,QString file_type,QString file_
     QHttpPart upload_part;
     upload_part.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant(QString("form-data; name=\"%1\";filename=\"%2\"").arg(file_type).arg(file_name)));
     QFile *upload_file =  new QFile(filepath);
-    if (!(upload_file->open(QIODevice::ReadOnly))) {
+    if ( !(upload_file->open(QIODevice::ReadOnly)) ) {
         qDebug()<<"file open fail";
     }
-    if (file_name.compare("syslog") == 0) {
+    if ( file_name.compare("syslog") == 0 ) {
         upload_part.setBody(get_today_syslog());
     } else {
         upload_part.setBody(upload_file->readAll());
@@ -1124,23 +1077,23 @@ void feedback::send_file_httpserver(QString uid)
 
     //判断三个log文件哪个点选了
     //Determine which of the three LOG files is clicked.
-    if (dpkglogflag ==1) {
+    if ( dpkglogflag ==1 ) {
         //var/log/dpkg.log
         add_file_to_Part("/var/log/dpkg.log","dpkg","dpkg.log");
 
     }
-    if (apportlogflag == 1) {
+    if ( apportlogflag == 1 ) {
         //var/log/apport.log
         add_file_to_Part("/var/log/apport.log","apport","apport.log");
 
     }
-    if (syslogflag== 1) {
+    if ( syslogflag== 1 ) {
         //var/log/syslog.log
         add_file_to_Part("/var/log/syslog","syslog","syslog");
     }
     //获取添加的附件，文件名
     //Get the added attachment, file name
-    for (int filenum=0; filenum<file_path_list.size(); filenum++) {
+    for ( int filenum=0; filenum<file_path_list.size(); filenum++ ) {
         add_file_to_Part(file_path_list.at(filenum),"img"+QString::number(filenum+1),file_name_list.at(filenum));
     }
     accessManager_file->post(request_file,multiPart);
@@ -1154,38 +1107,38 @@ void feedback::sendfile_finished(QNetworkReply* reply)
     qDebug()<<"this is send file finished";
 
     statusCode_file = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
-    if (statusCode_file.isValid())
+    if ( statusCode_file.isValid() )
         qDebug() << "status code file =" << statusCode_file.toInt();
 
     reason_file = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
-    if (reason_file.isValid())
+    if ( reason_file.isValid() )
         qDebug() << "reason file =" << reason_file.toString();
 
     bytes_file = reply->readAll();
     qDebug() << bytes_file;
 
-    if (window_is_close_flag)
+    if ( window_is_close_flag )
         this->close();
 }
 
 //邮箱是否填写
 //Do you want to fill in the mailbox?
-void feedback::on_lineEdit_2_textChanged()
+void feedback::on_emailLineEdit_textChanged()
 {
-    email_err_msg_label->hide();
-    email_str = lineEdit_2->text();
-    if (email_str.isEmpty()) {
+    emailErrMsgLabel->hide();
+    email_str = emailLineEdit->text();
+    if ( email_str.isEmpty() ) {
         emailflag = 0;
-        email_err_msg_label->hide();
+        emailErrMsgLabel->hide();
     } else {
         emailflag =1;
     }
-    if (describeflag == 1 && emailflag == 1) {
-        pushButton_2->setEnabled(true);
-        pushButton_2->setPalette(palette_blue);
+    if ( describeflag == 1 && emailflag == 1 ) {
+        submitBtn->setEnabled(true);
+        submitBtn->setPalette(paletteBlue);
     } else {
-        pushButton_2->setEnabled(false);
-        pushButton_2->setPalette(palette_gray);
+        submitBtn->setEnabled(false);
+        submitBtn->setPalette(paletteGray);
     }
 }
 
@@ -1202,29 +1155,29 @@ void feedback::del_file_button_clicked()
 
     int listnum = file_name_list.size();
 
-    if ( btn == file_widget[0]->deletebtn0 ) {
+    if ( btn == fileWidget[0]->deletebtn0 ) {
         qDebug()<<file_name_list.size()<<"delete before";
         file_name_list.removeAt(0);
         file_size_list.removeAt(0);
         file_path_list.removeAt(0);
         qDebug()<<file_name_list.size()<<"delete after";
         qDebug() << "delete 0";
-    } else if( btn == file_widget[1]->deletebtn0 ) {
+    } else if( btn == fileWidget[1]->deletebtn0 ) {
         file_name_list.removeAt(1);
         file_size_list.removeAt(1);
         file_path_list.removeAt(1);
 
         qDebug() << "delete 1";
-    } else if( btn == file_widget[2]->deletebtn0 ) {
+    } else if( btn == fileWidget[2]->deletebtn0 ) {
         file_name_list.removeAt(2);
         file_size_list.removeAt(2);
         file_path_list.removeAt(2);
         qDebug() << "delete 2";
-    } else if( btn == file_widget[3]->deletebtn0 ) {
+    } else if( btn == fileWidget[3]->deletebtn0 ) {
         file_name_list.removeAt(3);
         file_size_list.removeAt(3);
         file_path_list.removeAt(3);
-    } else if( btn == file_widget[4]->deletebtn0) {
+    } else if( btn == fileWidget[4]->deletebtn0) {
         file_name_list.removeAt(4);
         file_size_list.removeAt(4);
         file_path_list.removeAt(4);
@@ -1232,15 +1185,12 @@ void feedback::del_file_button_clicked()
     qDebug()<<file_name_list.size()<<"-----after";
     foreach (auto item,file_name_list)
         qDebug()<<item<<"after";
-    for (int i=0; i<listnum; i++) {
-        delete file_listwidget_item[i];
-        delete file_widget[i];
+    for ( int i = 0; i < listnum; i++) {
+        delete fileListWidgetItem[i];
+        delete fileWidget[i];
     }
 
     update_add_file_window();
-    //删除文件后 把上传附件中内容更新
-    //After deleting the file, update the contents of the uploaded attachment.
-    update_linedit_add_or_del_file();
 
     //再次判断大小是否超过10M,如果不超过并且详细描述和邮箱都填写  激活提交
     /*
@@ -1249,10 +1199,10 @@ void feedback::del_file_button_clicked()
      email address to activate the submission.
     */
     if ((all_file_size_than_10M() == false) && describeflag == 1 && emailflag == 1 ) {
-        label_13->hide();
-        file_listwidget->move(140,407);
-        pushButton_2->setEnabled(true);
-        pushButton_2->setPalette(palette_blue);
+        errorTipLabel->hide();
+        fileListWidget->move(140,407);
+        submitBtn->setEnabled(true);
+        submitBtn->setPalette(paletteBlue);
     }
 }
 
@@ -1261,40 +1211,38 @@ void feedback::del_file_button_clicked()
 void feedback::feedback_info_init()
 {
     set_all_enable_after_submit();
-    comboBox->setCurrentIndex(0);
+    typeComboBox->setCurrentIndex(0);
+    descriptionTextEdit->setText("");
+    emailLineEdit->setText("");
 
-    textEdit->setText("");
-
-    lineEdit_2->setText("");
-
-    for (int i = 0; i < file_name_list.size(); i++) {
-        delete file_listwidget_item[i];
-        delete file_widget[i];
+    for ( int i = 0; i < file_name_list.size(); i++ ) {
+        delete fileListWidgetItem[i];
+        delete fileWidget[i];
     }
-    foreach (auto item, file_name_list) {
+    foreach ( auto item, file_name_list ) {
         file_name_list.removeOne(item);
     }
-    foreach (auto item,file_size_list) {
+    foreach ( auto item, file_size_list ) {
         file_size_list.removeOne(item);
     }
-    foreach(auto item,file_path_list) {
+    foreach( auto item, file_path_list ) {
         file_path_list.removeOne(item);
     }
-    label_13->hide();
-    email_err_msg_label->hide();
-    checkBox->setChecked(false);
-    checkBox_2->setChecked(false);
-    checkBox_3->setChecked(false);
-    checkBox_4->setChecked(false);
-    pushButton_2->setIcon(QIcon());
-    pushButton_2->setText(tr("submit"));
+    errorTipLabel->hide();
+    emailErrMsgLabel->hide();
+    syslogCheckBox->setChecked(false);
+    apportLogCheckBox->setChecked(false);
+    dpkgLogCheckBox->setChecked(false);
+    getInfoCheckBox->setChecked(false);
+    submitBtn->setIcon(QIcon());
+    submitBtn->setText(tr("submit"));
 
 }
 //添加文件后把文件信息加入qlist
 //Add file information to qlist after adding file
 void feedback::add_fileinfo_model()
 {
-    if (filename.isEmpty())
+    if ( filename.isEmpty() )
         return;
     int nIndex = filename.lastIndexOf('/');
     QString file_name = filename.mid(nIndex+1);
@@ -1304,17 +1252,17 @@ void feedback::add_fileinfo_model()
 
     file_size = QString::number((float)info.size()/(float)1024,'f',1) + "K";
 
-    if((float)info.size()/(float)1000 > 1000)
+    if( (float)info.size() / (float)1000 > 1000 )
         file_size = QString::number((float)info.size()/(float)1048576,'f',1) + "M";
 
     qDebug()<<"向stringlist 添加数据"<<file_name_list.size()<<"--"<<file_size_list.size()<<"---"<<file_path_list.size();
 
     for (int i = 0; i < file_name_list.size(); i++) {
-        file_listwidget->removeItemWidget(file_listwidget_item[i]);
-        delete file_listwidget_item[i];
-        file_listwidget_item[i] = nullptr;
-        delete file_widget[i];
-        file_widget[i] = nullptr;
+        fileListWidget->removeItemWidget(fileListWidgetItem[i]);
+        delete fileListWidgetItem[i];
+        fileListWidgetItem[i] = nullptr;
+        delete fileWidget[i];
+        fileWidget[i] = nullptr;
     }
     if (file_name_list.size() < 5) {
         file_name_list.append(file_name);
@@ -1330,73 +1278,65 @@ void feedback::update_add_file_window()
 {
     QString filename_labelstr;
     for (int filenum = 0; filenum < file_name_list.size(); filenum++) {
-        file_listwidget_item[filenum] = new QListWidgetItem;
-        file_listwidget_item[filenum]->setSizeHint(QSize(320,20));
-        file_listwidget->addItem(file_listwidget_item[filenum]);
-        file_widget[filenum] = new fileitem_init(file_listwidget);
-        file_listwidget->setItemWidget(file_listwidget_item[filenum],file_widget[filenum]);
+        fileListWidgetItem[filenum] = new QListWidgetItem;
+        fileListWidgetItem[filenum]->setSizeHint(QSize(320,20));
+        fileListWidget->addItem(fileListWidgetItem[filenum]);
+        fileWidget[filenum] = new fileItemInit(fileListWidget);
+        fileListWidget->setItemWidget(fileListWidgetItem[filenum],fileWidget[filenum]);
         filename_labelstr=file_name_list.at(filenum);
         //如果文件过长，只显示前30个字符，后面省略
         //If the file is too long, show only the first 30 characters and omit the last
-        if (file_name_list.at(filenum).length() > 33) {
+        if ( file_name_list.at(filenum).length() > 33 ) {
             filename_labelstr = file_name_list.at(filenum).left(30) + "...";
         }
 
-        file_widget[filenum]->filename_label0->move(0,5);
-        file_widget[filenum]->filename_label0->setText(filename_labelstr);
-        file_widget[filenum]->filename_label0->setStyleSheet("font: 12px ;");
-        file_widget[filenum]->filename_label0->adjustSize();
+        fileWidget[filenum]->filename_label0->move(0,5);
+        fileWidget[filenum]->filename_label0->setText(filename_labelstr);
+        fileWidget[filenum]->filename_label0->setStyleSheet("font: 12px ;");
+        fileWidget[filenum]->filename_label0->adjustSize();
 
-        int filename_width = file_widget[filenum]->filename_label0->geometry().width();
+        int filename_width = fileWidget[filenum]->filename_label0->geometry().width();
 
-        file_widget[filenum]->filesize_label0->move(filename_width+10,5);
-        file_widget[filenum]->filesize_label0->setText(file_size_list.at(filenum));
-        file_widget[filenum]->filesize_label0->setStyleSheet("font: 12px ;");
-        file_widget[filenum]->filesize_label0->adjustSize();
+        fileWidget[filenum]->filesize_label0->move(filename_width+10,5);
+        fileWidget[filenum]->filesize_label0->setText(file_size_list.at(filenum));
+        fileWidget[filenum]->filesize_label0->setStyleSheet("font: 12px ;");
+        fileWidget[filenum]->filesize_label0->adjustSize();
 
-        int filesize_width = file_widget[filenum]->filesize_label0->geometry().width();
+        int filesize_width = fileWidget[filenum]->filesize_label0->geometry().width();
 
-        file_widget[filenum]->deletebtn0->setGeometry(filename_width+filesize_width+20,0,35,20);
-        file_widget[filenum]->deletebtn0->setText(tr("del"));
-        file_widget[filenum]->deletebtn0->setStyleSheet("font: 12px ;color: rgb(61,107,229);");
-        file_widget[filenum]->deletebtn0->setFlat(true);
+        fileWidget[filenum]->deletebtn0->setGeometry(filename_width+filesize_width+20,0,35,20);
+        fileWidget[filenum]->deletebtn0->setText(tr("del"));
+        fileWidget[filenum]->deletebtn0->setStyleSheet("font: 12px ;color: rgb(61,107,229);");
+        fileWidget[filenum]->deletebtn0->setFlat(true);
 
-        connect( file_widget[filenum]->deletebtn0, SIGNAL(clicked()), this, SLOT(del_file_button_clicked()) );
+        connect( fileWidget[filenum]->deletebtn0, SIGNAL(clicked()), this, SLOT(del_file_button_clicked()) );
     }
 }
-//在删除文件之后更新文件信息框
-//Update document information box after deleting a document
-void feedback::update_linedit_add_or_del_file()
-{
-    int rowNum = file_name_list.size();
-    if (rowNum == 0) {
-    } else {
-    }
-}
+
 //判断总文件大小是否超过10M
 //Determine if the total file size exceeds 10M
 bool feedback::all_file_size_than_10M()
 {
     int all_filesize = 0;
     QFileInfo file_info;
-    for (int filenum = 0; filenum < file_path_list.size(); filenum++) {
+    for ( int filenum = 0; filenum < file_path_list.size(); filenum++ ) {
         file_info.setFile(file_path_list.at(filenum));
         all_filesize += file_info.size();
     }
-    if (dpkglogflag == 1) {
+    if ( dpkglogflag == 1 ) {
         file_info.setFile("/var/log/dpkg.log");
         all_filesize += file_info.size();
     }
-    if ( apportlogflag == 1) {
+    if ( apportlogflag == 1 ) {
         file_info.setFile("/var/log/apport.log");
         all_filesize += file_info.size();
     }
-    if (syslogflag == 1) {
+    if ( syslogflag == 1 ) {
         file_info.setFile("/var/log/syslog");
         all_filesize += file_info.size();
     }
     //qDebug()<<all_filesize;
-    if (all_filesize >= 10*1024*1024) {
+    if ( all_filesize >= 10*1024*1024 ) {
         return true;
     } else {
         return false;
@@ -1415,24 +1355,21 @@ void feedback::finishedSlot(QNetworkReply *reply)
     //定时器结束
     //Timer ends.
     submitting_timer->stop();
-    pushButton_2->setText(tr("submit"));
-    pushButton_2->setEnabled(false);
-    pushButton_2->setPalette(palette_gray);
-
-    pushButton_2->setIcon(QIcon());
-
+    submitBtn->setText(tr("submit"));
+    submitBtn->setEnabled(false);
+    submitBtn->setPalette(paletteGray);
+    submitBtn->setIcon(QIcon());
     set_all_enable_after_submit();
-
     qDebug() << "this is send feedbackinfo finished";
 
     // 获取http状态码
     //Get http status code
     statusCode_info = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
-    if (statusCode_info.isValid())
+    if ( statusCode_info.isValid() )
         qDebug() << "status code info =" << statusCode_info.toInt();
-    if (statusCode_info.toInt() == 201) {
+    if ( statusCode_info.toInt() == 201 ) {
         reason_info = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
-        if (reason_info.isValid())
+        if ( reason_info.isValid() )
             qDebug() << "reason info =" << reason_info.toString();
         bytes_info = reply->readAll();
         //panduan ==200
@@ -1448,8 +1385,8 @@ void feedback::finishedSlot(QNetworkReply *reply)
         QJsonDocument document = QJsonDocument::fromJson(bytes_info,&jsonerror);
         qDebug()<<"this is send file _httpserver";
 
-        if (!document.isNull() && (jsonerror.error == QJsonParseError::NoError)) {
-            if (document.isObject()) {
+        if ( !document.isNull() && (jsonerror.error == QJsonParseError::NoError) ) {
+            if ( document.isObject() ) {
                 QJsonObject object = document.object();
                 uid_value = object["uid"].toString();
             }
@@ -1463,7 +1400,7 @@ void feedback::finishedSlot(QNetworkReply *reply)
         //判断错误类型
         //Type of error
         fail_dialog = new submit_fail(this);
-        if(!timeout_http_flag)
+        if( !timeout_http_flag )
             fail_dialog->show_faillinfo((int)reply->error());
         else
             fail_dialog->show_faillinfo(4); //timeout
@@ -1528,7 +1465,7 @@ void feedback::paintEvent(QPaintEvent *e)
 
 void feedback::mousePressEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::LeftButton) {
+    if ( event->button() == Qt::LeftButton ) {
         this->dragPosition = event->globalPos() - frameGeometry().topLeft();
         this->mousePressed = true;
     }
@@ -1537,7 +1474,7 @@ void feedback::mousePressEvent(QMouseEvent *event)
 
 void feedback::mouseReleaseEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::LeftButton) {
+    if ( event->button() == Qt::LeftButton ) {
         this->mousePressed = false;
     }
     QWidget::mouseReleaseEvent(event);
@@ -1545,7 +1482,7 @@ void feedback::mouseReleaseEvent(QMouseEvent *event)
 
 void feedback::mouseMoveEvent(QMouseEvent *event)
 {
-    if (this->mousePressed) {
+    if ( this->mousePressed ) {
         move(event->globalPos() - this->dragPosition);
     }
     QWidget::mouseMoveEvent(event);

@@ -15,8 +15,8 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#ifndef FILEITEM_INIT_H
-#define FILEITEM_INIT_H
+#ifndef FILEITEMINIT_H
+#define FILEITEMINIT_H
 
 #include <QWidget>
 #include <QPushButton>
@@ -24,7 +24,7 @@
 
 
 
-class fileitem_init : public QWidget
+class fileItemInit : public QWidget
 {
     Q_OBJECT
 
@@ -36,11 +36,11 @@ public:
     QLabel *  filesize_label0;
 
 
-    explicit fileitem_init(QWidget *parent = nullptr);
-    ~fileitem_init();
+    explicit fileItemInit(QWidget *parent = nullptr);
+    ~fileItemInit();
 
 private:
 
 };
 
-#endif // FILEITEM_INIT_H
+#endif // fileItemInit_H

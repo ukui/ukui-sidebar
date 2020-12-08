@@ -36,19 +36,12 @@ void submit_success::UI_init()
     this->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
 
     QBitmap bmp(this->size());
-
-    bmp.fill();
-
+    bmp.fill();=
     QPainter p(&bmp);
-
     p.setPen(Qt::NoPen);
-
     p.setBrush(Qt::black);
-
     p.setRenderHint(QPainter::Antialiasing);
-
     p.drawRoundedRect(bmp.rect(),6,6);
-
     setMask(bmp);
     //----- ------------------------
 
@@ -80,7 +73,6 @@ void submit_success::UI_init()
     succ_closeBtn->setPalette(palette);
     succ_closeBtn->setProperty("useIconHighlightEffect", true);
     succ_closeBtn->setProperty("iconHighlightEffectMode", 1);
-
     connect(succ_closeBtn,SIGNAL(clicked()),this,SLOT(succ_close_window()));
 
     pushButton = new QPushButton(this);
@@ -89,9 +81,6 @@ void submit_success::UI_init()
     pushButton->setGeometry(QRect(110, 165, 131, 26));
     pushButton->setFlat(false);
     pushButton->hide();
-
-
-
 
     pushButton_2 = new QPushButton(this);
     pushButton_2->setText(tr("Sure"));
@@ -102,9 +91,6 @@ void submit_success::UI_init()
     label_2->setObjectName(QString::fromUtf8("label_2"));
     label_2->setGeometry(QRect(71, 71, 30, 30));
     label_2->setPixmap(QPixmap(":/image/success.png"));
-
-
-//    connect(pushButton,SIGNAL(clicked()),this,SLOT(on_pushButton_clicked()));
     connect(pushButton_2,SIGNAL(clicked()),this,SLOT(on_pushButton_clicked()));
     qDebug()<<"submit_success::UI_init()";
     this->show();
@@ -132,7 +118,6 @@ void submit_success::succ_close_window()
 void submit_success::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e);
-
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);
     QPainterPath rectPath;

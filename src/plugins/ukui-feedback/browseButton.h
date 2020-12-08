@@ -15,21 +15,21 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#ifndef BROWSE_BUTTON_H
-#define BROWSE_BUTTON_H
+#ifndef BROWSEBUTTON_H
+#define BROWSEBUTTON_H
 #include<QPushButton>
 #include<QEvent>
 
-class browse_button :public QPushButton
+class browseButton :public QPushButton
 {
     Q_OBJECT;
 public:
-    browse_button(QWidget *parent = 0);
-    ~browse_button();
+    browseButton(QWidget *parent = 0);
+    ~browseButton();
 public:
     void enterEvent(QEvent *e); //鼠标进入事件
     void leaveEvent(QEvent *e);//鼠标离开事件
 };
 
 
-#endif // BROWSE_BUTTON_H
+#endif // browseButton_H

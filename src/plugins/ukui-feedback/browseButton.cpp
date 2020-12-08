@@ -17,29 +17,25 @@
 */
 #include"browseButton.h"
 #include <QDebug>
-browse_button::browse_button(QWidget* parent) :QPushButton(parent)
+browseButton::browseButton(QWidget* parent) :QPushButton(parent)
 {
 
 }
-browse_button::~browse_button()
+browseButton::~browseButton()
 {
 
 }
-void browse_button::enterEvent(QEvent *e)
+void browseButton::enterEvent(QEvent *e)
 {
     Q_UNUSED(e);
-
     QFont font;
     font.setUnderline(true);
     setFont(font);
-
 }
-void browse_button::leaveEvent(QEvent *e)
+void browseButton::leaveEvent(QEvent *e)
 {
     Q_UNUSED(e);
-
     QFont font;
     font.setUnderline(false);
     setFont(font);
-
 }
