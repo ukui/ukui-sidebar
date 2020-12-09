@@ -36,7 +36,7 @@ void submit_success::UI_init()
     this->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
 
     QBitmap bmp(this->size());
-    bmp.fill();=
+    bmp.fill();
     QPainter p(&bmp);
     p.setPen(Qt::NoPen);
     p.setBrush(Qt::black);

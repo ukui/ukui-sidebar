@@ -21,10 +21,9 @@
 #include <QDialog>
 #include <QPushButton>
 #include <QLabel>
-
+#include <QPainter>
 
 class feedback;
-
 
 class submit_success : public QDialog
 {
