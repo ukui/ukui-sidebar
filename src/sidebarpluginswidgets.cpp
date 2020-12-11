@@ -358,9 +358,7 @@ void sidebarPluginsWidgets::addDesktopFileName()
 {
     m_desktopfpList.append("ukui-clock.desktop");
     m_desktopfpList.append("ukui-notebook.desktop");
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 7, 0))
-    m_desktopfpList.append("ukui-feedback.desktop");
-#endif
+    m_desktopfpList.append("kylin-service-support.desktop");
     return;
 }
 
