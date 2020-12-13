@@ -112,7 +112,7 @@
         <location filename="widgets/qwidgettextcontrol.cpp" line="2293"/>
         <source>Copy &amp;Link Location</source>
         <translatorcomment>འདྲ་ཕབ་འབྲེལ་མཐུད།</translatorcomment>
-        <translation>Copier l&apos;emplacement du lien</translation>
+        <translation>Copier l&apos;emplacement du &amp;lien</translation>
     </message>
     <message>
         <location filename="widgets/qwidgettextcontrol.cpp" line="2301"/>
