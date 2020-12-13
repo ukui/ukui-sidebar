@@ -50,62 +50,62 @@
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="137"/>
         <source>FeedBack</source>
         <translatorcomment>Geri Bildirim</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Retour d&apos;information</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="194"/>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="207"/>
         <source>feedback</source>
         <translatorcomment>Geri Bildirim</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>retour d&apos;information</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="213"/>
         <source>Backtype</source>
         <translatorcomment>Bildirim Türü</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Type de retour</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="219"/>
         <source>system issue</source>
         <translatorcomment>Sistem Sorunu</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>problème système</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="220"/>
         <source>suggestions</source>
         <translatorcomment>Öneri</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>suggestions</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="221"/>
         <source>Business Cooperation</source>
         <translatorcomment>İşbirliği</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Coopération commerciale</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="222"/>
         <source>other</source>
         <translatorcomment>Diğer</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>autre</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="233"/>
         <source>Description</source>
         <translatorcomment>Açıklama</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Description</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="250"/>
         <source>Please enter content</source>
         <translatorcomment>Lütfen birşeyler yazın</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Veuillez saisir du contenu</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="258"/>
         <source>Email</source>
         <translatorcomment>E-posta</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Email</translation>
     </message>
     <message>
         <source>Email format is incorrect</source>
@@ -117,25 +117,25 @@
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="277"/>
         <source>*</source>
         <translatorcomment>*</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>*</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="288"/>
         <source>Upload</source>
         <translatorcomment>Yükle</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Télécharger</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="299"/>
         <source>(File size cannot exceed 10MB)</source>
         <translatorcomment>Dosya boyutu 10 MB&apos;ı aşıyor veya dosya biçimi desteklenmiyor</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>(La taille du fichier ne peut pas dépasser 10 Mo)</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="304"/>
         <source>add file</source>
         <translatorcomment>Dosya Ekle</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>ajouter un fichier</translation>
     </message>
     <message>
         <source>File size cannot exceed 10MB</source>
@@ -151,80 +151,80 @@
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="265"/>
         <source>wrong format</source>
         <translatorcomment>Hatalı Format</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>mauvais format</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="312"/>
         <source>get mine</source>
         <translatorcomment>Bilgilerimi Al</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>prends le mien</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="320"/>
         <source>Submit</source>
         <translatorcomment>Gönder</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Soumettre</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="329"/>
         <source>osinfo</source>
         <translatorcomment>Sistem Bilgisi</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>osinfo</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="405"/>
         <source>Log file</source>
         <translatorcomment>Günlük Dosyası</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Journal</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="411"/>
         <source>200 words</source>
         <translatorcomment>200 Kelime</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>200 mots</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="427"/>
         <source>syslog</source>
         <translatorcomment>syslog</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>syslog</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="434"/>
         <source>apport.log</source>
         <translatorcomment>apport.log</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>apport.log</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="442"/>
         <source>dpkg.log</source>
         <translatorcomment>dpkg.log</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>dpkg.log</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="452"/>
         <source>File size exceeds 10MB or file format is not supported</source>
         <translatorcomment>Dosya boyutu 10 MB&apos;ı aşıyor veya dosya biçimi desteklenmiyor</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>La taille du fichier dépasse 10 Mo ou le format de fichier n&apos;est pas pris en charge</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="630"/>
         <source>select file</source>
         <translatorcomment>Dosya Seç</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>choisir un dossier</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1289"/>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1417"/>
         <source>submit</source>
         <translatorcomment>Gönder</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>soumettre</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/ukuiFeedback.cpp" line="1359"/>
         <source>del</source>
         <translatorcomment>Sil</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Suppr</translation>
     </message>
 </context>
 <context>
@@ -233,24 +233,24 @@
         <location filename="../../src/plugins/ukui-feedback/submitFail.cpp" line="37"/>
         <source>submit fail</source>
         <translatorcomment>Gönderme Başarısız</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Échec de l&apos;envoi</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/submitFail.cpp" line="64"/>
         <source>feedback</source>
-        <translation type="unfinished"></translation>
+        <translation>retour d&apos;information</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/submitFail.cpp" line="69"/>
         <source>issue submitfail</source>
         <translatorcomment>Gönderme Başarısız</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>problème d&apos;envoi</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/submitFail.cpp" line="99"/>
         <source>resend</source>
         <translatorcomment>Yeniden Gönder</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>renvoyer</translation>
     </message>
     <message>
         <source>exit</source>
@@ -261,48 +261,48 @@
         <location filename="../../src/plugins/ukui-feedback/submitFail.cpp" line="108"/>
         <source>Sure</source>
         <translatorcomment>Onayla</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Sûr</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/submitFail.cpp" line="128"/>
         <source>The remote server refused the connection</source>
         <translatorcomment>Uzak sunucu bağlantıyı reddetti</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Le serveur distant a refusé la connexion</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/submitFail.cpp" line="131"/>
         <source>Server down</source>
         <translatorcomment>Sunucu Çöktü</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Serveur hors-service</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/submitFail.cpp" line="134"/>
         <source>Cannot find remote host name (invalid host name)</source>
         <translatorcomment>Uzak ana bilgisayar adı bulunamıyor (geçersiz ana bilgisayar adı)</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de trouver le nom d&apos;hôte distant (nom d&apos;hôte non valide)</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/submitFail.cpp" line="137"/>
         <source>Connection to remote server timed out</source>
         <translatorcomment>Uzak sunucuya bağlantı zaman aşımına uğradı</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>La connexion au serveur distant a expiré</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/submitFail.cpp" line="140"/>
         <source>net no connect</source>
         <translatorcomment>İnternet bağlantısı yok</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>pas de connexion internet</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/submitFail.cpp" line="143"/>
         <source>Service Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Service indisponible</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/submitFail.cpp" line="146"/>
         <source>unknown mistake</source>
         <translatorcomment>Bilinmeyen Hata</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>erreur inconnue</translation>
     </message>
 </context>
 <context>
@@ -311,30 +311,30 @@
         <location filename="../../src/plugins/ukui-feedback/submitSuccess.cpp" line="34"/>
         <source>Submitted success </source>
         <translatorcomment>Gönderne Başarılı</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Succès de l&apos;envoi </translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/submitSuccess.cpp" line="60"/>
         <source>feedback</source>
-        <translation type="unfinished"></translation>
+        <translation>retour d&apos;information</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/submitSuccess.cpp" line="65"/>
         <source>submitted success</source>
         <translatorcomment>Gönderne Başarılı</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>succès de l&apos;envoi</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/submitSuccess.cpp" line="87"/>
         <source>Continue</source>
         <translatorcomment>İleri</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Continuer</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-feedback/submitSuccess.cpp" line="97"/>
         <source>Sure</source>
         <translatorcomment>Onayla</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Sûr</translation>
     </message>
     <message>
         <source>exit</source>
