@@ -79,7 +79,7 @@
     <message>
         <location filename="../../src/plugins/ukui-sidebar-clipboard/sidebarclipboardplugin.cpp" line="120"/>
         <source>No clip content</source>
-        <translation>Aucun contenu de clip</translation>
+        <translation>Aucun contenu dans le presse-papiers</translation>
     </message>
 </context>
 <context>
