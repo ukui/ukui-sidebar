@@ -19,20 +19,14 @@
 #ifndef HEADERBAR_H
 #define HEADERBAR_H
 
-
 #include <QToolBar>
 #include <QToolButton>
 #include <QPushButton>
 #include <QProxyStyle>
 
 class Widget;
-//class ViewTypeMenu;
-//class SortTypeMenu;
-//class OperationMenu;
-
 class HeaderBar;
 class QHBoxLayout;
-
 
 class HeaderBar : public QToolBar
 {
@@ -55,11 +49,6 @@ private:
     const QString m_uri;
     Widget *m_window;
 
-
-//    ViewTypeMenu *m_view_type_menu;
-//    SortTypeMenu *m_sort_type_menu;
-//    OperationMenu *m_operation_menu;
-
     bool m_search_mode = false;
 };
 
@@ -67,7 +56,7 @@ class HeaderBarToolButton : public QToolButton
 {
     friend class HeaderBar;
     friend class MainWindow;
-    Q_OBJECT;
+    Q_OBJECT
     explicit HeaderBarToolButton(QWidget *parent = nullptr);
 };
 

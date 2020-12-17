@@ -16,8 +16,8 @@
 *
 */
 
-#ifndef SELECT_COLOR_PAGE_H
-#define SELECT_COLOR_PAGE_H
+#ifndef SELECTCOLOR_H
+#define SELECTCOLOR_H
 
 #include <QWidget>
 
@@ -29,29 +29,34 @@
 #define BORDER_RADIUS 5                 // 窗口边角的弧度;
 
 namespace Ui {
-class select_color_page;
+class SelectColor;
 }
 class Widget;
-class select_color_page : public QWidget
+class SelectColor : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit select_color_page(Widget* page , QWidget *parent = nullptr);
-    ~select_color_page();
-    void paintEvent(QPaintEvent *e);
-    Ui::select_color_page *ui;
+    explicit SelectColor(Widget* page , QWidget *parent = nullptr);
+    ~SelectColor();
+
+    Ui::SelectColor *ui;
+
+public:
     Widget *pNotebook;
     PaletteWidget *paletteWidget;
 
+protected:
+    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
+
 private:
-    // 小三角起始位置;
-    int m_startX = 180;
-    // 小三角的宽度;
-    int m_triangleWidth = 10;
-    // 小三角高度;
-    int m_triangleHeight= 5;
+    int m_startX = 180;             // 小三角起始位置;
+    int m_triangleWidth = 10;       // 小三角的宽度;
+    int m_triangleHeight= 5;        // 小三角高度;
     QTimer *timer;
+
+private:
+    void initSetup();
 };
 
-#endif // SELECT_COLOR_PAGE_H
+#endif // SELECTCOLOR_H

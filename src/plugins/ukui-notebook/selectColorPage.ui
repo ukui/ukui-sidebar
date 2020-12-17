@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>select_color_page</class>
- <widget class="QWidget" name="select_color_page">
+ <class>SelectColor</class>
+ <widget class="QWidget" name="SelectColor">
   <property name="geometry">
    <rect>
     <x>0</x>

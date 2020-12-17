@@ -26,7 +26,7 @@ TextEditWidget::TextEditWidget(QWidget *parent) :
     ui(new Ui::TextEditWidget)
 {
     ui->setupUi(this);
-    iconInit();
+    btnInit();
 }
 
 TextEditWidget::~TextEditWidget()
@@ -75,7 +75,7 @@ void TextEditWidget::paintEvent(QPaintEvent *event)
     p.restore();
 }
 
-void TextEditWidget::iconInit()
+void TextEditWidget::btnInit()
 {
     QBitmap bmp(this->size());
     bmp.fill();
@@ -90,15 +90,12 @@ void TextEditWidget::iconInit()
     ui->italicBtn->setIcon(QPixmap(":/image/1x/Italic.png"));
     ui->underlineBtn->setIcon(QPixmap(":/image/1x/under_line-new.png"));
     ui->strikeOutBtn->setIcon(QPixmap(":/image/1x/del_line.png"));
-//    ui->strikeOutBtn->setIconSize(QSize(36,36));
     ui->unorderedBtn->setIcon(QPixmap(":/image/1x/Symbol.png"));
-//    ui->unorderedBtn->setIconSize(QSize(16,16));
     ui->orderedBtn->setIcon(QPixmap(":/image/1x/number.png"));
-//    ui->orderedBtn->setIconSize(QSize(16,16));
 
-//    ui->underlineBtn->setIcon(QIcon::fromTheme("format-text-underline-symbolic"));
-//    ui->boldBtn->setIcon(QIcon::fromTheme("format-text-bold-symbolic"));
-//    ui->italicBtn->setIcon(QIcon::fromTheme("format-text-italic-symbolic"));
+    //ui->underlineBtn->setIcon(QIcon::fromTheme("format-text-underline-symbolic"));
+    //ui->boldBtn->setIcon(QIcon::fromTheme("format-text-bold-symbolic"));
+    //ui->italicBtn->setIcon(QIcon::fromTheme("format-text-italic-symbolic"));
 
     //取消按钮默认灰色背景
     QPalette palette = ui->boldBtn->palette();

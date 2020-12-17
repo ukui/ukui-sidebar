@@ -27,8 +27,8 @@
 #include "textEditWidget.h"
 #include "ui_textEditWidget.h"
 
-class Set_font_size_page;
-class Set_font_color_page;
+class SetFontSize;
+class SetFontColor;
 class Widget;
 namespace Ui {
 class Text_editing;
@@ -46,8 +46,8 @@ public:
     Ui::Text_editing *ui;
     Widget* pNotebook;
     TextEditWidget *texteditwidget;      
-    Set_font_size_page *set_size_page = nullptr ;
-    Set_font_color_page *set_color_fort_page = nullptr ;
+    SetFontSize *set_size_page = nullptr ;
+    SetFontColor *set_color_fort_page = nullptr ;
 
 protected:
     void paintEvent(QPaintEvent *) override;

@@ -370,7 +370,6 @@ QRect CustomStyle::itemTextRect(const QFontMetrics &metrics, const QRect &rectan
     return QProxyStyle::itemTextRect(metrics, rectangle, alignment, enabled, text);
 }
 
-//
 int CustomStyle::pixelMetric(QStyle::PixelMetric metric, const QStyleOption *option, const QWidget *widget) const
 {
     switch (metric){
@@ -383,7 +382,6 @@ int CustomStyle::pixelMetric(QStyle::PixelMetric metric, const QStyleOption *opt
     return QProxyStyle::pixelMetric(metric, option, widget);
 }
 
-//
 void CustomStyle::polish(QWidget *widget)
 {
     widget->setAttribute(Qt::WA_Hover);
@@ -398,18 +396,10 @@ void CustomStyle::polish(QApplication *application)
     return QProxyStyle::polish(application);
 }
 
-//
 void CustomStyle::polish(QPalette &palette)
 {
-    //    return QProxyStyle::polish(palette);
-    //    QProxyStyle::polish(palette);
-    //    palette.setBrush(QPalette::Foreground, Qt::black);
     palette.setBrush(QPalette::Text, Qt::black);
-    // QColor lightBlue(200, 0, 0);
-
     palette.setBrush(QPalette::Base, Qt::white);
-
-    //palette.setBrush(QPalette::Highlight, lightBlue);
 }
 
 void CustomStyle::unpolish(QWidget *widget)

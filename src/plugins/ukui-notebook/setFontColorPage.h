@@ -16,8 +16,8 @@
 *
 */
 
-#ifndef SET_FONT_COLOR_PAGE_H
-#define SET_FONT_COLOR_PAGE_H
+#ifndef SETFONTCOLOR_H
+#define SETFONTCOLORE_H
 
 #include <QWidget>
 #include <QListWidgetItem>
@@ -33,24 +33,24 @@
 /**
  * ukui style
  */
-#define THEME_QT_SCHEMA "org.ukui.style"
-#define MODE_QT_KEY "style-name"
+#define THEME_QT_SCHEMA     "org.ukui.style"
+#define MODE_QT_KEY         "style-name"
 
 namespace Ui {
-class Set_font_color_page;
+class SetFontColor;
 }
 
-class Set_font_color_page : public QWidget
+class SetFontColor : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit Set_font_color_page(QWidget *parent = nullptr);
-    ~Set_font_color_page();
+    explicit SetFontColor(QWidget *parent = nullptr);
+    ~SetFontColor();
 
-    void set_listwidget();
+    Ui::SetFontColor *ui;
 
-    Ui::Set_font_color_page *ui;
+public:
     QListWidgetItem *list_aItem[10];
     paletteButton *list_page[10];
 
@@ -61,7 +61,8 @@ protected:
     void paintEvent(QPaintEvent *event) override;
 
 private:
-    void set_color();
+    void initSetup();
+    void setColor();
 };
 
-#endif // SET_FONT_COLOR_PAGE_H
+#endif // SETFONTCOLORE_H

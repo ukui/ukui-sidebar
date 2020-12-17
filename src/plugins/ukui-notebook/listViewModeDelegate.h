@@ -37,18 +37,16 @@ public:
         MoveIn
     };
 
-
-    void setState(States NewState , QModelIndex index);
-    void setAnimationDuration(const int duration);
-
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
                const QModelIndex &index) const Q_DECL_OVERRIDE;
 
     QSize sizeHint(const QStyleOptionViewItem &option,
                    const QModelIndex &index) const Q_DECL_OVERRIDE;
 
+public:
+    void setState(States NewState , QModelIndex index);
+    void setAnimationDuration(const int duration);
     QTimeLine::State animationState();
-
     void setCurrentSelectedIndex(const QModelIndex &currentSelectedIndex);
     void setHoveredIndex(const QModelIndex &hoveredIndex);
     void setRowRightOffset(int rowRightOffset);
@@ -57,12 +55,6 @@ public:
     QColor intToQcolor(int &intColor) const;
 
 private:
-    void paintBackground(QPainter* painter, const QStyleOptionViewItem &option, const QModelIndex &index)const;
-    void paintLabels(QPainter* painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-    void paintTitle(QPainter* painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-    void paintSeparator(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-    QString parseDateTime(const QDateTime& dateTime) const;
-
     QFont m_titleFont;
     QFont m_titleSelectedFont;
     QFont m_dateFont;
@@ -86,6 +78,13 @@ private:
     QModelIndex m_animatedIndex;
     QModelIndex m_currentSelectedIndex;
     QModelIndex m_hoveredIndex;
+
+private:
+    void paintBackground(QPainter* painter, const QStyleOptionViewItem &option, const QModelIndex &index)const;
+    void paintLabels(QPainter* painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    void paintTitle(QPainter* painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    void paintSeparator(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    QString parseDateTime(const QDateTime& dateTime) const;
 
 signals:
     void update(const QModelIndex &index);

@@ -124,14 +124,12 @@ void listViewModeDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     case Remove:
     case MoveOut:
         if(index == m_animatedIndex){
-            qDebug() << "paint !!!!!!!!" << height;
             opt.rect.setHeight(int(height));
             //opt.backgroundBrush.setColor(m_notActiveColor);
         }
         break;
     case MoveIn:
         if(index == m_animatedIndex){
-            qDebug() << "paint@@@@" << height;
             opt.rect.setY(int(height));
         }
         break;
@@ -192,7 +190,6 @@ QSize listViewModeDelegate::sizeHint(const QStyleOptionViewItem &option, const Q
     }else{
         result.setHeight(m_rowHeight);
     }
-//    qDebug() << "sizeHint" << result;
     return result;
 }
 
@@ -463,10 +460,10 @@ QString listViewModeDelegate::parseDateTime(const QDateTime &dateTime) const
         d.append(usLocale.toString(dateTime.time(),"hh:mm"));
         return d;
     }
-//    else if(dateTime.daysTo(currDateTime) >= 2 &&
-//             dateTime.daysTo(currDateTime) <= 7){
-//        return usLocale.toString(dateTime.date(), "dddd");
-//    }
+    //else if(dateTime.daysTo(currDateTime) >= 2 &&
+    //         dateTime.daysTo(currDateTime) <= 7){
+    //    return usLocale.toString(dateTime.date(), "dddd");
+    //}
 
     return dateTime.toString("yyyy/MM/dd  hh:mm");
 }

@@ -45,6 +45,7 @@ public:
     explicit NoteModel(QObject *parent = Q_NULLPTR);
     ~NoteModel();
 
+public:
     QModelIndex addNote(NoteData* note);
     QModelIndex insertNote(NoteData* note, int row);
     NoteData* getNote(const QModelIndex& index);
@@ -56,6 +57,8 @@ public:
                  int destinationChild);
 
     void clearNotes();
+
+public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) Q_DECL_OVERRIDE;
     Qt::ItemFlags flags(const QModelIndex &index) const Q_DECL_OVERRIDE;

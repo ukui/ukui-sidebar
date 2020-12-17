@@ -101,16 +101,10 @@ void NoteView::animateRemovedRow(const QModelIndex& parent, int start, int end)
 
 void NoteView::paintEvent(QPaintEvent *e)
 {
-//    listViewModeDelegate* delegate = static_cast<listViewModeDelegate*>(itemDelegate());
-//    if(delegate != Q_NULLPTR)
-//    {
-//        delegate->setCurrentSelectedIndex(currentIndex());
-//    }
-
     QStyleOption opt;
     opt.init(this);
     QPainter p(this->viewport());
-//    p.setRenderHint(QPainter::Antialiasing);
+    //p.setRenderHint(QPainter::Antialiasing);
     p.setBrush(opt.palette.color(QPalette::Window));
     p.setOpacity(0.7);
     p.setPen(Qt::NoPen);
@@ -202,44 +196,6 @@ void NoteView::mouseReleaseEvent(QMouseEvent* e)
     m_isMousePressed = false;
     QListView::mouseReleaseEvent(e);
 }
-
-//bool NoteView::viewportEvent(QEvent* e)
-//{
-//    qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
-//    if(model() != Q_NULLPTR){
-//        switch (e->type()) {
-//        case QEvent::Leave:{
-//            QPoint pt = mapFromGlobal(QCursor::pos());
-//            QModelIndex index = indexAt(QPoint(10, pt.y()));
-//            if(index.row() > 0){
-//                index = model()->index(index.row()-1, 0);
-//                listViewModeDelegate* delegate = static_cast<listViewModeDelegate*>(itemDelegate());
-//                if(delegate != Q_NULLPTR){
-//                    delegate->setHoveredIndex(QModelIndex());
-//                    viewport()->update(visualRect(index));
-//                }
-//            }
-//            break;
-//        }
-//        //鼠标按键按下
-//        case QEvent::MouseButtonPress:{
-//            qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
-//            //将全局屏幕坐标pos转换为小部件坐标
-//            QPoint pt = mapFromGlobal(QCursor::pos());
-//            //返回在内容坐标中包含点x，y的可见项的索引。如果在指定的点上没有项，或者项不可见，则返回-1。
-//            QModelIndex index = indexAt(QPoint(10, pt.y()));
-//            if(!index.isValid())
-//                emit viewportPressed();
-
-//            break;
-//        }
-//        default:
-//            break;
-//        }
-//    }
-
-//    return QListView::viewportEvent(e);
-//}
 
 void NoteView::setCurrentRowActive(bool isActive)
 {
