@@ -68,6 +68,5 @@ emptyNotes::~emptyNotes()
 
 void emptyNotes::on_pushButton_clicked()
 {
-    qDebug()<<"111";
     this->close();
 }

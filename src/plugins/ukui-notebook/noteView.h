@@ -26,7 +26,7 @@ class NoteView : public QListView
 {
     Q_OBJECT
 
-    friend class tst_NoteView;//友元类 class tst_NoteView可以访问此类NoteView的private和protected成员变量
+    friend class tst_NoteView;  //友元类 class tst_NoteView可以访问此类NoteView的private和protected成员变量
 
 public:
     explicit NoteView(QWidget* parent = Q_NULLPTR);
@@ -42,7 +42,6 @@ protected:
     void mouseMoveEvent(QMouseEvent* e) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent* e) Q_DECL_OVERRIDE;
     void mouseReleaseEvent(QMouseEvent* e) Q_DECL_OVERRIDE;
-//    bool viewportEvent(QEvent* e) Q_DECL_OVERRIDE;
 
 private:
     bool m_isScrollBarHidden;
@@ -50,6 +49,7 @@ private:
     bool m_isMousePressed;
     int m_rowHeight;
 
+private:
     void setupSignalsSlots();
 
 public slots:

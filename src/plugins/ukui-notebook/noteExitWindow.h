@@ -37,12 +37,11 @@ public:
     explicit noteExitWindow(Widget* page,QWidget *parent=nullptr);
     ~noteExitWindow();
 
+protected:
     void paintEvent(QPaintEvent*);
-
 
 private slots:
     void on_pushButton_clicked();
-
     void on_pushButton_2_clicked();
 
 private:

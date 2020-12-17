@@ -16,8 +16,8 @@
 *
 */
 
-#ifndef SET_FONT_SIZE_PAGE_H
-#define SET_FONT_SIZE_PAGE_H
+#ifndef SETFONTSIZE_H
+#define SETFONTSIZE_H
 
 #include <QWidget>
 #include <QListWidgetItem>
@@ -25,29 +25,32 @@
 #include <QStyleOption>
 #include <QPainter>
 
-#include "fontButton.h"
-#include "ui_fontButton.h"
-
 namespace Ui {
-class Set_font_size_page;
+class SetFontSize;
 }
 
-class Set_font_size_page : public QWidget
+class fontButton;
+
+class SetFontSize : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit Set_font_size_page(QWidget *parent = nullptr);
-    ~Set_font_size_page();
-    void set_listwidget();
-    Ui::Set_font_size_page *ui;
+    explicit SetFontSize(QWidget *parent = nullptr);
+    ~SetFontSize();
 
+    Ui::SetFontSize *ui;
+
+public:
     QListWidgetItem *list_aItem[40];
     fontButton *list_page[40];
     QLabel *label[40];
 
 protected:
     void paintEvent(QPaintEvent *event) override;
+
+private:
+    void initSetup();
 };
 
-#endif // SET_FONT_SIZE_PAGE_H
+#endif // SETFONTSIZE_H

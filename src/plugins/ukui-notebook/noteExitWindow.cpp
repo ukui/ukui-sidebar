@@ -102,18 +102,16 @@ void noteExitWindow::on_pushButton_clicked()
 
 void noteExitWindow::on_pushButton_2_clicked()
 {
-    //qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
     this->close();
     pNotebook->close();
     if(ui->checkBox->isChecked()==true)
     {
-        //emit requestSetNoteNull();
         for (auto it = pNotebook->m_editors.begin(); it!= pNotebook->m_editors.end();it++) {
             (*it)->close();
-//            qDebug() << "before swap" << pNotebook->m_editors.size();
-//            std::vector<Edit_page*> tmp;
-//            pNotebook->m_editors.swap(tmp);
-//            qDebug() << "after swap" << pNotebook->m_editors.size();
+            //qDebug() << "before swap" << pNotebook->m_editors.size();
+            //std::vector<Edit_page*> tmp;
+            //pNotebook->m_editors.swap(tmp);
+            //qDebug() << "after swap" << pNotebook->m_editors.size();
         }
     }
 }

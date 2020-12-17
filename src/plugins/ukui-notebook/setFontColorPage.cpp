@@ -19,27 +19,21 @@
 #include "setFontColorPage.h"
 #include "ui_setFontColorPage.h"
 
-Set_font_color_page::Set_font_color_page(QWidget *parent) :
+SetFontColor::SetFontColor(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::Set_font_color_page)
+    ui(new Ui::SetFontColor)
 {
     ui->setupUi(this);
-    setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
-    setAttribute(Qt::WA_TranslucentBackground);
 
-    ui->listWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    ui->listWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    ui->listWidget->setSelectionMode(QAbstractItemView::NoSelection);
-    set_color();
-    set_listwidget();
+    initSetup();
 }
 
-Set_font_color_page::~Set_font_color_page()
+SetFontColor::~SetFontColor()
 {
     delete ui;
 }
 
-void Set_font_color_page::paintEvent(QPaintEvent *event)
+void SetFontColor::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
 //    系统默认 255 、 248  深色模式 30 34
@@ -58,7 +52,7 @@ void Set_font_color_page::paintEvent(QPaintEvent *event)
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }
 
-void Set_font_color_page::set_color()
+void SetFontColor::setColor()
 {
     color[0]="background:rgba(76,119,231,1);";
     color[1]="background:rgba(250,108,99,1);";
@@ -96,10 +90,17 @@ void Set_font_color_page::set_color()
     }
 }
 
-void Set_font_color_page::set_listwidget()
+void SetFontColor::initSetup()
 {
-    for(int i=22; i<32 ; i++ )
-    {
+    setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
+    setAttribute(Qt::WA_TranslucentBackground);
+    setColor();
+
+    ui->listWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->listWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->listWidget->setSelectionMode(QAbstractItemView::NoSelection);
+
+    for(int i=22; i<32 ; i++){
         int n = i-22;
         list_aItem[n] = new QListWidgetItem;
         list_aItem[n]->setSizeHint(QSize(30,27));
@@ -111,5 +112,5 @@ void Set_font_color_page::set_listwidget()
 
         ui->listWidget->setItemWidget(list_aItem[n],list_page[n]);
         list_page[n]->ui->label->setStyleSheet(color[n]+"border-radius:3px;");
-    }
+    }   
 }

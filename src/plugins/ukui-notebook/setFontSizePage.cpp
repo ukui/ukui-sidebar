@@ -21,34 +21,28 @@
 #include "fontButton.h"
 #include "ui_fontButton.h"
 
-Set_font_size_page::Set_font_size_page(QWidget *parent) :
+SetFontSize::SetFontSize(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::Set_font_size_page)
+    ui(new Ui::SetFontSize)
 {
     ui->setupUi(this);
-    setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
-    setAttribute(Qt::WA_TranslucentBackground);
-    set_listwidget();
-    ui->listWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    ui->listWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    initSetup();
 }
 
-Set_font_size_page::~Set_font_size_page()
+SetFontSize::~SetFontSize()
 {
     delete ui;
 }
 
-void Set_font_size_page::paintEvent(QPaintEvent *event)
+void SetFontSize::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
-//    系统默认 255 、 248  深色模式 30 34
     QStyleOption opt;
     opt.init(this);
     QPainter p(this);
 
     p.setBrush(opt.palette.color(QPalette::Base));
-    //qDebug() << "paintEvent" << p.brush().color().value();
-    //p.setOpacity(0.3);
     p.setOpacity(0.9);
     p.setPen(Qt::NoPen);
 
@@ -57,8 +51,14 @@ void Set_font_size_page::paintEvent(QPaintEvent *event)
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }
 
-void Set_font_size_page::set_listwidget()
+void SetFontSize::initSetup()
 {
+    setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
+    setAttribute(Qt::WA_TranslucentBackground);
+
+    ui->listWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->listWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
     for(int i=10; i<37 ; i++ )
     {
         int n = i-10;

@@ -328,28 +328,6 @@ color: rgb(126, 126, 126);</string>
        </property>
       </spacer>
      </item>
-     <item>
-      <widget class="QPushButton" name="sortBtn">
-       <property name="minimumSize">
-        <size>
-         <width>35</width>
-         <height>15</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>35</width>
-         <height>15</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
     </layout>
    </item>
   </layout>

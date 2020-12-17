@@ -248,12 +248,11 @@ void Widget::kyNoteInit()
 
     setMouseTracking(true);               //设置鼠标追踪
     //窗口属性
-//    setWindowFlags(Qt::FramelessWindowHint);    //开启窗口无边框
+    //setWindowFlags(Qt::FramelessWindowHint);    //开启窗口无边框
     setAttribute(Qt::WA_TranslucentBackground); //设置窗口透明显示(毛玻璃效果)
-//    setWindowOpacity(0.7);                    //窗口透明度
 
     QPainterPath blurPath;
-    blurPath.addRoundedRect(rect().adjusted(0, 0, -0, -0), 6, 6);      //增加圆角
+    blurPath.addRoundedRect(rect().adjusted(0, 0, -0, -0), 6, 6);
     setProperty("useSystemStyleBlur", true);
     setProperty("blurRegion", QRegion(blurPath.toFillPolygon().toPolygon()));//使用QPainterPath的api生成多边形Region
 
@@ -263,21 +262,20 @@ void Widget::kyNoteInit()
     //标题
     this->setWindowTitle(tr("ukui-note"));
     //任务栏图标
-    //setWindowIcon(QIcon::fromTheme("kylin-notebook",QIcon(":/image/kylin-notebook.svg")));
     setWindowIcon(QIcon::fromTheme("kylin-notebook"));
     //按钮
     btnInit();
     //搜索
     searchInit();
 
-//    QBitmap bmp(this->size());
-//    bmp.fill();
-//    QPainter p(&bmp);
-//    p.setPen(Qt::NoPen);
-//    p.setBrush(Qt::black);
-//    p.setRenderHint(QPainter::Antialiasing);
-//    p.drawRoundedRect(bmp.rect(),6,6);
-//    setMask(bmp);
+    //QBitmap bmp(this->size());
+    //bmp.fill();
+    //QPainter p(&bmp);
+    //p.setPen(Qt::NoPen);
+    //p.setBrush(Qt::black);
+    //p.setRenderHint(QPainter::Antialiasing);
+    //p.drawRoundedRect(bmp.rect(),6,6);
+    //setMask(bmp);
 
     //退出框
     m_noteExitWindow = new noteExitWindow(this, this);
@@ -298,11 +296,11 @@ void Widget::kyNoteConn()
     connect(m_newKynote,&QPushButton::clicked, this, &Widget::newSlot);
     //删除按钮
     connect(m_trashButton, &QPushButton::clicked, this, &Widget::onTrashButtonClicked);
-    // note model rows moved
-//    connect(m_noteModel, &NoteModel::rowsAboutToBeMoved, m_noteView, &NoteView::rowsAboutToBeMoved);
-//    connect(m_noteModel, &NoteModel::rowsMoved, m_noteView, &NoteView::rowsMoved);
+
+    //connect(m_noteModel, &NoteModel::rowsAboutToBeMoved, m_noteView, &NoteView::rowsAboutToBeMoved);
+    //connect(m_noteModel, &NoteModel::rowsMoved, m_noteView, &NoteView::rowsMoved);
     //升/降序按钮
-//    connect(m_sortLabel,&QPushButton::clicked,this,&Widget::sortSlot);
+    //connect(m_sortLabel,&QPushButton::clicked,this,&Widget::sortSlot);
     connect(this, &Widget::switchSortTypeRequest, this, &Widget::sortSlot);
     //清空便签
     connect(m_menuAction,&QAction::triggered,this,&Widget::clearNoteSlot);
@@ -332,11 +330,11 @@ void Widget::kyNoteConn()
             m_dbManager, &DBManager::onDeleteNoteRequested);
     connect(this, &Widget::requestClearNote,
             m_dbManager, &DBManager::permanantlyRemoveAllNotes);
-    //    connect(this, &Widget::requestRestoreNotes,
+    //connect(this, &Widget::requestRestoreNotes,
     //            m_dbManager, &DBManager::onRestoreNotesRequested, Qt::BlockingQueuedConnection);
-    //    connect(this, &Widget::requestImportNotes,
+    //connect(this, &Widget::requestImportNotes,
     //            m_dbManager, &DBManager::onImportNotesRequested, Qt::BlockingQueuedConnection);
-    //    connect(this, &Widget::requestExportNotes,
+    //connect(this, &Widget::requestExportNotes,
     //            m_dbManager, &DBManager::onExportNotesRequested, Qt::BlockingQueuedConnection);
     connect(this, &Widget::requestMigrateNotes,
             m_dbManager, &DBManager::onMigrateNotesRequested, Qt::BlockingQueuedConnection);
@@ -411,10 +409,10 @@ void Widget::checkMigration()
         migrateNote(oldNoteDBPath);
 
     QString oldTrashDBPath(dir.path() + QDir::separator() + "Trash.ini");
-    if(QFile::exists(oldTrashDBPath))
+    if(QFile::exists(oldTrashDBPath)){
         //migrateTrash(oldTrashDBPath);
-
         emit requestForceLastRowIndexValue(m_noteCounter);
+    }
 }
 
 /*!
@@ -480,69 +478,6 @@ void Widget::btnInit()
     ui->menuBtn->setIconSize(QSize(16, 16));
     ui->menuBtn->setPopupMode(QToolButton::InstantPopup);
 
-    m_sortMenu = new QMenu(ui->sortBtn);
-    auto sortTypeGroup = new QActionGroup(this);
-    sortTypeGroup->setExclusive(true);
-
-    auto createTime = new QAction(sortTypeGroup);
-    createTime->setText(tr("Creation Date"));
-//    createTime->setCheckable(true);
-//    connect(createTime, &QAction::toggled, this, [=](bool checked){
-//        if(checked){
-//            createTime->setIcon(QPixmap(":/image/1x/array_des.png"));
-//        }else {
-//            createTime->setIcon(QPixmap(""));
-//        }
-//    });
-    sortTypeGroup->addAction(createTime);
-
-    auto modifiedDate = new QAction(sortTypeGroup);
-    modifiedDate->setText(tr("Modified Date"));
-//    modifiedDate->setIcon(QPixmap(":/image/1x/array_des.png"));
-//    modifiedDate->setCheckable(true);
-//    modifiedDate->setChecked(true);
-//    connect(modifiedDate, &QAction::toggled, this, [=](bool checked){
-//        if(checked){
-//            modifiedDate->setIcon(QPixmap(":/image/1x/array_des.png"));
-//        }else {
-//            modifiedDate->setIcon(QPixmap(""));
-//        }
-//    });
-    sortTypeGroup->addAction(modifiedDate);
-
-    auto noteName = new QAction(sortTypeGroup);
-    noteName->setText(tr("Note Name"));
-//    noteName->setCheckable(true);
-//    connect(noteName, &QAction::toggled, this, [=](bool checked){
-//        qDebug() << "triggered" << checked;
-//        if(checked){
-//            noteName->setIcon(QPixmap(":/image/1x/array_des.png"));
-//        }else {
-//            noteName->setIcon(QPixmap(""));
-//        }
-//    });
-    sortTypeGroup->addAction(noteName);
-
-    connect(sortTypeGroup, &QActionGroup::triggered, this, [=](QAction *action) {
-        int index = sortTypeGroup->actions().indexOf(action);
-//        if(sortflag){
-//            action->setIcon(QPixmap(":/image/1x/array_order.png"));
-//        }else{
-//            action->setIcon(QPixmap(":/image/1x/array_des.png"));
-//        }
-
-        emit switchSortTypeRequest(index);
-    });
-    m_sortMenu->addAction(sortTypeGroup->addAction(createTime));
-    m_sortMenu->addAction(sortTypeGroup->addAction(modifiedDate));
-    m_sortMenu->addAction(sortTypeGroup->addAction(noteName));
-    ui->sortBtn->setMenu(m_sortMenu);
-
-    ui->sortBtn->setStyleSheet("QPushButton{border-image:url(:/image/1x/sort.png);}"
-                                "QPushButton:hover{border-image:url(:/image/1x/sort-hover.png);}"
-                                "QPushButton:pressed{border-image:url(:/image/1x/sort-click.png);}"
-                                "QPushButton::menu-indicator{image:none}");
-
     m_newKynote->setIcon(QPixmap(":/image/1x/new-hover.png"));
     m_trashButton->setIcon(QPixmap(":/image/1x/delete.png"));
     m_trashButton->setIconSize(QSize(36,36));
@@ -557,7 +492,6 @@ void Widget::btnInit()
     m_viewChangeButton->setProperty("useIconHighlightEffect", true);
     m_viewChangeButton->setProperty("iconHighlightEffectMode", 1);
 
-//    ui->pushButton_Exit->setProperty("iconHighlightEffectMode", 1);
     ui->pushButton_Exit->setProperty("isWindowButton", 0x2);
     ui->pushButton_Exit->setProperty("useIconHighlightEffect", 0x8);
     ui->pushButton_Exit->setFlat(true);
@@ -570,7 +504,6 @@ void Widget::btnInit()
     ui->menuBtn->setProperty("useIconHighlightEffect", 0x2);
     ui->menuBtn->setAutoRaise(true);
 
-//    ui->pushButton_Mini->setProperty("iconHighlightEffectMode", 1);
     m_trashButton->setProperty("useIconHighlightEffect", true);
     m_trashButton->setProperty("iconHighlightEffectMode", 1);
 
@@ -582,9 +515,9 @@ void Widget::btnInit()
     palette.setBrush(QPalette::Button, brush);
     palette.setBrush(QPalette::ButtonText, brush);
     //palette.setColor(QPalette::Highlight, Qt::transparent); /* 取消按钮高亮 */
-//    ui->pushButton_Mini->setPalette(palette);
-//    ui->pushButton_Exit->setPalette(palette);
-//    ui->menuBtn->setPalette(palette);
+    // ui->pushButton_Mini->setPalette(palette);
+    //ui->pushButton_Exit->setPalette(palette);
+    //ui->menuBtn->setPalette(palette);
 
     //设置新建按钮背景文本颜色
     QPalette palette2 = m_newKynote->palette();
@@ -598,12 +531,9 @@ void Widget::btnInit()
     m_newKynote->setToolTip(tr("Create New Note"));
     m_trashButton->setToolTip(tr("Delete Selected Note"));
     m_viewChangeButton->setToolTip(tr("Switch View"));
-    ui->sortBtn->setToolTip(tr("Sort"));
     ui->pushButton_Exit->setToolTip(tr("Exit"));
     ui->pushButton_Mini->setToolTip(tr("Mini"));
     ui->menuBtn->setToolTip(tr("Menu"));
-
-    ui->sortBtn->hide();
 }
 
 /*!
@@ -631,7 +561,6 @@ void Widget::setListFlag(const int &listflag)
 void Widget::initIconMode()
 {
     qDebug() << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
-
     m_noteView->setViewMode(QListView::IconMode);
     m_noteView->setSelectionMode(QListView::ExtendedSelection);
     m_noteView->setEditTriggers(QListView::NoEditTriggers);
@@ -771,7 +700,7 @@ void Widget::showNoteInEditor(const QModelIndex &noteIndex)
     QDateTime dateTime = noteIndex.data(NoteModel::NoteLastModificationDateTime).toDateTime();
     //int scrollbarPos = noteIndex.data(NoteModel::NoteScrollbarPos).toInt();
     int noteColor = noteIndex.data(NoteModel::NoteColor).toInt();
-//    QString mdContent = noteIndex.data(NoteModel::NoteMdContent).toString();
+    //QString mdContent = noteIndex.data(NoteModel::NoteMdContent).toString();
 
     const listViewModeDelegate delegate;
     QColor m_color = delegate.intToQcolor(noteColor);
@@ -861,7 +790,7 @@ void Widget::createNewNote()
     }
     connect(m_editors[m_editors.size() - 1], &Edit_page::isEmptyNote, this, [=](int noteId){
         qDebug()<< "isEmptyNote";
-//        m_editors.erase(m_editors[m_editors.size() - 1]);
+        //m_editors.erase(m_editors[m_editors.size() - 1]);
 
         qDebug() << "receive signal isEmptyNote" << noteId;
         for(int count = 0; count <= m_proxyModel->rowCount();count ++)
@@ -875,11 +804,6 @@ void Widget::createNewNote()
                 break;
             }
         }
-
-//        if(m_tmpIndex.isValid()){
-//            deleteNote(m_tmpIndex, true);
-//        }
-
     });
     connect(m_editors[m_editors.size() - 1], SIGNAL(texthasChanged(int,int)), this, SLOT(onTextEditTextChanged(int, int)));
     connect(m_editors[m_editors.size() - 1], SIGNAL(colorhasChanged(QColor,int)), this, SLOT(onColorChanged(QColor,int)));
@@ -1055,7 +979,7 @@ void Widget::searchInit()
     m_searchLine->setProperty("useIconHighlightEffect", true);
     m_searchLine->setProperty("iconHighlightEffectMode", 1);
     m_searchLine->addAction(searchAction,QLineEdit::LeadingPosition);  //图片在左侧
-//    m_searchLine->setAttribute(Qt::WA_Hover, true);
+    //m_searchLine->setAttribute(Qt::WA_Hover, true);
 
     QTimer::singleShot(500,this, [=](){
         QList<QWidget *> wid = m_searchLine->findChildren<QWidget *>();
@@ -1065,7 +989,6 @@ void Widget::searchInit()
     });
 
     delAction = new QAction(m_searchLine);
-//    delAction->setIcon(QPixmap(":/image/1x/close_light.png").scaled(QSize(16,16)));
     delAction->setIcon(QIcon::fromTheme("edit-clear-symbolic"));
     connect(delAction, &QAction::triggered, this, [=](){
         m_searchLine->setText("");
@@ -1133,44 +1056,44 @@ void Widget::mouseMoveEvent(QMouseEvent *event)
 void Widget::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
-//    QStyleOption opt;
-//    opt.init(this);
+    //QStyleOption opt;
+    //opt.init(this);
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     QPainterPath rectPath;
     rectPath.addRoundedRect(this->rect(), 6, 6); // 左上右下
 
-//    // 画一个黑底
-//    QPixmap pixmap(this->rect().size());
-//    pixmap.fill(Qt::transparent);
-//    QPainter pixmapPainter(&pixmap);
-//    pixmapPainter.setRenderHint(QPainter::Antialiasing);
-//    pixmapPainter.setPen(Qt::transparent);
-//    pixmapPainter.setBrush(Qt::black);
-//    pixmapPainter.drawPath(rectPath);
-//    pixmapPainter.end();
+    // 画一个黑底
+    //QPixmap pixmap(this->rect().size());
+    //pixmap.fill(Qt::transparent);
+    //QPainter pixmapPainter(&pixmap);
+    //pixmapPainter.setRenderHint(QPainter::Antialiasing);
+    //pixmapPainter.setPen(Qt::transparent);
+    //pixmapPainter.setBrush(Qt::black);
+    //pixmapPainter.drawPath(rectPath);
+    //pixmapPainter.end();
 
-//    // 模糊这个黑底
-//    QImage img = pixmap.toImage();
-//    qt_blurImage(img, 10, false, false);
+    // 模糊这个黑底
+    //QImage img = pixmap.toImage();
+    //qt_blurImage(img, 10, false, false);
 
-//    // 挖掉中心
-//    pixmap = QPixmap::fromImage(img);
-//    QPainter pixmapPainter2(&pixmap);
-//    pixmapPainter2.setRenderHint(QPainter::Antialiasing);
-//    pixmapPainter2.setCompositionMode(QPainter::CompositionMode_Clear);
-//    pixmapPainter2.setPen(Qt::transparent);
-//    pixmapPainter2.setBrush(Qt::transparent);
-//    pixmapPainter2.drawPath(rectPath);
+    // 挖掉中心
+    //pixmap = QPixmap::fromImage(img);
+    //QPainter pixmapPainter2(&pixmap);
+    //pixmapPainter2.setRenderHint(QPainter::Antialiasing);
+    //pixmapPainter2.setCompositionMode(QPainter::CompositionMode_Clear);
+    //pixmapPainter2.setPen(Qt::transparent);
+    //pixmapPainter2.setBrush(Qt::transparent);
+    //pixmapPainter2.drawPath(rectPath);
 
-//    // 绘制阴影
-//    p.drawPixmap(this->rect(), pixmap, pixmap.rect());
+    // 绘制阴影
+    //p.drawPixmap(this->rect(), pixmap, pixmap.rect());
 
-//    // 绘制一个背景
-//    p.save();
+    // 绘制一个背景
+    //p.save();
     p.setOpacity(0.7);
     p.fillPath(rectPath,palette().color(QPalette::Window));
-//    p.restore();
+    //p.restore();
 }
 
 /********************Slots************************/

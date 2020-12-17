@@ -39,16 +39,8 @@ HeaderBar::HeaderBar(Widget *parent) : QToolBar(parent)
     m_window = parent;
     //disable default menu
     setContextMenuPolicy(Qt::CustomContextMenu);
-    //setAttribute(Qt::WA_OpaquePaintEvent);
-//    setStyleSheet(".HeaderBar{"
-//                  "background-color: transparent;"
-//                  "border: 0px solid transparent;"
-//                  "margin: 4px 5px 4px 5px;"
-//                  "};");
 
     setMovable(false);
-
-//    addSpacing(2);
 
     auto a = addAction(QIcon(":/image/1x/array.png"), tr("Sort Type"));
     auto sortType = qobject_cast<QToolButton *>(widgetForAction(a));
@@ -68,24 +60,6 @@ HeaderBar::HeaderBar(Widget *parent) : QToolBar(parent)
     palette.setColor(QPalette::Highlight, Qt::transparent); /* 取消按钮高亮 */
     sortType->setPalette(palette);
 
-//    m_sort_type_menu = new SortTypeMenu(this);
-//    sortType->setMenu(m_sort_type_menu);
-
-//    connect(m_sort_type_menu, &SortTypeMenu::switchSortTypeRequest, m_window, &MainWindow::setCurrentSortColumn);
-//    connect(m_sort_type_menu, &SortTypeMenu::switchSortOrderRequest, m_window, [=](Qt::SortOrder order){
-//        if (order == Qt::AscendingOrder) {
-//            sortType->setIcon(QIcon::fromTheme("view-sort-ascending-symbolic"));
-//        } else {
-//            sortType->setIcon(QIcon::fromTheme("view-sort-descending-symbolic"));
-//        }
-//        m_window->setCurrentSortOrder(order);
-//    });
-//    connect(m_sort_type_menu, &QMenu::aboutToShow, m_sort_type_menu, [=](){
-//        m_sort_type_menu->setSortType(m_window->getCurrentSortColumn());
-//        m_sort_type_menu->setSortOrder(m_window->getCurrentSortOrder());
-//    });
-
-    //addSpacing(2);
     for (auto action : actions()) {
         auto w = widgetForAction(action);
         w->setProperty("useIconHighlightEffect", true);
@@ -109,20 +83,17 @@ void HeaderBar::mouseMoveEvent(QMouseEvent *e)
     this->topLevelWidget()->setCursor(c);
 }
 
-//HeaderBarToolButton
 HeaderBarToolButton::HeaderBarToolButton(QWidget *parent) : QToolButton(parent)
 {
     setAutoRaise(false);
     setIconSize(QSize(16, 16));
 }
 
-//HeadBarPushButton
 HeadBarPushButton::HeadBarPushButton(QWidget *parent) : QPushButton(parent)
 {
     setIconSize(QSize(16, 16));
 }
 
-//HeaderBarStyle
 HeaderBarStyle *HeaderBarStyle::getStyle()
 {
     if (!global_instance) {
@@ -151,11 +122,10 @@ void HeaderBarStyle::drawComplexControl(QStyle::ComplexControl control, const QS
     //This is a "lie". We want to use instant popup menu for tool button, and we aslo
     //want use popup menu style with this tool button, so we change the related flags
     //to draw in our expected.
-    qDebug() << "drawComplexControl";
     if (control == CC_ToolButton) {
         QStyleOptionToolButton button = *qstyleoption_cast<const QStyleOptionToolButton *>(option);
         //The button has a popup menu.
-        //if (button.features.testFlag(QStyleOptionToolButton::HasMenu)) {
+        if (button.features.testFlag(QStyleOptionToolButton::HasMenu)) {
             button.features = QStyleOptionToolButton::None;
             if (!widget->property("isOptionButton").toBool()) {
                 button.features |= QStyleOptionToolButton::HasMenu;
@@ -165,9 +135,8 @@ void HeaderBarStyle::drawComplexControl(QStyle::ComplexControl control, const QS
                 button.subControls |= QStyle::SC_ToolButtonMenu;
             }
             return QProxyStyle::drawComplexControl(control, &button, painter, widget);
-        //}
+        }
     }
-    //qDebug() << "drawComplexControl 3333";
     return QProxyStyle::drawComplexControl(control, option, painter, widget);
 }
 

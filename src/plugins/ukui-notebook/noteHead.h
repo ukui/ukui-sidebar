@@ -34,8 +34,11 @@ public:
     explicit noteHead(QWidget *parent = nullptr);
     ~noteHead();
 
-    void paintEvent(QPaintEvent *event);
+public:
     QColor color_widget;
+
+protected:
+    void paintEvent(QPaintEvent *event);
 
 private:
     Ui::noteHead *ui;

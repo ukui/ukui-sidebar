@@ -58,8 +58,8 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 
     // 设置输出信息格式
     QString strDateTime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss ddd");
-//    QString strMessage = QString("[Message]: %1 [File]: %2  [Line]: %3  [Function]: %4  [DateTime]: %5")
-//            .arg(localMsg.constData()).arg(context.file).arg(context.line).arg(context.function).arg(strDateTime);
+    //QString strMessage = QString("[Message]: %1 [File]: %2  [Line]: %3  [Function]: %4  [DateTime]: %5")
+    //        .arg(localMsg.constData()).arg(context.file).arg(context.line).arg(context.function).arg(strDateTime);
     QString strMessage = QString("[DateTime]: %1  [Message]: %2  [Line]: %3  [Function]: %4")
             .arg(strDateTime).arg(localMsg.constData()).arg(context.line).arg(context.function);
 
@@ -118,8 +118,8 @@ int main(int argc, char *argv[])
         hints.decorations = MWM_DECOR_BORDER;
         XAtomHelper::getInstance()->setWindowMotifHint(w.winId(), hints);
         w.show();
-//        w.setAttribute(Qt::WA_TranslucentBackground);
-//        KWindowEffects::enableBlurBehind(w.winId(),true);
+        //w.setAttribute(Qt::WA_TranslucentBackground);
+        //KWindowEffects::enableBlurBehind(w.winId(),true);
         return a.exec();
     }
     return 0;
