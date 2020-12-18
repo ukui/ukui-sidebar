@@ -1401,12 +1401,11 @@ void Widget::clearNoteSlot()
 {
     for(auto it = m_editors.begin(); it != m_editors.end();it++){
         (*it)->close();
+        m_editors.erase(it);
         delete (*it);
     }
-
     m_noteModel->clearNotes();
     emit requestClearNote();
-
     m_countLabel->setText(QObject::tr("%1 records in total").arg(m_proxyModel->rowCount()));
 }
 
