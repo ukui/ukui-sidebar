@@ -157,7 +157,7 @@ void listViewModeDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     //绘制第二层底色背景
     painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     painter->setOpacity(0.65);
-    painter->setBrush(opt.palette.color(QPalette::Window));
+    painter->setBrush(opt.palette.color(QPalette::Base));
     painter->setPen(Qt::transparent);
 
     opt.rect.setHeight(opt.rect.height() - 0);
@@ -378,7 +378,6 @@ void listViewModeDelegate::paintTitle(QPainter* painter, const QStyleOptionViewI
 
     auto drawStr = [painter](double posX, double posY, double width, double height, QColor color, QFont font, QString str){
         QRectF rect(posX, posY, width, height);
-//        painter->setOpacity(0.75);
         painter->setPen(color);
         painter->setFont(font);
         painter->drawText(rect, Qt::AlignBottom, str);
