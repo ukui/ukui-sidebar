@@ -801,6 +801,7 @@ void Widget::createNewNote()
                 QModelIndex sourceIndex = m_proxyModel->mapToSource(m_tmpIndex);
                 qDebug() << sourceIndex << m_tmpIndex;
                 deleteNote(m_tmpIndex, true);
+                m_countLabel->setText(QObject::tr("%1 records in total").arg(m_proxyModel->rowCount()));
                 break;
             }
         }
