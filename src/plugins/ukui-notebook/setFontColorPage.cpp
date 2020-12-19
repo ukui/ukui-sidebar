@@ -70,15 +70,17 @@ void SetFontColor::setColor()
     if(QGSettings::isSchemaInstalled(id)){
         QGSettings *styleSettings = new QGSettings(id);
         QString style = styleSettings->get(MODE_QT_KEY).toString();
-        if(style == "ukui-default" || style == "ukui-white"){
+        if(style == "ukui-default" || style == "ukui-white"
+                || style == "ukui-light" || style == "ukui"){
             color[9]="background:rgba(0,0,0,1);";
-        }else {
+        }else if(style == "ukui-dark" || style == "ukui-black"){
             color[9]="background:rgba(255,255,255,1);";
         }
         connect(styleSettings, &QGSettings::changed, this, [=](const QString &key){
             if (key == "styleName"){
                 QString currentTheme = styleSettings->get(MODE_QT_KEY).toString();
-                if(currentTheme == "ukui-default" || currentTheme == "ukui-white"){
+                if(currentTheme == "ukui-default" || currentTheme == "ukui-white"
+                        || currentTheme == "ukui-light" || currentTheme == "ukui"){
                     color[9]="background:rgba(0,0,0,1);";
                     list_page[9]->ui->label->setStyleSheet(color[9]+"border-radius:3px;");
                 }else if(currentTheme == "ukui-dark" || currentTheme == "ukui-black"){
