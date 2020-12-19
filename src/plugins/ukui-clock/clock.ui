@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>454</width>
-    <height>555</height>
+    <height>559</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>85</y>
+     <y>89</y>
      <width>454</width>
      <height>466</height>
     </rect>
@@ -526,8 +526,8 @@ QListWidget::item:hover{background-color:rgba(72,72,76,0.5);border-radius:4px;}<
   <widget class="QPushButton" name="pushButton_5">
    <property name="geometry">
     <rect>
-     <x>420</x>
-     <y>4</y>
+     <x>416</x>
+     <y>8</y>
      <width>30</width>
      <height>30</height>
     </rect>
@@ -539,8 +539,8 @@ QListWidget::item:hover{background-color:rgba(72,72,76,0.5);border-radius:4px;}<
   <widget class="QPushButton" name="pushButton_4">
    <property name="geometry">
     <rect>
-     <x>386</x>
-     <y>4</y>
+     <x>382</x>
+     <y>8</y>
      <width>30</width>
      <height>30</height>
     </rect>
@@ -553,7 +553,7 @@ QListWidget::item:hover{background-color:rgba(72,72,76,0.5);border-radius:4px;}<
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>37</y>
+     <y>41</y>
      <width>454</width>
      <height>300</height>
     </rect>
@@ -561,30 +561,13 @@ QListWidget::item:hover{background-color:rgba(72,72,76,0.5);border-radius:4px;}<
    <property name="styleSheet">
     <string notr="true"/>
    </property>
-   <widget class="QWidget" name="page_7">
-    <widget class="Line" name="line_2">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>660</width>
-       <height>1</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgba(102, 102, 102,0.05);</string>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </widget>
+   <widget class="QWidget" name="page_7"/>
   </widget>
   <widget class="QWidget" name="set_page" native="true">
    <property name="geometry">
     <rect>
      <x>5</x>
-     <y>37</y>
+     <y>41</y>
      <width>444</width>
      <height>512</height>
     </rect>
@@ -780,8 +763,8 @@ border-radius:4px;
   <widget class="QPushButton" name="pushButton_12">
    <property name="geometry">
     <rect>
-     <x>352</x>
-     <y>4</y>
+     <x>348</x>
+     <y>8</y>
      <width>30</width>
      <height>30</height>
     </rect>
@@ -793,14 +776,30 @@ border-radius:4px;
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>0</y>
-     <width>68</width>
+     <x>40</x>
+     <y>6</y>
+     <width>41</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
     <string>Alarm</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>23</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/kylin-alarm-clock.svg);</string>
+   </property>
+   <property name="text">
+    <string/>
    </property>
   </widget>
   <action name="actionOn">
@@ -822,6 +821,7 @@ border-radius:4px;
   <zorder>pushButton_4</zorder>
   <zorder>pushButton_5</zorder>
   <zorder>label</zorder>
+  <zorder>label_2</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
