@@ -43,7 +43,7 @@ Edit_page::Edit_page(Widget* page, int noteId, QWidget *parent) :
   , m_noteId(noteId)
   , m_lastBlockList(0)
   , mousePressed(false)
-  , defaultStyle(true)
+  , defaultFontColorChanged(false)
   , pNotebook(page)
   , color_page(new SelectColor(pNotebook))
   , text_edit_page(new Text_editing(pNotebook))
@@ -339,19 +339,21 @@ void Edit_page::listenToGsettings()
             }
         }
 
-//        connect(styleSettings, &QGSettings::changed, this, [=](const QString &key){
-//            if( key == "styleName" ){
-//                QString currentTheme = styleSettings->get(MODE_QT_KEY).toString();
-//                if(currentTheme == "ukui-default" || currentTheme == "ukui-white"
-//                        || currentTheme == "ukui-light" || currentTheme == "ukui"){
-//                    text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet("background-color: black;"
-//                                                                                    "border-radius:3px;");
-//                }else if(currentTheme == "ukui-dark" || currentTheme == "ukui-black"){
-//                    text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet("background-color: white;"
-//                                                                                    "border-radius:3px;");
-//                }
-//            }
-//        });
+        connect(styleSettings, &QGSettings::changed, this, [=](const QString &key){
+            if(ui->textEdit->document()->isEmpty() && !defaultFontColorChanged){
+                if( key == "styleName" ){
+                    QString currentTheme = styleSettings->get(MODE_QT_KEY).toString();
+                    if(currentTheme == "ukui-default" || currentTheme == "ukui-white"
+                            || currentTheme == "ukui-light" || currentTheme == "ukui"){
+                        text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet("background-color: black;"
+                                                                                        "border-radius:3px;");
+                    }else if(currentTheme == "ukui-dark" || currentTheme == "ukui-black"){
+                        text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet("background-color: white;"
+                                                                                        "border-radius:3px;");
+                    }
+                }
+            }
+        });
     }
 }
 
@@ -541,11 +543,10 @@ void Edit_page::setFontColorSlot ()
 
     QTextCharFormat fmt;
     if(num != 9){
-        defaultStyle = false;
         fmt.setForeground(color_num[num]);
         ui->textEdit->mergeCurrentCharFormat(fmt);
     }else {
-        defaultStyle = true;
+        defaultFontColorChanged = true;
         fmt.setForeground(palette().color(QPalette::Text));
         //fmt.clearForeground();
         ui->textEdit->mergeCurrentCharFormat(fmt);
