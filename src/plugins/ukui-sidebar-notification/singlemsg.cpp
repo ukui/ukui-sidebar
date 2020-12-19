@@ -96,7 +96,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     //设置应用名标签，采用省略模式
     QLabel* pAppNameLabel = new QLabel();
     pAppNameLabel->setObjectName("AppName");
-    pAppNameLabel->setFixedWidth(84);
+//    pAppNameLabel->setFixedWidth(84);
     pAppNameLabel->setAttribute(Qt::WA_TranslucentBackground);
     QFont font14;
     font14.setPixelSize(14);
