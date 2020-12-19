@@ -85,7 +85,7 @@ private:
 
     QPoint dragPosition;                                             // 拖动坐标
     bool mousePressed;                                               // 鼠标是否按下
-    bool defaultStyle;                                               // 主题标志
+    bool defaultFontColorChanged;                                    // 黑白字体颜色
 
 private slots:
     void cursorPositionChangedSlot();                                // 当前光标位置改变
