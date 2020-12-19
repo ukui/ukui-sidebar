@@ -139,24 +139,6 @@ void Edit_page::leaveEvent(QEvent *event)
     m_noteHeadMenu->hide();
 }
 
-//void Edit_page::contextMenuEvent(QContextMenuEvent *event)
-//{
-//    Q_UNUSED(event);
-//    QMenu * menu = new QMenu(this);
-//    menu->resize(50,20);
-//    if(!pNotebook->m_isThemeChanged)
-//    {
-//        menu->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
-//                                              "background:rgb(255,255,255);\n"
-//                                              ""));
-//    }else{
-
-//        menu->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);\n"
-//                                              "background:rgb(19,20,20);\n"
-//                                              ""));
-//    }
-//}
-
 void Edit_page::initSetup()
 {
     //标题
@@ -357,19 +339,19 @@ void Edit_page::listenToGsettings()
             }
         }
 
-        connect(styleSettings, &QGSettings::changed, this, [=](const QString &key){
-            if( key == "styleName" ){
-                QString currentTheme = styleSettings->get(MODE_QT_KEY).toString();
-                if(currentTheme == "ukui-default" || currentTheme == "ukui-white"
-                        || currentTheme == "ukui-light" || currentTheme == "ukui"){
-                    text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet("background-color: black;"
-                                                                                    "border-radius:3px;");
-                }else if(currentTheme == "ukui-dark" || currentTheme == "ukui-black"){
-                    text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet("background-color: white;"
-                                                                                    "border-radius:3px;");
-                }
-            }
-        });
+//        connect(styleSettings, &QGSettings::changed, this, [=](const QString &key){
+//            if( key == "styleName" ){
+//                QString currentTheme = styleSettings->get(MODE_QT_KEY).toString();
+//                if(currentTheme == "ukui-default" || currentTheme == "ukui-white"
+//                        || currentTheme == "ukui-light" || currentTheme == "ukui"){
+//                    text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet("background-color: black;"
+//                                                                                    "border-radius:3px;");
+//                }else if(currentTheme == "ukui-dark" || currentTheme == "ukui-black"){
+//                    text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet("background-color: white;"
+//                                                                                    "border-radius:3px;");
+//                }
+//            }
+//        });
     }
 }
 
@@ -556,7 +538,6 @@ void Edit_page::setFontColorSlot ()
 {
     qDebug() << "setFontColorSlot";
     int num = text_edit_page->set_color_fort_page->ui->listWidget->currentRow();
-    text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet(color[num]+"border-radius:3px;");
 
     QTextCharFormat fmt;
     if(num != 9){

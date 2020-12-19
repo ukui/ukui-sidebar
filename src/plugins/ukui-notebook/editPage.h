@@ -58,7 +58,6 @@ public:
     int m_noteId;
 
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
-    //void contextMenuEvent(QContextMenuEvent *event) Q_DECL_OVERRIDE;
     void enterEvent(QEvent *event) Q_DECL_OVERRIDE;
     void leaveEvent(QEvent *event) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
