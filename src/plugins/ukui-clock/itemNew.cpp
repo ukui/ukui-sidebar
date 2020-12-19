@@ -59,7 +59,7 @@ item_new::item_new(QWidget *parent) :
     alarm_line0 = new QFrame(this);
     alarm_line0->move(13, 57);
     alarm_line0->setFixedSize(350, 1);
-    alarm_line0->setStyleSheet(QString::fromUtf8("background-color: rgb(102, 102, 102);"));
+    alarm_line0->setStyleSheet(QString::fromUtf8("background-color: rgba(102, 102, 102,0.2);"));
 
 
     alarmLabel0 = new QLabel(this);//闹钟
