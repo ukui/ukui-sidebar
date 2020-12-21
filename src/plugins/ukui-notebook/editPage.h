@@ -58,7 +58,6 @@ public:
     int m_noteId;
 
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
-    void contextMenuEvent(QContextMenuEvent *event) Q_DECL_OVERRIDE;
     void enterEvent(QEvent *event) Q_DECL_OVERRIDE;
     void leaveEvent(QEvent *event) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
@@ -76,7 +75,7 @@ private:
     void listenToGsettings();
 
 private:
-    select_color_page *color_page;
+    SelectColor *color_page;
     Text_editing *text_edit_page;
     QTimer *timer;
     QString color[11];
@@ -86,7 +85,7 @@ private:
 
     QPoint dragPosition;                                             // 拖动坐标
     bool mousePressed;                                               // 鼠标是否按下
-    bool defaultStyle;                                               // 主题标志
+    bool defaultFontColorChanged;                                    // 黑白字体颜色
 
 private slots:
     void cursorPositionChangedSlot();                                // 当前光标位置改变

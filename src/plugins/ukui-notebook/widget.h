@@ -130,7 +130,6 @@ private:
     DBManager* m_dbManager;                                         //数据库
     QThread* m_dbThread;                                            //数据库线程
     QMenu* m_menu;                                                  //功能菜单
-    QMenu* m_sortMenu;                                              //排序菜单
     QAction* m_menuAction;                                          //菜单动作
     adaptScreenInfo *m_pSreenInfo;                                  //屏幕信息
     QPoint dragPosition;                                            //拖动坐标

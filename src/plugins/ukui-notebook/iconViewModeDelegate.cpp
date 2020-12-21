@@ -111,7 +111,6 @@ void iconViewModeDelegate::setAnimationDuration(const int duration)
 void iconViewModeDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     QStyleOptionViewItem opt = option;
-    //qDebug() << "icon paint " << opt.rect.width() << opt.rect.height();
 
     //绘制第一层便签头背景
     int m_noteColor{index.data(NoteModel::NoteColor).toInt()};
@@ -162,7 +161,6 @@ void iconViewModeDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
 
 QSize iconViewModeDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    //qDebug() << "icon sizeHint";
     Q_UNUSED(option);
     Q_UNUSED(index);
     return QSize(227,246);
@@ -245,7 +243,6 @@ void iconViewModeDelegate::paintBackground(QPainter *painter, const QStyleOption
     //鼠标悬停时颜色
     //用于指示小部件是否在鼠标下。
     else if((option.state & QStyle::State_MouseOver) == QStyle::State_MouseOver){
-        //qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
         painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
         painter->setBrush(opt.palette.color(QPalette::Base));
 
@@ -394,10 +391,10 @@ QString iconViewModeDelegate::parseDateTime(const QDateTime &dateTime) const
         d.append(usLocale.toString(dateTime.time(),"hh:mm"));
         return d;
     }
-//    else if(dateTime.daysTo(currDateTime) >= 2 &&
-//             dateTime.daysTo(currDateTime) <= 7){
-//        return usLocale.toString(dateTime.date(), "dddd");
-//    }
+    //else if(dateTime.daysTo(currDateTime) >= 2 &&
+    //         dateTime.daysTo(currDateTime) <= 7){
+    //    return usLocale.toString(dateTime.date(), "dddd");
+    //}
 
     return dateTime.toString("yyyy/MM/dd hh:mm");
 }

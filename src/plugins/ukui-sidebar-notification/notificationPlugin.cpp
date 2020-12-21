@@ -27,7 +27,9 @@
 #include "customstylePushbutton2.h"
 
 
-NotificationPlugin::NotificationPlugin()
+NotificationPlugin::NotificationPlugin():
+  iCount(0),
+  oCount(0)
 {
     m_bInitialFlag = false;
     m_bShowTakeIn = false;
@@ -199,6 +201,7 @@ NotificationPlugin::NotificationPlugin()
     connect(m_pEnablenotice,&QGSettings::changed,[=](){
     if(m_pEnablenotice->get("enable-notice").toBool())
     {
+        iCount=iCount+1;
         if(!pMonitorThread->isRunning())
             pMonitorThread->start();
     }
@@ -271,6 +274,10 @@ AppMsg* NotificationPlugin::getAppMsgAndIndexByName(QString strAppName, int& nIn
 
 uint NotificationPlugin::onAddSingleNotify(QString strAppName, QString strIconPath, QString strSummary, QString strBody, QDateTime dateTime, int maxNum, bool bNewNotificationFlag)
 {
+    if(oCount!=iCount){
+        oCount=oCount+1;
+        return 1;
+    }
     if(true == bNewNotificationFlag)
     {
         emit Sig_onNewNotification();
@@ -337,7 +344,7 @@ uint NotificationPlugin::onAddSingleNotify(QString strAppName, QString strIconPa
             pTmpAppMsg->updateAppPushTime();
         }
     }
-
+    oCount=0;
     return 1;
 }
 

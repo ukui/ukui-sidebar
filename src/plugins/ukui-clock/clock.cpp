@@ -1387,31 +1387,31 @@ void Clock::listdoubleClickslot()
 
 
 
-    QString Reminder =  model->index(num, 2).data().toString();
-    if(Reminder == "glass" || "玻璃"){
-        Reminder = tr("glass");
-    }else if(Reminder == "bark" || "犬吠"){
-        Reminder = tr("bark");
-    }else if(Reminder == "sonar" || "声呐"){
-        Reminder = tr("sonar");
-    }else if(Reminder == "drip" || "雨滴"){
-        Reminder = tr("drip");
+    music_str_model =  model->index(num, 2).data().toString();
+    if(music_str_model == "glass" || "玻璃"){
+        music_str_model = tr("glass");
+    }else if(music_str_model == "bark" || "犬吠"){
+        music_str_model = tr("bark");
+    }else if(music_str_model == "sonar" || "声呐"){
+        music_str_model = tr("sonar");
+    }else if(music_str_model == "drip" || "雨滴"){
+        music_str_model = tr("drip");
     }
-    time_sel->textLabel->setText(Reminder);
+    time_sel->textLabel->setText(music_str_model);
 
 
-    music_str_model = model->index(num, 13).data().toString();
+    time_music_str_model = model->index(num, 13).data().toString();
 
-    if(music_str_model == "2min" || "2分钟"){
-        music_str_model = tr("2min");
-    }else if(music_str_model == "3min" || "3分钟"){
-        music_str_model = tr("3min");
-    }else if(music_str_model == "4min" || "4分钟"){
-        music_str_model = tr("4min");
-    }else if(music_str_model == "6min" || "6分钟"){
-        music_str_model = tr("6min");
+    if(time_music_str_model == "2min" || "2分钟"){
+        time_music_str_model = tr("2min");
+    }else if(time_music_str_model == "3min" || "3分钟"){
+        time_music_str_model = tr("3min");
+    }else if(time_music_str_model == "4min" || "4分钟"){
+        time_music_str_model = tr("4min");
+    }else if(time_music_str_model == "6min" || "6分钟"){
+        time_music_str_model = tr("6min");
     }
-    ring_sel->textLabel->setText(music_str_model);
+    ring_sel->textLabel->setText(time_music_str_model);
     time_music_str_model = model->index(num, 13).data().toString();
 
 
@@ -1444,7 +1444,7 @@ void Clock::on_pushButton_9_clicked()
 
     int rowNum = ui->listWidget->currentRow();
 
-    qDebug() << rowNum << "要修改的闹钟号";
+    qDebug() << rowNum << "要修改的闹钟号"<<music_str_model;
 
     model->setData(model->index(rowNum, 0), timer_alarm_start24->m_currentValue);
     model->setData(model->index(rowNum, 1), timer_alarm_start60->m_currentValue);

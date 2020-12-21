@@ -35,11 +35,15 @@ public:
     ~noteHeadMenu();
 
     Ui::noteHeadMenu *ui;
-    void paintEvent(QPaintEvent *event);
+
+public:
     QColor color_widget;
 
+protected:
+    void paintEvent(QPaintEvent *event);
+
 private:
-    void buttonInit();
+    void btnInit();
 };
 
 #endif // NOTEHEADMENU_H

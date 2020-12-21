@@ -33,17 +33,13 @@ public:
     bool isRunning();               // 是否已經有实例在运行
     Widget *w;                      // Widget指针
 
-private slots:
-    // 有新连接时触发
-    void _newLocalConnection();
+private slots: 
+    void _newLocalConnection();     // 有新连接时触发
 
-private:
-    // 初始化本地连接
-    void _initLocalConnection();
-    // 创建服务端
-    void _newLocalServer();
-    // 激活窗口
-    void _activateWindow();
+private:    
+    void _initLocalConnection();    // 初始化本地连接
+    void _newLocalServer();         // 创建服务端
+    void _activateWindow();         // 激活窗口
 
     bool _isRunning;                // 是否已經有实例在运行
     QLocalServer *_localServer;     // 本地socket Server

@@ -32,7 +32,7 @@ noteHeadMenu::noteHeadMenu(QWidget *parent) :
 {
     ui->setupUi(this);
     setMinimumSize(250,34);
-    buttonInit();
+    btnInit();
 }
 
 noteHeadMenu::~noteHeadMenu()
@@ -59,7 +59,7 @@ void noteHeadMenu::paintEvent(QPaintEvent *event)
     QWidget::paintEvent(event);
 }
 
-void noteHeadMenu::buttonInit()
+void noteHeadMenu::btnInit()
 {
     ui->pushButtonExit->setIcon(drawSymbolicColoredPixmap(QIcon::fromTheme("window-close-symbolic").pixmap(16,16), ui->pushButtonExit));
     ui->pushButtonMenu->setIcon(drawSymbolicColoredPixmap(QIcon::fromTheme("open-menu-symbolic").pixmap(16,16), ui->pushButtonMenu));

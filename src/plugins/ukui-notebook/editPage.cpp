@@ -43,9 +43,9 @@ Edit_page::Edit_page(Widget* page, int noteId, QWidget *parent) :
   , m_noteId(noteId)
   , m_lastBlockList(0)
   , mousePressed(false)
-  , defaultStyle(true)
+  , defaultFontColorChanged(false)
   , pNotebook(page)
-  , color_page(new select_color_page(pNotebook))
+  , color_page(new SelectColor(pNotebook))
   , text_edit_page(new Text_editing(pNotebook))
 {
     ui->setupUi(this);
@@ -137,40 +137,6 @@ void Edit_page::leaveEvent(QEvent *event)
     Q_UNUSED(event);
     m_noteHead->show();
     m_noteHeadMenu->hide();
-}
-
-void Edit_page::contextMenuEvent(QContextMenuEvent *event)
-{
-    Q_UNUSED(event);
-    QMenu * menu = new QMenu(this);
-    menu->resize(50,20);
-    if(!pNotebook->m_isThemeChanged)
-    {
-        menu->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
-                                              "background:rgb(255,255,255);\n"
-                                              ""));
-    }else{
-
-        menu->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);\n"
-                                              "background:rgb(19,20,20);\n"
-                                              ""));
-    }
-#if (QT_VERSION >= QT_VERSION_CHECK(5,12,0))
-    QAction * delete_the_widget = new QAction(tr("Close"));
-    delete_the_widget->setIcon(QIcon(":/image/1x/delete.png"));
-    QAction * t3 = new QAction(tr("Open Notepad"));
-    t3->setIcon(QIcon(":/image/1x/open_note-book.png"));
-//    connect(delete_the_widget, SIGNAL(triggered()), this, SLOT(closeSlot()));
-//    connect(t3, SIGNAL(triggered()), this, SLOT(show_note_page()));
-    menu->addAction(delete_the_widget);
-    menu->addAction(t3);
-//    QAction * t1 = new QAction(tr("New"));
-//    t1->setIcon(QIcon(":/image/1x/sourch.png"));
-//    connect(t1, SIGNAL(triggered()), this, SLOT(add_new_page()));
-//    menu->addAction(t1);
-    menu->move(cursor().pos()); //让菜单显示的位置在鼠标的坐标上
-    //menu->show();
-#endif
 }
 
 void Edit_page::initSetup()
@@ -374,15 +340,17 @@ void Edit_page::listenToGsettings()
         }
 
         connect(styleSettings, &QGSettings::changed, this, [=](const QString &key){
-            if( key == "styleName" ){
-                QString currentTheme = styleSettings->get(MODE_QT_KEY).toString();
-                if(currentTheme == "ukui-default" || currentTheme == "ukui-white"
-                        || currentTheme == "ukui-light" || currentTheme == "ukui"){
-                    text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet("background-color: black;"
-                                                                                    "border-radius:3px;");
-                }else if(currentTheme == "ukui-dark" || currentTheme == "ukui-black"){
-                    text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet("background-color: white;"
-                                                                                    "border-radius:3px;");
+            if(ui->textEdit->document()->isEmpty() && !defaultFontColorChanged){
+                if( key == "styleName" ){
+                    QString currentTheme = styleSettings->get(MODE_QT_KEY).toString();
+                    if(currentTheme == "ukui-default" || currentTheme == "ukui-white"
+                            || currentTheme == "ukui-light" || currentTheme == "ukui"){
+                        text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet("background-color: black;"
+                                                                                        "border-radius:3px;");
+                    }else if(currentTheme == "ukui-dark" || currentTheme == "ukui-black"){
+                        text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet("background-color: white;"
+                                                                                        "border-radius:3px;");
+                    }
                 }
             }
         });
@@ -422,7 +390,7 @@ void Edit_page::currentCharFormatChangedSlot(const QTextCharFormat &format)
 {
     qDebug() << "currentCharFormatChangedSlot";
     fontChanged(format.font());
-//    fontColorChanged((format.foreground().isOpaque()) ? format.foreground().color() : QColor());
+    //fontColorChanged((format.foreground().isOpaque()) ? format.foreground().color() : QColor());
     fontColorChanged(format.foreground().color());
 }
 
@@ -458,7 +426,7 @@ void Edit_page::setItalicSlot()
     qDebug()<<"-------setItalicSlot------------";
     QTextCharFormat fmt;
     fmt.setFontItalic(text_edit_page->texteditwidget->ui->italicBtn->isCheckable());// ? QFont::StyleItalic : QFont::Normal);
-//    mergeFormatOnWordOrSelection(fmt);
+    //mergeFormatOnWordOrSelection(fmt);
 
     QTextCursor cursor = ui->textEdit->textCursor();
     if(cursor.charFormat().fontItalic())  //return boolProperty(FontItalic)
@@ -477,7 +445,7 @@ void Edit_page::setUnderlineSlot()
     qDebug() << "setUnderlineSlot";
     QTextCharFormat fmt;
     fmt.setFontUnderline(text_edit_page->texteditwidget->ui->underlineBtn->isCheckable());// ? QFont::UnderlineResolved : QFont::Normal );
-//    mergeFormatOnWordOrSelection(fmt);
+    //mergeFormatOnWordOrSelection(fmt);
 
     QTextCursor cursor = ui->textEdit->textCursor();
     if(cursor.charFormat().fontUnderline())  //
@@ -495,7 +463,7 @@ void Edit_page::setStrikeOutSlot()
     qDebug() << "setStrikeOutSlot";
     QTextCharFormat fmt;
     fmt.setFontStrikeOut(text_edit_page->texteditwidget->ui->strikeOutBtn->isCheckable());// ? QFont::StrikeOutResolved : QFont::Normal );
-//    mergeFormatOnWordOrSelection(fmt);
+    //mergeFormatOnWordOrSelection(fmt);
 
     QTextCursor cursor = ui->textEdit->textCursor();
     if(cursor.charFormat().fontStrikeOut())
@@ -572,17 +540,15 @@ void Edit_page::setFontColorSlot ()
 {
     qDebug() << "setFontColorSlot";
     int num = text_edit_page->set_color_fort_page->ui->listWidget->currentRow();
-    text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet(color[num]+"border-radius:3px;");
 
     QTextCharFormat fmt;
     if(num != 9){
-        defaultStyle = false;
         fmt.setForeground(color_num[num]);
         ui->textEdit->mergeCurrentCharFormat(fmt);
     }else {
-        defaultStyle = true;
+        defaultFontColorChanged = true;
         fmt.setForeground(palette().color(QPalette::Text));
-//        fmt.clearForeground();
+        //fmt.clearForeground();
         ui->textEdit->mergeCurrentCharFormat(fmt);
     }
     text_edit_page->set_color_fort_page->close();
@@ -604,10 +570,10 @@ void Edit_page::redBtnSlot()
     m_noteHead->color_widget = QColor(250,108,99);
     m_noteHeadMenu->color_widget = QColor(250,108,99);
 
-//    QString _BgColor = m_editColor.name();
-//    QString _Stylesheet = "background-color: %1;";
-//    _Stylesheet = _Stylesheet.arg(_BgColor);
-//    m_noteHeadMenu->ui->pushButtonExit->setStyleSheet(_Stylesheet);
+    //QString _BgColor = m_editColor.name();
+    //QString _Stylesheet = "background-color: %1;";
+    //_Stylesheet = _Stylesheet.arg(_BgColor);
+    //m_noteHeadMenu->ui->pushButtonExit->setStyleSheet(_Stylesheet);
     update();
 }
 

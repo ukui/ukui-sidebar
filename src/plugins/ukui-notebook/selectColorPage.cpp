@@ -21,7 +21,6 @@
 
 #include "widget.h"
 #include "ui_widget.h"
-#include "paletteWidget.h"
 #include "ui_paletteWidget.h"
 #include "selectColorPage.h"
 #include "ui_selectColorPage.h"
@@ -30,44 +29,33 @@
 #define SHADOW_WIDTH 0
 #endif
 
-select_color_page::select_color_page(Widget* page ,QWidget *parent) :
+SelectColor::SelectColor(Widget* page ,QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::select_color_page),
+    ui(new Ui::SelectColor),
     paletteWidget(new PaletteWidget(this))
 {
     ui->setupUi(this);
     pNotebook = page;
-    this->setAttribute(Qt::WA_TranslucentBackground);    
-    this->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));//透明
-    setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
-
-    paletteWidget->setGeometry(QRect(0, 5, 250, 35));
-    paletteWidget->show();
+    initSetup();
 }
 
-select_color_page::~select_color_page()
+SelectColor::~SelectColor()
 {
     delete ui;
 }
 
-void select_color_page::paintEvent(QPaintEvent *e)
+void SelectColor::paintEvent(QPaintEvent *event)
 {
-    Q_UNUSED(e);
-    qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
+    Q_UNUSED(event);
+
     QPainter painter(this);
     QStyleOption opt;
     opt.init(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
     painter.setBrush(opt.palette.color(QPalette::Base));
-//    if(painter.brush().color().value() == 34){
-//        ui->white_btn->setStyleSheet(QString::fromUtf8("background:rgba(236,238,242,1);\n"
-//                                                       "border-radius:2px;"));
-//    }else if(painter.brush().color().value() == 255){
-//        ui->white_btn->setStyleSheet(QString::fromUtf8("background:rgb(19,20,20);\n"
-//                                                       "border-radius:2px;"));
-//    }
     painter.setOpacity(0.9);
+
     // 小三角区域;
     QPolygon trianglePolygon;
     trianglePolygon << QPoint(m_startX, m_triangleHeight + SHADOW_WIDTH);
@@ -78,4 +66,14 @@ void select_color_page::paintEvent(QPaintEvent *e)
 
     drawPath.addPolygon(trianglePolygon);
     painter.drawPath(drawPath);
+}
+
+void SelectColor::initSetup()
+{
+    setAttribute(Qt::WA_TranslucentBackground);
+    setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));//透明
+    setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
+
+    paletteWidget->setGeometry(QRect(0, 5, 250, 35));
+    paletteWidget->show();
 }

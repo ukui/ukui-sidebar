@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<TS version="2.1" language="fr">
 <context>
     <name>QObject</name>
     <message>
         <location filename="../../src/plugins/ukui-sidebar-notification/notificationPlugin.cpp" line="65"/>
         <source>Notification center</source>
-        <translation>通知中心</translation>
+        <translation>Centre de notification</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-sidebar-notification/notificationPlugin.cpp" line="112"/>
         <location filename="../../src/plugins/ukui-sidebar-notification/notificationPlugin.cpp" line="681"/>
         <source>Important notice</source>
-        <translation>重要的通知</translation>
+        <translation>Avis important</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-sidebar-notification/notificationPlugin.cpp" line="120"/>
         <source>Clean up</source>
-        <translation>清空</translation>
+        <translation>Nettoyer</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-sidebar-notification/notificationPlugin.cpp" line="151"/>
         <source>Set up</source>
-        <translation>设置</translation>
+        <translation>Installer</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-sidebar-notification/notificationPlugin.cpp" line="217"/>
         <source>No new notifications</source>
-        <translation>没有新通知</translation>
+        <translation>pas de nouvelles notifications</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-sidebar-notification/notificationPlugin.cpp" line="240"/>
         <source>No unimportant notice</source>
-        <translation>没有不重要的通知</translation>
+        <translation>Aucun avis sans importance</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-sidebar-notification/notificationPlugin.cpp" line="653"/>
         <source>Unimportant notice</source>
-        <translation>不重要的通知</translation>
+        <translation>Avis sans importance</translation>
     </message>
 </context>
 <context>
@@ -45,26 +45,26 @@
     <message>
         <location filename="../../src/plugins/ukui-sidebar-notification/singlemsg.cpp" line="116"/>
         <source>now</source>
-        <translation>现在</translation>
+        <translation>maintenant</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-sidebar-notification/singlemsg.cpp" line="284"/>
         <source>Yesterday </source>
-        <translation>昨天 </translation>
+        <translation>Hier </translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-sidebar-notification/singlemsg.cpp" line="363"/>
         <source>In addition </source>
-        <translation>还有 </translation>
+        <translation>En outre </translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-sidebar-notification/singlemsg.cpp" line="363"/>
         <source> notification</source>
-        <translation type="unfinished"> 则通知</translation>
+        <translation> notification</translation>
     </message>
     <message>
         <source>In addition</source>
-        <translation type="obsolete">还有</translation>
+        <translation type="obsolete">Tür</translation>
     </message>
 </context>
 <context>
@@ -72,12 +72,12 @@
     <message>
         <location filename="../../src/plugins/ukui-sidebar-notification/takeinboxtoolbutton.cpp" line="36"/>
         <source>Enter unimportant news</source>
-        <translation type="unfinished">进入不重要通知</translation>
+        <translation>Entrer des nouvelles sans importance</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-sidebar-notification/takeinboxtoolbutton.cpp" line="41"/>
         <source>Quit unimportant news</source>
-        <translation type="unfinished">退出不重要通知</translation>
+        <translation>Quitter les nouvelles sans importance</translation>
     </message>
 </context>
 </TS>

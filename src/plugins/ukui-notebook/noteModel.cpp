@@ -181,10 +181,10 @@ bool NoteModel::setData(const QModelIndex &index, const QVariant &value, int rol
 
 Qt::ItemFlags NoteModel::flags(const QModelIndex &index) const
 {
-//    if (!index.isValid())
-//        return Qt::ItemIsEnabled | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled;
+    //if (!index.isValid())
+    //        return Qt::ItemIsEnabled | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled;
 
-//    return QAbstractListModel::flags(index) | Qt::ItemIsEditable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled;
+    //return QAbstractListModel::flags(index) | Qt::ItemIsEditable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled;
     if (!index.isValid())
         return Qt::ItemIsEnabled;
 
