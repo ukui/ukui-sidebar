@@ -205,6 +205,10 @@ void Edit_page::slotsSetup()
         }
         this->close();
     });
+    connect(m_noteHeadMenu->m_menuActionDel, &QAction::triggered, this, [=](){
+        this->close();
+        requestDel(m_noteId);
+    });
     connect(ui->textEdit,&QTextEdit::textChanged,this,&Edit_page::textChangedSlot);
     // 调色板菜单
     connect(ui->paletteBtn, &QPushButton::clicked, this, [=](){
@@ -396,7 +400,7 @@ void Edit_page::currentCharFormatChangedSlot(const QTextCharFormat &format)
 
 void Edit_page::textChangedSlot()
 {
-    qDebug() << "emit textchange";
+    qDebug() << "emit textchange" << "note id" << m_noteId << this->id;
     emit texthasChanged(m_noteId, this->id);
 }
 

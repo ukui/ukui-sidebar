@@ -41,6 +41,7 @@ TRANSLATIONS += \
         ../../../translations/ukui-notebook/ukui-notebook_tr.ts
 
 SOURCES += \
+    utils/utils.cpp \
     utils/xatom-helper.cpp \
     adaptscreeninfo.cpp \
     customStyle.cpp \
@@ -71,6 +72,7 @@ SOURCES += \
     widget.cpp
 
 HEADERS += \
+    utils/utils.h \
     utils/xatom-helper.h \
     adaptscreeninfo.h \
     customStyle.h \

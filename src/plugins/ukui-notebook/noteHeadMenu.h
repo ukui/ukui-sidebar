@@ -21,6 +21,8 @@
 
 #include <QWidget>
 #include <QPainter>
+#include <QAction>
+#include <QMenu>
 
 namespace Ui {
 class noteHeadMenu;
@@ -38,12 +40,18 @@ public:
 
 public:
     QColor color_widget;
+    QAction *m_menuActionDel;
 
 protected:
     void paintEvent(QPaintEvent *event);
 
 private:
     void btnInit();
+    void slotsInit();
+
+signals:
+    void requestNewNote();
+    void requestShowNote();
 };
 
 #endif // NOTEHEADMENU_H

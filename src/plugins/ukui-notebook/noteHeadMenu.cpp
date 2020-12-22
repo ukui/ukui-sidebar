@@ -33,6 +33,7 @@ noteHeadMenu::noteHeadMenu(QWidget *parent) :
     ui->setupUi(this);
     setMinimumSize(250,34);
     btnInit();
+    slotsInit();
 }
 
 noteHeadMenu::~noteHeadMenu()
@@ -59,6 +60,14 @@ void noteHeadMenu::paintEvent(QPaintEvent *event)
     QWidget::paintEvent(event);
 }
 
+void noteHeadMenu::slotsInit()
+{
+    connect(ui->pushButtonNew, &QPushButton::clicked, this, [=](){
+        qDebug() << "emit requestNewNote";
+        requestNewNote();
+    });
+}
+
 void noteHeadMenu::btnInit()
 {
     ui->pushButtonExit->setIcon(drawSymbolicColoredPixmap(QIcon::fromTheme("window-close-symbolic").pixmap(16,16), ui->pushButtonExit));
@@ -80,8 +89,46 @@ void noteHeadMenu::btnInit()
     ui->pushButtonExit->setPalette(palette);
     ui->pushButtonMenu->setPalette(palette);
 
-    ui->pushButtonMenu->hide();
-    ui->pushButtonNew->hide();
+    QMenu *m_menu = new QMenu(ui->pushButtonMenu);
+    QMenu *m_childMenu = new QMenu(m_menu);
+    QAction *m_menuAction = new QAction(m_menu);
+
+    m_menuActionDel = new QAction(m_menu);
+    QAction *m_childAction1 = new QAction(m_childMenu);
+    QAction *m_childAction2 = new QAction(m_childMenu);
+    QAction *m_childAction3 = new QAction(m_childMenu);
+
+    m_menu->setProperty("fillIconSymbolicColor", true);
+    m_menuAction->setText(tr("打开便签本"));
+//    m_menuAction->setIcon(QIcon::fromTheme(""));
+    m_menuActionDel->setText(tr("删除此便签"));
+    m_childMenu->setTitle(tr("分享"));
+
+    m_childAction1->setText("导出为jpg");
+    m_childAction2->setText("导出为pdf");
+    m_childAction3->setText("邮寄此便签");
+
+    m_childMenu->addAction(m_childAction1);
+    m_childMenu->addAction(m_childAction2);
+    m_childMenu->addAction(m_childAction3);
+
+    //m_menu->addMenu(m_childMenu);
+    m_menu->addAction(m_menuActionDel);
+    m_menu->addAction(m_menuAction);
+    ui->pushButtonMenu->setMenu(m_menu);
+
+    connect(m_menuAction, &QAction::triggered, this, [=](){
+        requestShowNote();
+    });
+    //隐藏menu下箭头
+    //ui->pushButtonMenu->setStyleSheet("QPushButton::menu-indicator{image:none}");
+    ui->pushButtonMenu->setProperty("isOptionButton", true);
+    //设置是否自动凸起
+    ui->pushButtonMenu->setIconSize(QSize(16, 16));
+
+    ui->pushButtonMenu->setProperty("isWindowButton", 0x1);
+    ui->pushButtonMenu->setProperty("useIconHighlightEffect", 0x2);
+    ui->pushButtonMenu->setToolTip(tr("Menu"));
 }
 
 QPixmap drawSymbolicColoredPixmap(const QPixmap& source, QPushButton *btn)
