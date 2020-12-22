@@ -21,6 +21,7 @@
 #include "widget.h"
 #include "singleApplication.h"
 #include "utils/xatom-helper.h"
+#include "utils/utils.h"
 #include <X11/Xlib.h>
 //#include <KWindowEffects>
 
@@ -96,7 +97,7 @@ int getScreenWidth() {
 int main(int argc, char *argv[])
 {
     //自定义消息处理
-    qInstallMessageHandler(myMessageOutput);
+    //qInstallMessageHandler(myMessageOutput);
 
     if (getScreenWidth() > 2560) {
         #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
@@ -106,9 +107,22 @@ int main(int argc, char *argv[])
     }
 
     SingleApplication a(argc, argv);
+    QCommandLineParser parser;
+    Utils::setCLIName(parser);
+    /* 处理命令行参数。
+       除了解析选项（如parse（））外，此函数还处理内置选项并处理错误。
+       如果调用了addVersionOption，则内置选项为--version，如果调用了addHelpOption，则为--help --help-all。
+       当调用这些选项之一时，或者当发生错误（例如，传递了未知选项）时，当前进程将使用exit（）函数停止。
+    */
+    parser.process(a);
+    Widget w;
+    //if (QApplication::arguments().length() > 1) {
+    //    if (QApplication::arguments().at(1) == "--display" || QApplication::arguments().at(1) == "-m") {
+    //        w.createNewNote();
+    //    }
+    //}
 
     if(!a.isRunning()){
-        Widget w;
         a.w = &w;
         w.setProperty("useSystemStyleBlur", true);
         // 添加窗管协议
@@ -117,7 +131,6 @@ int main(int argc, char *argv[])
         hints.functions = MWM_FUNC_ALL;
         hints.decorations = MWM_DECOR_BORDER;
         XAtomHelper::getInstance()->setWindowMotifHint(w.winId(), hints);
-        w.show();
         //w.setAttribute(Qt::WA_TranslucentBackground);
         //KWindowEffects::enableBlurBehind(w.winId(),true);
         return a.exec();

@@ -97,6 +97,7 @@ public:
     void error_throw();                                             //异常处理抛出
     int getListFlag() const;                                        //获取列表切换标志位
     void setListFlag(const int &listflag);                          //设置列表切换标志位
+    void createNewNote();                                           //新建便签
 
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
@@ -152,7 +153,6 @@ private:
     void listenToGsettings();                                       //监听gsettings
     void btnInit();                                                 //初始化按钮
     void searchInit();                                              //初始化搜索栏
-    void createNewNote();                                           //新建便签
     void deleteNote(const QModelIndex& noteIndex, bool isFromUser=true);//删除便签
     void deleteSelectedNote();                                      //获取选中便签/列表
     void setupDatabases();                                          //配置数据库

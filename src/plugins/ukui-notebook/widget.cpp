@@ -91,7 +91,8 @@ Widget::~Widget()
  */
 void Widget::initData()
 {
-    qDebug() << "kyNote initData";
+    qDebug() << "kyNote initData";    
+
     QFileInfo fi(m_settingsDatabase->fileName());
     QDir dir(fi.absolutePath());
     QString oldNoteDBPath(dir.path() + QStringLiteral("/Notes.ini"));
@@ -738,8 +739,8 @@ void Widget::selectFirstNote()
  */
 void Widget::createNewNoteIfEmpty()
 {
-    if(m_proxyModel->rowCount() == 0)
-        createNewNote();
+    //if(m_proxyModel->rowCount() == 0)
+    createNewNote();
 }
 
 /*!
@@ -749,12 +750,14 @@ void Widget::createNewNoteIfEmpty()
  */
 void Widget::createNewNote()
 {
+    qDebug() << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
     if(!m_isOperationRunning){
         m_isOperationRunning = true;
 
         m_noteView->scrollToTop();
 
         ++m_noteCounter;
+        qDebug() << "创建便签 m_noteCounter:" << m_noteCounter;
         NoteData* tmpNote = generateNote(m_noteCounter);
 
         // insert the new note to NoteModel
@@ -763,11 +766,9 @@ void Widget::createNewNote()
         // update the editor header date label
         QString dateTimeFromDB = tmpNote->lastModificationdateTime().toString(Qt::ISODate);
         QString dateTimeForEditor = getNoteDateEditor(dateTimeFromDB);
-
         // 从排序过滤器模型返回与给定 indexSrc 对应的源模型索引。
         m_currentSelectedNoteProxy = m_proxyModel->mapFromSource(indexSrc);
         saveNoteToDB(m_currentSelectedNoteProxy);
-
         //int row = m_currentSelectedNoteProxy.row();
         //m_noteView->animateAddedRow(QModelIndex(),row, row);
 
@@ -776,8 +777,7 @@ void Widget::createNewNote()
         m_isOperationRunning = false;
     }
     int noteId = m_currentSelectedNoteProxy.data(NoteModel::NoteID).toInt();
-
-    m_notebook =  new Edit_page(this,noteId);
+    m_notebook = new Edit_page(this,noteId);
     m_editors.push_back(m_notebook);
     m_notebook->id = m_editors.size() - 1;
 
@@ -789,22 +789,36 @@ void Widget::createNewNote()
         m_noteView->setCurrentRowActive(false);
     }
     connect(m_editors[m_editors.size() - 1], &Edit_page::isEmptyNote, this, [=](int noteId){
-        qDebug()<< "isEmptyNote";
         //m_editors.erase(m_editors[m_editors.size() - 1]);
-
         qDebug() << "receive signal isEmptyNote" << noteId;
         for(int count = 0; count <= m_proxyModel->rowCount();count ++)
         {
             QModelIndex m_tmpIndex = m_proxyModel->index(count,0);
             if(m_tmpIndex.data(NoteModel::NoteID).toInt() == noteId){
-                qDebug() << m_tmpIndex.data(NoteModel::NoteID).toInt();
                 QModelIndex sourceIndex = m_proxyModel->mapToSource(m_tmpIndex);
-                qDebug() << sourceIndex << m_tmpIndex;
                 deleteNote(m_tmpIndex, true);
                 m_countLabel->setText(QObject::tr("%1 records in total").arg(m_proxyModel->rowCount()));
                 break;
             }
         }
+    });
+    connect(m_editors[m_editors.size() - 1], &Edit_page::requestDel, this, [=](int noteId){
+        for(int count = 0; count <= m_proxyModel->rowCount();count ++)
+        {
+            QModelIndex m_tmpIndex = m_proxyModel->index(count,0);
+            if(m_tmpIndex.data(NoteModel::NoteID).toInt() == noteId){
+                QModelIndex sourceIndex = m_proxyModel->mapToSource(m_tmpIndex);
+                deleteNote(m_tmpIndex, true);
+                m_countLabel->setText(QObject::tr("%1 records in total").arg(m_proxyModel->rowCount()));
+                break;
+            }
+        }
+    });
+    connect(m_notebook->m_noteHeadMenu, &noteHeadMenu::requestNewNote, this, [=](){
+        newSlot();
+    });
+    connect(m_notebook->m_noteHeadMenu, &noteHeadMenu::requestShowNote, this, [=]{
+        this->show();
     });
     connect(m_editors[m_editors.size() - 1], SIGNAL(texthasChanged(int,int)), this, SLOT(onTextEditTextChanged(int, int)));
     connect(m_editors[m_editors.size() - 1], SIGNAL(colorhasChanged(QColor,int)), this, SLOT(onColorChanged(QColor,int)));
@@ -1243,7 +1257,6 @@ void Widget::listClickSlot(const QModelIndex& index)
 {
     if(sender() != Q_NULLPTR){
         QModelIndex indexInProxy = m_proxyModel->index(index.row(), 0);
-        //qDebug() << indexInProxy;
         if(indexInProxy.isValid()){
             m_currentSelectedNoteProxy = indexInProxy;
 
@@ -1270,7 +1283,7 @@ void Widget::listDoubleClickSlot(const QModelIndex& index)
     int noteId = index.data(NoteModel::NoteID).toInt();
     int isExistInMeditors = 0;
     qDebug() << "list double click" << noteId << index;
-    for(auto it = m_editors.begin(); it!=m_editors.end();it++)
+    for(auto it = m_editors.begin(); it != m_editors.end(); it++)
     {
         if ((*it)->m_noteId == noteId) {
             isExistInMeditors = 1;
@@ -1292,7 +1305,18 @@ void Widget::listDoubleClickSlot(const QModelIndex& index)
             selectNote(index);
             m_noteView->setCurrentRowActive(false);
         }
-
+        connect(m_editors[m_editors.size() - 1], &Edit_page::requestDel, this, [=](int noteId){
+            for(int count = 0; count <= m_proxyModel->rowCount();count ++)
+            {
+                QModelIndex m_tmpIndex = m_proxyModel->index(count,0);
+                if(m_tmpIndex.data(NoteModel::NoteID).toInt() == noteId){
+                    QModelIndex sourceIndex = m_proxyModel->mapToSource(m_tmpIndex);
+                    deleteNote(m_tmpIndex, true);
+                    m_countLabel->setText(QObject::tr("%1 records in total").arg(m_proxyModel->rowCount()));
+                    break;
+                }
+            }
+        });
         connect(m_editors[m_editors.size() - 1] ,SIGNAL(texthasChanged(int,int)), this,SLOT(onTextEditTextChanged(int, int)));
         connect(m_editors[m_editors.size() - 1] ,SIGNAL(colorhasChanged(QColor,int)),this,SLOT(onColorChanged(QColor,int)));
     }
@@ -1400,11 +1424,14 @@ void Widget::sortSlot(int index)
  */
 void Widget::clearNoteSlot()
 {
+    qDebug() << "empty note" << m_editors.size();
     for(auto it = m_editors.begin(); it != m_editors.end();it++){
         (*it)->close();
-        m_editors.erase(it);
+        //m_editors.erase(it);
         delete (*it);
     }
+    m_editors.clear();
+    qDebug() << "清空vector" << m_editors.size();
     m_noteModel->clearNotes();
     emit requestClearNote();
     m_countLabel->setText(QObject::tr("%1 records in total").arg(m_proxyModel->rowCount()));
