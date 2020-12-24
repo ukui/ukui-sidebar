@@ -463,9 +463,9 @@ void Clock::setup_init()
     ui->lineEdit->setMaxLength(8);//限制闹钟名字长度为9个字符
 
     //设置输入框无视空格
-//    QRegExp rx = QRegExp("[\40]*");
-//    QRegExpValidator* validator = new QRegExpValidator(rx);
-//    ui->lineEdit->setValidator(validator);
+    QRegExp rx = QRegExp("^[\u4e00-\u9fa5a-zA-Z]+$");
+    QRegExpValidator* validator = new QRegExpValidator(rx);
+    ui->lineEdit->setValidator(validator);
 
     QString Default = model_setup->index(0, 19).data().toString();
     if(Default == "glass" || "玻璃"){
