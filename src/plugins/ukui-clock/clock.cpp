@@ -85,20 +85,8 @@ Clock::Clock(QWidget *parent) :
     ui->setupUi(this);
     createConnection();
 
-    QBitmap bmp(this->size());
-    bmp.fill();
-    QPainter p(&bmp);
-    p.setPen(Qt::NoPen);
-    p.setBrush(Qt::black);
-    p.setRenderHint(QPainter::Antialiasing);
-    p.drawRoundedRect(bmp.rect(),6,6);
-    setMask(bmp);
-
     this->setWindowTitle(tr("Alarm"));
-    setWindowFlags(Qt::FramelessWindowHint);   /* 开启窗口无边框 */
-                                               /*  Open window borderless  */
     this->setAttribute(Qt::WA_TranslucentBackground);
-    //ui->set_page->setStyleSheet("QWidget{background-color: rgba(14, 19, 22, 0.95);}");
     mousePressed = 0;
     button_image_init();
     Countdown_init();
@@ -276,7 +264,6 @@ void Clock::button_image_init()
     on_pixmap = QPixmap(":/alarm_on.png");
     off_pixmap = QPixmap(":/alarm_off.png");
     clock_icon = QPixmap(":/kylin-alarm-clock.svg");
-    //this->setWindowIcon(clock_icon);
     this->setWindowIcon(QIcon::fromTheme("kylin-alarm-clock",QIcon(":/kylin-alarm-clock.svg")));
 
     ui->pushButton->setIcon(pixmap4);
@@ -463,9 +450,9 @@ void Clock::setup_init()
     ui->lineEdit->setMaxLength(8);//限制闹钟名字长度为9个字符
 
     //设置输入框无视空格
-//    QRegExp rx = QRegExp("[\40]*");
-//    QRegExpValidator* validator = new QRegExpValidator(rx);
-//    ui->lineEdit->setValidator(validator);
+    QRegExp rx = QRegExp("[\40]*");
+    QRegExpValidator* validator = new QRegExpValidator(rx);
+    ui->lineEdit->setValidator(validator);
 
     QString Default = model_setup->index(0, 19).data().toString();
     if(Default == "glass" || "玻璃"){
@@ -2685,41 +2672,8 @@ void Clock::paintEvent(QPaintEvent *event)
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     QPainterPath rectPath;
-    rectPath.addRoundedRect(this->rect().adjusted(4, 4, -4, -4), 4, 4);
-
-    // 画一个黑底
-    QPixmap pixmap(this->rect().size());
-    pixmap.fill(Qt::transparent);
-    QPainter pixmapPainter(&pixmap);
-    pixmapPainter.setRenderHint(QPainter::Antialiasing);
-    pixmapPainter.setPen(Qt::transparent);
-    pixmapPainter.setBrush(Qt::gray);
-    pixmapPainter.drawPath(rectPath);
-    pixmapPainter.end();
-
-    // 模糊这个黑底
-    QImage img = pixmap.toImage();
-    qt_blurImage(img, 10, false, false);
-
-    // 挖掉中心
-    pixmap = QPixmap::fromImage(img);
-    QPainter pixmapPainter2(&pixmap);
-    pixmapPainter2.setRenderHint(QPainter::Antialiasing);
-    pixmapPainter2.setCompositionMode(QPainter::CompositionMode_Clear);
-    pixmapPainter2.setPen(Qt::transparent);
-    pixmapPainter2.setBrush(QColor(178,78,78,0));
-    pixmapPainter2.drawPath(rectPath);
-
-    // 绘制阴影
-    p.drawPixmap(this->rect(), pixmap, pixmap.rect());
-    //p.setOpacity(0.9);
-    // 绘制一个背景
-    p.save();
-
-    QStyleOption opt;
-    opt.init(this);
-    p.fillPath(rectPath,opt.palette.color(QPalette::Base));
-    p.restore();
+    rectPath.addRoundedRect(this->rect(), 6, 6); // 左上右下
+    p.fillPath(rectPath,palette().color(QPalette::Base));
 }
 
 QPixmap Clock::ChangeImageColor(QPixmap sourcePixmap, QColor origColor, QColor destColor)

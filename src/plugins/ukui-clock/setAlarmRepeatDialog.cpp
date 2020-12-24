@@ -74,7 +74,6 @@ void set_alarm_repeat_Dialog::setupUi(QWidget( *set_alarm_repeat_Dialog))
     listWidget = new QListWidget(set_alarm_repeat_Dialog);
     listWidget->setObjectName(QString::fromUtf8("listWidget"));
     listWidget->setGeometry(QRect(0, 0, 280, 162));
-//  listWidget->setStyleSheet("selection-background-color: rgba(39,207,129,0.9);");
 
     retranslateUi(set_alarm_repeat_Dialog);
 
@@ -167,7 +166,6 @@ set_alarm_repeat_widget::~set_alarm_repeat_widget()
 {
     delete   alarmLabel0;
     delete   alarmLabel1;
-    qDebug()<<"-------set_alarm_repeat_Dialog-----2----";
 }
 
 void set_alarm_repeat_widget::paintEvent(QPaintEvent *event)
