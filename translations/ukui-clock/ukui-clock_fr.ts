@@ -744,7 +744,7 @@
     <message>
         <location filename="../../src/plugins/ukui-clock/deleteMsg.ui" line="92"/>
         <source>are you sure ?</source>
-        <translation>êtes-vous sûr  ?</translation>
+        <translation>êtes-vous sûr ?</translation>
     </message>
 </context>
 <context>
