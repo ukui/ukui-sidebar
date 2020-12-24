@@ -6,6 +6,17 @@
 
 QT       += core gui multimedia sql
 
+# 适配窗口管理器圆角阴影
+QT += KWindowSystem dbus x11extras
+
+# 适配窗口管理器圆角阴影
+LIBS +=-lpthread
+LIBS +=-lX11
+
+# 配置gsettings
+CONFIG += link_pkgconfig
+PKGCONFIG += gsettings-qt
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = ukui-clock
@@ -35,7 +46,8 @@ SOURCES += \
     stopwatchItem.cpp \
     verticalScroll24.cpp \
     verticalScroll60.cpp \
-    verticalScroll99.cpp
+    verticalScroll99.cpp \
+    xatom-helper.cpp
 
 TRANSLATIONS += ../../../translations/ukui-clock/ukui-clock_tr.ts \
                 ../../../translations/ukui-clock/ukui-clock_zh_CN.ts
@@ -61,7 +73,8 @@ HEADERS  += clock.h \
     stopwatchItem.h \
     verticalScroll24.h \
     verticalScroll60.h \
-    verticalScroll99.h
+    verticalScroll99.h \
+    xatom-helper.h
 
 
 FORMS    += clock.ui \

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>454</width>
-    <height>559</height>
+    <height>555</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>89</y>
+     <y>85</y>
      <width>454</width>
      <height>466</height>
     </rect>
@@ -526,8 +526,8 @@ QListWidget::item:hover{background-color:rgba(72,72,76,0.5);border-radius:4px;}<
   <widget class="QPushButton" name="pushButton_5">
    <property name="geometry">
     <rect>
-     <x>416</x>
-     <y>8</y>
+     <x>420</x>
+     <y>4</y>
      <width>30</width>
      <height>30</height>
     </rect>
@@ -539,8 +539,8 @@ QListWidget::item:hover{background-color:rgba(72,72,76,0.5);border-radius:4px;}<
   <widget class="QPushButton" name="pushButton_4">
    <property name="geometry">
     <rect>
-     <x>382</x>
-     <y>8</y>
+     <x>386</x>
+     <y>4</y>
      <width>30</width>
      <height>30</height>
     </rect>
@@ -553,7 +553,7 @@ QListWidget::item:hover{background-color:rgba(72,72,76,0.5);border-radius:4px;}<
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>41</y>
+     <y>37</y>
      <width>454</width>
      <height>300</height>
     </rect>
@@ -763,8 +763,8 @@ border-radius:4px;
   <widget class="QPushButton" name="pushButton_12">
    <property name="geometry">
     <rect>
-     <x>348</x>
-     <y>8</y>
+     <x>352</x>
+     <y>4</y>
      <width>30</width>
      <height>30</height>
     </rect>
@@ -776,8 +776,8 @@ border-radius:4px;
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>6</y>
+     <x>36</x>
+     <y>4</y>
      <width>41</width>
      <height>31</height>
     </rect>
@@ -789,14 +789,14 @@ border-radius:4px;
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>23</width>
-     <height>23</height>
+     <x>8</x>
+     <y>8</y>
+     <width>24</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/kylin-alarm-clock.svg);</string>
+    <string notr="true">border-image: url(:/image/kylin-alarm-clock.png);</string>
    </property>
    <property name="text">
     <string/>
