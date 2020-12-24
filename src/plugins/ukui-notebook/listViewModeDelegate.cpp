@@ -156,8 +156,8 @@ void listViewModeDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
 
     //绘制第二层底色背景
     painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-    painter->setOpacity(0.65);
-    painter->setBrush(opt.palette.color(QPalette::Base));
+    painter->setOpacity(0.04);
+    painter->setBrush(opt.palette.color(QPalette::Text));
     painter->setPen(Qt::transparent);
 
     opt.rect.setHeight(opt.rect.height() - 0);
@@ -173,6 +173,7 @@ void listViewModeDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     }
     painter->setOpacity(1);
     paintBackground(painter, opt, index);
+    painter->setOpacity(1);
     paintLabels(painter, option, index);
 }
 
@@ -208,18 +209,20 @@ void listViewModeDelegate::paintBackground(QPainter *painter, const QStyleOption
         if(qApp->applicationState() == Qt::ApplicationActive){      //返回应用程序的当前状态。
             if(m_isActive){//用指定的画笔填充给定的矩形。
                 painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-                painter->setBrush(opt.palette.color(QPalette::Base));
+                painter->setBrush(opt.palette.color(QPalette::Text));
+                painter->setOpacity(0.08);
                 painter->setPen(Qt::transparent);
+
                 QPainterPath painterPath;
                 painterPath.addRoundedRect(opt.rect, 4, 4);
                 painterPath.setFillRule(Qt::WindingFill); // 多块区域组合填充模
                 painterPath.addRect(opt.rect.x(), opt.rect.y(), 4, 4);
                 painterPath.addRect(opt.rect.x(), opt.rect.y() + opt.rect.height() - 4, 4, 4);
                 painter->drawPath(painterPath);
-            }else{
+            }else{ // 选中态
                 painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-                painter->setBrush(opt.palette.color(QPalette::Base));
-                painter->setOpacity(0.97);
+                painter->setBrush(opt.palette.color(QPalette::Text));
+                painter->setOpacity(0.08);
                 painter->setPen(Qt::transparent);
 
                 QPainterPath painterPath;
@@ -232,9 +235,10 @@ void listViewModeDelegate::paintBackground(QPainter *painter, const QStyleOption
             //应用程序可见，但未选择显示在前面
         }else if(qApp->applicationState() == Qt::ApplicationInactive){
             painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-            painter->setBrush(opt.palette.color(QPalette::Base));
-
+            painter->setBrush(opt.palette.color(QPalette::Text));
+            painter->setOpacity(0.08);
             painter->setPen(Qt::transparent);
+
             QPainterPath painterPath;
             painterPath.addRoundedRect(opt.rect, 4, 4);
             painterPath.setFillRule(Qt::WindingFill); // 多块区域组合填充模
@@ -245,10 +249,11 @@ void listViewModeDelegate::paintBackground(QPainter *painter, const QStyleOption
     }
     //鼠标悬停时颜色
     //用于指示小部件是否在鼠标下。
+    //hover态
     else if((option.state & QStyle::State_MouseOver) == QStyle::State_MouseOver){
         painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-        painter->setBrush(opt.palette.color(QPalette::Base));
-        painter->setOpacity(0.78);
+        painter->setBrush(opt.palette.color(QPalette::Text));
+        painter->setOpacity(0.04);
 
         painter->setPen(Qt::transparent);
         QPainterPath painterPath;
@@ -262,7 +267,6 @@ void listViewModeDelegate::paintBackground(QPainter *painter, const QStyleOption
              && (index.row() !=  m_hoveredIndex.row() - 1)){
         painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     }
-
 }
 
 void listViewModeDelegate::paintLabels(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const

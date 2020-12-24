@@ -1107,7 +1107,7 @@ void Widget::paintEvent(QPaintEvent *event)
     // 绘制一个背景
     //p.save();
     //p.setOpacity(0.7);
-    p.fillPath(rectPath,palette().color(QPalette::Window));
+    p.fillPath(rectPath,palette().color(QPalette::Base));
     //p.restore();
 }
 
