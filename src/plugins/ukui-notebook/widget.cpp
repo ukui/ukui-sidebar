@@ -479,11 +479,10 @@ void Widget::btnInit()
     ui->menuBtn->setPopupMode(QToolButton::InstantPopup);
 
     m_newKynote->setIcon(QPixmap(":/image/1x/new-hover.png"));
-    m_trashButton->setIcon(QPixmap(":/image/1x/delete.png"));
-    m_trashButton->setIconSize(QSize(36,36));
 
     ui->menuBtn->setIcon(QIcon::fromTheme("open-menu-symbolic"));
     m_viewChangeButton->setIcon(QIcon::fromTheme("view-grid-symbolic"));
+    m_trashButton->setIcon(QIcon::fromTheme("edit-delete-symbolic"));
     ui->pushButton_Exit->setIcon(QIcon::fromTheme("window-close-symbolic"));
     ui->pushButton_Mini->setIcon(QIcon::fromTheme("window-minimize-symbolic"));
 
