@@ -117,7 +117,6 @@ private:
     QLineEdit* m_searchLine;                                        //搜索栏
     QPushButton* m_newKynote;                                       //新建按钮
     QPushButton* m_trashButton;                                     //删除按钮
-    QLabel* m_countLabel;                                           //item记数
     QPushButton* m_viewChangeButton;                                //列表/平铺切换按钮
     NoteView* m_noteView;                                           //listview
     QTableView* m_noteTable;                                        //tableview

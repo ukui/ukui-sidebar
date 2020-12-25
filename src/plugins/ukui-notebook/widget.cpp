@@ -39,7 +39,6 @@ Widget::Widget(QWidget *parent) :
   , m_searchLine(Q_NULLPTR)
   , m_newKynote(Q_NULLPTR)
   , m_trashButton(Q_NULLPTR)
-  , m_countLabel(Q_NULLPTR)
   , m_viewChangeButton(Q_NULLPTR)
   , m_noteView(Q_NULLPTR)
   , m_noteTable(Q_NULLPTR)
@@ -242,7 +241,6 @@ void Widget::kyNoteInit()
     m_searchLine = ui->SearchLine;
     m_newKynote = ui->newKynote;
     m_trashButton = ui->trashButton;
-    m_countLabel = ui->label;
     m_viewChangeButton = ui->viewChangeButton;
 
     initListMode();
@@ -264,6 +262,7 @@ void Widget::kyNoteInit()
     this->setWindowTitle(tr("ukui-note"));
     //任务栏图标
     setWindowIcon(QIcon::fromTheme("kylin-notebook"));
+    ui->iconLabel->setPixmap(QIcon::fromTheme("kylin-notebook").pixmap(24,24));
     //按钮
     btnInit();
     //搜索
@@ -797,7 +796,6 @@ void Widget::createNewNote()
             if(m_tmpIndex.data(NoteModel::NoteID).toInt() == noteId){
                 QModelIndex sourceIndex = m_proxyModel->mapToSource(m_tmpIndex);
                 deleteNote(m_tmpIndex, true);
-                m_countLabel->setText(QObject::tr("%1 records in total").arg(m_proxyModel->rowCount()));
                 break;
             }
         }
@@ -809,7 +807,6 @@ void Widget::createNewNote()
             if(m_tmpIndex.data(NoteModel::NoteID).toInt() == noteId){
                 QModelIndex sourceIndex = m_proxyModel->mapToSource(m_tmpIndex);
                 deleteNote(m_tmpIndex, true);
-                m_countLabel->setText(QObject::tr("%1 records in total").arg(m_proxyModel->rowCount()));
                 break;
             }
         }
@@ -845,7 +842,6 @@ void Widget::loadNotes(QList<NoteData *> noteList, int noteCounter)
 
     createNewNoteIfEmpty();
     selectFirstNote();
-    m_countLabel->setText(QObject::tr("%1 records in total").arg(m_proxyModel->rowCount()));
 }
 
 /*!
@@ -1233,7 +1229,6 @@ void Widget::newSlot()
         clearSearch();
     }
     this->createNewNote();
-    m_countLabel->setText(QObject::tr("%1 records in total").arg(m_proxyModel->rowCount()));
 }
 
 /*!
@@ -1246,7 +1241,6 @@ void Widget::onTrashButtonClicked()
     deleteSelectedNote();
     m_trashButton->blockSignals(false);
 
-    m_countLabel->setText(QObject::tr("%1 records in total").arg(m_proxyModel->rowCount()));
 }
 
 /*!
@@ -1312,7 +1306,6 @@ void Widget::listDoubleClickSlot(const QModelIndex& index)
                 if(m_tmpIndex.data(NoteModel::NoteID).toInt() == noteId){
                     QModelIndex sourceIndex = m_proxyModel->mapToSource(m_tmpIndex);
                     deleteNote(m_tmpIndex, true);
-                    m_countLabel->setText(QObject::tr("%1 records in total").arg(m_proxyModel->rowCount()));
                     break;
                 }
             }
@@ -1365,7 +1358,6 @@ void Widget::onSearchEditTextChanged(const QString& keyword)
         m_noteView->setAnimationEnabled(true);
         m_isOperationRunning = false;
     }
-    m_countLabel->setText(QObject::tr("%1 records in total").arg(m_proxyModel->rowCount()));
 }
 
 /*!
@@ -1434,7 +1426,6 @@ void Widget::clearNoteSlot()
     qDebug() << "清空vector" << m_editors.size();
     m_noteModel->clearNotes();
     emit requestClearNote();
-    m_countLabel->setText(QObject::tr("%1 records in total").arg(m_proxyModel->rowCount()));
 }
 
 /*!

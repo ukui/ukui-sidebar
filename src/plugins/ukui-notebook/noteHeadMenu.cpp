@@ -99,14 +99,14 @@ void noteHeadMenu::btnInit()
     QAction *m_childAction3 = new QAction(m_childMenu);
 
     m_menu->setProperty("fillIconSymbolicColor", true);
-    m_menuAction->setText(tr("打开便签本"));
+    m_menuAction->setText(tr("Open note list"));
 //    m_menuAction->setIcon(QIcon::fromTheme(""));
-    m_menuActionDel->setText(tr("删除此便签"));
-    m_childMenu->setTitle(tr("分享"));
+    m_menuActionDel->setText(tr("Delete this note"));
+    m_childMenu->setTitle(tr("Share"));
 
-    m_childAction1->setText("导出为jpg");
-    m_childAction2->setText("导出为pdf");
-    m_childAction3->setText("邮寄此便签");
+    m_childAction1->setText("Export to jpg");
+    m_childAction2->setText("Export to pdf");
+    m_childAction3->setText("Mail");
 
     m_childMenu->addAction(m_childAction1);
     m_childMenu->addAction(m_childAction2);
@@ -128,6 +128,8 @@ void noteHeadMenu::btnInit()
 
     ui->pushButtonMenu->setProperty("isWindowButton", 0x1);
     ui->pushButtonMenu->setProperty("useIconHighlightEffect", 0x2);
+    ui->pushButtonNew->setToolTip(tr("Create New Note"));
+    ui->pushButtonExit->setToolTip(tr("Exit"));
     ui->pushButtonMenu->setToolTip(tr("Menu"));
 }
 
