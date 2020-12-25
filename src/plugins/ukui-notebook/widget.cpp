@@ -464,12 +464,22 @@ void Widget::migrateNote(QString notePath)
  */
 void Widget::btnInit()
 {
-    m_menu = new QMenu(ui->menuBtn);
+    m_menu = new QMenu(ui->menuBtn);    
     m_menu->setProperty("fillIconSymbolicColor", true);
+
     m_menuAction = new QAction(m_menu);
+    QAction *m_aboutAction = new QAction(m_menu);
+
+    m_aboutAction->setText(tr("About"));
     m_menuAction->setText(tr("Empty Note"));
     m_menu->addAction(m_menuAction);
+    m_menu->addAction(m_aboutAction);
     ui->menuBtn->setMenu(m_menu);
+
+    connect(m_aboutAction, &QAction::triggered, this, [=](){
+        About *dialog = new About();
+        dialog->exec();
+    });
     //隐藏menu下箭头
     //ui->menuBtn->setStyleSheet("QPushButton::menu-indicator{image:none}");
     ui->menuBtn->setProperty("isOptionButton", true);

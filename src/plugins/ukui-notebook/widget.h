@@ -58,6 +58,7 @@
 #include "noteExitWindow.h"
 #include "ui_editPage.h"
 #include "adaptscreeninfo.h"
+#include "about.h"
 
 #define     FIRST_LINE_MAX 80
 #define     tristateButton(className,imageUrl)     (""#className"{image:url("#imageUrl".svg);}   \
