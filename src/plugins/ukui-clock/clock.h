@@ -45,6 +45,8 @@
 #include <QPropertyAnimation>
 #include "adaptscreeninfo.h"
 #include <QCloseEvent>
+#include "about.h"
+#include <QMenu>
 
 class QSpinBox;
 class QComboBox;
@@ -349,6 +351,8 @@ private:
     Btn_new *repeat_sel;
     Btn_new *time_sel;
     Btn_new *ring_sel;
+    QMenu *m_menu;                                                  //功能菜单
+    QAction *m_menuAction;                                          //菜单动作
 };
 
 
