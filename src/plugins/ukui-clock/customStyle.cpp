@@ -221,9 +221,6 @@ void CustomStyle::polish(QApplication *application)
 //
 void CustomStyle::polish(QPalette &palette)
 {
-    //    return QProxyStyle::polish(palette);
-    //    QProxyStyle::polish(palette);
-    //    palette.setBrush(QPalette::Foreground, Qt::black);
     QColor lightBlue(200, 0, 0);
     palette.setBrush(QPalette::Highlight, lightBlue);
 }

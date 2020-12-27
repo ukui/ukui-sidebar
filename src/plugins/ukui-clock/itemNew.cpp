@@ -102,7 +102,6 @@ item_new::~item_new()
    delete  alarm_line0;
    delete  alarmLabel0;
    delete  alarm_on_off0;
-    qDebug()<<"------item_new---------";
 
 }
 
