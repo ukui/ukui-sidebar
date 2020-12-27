@@ -198,6 +198,8 @@ Clock::Clock(QWidget *parent) :
     palette1.setBrush(QPalette::Button, brush);
     ui->pushButton->setPalette(palette1);
 
+    ui->pushButton_12->setPalette(palette1);
+
     ui->pushButton->setProperty("useIconHighlightEffect", true);
     ui->pushButton->setProperty("iconHighlightEffectMode", 1);
     ui->horizontalLayout->setContentsMargins(0,0,0,0);
@@ -276,7 +278,7 @@ void Clock::button_image_init()
     ui->pushButton_12->setIcon(QIcon::fromTheme("open-menu-symbolic"));
     ui->pushButton_4->setFlat(true);
     ui->pushButton_5->setFlat(true);
-    ui->pushButton_12->setFlat(true);
+//    ui->pushButton_12->setFlat(true);
     ui->pushButton_4->setVisible(true);
     ui->pushButton_5->setVisible(true);
     ui->pushButton_12->setVisible(true);
@@ -408,7 +410,7 @@ void Clock::clock_init()
     connect(repeat_sel, SIGNAL(clicked()), this, SLOT(alarm_repeat()) );
     connect(time_sel, SIGNAL(clicked()), this, SLOT(select_Music()) );
     connect(ring_sel, SIGNAL(clicked()), this, SLOT(time_Music()) );
-    connect(ui->pushButton_12, SIGNAL(clicked()), this, SLOT(set_up_page()) );
+    //connect(ui->pushButton_12, SIGNAL(clicked()), this, SLOT(set_up_page()) );//
     connect(count_sel, SIGNAL(clicked()), this, SLOT(countdown_music_sellect()));
     connect(count_sel_1, SIGNAL(clicked()), this, SLOT(countdown_music_sellect()));
 
@@ -431,6 +433,31 @@ void Clock::clock_init()
 
     if(!model->rowCount())
         ui->label_7->setText("");
+
+    //设置关于页
+    ui->pushButton_12->setPopupMode(QToolButton::InstantPopup);
+    m_menu = new QMenu(ui->pushButton_12);
+    m_menu->setProperty("fillIconSymbolicColor", true);
+    m_menuAction = new QAction(m_menu);
+    QAction *m_aboutAction = new QAction(m_menu);
+    QAction *m_closeAction = new QAction(m_menu);
+
+    m_menuAction->setText(tr("Set Up"));
+    m_aboutAction->setText(tr("About"));
+    m_closeAction->setText(tr("Close"));
+
+    m_menu->addAction(m_menuAction);
+    m_menu->addAction(m_aboutAction);
+    m_menu->addAction(m_closeAction);
+
+    ui->pushButton_12->setMenu(m_menu);
+
+    connect(m_aboutAction, &QAction::triggered, this, [=](){
+        About *dialog = new About();
+        dialog->exec();
+    });
+    connect(m_menuAction, SIGNAL(triggered()), this, SLOT(set_up_page()));
+    connect(m_closeAction, SIGNAL(triggered()), this, SLOT(on_pushButton_5_clicked()));
 }
 
 //默认初始设置

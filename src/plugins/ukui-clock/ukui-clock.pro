@@ -26,6 +26,7 @@ LIBS    +=  -lX11
 PKGCONFIG += gsettings-qt
 
 SOURCES += \
+    about.cpp \
     adaptscreeninfo.cpp \
     btnNew.cpp \
     clickableLabel.cpp \
@@ -53,6 +54,7 @@ TRANSLATIONS += ../../../translations/ukui-clock/ukui-clock_tr.ts \
                 ../../../translations/ukui-clock/ukui-clock_zh_CN.ts
 
 HEADERS  += clock.h \
+    about.h \
     adaptscreeninfo.h \
     btnNew.h \
     clickableLabel.h \
@@ -78,6 +80,7 @@ HEADERS  += clock.h \
 
 
 FORMS    += clock.ui \
+    about.ui \
     closeOrHide.ui \
     deleteMsg.ui \
     noticeAlarm.ui \
