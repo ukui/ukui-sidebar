@@ -417,6 +417,8 @@ void Clock::clockInit()
     connect(ring_sel, SIGNAL(clicked()), this, SLOT(timeMusic()) );
     connect(count_sel, SIGNAL(clicked()), this, SLOT(countdownMusicSellect()));
     connect(count_sel_1, SIGNAL(clicked()), this, SLOT(countdownMusicSellect()));
+    connect(ui->pushButton_5, SIGNAL(clicked()), this, SLOT(windowClosingClicked()));
+    connect(ui->pushButton_4, SIGNAL(clicked()), this, SLOT(windowMinimizingClicked()));
 
     /*单击时间提示计时器
      Click time reminder timer*/
