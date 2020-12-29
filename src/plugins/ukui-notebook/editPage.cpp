@@ -22,13 +22,7 @@
 #include <QTextList>
 #include <QDebug>
 
-#include "ui_textEditing.h"
-#include "setFontSizePage.h"
-#include "ui_setFontSizePage.h"
-#include "setFontColorPage.h"
-#include "ui_setFontColorPage.h"
-#include "ui_selectColorPage.h"
-#include "noteHead.h"
+
 #include "widget.h"
 #include "ui_widget.h"
 #include "editPage.h"
@@ -46,7 +40,9 @@ Edit_page::Edit_page(Widget* page, int noteId, QWidget *parent) :
   , defaultFontColorChanged(false)
   , pNotebook(page)
   , color_page(new SelectColor(pNotebook))
-  , text_edit_page(new Text_editing(pNotebook))
+  , set_size_page(new SetFontSize(pNotebook))
+  , set_color_fort_page(new SetFontColor(pNotebook))
+  , m_isFullscreen(false)
 {
     ui->setupUi(this);
     initSetup();
@@ -174,27 +170,77 @@ void Edit_page::initSetup()
     ui->textEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     // 禁用右键菜单
     ui->textEdit->setContextMenuPolicy(Qt::NoContextMenu);
+
+    //设置字体大小
+    set_size_page = new SetFontSize(this);
+    set_size_page->hide();
+    //设置字体颜色
+    set_color_fort_page = new SetFontColor(this);
+    set_color_fort_page->hide();
 }
 
 void Edit_page::btnSetup()
 {
-    ui->formatBtn->setIcon(QPixmap(":/image/1x/adjustment.png"));
-    ui->formatBtn->setIconSize(QSize(36,36));
-    ui->paletteBtn->setIcon(QPixmap(":/image/1x/note_color.png"));
-    ui->paletteBtn->setIconSize(QSize(36,36));
-    QPalette palette = ui->paletteBtn->palette();
+//   TextEdit btnInit  begin
+    QBitmap bmp(this->size());
+    bmp.fill();
+    QPainter p(&bmp);
+    p.setPen(Qt::NoPen);
+    p.setBrush(Qt::black);
+    p.setRenderHint(QPainter::Antialiasing);
+    p.drawRoundedRect(bmp.rect(),6,6);
+    setMask(bmp);
+
+    ui->boldBtn->setIcon(QPixmap(":/image/1x/bold.png"));
+    ui->italicBtn->setIcon(QPixmap(":/image/1x/Italic.png"));
+    ui->underlineBtn->setIcon(QPixmap(":/image/1x/under_line-new.png"));
+    ui->strikeOutBtn->setIcon(QPixmap(":/image/1x/del_line.png"));
+    ui->unorderedBtn->setIcon(QPixmap(":/image/1x/Symbol.png"));
+    ui->orderedBtn->setIcon(QPixmap(":/image/1x/number.png"));
+
+    //ui->underlineBtn->setIcon(QIcon::fromTheme("format-text-underline-symbolic"));
+    //ui->boldBtn->setIcon(QIcon::fromTheme("format-text-bold-symbolic"));
+    //ui->italicBtn->setIcon(QIcon::fromTheme("format-text-italic-symbolic"));
+
+    //取消按钮默认灰色背景
+    QPalette palette = ui->boldBtn->palette();
     QColor ColorPlaceholderText(255,255,255,0);
     QBrush brush;
     brush.setColor(ColorPlaceholderText);
     palette.setBrush(QPalette::Button, brush);
     palette.setBrush(QPalette::ButtonText, brush);
-    //palette.setColor(QPalette::Highlight, Qt::transparent); /* 取消按钮高亮 */
-    ui->paletteBtn->setPalette(palette);
-    ui->formatBtn->setPalette(palette);
-    ui->paletteBtn->setProperty("useIconHighlightEffect", true);
-    ui->paletteBtn->setProperty("iconHighlightEffectMode", 1);
-    ui->formatBtn->setProperty("useIconHighlightEffect", true);
-    ui->formatBtn->setProperty("iconHighlightEffectMode", 1);
+    ui->boldBtn->setPalette(palette);
+    ui->italicBtn->setPalette(palette);
+    ui->underlineBtn->setPalette(palette);
+    ui->strikeOutBtn->setPalette(palette);
+    ui->unorderedBtn->setPalette(palette);
+    ui->orderedBtn->setPalette(palette);
+
+    QPalette palette2 = ui->fontColorBtn->palette();
+    palette2.setColor(QPalette::Highlight, Qt::transparent); /* 取消按钮高亮 */
+    ui->fontColorBtn->setPalette(palette2);
+
+    ui->boldBtn->setCheckable(true);
+    ui->italicBtn->setCheckable(true);
+    ui->underlineBtn->setCheckable(true);
+    ui->strikeOutBtn->setCheckable(true);
+    ui->unorderedBtn->setCheckable(true);
+    ui->orderedBtn->setCheckable(true);
+    ui->fontSizeBtn->setCheckable(false);
+
+    ui->boldBtn->setProperty("useIconHighlightEffect", true);
+    ui->boldBtn->setProperty("iconHighlightEffectMode", 1);
+    ui->italicBtn->setProperty("useIconHighlightEffect", true);
+    ui->italicBtn->setProperty("iconHighlightEffectMode", 1);
+    ui->underlineBtn->setProperty("useIconHighlightEffect", true);
+    ui->underlineBtn->setProperty("iconHighlightEffectMode", 1);
+    ui->strikeOutBtn->setProperty("useIconHighlightEffect", true);
+    ui->strikeOutBtn->setProperty("iconHighlightEffectMode", 1);
+    ui->unorderedBtn->setProperty("useIconHighlightEffect", true);
+    ui->unorderedBtn->setProperty("iconHighlightEffectMode", 1);
+    ui->orderedBtn->setProperty("useIconHighlightEffect", true);
+    ui->orderedBtn->setProperty("iconHighlightEffectMode", 1);
+//   TextEdit btnInit  end
 }
 
 void Edit_page::slotsSetup()
@@ -211,17 +257,10 @@ void Edit_page::slotsSetup()
     });
     connect(ui->textEdit,&QTextEdit::textChanged,this,&Edit_page::textChangedSlot);
     // 调色板菜单
-    connect(ui->paletteBtn, &QPushButton::clicked, this, [=](){
+    connect(m_noteHeadMenu->ui->pushButtonPalette, &QPushButton::clicked, this, [=](){
         QPointF position = this->pos();
-        color_page->move(position.x(),position.y()+224);
+        color_page->move(position.x()+100,position.y()-36);
         color_page->show();
-    });
-    // 格式菜单
-    connect(ui->formatBtn, &QPushButton::clicked, this, [=](){
-        QPointF position = this->pos();
-        //QPointF position = parentWidget()->pos();
-        text_edit_page->move(position.x(),position.y()+224);
-        text_edit_page->show();
     });
     // 调色按钮
     connect(color_page->paletteWidget->ui->blueBtn, &QPushButton::clicked, this, &Edit_page::blueBtnSlot);
@@ -235,17 +274,32 @@ void Edit_page::slotsSetup()
     connect(color_page->paletteWidget->ui->yellowBtn, &QPushButton::clicked, this, &Edit_page::yellowBtnSlot);
     connect(color_page->paletteWidget->ui->pinkBtn, &QPushButton::clicked, this, &Edit_page::pinkBtnSlot);
     // 字体颜色大小
-    connect(text_edit_page->set_size_page->ui->listWidget, &QListWidget::itemClicked, this, &Edit_page::setFontSizeSlot);
-    connect(text_edit_page->set_color_fort_page->ui->listWidget, &QListWidget::itemClicked, this, &Edit_page::setFontColorSlot);
+    connect(set_size_page->ui->listWidget, &QListWidget::itemClicked, this, &Edit_page::setFontSizeSlot);
+    connect(set_color_fort_page->ui->listWidget, &QListWidget::itemClicked, this, &Edit_page::setFontColorSlot);
     // 文本格式
-    connect(text_edit_page->texteditwidget->ui->boldBtn, &QPushButton::clicked, this, &Edit_page::setBoldSlot);
-    connect(text_edit_page->texteditwidget->ui->italicBtn, &QPushButton::clicked, this, &Edit_page::setItalicSlot);
-    connect(text_edit_page->texteditwidget->ui->underlineBtn, &QPushButton::clicked, this, &Edit_page::setUnderlineSlot);
-    connect(text_edit_page->texteditwidget->ui->strikeOutBtn, &QPushButton::clicked, this, &Edit_page::setStrikeOutSlot);
-    connect(text_edit_page->texteditwidget->ui->unorderedBtn, &QPushButton::clicked, this, &Edit_page::setUnorderedListSlot);
-    connect(text_edit_page->texteditwidget->ui->orderedBtn, &QPushButton::clicked, this, &Edit_page::setOrderedListSlot);
+    connect(ui->boldBtn, &QPushButton::clicked, this, &Edit_page::setBoldSlot);
+    connect(ui->italicBtn, &QPushButton::clicked, this, &Edit_page::setItalicSlot);
+    connect(ui->underlineBtn, &QPushButton::clicked, this, &Edit_page::setUnderlineSlot);
+    connect(ui->strikeOutBtn, &QPushButton::clicked, this, &Edit_page::setStrikeOutSlot);
+    connect(ui->unorderedBtn, &QPushButton::clicked, this, &Edit_page::setUnorderedListSlot);
+    connect(ui->orderedBtn, &QPushButton::clicked, this, &Edit_page::setOrderedListSlot);
     connect(ui->textEdit, &QTextEdit::cursorPositionChanged, this, &Edit_page::cursorPositionChangedSlot);
     connect(ui->textEdit, &QTextEdit::currentCharFormatChanged, this, &Edit_page::currentCharFormatChangedSlot);
+
+    connect(ui->fontSizeBtn, &QPushButton::clicked, this, [=](){
+        QPointF position = this->pos();
+        set_size_page->move(position.x()+227,position.y()+272);
+        set_size_page->show();
+    });
+    connect(ui->fontColorBtn, &QPushButton::clicked, this, [=](){
+        QPointF position = this->pos();
+        set_color_fort_page->move(position.x()+260,position.y()+272);
+        set_color_fort_page->show();
+    });
+
+    connect(m_noteHeadMenu, &noteHeadMenu::requestFullscreen, this, [=](){
+        ShowFullScreenSlot();
+    });
 }
 
 void Edit_page::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
@@ -262,28 +316,28 @@ void Edit_page::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
 void Edit_page::fontChanged(const QFont &f)
 {
     qDebug() << "font Changed" << f.pointSize() << f.bold();
-    text_edit_page->set_size_page->ui->listWidget->setCurrentRow(f.pointSize() - 10);
-    text_edit_page->texteditwidget->ui->fontSizeBtn->setText(QString::number(f.pointSize()));
-    text_edit_page->texteditwidget->ui->boldBtn->setChecked(f.bold());
-    text_edit_page->texteditwidget->ui->italicBtn->setChecked(f.italic());
-    text_edit_page->texteditwidget->ui->underlineBtn->setChecked(f.underline());
-    text_edit_page->texteditwidget->ui->strikeOutBtn->setChecked(f.strikeOut());
+    set_size_page->ui->listWidget->setCurrentRow(f.pointSize() - 10);
+    ui->fontSizeBtn->setText(QString::number(f.pointSize()));
+    ui->boldBtn->setChecked(f.bold());
+    ui->italicBtn->setChecked(f.italic());
+    ui->underlineBtn->setChecked(f.underline());
+    ui->strikeOutBtn->setChecked(f.strikeOut());
 
     if (ui->textEdit->textCursor().currentList()) {
         QTextListFormat lfmt = ui->textEdit->textCursor().currentList()->format();
         if (lfmt.style() == QTextListFormat::ListDisc) {
-            text_edit_page->texteditwidget->ui->unorderedBtn->setChecked(true);
-            text_edit_page->texteditwidget->ui->orderedBtn->setChecked(false);
+            ui->unorderedBtn->setChecked(true);
+            ui->orderedBtn->setChecked(false);
           } else if (lfmt.style() == QTextListFormat::ListDecimal) {
-            text_edit_page->texteditwidget->ui->unorderedBtn->setChecked(false);
-            text_edit_page->texteditwidget->ui->orderedBtn->setChecked(true);
+            ui->unorderedBtn->setChecked(false);
+            ui->orderedBtn->setChecked(true);
           } else {
-            text_edit_page->texteditwidget->ui->unorderedBtn->setChecked(false);
-            text_edit_page->texteditwidget->ui->orderedBtn->setChecked(false);
+            ui->unorderedBtn->setChecked(false);
+            ui->orderedBtn->setChecked(false);
             }
       } else {
-        text_edit_page->texteditwidget->ui->unorderedBtn->setChecked(false);
-        text_edit_page->texteditwidget->ui->orderedBtn->setChecked(false);
+        ui->unorderedBtn->setChecked(false);
+        ui->orderedBtn->setChecked(false);
       }
 }
 
@@ -296,7 +350,7 @@ void Edit_page::fontColorChanged(const QColor &c)
     _Stylesheet = "background-color: %1;";
     _Stylesheet = _Stylesheet.arg(_BgColor);
 
-    text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet(_Stylesheet +"border-radius:3px;");
+    ui->fontColorBtn->setStyleSheet(_Stylesheet +"border-radius:3px;");
 }
 
 void Edit_page::list(bool checked, QTextListFormat::Style style)
@@ -335,10 +389,10 @@ void Edit_page::listenToGsettings()
         if(ui->textEdit->document()->isEmpty()){
             if(style == "ukui-default" || style == "ukui-white"
                     || style == "ukui-light" || style == "ukui"){
-                text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet("background-color: black;"
+                ui->fontColorBtn->setStyleSheet("background-color: black;"
                                                                                 "border-radius:3px;");
             }else if(style == "ukui-dark" || style == "ukui-black"){
-                text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet("background-color: white;"
+                ui->fontColorBtn->setStyleSheet("background-color: white;"
                                                                                 "border-radius:3px;");
             }
         }
@@ -349,10 +403,10 @@ void Edit_page::listenToGsettings()
                     QString currentTheme = styleSettings->get(MODE_QT_KEY).toString();
                     if(currentTheme == "ukui-default" || currentTheme == "ukui-white"
                             || currentTheme == "ukui-light" || currentTheme == "ukui"){
-                        text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet("background-color: black;"
+                        ui->fontColorBtn->setStyleSheet("background-color: black;"
                                                                                         "border-radius:3px;");
                     }else if(currentTheme == "ukui-dark" || currentTheme == "ukui-black"){
-                        text_edit_page->texteditwidget->ui->fontColorBtn->setStyleSheet("background-color: white;"
+                        ui->fontColorBtn->setStyleSheet("background-color: white;"
                                                                                         "border-radius:3px;");
                     }
                 }
@@ -375,18 +429,18 @@ void Edit_page::cursorPositionChangedSlot()
     if (l) {
         QTextListFormat lfmt = l->format();
         if (lfmt.style() == QTextListFormat::ListDisc) {
-            text_edit_page->texteditwidget->ui->unorderedBtn->setChecked(true);
-            text_edit_page->texteditwidget->ui->orderedBtn->setChecked(false);
+            ui->unorderedBtn->setChecked(true);
+            ui->orderedBtn->setChecked(false);
         } else if (lfmt.style() == QTextListFormat::ListDecimal) {
-            text_edit_page->texteditwidget->ui->unorderedBtn->setChecked(false);
-            text_edit_page->texteditwidget->ui->orderedBtn->setChecked(true);
+            ui->unorderedBtn->setChecked(false);
+            ui->orderedBtn->setChecked(true);
         } else {
-            text_edit_page->texteditwidget->ui->unorderedBtn->setChecked(false);
-            text_edit_page->texteditwidget->ui->orderedBtn->setChecked(false);
+            ui->unorderedBtn->setChecked(false);
+            ui->orderedBtn->setChecked(false);
         }
     } else {
-        text_edit_page->texteditwidget->ui->unorderedBtn->setChecked(false);
-        text_edit_page->texteditwidget->ui->orderedBtn->setChecked(false);
+        ui->unorderedBtn->setChecked(false);
+        ui->orderedBtn->setChecked(false);
     }
 }
 
@@ -409,7 +463,7 @@ void Edit_page::setBoldSlot()
 {
     qDebug() << "setBoldSlot";
     QTextCharFormat fmt;
-    fmt.setFontWeight(text_edit_page->texteditwidget->ui->boldBtn->isCheckable() ? QFont::Bold : QFont::Normal);
+    fmt.setFontWeight(ui->boldBtn->isCheckable() ? QFont::Bold : QFont::Normal);
 
     QTextCursor cursor = ui->textEdit->textCursor();
     if(cursor.charFormat().fontWeight() == QFont::Bold)
@@ -429,7 +483,7 @@ void Edit_page::setItalicSlot()
 {
     qDebug()<<"-------setItalicSlot------------";
     QTextCharFormat fmt;
-    fmt.setFontItalic(text_edit_page->texteditwidget->ui->italicBtn->isCheckable());// ? QFont::StyleItalic : QFont::Normal);
+    fmt.setFontItalic(ui->italicBtn->isCheckable());// ? QFont::StyleItalic : QFont::Normal);
     //mergeFormatOnWordOrSelection(fmt);
 
     QTextCursor cursor = ui->textEdit->textCursor();
@@ -448,7 +502,7 @@ void Edit_page::setUnderlineSlot()
 {
     qDebug() << "setUnderlineSlot";
     QTextCharFormat fmt;
-    fmt.setFontUnderline(text_edit_page->texteditwidget->ui->underlineBtn->isCheckable());// ? QFont::UnderlineResolved : QFont::Normal );
+    fmt.setFontUnderline(ui->underlineBtn->isCheckable());// ? QFont::UnderlineResolved : QFont::Normal );
     //mergeFormatOnWordOrSelection(fmt);
 
     QTextCursor cursor = ui->textEdit->textCursor();
@@ -466,7 +520,7 @@ void Edit_page::setStrikeOutSlot()
 {
     qDebug() << "setStrikeOutSlot";
     QTextCharFormat fmt;
-    fmt.setFontStrikeOut(text_edit_page->texteditwidget->ui->strikeOutBtn->isCheckable());// ? QFont::StrikeOutResolved : QFont::Normal );
+    fmt.setFontStrikeOut(ui->strikeOutBtn->isCheckable());// ? QFont::StrikeOutResolved : QFont::Normal );
     //mergeFormatOnWordOrSelection(fmt);
 
     QTextCursor cursor = ui->textEdit->textCursor();
@@ -485,12 +539,12 @@ void Edit_page::setUnorderedListSlot(bool checked)
     qDebug() << "setUnorderedListSlot" << checked;
     if(checked)
     {
-        text_edit_page->texteditwidget->ui->orderedBtn->setChecked(false);
+        ui->orderedBtn->setChecked(false);
         qDebug() << "show list set false" << checked;
-        qDebug() << "text_edit_page->ui->orderedBtn is checked ? :" << text_edit_page->texteditwidget->ui->orderedBtn->isChecked();
+        qDebug() << "text_edit_page->ui->orderedBtn is checked ? :" << ui->orderedBtn->isChecked();
     }
     list(checked, QTextListFormat::ListDisc);
-    qDebug() << "text_edit_page->ui->orderedBtn is checked ? :" << text_edit_page->texteditwidget->ui->orderedBtn->isChecked();
+    qDebug() << "text_edit_page->ui->orderedBtn is checked ? :" << ui->orderedBtn->isChecked();
 }
 
 //有序列表
@@ -498,7 +552,7 @@ void Edit_page::setOrderedListSlot(bool checked)
 {
     qDebug() << "show num list";
     if (checked) {
-        text_edit_page->texteditwidget->ui->unorderedBtn->setChecked(false);
+        ui->unorderedBtn->setChecked(false);
         }
     list(checked, QTextListFormat::ListDecimal);
 }
@@ -507,9 +561,9 @@ void Edit_page::setOrderedListSlot(bool checked)
 void Edit_page::setFontSizeSlot()
 {
     qDebug() << "setFontSizeSlot";
-    int num = text_edit_page->set_size_page->ui->listWidget->currentRow();
-    text_edit_page->texteditwidget->ui->fontSizeBtn->setText(QString::number(num+10));
-    text_edit_page->set_size_page->close();
+    int num = set_size_page->ui->listWidget->currentRow();
+    ui->fontSizeBtn->setText(QString::number(num+10));
+    set_size_page->close();
 
     QTextCharFormat fmt;
     fmt.setFontPointSize(num+10);
@@ -543,7 +597,7 @@ void Edit_page::initColor()
 void Edit_page::setFontColorSlot ()
 {
     qDebug() << "setFontColorSlot";
-    int num = text_edit_page->set_color_fort_page->ui->listWidget->currentRow();
+    int num = set_color_fort_page->ui->listWidget->currentRow();
 
     QTextCharFormat fmt;
     if(num != 9){
@@ -555,7 +609,7 @@ void Edit_page::setFontColorSlot ()
         //fmt.clearForeground();
         ui->textEdit->mergeCurrentCharFormat(fmt);
     }
-    text_edit_page->set_color_fort_page->close();
+    set_color_fort_page->close();
 }
 
 void Edit_page::blueBtnSlot()
@@ -664,6 +718,8 @@ void Edit_page::defaultBtnSlot()
         m_noteHeadMenu->ui->pushButtonExit->setIconSize(QSize(20,20));
         m_noteHeadMenu->ui->pushButtonMenu->setIcon(QPixmap(":/image/1x/more_block.png"));
         m_noteHeadMenu->ui->pushButtonMenu->setIconSize(QSize(20,20));
+        m_noteHeadMenu->ui->pushButtonPalette->setIcon(QPixmap(":/image/1x/more_block.png"));
+        m_noteHeadMenu->ui->pushButtonPalette->setIconSize(QSize(20,20));
 
         QString _Stylesheet;
         QString _BgColor;
@@ -672,6 +728,7 @@ void Edit_page::defaultBtnSlot()
         _Stylesheet = _Stylesheet.arg(_BgColor);
         m_noteHeadMenu->ui->pushButtonExit->setStyleSheet(_Stylesheet);
         m_noteHeadMenu->ui->pushButtonMenu->setStyleSheet(_Stylesheet);
+        m_noteHeadMenu->ui->pushButtonPalette->setStyleSheet(_Stylesheet);
     }else{
         qDebug() << "黑色便签头";
         m_editColor = QColor(0,0,0);
@@ -681,6 +738,8 @@ void Edit_page::defaultBtnSlot()
         m_noteHeadMenu->ui->pushButtonExit->setIconSize(QSize(20,20));
         m_noteHeadMenu->ui->pushButtonMenu->setIcon(QPixmap(":/image/1x/more_block.png"));
         m_noteHeadMenu->ui->pushButtonMenu->setIconSize(QSize(20,20));
+        m_noteHeadMenu->ui->pushButtonPalette->setIcon(QPixmap(":/image/1x/more_block.png"));
+        m_noteHeadMenu->ui->pushButtonPalette->setIconSize(QSize(20,20));
 
         QString _Stylesheet;
         QString _BgColor;
@@ -691,8 +750,23 @@ void Edit_page::defaultBtnSlot()
         _Stylesheet = _Stylesheet.arg(_BgColor).arg(_Color);
         m_noteHeadMenu->ui->pushButtonExit->setStyleSheet(_Stylesheet);
         m_noteHeadMenu->ui->pushButtonMenu->setStyleSheet(_Stylesheet);
+        m_noteHeadMenu->ui->pushButtonPalette->setStyleSheet(_Stylesheet);
     }
 
     emit colorhasChanged(m_editColor,m_noteId);
     update();
+}
+
+void Edit_page::ShowFullScreenSlot()
+{
+    if(!m_isFullscreen)
+    {
+        this->showFullScreen();
+        m_isFullscreen = true;
+    }
+    else
+    {
+        this->showNormal();
+        m_isFullscreen = false;
+    }
 }

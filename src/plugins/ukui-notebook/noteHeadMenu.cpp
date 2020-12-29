@@ -28,7 +28,6 @@ noteHeadMenu::noteHeadMenu(QWidget *parent) :
     QWidget(parent)
   , ui(new Ui::noteHeadMenu)
   , color_widget(15,161,90)
-
 {
     ui->setupUi(this);
     setMinimumSize(250,34);
@@ -59,6 +58,10 @@ void noteHeadMenu::paintEvent(QPaintEvent *event)
     }
     QWidget::paintEvent(event);
 }
+void noteHeadMenu::mouseDoubleClickEvent(QMouseEvent *event)
+{
+    requestFullscreen();
+}
 
 void noteHeadMenu::slotsInit()
 {
@@ -72,6 +75,7 @@ void noteHeadMenu::btnInit()
 {
     ui->pushButtonExit->setIcon(drawSymbolicColoredPixmap(QIcon::fromTheme("window-close-symbolic").pixmap(16,16), ui->pushButtonExit));
     ui->pushButtonMenu->setIcon(drawSymbolicColoredPixmap(QIcon::fromTheme("open-menu-symbolic").pixmap(16,16), ui->pushButtonMenu));
+    ui->pushButtonPalette->setIcon(drawSymbolicColoredPixmap(QIcon::fromTheme(":/image/1x/note_color.png").pixmap(16,16), ui->pushButtonPalette));
 
     QString _Stylesheet = "QPushButton{background-color: rgba(0,0,0,0);}"
                   "QPushButton:hover{background-color: rgba(0,0,0,0.12);}"
@@ -83,11 +87,13 @@ void noteHeadMenu::btnInit()
 
     ui->pushButtonExit->setStyleSheet(_Stylesheet);
     ui->pushButtonMenu->setStyleSheet(_Stylesheet);
+    ui->pushButtonPalette->setStyleSheet(_Stylesheet);
 
     QPalette palette = ui->pushButtonExit->palette();
     palette.setColor(QPalette::Highlight, Qt::transparent); /* 取消按钮高亮 */
     ui->pushButtonExit->setPalette(palette);
     ui->pushButtonMenu->setPalette(palette);
+    ui->pushButtonPalette->setPalette(palette);
 
     QMenu *m_menu = new QMenu(ui->pushButtonMenu);
     QMenu *m_childMenu = new QMenu(m_menu);
@@ -131,6 +137,12 @@ void noteHeadMenu::btnInit()
     ui->pushButtonNew->setToolTip(tr("Create New Note"));
     ui->pushButtonExit->setToolTip(tr("Exit"));
     ui->pushButtonMenu->setToolTip(tr("Menu"));
+
+    ui->pushButtonPalette->setProperty("isOptionButton", true);
+    ui->pushButtonPalette->setIconSize(QSize(16,16));
+    ui->pushButtonPalette->setProperty("useIconHighlightEffect", true);
+    ui->pushButtonPalette->setProperty("iconHighlightEffectMode", 1);
+    ui->pushButtonPalette->setToolTip(tr("Palette"));
 }
 
 QPixmap drawSymbolicColoredPixmap(const QPixmap& source, QPushButton *btn)
