@@ -411,6 +411,9 @@ void Clock::clockInit()
     connect(ui->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(listClickslot()));
     connect(ui->pushButton_8, SIGNAL(clicked()), this, SLOT(deleteAlarm()) );
     connect(ui->set_alarm_savebtn, SIGNAL(clicked()), this, SLOT(setAlarmSave()) );
+    connect(ui->pushButton_Start, SIGNAL(clicked()), this, SLOT(onPushbuttonStartClicked()));
+    connect(ui->pushButton_ring, SIGNAL(clicked()), this, SLOT(onPushbuttonRingClicked()));
+    connect(ui->pushButton_timeselect, SIGNAL(clicked()), this, SLOT(onPushbuttonTimeselectClicked()));
     connect(ui->set_alarm_cancelbtn, SIGNAL(clicked()), this, SLOT(alarmCancelSave()) );
     connect(repeat_sel, SIGNAL(clicked()), this, SLOT(alarmRepeat()) );
     connect(time_sel, SIGNAL(clicked()), this, SLOT(selectAlarmMusic()) );

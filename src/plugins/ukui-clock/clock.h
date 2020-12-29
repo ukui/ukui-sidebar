@@ -144,7 +144,7 @@ private slots:
                                                                                          // Alarm re edit page delete alarm callback
     void stopPlayMusic();                                                                //停止音乐
                                                                                          // Stop music
-    void ChooseAlarmMusic();                                                                  //选择音乐
+    void ChooseAlarmMusic();                                                             //选择音乐
                                                                                          //Choose music
     void rePlayMusic();                                                                  //播放音乐
                                                                                          // Play music
@@ -198,7 +198,7 @@ private slots:
                                                                                          // Alarm clock initialization workday selection interface drawing callback
     void repeatListclickslot();                                                          //重复选项单击回调
                                                                                          // Repeat option click callback
-    void selectAlarmMusic();                                                                  //闹钟初始化音乐选择界面回调
+    void selectAlarmMusic();                                                             //闹钟初始化音乐选择界面回调
                                                                                          // Alarm clock initialization music selection interface callback
     void musicListclickslot();                                                           //闹钟初始化单击选择音乐
                                                                                          // Alarm initialization Click to select music
