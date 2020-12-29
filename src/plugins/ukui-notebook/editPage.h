@@ -32,9 +32,13 @@
 #include "noteHeadMenu.h"
 #include "ui_noteHeadMenu.h"
 #include "selectColorPage.h"
-#include "textEditing.h"
+#include "ui_selectColorPage.h"
 #include "paletteWidget.h"
 #include "ui_paletteWidget.h"
+#include "setFontColorPage.h"
+#include "ui_setFontColorPage.h"
+#include "setFontSizePage.h"
+#include "ui_setFontSizePage.h"
 
 namespace Ui {
 class Edit_page;
@@ -54,8 +58,13 @@ public:
     noteHead *m_noteHead;
     noteHeadMenu *m_noteHeadMenu;
     QModelIndex m_index;
+    SetFontSize *set_size_page = nullptr ;
+    SetFontColor *set_color_fort_page = nullptr ;
+
     int id;
     int m_noteId;
+
+    bool m_isFullscreen;
 
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
     void enterEvent(QEvent *event) Q_DECL_OVERRIDE;
@@ -76,7 +85,6 @@ private:
 
 private:
     SelectColor *color_page;
-    Text_editing *text_edit_page;
     QTimer *timer;
     QString color[11];
     QColor color_num[11];
@@ -112,7 +120,7 @@ private slots:
     void yellowBtnSlot();
     void defaultBtnSlot();
     void pinkBtnSlot();
-
+    void ShowFullScreenSlot();
 signals:
     void texthasChanged(int noteId, int id);
     void colorhasChanged(const QColor &color,int);

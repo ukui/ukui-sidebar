@@ -116,4 +116,14 @@ void noteExitWindow::on_pushButton_2_clicked()
     }
 }
 
-
+void noteExitWindow::Exit_immediate()
+{
+    this->close();
+    pNotebook->close();
+//    if(ui->checkBox->isChecked()==true)
+//    {
+        for (auto it = pNotebook->m_editors.begin(); it!= pNotebook->m_editors.end();it++) {
+            (*it)->close();
+        }
+//    }
+}

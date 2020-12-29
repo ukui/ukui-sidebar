@@ -68,8 +68,6 @@ SOURCES += \
     setFontSizePage.cpp \
     singleApplication.cpp \
     singleitemButton.cpp \
-    textEditWidget.cpp \
-    textEditing.cpp \
     widget.cpp
 
 HEADERS += \
@@ -99,8 +97,6 @@ HEADERS += \
     setFontSizePage.h \
     singleApplication.h \
     singleitemButton.h \
-    textEditWidget.h \
-    textEditing.h \
     widget.h
 
 FORMS += \
@@ -116,8 +112,6 @@ FORMS += \
     selectColorPage.ui \
     setFontColorPage.ui \
     setFontSizePage.ui \
-    textEditWidget.ui \
-    textEditing.ui \
     widget.ui
 
 RESOURCES += \
