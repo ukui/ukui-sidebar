@@ -305,7 +305,7 @@ void Widget::kyNoteConn()
     //清空便签
     connect(m_menuActionEmpty,&QAction::triggered,this,&Widget::clearNoteSlot);
     //设置界面
-    connect(m_menuActionSet,&QAction::triggered,this,&Widget::SetNoteSlot);
+//    connect(m_menuActionSet,&QAction::triggered,this,&Widget::SetNoteSlot);
     //列表平铺切换
     connect(m_viewChangeButton,&QPushButton::clicked,this,&Widget::changePageSlot);
     //搜索栏文本输入
@@ -471,15 +471,15 @@ void Widget::btnInit()
 
     m_menuActionEmpty = new QAction(m_menu);
     QAction *m_aboutAction = new QAction(m_menu);
-    m_menuActionSet = new QAction(m_menu);
+//    m_menuActionSet = new QAction(m_menu);
 
     m_aboutAction->setText(tr("About"));
     m_menuActionEmpty->setText(tr("Empty Note"));
-    m_menuActionSet->setText(tr("Set Note"));
+//    m_menuActionSet->setText(tr("Set Note"));
 
     m_menu->addAction(m_menuActionEmpty);
     m_menu->addAction(m_aboutAction);
-    m_menu->addAction(m_menuActionSet);
+//    m_menu->addAction(m_menuActionSet);
     ui->menuBtn->setMenu(m_menu);
 
     connect(m_aboutAction, &QAction::triggered, this, [=](){
@@ -1220,7 +1220,7 @@ void Widget::onColorChanged(const QColor &color,int noteId)
 void Widget::exitSlot()
 {
     //m_noteExitWindow->exec();          //退出时弹窗弹窗
-    m_noteExitWindow->Exit_immediate();  //不弹窗，直接退出
+    m_noteExitWindow->exitImmediate();  //不弹窗，直接退出
 }
 
 /*!
@@ -1447,10 +1447,10 @@ void Widget::clearNoteSlot()
  * \brief Widget::SetNoteSlot
  *
  */
-void Widget::SetNoteSlot()
-{
-    qDebug() << "SetNoteSlot";
-}
+//void Widget::SetNoteSlot()
+//{
+//    qDebug() << "SetNoteSlot";
+//}
 
 /*!
  * \brief Widget::setNoteNullSlot

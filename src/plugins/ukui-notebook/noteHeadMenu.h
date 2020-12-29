@@ -44,7 +44,7 @@ public:
 
 protected:
     void paintEvent(QPaintEvent *event);
-    void mouseDoubleClickEvent(QMouseEvent *event);
+//    void mouseDoubleClickEvent(QMouseEvent *event);
 
 private:
     void btnInit();
@@ -53,7 +53,7 @@ private:
 signals:
     void requestNewNote();
     void requestShowNote();
-    void requestFullscreen();
+//    void requestFullscreen();
 };
 
 #endif // NOTEHEADMENU_H

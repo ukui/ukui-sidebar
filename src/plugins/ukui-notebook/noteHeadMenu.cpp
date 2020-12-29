@@ -58,10 +58,10 @@ void noteHeadMenu::paintEvent(QPaintEvent *event)
     }
     QWidget::paintEvent(event);
 }
-void noteHeadMenu::mouseDoubleClickEvent(QMouseEvent *event)
-{
-    requestFullscreen();
-}
+//void noteHeadMenu::mouseDoubleClickEvent(QMouseEvent *event)
+//{
+//    requestFullscreen();
+//}
 
 void noteHeadMenu::slotsInit()
 {
