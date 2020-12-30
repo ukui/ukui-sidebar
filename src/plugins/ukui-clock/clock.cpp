@@ -2337,7 +2337,7 @@ void Clock::alarmRepeat()
         num= model->rowCount();
     }
         QPointF position = this->pos();//446
-        dialog_repeat->move(position.x()+88,position.y()+378);
+        dialog_repeat->move(position.x()+88,position.y()+381);
         dialog_repeat->resize(280,270);
         dialog_repeat->listWidget->setFixedSize(280,270);
         dialog_repeat->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
@@ -2528,7 +2528,7 @@ void Clock::selectAlarmMusic()
         num= model->rowCount();
 
     QPointF position = this->pos();
-    dialog_music->move(position.x()+88,position.y()+428);
+    dialog_music->move(position.x()+88,position.y()+431);
     dialog_music->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
     dialog_music->setAttribute(Qt::WA_TranslucentBackground);
     dialog_music->resize(280,129);
@@ -2592,7 +2592,7 @@ void Clock::timeMusic()
         num= model->rowCount();
 
     QPointF position = this->pos();
-    time_music->move(position.x()+88,position.y()+478);
+    time_music->move(position.x()+88,position.y()+481);
     time_music->listWidget->setFixedSize(280,162);
     time_music->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
     time_music->setAttribute(Qt::WA_TranslucentBackground);
