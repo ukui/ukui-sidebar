@@ -259,7 +259,7 @@ void Edit_page::slotsSetup()
     // 调色板菜单
     connect(m_noteHeadMenu->ui->pushButtonPalette, &QPushButton::clicked, this, [=](){
         QPointF position = this->pos();
-        color_page->move(position.x()+100,position.y()-36);
+        color_page->move(position.x()+30,position.y()+34);
         color_page->show();
     });
     // 调色按钮
@@ -288,12 +288,12 @@ void Edit_page::slotsSetup()
 
     connect(ui->fontSizeBtn, &QPushButton::clicked, this, [=](){
         QPointF position = this->pos();
-        set_size_page->move(position.x()+227,position.y()+272);
+        set_size_page->move(position.x()+227,position.y()+273);
         set_size_page->show();
     });
     connect(ui->fontColorBtn, &QPushButton::clicked, this, [=](){
         QPointF position = this->pos();
-        set_color_fort_page->move(position.x()+260,position.y()+272);
+        set_color_fort_page->move(position.x()+260,position.y()+273);
         set_color_fort_page->show();
     });
 
