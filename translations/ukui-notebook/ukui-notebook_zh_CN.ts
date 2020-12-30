@@ -6,18 +6,13 @@
     <message>
         <location filename="../../src/plugins/ukui-notebook/about.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-notebook/about.ui" line="114"/>
         <source>Kylin Note</source>
         <translatorcomment>麒麟便签本</translatorcomment>
         <translation>麒麟便签本</translation>
-    </message>
-    <message>
-        <location filename="../../src/plugins/ukui-notebook/about.ui" line="134"/>
-        <source>TextLabel</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-notebook/about.cpp" line="12"/>
@@ -43,10 +38,15 @@
     <message>
         <location filename="../../src/plugins/ukui-notebook/editPage.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="145"/>
+        <location filename="../../src/plugins/ukui-notebook/editPage.ui" line="108"/>
+        <source>14</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="141"/>
         <source>ukui-memo</source>
         <translatorcomment>麒麟便签页</translatorcomment>
         <translation>麒麟便签页</translation>
@@ -72,7 +72,7 @@
     <message>
         <location filename="../../src/plugins/ukui-notebook/headerbar.cpp" line="45"/>
         <source>Sort Type</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -80,7 +80,7 @@
     <message>
         <location filename="../../src/plugins/ukui-notebook/paletteWidget.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -96,7 +96,7 @@
     <message>
         <location filename="../../src/plugins/ukui-notebook/selectColorPage.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -104,34 +104,13 @@
     <message>
         <location filename="../../src/plugins/ukui-notebook/setFontColorPage.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
     <name>SetFontSize</name>
     <message>
         <location filename="../../src/plugins/ukui-notebook/setFontSizePage.ui" line="14"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TextEditWidget</name>
-    <message>
-        <location filename="../../src/plugins/ukui-notebook/textEditWidget.ui" line="14"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/plugins/ukui-notebook/textEditWidget.ui" line="168"/>
-        <source>14</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Text_editing</name>
-    <message>
-        <location filename="../../src/plugins/ukui-notebook/textEditing.ui" line="14"/>
         <source>Form</source>
         <translation></translation>
     </message>
@@ -141,7 +120,7 @@
     <message>
         <location filename="../../src/plugins/ukui-notebook/widget.ui" line="26"/>
         <source>Widget</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-notebook/widget.ui" line="85"/>
@@ -162,32 +141,32 @@
         <translation>麒麟便签本</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="473"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="476"/>
         <source>About</source>
         <translatorcomment>关于</translatorcomment>
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="916"/>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="964"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="922"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="970"/>
         <source>Welcome to use Kylin Note.</source>
         <translatorcomment>欢迎使用麒麟便签本。</translatorcomment>
         <translation>欢迎使用麒麟便签本。</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="996"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="1002"/>
         <source>Search</source>
         <translatorcomment>搜索</translatorcomment>
         <translation>搜索</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="540"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="546"/>
         <source>Create New Note</source>
         <translatorcomment>新建便签</translatorcomment>
         <translation>新建便签</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="474"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="477"/>
         <source>Empty Note</source>
         <translatorcomment>清空便签本</translatorcomment>
         <translation>清空便签本</translation>
@@ -208,13 +187,13 @@
         <translation type="vanished">便签名称</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="541"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="547"/>
         <source>Delete Selected Note</source>
         <translatorcomment>删除</translatorcomment>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="542"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="548"/>
         <source>Switch View</source>
         <translatorcomment>切换视图</translatorcomment>
         <translation>切换视图</translation>
@@ -230,19 +209,19 @@
         <translation type="vanished">换肤</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="543"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="549"/>
         <source>Exit</source>
         <translatorcomment>关闭</translatorcomment>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="544"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="550"/>
         <source>Mini</source>
         <translatorcomment>最小化</translatorcomment>
         <translation>最小化</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="545"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="551"/>
         <source>Menu</source>
         <translatorcomment>菜单</translatorcomment>
         <translation>菜单</translation>
@@ -258,27 +237,27 @@
     <message>
         <location filename="../../src/plugins/ukui-notebook/emptyNotes.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-notebook/emptyNotes.ui" line="44"/>
         <source>确定要清空便签本吗?</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-notebook/emptyNotes.ui" line="64"/>
         <source>不再询问</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-notebook/emptyNotes.ui" line="81"/>
         <source>取消</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-notebook/emptyNotes.ui" line="98"/>
         <source>确定</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -286,7 +265,7 @@
     <message>
         <location filename="../../src/plugins/ukui-notebook/fontButton.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -332,7 +311,7 @@
     <message>
         <location filename="../../src/plugins/ukui-notebook/noteExitWindow.ui" line="31"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-notebook/noteExitWindow.ui" line="83"/>
@@ -364,7 +343,7 @@
     <message>
         <location filename="../../src/plugins/ukui-notebook/noteHead.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -372,43 +351,48 @@
     <message>
         <location filename="../../src/plugins/ukui-notebook/noteHeadMenu.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/noteHeadMenu.cpp" line="102"/>
+        <location filename="../../src/plugins/ukui-notebook/noteHeadMenu.cpp" line="108"/>
         <source>Open note list</source>
         <translatorcomment>打开便签本</translatorcomment>
         <translation>打开便签本</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/noteHeadMenu.cpp" line="104"/>
+        <location filename="../../src/plugins/ukui-notebook/noteHeadMenu.cpp" line="110"/>
         <source>Delete this note</source>
         <translatorcomment>删除此便签</translatorcomment>
         <translation>删除此便签</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/noteHeadMenu.cpp" line="105"/>
+        <location filename="../../src/plugins/ukui-notebook/noteHeadMenu.cpp" line="111"/>
         <source>Share</source>
         <translatorcomment>分享</translatorcomment>
         <translation>分享</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/noteHeadMenu.cpp" line="131"/>
+        <location filename="../../src/plugins/ukui-notebook/noteHeadMenu.cpp" line="137"/>
         <source>Create New Note</source>
         <translatorcomment>新建便签</translatorcomment>
         <translation>新建便签</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/noteHeadMenu.cpp" line="132"/>
+        <location filename="../../src/plugins/ukui-notebook/noteHeadMenu.cpp" line="138"/>
         <source>Exit</source>
         <translatorcomment>关闭</translatorcomment>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/noteHeadMenu.cpp" line="133"/>
+        <location filename="../../src/plugins/ukui-notebook/noteHeadMenu.cpp" line="139"/>
         <source>Menu</source>
         <translatorcomment>菜单</translatorcomment>
         <translation>菜单</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/noteHeadMenu.cpp" line="145"/>
+        <source>Palette</source>
+        <translation>调色板</translation>
     </message>
 </context>
 <context>
@@ -416,7 +400,7 @@
     <message>
         <location filename="../../src/plugins/ukui-notebook/paletteButton.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 </TS>

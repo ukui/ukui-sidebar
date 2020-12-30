@@ -297,9 +297,9 @@ void Edit_page::slotsSetup()
         set_color_fort_page->show();
     });
 
-    connect(m_noteHeadMenu, &noteHeadMenu::requestFullscreen, this, [=](){
-        ShowFullScreenSlot();
-    });
+//    connect(m_noteHeadMenu, &noteHeadMenu::requestFullscreen, this, [=](){
+//        ShowFullScreenSlot();
+//    });
 }
 
 void Edit_page::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
@@ -757,16 +757,16 @@ void Edit_page::defaultBtnSlot()
     update();
 }
 
-void Edit_page::ShowFullScreenSlot()
-{
-    if(!m_isFullscreen)
-    {
-        this->showFullScreen();
-        m_isFullscreen = true;
-    }
-    else
-    {
-        this->showNormal();
-        m_isFullscreen = false;
-    }
-}
+//void Edit_page::ShowFullScreenSlot()
+//{
+//    if(!m_isFullscreen)
+//    {
+//        this->showFullScreen();
+//        m_isFullscreen = true;
+//    }
+//    else
+//    {
+//        this->showNormal();
+//        m_isFullscreen = false;
+//    }
+//}
