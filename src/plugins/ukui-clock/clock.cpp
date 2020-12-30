@@ -422,6 +422,11 @@ void Clock::clockInit()
     connect(count_sel_1, SIGNAL(clicked()), this, SLOT(countdownMusicSellect()));
     connect(ui->pushButton_5, SIGNAL(clicked()), this, SLOT(windowClosingClicked()));
     connect(ui->pushButton_4, SIGNAL(clicked()), this, SLOT(windowMinimizingClicked()));
+    connect(ui->min_5btn, SIGNAL(clicked()), this, SLOT(onMin_5btnClicked()));
+    connect(ui->min_10btn, SIGNAL(clicked()), this, SLOT(onMin_10btnClicked()));
+    connect(ui->min_20btn, SIGNAL(clicked()), this, SLOT(onMin_20btnClicked()));
+    connect(ui->min_30btn, SIGNAL(clicked()), this, SLOT(onMin_30btnClicked()));
+    connect(ui->min_60btn, SIGNAL(clicked()), this, SLOT(onMin_60btnClicked()));
 
     /*单击时间提示计时器
      Click time reminder timer*/
