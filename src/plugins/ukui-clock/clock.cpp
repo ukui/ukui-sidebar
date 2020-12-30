@@ -411,6 +411,9 @@ void Clock::clockInit()
     connect(ui->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(listClickslot()));
     connect(ui->pushButton_8, SIGNAL(clicked()), this, SLOT(deleteAlarm()) );
     connect(ui->set_alarm_savebtn, SIGNAL(clicked()), this, SLOT(setAlarmSave()) );
+    connect(ui->pushButton_Start, SIGNAL(clicked()), this, SLOT(onPushbuttonStartClicked()));
+    connect(ui->pushButton_ring, SIGNAL(clicked()), this, SLOT(onPushbuttonRingClicked()));
+    connect(ui->pushButton_timeselect, SIGNAL(clicked()), this, SLOT(onPushbuttonTimeselectClicked()));
     connect(ui->set_alarm_cancelbtn, SIGNAL(clicked()), this, SLOT(alarmCancelSave()) );
     connect(repeat_sel, SIGNAL(clicked()), this, SLOT(alarmRepeat()) );
     connect(time_sel, SIGNAL(clicked()), this, SLOT(selectAlarmMusic()) );
@@ -419,6 +422,11 @@ void Clock::clockInit()
     connect(count_sel_1, SIGNAL(clicked()), this, SLOT(countdownMusicSellect()));
     connect(ui->pushButton_5, SIGNAL(clicked()), this, SLOT(windowClosingClicked()));
     connect(ui->pushButton_4, SIGNAL(clicked()), this, SLOT(windowMinimizingClicked()));
+    connect(ui->min_5btn, SIGNAL(clicked()), this, SLOT(onMin_5btnClicked()));
+    connect(ui->min_10btn, SIGNAL(clicked()), this, SLOT(onMin_10btnClicked()));
+    connect(ui->min_20btn, SIGNAL(clicked()), this, SLOT(onMin_20btnClicked()));
+    connect(ui->min_30btn, SIGNAL(clicked()), this, SLOT(onMin_30btnClicked()));
+    connect(ui->min_60btn, SIGNAL(clicked()), this, SLOT(onMin_60btnClicked()));
 
     /*单击时间提示计时器
      Click time reminder timer*/
@@ -2329,7 +2337,7 @@ void Clock::alarmRepeat()
         num= model->rowCount();
     }
         QPointF position = this->pos();//446
-        dialog_repeat->move(position.x()+88,position.y()+378);
+        dialog_repeat->move(position.x()+88,position.y()+381);
         dialog_repeat->resize(280,270);
         dialog_repeat->listWidget->setFixedSize(280,270);
         dialog_repeat->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
@@ -2520,7 +2528,7 @@ void Clock::selectAlarmMusic()
         num= model->rowCount();
 
     QPointF position = this->pos();
-    dialog_music->move(position.x()+88,position.y()+428);
+    dialog_music->move(position.x()+88,position.y()+431);
     dialog_music->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
     dialog_music->setAttribute(Qt::WA_TranslucentBackground);
     dialog_music->resize(280,129);
@@ -2584,7 +2592,7 @@ void Clock::timeMusic()
         num= model->rowCount();
 
     QPointF position = this->pos();
-    time_music->move(position.x()+88,position.y()+478);
+    time_music->move(position.x()+88,position.y()+481);
     time_music->listWidget->setFixedSize(280,162);
     time_music->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
     time_music->setAttribute(Qt::WA_TranslucentBackground);

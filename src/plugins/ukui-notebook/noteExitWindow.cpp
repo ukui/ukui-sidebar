@@ -116,7 +116,7 @@ void noteExitWindow::on_pushButton_2_clicked()
     }
 }
 
-void noteExitWindow::Exit_immediate()
+void noteExitWindow::exitImmediate()
 {
     this->close();
     pNotebook->close();
