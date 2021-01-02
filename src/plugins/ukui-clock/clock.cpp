@@ -1460,29 +1460,32 @@ void Clock::listdoubleClickslot()
 
 
     music_str_model =  model->index(num, 2).data().toString();
-    if(music_str_model == "glass" || "玻璃"){
+    if(music_str_model.compare("glass") == 0 || music_str_model.compare("玻璃") == 0){
         music_str_model = tr("glass");
-    }else if(music_str_model == "bark" || "犬吠"){
+    }else if(music_str_model.compare("bark") == 0 || music_str_model.compare("犬吠") == 0){
         music_str_model = tr("bark");
-    }else if(music_str_model == "sonar" || "声呐"){
+    }else if(music_str_model.compare("sonar") == 0 || music_str_model.compare("声呐") == 0){
         music_str_model = tr("sonar");
-    }else if(music_str_model == "drip" || "雨滴"){
+    }else if(music_str_model.compare("drip") == 0 || music_str_model.compare("雨滴") == 0){
         music_str_model = tr("drip");
     }
+
     time_sel->textLabel->setText(music_str_model);
 
 
     time_music_str_model = model->index(num, 13).data().toString();
-
-    if(time_music_str_model == "2min" || "2分钟"){
+    if(time_music_str_model.compare("2min") == 0 || time_music_str_model.compare("2分钟") == 0)
+    {
         time_music_str_model = tr("2min");
-    }else if(time_music_str_model == "3min" || "3分钟"){
+    }else if(time_music_str_model.compare("3min") == 0 || time_music_str_model.compare("3分钟") == 0){
         time_music_str_model = tr("3min");
-    }else if(time_music_str_model == "4min" || "4分钟"){
+    }else if(time_music_str_model.compare("4min") == 0 || time_music_str_model.compare("4分钟") == 0){
         time_music_str_model = tr("4min");
-    }else if(time_music_str_model == "6min" || "6分钟"){
+    }else if(time_music_str_model.compare("6min") == 0 || time_music_str_model.compare("6分钟") == 0){
         time_music_str_model = tr("6min");
     }
+
+
     ring_sel->textLabel->setText(time_music_str_model);
     time_music_str_model = model->index(num, 13).data().toString();
 
@@ -2539,16 +2542,6 @@ void Clock::selectAlarmMusic()
     dialog_music->widget[1]->alarmLabel0->setText(tr("bark"));
     dialog_music->widget[2]->alarmLabel0->setText(tr("sonar"));
     dialog_music->widget[3]->alarmLabel0->setText(tr("drip"));
-
-    if(model_setup->index(0, 5).data().toString().compare(tr("glass"))==0){
-        dialog_music->widget[0]->alarmLabel0->setText(tr("glass(default)"));
-    } else if (model_setup->index(0, 5).data().toString().compare(tr("bark"))==0) {
-        dialog_music->widget[1]->alarmLabel0->setText(tr("bark(default)"));
-    } else if (model_setup->index(0, 5).data().toString().compare(tr("sonar"))==0) {
-        dialog_music->widget[2]->alarmLabel0->setText(tr("sonar(default)"));
-    } else if (model_setup->index(0, 5).data().toString().compare(tr("drip"))==0) {
-        dialog_music->widget[3]->alarmLabel0->setText(tr("drip(default)"));
-    }
 
     dialog_music->show();
 }
