@@ -105,14 +105,14 @@ Clock::Clock(QWidget *parent) :
     ui->listWidget -> setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);  /*设置像素级滑动    Set pixel level slide*/
     ui->listWidget_2 -> setVerticalScrollMode(QAbstractItemView::ScrollPerPixel); /*设置像素级滑动  Set pixel level slide*/
 
-    ui->listWidget->setStyleSheet("QListWidget::item::selected{background-color:rgba(72,72,76,1);border-radius:4px;border:1px solid rgba(97,97,101,1);}\
-                                  QListWidget::item::selected:active{background-color:rgba(72,72,76,1);border-radius:4px;border:1px solid rgba(97,97,101,1);}\
-                                  QListWidget::item:hover{background-color:rgba(72,72,76,0.5);border-radius:4px;}");
-
-    ui->listWidget_2->setStyleSheet("QListWidget::item::selected{background-color:rgba(72,72,76,1);border-radius:4px;border:1px solid rgba(97,97,101,1);}\
-                                    QListWidget::item::selected:active{background-color:rgba(72,72,76,1);border-radius:4px;border:1px solid rgba(97,97,101,1);}\
-                                    QListWidget::item:hover{background-color:rgba(72,72,76,0.5);border-radius:4px;}");
-
+    ui->listWidget->setStyleSheet("QListWidget::item::selected{background-color:rgba(131, 131, 131,0.5);border-radius:4px;border:1px solid rgba(131, 131, 131,0.5);}\
+                                  QListWidget::item::selected:active{background-color:rgba(131, 131, 131,0.5);border-radius:4px;border:1px solid rgba(131, 131, 131,0.5);}\
+                                  QListWidget::item:hover{background-color:rgba(72,72,76,0.5);border-radius:4px;}\
+                                  ");
+    ui->listWidget_2->setStyleSheet("QListWidget::item::selected{background-color:rgba(131, 131, 131,0.5);border-radius:4px;border:1px solid rgba(131, 131, 131,0.5);}\
+                                    QListWidget::item::selected:active{background-color:rgba(131, 131, 131,0.5);border-radius:4px;border:1px solid rgba(131, 131, 131,0.5);}\
+                                    QListWidget::item:hover{background-color:rgba(131, 131, 131,0.5);border-radius:4px;}\
+                                    ");
     m_pSreenInfo = new adaptScreenInfo();
     qDebug()<<m_pSreenInfo->m_screenWidth<<m_pSreenInfo->m_screenHeight;
     move((m_pSreenInfo->m_screenWidth - this->width() + m_pSreenInfo->m_nScreen_x )/2, (m_pSreenInfo->m_screenHeight - this->height())/2);
@@ -427,6 +427,8 @@ void Clock::clockInit()
     connect(ui->min_20btn, SIGNAL(clicked()), this, SLOT(onMin_20btnClicked()));
     connect(ui->min_30btn, SIGNAL(clicked()), this, SLOT(onMin_30btnClicked()));
     connect(ui->min_60btn, SIGNAL(clicked()), this, SLOT(onMin_60btnClicked()));
+    connect(ui->count_push, SIGNAL(clicked()), this, SLOT(onCountPushClicked()));
+    connect(ui->pushButton_9, SIGNAL(clicked()), this, SLOT(alarmReEditClicked()));
 
     /*单击时间提示计时器
      Click time reminder timer*/
@@ -490,18 +492,18 @@ void Clock::setupInit()
     ui->lineEdit->setMaxLength(8);/*限制闹钟名字长度为9个字符*/
 
     /*设置输入框无视空格*/
-    QRegExp rx = QRegExp("[\40]*");
+    QRegExp rx = QRegExp("^[\u4e00-\u9fa5a-zA-Z]+$");
     QRegExpValidator* validator = new QRegExpValidator(rx);
     ui->lineEdit->setValidator(validator);
 
     QString Default = model_setup->index(0, 19).data().toString();
-    if(Default == "glass" || "玻璃"){
+    if(Default.compare("glass") == 0 || Default.compare("玻璃") == 0){
         Default = tr("glass");
-    }else if(Default == "bark" || "犬吠"){
+    }else if(Default.compare("bark") == 0 || Default.compare("犬吠") == 0){
         Default = tr("bark");
-    }else if(Default == "sonar" || "声呐"){
+    }else if(Default.compare("sonar") == 0 || Default.compare("声呐") == 0){
         Default = tr("sonar");
-    }else if(Default == "drip" || "雨滴"){
+    }else if(Default.compare("drip") == 0 || Default.compare("雨滴") == 0){
         Default = tr("drip");
     }
     count_sel->textLabel->setText(Default);
@@ -1266,13 +1268,13 @@ void Clock::setAlarmClock()
     ring_sel->textLabel->setText(time_music_str_model+tr("(default)"));
 
     music_str_model = model_setup->index(0, 5).data().toString();
-    if(music_str_model == "glass" || "玻璃"){
+    if(music_str_model.compare("glass") == 0 || music_str_model.compare("玻璃") == 0){
         music_str_model = tr("glass");
-    }else if(music_str_model == "bark" || "犬吠"){
+    }else if(music_str_model.compare("bark") == 0 || music_str_model.compare("犬吠") == 0){
         music_str_model = tr("bark");
-    }else if(music_str_model == "sonar" || "声呐"){
+    }else if(music_str_model.compare("sonar") == 0 || music_str_model.compare("声呐") == 0){
         music_str_model = tr("sonar");
-    }else if(music_str_model == "drip" || "雨滴"){
+    }else if(music_str_model.compare("drip") == 0 || music_str_model.compare("雨滴") == 0){
         music_str_model = tr("drip");
     }
 

@@ -29,7 +29,7 @@
     <string notr="true"/>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="page">
     <widget class="QStackedWidget" name="stackedWidget_4">
@@ -362,8 +362,7 @@ opacity:0.45;</string>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">selection-background-color:rgba(72,72,76,1);
-border-radius:0px 0px 6px 6px;
+      <string notr="true">
 </string>
      </property>
     </widget>
@@ -490,12 +489,7 @@ font: 12pt ;</string>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">selection-background-color:rgba(72,72,76,1);
-border-radius:0px 0px 6px 6px;
-
-
-QListWidget::item::selected:active{background-color:rgba(72,72,76,1);border-radius:4px;border:1px solid rgba(97,97,101,1);}
-QListWidget::item:hover{background-color:rgba(72,72,76,0.5);border-radius:4px;}</string>
+      <string notr="true"/>
      </property>
     </widget>
     <widget class="Line" name="line_5">
