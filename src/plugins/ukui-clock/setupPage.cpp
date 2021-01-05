@@ -110,39 +110,39 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
             werk = 1;
         }
     }
-    if(Time == "Following system" || "跟随系统"){
+    if(Time.compare("Following system") == 0 || Time.compare("跟随系统") == 0){
         Time = tr("Following system");
-    }else if(Time == "24 hour system" || "24小时制(23:59:59)"){
+    }else if(Time.compare("24 hour system") == 0 || Time.compare("24小时制(23:59:59)") == 0){
         Time = tr("24 hour system");
-    }else if(Time == "12 hour system" || "12小时制(下午11:59:59)"){
+    }else if(Time.compare("12 hour system") == 0 || Time.compare("12小时制(下午11:59:59)") == 0){
         Time = tr("12 hour system");
     }
-    if(Pop_up == "Notification" || "通知栏弹窗"){
+    if(Pop_up.compare("Notification") == 0 || Pop_up.compare("通知栏弹窗") == 0){
         Pop_up = tr("Notification");
-    }else if(Pop_up == "Full screen" || "全屏弹窗"){
+    }else if(Pop_up.compare("Full screen") == 0 || Pop_up.compare("全屏弹窗") == 0){
         Pop_up = tr("Full screen");
     }
-    if(Reminder == "Alert in 2 minutes" || "2分钟后提醒"){
+    if(Reminder.compare("Alert in 2 minutes") == 0 || Reminder.compare("2分钟后提醒") == 0){
         Reminder = tr("Alert in 2 minutes");
-    }else if(Reminder == "Alert in 5 minutes" || "5分钟后提醒"){
+    }else if(Reminder.compare("Alert in 5 minutes") == 0 || Reminder.compare("5分钟后提醒") == 0){
         Reminder = tr("Alert in 5 minutes");
-    }else if(Reminder == "Alert in 10 minutes" || "10分钟后提醒"){
+    }else if(Reminder.compare("Alert in 10 minutes") == 0 || Reminder.compare("10分钟后提醒") == 0){
         Reminder = tr("Alert in 10 minutes");
-    }else if(Reminder == "Alert in 30 minutes" || "30分钟后提醒"){
+    }else if(Reminder.compare("Alert in 30 minutes") == 0 || Reminder.compare("30分钟后提醒") == 0){
         Reminder = tr("Alert in 30 minutes");
-    }else if(Reminder == "Alert in 60 minutes" || "60分钟后提醒"){
+    }else if(Reminder.compare("Alert in 60 minutes") == 0 || Reminder.compare("60分钟后提醒") == 0){
         Reminder = tr("Alert in 60 minutes");
     }
-    if(Default == "glass" || "玻璃"){
+
+    if(Default.compare("glass") == 0 || Default.compare("玻璃") == 0){
         Default = tr("glass");
-    }else if(Default == "bark" || "犬吠"){
+    }else if(Default.compare("bark") == 0 || Default.compare("犬吠") == 0){
         Default = tr("bark");
-    }else if(Default == "sonar" || "声呐"){
+    }else if(Default.compare("sonar") == 0 || Default.compare("声呐") == 0){
         Default = tr("sonar");
-    }else if(Default == "drip" || "雨滴"){
+    }else if(Default.compare("drip") == 0 || Default.compare("雨滴") == 0){
         Default = tr("drip");
     }
-
     if(werk){
         repeat_sel->textLabel->setText(werk_day);
     }else {
@@ -592,6 +592,7 @@ void setuppage::Default_ringtone_listClickslot()
     default:
         break;
     }
+    qDebug()<<"xxxxxxx";
     ringtone_sel->textLabel->setText(model_setup->index(0, 5).data().toString());
     Default_ringtone->hide();
     model_setup->submitAll();
