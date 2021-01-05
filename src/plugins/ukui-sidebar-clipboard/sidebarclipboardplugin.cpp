@@ -1248,7 +1248,9 @@ bool SidebarClipboardPlugin::judgeFileExit(QString fullFilePath)
         qWarning() << "参数错误 ---> 参数类型 Qstring" << fullFilePath;
         return false;
     }
+
     QStringList filePath = fullFilePath.split('\n');
+//    qDebug() << "当前文件路径" << filePath;
     if (filePath.count() == 1) {
         QFileInfo fileInfo(fullFilePath.mid(7));
         if (fileInfo.exists()) {
@@ -1260,8 +1262,6 @@ bool SidebarClipboardPlugin::judgeFileExit(QString fullFilePath)
             QFileInfo fileInfo(filePath[i].mid(7));
             if (fileInfo.exists() && i == tmp - 1) {
                 return true;
-            } else {
-                return false;
             }
         }
     }
