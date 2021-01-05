@@ -83,13 +83,11 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
     //设置通知消息中的Icon，使用QToolButton
     QLabel* pIconToolButton = new QLabel;
-    QPixmap iconaaa(strIconPath);
-
 
     m_pAnimationBaseMapWidget->setAttribute(Qt::WA_TranslucentBackground);
 
     pIconToolButton->setFixedSize(24, 24);
-    pIconToolButton->setPixmap(iconaaa);
+    pIconToolButton->setPixmap(QIcon::fromTheme(strIconPath, QIcon::fromTheme("application-x-desktop")).pixmap(QSize(24, 24)));
     pIconToolButton->setAttribute(Qt::WA_TranslucentBackground);
 
 

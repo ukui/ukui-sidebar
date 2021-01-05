@@ -149,7 +149,7 @@ NotificationPlugin::NotificationPlugin():
     m_pQScrollAreaNotify->setFixedWidth(390);
     m_pScrollAreaNotifyVBoxLayout = new QVBoxLayout();
     m_pScrollAreaNotifyVBoxLayout->setContentsMargins(0, 0, 0, 0);
-    m_pScrollAreaNotifyVBoxLayout->setSpacing(0);
+    m_pScrollAreaNotifyVBoxLayout->setSpacing(6);
 
     //通知列表的最内层部件
     inside_widget* pInQWidget = new inside_widget();
@@ -236,7 +236,6 @@ void NotificationPlugin::showNotification()
         AppMsg* pAppMsg = m_listAppMsg.at(i);
         pAppMsg->updateAppPushTime();
     }
-
 }
 
 void NotificationPlugin::hideNotification()
@@ -272,7 +271,8 @@ AppMsg* NotificationPlugin::getAppMsgAndIndexByName(QString strAppName, int& nIn
     return pAppMsg;
 }
 
-uint NotificationPlugin::onAddSingleNotify(QString strAppName, QString strIconPath, QString strSummary, QString strBody, QDateTime dateTime, int maxNum, bool bNewNotificationFlag)
+uint NotificationPlugin::onAddSingleNotify(QString strAppName, QString strIconPath, QString strSummary, \
+                                           QString strBody, QDateTime dateTime, int maxNum, bool bNewNotificationFlag)
 {
     if(oCount!=iCount){
         oCount=oCount+1;
