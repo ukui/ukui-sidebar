@@ -83,9 +83,10 @@ NotificationPlugin::NotificationPlugin():
     m_pTakeInCoutLabel = new QLabel(m_pMainWidget);
     m_pTakeInCoutLabel->setObjectName("takeincout");
     QPalette pe1;
-    pe1.setColor(QPalette::WindowText,Qt::black);
+    pe1.setColor(QPalette::WindowText,Qt::white);
     m_pTakeInCoutLabel->setPalette(pe1);
     m_pTakeInCoutLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    m_pTakeInCoutLabel->setStyleSheet("QLabel{min-width: 16px; min-height: 16px;max-width:16px; max-height: 16px;border-radius: 8px;;background:blue}");
     m_pTakeInCoutLabel->setVisible(false);
     //添加24px的间距
     QSpacerItem* pVFixedSpacer = new QSpacerItem(10, 24, QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -102,7 +103,6 @@ NotificationPlugin::NotificationPlugin():
     m_pNotificationLabel = new QLabel(QObject::tr("Important notice"));
     QPalette pe2;
     pe2.setColor(QPalette::WindowText,Qt::black);
-    m_pTakeInCoutLabel->setPalette(pe2);
     m_pNotificationLabel->setObjectName("importantnotification");
     m_pNotificationLabel->setAttribute(Qt::WA_TranslucentBackground);
     QSpacerItem* pHSpacer = new QSpacerItem(300, 10, QSizePolicy::Expanding, QSizePolicy::Fixed);
