@@ -248,12 +248,12 @@ void Widget::kyNoteInit()
     setMouseTracking(true);               //设置鼠标追踪
     //窗口属性
     //setWindowFlags(Qt::FramelessWindowHint);    //开启窗口无边框
-    setAttribute(Qt::WA_TranslucentBackground); //设置窗口透明显示(毛玻璃效果)
+    //setAttribute(Qt::WA_TranslucentBackground); //设置窗口透明显示(毛玻璃效果)
 
-    QPainterPath blurPath;
-    blurPath.addRoundedRect(rect().adjusted(0, 0, -0, -0), 6, 6);
-    setProperty("useSystemStyleBlur", true);
-    setProperty("blurRegion", QRegion(blurPath.toFillPolygon().toPolygon()));//使用QPainterPath的api生成多边形Region
+    //QPainterPath blurPath;
+    //blurPath.addRoundedRect(rect().adjusted(0, 0, -0, -0), 6, 6);
+    //setProperty("useSystemStyleBlur", true);
+    //setProperty("blurRegion", QRegion(blurPath.toFillPolygon().toPolygon()));//使用QPainterPath的api生成多边形Region
 
     //弹出位置
     m_pSreenInfo = new adaptScreenInfo();
@@ -1087,7 +1087,8 @@ void Widget::paintEvent(QPaintEvent *event)
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     QPainterPath rectPath;
-    rectPath.addRoundedRect(this->rect(), 6, 6); // 左上右下
+    rectPath.addRect(this->rect());
+    //rectPath.addRoundedRect(this->rect(), 6, 6); // 左上右下
 
     // 画一个黑底
     //QPixmap pixmap(this->rect().size());
