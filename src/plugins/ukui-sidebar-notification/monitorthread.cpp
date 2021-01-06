@@ -77,28 +77,24 @@ void MonitorThread::extractData(QString strOutput)
     }
     strOutputTmp = strOutputTmp.mid(nIndex + 1);
     nIndex = strOutputTmp.indexOf("\"");
-    if(-1 == nIndex)
-    {
+    if (-1 == nIndex) {
         return;
     }
     QString strIcon = strOutputTmp.mid(0, nIndex);
     strOutputTmp = strOutputTmp.mid(nIndex + 1);
 
-    if("" == strIcon)
-    {
+    if ("" == strIcon) {
         strIcon = "/usr/share/icons/ukui-icon-theme-default/24x24/mimetypes/application-x-desktop.png";
     }
 
     //主题的获取
     nIndex = strOutputTmp.indexOf("\"");
-    if(-1 == nIndex)
-    {
+    if(-1 == nIndex) {
         return;
     }
     strOutputTmp = strOutputTmp.mid(nIndex + 1);
     nIndex = strOutputTmp.indexOf("\"");
-    if(-1 == nIndex)
-    {
+    if (-1 == nIndex) {
         return;
     }
     QString strSummary = strOutputTmp.mid(0, nIndex);
@@ -106,14 +102,12 @@ void MonitorThread::extractData(QString strOutput)
 
     //正文的获取
     nIndex = strOutputTmp.indexOf("\"");
-    if(-1 == nIndex)
-    {
+    if (-1 == nIndex) {
         return;
     }
     strOutputTmp = strOutputTmp.mid(nIndex + 1);
     nIndex = strOutputTmp.indexOf("\"");
-    if(-1 == nIndex)
-    {
+    if (-1 == nIndex) {
         return;
     }
     QString strBody = strOutputTmp.mid(0, nIndex);
@@ -121,20 +115,18 @@ void MonitorThread::extractData(QString strOutput)
 
     QMap<QString, int>::const_iterator iter = m_nAppMaxNum.find(strAppName);
     int nMaxNum = 20;
-    if((iter != m_nAppMaxNum.end()) && (iter.value() > 0))  //找到
-    {
+    //找到
+    if ((iter != m_nAppMaxNum.end()) && (iter.value() > 0)) {
         nMaxNum = iter.value();
     }
 
     QDateTime dateTime(QDateTime::currentDateTime());
 
     QMap<QString, bool>::const_iterator iter1 = m_mapAppSwitch.find(strAppName);
-    if(iter1 == m_mapAppSwitch.end())                       //未找到
-    {
+    //未找到
+    if (iter1 == m_mapAppSwitch.end()) {
         emit Sig_Notify(strAppName, strIcon, strSummary, strBody, dateTime, nMaxNum, true);
-    }
-    else
-    {
+    } else {
         emit Sig_Takein(strAppName, strIcon, strSummary, strBody, dateTime, nMaxNum, true);
     }
 

@@ -23,8 +23,9 @@
 #include <QLabel>
 #include <QDateTime>
 #include <QVBoxLayout>
-
-
+#define CONTROL_CENTER_TIME_FORMAT_GSETTING "org.ukui.control-center.panel.plugins"
+#define CONTROL_TINE_FORMAT_GSETTING_VALUE "hoursystem"
+#define TIME_FORMAT "12"
 class AppMsg;
 class ButtonWidget;
 
@@ -33,6 +34,7 @@ class SingleMsg : public QWidget
     Q_OBJECT
 public:
     SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, QString strSummary, QDateTime dateTime, QString strBody, bool bTakeInFlag = false);
+    void initTimeFormatGsetting();
     void updatePushTime();
     void setBodyLabelWordWrap(bool bFlag);
     void setLeftItem(int nShowLeftCount);

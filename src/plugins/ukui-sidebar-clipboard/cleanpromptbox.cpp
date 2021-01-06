@@ -39,7 +39,7 @@ CleanPromptBox::CleanPromptBox()
 
 
     this->setLayout(m_pHintWidgetVLaout);
-    this->setWindowFlags(Qt::FramelessWindowHint /*| Qt::X11BypassWindowManagerHint*/);
+    this->setWindowFlags(Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
     this->setAttribute(Qt::WA_TranslucentBackground);
     return;
 }

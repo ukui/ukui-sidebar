@@ -28,7 +28,7 @@
 #include <QDebug>
 #include <QTimer>
 #include <QThread>
-
+#include <QGSettings>
 
 SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, QString strSummary, QDateTime dateTime, QString strBody, bool bTakeInFlag)
 {
@@ -41,7 +41,8 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_dateTime = dateTime;
     m_uNotifyTime = dateTime.toTime_t();
     m_bTakeInFlag = bTakeInFlag;
-    m_bTimeFormat = true;
+
+    initTimeFormatGsetting();
 
     connect(this, SIGNAL(Sig_setAppFoldFlag(bool)), pParent, SLOT(setAppFoldFlag(bool)));
     connect(this, SIGNAL(Sig_onDeleSingleMsg(SingleMsg*)), pParent, SLOT(onDeleSingleMsg(SingleMsg*)));
@@ -265,6 +266,27 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     return;
 }
 
+void SingleMsg::initTimeFormatGsetting()
+{
+    const QByteArray id(CONTROL_CENTER_TIME_FORMAT_GSETTING);
+    QGSettings * fontSetting = new QGSettings(id);
+    QString timeFormat = fontSetting->get(CONTROL_TINE_FORMAT_GSETTING_VALUE).toString();
+    if (timeFormat == TIME_FORMAT) {
+        m_bTimeFormat = false;
+    } else {
+        m_bTimeFormat = true;
+    }
+    connect(fontSetting, &QGSettings::changed, this, [=](QString key) {
+        if (key == CONTROL_TINE_FORMAT_GSETTING_VALUE) {
+            QString value = fontSetting->get(CONTROL_TINE_FORMAT_GSETTING_VALUE).toString();
+            if (value == TIME_FORMAT) {
+                m_bTimeFormat = false;
+            } else {
+                m_bTimeFormat = true;
+            }
+        }
+    });
+}
 
 void SingleMsg::paintEvent(QPaintEvent *e)
 {
@@ -312,39 +334,29 @@ void SingleMsg::updatePushTime()
 {
     QDateTime currentDateTime(QDateTime::currentDateTime());
 
-    if(currentDateTime.toTime_t() < (m_uNotifyTime + 60))
-    {
+    if (currentDateTime.toTime_t() < (m_uNotifyTime + 60)) {
         return;
     }
 
     QString strPushDate;
-    if(m_dateTime.date() == currentDateTime.date())
-    {
-        if(true == m_bTimeFormat)
-        {
+    if (m_dateTime.date() == currentDateTime.date()) {
+        if(true == m_bTimeFormat) {
             strPushDate = m_dateTime.toString("hh:mm");                     //24小时制
-        }
-        else
-        {
+        } else {
             strPushDate = m_dateTime.toString("AP h:mm");                   //12小时制
         }
         m_pTimeLabel->setText(strPushDate);
         return;
     }
 
-    if(1 == (currentDateTime.date().toJulianDay() - m_dateTime.date().toJulianDay()))
-    {
+    if (1 == (currentDateTime.date().toJulianDay() - m_dateTime.date().toJulianDay())) {
         strPushDate = tr("Yesterday ");
-        if(true == m_bTimeFormat)
-        {
+        if(true == m_bTimeFormat) {
             strPushDate = strPushDate + m_dateTime.toString("hh:mm");       //24小时制
-        }
-        else
-        {
+        } else {
             strPushDate = strPushDate + m_dateTime.toString("AP h:mm");     //12小时制
         }
         m_pTimeLabel->setText(strPushDate);
-
         return;
     }
 

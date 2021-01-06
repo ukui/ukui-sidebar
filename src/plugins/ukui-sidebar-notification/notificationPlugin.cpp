@@ -158,6 +158,7 @@ NotificationPlugin::NotificationPlugin():
     pInQWidget->setAttribute(Qt::WA_TranslucentBackground);
     m_pQScrollAreaNotify->setWidget(pInQWidget);
     m_pMessageCenterLabel = new QLabel(QObject::tr("No new notifications"));
+//    m_pMessageCenterLabel->setStyleSheet();
     m_pScrollAreaNotifyVBoxLayout->addWidget(m_pMessageCenterLabel, 4, Qt::AlignCenter);
     m_pMessageCenterLabel->setAttribute(Qt::WA_TranslucentBackground);
     QSpacerItem* pVSpacer = new QSpacerItem(10, 1, QSizePolicy::Fixed, QSizePolicy::Expanding);
