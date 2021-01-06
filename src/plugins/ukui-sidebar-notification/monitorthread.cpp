@@ -52,14 +52,12 @@ void MonitorThread::extractData(QString strOutput)
 
     //app名的获取
     int nIndex = strOutputTmp.indexOf("\"");
-    if(-1 == nIndex)
-    {
+    if (-1 == nIndex) {
         return;
     }
     strOutputTmp = strOutputTmp.mid(nIndex + 1);
     nIndex = strOutputTmp.indexOf("\"");
-    if(-1 == nIndex)
-    {
+    if (-1 == nIndex) {
         return;
     }
     QString strAppName = strOutputTmp.mid(0, nIndex);
