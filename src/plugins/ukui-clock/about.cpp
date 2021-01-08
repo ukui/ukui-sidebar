@@ -41,7 +41,7 @@ void About::paintEvent(QPaintEvent *event) {
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);
     QPainterPath rectPath;
-    rectPath.addRoundedRect(this->rect().adjusted(10, 10, -10, -10), 6, 6);
+    rectPath.addRoundedRect(this->rect().adjusted(14, 14, -14, -14), 6, 6);
     // 画一个黑底
     QPixmap pixmap(this->rect().size());
     pixmap.fill(Qt::transparent);
@@ -72,5 +72,4 @@ void About::paintEvent(QPaintEvent *event) {
     p.save();
     p.fillPath(rectPath,palette().color(QPalette::Base));
     p.restore();
-
 }

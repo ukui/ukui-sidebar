@@ -25,11 +25,11 @@ item_new::item_new(QWidget *parent) :
     setupUi(this);
     this->setStyleSheet("border-radius:12px;");
 
-    this->setFixedSize(376, 58);
+    this->setFixedSize(340, 108);
 
     alarmLabel_w0 = new QLabel(this);//闹钟用途
                                      //Alarm function
-    alarmLabel_w0->move(22,4);
+    alarmLabel_w0->move(25  ,4);
     alarmLabel_w0->setFixedSize(170, 25);
     alarmLabel_w0->setStyleSheet("font: 11pt ;background-color: rgb();\
                                  width:35px;\
@@ -42,7 +42,7 @@ item_new::item_new(QWidget *parent) :
 
     alarmLabel_s0 = new QLabel( this);//闹钟重复
                                       //Repetition of alarm clock
-    alarmLabel_s0->move(24, 34);
+    alarmLabel_s0->move(25, 76);
     alarmLabel_s0->setFixedSize(170, 17);
     alarmLabel_s0->setStyleSheet("font: 9pt ;background-color: rgb();\
                                  width:42px;\
@@ -56,15 +56,9 @@ item_new::item_new(QWidget *parent) :
     alarmLabel_s0->setVisible(true);
 
 
-    alarm_line0 = new QFrame(this);
-    alarm_line0->move(13, 57);
-    alarm_line0->setFixedSize(350, 1);
-    alarm_line0->setStyleSheet(QString::fromUtf8("background-color: rgba(102, 102, 102,0.2);"));
-
-
     alarmLabel0 = new QLabel(this);//闹钟
                                    //Alarm clock
-    alarmLabel0->move(200,1);
+    alarmLabel0->move(25,20);
     alarmLabel0->setFixedSize(105, 56);
     alarmLabel0->setStyleSheet("font: 17pt;background-color: rgb();\
                                width:78px;\
@@ -78,7 +72,7 @@ item_new::item_new(QWidget *parent) :
 
     alarmLabel1 = new QLabel(this);//上下午
                                    //Last afternoon
-    alarmLabel1->move(170,0);
+    alarmLabel1->move(130,22);
     alarmLabel1->setFixedSize(31, 56);
     alarmLabel1->setStyleSheet("font: 10pt;background-color: rgb();\
                                ");
@@ -88,7 +82,7 @@ item_new::item_new(QWidget *parent) :
 
     alarm_on_off0 = new QPushButton(this);//闹钟开关
                                           // Alarm switch
-    alarm_on_off0->move(305,17.5);
+    alarm_on_off0->move(263,43);
     alarm_on_off0->setFixedSize(50, 24);
     alarm_on_off0->setFlat(true);
     alarm_on_off0->setVisible(true);
@@ -97,11 +91,6 @@ item_new::item_new(QWidget *parent) :
 
 item_new::~item_new()
 {
-   delete  alarmLabel_w0;
-   delete  alarmLabel_s0;
-   delete  alarm_line0;
-   delete  alarmLabel0;
-   delete  alarm_on_off0;
 
 }
 

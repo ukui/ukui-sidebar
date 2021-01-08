@@ -32,6 +32,7 @@ Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
     timer_value(close_time),
     ui(new Ui::Natice_alarm)
 {
+    this->setFixedSize(486,286);
     setWindowFlags(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
     ui->setupUi(this);
@@ -83,11 +84,12 @@ Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
     ui->pushButton->setPalette(palette1);
 
     ui->pushButton->setIcon(QIcon::fromTheme("window-close-symbolic"));
+    ui->pushButton->setProperty("isWindowButton", 0x2);
+    ui->pushButton->setProperty("useIconHighlightEffect", 0x8);
     ui->pushButton->setFlat(true);
-    ui->pushButton->setVisible(true);
-    ui->pushButton->setFocusPolicy(Qt::NoFocus);
-    ui->pushButton->setProperty("useIconHighlightEffect", true);
-    ui->pushButton->setProperty("iconHighlightEffectMode", true);
+
+    this->setWindowIcon(QIcon::fromTheme("kylin-alarm-clock",QIcon(":/kylin-alarm-clock.svg")));
+    ui->titleIcon->setPixmap(QIcon::fromTheme("kylin-alarm-clock").pixmap(24,24));
 }
 
 Natice_alarm::~Natice_alarm()
@@ -239,7 +241,7 @@ void Natice_alarm::showPaint()
     QPainter p(ui->widget);
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     QPainterPath rectPath;
-    rectPath.addRoundedRect(ui->widget->rect().adjusted(3, 3, -3, -3), 6, 6);
+    rectPath.addRoundedRect(ui->widget->rect().adjusted(6, 6, -6, -6), 6, 6);
 
     // 画一个黑底
     QPixmap pixmap(ui->widget->rect().size());
@@ -261,7 +263,7 @@ void Natice_alarm::showPaint()
     pixmapPainter2.setRenderHint(QPainter::Antialiasing);
     pixmapPainter2.setCompositionMode(QPainter::CompositionMode_Clear);
     pixmapPainter2.setPen(Qt::transparent);
-    pixmapPainter2.setBrush(QColor(78,78,78));
+    pixmapPainter2.setBrush(QColor(0,0,0));
     pixmapPainter2.drawPath(rectPath);
 
     // 绘制阴影
