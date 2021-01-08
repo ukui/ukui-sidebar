@@ -64,7 +64,7 @@ class QRoundProgressBar : public QWidget
 public:    
     explicit QRoundProgressBar(QWidget *parent = 0);
 
-    static const int PositionLeft = 180;
+    static const int PositionLeft = 90;
     static const int PositionTop = 90;
     static const int PositionRight = 0;
     static const int PositionBottom = -90;
@@ -257,6 +257,7 @@ protected:
 
     float m_innerOuterRate = 1;
     QStyleOption opt;
+    QColor mainColor;
 };
 
 #endif // QROUNDPROGRESSBAR_H

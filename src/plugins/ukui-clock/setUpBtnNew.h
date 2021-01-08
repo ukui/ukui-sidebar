@@ -1,5 +1,5 @@
-#ifndef BTN_NEW_H
-#define BTN_NEW_H
+#ifndef SETUPBTNNEW_H
+#define SETUPBTNNEW_H
 
 #include <QWidget>
 #include <QToolButton>
@@ -10,13 +10,13 @@ namespace Ui {
 class Btn_new;
 }
 class Clock;
-class Btn_new : public  QPushButton
+class setUpBtnNew : public  QPushButton
 {
     Q_OBJECT
 
 public:
-    explicit Btn_new(int num, QString name , QWidget *parent = nullptr);
-    ~Btn_new();
+    explicit setUpBtnNew(int num, QString name , QWidget *parent = nullptr);
+    ~setUpBtnNew();
     QLabel *nameLabel;
     QLabel *textLabel;
     QLabel *noName;
@@ -32,4 +32,4 @@ private:
 protected:
 };
 
-#endif // BTN_NEW_H
+#endif // SETUPBTNNEW_H

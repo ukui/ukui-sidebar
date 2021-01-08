@@ -157,41 +157,43 @@ void QRoundProgressBar::setDecimals(int count)
 
 void QRoundProgressBar::paintEvent(QPaintEvent* /*event*/)
 {
-//    double outerRadius = qMin(width(), height());
+    QStyleOption opt;
+    opt.init(this);
+    QColor mainColor;
+    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
+    {
+        mainColor = QColor(255, 255, 255, 107);
+    }else{
+        mainColor = QColor(255, 255, 255, 40);
+    }
 
-//    QRectF baseRect(1, 1, outerRadius-2, outerRadius-2);
+    QPainter painter(this);
+    painter.save();
+    painter.setPen(mainColor);
+    painter.setBrush(mainColor);
+    QPainterPath bigCircle;
+    bigCircle.addEllipse(65, 13, 266, 266);
+    QPainterPath path = bigCircle ;
+    painter.drawPath(path);
+    painter.restore();
 
-    double outerRadius = 159;
-
-    QRectF baseRect(227 - outerRadius, 180 - outerRadius, outerRadius * 2, outerRadius * 2);
-
+    double outerRadius = 133;
+    QRectF baseRect(198 - outerRadius, 146 - outerRadius, outerRadius * 2, outerRadius * 2);
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);
-
     // data brush
     rebuildDataBrushIfNeeded();
-
     // background
     drawBackground(p, rect());
-    double innerRadius = 140;
-    QRectF innerRect = QRectF((227 - outerRadius) + 8, (180 - outerRadius) + 8, (outerRadius - 8) * 2 , (outerRadius - 8) * 2 );
+    double innerRadius = 133;
+    QRectF innerRect = QRectF((198 - outerRadius) + 5, (146 - outerRadius) + 5, (outerRadius - 5) * 2 , (outerRadius - 5) * 2 );
 
     //calculateInnerRect(baseRect, outerRadius, innerRect, innerRadius);
     double arcStep = 360.0 / (m_max - m_min) * m_value;
     // base circle
     drawBase(p, baseRect,innerRect);
-
     // data circle
-
     drawValue(p, baseRect, m_value, arcStep,innerRect, innerRadius);
-
-    // center circle
-
-    //drawInnerBackground(p, innerRect);
-
-    // text
-    //drawText(p, innerRect, innerRadius, m_value);
-
     // finally draw the bar
     p.end();
 }
@@ -205,39 +207,15 @@ void QRoundProgressBar::drawBackground(QPainter &p, const QRectF &baseRect)
 
 void QRoundProgressBar::drawBase(QPainter &p, const QRectF &baseRect,const QRectF &innerRect)
 {
-//监听主题改变
-//    const QByteArray id(THEME_QT_SCHEMA);
-//    if(QGSettings::isSchemaInstalled(id))
-//    {
-//        QGSettings *styleSettings = new QGSettings(id);
-//        connect(styleSettings, &QGSettings::changed, this, [=](const QString &key)
-//        {
-//            auto style = styleSettings->get(key).toString();
-//            qDebug() << "当前主题名:" << style;
-//            if (key == "styleName")
-//            {
-//                currentTheme = styleSettings->get(MODE_QT_KEY).toString();
-//                qDebug() << "当前主题名:" << currentTheme;
-//            }
-//        });
-//    }
 
     QStyleOption opt;
     opt.init(this);
     switch (m_barStyle)
     {
     case StyleDonut:
-        p.setPen(QPen(QColor(160, 160, 160), 4, Qt::DotLine, Qt::RoundCap, Qt::RoundJoin));
-
-//        if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
-//        {
-//            p.setPen(QPen(QColor(233,233,233), 4, Qt::DotLine, Qt::RoundCap, Qt::RoundJoin));
-//        }else{
-//            p.setPen(QPen(QColor(60, 60, 60), 4, Qt::DotLine, Qt::RoundCap, Qt::RoundJoin));
-//        }
-
-        p.setBrush(Qt::NoBrush);
-        p.drawEllipse(QPointF(227, 180),155,155);
+//        p.setPen(QPen(QColor(160, 160, 160), 4, Qt::DotLine, Qt::RoundCap, Qt::RoundJoin));
+//        p.setBrush(Qt::NoBrush);
+//        p.drawEllipse(QPointF(227, 180),155,155);
         break;
     case StylePie:
         p.setPen(QPen(palette().base().color(), m_outlinePenWidth, Qt::DotLine, Qt::RoundCap, Qt::RoundJoin));
@@ -264,52 +242,12 @@ void QRoundProgressBar::drawValue(QPainter &p
     if (value == m_min)
         return;
 
-    // for Line style
-    if (m_barStyle == StyleLine) {
-        p.setPen(QPen(palette().highlight().color(), m_dataPenWidth,Qt::DotLine, Qt::RoundCap, Qt::RoundJoin));
-        p.setBrush(Qt::NoBrush);
-
-        // 反走样
-        p.setRenderHint(QPainter::Antialiasing, true);
-
-        // 设置渐变色
-        QLinearGradient linear(QPointF(80, 80), QPointF(150, 150));
-        linear.setColorAt(0, Qt::black);
-        linear.setColorAt(1, Qt::white);
-
-        // 设置显示模式
-        linear.setSpread(QGradient::PadSpread);
-
-        // 设置画笔颜色、宽度
-        p.setPen(QPen(QColor(0, 160, 230), 2,Qt::DotLine, Qt::RoundCap, Qt::RoundJoin));
-
-        // 设置画刷填充
-        p.setBrush(linear);
-
-        // 绘制椭圆
-        //painter.drawRect(QRect(40, 40, 180, 180));
-
-        p.drawArc(baseRect.adjusted(m_outlinePenWidth/2, m_outlinePenWidth/2, -m_outlinePenWidth/2, -m_outlinePenWidth/2),
-                  m_nullPosition * 16,
-                  -arcLength * 16);
-
-        return;
-    }
-
     // for Pie and Donut styles
     QPainterPath dataPath;
     dataPath.setFillRule(Qt::WindingFill);
     dataPath.moveTo(baseRect.center());
     dataPath.arcTo(baseRect, m_nullPosition, -arcLength);//大家都是先绘制外圆的弧长
-    if(m_barStyle == StylePie) {
 
-        // pie segment outer
-        dataPath.lineTo(baseRect.center());
-
-        //p.setPen(QPen(palette().shadow().color(), m_dataPenWidth));
-
-        p.setPen(Qt::NoPen);
-    }
     if(m_barStyle == StyleDonut) {
         // draw dount outer
         QPointF currentPoint = dataPath.currentPosition();//绘制完外圆弧长后，获取绘制完的位置绘制一个直线到达内圆
@@ -322,7 +260,10 @@ void QRoundProgressBar::drawValue(QPainter &p
         dataPath.lineTo(currentPoint);
         p.setPen(Qt::NoPen);//这个很重要不然就会有绘制过程的一些轮廓了
     }
+
     p.setBrush(palette().highlight());
+    p.setBrush(QColor(235, 163, 19, 255));
+
     p.drawPath(dataPath);
 }
 

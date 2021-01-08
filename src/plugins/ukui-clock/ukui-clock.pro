@@ -42,6 +42,7 @@ SOURCES += \
     noticeDialog.cpp \
     qroundProgressBar.cpp \
     setAlarmRepeatDialog.cpp \
+    setUpBtnNew.cpp \
     setupPage.cpp \
     singleApplication.cpp \
     stopwatchItem.cpp \
@@ -70,6 +71,7 @@ HEADERS  += clock.h \
     noticeDialog.h \
     qroundProgressBar.h \
     setAlarmRepeatDialog.h \
+    setUpBtnNew.h \
     setupPage.h \
     singleApplication.h \
     stopwatchItem.h \

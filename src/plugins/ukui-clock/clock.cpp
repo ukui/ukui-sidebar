@@ -66,6 +66,7 @@
 #include "btnNew.h"
 #include "closeOrHide.h"
 #include "ui_setupPage.h"
+#include <QGraphicsOpacityEffect>
 
 
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
@@ -87,14 +88,18 @@ Clock::Clock(QWidget *parent) :
 
     this->setWindowTitle(tr("Alarm"));
     this->setAttribute(Qt::WA_TranslucentBackground);
+    QPainterPath blurPath;
+    setProperty("useSystemStyleBlur", true);
+    setProperty("blurRegion", QRegion(blurPath.toFillPolygon().toPolygon()));//使用QPainterPath的api生成多边形Region
+    //mainColor = QColor(26, 26, 26,198);
+
     mousePressed = 0;
     buttonImageInit();
     CountdownInit();
     stopwatchInit();
     clockInit();
     setupInit();
-    this->setFixedSize(454,555);
-    this->setWindowOpacity(0.97);
+    this->setFixedSize(390,580);
     /*实现鼠标左键滑动效果
     *Realize the sliding effect of left mouse button
     */
@@ -104,39 +109,35 @@ Clock::Clock(QWidget *parent) :
     QScroller::grabGesture(ui->listWidget_2,QScroller::LeftMouseButtonGesture); /*设置鼠标左键拖动  Set left mouse drag*/
     ui->listWidget -> setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);  /*设置像素级滑动    Set pixel level slide*/
     ui->listWidget_2 -> setVerticalScrollMode(QAbstractItemView::ScrollPerPixel); /*设置像素级滑动  Set pixel level slide*/
+    ui->listWidget ->setGridSize(QSize(340, 108+15));
+    ui->listWidget_2 ->setGridSize(QSize(340, 58+10));
 
-    ui->listWidget->setStyleSheet("QListWidget::item::selected{background-color:rgba(131, 131, 131,0.5);border-radius:4px;border:1px solid rgba(131, 131, 131,0.5);}\
-                                  QListWidget::item::selected:active{background-color:rgba(131, 131, 131,0.5);border-radius:4px;border:1px solid rgba(131, 131, 131,0.5);}\
-                                  QListWidget::item:hover{background-color:rgba(72,72,76,0.5);border-radius:4px;}\
-                                  ");
-    ui->listWidget_2->setStyleSheet("QListWidget::item::selected{background-color:rgba(131, 131, 131,0.5);border-radius:4px;border:1px solid rgba(131, 131, 131,0.5);}\
-                                    QListWidget::item::selected:active{background-color:rgba(131, 131, 131,0.5);border-radius:4px;border:1px solid rgba(131, 131, 131,0.5);}\
-                                    QListWidget::item:hover{background-color:rgba(131, 131, 131,0.5);border-radius:4px;}\
-                                    ");
+    settingsStyle();
+
     m_pSreenInfo = new adaptScreenInfo();
     qDebug()<<m_pSreenInfo->m_screenWidth<<m_pSreenInfo->m_screenHeight;
     move((m_pSreenInfo->m_screenWidth - this->width() + m_pSreenInfo->m_nScreen_x )/2, (m_pSreenInfo->m_screenHeight - this->height())/2);
 
     pushcount = new QPushButton(ui->page_7);
-    pushcount->setFixedSize(88,32);
+    pushcount->setFixedSize(40,40);
     pushcount->setIconSize(QSize(16,16));
-    pushcount->move(48,8);
+    pushcount->move(109,15);
     pushcount->setIcon(QIcon(":/icon-1.png"));
-    pushcount->setText(tr("Count"));
+    pushcount->setToolTip(tr("Count"));
 
     pushclock = new QPushButton(ui->page_7);
-    pushclock->setFixedSize(88,32);
+    pushclock->setFixedSize(40,40);
     pushclock->setIconSize(QSize(16,16));
-    pushclock->move(182,8);
+    pushclock->move(175,15);
     pushclock->setIcon(QIcon(":/icon-4-16x16.png"));
-    pushclock->setText(tr("Alarm"));
+    pushclock->setToolTip(tr("Alarm"));
 
     pushstop = new QPushButton(ui->page_7);
-    pushstop->setFixedSize(88,32);
+    pushstop->setFixedSize(40,40);
     pushstop->setIconSize(QSize(16,16));
-    pushstop->move(317,8);
+    pushstop->move(241,15);
     pushstop->setIcon(QIcon(":/icon-2.png"));
-    pushstop->setText(tr("Watch"));
+    pushstop->setToolTip(tr("Watch"));
 
     pushcount->setProperty("useIconHighlightEffect", true);
     pushcount->setProperty("iconHighlightEffectMode", 1);
@@ -163,11 +164,10 @@ Clock::Clock(QWidget *parent) :
 
     close_or_hide_page = new close_or_hide(this);
 
-    ui->set_page->hide();
-    ui->set_page->installEventFilter(this);
     ui->widget->installEventFilter(this);
     shadow->installEventFilter(this);
     shadow1->installEventFilter(this);
+    ui->listWidget->installEventFilter(this);
 
     ui->lineEdit->setStyleSheet("QLineEdit{background-color:transparent}");
 
@@ -205,6 +205,18 @@ Clock::Clock(QWidget *parent) :
     ui->horizontalLayout->setContentsMargins(0,0,0,0);
 
     count_stat->setEnabled(false);
+    ui->stackedWidget_4->setCurrentIndex(0);
+    ui->label_6->hide();
+    ui->label_7->hide();
+    ui->label_15->hide();
+    ui->min_5btn->hide();
+    ui->min_10btn->hide();
+    ui->min_20btn->hide();
+    ui->min_30btn->hide();
+    ui->min_60btn->hide();
+    ui->label_12->hide();
+    ui->label_13->hide();
+
 }
 
 Clock::~Clock()
@@ -242,6 +254,38 @@ void Clock::closeEvent(QCloseEvent *event)
             event->ignore();
         }
 }
+
+
+/*
+*监听主题
+*/
+void Clock::settingsStyle()
+{
+    const QByteArray style_id(ORG_UKUI_STYLE);
+    QStringList stylelist;
+    QGSettings *style_settings = new QGSettings(style_id);
+
+    stylelist<<STYLE_NAME_KEY_DARK<<STYLE_NAME_KEY_BLACK<<STYLE_NAME_KEY_DEFAULT;
+    if(QGSettings::isSchemaInstalled(style_id)){
+        style_settings = new QGSettings(style_id);
+        if(stylelist.contains(style_settings->get(STYLE_NAME).toString())){
+            blackStyle();
+        }else{
+            whiteStyle();
+        }
+    }
+
+    connect(style_settings, &QGSettings::changed, this, [=] (const QString &key){
+        if(key==STYLE_NAME){
+            if(stylelist.contains(style_settings->get(STYLE_NAME).toString())){
+                blackStyle();
+            }else{
+                whiteStyle();
+            }
+        }
+    });
+}
+
 
 /*
 *闹钟按钮图片初始化
@@ -296,16 +340,18 @@ void Clock::buttonImageInit()
     ui->pushButton_12->setProperty("useIconHighlightEffect", 0x2);
 
     count_sel = new Btn_new(0, tr("  Remind"), ui->page_4);
-    count_sel->move(89,358);
+    count_sel->move(25,310);
     count_sel_1 = new Btn_new(0, tr("  Remind"), ui->page_5);
-    count_sel_1->move(89,358);
+    count_sel_1->move(25,310);
 
     repeat_sel = new Btn_new(10, tr("  repeat"), ui->set_page);
-    repeat_sel->move(82,302);
+    repeat_sel->move(25,248);
     time_sel = new Btn_new(0, tr("  Remind"), ui->set_page);
-    time_sel->move(82,352);
+    time_sel->move(25,311);
     ring_sel = new Btn_new(0, tr("  ring time"), ui->set_page);
-    ring_sel->move(82,402);
+    ring_sel->move(25,311);
+
+    ring_sel->hide();
 }
 /*
 *倒计时页初始化
@@ -367,9 +413,9 @@ void Clock::stopwatchInit()
     stopwatch_second = 0;
     stopwatch_isStarted = 0;
 
-    ui->label_4->move(122,136);
-    ui->label_5->move(177,210);
-    ui->listWidget_2->move(39,230);
+    ui->label_4->move(90,136);
+    ui->label_5->move(90,210);
+    ui->listWidget_2->move(25,230);
     ui->pushButton_Start->raise();
     ui->pushButton_ring->raise();
     ui->pushButton_timeselect->raise();
@@ -635,6 +681,14 @@ void Clock::onPushbuttonStartClicked()
         isStarted=0;
         ui->pushButton_timeselect->show();
         ui->pushButton_Start->setText(tr("Continue"));
+
+        QPalette palette = ui->pushButton_Start->palette();
+        QColor ColorPlaceholderText(248,163,76,255);
+        QBrush brush2;
+        brush2.setColor(ColorPlaceholderText);
+        palette.setColor(QPalette::Button,QColor(69, 173, 110,255));
+        palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
+        ui->pushButton_Start->setPalette(palette);
     }
     return;
 }
@@ -647,44 +701,47 @@ void Clock::stopwatchStartAnimation()
 {
     animation1 = new QPropertyAnimation(ui->label_4, "geometry");
     animation1->setDuration(1000);
-    animation1->setKeyValueAt(0, QRect(122, 136, 210, 61));
-    animation1->setEndValue(QRect(122, 36, 210, 61));
+    animation1->setKeyValueAt(0, QRect(90, 136, 210, 61));
+    animation1->setEndValue(QRect(90, 0, 210, 61));
     animation1->start();
 
     animation2 = new QPropertyAnimation(ui->label_5, "geometry");
     animation2->setDuration(1000);
-    animation2->setKeyValueAt(0, QRect(177, 210, 100, 20));
-    animation2->setEndValue(QRect(177, 110, 100, 20));
+    animation2->setKeyValueAt(0, QRect(90, 210, 210, 41));
+    animation2->setEndValue(QRect(90, 55, 210, 41));
     animation2->start();
 
     animation3 = new QPropertyAnimation(ui->listWidget_2, "geometry");
     animation3->setDuration(1000);
-    animation3->setKeyValueAt(0, QRect(39 ,230, 376, 287));
-    animation3->setEndValue(QRect(39, 130, 376, 287));
+    animation3->setKeyValueAt(0, QRect(25 ,230, 340, 270));
+    animation3->setEndValue(QRect(25, 109, 340, 270));
     animation3->start();
 }
 /*
  * 倒计时开始动画移动
  * Countdown start animation move
+ *     ui->label_4->move(90,136);
+    ui->label_5->move(145,210);
+    ui->listWidget_2->move(25,230);
  */
 void Clock::stopwatchStopAnimation()
 {
     animation1 = new QPropertyAnimation(ui->label_4, "geometry");
     animation1->setDuration(1000);
-    animation1->setKeyValueAt(0, QRect(122, 36, 210, 61));
-    animation1->setEndValue(QRect(122, 136, 210, 61));
+    animation1->setKeyValueAt(0, QRect(90, 0, 210, 61));
+    animation1->setEndValue(QRect(90, 136, 210, 61));
     animation1->start();
 
     animation2 = new QPropertyAnimation(ui->label_5, "geometry");
     animation2->setDuration(1000);
-    animation2->setKeyValueAt(0, QRect(177, 110, 100, 20));
-    animation2->setEndValue(QRect(177, 210, 100, 20));
+    animation2->setKeyValueAt(0, QRect(90, 55, 210, 41));
+    animation2->setEndValue(QRect(90, 210, 210, 41));
     animation2->start();
 
     animation3 = new QPropertyAnimation(ui->listWidget_2, "geometry");
     animation3->setDuration(1000);
-    animation3->setKeyValueAt(0, QRect(39 ,130, 376, 251));
-    animation3->setEndValue(QRect(39, 230, 376, 251));
+    animation3->setKeyValueAt(0, QRect(25 ,109, 340, 270));
+    animation3->setEndValue(QRect(25, 230, 340, 270));
     animation3->start();
 }
 
@@ -704,7 +761,7 @@ void Clock::onPushbuttonRingClicked()
     }
     if (stopwatch_item_flag < 100) {
         stopwatch_aItem[stopwatch_item_flag] =new QListWidgetItem;
-        stopwatch_aItem[stopwatch_item_flag]->setSizeHint(QSize(376,56));
+        stopwatch_aItem[stopwatch_item_flag]->setSizeHint(QSize(340,58));
         stopwatch_aItem[stopwatch_item_flag]->setTextColor(QColor(255, 0, 0, 255));
         ui->listWidget_2->insertItem(0,stopwatch_aItem[stopwatch_item_flag]);
 
@@ -777,7 +834,7 @@ void Clock::onPushbuttonTimeselectClicked()
 void Clock::windowClosingClicked()
 {
     QPointF position = this->pos();
-    close_or_hide_page->move(position.x()+67,position.y()+250);
+    close_or_hide_page->move(position.x()+35,position.y()+200);
     close_or_hide_page->exec();
 
     if(close_or_hide_page->close_flag==1){
@@ -817,7 +874,7 @@ void Clock:: CountdownPageSwitch ()
     QColor ColorPlaceholderText2(255,255,255,0);
     QBrush brush;
     brush.setColor(ColorPlaceholderText2);
-    palette1.setBrush(QPalette::Button, brush);
+    palette1.setColor(QPalette::Button,QColor(255,255,255,102));
     pushclock->setPalette(palette1);
     pushstop->setPalette(palette1);
 
@@ -842,7 +899,7 @@ void Clock:: AlarmPageSwitch ()
     QColor ColorPlaceholderText2(255,255,255,0);
     QBrush brush;
     brush.setColor(ColorPlaceholderText2);
-    palette1.setBrush(QPalette::Button, brush);
+    palette1.setColor(QPalette::Button,QColor(255,255,255,102));
     pushcount->setPalette(palette1);
     pushstop->setPalette(palette1);
 
@@ -861,14 +918,13 @@ void Clock:: StopwatchPageSwitch ()
     QBrush brush2;
     brush2.setColor(ColorPlaceholderText);
     palette.setColor(QPalette::Button,QColor(61,107,229,255));
-    //palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
     pushstop->setPalette(palette);
 
     QPalette palette1 = pushclock->palette();
     QColor ColorPlaceholderText2(255,255,255,0);
     QBrush brush;
     brush.setColor(ColorPlaceholderText2);
-    palette1.setBrush(QPalette::Button, brush);
+    palette1.setColor(QPalette::Button,QColor(255,255,255,102));
     pushclock->setPalette(palette1);
     pushcount->setPalette(palette1);
 
@@ -1090,7 +1146,7 @@ void Clock::updateAlarmClock()
 
     for (int alarmNum = 0; alarmNum < rowNum; alarmNum++) {
         aItem[alarmNum] =new QListWidgetItem;
-        aItem[alarmNum]->setSizeHint(QSize(376,58));
+        aItem[alarmNum]->setSizeHint(QSize(340,108));
         aItem[alarmNum]->setTextColor(QColor(255, 0, 0, 255));
         ui->listWidget->addItem(aItem[alarmNum]);
         ui->listWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -1247,8 +1303,9 @@ void Clock::aitemNew()
  */
 void Clock::setAlarmClock()
 {
-    ui->set_page->show();
-    ui->set_page->raise();
+//    ui->set_page->show();
+//    ui->set_page->raise();
+    ui->stackedWidget->setCurrentIndex(3);
     ui->pushButton_8->hide();
     ui->pushButton_9->hide();
     ui->set_alarm_savebtn->show();
@@ -1332,7 +1389,7 @@ void Clock::setAlarmSave()
         QMessageBox::warning(this, "警告", "闹钟数量已达上限！", QMessageBox::Yes);
     }
     ui->stackedWidget_3->raise();
-    ui->set_page->hide();
+    ui->stackedWidget->setCurrentIndex(1);
     ui->stackedWidget->raise();//将页面放置最前方
                                // Put the page at the front
     ui->pushButton_4->raise();
@@ -1392,7 +1449,7 @@ void Clock::verticalscrollRingTime()
 void Clock::alarmCancelSave()
 {
     ui->stackedWidget_3->raise();
-    ui->set_page->hide();
+    ui->stackedWidget->setCurrentIndex(1);
     ui->stackedWidget->raise();
     timer_set_page->stop();
     ui->pushButton_4->raise();
@@ -1406,13 +1463,14 @@ void Clock::alarmCancelSave()
  */
 void Clock::listdoubleClickslot()
 {
-    ui->set_page->show();
+//    ui->set_page->show();
+    ui->stackedWidget->setCurrentIndex(3);
     ui->pushButton_8->show();
     ui->pushButton_9->show();
     ui->set_alarm_savebtn->hide();
     timer_alarm_start24->m_currentValue=model->index(ui->listWidget->currentRow(), 0).data().toInt();
     timer_alarm_start60->m_currentValue=model->index(ui->listWidget->currentRow(), 1).data().toInt();
-    ui->set_page->raise();
+//    ui->set_page->raise();
     timer_set_page->start();
     ui->label_13->setText(tr("Edit alarm clock"));
     repeat_new_or_edit_flag = 1;
@@ -1552,7 +1610,7 @@ void Clock::alarmReEditClicked()
     updateAlarmClock();
 
     ui->stackedWidget_3->raise();
-    ui->set_page->hide();
+    ui->stackedWidget->setCurrentIndex(1);
     ui->stackedWidget->raise();/*将页面放置最前方
                                 Put the page at the front*/
     ui->pushButton_4->raise();
@@ -1756,7 +1814,7 @@ void Clock::deleteAlarm()
 
     delete_msg *deletemsg = new delete_msg();
     QPointF position = this->pos();
-    deletemsg->move(position.x()+67,position.y()+250);
+    deletemsg->move(position.x()+35,position.y()+200);
     deletemsg->exec();
 
     if (!(deletemsg->close_sure)) {
@@ -1775,7 +1833,7 @@ void Clock::deleteAlarm()
         qDebug() << rowNum;
 
         ui->stackedWidget_3->raise();
-        ui->set_page->hide();
+        ui->stackedWidget->setCurrentIndex(1);
         ui->stackedWidget->raise();/*将页面放置最前方
                                      Put the page at the front*/
         ui->pushButton_4->raise();
@@ -1837,11 +1895,10 @@ void Clock::offAlarm(int i)
 void Clock::countdownMusicSellect()
 {
         QPointF position = this->pos();
-        count_music_sellect->move(position.x()+89,position.y()+481);
-        count_music_sellect->resize(280,141);
+        count_music_sellect->move(position.x()+15,position.y()+470);
+        count_music_sellect->setFixedSize(360, 172);
         count_music_sellect->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
-        count_music_sellect->setAttribute(Qt::WA_TranslucentBackground);
-        count_music_sellect->listWidget->setFixedSize(280,141);
+        count_music_sellect->listWidget->setFixedSize(340,151);
         count_music_sellect->widget[0]->alarmLabel0->setText(tr("glass"));
         count_music_sellect->widget[1]->alarmLabel0->setText(tr("bark"));
         count_music_sellect->widget[2]->alarmLabel0->setText(tr("sonar"));
@@ -2163,7 +2220,7 @@ void Clock::onCountPushClicked()
         QColor ColorPlaceholderText(61,107,229,255);
         QBrush brush2;
         brush2.setColor(ColorPlaceholderText);
-        palette.setColor(QPalette::Button,QColor(61,107,229,255));
+        palette.setColor(QPalette::Button,QColor(69, 173, 110,255));
         palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
         ui->count_push->setPalette(palette);
 
@@ -2184,8 +2241,9 @@ void Clock::countdownSetStartTime()
     ring_widget->move(0,0);
 
     shadow1 = new QWidget(ring_widget);
-    shadow1->move(97,162);
+    shadow1->move(97-27,162-5);
     shadow1->resize(253,40);
+    shadow1->hide();
 
     timer_ring99 = new VerticalScroll_99(ring_widget);
     QLabel * h_in_m = new QLabel (ring_widget);
@@ -2203,13 +2261,10 @@ void Clock::countdownSetStartTime()
 
     hour_ring->resize(50,30);
     hour_ring->setText(tr("hour"));
-    hour_ring->setStyleSheet("font: 13pt ;color: rgb(148, 148, 148);");
     min_ring->resize(50,30);
     min_ring->setText(tr("min"));
-    min_ring->setStyleSheet("font: 13pt ;color: rgb(148, 148, 148);");
     sec_ring->resize(50,30);
     sec_ring->setText(tr("sec"));
-    sec_ring->setStyleSheet("font: 13pt ;color: rgb(148, 148, 148);");
 
     h_in_m->resize(10,38);
     h_in_m->setText(":");
@@ -2218,18 +2273,18 @@ void Clock::countdownSetStartTime()
     m_in_s->setText(":");
     m_in_s->setStyleSheet("font: 30pt 'Sans Serif';");
 
-    timer_ring99->move(125, 80);
-    hour_ring->move(129,75);
-    h_in_m->move(185,157);
-    timer_ring60->move(200, 80);
-    min_ring->move(201,75);
-    m_in_s->move(257,157);
-    timer_ring60_2->move(272, 80);
-    sec_ring->move(273,75);
+    timer_ring99->move(125-27, 80-20);
+    hour_ring->move(129-27,75-10);
+    h_in_m->move(185-27,157-20);
+    timer_ring60->move(200-27, 80-20);
+    min_ring->move(201-27,75-10);
+    m_in_s->move(257-27,157-20);
+    timer_ring60_2->move(272-27, 80-20);
+    sec_ring->move(273-27,75-10);
 
-    count_stat = new QPushButton(ring_widget);
-    count_stat->resize(100,32);
-    count_stat->move(177,259);
+    count_stat = new QPushButton(ui->page_4);
+    count_stat->resize(72,34);
+    count_stat->move(159,401);
     count_stat->setText(tr("start"));
     connect(count_stat, SIGNAL(clicked()), this, SLOT(startbtnCountdown()) );
 
@@ -2295,18 +2350,21 @@ void Clock::countStatBtnGray()
 void Clock::alarmSetStartTime()
 {
     shadow = new QWidget(ui->set_page);
-    shadow->move(82,117);
-    shadow->resize(280,40);
+    shadow->move(115,58);
+    shadow->resize(160,58);
 
     timer_alarm_start24 = new VerticalScroll_24(ui->set_page, this);
     QLabel * h_in_m = new QLabel (ui->set_page);
     timer_alarm_start60 = new VerticalScroll_60(ui->set_page);
 
-    timer_alarm_start24->resize(53,180);
-    timer_alarm_start60->resize(53,180);
+    timer_alarm_start24->resize(63,220);
+    timer_alarm_start60->resize(63,220);
 
     QLabel * hour_ring = new QLabel (ui->set_page);
     QLabel * min_ring = new QLabel (ui->set_page);
+
+    hour_ring->hide();
+    min_ring->hide();
 
     hour_ring->setAlignment(Qt::AlignHCenter);
     min_ring->setAlignment(Qt::AlignHCenter);
@@ -2322,11 +2380,11 @@ void Clock::alarmSetStartTime()
     min_ring->setText(tr("min"));
     min_ring->setStyleSheet("font: 13pt ;color: rgb(148, 148, 148);");
 
-    timer_alarm_start24->move(139, 45);
-    hour_ring->move(140,40);
-    h_in_m->move(220,113);
-    timer_alarm_start60->move(258, 45);
-    min_ring->move(258,40);
+    timer_alarm_start24->move(128, -24);
+    hour_ring->move(140,7);
+    h_in_m->move(191,64);
+    timer_alarm_start60->move(201, -24);
+    min_ring->move(212,7);
 }
 
 /*
@@ -2342,9 +2400,9 @@ void Clock::alarmRepeat()
         num= model->rowCount();
     }
         QPointF position = this->pos();//446
-        dialog_repeat->move(position.x()+88,position.y()+381);
-        dialog_repeat->resize(280,270);
-        dialog_repeat->listWidget->setFixedSize(280,270);
+        dialog_repeat->move(position.x()+15,position.y()+408);
+        dialog_repeat->setFixedSize(360,290);
+        dialog_repeat->listWidget->setFixedSize(340,270);
         dialog_repeat->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
         dialog_repeat->setAttribute(Qt::WA_TranslucentBackground);
         dialog_repeat->widget[0]->alarmLabel0->setText(tr("No repetition"));
@@ -2364,7 +2422,6 @@ void Clock::alarmRepeat()
             }
         }
         dialog_repeat->show();
-
 }
 /*
  * 重复选项单击回调
@@ -2531,13 +2588,12 @@ void Clock::selectAlarmMusic()
         num = ui->listWidget->currentRow();
     else
         num= model->rowCount();
-
     QPointF position = this->pos();
-    dialog_music->move(position.x()+88,position.y()+431);
+    dialog_music->move(position.x()+15,position.y()+471);
     dialog_music->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
     dialog_music->setAttribute(Qt::WA_TranslucentBackground);
-    dialog_music->resize(280,129);
-    dialog_music->listWidget->setFixedSize(280,129);
+    dialog_music->setFixedSize(360,172);
+    dialog_music->listWidget->setFixedSize(340,152);
     dialog_music->widget[0]->alarmLabel0->setText(tr("glass"));
     dialog_music->widget[1]->alarmLabel0->setText(tr("bark"));
     dialog_music->widget[2]->alarmLabel0->setText(tr("sonar"));
@@ -2587,11 +2643,11 @@ void Clock::timeMusic()
         num= model->rowCount();
 
     QPointF position = this->pos();
-    time_music->move(position.x()+88,position.y()+481);
-    time_music->listWidget->setFixedSize(280,162);
+    time_music->move(position.x()+88,position.y()+534);
+    time_music->listWidget->setFixedSize(340,162);
     time_music->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
     time_music->setAttribute(Qt::WA_TranslucentBackground);
-    time_music->resize(280,162);
+    time_music->setFixedSize(340,162);
     time_music->listWidget->move(0,0);
     time_music->widget[0]->alarmLabel0->setText(tr("1min"));
     time_music->widget[1]->alarmLabel0->setText(tr("2min"));
@@ -2686,12 +2742,11 @@ void Clock::setUpPage()
         grand = new QWidget(setup_page->ui->widget);
     }
     setup_page->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
-    setup_page->setFixedSize(380,450);
+    setup_page->setFixedSize(328,350);
 
     QPointF position = this->pos();
 
-    setup_page->move(position.x()+38,position.y()+27);
-    setup_page->setWindowOpacity(0.98);
+    setup_page->move(position.x()+31,position.y()+115);
 
     /*属性记忆重绘制
      Attribute memory redrawing*/
@@ -2788,8 +2843,22 @@ void Clock::paintEvent(QPaintEvent *event)
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     QPainterPath rectPath;
-    rectPath.addRoundedRect(this->rect(), 6, 6); // 左上右下
-    p.fillPath(rectPath,palette().color(QPalette::Base));
+    rectPath.addRoundedRect(this->rect(), 0, 0); // 左上右下
+
+    QPainter painter(this);
+    QStyleOption opt;
+    opt.init(this);
+    painter.setBrush(opt.palette.color(QPalette::Base));
+
+    QColor mainColor;
+    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
+    {
+        mainColor = QColor(221, 228, 235,198);
+    }else{
+        mainColor = QColor(26, 26, 26,198);
+    }
+
+    p.fillPath(rectPath,QBrush(mainColor));
 }
 
 QPixmap Clock::ChangeImageColor(QPixmap sourcePixmap, QColor origColor, QColor destColor)
@@ -2825,6 +2894,10 @@ bool Clock::eventFilter(QObject *watched, QEvent *event)
     {
         showPaint8();
     }
+    if(watched == ui->listWidget && event->type() == QEvent::Paint)
+    {
+        showPaint9();
+    }
     return QWidget::eventFilter(watched,event);
 }
 
@@ -2856,30 +2929,23 @@ void Clock::showPaint()
 */
 void Clock::showPaint1()
 {
-    QPainter painter(ui->widget);
-    painter.setPen(Qt::gray);
-    painter.setBrush(Qt::green);
+    QPainter p(ui->widget);
+    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+    QPainterPath rectPath;
+    rectPath.addRoundedRect(ui->widget->rect(), 10, 10); // 左上右下
+
     QStyleOption opt;
     opt.init(this);
-    painter.setBrush(opt.palette.color(QPalette::Base));
 
+    QColor mainColor;
     if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
     {
-        painter.setBrush(QColor(217, 217, 217));
+        mainColor = QColor(255, 255, 255,107.1);
     }else{
-        painter.setBrush(QColor(48,48,51));
+        mainColor = QColor(255, 255, 255,40.8);
     }
 
-    painter.setPen(Qt::transparent);
-    QRect rect = ui->widget->rect();
-    rect.setWidth(rect.width() - 0);
-    rect.setHeight(rect.height() - 0);
-    painter.drawRoundedRect(rect, 7, 7);
-    {
-        QPainterPath painterPath;
-        painterPath.addRoundedRect(rect, 4, 4);
-        painter.drawPath(painterPath);
-    }
+    p.fillPath(rectPath,QBrush(mainColor));
 }
 
 /*
@@ -2896,9 +2962,9 @@ void Clock::showPaint7()
 
     if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
     {
-        painter.setBrush(QColor(217, 217, 217));
+        painter.setBrush(QColor(255,255,255,76.5));
     }else{
-        painter.setBrush(QColor(48,48,51));
+        painter.setBrush(QColor(255,255,255,38.25));
     }
 
     painter.setPen(Qt::transparent);
@@ -2908,7 +2974,7 @@ void Clock::showPaint7()
     painter.drawRoundedRect(rect, 7, 7);
     {
         QPainterPath painterPath;
-        painterPath.addRoundedRect(rect, 4, 4);
+        painterPath.addRoundedRect(rect, 8, 8);
         painter.drawPath(painterPath);
     }
 }
@@ -2942,6 +3008,26 @@ void Clock::showPaint8()
         painter.drawPath(painterPath);
     }
 }
+/*
+ * 实现响应函数设置页
+*/
+void Clock::showPaint9()
+{
+//    qDebug()<<"2223242424";
+//    QPainter painter(ui->listWidget);
+//    painter.setBrush(QColor(33,233,233,0));
+
+//    painter.setPen(Qt::transparent);
+//    QRect rect = ui->listWidget->rect();
+//    rect.setWidth(rect.width() - 0);
+//    rect.setHeight(rect.height() - 0);
+//    painter.drawRoundedRect(rect, 7, 7);
+//    {
+//        QPainterPath painterPath;
+//        painterPath.addRoundedRect(rect, 4, 4);
+//        painter.drawPath(painterPath);
+//    }
+}
 
 void Clock::mousePressEvent(QMouseEvent *event)
 {
@@ -2970,4 +3056,33 @@ void Clock::mouseMoveEvent(QMouseEvent *event)
     }
 
     QWidget::mouseMoveEvent(event);
+}
+
+//黑色主题
+void  Clock::blackStyle()
+{
+    ui->listWidget->setStyleSheet("QListWidget{background-color: rgba(0, 0, 0, 0);}\
+                                  QListWidget::Item{background-color:rgba(255, 255, 255, 0.16);border-radius:10px;}\
+                                  QListWidget::item::selected{background-color:rgba(255, 255, 255,0.29);border-radius:10px;border:1px solid rgba(131, 131, 131,0);}\
+                                  QListWidget::item:hover{background-color:rgba(255, 255, 255,0.4);border-radius:4px;}\
+                                  ");
+    ui->listWidget_2->setStyleSheet("QListWidget{background-color: rgba(0, 0, 0, 0);}\
+                                  QListWidget::Item{background-color:rgba(255, 255, 255, 0.16);border-radius:10px;}\
+                                  QListWidget::item::selected{background-color:rgba(255, 255, 255,0.29);border-radius:10px;border:1px solid rgba(131, 131, 131,0);}\
+                                  QListWidget::item:hover{background-color:rgba(255, 255, 255,0.4);border-radius:4px;}\
+                                  ");
+}
+//白色主题
+void  Clock::whiteStyle()
+{
+    ui->listWidget->setStyleSheet("QListWidget{background-color: rgba(0, 0, 0, 0);}\
+                                  QListWidget::Item{background-color:rgba(255, 255, 255, 0.42);border-radius:10px;}\
+                                  QListWidget::item::selected{background-color:rgba(255, 255, 255,0.7);border-radius:10px;border:1px solid rgba(131, 131, 131,0);}\
+                                  QListWidget::item:hover{background-color:rgba(255, 255, 255,0.4);border-radius:4px;}\
+                                  ");
+    ui->listWidget_2->setStyleSheet("QListWidget{background-color: rgba(0, 0, 0, 0);}\
+                                  QListWidget::Item{background-color:rgba(255, 255, 255, 0.42);border-radius:10px;}\
+                                  QListWidget::item::selected{background-color:rgba(255, 255, 255,0.7);border-radius:10px;border:1px solid rgba(131, 131, 131,0);}\
+                                  QListWidget::item:hover{background-color:rgba(255, 255, 255,0.4);border-radius:4px;}\
+                                  ");
 }

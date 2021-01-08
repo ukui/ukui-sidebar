@@ -30,11 +30,9 @@ close_or_hide::close_or_hide(QWidget *parent) :
     ui->closebtn->setPalette(palette1);
 
     ui->closebtn->setIcon(QIcon::fromTheme("window-close-symbolic"));
+    ui->closebtn->setProperty("isWindowButton", 0x2);
+    ui->closebtn->setProperty("useIconHighlightEffect", 0x8);
     ui->closebtn->setFlat(true);
-    ui->closebtn->setVisible(true);
-    ui->closebtn->setFocusPolicy(Qt::NoFocus);
-    ui->closebtn->setProperty("useIconHighlightEffect", true);
-    ui->closebtn->setProperty("iconHighlightEffectMode", true);
 }
 
 close_or_hide::~close_or_hide()
@@ -67,36 +65,17 @@ void close_or_hide::on_cancelbtn_clicked()
 void close_or_hide::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
-    QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-
-    QStyleOption opt;
-    opt.init(this);
-    painter.setBrush(opt.palette.color(QPalette::Base));
-
-    painter.setPen(Qt::transparent);
-    QRect rect = this->rect();
-    rect.setWidth(rect.width() - 0);
-    rect.setHeight(rect.height() - 0);
-    painter.drawRoundedRect(rect, 7, 7);
-    {
-        QPainterPath painterPath;
-        painterPath.addRoundedRect(rect, 7, 7);
-        painter.drawPath(painterPath);
-    }
-
     QPainter p(this);
-    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+    p.setRenderHint(QPainter::Antialiasing);
     QPainterPath rectPath;
-    rectPath.addRoundedRect(this->rect().adjusted(2, 2, -2, -2), 6, 6);
-
+    rectPath.addRoundedRect(this->rect().adjusted(6, 6, -6, -6), 6, 6);
     // 画一个黑底
     QPixmap pixmap(this->rect().size());
     pixmap.fill(Qt::transparent);
     QPainter pixmapPainter(&pixmap);
     pixmapPainter.setRenderHint(QPainter::Antialiasing);
     pixmapPainter.setPen(Qt::transparent);
-    pixmapPainter.setBrush(Qt::gray);
+    pixmapPainter.setBrush(Qt::black);
     pixmapPainter.drawPath(rectPath);
     pixmapPainter.end();
 
@@ -110,12 +89,12 @@ void close_or_hide::paintEvent(QPaintEvent *event)
     pixmapPainter2.setRenderHint(QPainter::Antialiasing);
     pixmapPainter2.setCompositionMode(QPainter::CompositionMode_Clear);
     pixmapPainter2.setPen(Qt::transparent);
-    pixmapPainter2.setBrush(QColor(78,78,78));
+    pixmapPainter2.setBrush(Qt::transparent);
     pixmapPainter2.drawPath(rectPath);
 
     // 绘制阴影
     p.drawPixmap(this->rect(), pixmap, pixmap.rect());
-    p.setOpacity(0.9);
+
     // 绘制一个背景
     p.save();
     p.fillPath(rectPath,palette().color(QPalette::Base));

@@ -33,16 +33,16 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     pos_y(position_y),
     ui(new Ui::setuppage)
 {
-    setWindowFlags(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
+    QPainterPath blurPath;
+    setProperty("useSystemStyleBlur", true);
+    setProperty("blurRegion", QRegion(blurPath.toFillPolygon().toPolygon()));//使用QPainterPath的api生成多边形Region
 
     this->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
     Qt::WindowFlags m_flags = windowFlags();
     this->setWindowFlags(m_flags | Qt::WindowStaysOnTopHint);
 
     ui->setupUi(this);
-    this->setWindowOpacity(0.5);
-    ui->pushButton->hide();
 
     dialog_werk_day = new  set_alarm_repeat_Dialog(ui->widget, 7);
     Time_format = new  set_alarm_repeat_Dialog(ui->widget, 3);
@@ -57,15 +57,20 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     connect(Default_ringtone->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(Default_ringtone_listClickslot()));
 
     repeat_sel = new Btn_new(10, tr("  work"), this);
-    Time_sel = new Btn_new(0, tr("  Time"), this);
     Pop_sel = new Btn_new(0, tr("  Pop-up"), this);
-    duration_sel = new Btn_new(0, tr("  duration"), this);
-    ringtone_sel = new Btn_new(0, tr("  ringtone"), this);
-    repeat_sel->move(45, 97);
-    Time_sel->move(45, 147);
-    Pop_sel ->move(45, 197);
-    duration_sel->move(45, 247);
-    ringtone_sel->move(45, 297);
+    Time_sel = new setUpBtnNew(0, tr("  Time"), this);
+    duration_sel = new setUpBtnNew(0, tr("  duration"), this);
+    ringtone_sel = new setUpBtnNew(0, tr("  ringtone"), this);
+    repeat_sel->move(45, 97);repeat_sel->hide();
+    Pop_sel ->move(45, 197);Pop_sel->hide();
+    Time_sel->move(30, 150);
+    duration_sel->move(30, 205);
+    ringtone_sel->move(30, 260);
+
+    Time_sel->resize(268,40);
+    duration_sel->resize(268,40);
+    ringtone_sel->resize(268,40);
+
 
     connect(repeat_sel, SIGNAL(clicked()), this, SLOT(werk_day_set()) );
     connect(Time_sel, SIGNAL(clicked()), this, SLOT(Time_format_set()) );
@@ -174,6 +179,14 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     ui->pushButton_4->installEventFilter(this);
     ui->pushButton_5->installEventFilter(this);
     ui->pushButton_6->installEventFilter(this);
+
+    ui->closeBtn->setIcon(QIcon::fromTheme("window-close-symbolic"));
+    ui->closeBtn->setProperty("isWindowButton", 0x2);
+    ui->closeBtn->setProperty("useIconHighlightEffect", 0x8);
+    ui->closeBtn->setFlat(true);
+    connect(ui->closeBtn, &QPushButton::clicked, this, [=](){
+        this->hide();
+    });
 }
 
 setuppage::~setuppage()
@@ -204,7 +217,7 @@ void setuppage::werk_day_set()
     dialog_werk_day->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
     dialog_werk_day->setAttribute(Qt::WA_TranslucentBackground);
     QPointF position = parentWidget()->pos();
-    dialog_werk_day->move(position.x()+83,position.y()+162);
+    dialog_werk_day->move(position.x()+83,position.y()+250);
     dialog_werk_day->resize(280,225);
     dialog_werk_day->listWidget->setFixedSize(280,225);
     dialog_werk_day->widget[0]->alarmLabel0->setText(tr("Mon"));
@@ -404,9 +417,9 @@ void setuppage::Time_format_set()
     Time_format->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
     Time_format->setAttribute(Qt::WA_TranslucentBackground);
     QPointF position = parentWidget()->pos();
-    Time_format->move(position.x()+83,position.y()+212);
-    Time_format->resize(280,100);
-    Time_format->listWidget->setFixedSize(280,100);
+    Time_format->move(position.x()+51,position.y()+307);
+    Time_format->resize(288,138);
+    Time_format->listWidget->setFixedSize(268,130);
     Time_format->widget[0]->alarmLabel0->setText(tr("Following system"));
     Time_format->widget[1]->alarmLabel0->setText(tr("24 hour system"));
     Time_format->widget[2]->alarmLabel0->setText(tr("12 hour system"));
@@ -457,7 +470,7 @@ void setuppage::Pop_up_window_set()
     Pop_up_window->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
     Pop_up_window->setAttribute(Qt::WA_TranslucentBackground);;
     QPointF position = parentWidget()->pos();
-    Pop_up_window->move(position.x()+83,position.y()+262);
+    Pop_up_window->move(position.x()+83,position.y()+242);
     Pop_up_window->resize(280,75);
     Pop_up_window->listWidget->setFixedSize(280,75);
     Pop_up_window->widget[0]->alarmLabel0->setText(tr("Notification"));
@@ -503,9 +516,9 @@ void setuppage::Reminder_off_set()
     Reminder_off->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
     Reminder_off->setAttribute(Qt::WA_TranslucentBackground);
     QPointF position = parentWidget()->pos();
-    Reminder_off->move(position.x()+83,position.y()+312);
-    Reminder_off->resize(280,170);
-    Reminder_off->listWidget->setFixedSize(280,170);
+    Reminder_off->move(position.x()+51,position.y()+362);
+    Reminder_off->resize(288,190);
+    Reminder_off->listWidget->setFixedSize(268,170);
     Reminder_off->widget[0]->alarmLabel0->setText(tr("Alert in 2 minutes"));
     Reminder_off->widget[1]->alarmLabel0->setText(tr("Alert in 5 minutes"));
     Reminder_off->widget[2]->alarmLabel0->setText(tr("Alert in 10 minutes"));
@@ -556,9 +569,9 @@ void setuppage::Default_ringtone_set()
     Default_ringtone->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
     Default_ringtone->setAttribute(Qt::WA_TranslucentBackground);
     QPointF position = parentWidget()->pos();
-    Default_ringtone->move(position.x()+83,position.y()+362);
-    Default_ringtone->resize(280,129);
-    Default_ringtone->listWidget->setFixedSize(280,129);
+    Default_ringtone->move(position.x()+51,position.y()+415);
+    Default_ringtone->resize(288,169);
+    Default_ringtone->listWidget->setFixedSize(268,149);
     Default_ringtone->widget[0]->alarmLabel0->setText(tr("glass"));
     Default_ringtone->widget[1]->alarmLabel0->setText(tr("bark"));
     Default_ringtone->widget[2]->alarmLabel0->setText(tr("sonar"));
@@ -602,36 +615,17 @@ void setuppage::Default_ringtone_listClickslot()
 void setuppage::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
-    QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-
-    QStyleOption opt;
-    opt.init(this);
-    painter.setBrush(opt.palette.color(QPalette::Base));
-
-    painter.setPen(Qt::transparent);
-    QRect rect = this->rect();
-    rect.setWidth(rect.width() - 0);
-    rect.setHeight(rect.height() - 0);
-    painter.drawRoundedRect(rect, 7, 7);
-    {
-        QPainterPath painterPath;
-        painterPath.addRoundedRect(rect, 7, 7);
-        painter.drawPath(painterPath);
-    }
-
     QPainter p(this);
-    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+    p.setRenderHint(QPainter::Antialiasing);
     QPainterPath rectPath;
-    rectPath.addRoundedRect(this->rect().adjusted(6, 6, -6, -6), 6, 6);
-
+    rectPath.addRoundedRect(this->rect().adjusted(10, 10, -10, -10), 10, 10);
     // 画一个黑底
     QPixmap pixmap(this->rect().size());
     pixmap.fill(Qt::transparent);
     QPainter pixmapPainter(&pixmap);
     pixmapPainter.setRenderHint(QPainter::Antialiasing);
     pixmapPainter.setPen(Qt::transparent);
-    pixmapPainter.setBrush(Qt::gray);
+    pixmapPainter.setBrush(QColor(0,0,0,100));
     pixmapPainter.drawPath(rectPath);
     pixmapPainter.end();
 
@@ -645,19 +639,30 @@ void setuppage::paintEvent(QPaintEvent *event)
     pixmapPainter2.setRenderHint(QPainter::Antialiasing);
     pixmapPainter2.setCompositionMode(QPainter::CompositionMode_Clear);
     pixmapPainter2.setPen(Qt::transparent);
-    pixmapPainter2.setBrush(QColor(78,78,78));
+    pixmapPainter2.setBrush(Qt::transparent);
     pixmapPainter2.drawPath(rectPath);
 
     // 绘制阴影
     p.drawPixmap(this->rect(), pixmap, pixmap.rect());
-    p.setOpacity(0.9);
+
+    QStyleOption opt;
+    opt.init(this);
+    QColor mainColor;
+    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
+    {
+        mainColor = QColor(228, 235, 242,255);
+    }else{
+        mainColor = QColor(80, 85, 89,255);
+    }
+
+
     // 绘制一个背景
     p.save();
-    p.fillPath(rectPath,palette().color(QPalette::Base));
+    p.fillPath(rectPath,mainColor);
     p.restore();
 
-    QWidget::paintEvent(event);
 }
+
 
 bool setuppage::eventFilter(QObject *watched, QEvent *event)
 {
