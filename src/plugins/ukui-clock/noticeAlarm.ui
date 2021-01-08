@@ -62,8 +62,8 @@
        <widget class="QPushButton" name="pushButton">
         <property name="geometry">
          <rect>
-          <x>424</x>
-          <y>0</y>
+          <x>414</x>
+          <y>10</y>
           <width>30</width>
           <height>30</height>
          </rect>
@@ -78,8 +78,8 @@
        <widget class="QLabel" name="label">
         <property name="geometry">
          <rect>
-          <x>10</x>
-          <y>10</y>
+          <x>44</x>
+          <y>14</y>
           <width>100</width>
           <height>23</height>
          </rect>
@@ -95,7 +95,7 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>64</y>
+          <y>34</y>
           <width>454</width>
           <height>31</height>
          </rect>
@@ -111,7 +111,7 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>94</y>
+          <y>64</y>
           <width>454</width>
           <height>51</height>
          </rect>
@@ -127,7 +127,7 @@
         <property name="geometry">
          <rect>
           <x>97</x>
-          <y>169</y>
+          <y>139</y>
           <width>100</width>
           <height>32</height>
          </rect>
@@ -143,7 +143,7 @@
         <property name="geometry">
          <rect>
           <x>257</x>
-          <y>169</y>
+          <y>139</y>
           <width>100</width>
           <height>32</height>
          </rect>
@@ -159,7 +159,7 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>221</y>
+          <y>191</y>
           <width>454</width>
           <height>23</height>
          </rect>
@@ -172,6 +172,31 @@
         </property>
         <property name="styleSheet">
          <string notr="true"/>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLabel" name="titleIcon">
+        <property name="geometry">
+         <rect>
+          <x>14</x>
+          <y>14</y>
+          <width>24</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>24</width>
+          <height>24</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>24</width>
+          <height>24</height>
+         </size>
         </property>
         <property name="text">
          <string/>

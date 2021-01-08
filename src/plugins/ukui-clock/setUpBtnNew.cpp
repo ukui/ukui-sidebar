@@ -1,10 +1,10 @@
-#include "btnNew.h"
+#include "setUpBtnNew.h"
 #include <QVBoxLayout>
 #include <QDebug>
 #include "clock.h"
 #include <QPainterPath>
 
-Btn_new::Btn_new(int num, QString name, QWidget *parent) :
+setUpBtnNew::setUpBtnNew(int num, QString name, QWidget *parent) :
     QPushButton(parent),
     clock_num(num)
 {
@@ -14,37 +14,37 @@ Btn_new::Btn_new(int num, QString name, QWidget *parent) :
     IconLabel = new QLabel(this);
     noName = new QLabel(this);
     nameLabel->setFixedSize(71-num, 36);
-    textLabel->setFixedSize(233+num, 36);
+    textLabel->setFixedSize(170+num, 36);
     IconLabel->setFixedSize(27, 36);
     noName->setFixedSize(9, 36);
-    nameLabel->move(15, 5);
-    textLabel->move(71-num, 5);
-    noName->move(244, 0);
-    IconLabel->move(309, 7);
+    nameLabel->move(12, 1);
+    textLabel->move(71-num, 1);
+    noName->move(241, 0);
+    IconLabel->move(244, 2);
     nameLabel->setText(name);
     textLabel->setText(name);
     IconLabel->setPixmap(pixmap);
     textLabel->setAlignment(Qt::AlignRight | Qt::AlignCenter);
 
-    this->resize(340,48);
+    this->resize(268,40);
 
     QPalette palette;
     palette.setColor(QPalette::ButtonText,QColor(148, 148, 148, 255));
     textLabel->setPalette(palette);
 }
 
-Btn_new::~Btn_new()
+setUpBtnNew::~setUpBtnNew()
 {
 
 }
 
-void Btn_new::paintEvent(QPaintEvent *event)
+void setUpBtnNew::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     QPainterPath rectPath;
-    rectPath.addRoundedRect(this->rect(), 10, 10); // 左上右下
+    rectPath.addRoundedRect(this->rect(), 6, 6); // 左上右下
 
     QPainter painter(this);
     QStyleOption opt;

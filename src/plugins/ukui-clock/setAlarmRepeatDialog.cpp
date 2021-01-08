@@ -32,14 +32,32 @@ set_alarm_repeat_Dialog::set_alarm_repeat_Dialog(QWidget *parent , int rowNum ) 
     QWidget(parent)
 {
     setupUi(this);
-    //this->setStyleSheet("border-radius:4px;border:0px  rgba();");
-    //this->listWidget->setStyleSheet("background-color: rgba(233,233,233,0);");
+    this->resize(360, 290);
 
-    this->setWindowOpacity(0.9);
+    this->setWindowTitle(tr("Alarm"));
+
+    this->setAttribute(Qt::WA_TranslucentBackground);
+    setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
+
+    QPainterPath blurPath;
+    blurPath.addRoundedRect(rect().adjusted(10, 10, -10, -10), 10, 10);      //增加圆角
+    setProperty("useSystemStyleBlur", true);
+    setProperty("blurRegion", QRegion(blurPath.toFillPolygon().toPolygon()));//使用QPainterPath的api生成多边形Region
+
+    QBitmap bmp(this->size());
+    bmp.fill();
+    QPainter p(&bmp);
+    p.setPen(Qt::NoPen);
+    p.setBrush(Qt::black);
+    p.setRenderHint(QPainter::Antialiasing);
+    p.drawRoundedRect(bmp.rect(),10,10);
+    setMask(bmp);
+
     for (int i = 0; i < rowNum_all; i++) {
         set_aItem(i);
     }
-    listWidget->installEventFilter(this);
+
+    settingsStyle();
 }
 
 set_alarm_repeat_Dialog::~set_alarm_repeat_Dialog()
@@ -49,13 +67,43 @@ set_alarm_repeat_Dialog::~set_alarm_repeat_Dialog()
         delete aItem[i];
     }
     delete listWidget;
-    qDebug()<<"-------set_alarm_repeat_Dialog---------";
 }
+
+/*
+*监听主题
+*/
+void set_alarm_repeat_Dialog::settingsStyle()
+{
+    const QByteArray style_id(ORG_UKUI_STYLE);
+    QStringList stylelist;
+    QGSettings *style_settings = new QGSettings(style_id);
+
+    stylelist<<STYLE_NAME_KEY_DARK<<STYLE_NAME_KEY_BLACK<<STYLE_NAME_KEY_DEFAULT;
+    if(QGSettings::isSchemaInstalled(style_id)){
+        style_settings = new QGSettings(style_id);
+        if(stylelist.contains(style_settings->get(STYLE_NAME).toString())){
+            blackStyle();
+        }else{
+            whiteStyle();
+        }
+    }
+
+    connect(style_settings, &QGSettings::changed, this, [=] (const QString &key){
+        if(key==STYLE_NAME){
+            if(stylelist.contains(style_settings->get(STYLE_NAME).toString())){
+                blackStyle();
+            }else{
+                whiteStyle();
+            }
+        }
+    });
+}
+
 
 void set_alarm_repeat_Dialog::set_aItem(int rowNum)
 {
     aItem[rowNum] =new QListWidgetItem;
-    aItem[rowNum]->setSizeHint(QSize(276, 32));
+    aItem[rowNum]->setSizeHint(QSize(340, 38));
     aItem[rowNum]->setTextColor(QColor(255, 0, 0, 255));
     listWidget->addItem(aItem[rowNum]);
     listWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -70,10 +118,10 @@ void set_alarm_repeat_Dialog::setupUi(QWidget( *set_alarm_repeat_Dialog))
 {
     if (set_alarm_repeat_Dialog->objectName().isEmpty())
         set_alarm_repeat_Dialog->setObjectName(QString::fromUtf8("set_alarm_repeat_Dialog"));
-    set_alarm_repeat_Dialog->resize(280, 162);
     listWidget = new QListWidget(set_alarm_repeat_Dialog);
     listWidget->setObjectName(QString::fromUtf8("listWidget"));
     listWidget->setGeometry(QRect(0, 0, 280, 162));
+    listWidget->move(10,10);
 
     retranslateUi(set_alarm_repeat_Dialog);
 
@@ -88,76 +136,86 @@ void set_alarm_repeat_Dialog::retranslateUi(QWidget( *set_alarm_repeat_Dialog))
 void set_alarm_repeat_Dialog::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
-    QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+    QPainter p(this);
+    p.setRenderHint(QPainter::Antialiasing);
+    QPainterPath rectPath;
+    rectPath.addRoundedRect(this->rect().adjusted(10, 10, -10, -10), 10, 10);
+    // 画一个黑底
+    QPixmap pixmap(this->rect().size());
+    pixmap.fill(Qt::transparent);
+    QPainter pixmapPainter(&pixmap);
+    pixmapPainter.setRenderHint(QPainter::Antialiasing);
+    pixmapPainter.setPen(Qt::transparent);
+    pixmapPainter.setBrush(QColor(0,0,0,100));
+    pixmapPainter.drawPath(rectPath);
+    pixmapPainter.end();
+
+    // 模糊这个黑底
+    QImage img = pixmap.toImage();
+    qt_blurImage(img, 10, false, false);
+
+    // 挖掉中心
+    pixmap = QPixmap::fromImage(img);
+    QPainter pixmapPainter2(&pixmap);
+    pixmapPainter2.setRenderHint(QPainter::Antialiasing);
+    pixmapPainter2.setCompositionMode(QPainter::CompositionMode_Clear);
+    pixmapPainter2.setPen(Qt::transparent);
+    pixmapPainter2.setBrush(Qt::transparent);
+    pixmapPainter2.drawPath(rectPath);
+
+    // 绘制阴影
+    p.drawPixmap(this->rect(), pixmap, pixmap.rect());
 
     QStyleOption opt;
     opt.init(this);
-    painter.setBrush(opt.palette.color(QPalette::Base));
-
-    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) ||
-       QColor(248,248,248) == opt.palette.color(QPalette::Base))
-    {
-        painter.setBrush(QColor(233, 233, 233));
-    }else{
-        painter.setBrush(QColor(48,48,51));
-    }
-
-    painter.setPen(Qt::transparent);
-    QRect rect = this->rect();
-    rect.setWidth(rect.width() - 0);
-    rect.setHeight(rect.height() - 0);
-    painter.drawRoundedRect(rect, 7, 7);
-    {
-        QPainterPath painterPath;
-        painterPath.addRoundedRect(rect, 4, 4);
-        painter.drawPath(painterPath);
-    }
-    QWidget::paintEvent(event);
-}
-
-bool set_alarm_repeat_Dialog::eventFilter(QObject *watched, QEvent *event)
-{
-    if(watched == listWidget && event->type() == QEvent::Paint)
-    {
-        showPaint(); //响应函数
-    }
-    return QWidget::eventFilter(watched,event);
-}
-
-//实现响应函数 listwidget上色
-void set_alarm_repeat_Dialog::showPaint()
-{
-    QPalette palette = listWidget->palette();
-    QColor ColorPlaceholderText(248,163,76,255);
-    QBrush brush3;
-    brush3.setColor(ColorPlaceholderText);
-    QStyleOption opt;
-    opt.init(this);
+    QColor mainColor;
     if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
     {
-        palette.setBrush(QPalette::Background, QBrush(QColor(133, 233, 233)));
+        mainColor = QColor(228, 235, 242,196.35);
     }else{
-        palette.setBrush(QPalette::Background, QBrush(QColor(48,48,51)));
+        mainColor = QColor(94, 98, 102,191.25);
     }
-    listWidget->setPalette(palette);
+
+    // 绘制一个背景
+    p.save();
+    p.fillPath(rectPath,mainColor);
+    p.restore();
+
 }
 
+//黑色主题
+void  set_alarm_repeat_Dialog::blackStyle()
+{
+    listWidget->setStyleSheet("QListWidget{background-color: rgba(0, 0, 0, 0);}\
+                                  QListWidget::item::selected{background-color:rgba(0, 0, 0,0.2);border-radius:4px;border:1px solid rgba(131, 131, 131,0);}\
+                                  QListWidget::item:hover{background-color:rgba(0, 0, 0,0.2);border-radius:4px;}\
+                                  ");
+
+}
+//白色主题
+void  set_alarm_repeat_Dialog::whiteStyle()
+{
+    listWidget->setStyleSheet("QListWidget{background-color: rgba(0, 0, 0, 0);}\
+                                  QListWidget::item::selected{background-color:rgba(255, 255, 255,0.7);border-radius:4px;border:1px solid rgba(131, 131, 131,0);}\
+                                  QListWidget::item:hover{background-color:rgba(255, 255, 255,1);border-radius:4px;}\
+                                  ");
+
+}
 
 set_alarm_repeat_widget::set_alarm_repeat_widget(QWidget *parent):
     QWidget(parent)
 {
-    this->setFixedSize(276, 32);
+    this->setFixedSize(340, 38);
 
     alarmLabel0 = new QLabel(this);
-    alarmLabel0->move(5, 0);
-    alarmLabel0->setFixedSize(160, 32);
+    alarmLabel0->move(12, 0);
+    alarmLabel0->setFixedSize(160, 38);
     alarmLabel0->setStyleSheet("background-color: rgb();");
     alarmLabel0->setText("选项");
 
     alarmLabel1 = new ClickableLabel(this);
-    alarmLabel1->move(240, 0);
-    alarmLabel1->setFixedSize(34, 32);
+    alarmLabel1->move(296, 0);
+    alarmLabel1->setFixedSize(34, 38);
     alarmLabel1->setStyleSheet("background-color: rgb();");
     alarmLabel1->setText("");
 }
@@ -168,7 +226,3 @@ set_alarm_repeat_widget::~set_alarm_repeat_widget()
     delete   alarmLabel1;
 }
 
-void set_alarm_repeat_widget::paintEvent(QPaintEvent *event)
-{
-
-}

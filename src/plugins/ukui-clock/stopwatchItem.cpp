@@ -24,7 +24,7 @@ stopwatch_item::stopwatch_item(QWidget *parent) :
 {
     setupUi(this);
 
-    this->setFixedSize(376, 56);
+    this->setFixedSize(340, 58);
     stopwatch1 = new QLabel(this);//计次
     stopwatch1->move(24, 9);
     stopwatch1->setFixedSize(100, 17);
@@ -48,17 +48,12 @@ stopwatch_item::stopwatch_item(QWidget *parent) :
     stopwatch2->setText("工作日");
     stopwatch2->setVisible(true);
 
-
-    stopwatch_line = new QFrame(this);//线
-    stopwatch_line->move(13, 55);
-    stopwatch_line->setFixedSize(350, 1);
-    stopwatch_line->setStyleSheet(QString::fromUtf8("background-color: rgb(102, 102, 102);"));
     stopwatch3 = new QLabel(this);//记次时间
-    stopwatch3->move(209,5);
+    stopwatch3->move(173,10);
     stopwatch3->setFixedSize(145, 54);
-    stopwatch3->setStyleSheet("font: 17pt ;background-color: rgb();width:114px;\
+    stopwatch3->setStyleSheet("font: 10pt ;background-color: rgb();width:114px;\
                               height:22px;\
-                              font-size:30px;\
+                              font-size:24px;\
                               font-weight:400;\
                               ;");
     stopwatch3->setAlignment(Qt::AlignRight);
@@ -68,20 +63,13 @@ stopwatch_item::stopwatch_item(QWidget *parent) :
 
 stopwatch_item::~stopwatch_item()
 {
-    delete stopwatch1;
-    delete stopwatch2;
-    delete stopwatch3;
-
-    delete stopwatch_line;
-    qDebug()<<"-------stopwatch_item---------";
 }
-
 
 void stopwatch_item::setupUi(QWidget *stopwatch_item)
 {
     if (stopwatch_item->objectName().isEmpty())
         stopwatch_item->setObjectName(QString::fromUtf8("stopwatch_item"));
-    stopwatch_item->resize(376, 56);
+    stopwatch_item->resize(340, 58);
 
     retranslateUi(stopwatch_item);
 

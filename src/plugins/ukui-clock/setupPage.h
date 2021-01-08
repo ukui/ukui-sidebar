@@ -24,7 +24,9 @@
 #include <QSqlTableModel>
 #include <QHoverEvent>
 #include <btnNew.h>
+#include <setUpBtnNew.h>
 #include <QGSettings/QGSettings>
+
 namespace Ui {
 class setuppage;
 }
@@ -88,10 +90,10 @@ private:
     double pos_y;
 
     Btn_new *repeat_sel;
-    Btn_new *Time_sel;
+    setUpBtnNew *Time_sel;
     Btn_new *Pop_sel;
-    Btn_new *duration_sel;
-    Btn_new *ringtone_sel;
+    setUpBtnNew *duration_sel;
+    setUpBtnNew *ringtone_sel;
 
     QGSettings *style_settings;
 };

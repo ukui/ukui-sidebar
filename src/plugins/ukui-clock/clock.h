@@ -62,6 +62,15 @@ class QTimer;
 class Btn_new;
 class close_or_hide;
 
+
+#define ORG_UKUI_STYLE            "org.ukui.style"
+#define STYLE_NAME                "styleName"
+#define STYLE_NAME_KEY_DARK       "ukui-dark"
+#define STYLE_NAME_KEY_DEFAULT    "ukui-default"
+#define STYLE_NAME_KEY_BLACK       "ukui-black"
+#define STYLE_NAME_KEY_LIGHT       "ukui-light"
+#define STYLE_NAME_KEY_WHITE       "ukui-white"
+
 namespace Ui {
 class Clock;
 }
@@ -81,6 +90,7 @@ public:
     void showPaint1();
     void showPaint7();
     void showPaint8();
+    void showPaint9();
 
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
@@ -101,6 +111,12 @@ public slots:
                                                                                          // Alarm window switching
     void  StopwatchPageSwitch ();                                                        //秒表窗口切换
                                                                                          // Stopwatch window switch
+    void  settingsStyle();                                                               //监听主题
+
+    void  blackStyle();                                                                  //黑色主题
+
+    void  whiteStyle();                                                                  //白色主题
+
 private slots:
     void buttonImageInit();                                                              //闹钟按钮图片初始化
                                                                                          // Alarm button picture initialization

@@ -22,7 +22,16 @@
 #include <QListWidgetItem>
 #include <QLabel>
 #include <QPainter>
+#include <QGSettings>
 #include "clickableLabel.h"
+
+#define ORG_UKUI_STYLE            "org.ukui.style"
+#define STYLE_NAME                "styleName"
+#define STYLE_NAME_KEY_DARK       "ukui-dark"
+#define STYLE_NAME_KEY_DEFAULT    "ukui-default"
+#define STYLE_NAME_KEY_BLACK       "ukui-black"
+#define STYLE_NAME_KEY_LIGHT       "ukui-light"
+#define STYLE_NAME_KEY_WHITE       "ukui-white"
 
 namespace Ui {
 class set_alarm_repeat_Dialog;
@@ -40,22 +49,18 @@ public:
     ~set_alarm_repeat_Dialog();
 
     void paintEvent(QPaintEvent *event);
-    bool eventFilter(QObject *watched, QEvent *event);
-
-    void showPaint();
-
     set_alarm_repeat_widget *widget[20];
     QListWidgetItem *aItem[20];
     int rowNum_all ;
     QListWidget *listWidget;
 
 private:
-  //  Ui::set_alarm_repeat_Dialog *ui;
-    void setupUi(QWidget *set_alarm_repeat_Dialog);
-    void retranslateUi(QWidget *set_alarm_repeat_Dialog);
-
-    void set_aItem(int rowNum);
-
+    void  setupUi(QWidget *set_alarm_repeat_Dialog);
+    void  retranslateUi(QWidget *set_alarm_repeat_Dialog);
+    void  set_aItem(int rowNum);
+    void  settingsStyle();                                                               //监听主题
+    void  blackStyle();                                                                  //黑色主题
+    void  whiteStyle();                                                                  //白色主题
 };
 
 
@@ -68,7 +73,7 @@ public:
     explicit set_alarm_repeat_widget(QWidget *parent = nullptr);
     ~set_alarm_repeat_widget();
 
-    void paintEvent(QPaintEvent *event);
+//    void paintEvent(QPaintEvent *event);
 
     QLabel *alarmLabel0;
     //QPushButton

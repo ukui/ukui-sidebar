@@ -18,18 +18,16 @@
 #include "dotlineDemo.h"
 #include <QDebug>
 #include <QStyleOption>
+#include <QPainterPath>
 
 DotLineDemo::DotLineDemo(QWidget *parent):
      QWidget(parent)
 {
-    this->resize(454, 362);
+    this->resize(390, 310);
 }
 
 DotLineDemo::~DotLineDemo()
 {
-    //delete widget;
-    qDebug()<<"-------DotLineDemo---------";
-
 }
 
 //绘制虚线圈
@@ -40,21 +38,22 @@ void DotLineDemo::paintEvent(QPaintEvent *event)
 
     QPainter painter(this);
 
-    // 反走样  antialiasing
-    painter.setRenderHint(QPainter::Antialiasing, true);
-
-    //color: rgb(148, 148, 148);   Qt::gray
-    painter.setPen(QPen(QColor(60, 60, 60), 4, Qt::DotLine, Qt::RoundCap, Qt::RoundJoin));
-
     QStyleOption opt;
     opt.init(this);
+    QColor mainColor;
     if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
     {
-        painter.setPen(QPen(QColor(233,233,233), 4, Qt::DotLine, Qt::RoundCap, Qt::RoundJoin));
+        mainColor = QColor(255, 255, 255, 107);
     }else{
-        painter.setPen(QPen(QColor(60, 60, 60), 4, Qt::DotLine, Qt::RoundCap, Qt::RoundJoin));
+        mainColor = QColor(255, 255, 255, 40);
     }
 
-    painter.setBrush(Qt::NoBrush);
-    painter.drawEllipse(QPointF(226, 180), 155, 155);
+    painter.save();
+    painter.setPen(mainColor);
+    painter.setBrush(mainColor);
+    QPainterPath bigCircle;
+    bigCircle.addEllipse(65, 13, 266, 266);
+    QPainterPath path = bigCircle ;
+    painter.drawPath(path);
+    painter.restore();
 }
