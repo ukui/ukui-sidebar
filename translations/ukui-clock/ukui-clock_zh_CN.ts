@@ -1231,14 +1231,14 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/setupPage.ui" line="142"/>
         <source>开机启动</source>
         <translatorcomment> Boot up</translatorcomment>
-        <translation> Boot up</translation>
+        <translation type="vanished"> Boot up</translation>
     </message>
     <message>
+        <location filename="../../src/plugins/ukui-clock/setupPage.ui" line="142"/>
         <source>Boot up</source>
-        <translation type="vanished">开机启动</translation>
+        <translation>开机启动</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="59"/>

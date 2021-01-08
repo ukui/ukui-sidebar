@@ -139,7 +139,7 @@ font-size:18px;</string>
      </rect>
     </property>
     <property name="text">
-     <string>开机启动</string>
+     <string>Boot up</string>
     </property>
    </widget>
    <widget class="QPushButton" name="closeBtn">

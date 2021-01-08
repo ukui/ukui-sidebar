@@ -819,13 +819,13 @@ Versyon: 2020.1.8</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/setupPage.ui" line="142"/>
         <source>开机启动</source>
-        <translation>Başlat</translation>
+        <translation type="vanished">Başlat</translation>
     </message>
     <message>
+        <location filename="../../src/plugins/ukui-clock/setupPage.ui" line="142"/>
         <source>Boot up</source>
-        <translation type="vanished">Önyükleme</translation>
+        <translation>Önyükleme</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="59"/>
