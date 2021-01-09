@@ -1976,14 +1976,16 @@ void Clock::statCountdown(){
     }
 
     if (countdown_second < 10) {
-        QString second_str = QString::number(countdown_second);
+        QString second_str = QString::number(countdown_second-1);
         s = "0"+second_str;
     } else {
         s = QString::number(countdown_second);
     }
     ui->label_9->setText(h+":"+m+":"+s);
 
-    if (countdown_hour==0 && countdown_minute==0 && countdown_second==1) {
+    qDebug()<<countdown_second;
+
+    if (countdown_hour==0 && countdown_minute==0 && (countdown_second-1)==0) {
         countdown_timer->stop();
         countdownNoticeDialogShow();
         startbtnCountdown();
