@@ -49,10 +49,10 @@
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.ui" line="272"/>
-        <location filename="../../src/plugins/ukui-clock/clock.ui" line="372"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="807"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2039"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2288"/>
+        <location filename="../../src/plugins/ukui-clock/clock.ui" line="402"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="808"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2057"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2306"/>
         <source>start</source>
         <translatorcomment>开始</translatorcomment>
         <translation>开始</translation>
@@ -87,14 +87,26 @@
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.ui" line="178"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="653"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2043"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2201"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="654"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2061"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2219"/>
         <source>suspend</source>
         <translation>暂停</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.ui" line="493"/>
+        <location filename="../../src/plugins/ukui-clock/clock.ui" line="309"/>
+        <source>add</source>
+        <translatorcomment>添加</translatorcomment>
+        <translation>添加</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-clock/clock.ui" line="384"/>
+        <source>no alarm</source>
+        <translatorcomment>无闹钟</translatorcomment>
+        <translation>无闹钟</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-clock/clock.ui" line="523"/>
         <source>delete</source>
         <translatorcomment>删除</translatorcomment>
         <translation>删除</translation>
@@ -105,48 +117,48 @@
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.ui" line="233"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="968"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1008"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1116"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1118"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1167"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2172"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="969"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1009"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1117"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1119"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1175"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2190"/>
         <source>PM</source>
         <translation>下午</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.ui" line="309"/>
         <source>add alarm</source>
-        <translation>添加闹钟</translation>
+        <translatorcomment>添加</translatorcomment>
+        <translation type="vanished">添加</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.ui" line="328"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1707"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1719"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1725"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1737"/>
         <source>Remaining time</source>
         <translation>点击闹钟显示剩余时间</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.ui" line="422"/>
+        <location filename="../../src/plugins/ukui-clock/clock.ui" line="452"/>
         <source>reset</source>
         <translation>复位</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.ui" line="438"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="772"/>
+        <location filename="../../src/plugins/ukui-clock/clock.ui" line="468"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="773"/>
         <source>count</source>
         <translation>计次</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2000"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2018"/>
         <source>Count down</source>
         <translation>倒计时</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.ui" line="698"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="89"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="133"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1339"/>
+        <location filename="../../src/plugins/ukui-clock/clock.ui" line="728"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="88"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="132"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1357"/>
         <source>Alarm</source>
         <translation>闹钟</translation>
     </message>
@@ -159,29 +171,29 @@
         <translation type="vanished">删除闹铃</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.ui" line="509"/>
-        <location filename="../../src/plugins/ukui-clock/clock.ui" line="563"/>
+        <location filename="../../src/plugins/ukui-clock/clock.ui" line="539"/>
+        <location filename="../../src/plugins/ukui-clock/clock.ui" line="593"/>
         <source>Preservation</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.ui" line="531"/>
+        <location filename="../../src/plugins/ukui-clock/clock.ui" line="561"/>
         <source>12hour43minThe bell rings</source>
         <translation>12小时43分后铃声响</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.ui" line="547"/>
+        <location filename="../../src/plugins/ukui-clock/clock.ui" line="577"/>
         <source>cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.ui" line="580"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1314"/>
+        <location filename="../../src/plugins/ukui-clock/clock.ui" line="610"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1332"/>
         <source>New alarm</source>
         <translation>新建闹钟</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.ui" line="605"/>
+        <location filename="../../src/plugins/ukui-clock/clock.ui" line="635"/>
         <source>  Name</source>
         <translation>  闹钟名</translation>
     </message>
@@ -215,8 +227,8 @@
         <location filename="../../src/plugins/ukui-clock/clock.ui" line="64"/>
         <location filename="../../src/plugins/ukui-clock/clock.ui" line="162"/>
         <location filename="../../src/plugins/ukui-clock/clock.ui" line="293"/>
-        <location filename="../../src/plugins/ukui-clock/clock.ui" line="390"/>
-        <location filename="../../src/plugins/ukui-clock/clock.ui" line="406"/>
+        <location filename="../../src/plugins/ukui-clock/clock.ui" line="420"/>
+        <location filename="../../src/plugins/ukui-clock/clock.ui" line="436"/>
         <source>00:00:00</source>
         <translation></translation>
     </message>
@@ -266,98 +278,98 @@
         <translation type="vanished">add alarm</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="683"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2217"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="684"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2235"/>
         <source>Continue</source>
         <translation>继续</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="773"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="774"/>
         <source>interval </source>
         <translation>间隔 </translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="971"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1011"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1122"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1124"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1174"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2174"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="972"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1012"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1123"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1125"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1182"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2192"/>
         <source>AM</source>
         <translation>上午</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1198"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1487"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2410"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2434"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1206"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1505"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2428"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2452"/>
         <source>Mon</source>
         <translation>周一</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1200"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1489"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2411"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2435"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1208"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1507"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2429"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2453"/>
         <source>Tue</source>
         <translation>周二</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1202"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1491"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2412"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2436"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1210"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1509"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2430"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2454"/>
         <source>Wed</source>
         <translation>周三</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1204"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1493"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2413"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2437"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1212"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1511"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2431"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2455"/>
         <source>Thu</source>
         <translation>周四</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1206"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1495"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2414"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2438"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1214"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1513"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2432"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2456"/>
         <source>Fri</source>
         <translation>周五</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1208"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1497"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2415"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2439"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1216"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1515"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2433"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2457"/>
         <source>Sat</source>
         <translation>周六</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1210"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1499"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2416"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2440"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1218"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1517"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2434"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2458"/>
         <source>Sun</source>
         <translation>周日</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1077"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1324"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1537"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2653"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2672"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1078"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1342"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1555"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2671"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2690"/>
         <source>2min</source>
         <translation>2分钟</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="126"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="125"/>
         <source>Count</source>
         <translation>倒计时</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="140"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="139"/>
         <source>Watch</source>
         <translation>秒表</translation>
     </message>
@@ -380,82 +392,82 @@
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1079"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1539"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2654"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2675"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1080"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1557"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2672"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2693"/>
         <source>3min</source>
         <translation>3分钟</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1081"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1541"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2655"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2678"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1082"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1559"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2673"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2696"/>
         <source>4min</source>
         <translation>4分钟</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1083"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1543"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2656"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2681"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1084"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1561"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2674"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2699"/>
         <source>6min</source>
         <translation>6分钟</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1089"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1224"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1513"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1514"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2408"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2445"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2446"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1090"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1232"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1531"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1532"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2426"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2463"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2464"/>
         <source>No repetition</source>
         <translation>不重复</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1128"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1129"/>
         <source> Seconds to close</source>
         <translation> 秒后自动关闭</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1222"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1319"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2409"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2457"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2458"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1230"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1337"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2427"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2475"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2476"/>
         <source>Workingday</source>
         <translation>工作日</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1320"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1325"/>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1338"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1343"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1356"/>
         <source>(default)</source>
         <translation>(默认)</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1352"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1572"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1370"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1590"/>
         <source>Please set alarm name!</source>
         <translatorcomment>请设置闹钟名!</translatorcomment>
         <translation>请设置闹钟名!</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1442"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1460"/>
         <source>hour </source>
         <translation>小时 </translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1442"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1710"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1712"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1460"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1728"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1730"/>
         <source> min bell rings</source>
         <translation> 分钟后铃响</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1475"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1493"/>
         <source>Edit alarm clock</source>
         <translation>编辑闹钟</translation>
     </message>
@@ -465,120 +477,120 @@
         <translation type="vanished">Remaining time</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1710"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1728"/>
         <source> days </source>
         <translation> 天 </translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1710"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1712"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1728"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1730"/>
         <source> hour </source>
         <translation> 小时 </translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="547"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1329"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1522"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1902"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1347"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1540"/>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1920"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2597"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2616"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2706"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2719"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1938"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2615"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2634"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2724"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2737"/>
         <source>glass</source>
         <translation>玻璃</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="549"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1331"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1524"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1903"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1923"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2598"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2619"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1349"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1542"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1921"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1941"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2616"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2637"/>
         <source>bark</source>
         <translation>犬吠</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="551"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1333"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1526"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1904"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1926"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2599"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2622"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1351"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1544"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1922"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1944"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2617"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2640"/>
         <source>sonar</source>
         <translation>声呐</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="553"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1335"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1528"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1905"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1929"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2600"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2625"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1353"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1546"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1923"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1947"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2618"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2643"/>
         <source>drip</source>
         <translation>雨滴</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1510"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1511"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1528"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1529"/>
         <source>  work</source>
         <translation>  工作日</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1510"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1528"/>
         <source>  工作日</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1998"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2016"/>
         <source>360 Seconds to close</source>
         <translation>360秒后自动关闭</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2001"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2019"/>
         <source>Time out</source>
         <translation>时间到</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2023"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2041"/>
         <source>End</source>
         <translation>结束</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2166"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2184"/>
         <source>after tomorrow</source>
         <translation>后天</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2169"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2187"/>
         <source>Tomorrow</source>
         <translation>明天</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2263"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2377"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2281"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2395"/>
         <source>hour</source>
         <translation>时</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2265"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2380"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2283"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2398"/>
         <source>min</source>
         <translation>分</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2267"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2285"/>
         <source>sec</source>
         <translation>秒</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1219"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1220"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1508"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2574"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1227"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1228"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1526"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2592"/>
         <source>Every day</source>
         <translation>每天</translation>
     </message>
@@ -599,28 +611,28 @@
         <translation type="vanished">雨滴(默认)</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2652"/>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2669"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2670"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2687"/>
         <source>1min</source>
         <translation>1分钟</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2715"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2733"/>
         <source>Monday to Friday</source>
         <translation>周一周二周三周四周五</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2716"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2734"/>
         <source>24 hour system</source>
         <translation>24小时制(23:59:59)</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2717"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2735"/>
         <source>Notification</source>
         <translation>通知栏弹窗</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2718"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2736"/>
         <source>Alert in 2 minutes</source>
         <translation>2分钟后提醒</translation>
     </message>
@@ -690,7 +702,7 @@
         <translation type="vanished"> ring time</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.ui" line="726"/>
+        <location filename="../../src/plugins/ukui-clock/clock.ui" line="756"/>
         <source>On</source>
         <translation>on</translation>
     </message>
@@ -913,7 +925,7 @@
         <translation type="vanished">sec</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1513"/>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1531"/>
         <source>不重复</source>
         <translatorcomment>No repetition </translatorcomment>
         <translation>No repetition</translation>
@@ -1213,12 +1225,12 @@
 <context>
     <name>set_alarm_repeat_Dialog</name>
     <message>
-        <location filename="../../src/plugins/ukui-clock/setAlarmRepeatDialog.cpp" line="37"/>
+        <location filename="../../src/plugins/ukui-clock/setAlarmRepeatDialog.cpp" line="39"/>
         <source>Alarm</source>
         <translation>闹钟</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/setAlarmRepeatDialog.cpp" line="133"/>
+        <location filename="../../src/plugins/ukui-clock/setAlarmRepeatDialog.cpp" line="134"/>
         <source>Dialog</source>
         <translation></translation>
     </message>
@@ -1236,7 +1248,7 @@
         <translation type="vanished"> Boot up</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/setupPage.ui" line="142"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.ui" line="112"/>
         <source>Boot up</source>
         <translation>开机启动</translation>
     </message>
@@ -1266,9 +1278,8 @@
         <translation>  默认铃声</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/setupPage.ui" line="116"/>
         <source>  Mute</source>
-        <translation>  静音</translation>
+        <translation type="vanished">  静音</translation>
     </message>
     <message>
         <source>work</source>
@@ -1291,168 +1302,170 @@
         <translation type="vanished">默认铃声</translation>
     </message>
     <message>
+        <location filename="../../src/plugins/ukui-clock/setupPage.ui" line="167"/>
         <source>Mute</source>
-        <translation type="vanished">静音</translation>
+        <translation>静音</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/setupPage.ui" line="129"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.ui" line="99"/>
         <source>volume</source>
         <translation>铃声音量</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/setupPage.ui" line="103"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.ui" line="154"/>
         <source>setting</source>
-        <translation>默认设置</translation>
+        <translatorcomment>设置</translatorcomment>
+        <translation>设置</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="100"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="223"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="248"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="216"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="241"/>
         <source>Mon</source>
         <translation>周一</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="102"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="224"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="249"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="217"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="242"/>
         <source>Tue</source>
         <translation>周二</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="104"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="225"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="250"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="218"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="243"/>
         <source>Wed</source>
         <translation>周三</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="106"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="226"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="251"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="219"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="244"/>
         <source>Thu</source>
         <translation>周四</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="108"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="227"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="252"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="220"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="245"/>
         <source>Fri</source>
         <translation>周五</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="110"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="228"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="253"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="221"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="246"/>
         <source>Sat</source>
         <translation>周六</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="112"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="229"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="254"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="222"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="247"/>
         <source>Sun</source>
         <translation>周日</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="400"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="393"/>
         <source>Every day</source>
         <translation>每天</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="119"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="423"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="442"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="416"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="435"/>
         <source>Following system</source>
         <translation>跟随系统</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="121"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="424"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="447"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="417"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="440"/>
         <source>24 hour system</source>
         <translation>24小时制(23:59:59)</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="123"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="425"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="452"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="418"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="445"/>
         <source>12 hour system</source>
         <translation>12小时制(下午11:59:59)</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="126"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="476"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="499"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="469"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="492"/>
         <source>Notification</source>
         <translation>通知栏弹窗</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="128"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="477"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="501"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="470"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="494"/>
         <source>Full screen</source>
         <translation>全屏弹窗</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="131"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="522"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="540"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="515"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="533"/>
         <source>Alert in 2 minutes</source>
         <translation>2分钟后提醒</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="133"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="523"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="543"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="516"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="536"/>
         <source>Alert in 5 minutes</source>
         <translation>5分钟后提醒</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="135"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="524"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="546"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="517"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="539"/>
         <source>Alert in 10 minutes</source>
         <translation>10分钟后提醒</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="137"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="525"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="549"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="518"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="542"/>
         <source>Alert in 30 minutes</source>
         <translation>30分钟后提醒</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="139"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="526"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="552"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="519"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="545"/>
         <source>Alert in 60 minutes</source>
         <translation>60分钟后提醒</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="143"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="575"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="594"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="568"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="587"/>
         <source>glass</source>
         <translation>玻璃</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="145"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="576"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="597"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="569"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="590"/>
         <source>bark</source>
         <translation>犬吠</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="147"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="577"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="600"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="570"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="593"/>
         <source>sonar</source>
         <translation>声呐</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="149"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="578"/>
-        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="603"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="571"/>
+        <location filename="../../src/plugins/ukui-clock/setupPage.cpp" line="596"/>
         <source>drip</source>
         <translation>雨滴</translation>
     </message>

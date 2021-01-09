@@ -44,11 +44,11 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
 
     ui->setupUi(this);
 
-    dialog_werk_day = new  set_alarm_repeat_Dialog(ui->widget, 7);
-    Time_format = new  set_alarm_repeat_Dialog(ui->widget, 3);
-    Pop_up_window = new  set_alarm_repeat_Dialog(ui->widget, 2);
-    Reminder_off = new  set_alarm_repeat_Dialog(ui->widget, 5);
-    Default_ringtone = new  set_alarm_repeat_Dialog(ui->widget, 4);
+    dialog_werk_day = new  set_alarm_repeat_Dialog(280,225,7,ui->widget);
+    Time_format = new  set_alarm_repeat_Dialog(288,138,3,ui->widget);
+    Pop_up_window = new  set_alarm_repeat_Dialog(280,75,2,ui->widget);
+    Reminder_off = new  set_alarm_repeat_Dialog(288,190,5,ui->widget);
+    Default_ringtone = new  set_alarm_repeat_Dialog(288,169,4,ui->widget);
 
     connect(dialog_werk_day->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(werk_day_listClickslot()));
     connect(Time_format->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(Time_format_listClickslot()));
@@ -63,9 +63,10 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     ringtone_sel = new setUpBtnNew(0, tr("  ringtone"), this);
     repeat_sel->move(45, 97);repeat_sel->hide();
     Pop_sel ->move(45, 197);Pop_sel->hide();
-    Time_sel->move(30, 150);
-    duration_sel->move(30, 205);
-    ringtone_sel->move(30, 260);
+
+    Time_sel->move(30, 108);
+    duration_sel->move(30, 163);
+    ringtone_sel->move(30, 218);
 
     Time_sel->resize(268,40);
     duration_sel->resize(268,40);
@@ -164,20 +165,13 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     Reminder_off->hide() ;
     Default_ringtone->hide() ;
 
-    QPalette palette1 = ui->pushButton_4->palette();
+    QPalette palette1 = ui->pushButton_6->palette();
     QColor ColorPlaceholderText3(255,255,255,0);
     QBrush brush;
     brush.setColor(ColorPlaceholderText3);
     palette1.setBrush(QPalette::Button, brush);
-    ui->pushButton_4->setPalette(palette1);
-    ui->pushButton_5->setPalette(palette1);
     ui->pushButton_6->setPalette(palette1);
-    ui->pushButton_4->setEnabled(false);
-    ui->pushButton_5->setEnabled(false);
     ui->pushButton_6->setEnabled(false);
-
-    ui->pushButton_4->installEventFilter(this);
-    ui->pushButton_5->installEventFilter(this);
     ui->pushButton_6->installEventFilter(this);
 
     ui->closeBtn->setIcon(QIcon::fromTheme("window-close-symbolic"));
@@ -187,6 +181,8 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     connect(ui->closeBtn, &QPushButton::clicked, this, [=](){
         this->hide();
     });
+    ui->label->hide();
+    ui->pushButton->hide();
 }
 
 setuppage::~setuppage()
@@ -417,7 +413,7 @@ void setuppage::Time_format_set()
     Time_format->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
     Time_format->setAttribute(Qt::WA_TranslucentBackground);
     QPointF position = parentWidget()->pos();
-    Time_format->move(position.x()+51,position.y()+307);
+    Time_format->move(position.x()+51,position.y()+265);
     Time_format->resize(288,138);
     Time_format->listWidget->setFixedSize(268,130);
     Time_format->widget[0]->alarmLabel0->setText(tr("Following system"));
@@ -516,7 +512,7 @@ void setuppage::Reminder_off_set()
     Reminder_off->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
     Reminder_off->setAttribute(Qt::WA_TranslucentBackground);
     QPointF position = parentWidget()->pos();
-    Reminder_off->move(position.x()+51,position.y()+362);
+    Reminder_off->move(position.x()+51,position.y()+320);
     Reminder_off->resize(288,190);
     Reminder_off->listWidget->setFixedSize(268,170);
     Reminder_off->widget[0]->alarmLabel0->setText(tr("Alert in 2 minutes"));
@@ -569,7 +565,7 @@ void setuppage::Default_ringtone_set()
     Default_ringtone->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
     Default_ringtone->setAttribute(Qt::WA_TranslucentBackground);
     QPointF position = parentWidget()->pos();
-    Default_ringtone->move(position.x()+51,position.y()+415);
+    Default_ringtone->move(position.x()+51,position.y()+373);
     Default_ringtone->resize(288,169);
     Default_ringtone->listWidget->setFixedSize(268,149);
     Default_ringtone->widget[0]->alarmLabel0->setText(tr("glass"));
@@ -666,14 +662,6 @@ void setuppage::paintEvent(QPaintEvent *event)
 
 bool setuppage::eventFilter(QObject *watched, QEvent *event)
 {
-    if(watched == ui->pushButton_4 && event->type() == QEvent::Paint)
-    {
-        showPaint(); //响应函数
-    }
-    if(watched == ui->pushButton_5 && event->type() == QEvent::Paint)
-    {
-        showPaint1();
-    }
     if(watched == ui->pushButton_6 && event->type() == QEvent::Paint)
     {
         showPaint2();
@@ -685,39 +673,12 @@ bool setuppage::eventFilter(QObject *watched, QEvent *event)
 //实现响应函数
 void setuppage::showPaint()
 {
-    QPalette palette = ui->pushButton_4->palette();
-    QColor ColorPlaceholderText(248,163,76,255);
-    QBrush brush3;
-    brush3.setColor(ColorPlaceholderText);
-    QStyleOption opt;
-    opt.init(this);
-    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
-    {
-        palette.setBrush(QPalette::ButtonText, QBrush(QColor(0, 0, 0)));
-    }else{
-        palette.setBrush(QPalette::ButtonText, QBrush(QColor(255, 255, 255)));
-    }
-
-    ui->pushButton_4->setPalette(palette);
 }
 
 //实现响应函数
 void setuppage::showPaint1()
 {
-    QPalette palette = ui->pushButton_5->palette();
-    QColor ColorPlaceholderText(248,163,76,255);
-    QBrush brush3;
-    brush3.setColor(ColorPlaceholderText);
-    QStyleOption opt;
-    opt.init(this);
-    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
-    {
-        palette.setBrush(QPalette::ButtonText, QBrush(QColor(0, 0, 0)));
-    }else{
-        palette.setBrush(QPalette::ButtonText, QBrush(QColor(255, 255, 255)));
-    }
 
-    ui->pushButton_5->setPalette(palette);
 }
 
 void setuppage::showPaint2()

@@ -45,13 +45,14 @@ class set_alarm_repeat_Dialog : public QWidget
     Q_OBJECT
 
 public:
-    explicit set_alarm_repeat_Dialog(QWidget *parent = nullptr , int rowNum = 0 );
+    explicit set_alarm_repeat_Dialog(int width, int Length, int rowNum = 0, QWidget *parent = nullptr);
     ~set_alarm_repeat_Dialog();
 
     void paintEvent(QPaintEvent *event);
     set_alarm_repeat_widget *widget[20];
     QListWidgetItem *aItem[20];
     int rowNum_all ;
+    int width_num, Length_num;
     QListWidget *listWidget;
 
 private:
