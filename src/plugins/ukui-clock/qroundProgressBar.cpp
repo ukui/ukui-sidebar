@@ -39,6 +39,7 @@ QRoundProgressBar::QRoundProgressBar(QWidget *parent) :
     m_decimals(1),
     m_updateFlags(UF_PERCENT)
 {
+    settingsStyle();
 }
 
 void QRoundProgressBar::setRange(double min, double max)
@@ -157,16 +158,6 @@ void QRoundProgressBar::setDecimals(int count)
 
 void QRoundProgressBar::paintEvent(QPaintEvent* /*event*/)
 {
-    QStyleOption opt;
-    opt.init(this);
-    QColor mainColor;
-    if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
-    {
-        mainColor = QColor(255, 255, 255, 107);
-    }else{
-        mainColor = QColor(255, 255, 255, 40);
-    }
-
     QPainter painter(this);
     painter.save();
     painter.setPen(mainColor);
@@ -355,5 +346,34 @@ void QRoundProgressBar::rebuildDataBrushIfNeeded()
     }
 }
 
+/*
+*监听主题
+*/
+void QRoundProgressBar::settingsStyle()
+{
+    const QByteArray style_id(ORG_UKUI_STYLE);
+    QStringList stylelist;
+    QGSettings *style_settings = new QGSettings(style_id);
+
+    stylelist<<STYLE_NAME_KEY_DARK<<STYLE_NAME_KEY_BLACK<<STYLE_NAME_KEY_DEFAULT;
+    if(QGSettings::isSchemaInstalled(style_id)){
+        style_settings = new QGSettings(style_id);
+        if(stylelist.contains(style_settings->get(STYLE_NAME).toString())){
+            mainColor = QColor(255, 255, 255, 40);
+        }else{
+            mainColor = QColor(255, 255, 255, 107);
+        }
+    }
+
+    connect(style_settings, &QGSettings::changed, this, [=] (const QString &key){
+        if(key==STYLE_NAME){
+            if(stylelist.contains(style_settings->get(STYLE_NAME).toString())){
+                mainColor = QColor(255, 255, 255, 40);
+            }else{
+                mainColor = QColor(255, 255, 255, 107);
+            }
+        }
+    });
+}
 
 

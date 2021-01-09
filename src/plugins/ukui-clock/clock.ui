@@ -29,7 +29,7 @@
     <string notr="true"/>
    </property>
    <property name="currentIndex">
-    <number>3</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="page">
     <widget class="QStackedWidget" name="stackedWidget_4">
@@ -306,7 +306,7 @@ font-size:16px;
       <string notr="true"/>
      </property>
      <property name="text">
-      <string>add alarm</string>
+      <string>add</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_7">
@@ -352,6 +352,36 @@ opacity:0.45;</string>
      </property>
      <property name="text">
       <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="noAlarmIcon">
+     <property name="geometry">
+      <rect>
+       <x>115</x>
+       <y>76</y>
+       <width>149</width>
+       <height>170</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="noAlarm">
+     <property name="geometry">
+      <rect>
+       <x>125</x>
+       <y>262</y>
+       <width>140</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgba(49, 66, 89, 0.6);
+font-size:16px;</string>
+     </property>
+     <property name="text">
+      <string>no alarm</string>
      </property>
     </widget>
    </widget>

@@ -32,5 +32,7 @@
         <file alias="ukui-clock_tr.qm">../../../translations/ukui-clock/ukui-clock_tr.qm</file>
         <file alias="ukui-clock_zh_CN.qm">../../../translations/ukui-clock/ukui-clock_zh_CN.qm</file>
         <file>image/kylin-alarm-clock.png</file>
+        <file>image/noClockWhite.png</file>
+        <file>image/noClockBlack.png</file>
     </qresource>
 </RCC>

@@ -27,18 +27,19 @@
 
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 
-set_alarm_repeat_Dialog::set_alarm_repeat_Dialog(QWidget *parent , int rowNum ) :
+set_alarm_repeat_Dialog::set_alarm_repeat_Dialog(int width, int Length, int rowNum , QWidget *parent ) :
     rowNum_all(rowNum),
+    width_num(width),
+    Length_num(Length),
     QWidget(parent)
 {
     setupUi(this);
-    this->resize(360, 290);
+    this->resize(width_num, Length_num);
 
     this->setWindowTitle(tr("Alarm"));
 
-    this->setAttribute(Qt::WA_TranslucentBackground);
     setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
-
+    this->setAttribute(Qt::WA_TranslucentBackground);
     QPainterPath blurPath;
     blurPath.addRoundedRect(rect().adjusted(10, 10, -10, -10), 10, 10);      //增加圆角
     setProperty("useSystemStyleBlur", true);

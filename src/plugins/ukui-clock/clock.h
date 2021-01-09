@@ -90,7 +90,6 @@ public:
     void showPaint1();
     void showPaint7();
     void showPaint8();
-    void showPaint9();
 
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
@@ -116,6 +115,9 @@ public slots:
     void  blackStyle();                                                                  //黑色主题
 
     void  whiteStyle();                                                                  //白色主题
+
+    void  drawNoAlarmPrompt();                                                           //绘制无闹钟提示
+                                                                                         //Draw no alarm prompt
 
 private slots:
     void buttonImageInit();                                                              //闹钟按钮图片初始化
