@@ -217,13 +217,13 @@ set_alarm_repeat_widget::set_alarm_repeat_widget(QWidget *parent):
     alarmLabel1 = new ClickableLabel(this);
     alarmLabel1->move(296, 0);
     alarmLabel1->setFixedSize(34, 38);
-    alarmLabel1->setStyleSheet("background-color: rgb();");
     alarmLabel1->setText("");
+    alarmLabel1->setProperty("useIconHighlightEffect", true);
+    alarmLabel1->setProperty("iconHighlightEffectMode", 1);
 }
 
 set_alarm_repeat_widget::~set_alarm_repeat_widget()
 {
-    delete   alarmLabel0;
-    delete   alarmLabel1;
+
 }
 

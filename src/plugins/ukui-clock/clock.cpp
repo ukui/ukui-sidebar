@@ -721,9 +721,6 @@ void Clock::stopwatchStartAnimation()
 /*
  * 倒计时开始动画移动
  * Countdown start animation move
- *     ui->label_4->move(90,136);
-    ui->label_5->move(145,210);
-    ui->listWidget_2->move(25,230);
  */
 void Clock::stopwatchStopAnimation()
 {
@@ -1967,7 +1964,6 @@ void Clock::statCountdown(){
     } else {
         h = QString::number(countdown_hour);
     }
-
     if (countdown_minute < 10) {
         QString minute_str = QString::number(countdown_minute);
         m = "0"+minute_str;
@@ -1976,7 +1972,7 @@ void Clock::statCountdown(){
     }
 
     if (countdown_second < 10) {
-        QString second_str = QString::number(countdown_second-1);
+        QString second_str = QString::number(countdown_second);
         s = "0"+second_str;
     } else {
         s = QString::number(countdown_second);
@@ -1985,7 +1981,7 @@ void Clock::statCountdown(){
 
     qDebug()<<countdown_second;
 
-    if (countdown_hour==0 && countdown_minute==0 && (countdown_second-1)==0) {
+    if (countdown_hour==0 && countdown_minute==0 && (countdown_second)==0) {
         countdown_timer->stop();
         countdownNoticeDialogShow();
         startbtnCountdown();
@@ -2043,6 +2039,7 @@ void Clock::startbtnCountdown(){
         ui->count_stat->setText(tr("End"));
         ui->stackedWidget_4->setCurrentIndex(1);
         setcoutdownNumber(timer_ring99->m_currentValue, timer_ring60->m_currentValue, timer_ring60_2->m_currentValue);//获取转轮当前值
+        countdown_second--;
         countdown_timer->start();
         ui->page_5->timer->start();
     } else {
