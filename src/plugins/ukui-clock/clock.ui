@@ -29,7 +29,7 @@
     <string notr="true"/>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>3</number>
    </property>
    <widget class="QWidget" name="page">
     <widget class="QStackedWidget" name="stackedWidget_4">
@@ -510,8 +510,8 @@ font: 19pt
      <widget class="QPushButton" name="pushButton_8">
       <property name="geometry">
        <rect>
-        <x>164</x>
-        <y>401</y>
+        <x>20</x>
+        <y>360</y>
         <width>72</width>
         <height>34</height>
        </rect>
@@ -526,7 +526,7 @@ font: 19pt
      <widget class="QPushButton" name="pushButton_9">
       <property name="geometry">
        <rect>
-        <x>260</x>
+        <x>210</x>
         <y>401</y>
         <width>72</width>
         <height>34</height>
@@ -564,7 +564,7 @@ opacity:0.45;
      <widget class="QPushButton" name="set_alarm_cancelbtn">
       <property name="geometry">
        <rect>
-        <x>68</x>
+        <x>108</x>
         <y>401</y>
         <width>72</width>
         <height>34</height>
@@ -580,7 +580,7 @@ opacity:0.45;
      <widget class="QPushButton" name="set_alarm_savebtn">
       <property name="geometry">
        <rect>
-        <x>260</x>
+        <x>210</x>
         <y>401</y>
         <width>72</width>
         <height>34</height>

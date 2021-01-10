@@ -246,6 +246,8 @@ private slots:
                                                                                          // Calculate the next alarm ring interval
     QString changeNumToStr(int alarmHour);                                               //整型转字符
                                                                                          // Integer to character
+    void onCustomContextMenuRequested(const QPoint &pos);                                //闹钟右键删除事件处理函数
+
     void countStatBtnGray();
 
 private:
@@ -372,6 +374,10 @@ private:
     Btn_new *ring_sel;
     QMenu *m_menu;                                                  /*功能菜单*/
     QAction *m_menuAction;                                          /*菜单动作*/
+
+    QMenu *popMenu_In_ListWidget_;                                  /*闹钟右键删除菜单*/
+    QAction *action_Delete_In_ListWidget_ ;
+    QAction *action_Clear_In_ListWidget_ ;                          /*闹钟右键删除动作*/
 };
 
 
