@@ -31,6 +31,9 @@ Btn_new::Btn_new(int num, QString name, QWidget *parent) :
     QPalette palette;
     palette.setColor(QPalette::ButtonText,QColor(148, 148, 148, 255));
     textLabel->setPalette(palette);
+
+    IconLabel->setProperty("useIconHighlightEffect", true);
+    IconLabel->setProperty("iconHighlightEffectMode", 1);
 }
 
 Btn_new::~Btn_new()
