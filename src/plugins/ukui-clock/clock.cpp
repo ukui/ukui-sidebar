@@ -90,7 +90,6 @@ Clock::Clock(QWidget *parent) :
     QPainterPath blurPath;
     setProperty("useSystemStyleBlur", true);
     setProperty("blurRegion", QRegion(blurPath.toFillPolygon().toPolygon()));//使用QPainterPath的api生成多边形Region
-    //mainColor = QColor(26, 26, 26,198);
 
     mousePressed = 0;
     buttonImageInit();
@@ -107,6 +106,7 @@ Clock::Clock(QWidget *parent) :
     QScroller::grabGesture(ui->listWidget_2,QScroller::LeftMouseButtonGesture); /*设置鼠标左键拖动  Set left mouse drag*/
     ui->listWidget -> setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);  /*设置像素级滑动    Set pixel level slide*/
     ui->listWidget_2 -> setVerticalScrollMode(QAbstractItemView::ScrollPerPixel); /*设置像素级滑动  Set pixel level slide*/
+    ui->listWidget->setProperty("contextMenuPolicy", Qt::CustomContextMenu);    /*重要：设置QListWidget的contextMenuPolicy属性，不然不能显示右键菜单*/
     ui->listWidget ->setGridSize(QSize(340, 108+15));
     ui->listWidget_2 ->setGridSize(QSize(340, 58+10));
 
@@ -216,6 +216,7 @@ Clock::Clock(QWidget *parent) :
     ui->min_60btn->hide();
     ui->label_12->hide();
     ui->label_13->hide();
+    ui->pushButton_8->hide();
 }
 
 Clock::~Clock()
@@ -452,6 +453,15 @@ void Clock::clockInit()
     model_setup->setEditStrategy(QSqlTableModel::OnManualSubmit);
     model_setup->select();
 
+    /*初始化一个包含两个Action(Delete和ClearAll)的菜单*/
+    popMenu_In_ListWidget_ = new QMenu(this);
+    action_Delete_In_ListWidget_ = new QAction(tr("Delete"), this);
+    action_Clear_In_ListWidget_ = new QAction(tr("ClearAll"), this);
+    popMenu_In_ListWidget_->addAction(action_Delete_In_ListWidget_);
+//    popMenu_In_ListWidget_->addAction(action_Clear_In_ListWidget_);
+
+    connect(this->action_Delete_In_ListWidget_, SIGNAL(triggered()), this, SLOT(deleteAlarm()));
+
     connect(ui->listWidget,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(listdoubleClickslot()));
     connect(ui->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(listClickslot()));
     connect(ui->pushButton_8, SIGNAL(clicked()), this, SLOT(deleteAlarm()) );
@@ -474,6 +484,9 @@ void Clock::clockInit()
     connect(ui->min_60btn, SIGNAL(clicked()), this, SLOT(onMin_60btnClicked()));
     connect(ui->count_push, SIGNAL(clicked()), this, SLOT(onCountPushClicked()));
     connect(ui->pushButton_9, SIGNAL(clicked()), this, SLOT(alarmReEditClicked()));
+    /*绑定右键显示菜单：在单击右键之后会执行槽函数， 槽函数中负责弹出右键菜单*/
+    connect(ui->listWidget, SIGNAL(customContextMenuRequested(const QPoint &)),
+        this, SLOT(onCustomContextMenuRequested(const QPoint &)));
 
     /*单击时间提示计时器
      Click time reminder timer*/
@@ -518,6 +531,16 @@ void Clock::clockInit()
     connect(m_menuAction, SIGNAL(triggered()), this, SLOT(setUpPage()));
     connect(m_closeAction, SIGNAL(triggered()), this, SLOT(windowClosingClicked()));
 }
+
+/*
+* 事件处理函数
+*/
+void Clock::onCustomContextMenuRequested(const QPoint &pos)
+{
+    /*弹出右键菜单*/
+    popMenu_In_ListWidget_->exec(QCursor::pos());
+}
+
 /*
 * 默认初始设置
 * Default initial settings
@@ -1479,7 +1502,7 @@ void Clock::listdoubleClickslot()
 {
 //    ui->set_page->show();
     ui->stackedWidget->setCurrentIndex(3);
-    ui->pushButton_8->show();
+//    ui->pushButton_8->show();
     ui->pushButton_9->show();
     ui->set_alarm_savebtn->hide();
     timer_alarm_start24->m_currentValue=model->index(ui->listWidget->currentRow(), 0).data().toInt();
