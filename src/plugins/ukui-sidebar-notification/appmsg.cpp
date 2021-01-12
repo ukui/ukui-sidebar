@@ -70,7 +70,7 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
 
     //发个统计收纳数更新信号
     connect(this, SIGNAL(Sig_countTakeInBitAndUpate()), parent, SLOT(onCountTakeInBitAndUpate()));
-
+    this->setStyleSheet("background:transparent");
     return;
 }
 
@@ -87,8 +87,7 @@ void AppMsg::paintEvent(QPaintEvent *)
     p.setPen(Qt::transparent);
 
     p.drawRoundedRect(rect,6,6);
-
-
+    return;
 }
 //统计应用剩余显示条数
 void AppMsg::statisticLeftItem()
