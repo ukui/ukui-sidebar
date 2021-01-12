@@ -68,7 +68,6 @@
 #include "ui_setupPage.h"
 #include <QGraphicsOpacityEffect>
 
-
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 const double PI=3.141592;
 
@@ -91,7 +90,6 @@ Clock::Clock(QWidget *parent) :
     QPainterPath blurPath;
     setProperty("useSystemStyleBlur", true);
     setProperty("blurRegion", QRegion(blurPath.toFillPolygon().toPolygon()));//使用QPainterPath的api生成多边形Region
-    //mainColor = QColor(26, 26, 26,198);
 
     mousePressed = 0;
     buttonImageInit();
@@ -101,14 +99,14 @@ Clock::Clock(QWidget *parent) :
     setupInit();
     this->setFixedSize(390,580);
     /*实现鼠标左键滑动效果
-    *Realize the sliding effect of left mouse button
-    */
+    *Realize the sliding effect of left mouse button*/
     ui->listWidget -> setFrameShape(QListWidget::NoFrame);
     ui->listWidget_2 -> setFrameShape(QListWidget::NoFrame);
     QScroller::grabGesture(ui->listWidget,QScroller::LeftMouseButtonGesture); /*设置鼠标左键拖动  Set left mouse drag*/
     QScroller::grabGesture(ui->listWidget_2,QScroller::LeftMouseButtonGesture); /*设置鼠标左键拖动  Set left mouse drag*/
     ui->listWidget -> setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);  /*设置像素级滑动    Set pixel level slide*/
     ui->listWidget_2 -> setVerticalScrollMode(QAbstractItemView::ScrollPerPixel); /*设置像素级滑动  Set pixel level slide*/
+    ui->listWidget->setProperty("contextMenuPolicy", Qt::CustomContextMenu);    /*重要：设置QListWidget的contextMenuPolicy属性，不然不能显示右键菜单*/
     ui->listWidget ->setGridSize(QSize(340, 108+15));
     ui->listWidget_2 ->setGridSize(QSize(340, 58+10));
 
@@ -206,6 +204,8 @@ Clock::Clock(QWidget *parent) :
 
     count_stat->setEnabled(false);
     ui->stackedWidget_4->setCurrentIndex(0);
+    drawNoAlarmPrompt();
+
     ui->label_6->hide();
     ui->label_7->hide();
     ui->label_15->hide();
@@ -216,7 +216,7 @@ Clock::Clock(QWidget *parent) :
     ui->min_60btn->hide();
     ui->label_12->hide();
     ui->label_13->hide();
-
+    ui->pushButton_8->hide();
 }
 
 Clock::~Clock()
@@ -453,6 +453,15 @@ void Clock::clockInit()
     model_setup->setEditStrategy(QSqlTableModel::OnManualSubmit);
     model_setup->select();
 
+    /*初始化一个包含两个Action(Delete和ClearAll)的菜单*/
+    popMenu_In_ListWidget_ = new QMenu(this);
+    action_Delete_In_ListWidget_ = new QAction(tr("Delete"), this);
+    action_Clear_In_ListWidget_ = new QAction(tr("ClearAll"), this);
+    popMenu_In_ListWidget_->addAction(action_Delete_In_ListWidget_);
+//    popMenu_In_ListWidget_->addAction(action_Clear_In_ListWidget_);
+
+    connect(this->action_Delete_In_ListWidget_, SIGNAL(triggered()), this, SLOT(deleteAlarm()));
+
     connect(ui->listWidget,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(listdoubleClickslot()));
     connect(ui->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(listClickslot()));
     connect(ui->pushButton_8, SIGNAL(clicked()), this, SLOT(deleteAlarm()) );
@@ -475,6 +484,9 @@ void Clock::clockInit()
     connect(ui->min_60btn, SIGNAL(clicked()), this, SLOT(onMin_60btnClicked()));
     connect(ui->count_push, SIGNAL(clicked()), this, SLOT(onCountPushClicked()));
     connect(ui->pushButton_9, SIGNAL(clicked()), this, SLOT(alarmReEditClicked()));
+    /*绑定右键显示菜单：在单击右键之后会执行槽函数， 槽函数中负责弹出右键菜单*/
+    connect(ui->listWidget, SIGNAL(customContextMenuRequested(const QPoint &)),
+        this, SLOT(onCustomContextMenuRequested(const QPoint &)));
 
     /*单击时间提示计时器
      Click time reminder timer*/
@@ -519,6 +531,16 @@ void Clock::clockInit()
     connect(m_menuAction, SIGNAL(triggered()), this, SLOT(setUpPage()));
     connect(m_closeAction, SIGNAL(triggered()), this, SLOT(windowClosingClicked()));
 }
+
+/*
+* 事件处理函数
+*/
+void Clock::onCustomContextMenuRequested(const QPoint &pos)
+{
+    /*弹出右键菜单*/
+    popMenu_In_ListWidget_->exec(QCursor::pos());
+}
+
 /*
 * 默认初始设置
 * Default initial settings
@@ -557,10 +579,11 @@ void Clock::setupInit()
     for (int i = 0; i < 9; i++) {
         repeat_day[i] = 0;
     }
-    dialog_repeat = new  set_alarm_repeat_Dialog(ui->set_page, 9);dialog_repeat->hide();
-    dialog_music = new  set_alarm_repeat_Dialog(ui->set_page, 4);dialog_music->hide();
-    time_music = new  set_alarm_repeat_Dialog(ui->set_page, 5);time_music->hide();
-    count_music_sellect = new  set_alarm_repeat_Dialog(ui->page, 4);count_music_sellect->hide();
+    dialog_repeat = new  set_alarm_repeat_Dialog(360,290,9,ui->set_page);dialog_repeat->hide();
+    dialog_music = new  set_alarm_repeat_Dialog(360,172,4,ui->set_page);dialog_music->hide();
+    time_music = new  set_alarm_repeat_Dialog(340,162,5,ui->set_page);time_music->hide();
+    count_music_sellect = new  set_alarm_repeat_Dialog(360,172,4,ui->page);count_music_sellect->hide();
+
     connect(dialog_repeat->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(repeatListclickslot()));
     connect(dialog_music->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(musicListclickslot()));
     connect(time_music->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(timeMusicListclickslot()));
@@ -720,9 +743,6 @@ void Clock::stopwatchStartAnimation()
 /*
  * 倒计时开始动画移动
  * Countdown start animation move
- *     ui->label_4->move(90,136);
-    ui->label_5->move(145,210);
-    ui->listWidget_2->move(25,230);
  */
 void Clock::stopwatchStopAnimation()
 {
@@ -1143,6 +1163,13 @@ void Clock::updateAlarmClock()
     int rowNum = model->rowCount();
     int hour_now;
     int min_now;
+    if(rowNum){
+        ui->noAlarm->hide();
+        ui->noAlarmIcon->hide();
+    }else{
+        ui->noAlarm->show();
+        ui->noAlarmIcon->show();
+    }
 
     for (int alarmNum = 0; alarmNum < rowNum; alarmNum++) {
         aItem[alarmNum] =new QListWidgetItem;
@@ -1226,6 +1253,16 @@ void Clock::updateAlarmClock()
         }
         connect( w1[alarmNum]->alarm_on_off0, SIGNAL(clicked()), this, SLOT(OnOffAlarm()) );
     }
+}
+
+/*
+ * 绘制无闹钟提示
+ * Draw no alarm prompt
+ */
+void Clock::drawNoAlarmPrompt()
+{
+    ui->noAlarmIcon->setPixmap(QPixmap(":/image/noClockWhite.png"));//.pixmap(164,194)
+    ui->noAlarm->setAlignment(Qt::AlignHCenter);
 }
 
 /*
@@ -1465,7 +1502,7 @@ void Clock::listdoubleClickslot()
 {
 //    ui->set_page->show();
     ui->stackedWidget->setCurrentIndex(3);
-    ui->pushButton_8->show();
+//    ui->pushButton_8->show();
     ui->pushButton_9->show();
     ui->set_alarm_savebtn->hide();
     timer_alarm_start24->m_currentValue=model->index(ui->listWidget->currentRow(), 0).data().toInt();
@@ -1949,7 +1986,6 @@ void Clock::statCountdown(){
     } else {
         h = QString::number(countdown_hour);
     }
-
     if (countdown_minute < 10) {
         QString minute_str = QString::number(countdown_minute);
         m = "0"+minute_str;
@@ -1965,7 +2001,9 @@ void Clock::statCountdown(){
     }
     ui->label_9->setText(h+":"+m+":"+s);
 
-    if (countdown_hour==0 && countdown_minute==0 && countdown_second==1) {
+    qDebug()<<countdown_second;
+
+    if (countdown_hour==0 && countdown_minute==0 && (countdown_second)==0) {
         countdown_timer->stop();
         countdownNoticeDialogShow();
         startbtnCountdown();
@@ -2023,6 +2061,7 @@ void Clock::startbtnCountdown(){
         ui->count_stat->setText(tr("End"));
         ui->stackedWidget_4->setCurrentIndex(1);
         setcoutdownNumber(timer_ring99->m_currentValue, timer_ring60->m_currentValue, timer_ring60_2->m_currentValue);//获取转轮当前值
+        countdown_second--;
         countdown_timer->start();
         ui->page_5->timer->start();
     } else {
@@ -2742,7 +2781,7 @@ void Clock::setUpPage()
         grand = new QWidget(setup_page->ui->widget);
     }
     setup_page->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
-    setup_page->setFixedSize(328,350);
+    setup_page->setFixedSize(328,300);
 
     QPointF position = this->pos();
 
@@ -2894,10 +2933,6 @@ bool Clock::eventFilter(QObject *watched, QEvent *event)
     {
         showPaint8();
     }
-    if(watched == ui->listWidget && event->type() == QEvent::Paint)
-    {
-        showPaint9();
-    }
     return QWidget::eventFilter(watched,event);
 }
 
@@ -3008,26 +3043,6 @@ void Clock::showPaint8()
         painter.drawPath(painterPath);
     }
 }
-/*
- * 实现响应函数设置页
-*/
-void Clock::showPaint9()
-{
-//    qDebug()<<"2223242424";
-//    QPainter painter(ui->listWidget);
-//    painter.setBrush(QColor(33,233,233,0));
-
-//    painter.setPen(Qt::transparent);
-//    QRect rect = ui->listWidget->rect();
-//    rect.setWidth(rect.width() - 0);
-//    rect.setHeight(rect.height() - 0);
-//    painter.drawRoundedRect(rect, 7, 7);
-//    {
-//        QPainterPath painterPath;
-//        painterPath.addRoundedRect(rect, 4, 4);
-//        painter.drawPath(painterPath);
-//    }
-}
 
 void Clock::mousePressEvent(QMouseEvent *event)
 {
@@ -3061,28 +3076,32 @@ void Clock::mouseMoveEvent(QMouseEvent *event)
 //黑色主题
 void  Clock::blackStyle()
 {
+    ui->noAlarmIcon->setPixmap(QPixmap(":/image/noClockBlack.png"));
+    ui->noAlarm->setStyleSheet("color: rgba(255, 255, 255, 0.6);font-size:16px;");
     ui->listWidget->setStyleSheet("QListWidget{background-color: rgba(0, 0, 0, 0);}\
                                   QListWidget::Item{background-color:rgba(255, 255, 255, 0.16);border-radius:10px;}\
                                   QListWidget::item::selected{background-color:rgba(255, 255, 255,0.29);border-radius:10px;border:1px solid rgba(131, 131, 131,0);}\
-                                  QListWidget::item:hover{background-color:rgba(255, 255, 255,0.4);border-radius:4px;}\
+                                  QListWidget::item:hover{background-color:rgba(255, 255, 255,0.29);border-radius:10px;}\
                                   ");
     ui->listWidget_2->setStyleSheet("QListWidget{background-color: rgba(0, 0, 0, 0);}\
                                   QListWidget::Item{background-color:rgba(255, 255, 255, 0.16);border-radius:10px;}\
                                   QListWidget::item::selected{background-color:rgba(255, 255, 255,0.29);border-radius:10px;border:1px solid rgba(131, 131, 131,0);}\
-                                  QListWidget::item:hover{background-color:rgba(255, 255, 255,0.4);border-radius:4px;}\
+                                  QListWidget::item:hover{background-color:rgba(255, 255, 255,0.29);border-radius:10px;}\
                                   ");
 }
 //白色主题
 void  Clock::whiteStyle()
 {
+    ui->noAlarmIcon->setPixmap(QPixmap(":/image/noClockWhite.png"));
+    ui->noAlarm->setStyleSheet("color: rgba(49, 66, 89, 0.6);font-size:16px;");
     ui->listWidget->setStyleSheet("QListWidget{background-color: rgba(0, 0, 0, 0);}\
                                   QListWidget::Item{background-color:rgba(255, 255, 255, 0.42);border-radius:10px;}\
                                   QListWidget::item::selected{background-color:rgba(255, 255, 255,0.7);border-radius:10px;border:1px solid rgba(131, 131, 131,0);}\
-                                  QListWidget::item:hover{background-color:rgba(255, 255, 255,0.4);border-radius:4px;}\
+                                  QListWidget::item:hover{background-color:rgba(255, 255, 255,0.7);border-radius:10px;}\
                                   ");
     ui->listWidget_2->setStyleSheet("QListWidget{background-color: rgba(0, 0, 0, 0);}\
                                   QListWidget::Item{background-color:rgba(255, 255, 255, 0.42);border-radius:10px;}\
                                   QListWidget::item::selected{background-color:rgba(255, 255, 255,0.7);border-radius:10px;border:1px solid rgba(131, 131, 131,0);}\
-                                  QListWidget::item:hover{background-color:rgba(255, 255, 255,0.4);border-radius:4px;}\
+                                  QListWidget::item:hover{background-color:rgba(255, 255, 255,0.7);border-radius:10px;}\
                                   ");
 }
