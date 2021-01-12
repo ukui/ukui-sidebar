@@ -293,7 +293,6 @@ void SingleMsg::paintEvent(QPaintEvent *e)
 
     QPainter p(this);
 
-
     QRect rect = this->rect();
     rect.setWidth(rect.width() - 1);
     rect.setHeight(rect.height() - 1);
@@ -302,31 +301,26 @@ void SingleMsg::paintEvent(QPaintEvent *e)
     p.setPen(Qt::transparent);
     p.drawRoundedRect(rect,6,6);
 
-
-
     switch (status) {
       case NORMAL: {
-
-              p.setBrush(QBrush(QColor(255, 255, 255, 0)));
-              p.setPen(Qt::NoPen);
-              p.drawRoundedRect(rect,6,6);
-              break;
+            p.setBrush(QBrush(QColor(255, 255, 255, 0)));
+            p.setPen(Qt::NoPen);
+            p.drawRoundedRect(rect,6,6);
+            break;
           }
       case HOVER: {
-          p.setBrush(QBrush(QColor(255, 255,255,40)));
-          p.setPen(Qt::NoPen);
-          p.drawRoundedRect(rect,6,6);
-              break;
+            p.setBrush(QBrush(QColor(255, 255,255,40)));
+            p.setPen(Qt::NoPen);
+            p.drawRoundedRect(rect,6,6);
+            break;
           }
       case PRESS: {
-        p.setBrush(QBrush(QColor(255, 255, 255, 0)));
-        p.setPen(Qt::NoPen);
-
-         p.drawRoundedRect(rect,6,6);
-              break;
-          }
+            p.setBrush(QBrush(QColor(255, 255, 255, 0)));
+            p.setPen(Qt::NoPen);
+            p.drawRoundedRect(rect,6,6);
+            break;
+        }
     }
-    this->update();
     QWidget::paintEvent(e);
 
 }
@@ -463,9 +457,8 @@ void SingleMsg::enterEvent(QEvent *event)
     if((true == m_bMain) && (true == m_bFold) && (m_nShowLeftCount > 0))
     {
         emit Sig_onMainEnter();
-
     }
-
+    this->update();
     return;
 }
 
@@ -481,7 +474,7 @@ void SingleMsg::leaveEvent(QEvent *event)
     {
         emit Sig_onMainLeave();
     }
-
+    this->update();
     return;
 }
 
@@ -519,6 +512,7 @@ void SingleMsg::mousePressEvent(QMouseEvent *event)
 
             emit Sig_setAppFoldFlag(m_bFold);
         }
+        this->update();
     }
     return;
 }

@@ -43,6 +43,7 @@ EditorWidget::EditorWidget()
     connect(m_pConfirmButton, &QPushButton::clicked, globalClipboardSignal, &ClipboardSignal::CLipBoardEditConfirmButtonSignal);
     connect(m_pCancelButton, &QPushButton::clicked, globalClipboardSignal, &ClipboardSignal::CLipBoardEditConfirmButtonSignal);
     m_pEditingArea->setObjectName("EditingArea");
+    m_pEditingArea->setAcceptRichText(false);
     m_pEditWidget->setObjectName("EditBox");
     m_pOperationWidget->setObjectName("OperationBox");
     this->setObjectName("EditorWidget");
