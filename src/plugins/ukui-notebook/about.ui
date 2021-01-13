@@ -7,39 +7,87 @@
     <x>0</x>
     <y>0</y>
     <width>440</width>
-    <height>334</height>
+    <height>460</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>440</width>
+    <height>460</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>440</width>
+    <height>560</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_4">
    <property name="spacing">
     <number>0</number>
    </property>
    <property name="leftMargin">
-    <number>0</number>
+    <number>10</number>
    </property>
    <property name="topMargin">
-    <number>0</number>
+    <number>10</number>
    </property>
    <property name="rightMargin">
-    <number>0</number>
+    <number>10</number>
    </property>
    <property name="bottomMargin">
-    <number>0</number>
+    <number>50</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <property name="leftMargin">
+      <number>8</number>
+     </property>
      <property name="topMargin">
-      <number>18</number>
+      <number>4</number>
      </property>
      <property name="rightMargin">
-      <number>18</number>
+      <number>4</number>
      </property>
-     <property name="bottomMargin">
-      <number>28</number>
-     </property>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <property name="spacing">
+        <number>8</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="iconLabel">
+         <property name="minimumSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="titleLabel">
+         <property name="text">
+          <string>Note</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
@@ -75,81 +123,98 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <property name="spacing">
-      <number>0</number>
-     </property>
-     <item>
-      <widget class="QLabel" name="appiconLabel">
-       <property name="minimumSize">
-        <size>
-         <width>96</width>
-         <height>96</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>96</width>
-         <height>96</height>
-        </size>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <property name="spacing">
       <number>16</number>
      </property>
      <property name="topMargin">
-      <number>16</number>
+      <number>38</number>
      </property>
      <item>
-      <widget class="QLabel" name="appnameLabel">
-       <property name="text">
-        <string>Kylin Note</string>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <property name="spacing">
+        <number>0</number>
        </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
+       <item>
+        <widget class="QLabel" name="appiconLabel">
+         <property name="minimumSize">
+          <size>
+           <width>96</width>
+           <height>96</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>96</width>
+           <height>96</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
-      <widget class="QLabel" name="versionLabel">
-       <property name="text">
-        <string/>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <property name="spacing">
+        <number>12</number>
        </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
+       <item>
+        <widget class="QLabel" name="appnameLabel">
+         <property name="text">
+          <string>Kylin Note</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="versionLabel">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <property name="spacing">
+      <number>24</number>
+     </property>
+     <property name="leftMargin">
+      <number>32</number>
+     </property>
+     <property name="topMargin">
+      <number>12</number>
+     </property>
+     <property name="rightMargin">
+      <number>32</number>
+     </property>
      <item>
       <widget class="QLabel" name="introduceLabel">
        <property name="text">
         <string/>
        </property>
        <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
        </property>
       </widget>
      </item>
      <item>
-      <spacer name="verticalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
+      <widget class="QLabel" name="teamLabel">
+       <property name="text">
+        <string/>
        </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
+      </widget>
      </item>
     </layout>
    </item>
@@ -161,7 +226,7 @@
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
-       <height>12</height>
+       <height>40</height>
       </size>
      </property>
     </spacer>

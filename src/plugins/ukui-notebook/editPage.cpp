@@ -151,7 +151,6 @@ void Edit_page::initSetup()
     p.drawRoundedRect(bmp.rect(),6,6);
     setMask(bmp);
 
-    setWindowOpacity(0.9);
     setWindowFlags(Qt::FramelessWindowHint);
     // 配置按钮
     btnSetup();

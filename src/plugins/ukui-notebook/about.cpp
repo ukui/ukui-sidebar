@@ -14,6 +14,7 @@ About::About(QWidget *parent) :
     setAttribute(Qt::WA_TranslucentBackground);
     setAttribute(Qt::WA_DeleteOnClose);
 
+    ui->iconLabel->setPixmap(QIcon::fromTheme("kylin-notebook").pixmap(24,24));
     ui->closeBtn->setIcon(QIcon::fromTheme("window-close-symbolic"));
     ui->closeBtn->setProperty("isWindowButton", 0x2);
     ui->closeBtn->setProperty("useIconHighlightEffect", 0x8);
@@ -24,8 +25,13 @@ About::About(QWidget *parent) :
     ui->appnameLabel->setStyleSheet("QLabel{font-size: 18px; color: palette(windowText);}"
                                     "QLabel{font-family: NotoSansCJKsc-Medium, NotoSansCJKsc;}");
     ui->versionLabel->setText(tr("Version: 2020.1.0"));
-    ui->introduceLabel->setText(tr("Developer: yueshuai@kylinos.cn"));
+    ui->teamLabel->setText(tr("Support: support@kylinos.cn"));
     ui->appiconLabel->setPixmap(QIcon::fromTheme("kylin-notebook").pixmap(96,96));
+    ui->introduceLabel->setText(tr("Kylin Note is a self-developed sidebar application plug-in, "
+                                   "which provides a rich interface, convenient operation and stable functions, "
+                                   "aiming at a friendly user experience."));
+    ui->introduceLabel->setAlignment(Qt::AlignJustify);
+    ui->introduceLabel->setWordWrap(true);
 }
 
 About::~About()

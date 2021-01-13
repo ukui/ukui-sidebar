@@ -4,12 +4,17 @@
 <context>
     <name>About</name>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/about.ui" line="14"/>
+        <location filename="../../src/plugins/ukui-notebook/about.ui" line="26"/>
         <source>Dialog</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/about.ui" line="114"/>
+        <location filename="../../src/plugins/ukui-notebook/about.ui" line="85"/>
+        <source>Note</source>
+        <translation>麒麟便签本</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/about.ui" line="167"/>
         <source>Kylin Note</source>
         <translatorcomment>麒麟便签本</translatorcomment>
         <translation>麒麟便签本</translation>
@@ -21,16 +26,27 @@
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/about.cpp" line="26"/>
+        <location filename="../../src/plugins/ukui-notebook/about.cpp" line="27"/>
         <source>Version: 2020.1.0</source>
         <translatorcomment>版本: 2020.1.0</translatorcomment>
         <translation>版本: 2020.1.0</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/about.cpp" line="27"/>
+        <location filename="../../src/plugins/ukui-notebook/about.cpp" line="28"/>
+        <source>Support: support@kylinos.cn</source>
+        <translatorcomment>服务与支持团队：support@kylinos.cn</translatorcomment>
+        <translation>服务与支持团队：support@kylinos.cn</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/about.cpp" line="30"/>
+        <source>Kylin Note is a self-developed sidebar application plug-in, which provides a rich interface, convenient operation and stable functions, aiming at a friendly user experience.</source>
+        <translatorcomment>麒麟便签本是自主研发的侧边栏应用小插件，它提供了丰富的界面、便捷的操作、稳定的功能，旨在友好的用户体验感。</translatorcomment>
+        <translation>麒麟便签本是自主研发的侧边栏应用小插件，它提供了丰富的界面、便捷的操作、稳定的功能，旨在友好的用户体验感。</translation>
+    </message>
+    <message>
         <source>Developer: yueshuai@kylinos.cn</source>
         <translatorcomment>开发者: yueshuai@kylinos.cn</translatorcomment>
-        <translation>开发者: yueshuai@kylinos.cn</translation>
+        <translation type="vanished">开发者: yueshuai@kylinos.cn</translation>
     </message>
 </context>
 <context>
