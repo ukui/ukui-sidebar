@@ -4,24 +4,24 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="68"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="84"/>
         <source>Are you sure empty your clipboard history?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="83"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="99"/>
         <source>Don&apos;t ask</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="97"/>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/editorwidget.cpp" line="105"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="113"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/editorwidget.cpp" line="108"/>
         <source>Confirm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="99"/>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/editorwidget.cpp" line="109"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="115"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/editorwidget.cpp" line="112"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -46,7 +46,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/editorwidget.cpp" line="81"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/editorwidget.cpp" line="31"/>
+        <source>edit box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/editorwidget.cpp" line="84"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
@@ -59,6 +64,49 @@
         <location filename="../../src/plugins/ukui-sidebar-clipboard/sidebarclipboardplugin.h" line="99"/>
         <source>Show the folder children as icons.</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QWidgetTextControl</name>
+    <message>
+        <source>&amp;Undo</source>
+        <translatorcomment>ཕྱིར་འཐེན། </translatorcomment>
+        <translation type="vanished">ཕྱིར་འཐེན། </translation>
+    </message>
+    <message>
+        <source>&amp;Redo</source>
+        <translatorcomment>སླར་གསོ། </translatorcomment>
+        <translation type="vanished">སླར་གསོ། </translation>
+    </message>
+    <message>
+        <source>Cu&amp;t</source>
+        <translatorcomment>དྲས་སྦྱར་</translatorcomment>
+        <translation type="vanished">དྲས་སྦྱར་</translation>
+    </message>
+    <message>
+        <source>&amp;Copy</source>
+        <translatorcomment>འདྲ་བཟོ་</translatorcomment>
+        <translation type="vanished">འདྲ་བཟོ་</translation>
+    </message>
+    <message>
+        <source>Copy &amp;Link Location</source>
+        <translatorcomment>འདྲ་ཕབ་འབྲེལ་མཐུད།</translatorcomment>
+        <translation type="vanished">འདྲ་ཕབ་འབྲེལ་མཐུད།</translation>
+    </message>
+    <message>
+        <source>&amp;Paste</source>
+        <translatorcomment>སྦྱར་བ་</translatorcomment>
+        <translation type="vanished">སྦྱར་བ་</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translatorcomment>སུབ་པ་</translatorcomment>
+        <translation type="vanished">སུབ་པ་</translation>
+    </message>
+    <message>
+        <source>Select All</source>
+        <translatorcomment>ཡོངས་འདེམས་</translatorcomment>
+        <translation type="vanished">ཡོངས་འདེམས་</translation>
     </message>
 </context>
 <context>
@@ -77,60 +125,9 @@
 <context>
     <name>SidebarClipboardPlugin</name>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/sidebarclipboardplugin.cpp" line="120"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/sidebarclipboardplugin.cpp" line="125"/>
         <source>No clip content</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>QWidgetTextControl</name>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2264"/>
-        <source>&amp;Undo</source>
-        <translatorcomment>ཕྱིར་འཐེན། </translatorcomment>
-        <translation>ཕྱིར་འཐེན། </translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2268"/>
-        <source>&amp;Redo</source>
-        <translatorcomment>སླར་གསོ། </translatorcomment>
-        <translation>སླར་གསོ། </translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2275"/>
-        <source>Cu&amp;t</source>
-        <translatorcomment>དྲས་སྦྱར་</translatorcomment>
-        <translation>དྲས་སྦྱར་</translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2284"/>
-        <source>&amp;Copy</source>
-        <translatorcomment>འདྲ་བཟོ་</translatorcomment>
-        <translation>འདྲ་བཟོ་</translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2293"/>
-        <source>Copy &amp;Link Location</source>
-        <translatorcomment>འདྲ་ཕབ་འབྲེལ་མཐུད།</translatorcomment>
-        <translation>འདྲ་ཕབ་འབྲེལ་མཐུད།</translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2301"/>
-        <source>&amp;Paste</source>
-        <translatorcomment>སྦྱར་བ་</translatorcomment>
-        <translation>སྦྱར་བ་</translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2306"/>
-        <source>Delete</source>
-        <translatorcomment>སུབ་པ་</translatorcomment>
-        <translation>སུབ་པ་</translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2315"/>
-        <source>Select All</source>
-        <translatorcomment>ཡོངས་འདེམས་</translatorcomment>
-        <translation>ཡོངས་འདེམས་</translation>
     </message>
 </context>
 </TS>

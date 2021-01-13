@@ -28,8 +28,8 @@ EditorWidget::EditorWidget()
     installEventFilter(this);
     this->setFixedSize(400, 338);
     this->setContentsMargins(0, 0, 0, 0);
-    this->setWindowTitle(QObject::tr("编辑框"));
-    this->setWindowIcon(QIcon::fromTheme("kylin-tool-box"));
+    this->setWindowTitle(QObject::tr("edit box"));
+    this->setWindowIcon(QIcon::fromTheme("kylin-clipboard"));
 
     m_pMainQVBoxLayout = new QVBoxLayout();
     m_pMainQVBoxLayout->setContentsMargins(0, 0, 0, 0);

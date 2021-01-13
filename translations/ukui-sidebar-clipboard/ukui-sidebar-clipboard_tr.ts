@@ -4,24 +4,24 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="68"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="84"/>
         <source>Are you sure empty your clipboard history?</source>
         <translation>Pano geçmişinizi boşalttığınızdan emin misiniz?</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="83"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="99"/>
         <source>Don&apos;t ask</source>
         <translation>Sorma</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="97"/>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/editorwidget.cpp" line="105"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="113"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/editorwidget.cpp" line="108"/>
         <source>Confirm</source>
         <translation>Onayla</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="99"/>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/editorwidget.cpp" line="109"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="115"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/editorwidget.cpp" line="112"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
@@ -46,7 +46,12 @@
         <translation>Düzeltmeyi iptal et</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/editorwidget.cpp" line="81"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/editorwidget.cpp" line="31"/>
+        <source>edit box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/editorwidget.cpp" line="84"/>
         <source>Edit</source>
         <translation>Düzenle</translation>
     </message>
@@ -59,6 +64,49 @@
         <location filename="../../src/plugins/ukui-sidebar-clipboard/sidebarclipboardplugin.h" line="99"/>
         <source>Show the folder children as icons.</source>
         <translation type="unfinished">Klasörleri simgeler olarak gösterin.</translation>
+    </message>
+</context>
+<context>
+    <name>QWidgetTextControl</name>
+    <message>
+        <source>&amp;Undo</source>
+        <translatorcomment>İptal Et</translatorcomment>
+        <translation type="vanished">İptal Et</translation>
+    </message>
+    <message>
+        <source>&amp;Redo</source>
+        <translatorcomment>onarmak</translatorcomment>
+        <translation type="vanished">onarmak</translation>
+    </message>
+    <message>
+        <source>Cu&amp;t</source>
+        <translatorcomment>Kes ve yapıştır</translatorcomment>
+        <translation type="vanished">Kes ve yapıştır</translation>
+    </message>
+    <message>
+        <source>&amp;Copy</source>
+        <translatorcomment>İ kopyala</translatorcomment>
+        <translation type="vanished">İ kopyala</translation>
+    </message>
+    <message>
+        <source>Copy &amp;Link Location</source>
+        <translatorcomment>Bağlantıyı kopyala</translatorcomment>
+        <translation type="vanished">Bağlantıyı kopyala</translation>
+    </message>
+    <message>
+        <source>&amp;Paste</source>
+        <translatorcomment>Yapıştırmak</translatorcomment>
+        <translation type="vanished">Yapıştırmak</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translatorcomment>silmek</translatorcomment>
+        <translation type="obsolete">silmek</translation>
+    </message>
+    <message>
+        <source>Select All</source>
+        <translatorcomment>hepsini seç</translatorcomment>
+        <translation type="obsolete">hepsini seç</translation>
     </message>
 </context>
 <context>
@@ -77,60 +125,9 @@
 <context>
     <name>SidebarClipboardPlugin</name>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/sidebarclipboardplugin.cpp" line="120"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/sidebarclipboardplugin.cpp" line="125"/>
         <source>No clip content</source>
         <translation>Klip içeriği yok</translation>
-    </message>
-</context>
-<context>
-    <name>QWidgetTextControl</name>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2264"/>
-        <source>&amp;Undo</source>
-        <translatorcomment>İptal Et</translatorcomment>
-        <translation>İptal Et</translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2268"/>
-        <source>&amp;Redo</source>
-        <translatorcomment>onarmak</translatorcomment>
-        <translation>onarmak</translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2275"/>
-        <source>Cu&amp;t</source>
-        <translatorcomment>Kes ve yapıştır</translatorcomment>
-        <translation>Kes ve yapıştır</translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2284"/>
-        <source>&amp;Copy</source>
-        <translatorcomment>İ kopyala</translatorcomment>
-        <translation>İ kopyala</translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2293"/>
-        <source>Copy &amp;Link Location</source>
-        <translatorcomment>Bağlantıyı kopyala</translatorcomment>
-        <translation>Bağlantıyı kopyala</translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2301"/>
-        <source>&amp;Paste</source>
-        <translatorcomment>Yapıştırmak</translatorcomment>
-        <translation>Yapıştırmak</translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2306"/>
-        <source>Delete</source>
-        <translatorcomment>silmek</translatorcomment>
-        <translation type="unfinished">silmek</translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2315"/>
-        <source>Select All</source>
-        <translatorcomment>hepsini seç</translatorcomment>
-        <translation type="unfinished">hepsini seç</translation>
     </message>
 </context>
 </TS>
