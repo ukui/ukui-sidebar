@@ -52,12 +52,14 @@ void MonitorThread::extractData(QString strOutput)
 
     //app名的获取
     int nIndex = strOutputTmp.indexOf("\"");
-    if (-1 == nIndex) {
+    if(-1 == nIndex)
+    {
         return;
     }
     strOutputTmp = strOutputTmp.mid(nIndex + 1);
     nIndex = strOutputTmp.indexOf("\"");
-    if (-1 == nIndex) {
+    if(-1 == nIndex)
+    {
         return;
     }
     QString strAppName = strOutputTmp.mid(0, nIndex);
@@ -75,24 +77,28 @@ void MonitorThread::extractData(QString strOutput)
     }
     strOutputTmp = strOutputTmp.mid(nIndex + 1);
     nIndex = strOutputTmp.indexOf("\"");
-    if (-1 == nIndex) {
+    if(-1 == nIndex)
+    {
         return;
     }
     QString strIcon = strOutputTmp.mid(0, nIndex);
     strOutputTmp = strOutputTmp.mid(nIndex + 1);
 
-    if ("" == strIcon) {
+    if("" == strIcon)
+    {
         strIcon = "/usr/share/icons/ukui-icon-theme-default/24x24/mimetypes/application-x-desktop.png";
     }
 
     //主题的获取
     nIndex = strOutputTmp.indexOf("\"");
-    if(-1 == nIndex) {
+    if(-1 == nIndex)
+    {
         return;
     }
     strOutputTmp = strOutputTmp.mid(nIndex + 1);
     nIndex = strOutputTmp.indexOf("\"");
-    if (-1 == nIndex) {
+    if(-1 == nIndex)
+    {
         return;
     }
     QString strSummary = strOutputTmp.mid(0, nIndex);
@@ -100,12 +106,14 @@ void MonitorThread::extractData(QString strOutput)
 
     //正文的获取
     nIndex = strOutputTmp.indexOf("\"");
-    if (-1 == nIndex) {
+    if(-1 == nIndex)
+    {
         return;
     }
     strOutputTmp = strOutputTmp.mid(nIndex + 1);
     nIndex = strOutputTmp.indexOf("\"");
-    if (-1 == nIndex) {
+    if(-1 == nIndex)
+    {
         return;
     }
     QString strBody = strOutputTmp.mid(0, nIndex);
@@ -113,18 +121,20 @@ void MonitorThread::extractData(QString strOutput)
 
     QMap<QString, int>::const_iterator iter = m_nAppMaxNum.find(strAppName);
     int nMaxNum = 20;
-    //找到
-    if ((iter != m_nAppMaxNum.end()) && (iter.value() > 0)) {
+    if((iter != m_nAppMaxNum.end()) && (iter.value() > 0))  //找到
+    {
         nMaxNum = iter.value();
     }
 
     QDateTime dateTime(QDateTime::currentDateTime());
 
     QMap<QString, bool>::const_iterator iter1 = m_mapAppSwitch.find(strAppName);
-    //未找到
-    if (iter1 == m_mapAppSwitch.end()) {
+    if(iter1 == m_mapAppSwitch.end())                       //未找到
+    {
         emit Sig_Notify(strAppName, strIcon, strSummary, strBody, dateTime, nMaxNum, true);
-    } else {
+    }
+    else
+    {
         emit Sig_Takein(strAppName, strIcon, strSummary, strBody, dateTime, nMaxNum, true);
     }
 
@@ -245,6 +255,12 @@ void MonitorThread::appNotifySettingChangedSlot()
 void MonitorThread::readOutputData()
 {
     QByteArray output = m_pProcess->readAllStandardOutput();
+
+    if(false == m_bEnabled) //上面的内容必须读空再返回，不然就一直有缓存
+    {
+        return;
+    }
+
     QString str_output = output;
     if(str_output.isEmpty())
     {
@@ -267,13 +283,21 @@ void MonitorThread::readOutputData()
     return;
 }
 
+void MonitorThread::switchEnable(bool bEnabled)
+{
+    if(m_bEnabled != bEnabled)
+    {
+        m_bEnabled = bEnabled;
+    }
+}
+
 void MonitorThread::run()
 {
     system("killall dbus-monitor");
-    m_pProcess = new QProcess();
+    m_pProcess = new QProcess(this);
     m_pProcess->start("dbus-monitor interface=org.freedesktop.Notifications");
 
-    QTimer* pTimer = new QTimer();
+    QTimer* pTimer = new QTimer(this);
     connect(pTimer, SIGNAL(timeout()), this, SLOT(readOutputData()));
     pTimer->start(1000);
 

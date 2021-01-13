@@ -27,9 +27,7 @@
 #include "customstylePushbutton2.h"
 
 
-NotificationPlugin::NotificationPlugin():
-  iCount(0),
-  oCount(0)
+NotificationPlugin::NotificationPlugin()
 {
     m_bInitialFlag = false;
     m_bShowTakeIn = false;
@@ -195,19 +193,16 @@ NotificationPlugin::NotificationPlugin():
     m_pMainWidget->setLayout(pNotificationVBoxLayout);
     //新建一个监控dbus消息的线程
     MonitorThread* pMonitorThread = new MonitorThread(this);
-    m_pEnablenotice = new QGSettings("org.ukui.control-center.notice");
-    if(m_pEnablenotice->get("enable-notice").toBool())
-    pMonitorThread->start();
+    QGSettings* pEnablenotice = new QGSettings("org.ukui.control-center.notice", "", this);
+    if(pEnablenotice->get("enable-notice").toBool())
+    {
+        pMonitorThread->start();
+        pMonitorThread->switchEnable(pEnablenotice->get("enable-notice").toBool());
+    }
 
-    connect(m_pEnablenotice,&QGSettings::changed,[=](){
-    if (m_pEnablenotice->get("enable-notice").toBool()) {
-        iCount=iCount+1;
-        if(!pMonitorThread->isRunning())
-            pMonitorThread->start();
-    } else {
-        if(pMonitorThread->isRunning())
-            pMonitorThread->exit();
-    }});
+    connect(pEnablenotice, &QGSettings::changed, [=](){
+        pMonitorThread->switchEnable(pEnablenotice->get("enable-notice").toBool());
+    });
 
     return;
 }
@@ -265,11 +260,8 @@ AppMsg* NotificationPlugin::getAppMsgAndIndexByName(QString strAppName, int& nIn
 uint NotificationPlugin::onAddSingleNotify(QString strAppName, QString strIconPath, QString strSummary, \
                                            QString strBody, QDateTime dateTime, int maxNum, bool bNewNotificationFlag)
 {
-    if (oCount!=iCount) {
-        oCount=oCount+1;
-        return 1;
-    }
-    if (true == bNewNotificationFlag) {
+    if(true == bNewNotificationFlag)
+    {
         emit Sig_onNewNotification();
     }
 
@@ -322,7 +314,6 @@ uint NotificationPlugin::onAddSingleNotify(QString strAppName, QString strIconPa
             pTmpAppMsg->updateAppPushTime();
         }
     }
-    oCount=0;
     return 1;
 }
 

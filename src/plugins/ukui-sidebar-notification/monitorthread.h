@@ -37,6 +37,7 @@ public:
     void getSettingsValue();
     QList<char *> listExistsPath();
     void fromSettingsGetInfoToList();
+    void switchEnable(bool bEnabled);
 
 private:
     NotificationPlugin*     m_parent;           //传一个插件对象指针，用来回传槽函数
@@ -44,6 +45,7 @@ private:
     QGSettings*             m_pSettings;
     QMap<QString, int>      m_nAppMaxNum;
     QMap<QString, bool>     m_mapAppSwitch;
+    bool                    m_bEnabled;         //控制面板通知中心总开关
 
 signals:
     void Sig_Notify(QString, QString, QString, QString, QDateTime, int, bool);
