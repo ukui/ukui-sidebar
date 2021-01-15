@@ -14,7 +14,7 @@
         <translation>麒麟便签本</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/about.ui" line="167"/>
+        <location filename="../../src/plugins/ukui-notebook/about.ui" line="170"/>
         <source>Kylin Note</source>
         <translatorcomment>麒麟便签本</translatorcomment>
         <translation>麒麟便签本</translation>
@@ -33,12 +33,17 @@
     </message>
     <message>
         <location filename="../../src/plugins/ukui-notebook/about.cpp" line="28"/>
-        <source>Support: support@kylinos.cn</source>
-        <translatorcomment>服务与支持团队：support@kylinos.cn</translatorcomment>
-        <translation>服务与支持团队：support@kylinos.cn</translation>
+        <source>Service &amp; Support: </source>
+        <translatorcomment>服务与支持团队： </translatorcomment>
+        <translation>服务与支持团队： </translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/about.cpp" line="30"/>
+        <source>Support: support@kylinos.cn</source>
+        <translatorcomment>服务与支持团队：support@kylinos.cn</translatorcomment>
+        <translation type="vanished">服务与支持团队：support@kylinos.cn</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/about.cpp" line="33"/>
         <source>Kylin Note is a self-developed sidebar application plug-in, which provides a rich interface, convenient operation and stable functions, aiming at a friendly user experience.</source>
         <translatorcomment>麒麟便签本是自主研发的侧边栏应用小插件，它提供了丰富的界面、便捷的操作、稳定的功能，旨在友好的用户体验感。</translatorcomment>
         <translation>麒麟便签本是自主研发的侧边栏应用小插件，它提供了丰富的界面、便捷的操作、稳定的功能，旨在友好的用户体验感。</translation>

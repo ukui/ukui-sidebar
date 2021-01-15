@@ -25,7 +25,10 @@ About::About(QWidget *parent) :
     ui->appnameLabel->setStyleSheet("QLabel{font-size: 18px; color: palette(windowText);}"
                                     "QLabel{font-family: NotoSansCJKsc-Medium, NotoSansCJKsc;}");
     ui->versionLabel->setText(tr("Version: 2020.1.0"));
-    ui->teamLabel->setText(tr("Support: support@kylinos.cn"));
+    ui->teamLabel->setText(tr("Service & Support: ") +
+                           "<a href=\"mailto://support@kylinos.cn\""
+                           "style=\"color:#595959\">"
+                           "support@kylinos.cn</a>");
     ui->appiconLabel->setPixmap(QIcon::fromTheme("kylin-notebook").pixmap(96,96));
     ui->introduceLabel->setText(tr("Kylin Note is a self-developed sidebar application plug-in, "
                                    "which provides a rich interface, convenient operation and stable functions, "
