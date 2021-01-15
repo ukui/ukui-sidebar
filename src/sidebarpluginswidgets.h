@@ -44,6 +44,19 @@
 #include "customstyleCleanPushbutton.h"
 #include "customstyle.h"
 
+
+class m_ToolButton : public QToolButton
+{
+
+public:
+    explicit m_ToolButton();
+    QString pluginname;
+    void enterEvent(QEvent *event);
+signals:
+
+};
+
+
 class sidebarPluginsWidgets : public QWidget
 {
     Q_OBJECT
@@ -72,7 +85,7 @@ public:
     void    addDesktopFileName();                                 //将小插件desktop文件名称放入到desktopfpList中
 
     void    parsingDesktopFile();                                 //解析desktop文件
-    QToolButton* StructToolButtol(QString icon, QString name);    //构建QToolButton
+    m_ToolButton* StructToolButtol(QString icon, QString name);    //构建QToolButton
     QStringList m_desktopfpList;                                  //保存当前小插件desktop文件名称
 
     QString SetFormatBody(QString text, QLabel *label);           //设置...
