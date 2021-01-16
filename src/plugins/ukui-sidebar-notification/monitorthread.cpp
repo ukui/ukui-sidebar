@@ -64,11 +64,16 @@ void MonitorThread::extractData(QString strOutput)
     }
     QString strAppName = strOutputTmp.mid(0, nIndex);
     strOutputTmp = strOutputTmp.mid(nIndex + 1);
+    //检查电源信息是否被禁用
+    if("电源管理" == strAppName) {
+        if(!powerstatus){
+            return;
+        }
+    }
     if("notify-send" == strAppName)
     {
         strAppName = "未知来源";
     }
-
     //图标路径的获取
     nIndex = strOutputTmp.indexOf("\"");
     if(-1 == nIndex)
@@ -177,10 +182,10 @@ void MonitorThread::fromSettingsGetInfoToList()
 
     if (m_pSettings->keys().contains(SWITCH_KEY))
     {
-        bool status = m_pSettings->get(SWITCH_KEY).toBool();
-        if(false == status)
+        powerstatus = m_pSettings->get(SWITCH_KEY).toBool();
+        if(false == powerstatus)
         {
-            m_mapAppSwitch.insert(strAppName, status);
+            m_mapAppSwitch.insert(strAppName, powerstatus);
         }
     }
 }
@@ -232,6 +237,7 @@ void MonitorThread::appNotifySettingChangedSlot()
     if (m_pSettings->keys().contains(SWITCH_KEY))
     {
         status = m_pSettings->get(SWITCH_KEY).toBool();
+        powerstatus= m_pSettings->get(SWITCH_KEY).toBool();
         QMap<QString, bool>::const_iterator iter1 = m_mapAppSwitch.find(strAppName);
         if(iter1 == m_mapAppSwitch.end())                   //没找到，没在黑名单
         {
@@ -249,7 +255,6 @@ void MonitorThread::appNotifySettingChangedSlot()
             }
         }
     }
-
 }
 
 void MonitorThread::readOutputData()
@@ -262,11 +267,12 @@ void MonitorThread::readOutputData()
     }
 
     QString str_output = output;
+
     if(str_output.isEmpty())
     {
         return;
     }
-    qDebug()<<str_output;
+//    qDebug()<<str_output;
 
     int nIndex = 0;
     do{
