@@ -38,6 +38,7 @@ public:
     QList<char *> listExistsPath();
     void fromSettingsGetInfoToList();
     void switchEnable(bool bEnabled);
+    bool powerstatus =true;
 
 private:
     NotificationPlugin*     m_parent;           //传一个插件对象指针，用来回传槽函数
