@@ -27,7 +27,10 @@ About::About(QWidget *parent) :
     ui->appnameLabel->setStyleSheet("QLabel{font-size: 18px; color: palette(windowText);}"
                                     "QLabel{font-family: NotoSansCJKsc-Medium, NotoSansCJKsc;}");
     ui->versionLabel->setText(tr("Version: 2020.1.0"));
-    ui->introduceLabel->setText(tr("Support and service team: support@kylinos.cn"));
+    ui->introduceLabel->setText(tr("Service & Support: ") +
+                                "<a href=\"mailto://support@kylinos.cn\""
+                                "style=\"color:#595959\">"
+                                "support@kylinos.cn</a>");
     ui->appiconLabel->setPixmap(QIcon::fromTheme("kylin-alarm-clock").pixmap(96,96));
 }
 

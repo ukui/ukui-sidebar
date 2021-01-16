@@ -20,6 +20,15 @@
 
 #include <QWidget>
 #include <QLabel>
+#include <QGSettings>
+
+#define ORG_UKUI_STYLE            "org.ukui.style"
+#define STYLE_NAME                "styleName"
+#define STYLE_NAME_KEY_DARK       "ukui-dark"
+#define STYLE_NAME_KEY_DEFAULT    "ukui-default"
+#define STYLE_NAME_KEY_BLACK       "ukui-black"
+#define STYLE_NAME_KEY_LIGHT       "ukui-light"
+#define STYLE_NAME_KEY_WHITE       "ukui-white"
 
 namespace Ui {
 class stopwatch_item;
@@ -34,6 +43,9 @@ public:
     ~stopwatch_item();
     void setupUi(QWidget *stopwatch_item);
     void retranslateUi(QWidget *stopwatch_item);
+    void  settingsStyle();
+    void  blackStyle();                                                                  //黑色主题
+    void  whiteStyle();                                                                  //白色主题
 
     QLabel *stopwatch1;
     QLabel *stopwatch2;

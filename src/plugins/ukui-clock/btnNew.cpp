@@ -20,12 +20,13 @@ Btn_new::Btn_new(int num, QString name, QWidget *parent) :
     nameLabel->move(15, 5);
     textLabel->move(71-num, 5);
     noName->move(244, 0);
-    IconLabel->move(309, 7);
+    IconLabel->move(309, 6);
     nameLabel->setText(name);
     textLabel->setText(name);
     IconLabel->setPixmap(pixmap);
     textLabel->setAlignment(Qt::AlignRight | Qt::AlignCenter);
-
+    nameLabel->setStyleSheet("font-size:14px;");
+    textLabel->setStyleSheet("font-size:14px;");
     this->resize(340,48);
 
     QPalette palette;

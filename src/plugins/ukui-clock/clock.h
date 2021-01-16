@@ -47,6 +47,7 @@
 #include <QCloseEvent>
 #include "about.h"
 #include <QMenu>
+#include <QFontDatabase>
 
 class QSpinBox;
 class QComboBox;
@@ -118,6 +119,8 @@ public slots:
 
     void  drawNoAlarmPrompt();                                                           //绘制无闹钟提示
                                                                                          //Draw no alarm prompt
+    QString loadFontFamilyFromTTF();                                                     //字体设置
+
 
 private slots:
     void buttonImageInit();                                                              //闹钟按钮图片初始化

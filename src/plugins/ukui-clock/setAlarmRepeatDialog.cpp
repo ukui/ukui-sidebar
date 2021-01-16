@@ -79,7 +79,7 @@ void set_alarm_repeat_Dialog::settingsStyle()
     QStringList stylelist;
     QGSettings *style_settings = new QGSettings(style_id);
 
-    stylelist<<STYLE_NAME_KEY_DARK<<STYLE_NAME_KEY_BLACK<<STYLE_NAME_KEY_DEFAULT;
+    stylelist<<STYLE_NAME_KEY_DARK<<STYLE_NAME_KEY_BLACK; //<<STYLE_NAME_KEY_DEFAULT;
     if(QGSettings::isSchemaInstalled(style_id)){
         style_settings = new QGSettings(style_id);
         if(stylelist.contains(style_settings->get(STYLE_NAME).toString())){
@@ -209,7 +209,7 @@ set_alarm_repeat_widget::set_alarm_repeat_widget(QWidget *parent):
     this->setFixedSize(340, 38);
 
     alarmLabel0 = new QLabel(this);
-    alarmLabel0->move(12, 0);
+    alarmLabel0->move(16, 0);
     alarmLabel0->setFixedSize(160, 38);
     alarmLabel0->setStyleSheet("background-color: rgb();");
     alarmLabel0->setText("选项");

@@ -355,7 +355,7 @@ void QRoundProgressBar::settingsStyle()
     QStringList stylelist;
     QGSettings *style_settings = new QGSettings(style_id);
 
-    stylelist<<STYLE_NAME_KEY_DARK<<STYLE_NAME_KEY_BLACK<<STYLE_NAME_KEY_DEFAULT;
+    stylelist<<STYLE_NAME_KEY_DARK<<STYLE_NAME_KEY_BLACK; //<<STYLE_NAME_KEY_DEFAULT;
     if(QGSettings::isSchemaInstalled(style_id)){
         style_settings = new QGSettings(style_id);
         if(stylelist.contains(style_settings->get(STYLE_NAME).toString())){

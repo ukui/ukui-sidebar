@@ -25,7 +25,8 @@ setUpBtnNew::setUpBtnNew(int num, QString name, QWidget *parent) :
     textLabel->setText(name);
     IconLabel->setPixmap(pixmap);
     textLabel->setAlignment(Qt::AlignRight | Qt::AlignCenter);
-
+    nameLabel->setStyleSheet("font-size:14px;");
+    textLabel->setStyleSheet("font-size:14px;");
     this->resize(268,40);
 
     QPalette palette;

@@ -29,7 +29,7 @@
     <string notr="true"/>
    </property>
    <property name="currentIndex">
-    <number>3</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="page">
     <widget class="QStackedWidget" name="stackedWidget_4">
@@ -384,6 +384,13 @@ font-size:16px;</string>
       <string>no alarm</string>
      </property>
     </widget>
+    <zorder>noAlarm</zorder>
+    <zorder>noAlarmIcon</zorder>
+    <zorder>label_6</zorder>
+    <zorder>addAlarmBtn</zorder>
+    <zorder>label_7</zorder>
+    <zorder>listWidget</zorder>
+    <zorder>label_15</zorder>
    </widget>
    <widget class="QWidget" name="page_3">
     <widget class="QPushButton" name="pushButton_Start">
@@ -536,7 +543,7 @@ font: 19pt
        <string notr="true"/>
       </property>
       <property name="text">
-       <string>Preservation</string>
+       <string>save</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_12">
@@ -590,7 +597,7 @@ opacity:0.45;
        <string notr="true"/>
       </property>
       <property name="text">
-       <string>Preservation</string>
+       <string>save</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_13">
@@ -639,8 +646,10 @@ border-radius:4px;
        <item>
         <widget class="QLineEdit" name="lineEdit">
          <property name="styleSheet">
-          <string notr="true">color:rgba(148, 148, 148,1);
-</string>
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string/>
          </property>
         </widget>
        </item>
@@ -738,7 +747,7 @@ border-radius:4px;
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/image/kylin-alarm-clock.png);</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string/>

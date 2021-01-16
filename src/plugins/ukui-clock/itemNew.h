@@ -52,6 +52,8 @@ public:
     void  settingsStyle();
     void  blackStyle();                                                                  //黑色主题
     void  whiteStyle();                                                                  //白色主题
+    QString loadFontFamilyFromTTF();                                                     //字体设置
+
 
     Ui::item_new *ui;
 

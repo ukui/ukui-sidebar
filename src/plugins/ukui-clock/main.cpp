@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
     SingleApplication a(argc, argv);
 
     a.setQuitOnLastWindowClosed(false);
-    qDebug()<<"";
+
     if (!a.isRunning()) {
         Clock w;
         a.w = &w;

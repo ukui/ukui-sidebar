@@ -115,8 +115,8 @@ desktopfile.path = /usr/share/applications/
 INSTALLS += desktopfile
 
 DISTFILES += \
+    image/DFPKingGothicGB-Semibold-2.ttf \
     image/noClockBlack.svg \
-    image/noClockWhite.png \
     music/bark.ogg \
     music/drip.ogg \
     music/glass.ogg \
