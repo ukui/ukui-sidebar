@@ -54,8 +54,8 @@ private:
     external_widget*              m_pMainWidget;
     QList<AppMsg*>          m_listAppMsg;                       //对于SingleMsg类对象用list表记录
     QList<AppMsg*>          m_listTakeInAppMsg;
-    inside_widget*                 m_pMsgListWidget;                   //消息列表部件，用于装消息的
-    inside_widget*                 m_pMsgDoubleListWidget;             //消息列表部件，用于装两个消息列表的
+    inside_widget*          m_pMsgListWidget;                   //消息列表部件，用于装消息的
+    inside_widget*          m_pMsgDoubleListWidget;             //消息列表部件，用于装两个消息列表的
     QPropertyAnimation*     m_pSwitchAnimation;
     ScrollAreaWidget*       m_pQScrollAreaNotify;               //通知列表ScrollAreaWidget
     QVBoxLayout*            m_pScrollAreaNotifyVBoxLayout;
@@ -69,7 +69,7 @@ private:
     TakeInBoxToolButton*    m_pTakeInBoxToolButton;
     QPushButton*  m_pClearAllToolButton;
     QPixmap*                m_pPixmap;
-    QLabel*                 m_pTakeInCoutLabel;                 //收纳盒计数统计Label
+    TakeInCoutLabel*        m_pTakeInCoutLabel;                 //收纳盒计数统计Label
     bool                    m_bInitialFlag;                     //初始化标志
 
     double                  transparency = 0.7;
