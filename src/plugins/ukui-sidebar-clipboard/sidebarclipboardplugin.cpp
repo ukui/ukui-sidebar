@@ -95,6 +95,8 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
     connect(m_pThread, &QThread::started,this, &SidebarClipboardPlugin::loadClipboardDb);
     m_pThread->start();
 
+    resetWidgetLabelText();
+
     /* 加载样式表 */
     QFile file(SIDEBAR_CLIPBOARD_QSS_PATH);
     if (file.open(QFile::ReadOnly)) {
@@ -1348,6 +1350,18 @@ void SidebarClipboardPlugin::setEntryItemSize(OriginalDataHashValue* value, Clip
         item->setSizeHint(QSize(397,84));
     }
     return;
+}
+
+/* 当监听到主题字体发生变化时，则重新设置label条目的text */
+void SidebarClipboardPlugin::resetWidgetLabelText()
+{
+    const QByteArray id("org.ukui.style");
+    QGSettings * fontSetting = new QGSettings(id);
+    connect(fontSetting, &QGSettings::changed,[=](QString key){
+        if ("systemFont" == key || "systemFontSize" ==key) {
+            searchClipboardLableTextSlots("");
+        }
+    });
 }
 
 void SidebarClipboardPlugin::sortingEntryShow()
