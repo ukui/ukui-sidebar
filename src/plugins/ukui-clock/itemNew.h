@@ -24,6 +24,7 @@
 #include <QLabel>
 #include <QFrame>
 #include <QGSettings>
+#include "CustomButton.h"
 
 #define ORG_UKUI_STYLE            "org.ukui.style"
 #define STYLE_NAME                "styleName"
@@ -63,7 +64,7 @@ public:
     QLabel *alarmLabel_w0;
     QLabel *alarmLabel_s0;
 
-    QPushButton *alarm_on_off0;
+    CustomButton *alarm_on_off0;
     QPushButton *alarm_changed0;
     QPushButton *alarm_edit0;
 

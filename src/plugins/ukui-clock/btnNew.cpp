@@ -8,7 +8,7 @@ Btn_new::Btn_new(int num, QString name, QWidget *parent) :
     QPushButton(parent),
     clock_num(num)
 {
-    QPixmap pixmap = QPixmap(":/go-bottom-symbolic.png");
+    QPixmap pixmap = QPixmap(":/image/go-bottom-symbolic.png");
     nameLabel = new QLabel(this);
     textLabel = new QLabel(this);
     IconLabel = new QLabel(this);

@@ -28,11 +28,8 @@ int main(int argc, char *argv[])
 
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-
     SingleApplication a(argc, argv);
-
     a.setQuitOnLastWindowClosed(false);
-
     if (!a.isRunning()) {
         Clock w;
         a.w = &w;

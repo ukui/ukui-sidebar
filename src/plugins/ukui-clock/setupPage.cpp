@@ -85,7 +85,7 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     model_setup->select();
     model_setup->submitAll();
 
-    repeat_on_Pixmap = QPixmap(":/object-select-symbolic.png");
+    repeat_on_Pixmap = QPixmap(":/image/object-select-symbolic.png");
     repeat_off_Pixmap = QPixmap("");
 
     QString werk_day;
@@ -118,9 +118,9 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     }
     if(Time.compare("Following system") == 0 || Time.compare("跟随系统") == 0){
         Time = tr("Following system");
-    }else if(Time.compare("24 hour system") == 0 || Time.compare("24小时制(23:59:59)") == 0){
+    }else if(Time.compare("24 hour system") == 0 || Time.compare("24小时制") == 0){
         Time = tr("24 hour system");
-    }else if(Time.compare("12 hour system") == 0 || Time.compare("12小时制(下午11:59:59)") == 0){
+    }else if(Time.compare("12 hour system") == 0 || Time.compare("12小时制") == 0){
         Time = tr("12 hour system");
     }
     if(Pop_up.compare("Notification") == 0 || Pop_up.compare("通知栏弹窗") == 0){
@@ -183,6 +183,9 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     });
     ui->label->hide();
     ui->pushButton->hide();
+
+    muteBtn = new CustomButton(this,54,24,1);
+    muteBtn->move(236,66);
 }
 
 setuppage::~setuppage()
