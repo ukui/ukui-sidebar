@@ -97,7 +97,7 @@ int getScreenWidth() {
 int main(int argc, char *argv[])
 {
     //自定义消息处理
-    //qInstallMessageHandler(myMessageOutput);
+    qInstallMessageHandler(myMessageOutput);
 
     if (getScreenWidth() > 2560) {
         #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))

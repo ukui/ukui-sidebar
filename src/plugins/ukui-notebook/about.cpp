@@ -27,7 +27,7 @@ About::About(QWidget *parent) :
     ui->versionLabel->setText(tr("Version: 2020.1.0"));
     ui->teamLabel->setText(tr("Service & Support: ") +
                            "<a href=\"mailto://support@kylinos.cn\""
-                           "style=\"color:#595959\">"
+                           "style=\"color: palette(buttonText)\">"
                            "support@kylinos.cn</a>");
     ui->appiconLabel->setPixmap(QIcon::fromTheme("kylin-notebook").pixmap(96,96));
     ui->introduceLabel->setText(tr("Kylin Note is a self-developed sidebar application plug-in, "
@@ -35,6 +35,10 @@ About::About(QWidget *parent) :
                                    "aiming at a friendly user experience."));
     ui->introduceLabel->setAlignment(Qt::AlignJustify);
     ui->introduceLabel->setWordWrap(true);
+    connect(ui->teamLabel, &QLabel::linkActivated, this, [=](const QString url){
+        QDesktopServices::openUrl(QUrl(url));
+    });
+    ui->teamLabel->setContextMenuPolicy(Qt::NoContextMenu);
 }
 
 About::~About()
