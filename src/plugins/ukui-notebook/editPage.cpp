@@ -180,22 +180,22 @@ void Edit_page::initSetup()
 
 void Edit_page::btnSetup()
 {
-//   TextEdit btnInit  begin
-    QBitmap bmp(this->size());
-    bmp.fill();
-    QPainter p(&bmp);
-    p.setPen(Qt::NoPen);
-    p.setBrush(Qt::black);
-    p.setRenderHint(QPainter::Antialiasing);
-    p.drawRoundedRect(bmp.rect(),6,6);
-    setMask(bmp);
-
     ui->boldBtn->setIcon(QPixmap(":/image/1x/bold.png"));
     ui->italicBtn->setIcon(QPixmap(":/image/1x/Italic.png"));
     ui->underlineBtn->setIcon(QPixmap(":/image/1x/under_line-new.png"));
     ui->strikeOutBtn->setIcon(QPixmap(":/image/1x/del_line.png"));
     ui->unorderedBtn->setIcon(QPixmap(":/image/1x/Symbol.png"));
     ui->orderedBtn->setIcon(QPixmap(":/image/1x/number.png"));
+
+    ui->boldBtn->setToolTip(tr("Bold"));
+    ui->italicBtn->setToolTip(tr("Italic"));
+    ui->underlineBtn->setToolTip(tr("Underline"));
+    ui->strikeOutBtn->setToolTip(tr("Strikeout"));
+    ui->unorderedBtn->setToolTip(tr("Unordered"));
+    ui->orderedBtn->setToolTip(tr("Ordered"));
+
+    ui->fontSizeBtn->setToolTip(tr("Font Size"));
+    ui->styleBtn->setToolTip(tr("Font Color"));
 
     //ui->underlineBtn->setIcon(QIcon::fromTheme("format-text-underline-symbolic"));
     //ui->boldBtn->setIcon(QIcon::fromTheme("format-text-bold-symbolic"));
@@ -239,7 +239,6 @@ void Edit_page::btnSetup()
     ui->unorderedBtn->setProperty("iconHighlightEffectMode", 1);
     ui->orderedBtn->setProperty("useIconHighlightEffect", true);
     ui->orderedBtn->setProperty("iconHighlightEffectMode", 1);
-//   TextEdit btnInit  end
 }
 
 void Edit_page::slotsSetup()

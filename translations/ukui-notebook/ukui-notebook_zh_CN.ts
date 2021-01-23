@@ -73,6 +73,54 @@
         <translation>麒麟便签页</translation>
     </message>
     <message>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="190"/>
+        <source>Bold</source>
+        <translatorcomment>加粗</translatorcomment>
+        <translation>加粗</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="191"/>
+        <source>Italic</source>
+        <translatorcomment>斜体</translatorcomment>
+        <translation>斜体</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="192"/>
+        <source>Underline</source>
+        <translatorcomment>下划线</translatorcomment>
+        <translation>下划线</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="193"/>
+        <source>Strikeout</source>
+        <translatorcomment>删除线</translatorcomment>
+        <translation>删除线</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="194"/>
+        <source>Unordered</source>
+        <translatorcomment>无序列表</translatorcomment>
+        <translation>无序列表</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="195"/>
+        <source>Ordered</source>
+        <translatorcomment>有序列表</translatorcomment>
+        <translation>有序列表</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="197"/>
+        <source>Font Size</source>
+        <translatorcomment>字号</translatorcomment>
+        <translation>字号</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="198"/>
+        <source>Font Color</source>
+        <translatorcomment>字体颜色</translatorcomment>
+        <translation>字体颜色</translation>
+    </message>
+    <message>
         <source>Close</source>
         <translatorcomment>关闭</translatorcomment>
         <translation type="vanished">关闭</translation>
@@ -292,13 +340,13 @@
 <context>
     <name>iconViewModeDelegate</name>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/iconViewModeDelegate.cpp" line="386"/>
+        <location filename="../../src/plugins/ukui-notebook/iconViewModeDelegate.cpp" line="318"/>
         <source>Today </source>
         <translatorcomment>今天  </translatorcomment>
         <translation>今天  </translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/iconViewModeDelegate.cpp" line="390"/>
+        <location filename="../../src/plugins/ukui-notebook/iconViewModeDelegate.cpp" line="322"/>
         <source>Yesterday </source>
         <translatorcomment>昨天</translatorcomment>
         <translation>昨天  </translation>
