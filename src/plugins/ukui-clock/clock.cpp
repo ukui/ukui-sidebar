@@ -217,7 +217,6 @@ Clock::Clock(QWidget *parent) :
     ui->label_12->hide();
     ui->label_13->hide();
     ui->pushButton_8->hide();
-
 }
 
 Clock::~Clock()
@@ -412,7 +411,6 @@ void Clock::stopwatchInit()
     ui->pushButton_timeselect->raise();
     ui->pushButton_timeselect->setEnabled(false);
     ui->pushButton_ring->setEnabled(false);
-
 }
 
 /*
@@ -450,7 +448,6 @@ void Clock::clockInit()
     action_Delete_In_ListWidget_ = new QAction(tr("Delete"), this);
     action_Clear_In_ListWidget_ = new QAction(tr("ClearAll"), this);
     popMenu_In_ListWidget_->addAction(action_Delete_In_ListWidget_);
-//    popMenu_In_ListWidget_->addAction(action_Clear_In_ListWidget_);
 
     connect(this->action_Delete_In_ListWidget_, SIGNAL(triggered()), this, SLOT(deleteAlarm()));
     connect(ui->listWidget,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(listdoubleClickslot()));
@@ -549,10 +546,10 @@ void Clock::setupInit()
     modelSetupSet(); /*设置数据库初始化
                         Set database initialization*/
     textTimerupdate();
-    ui->lineEdit->setMaxLength(8);/*限制闹钟名字长度为9个字符*/
+    ui->lineEdit->setMaxLength(16);/*限制闹钟名字长度为9个字符*/
 
     /*设置输入框无视空格*/
-    QRegExp rx = QRegExp("^[\u4e00-\u9fa5a-zA-Z]+$");
+    QRegExp rx = QRegExp("^[\u4E00-\u9FA5A-Za-z0-9_]+$");
     QRegExpValidator* validator = new QRegExpValidator(rx);
     ui->lineEdit->setValidator(validator);
 
@@ -2011,12 +2008,15 @@ void Clock::statCountdown(){
     f.setPixelSize(40);
     ui->label_9->setFont(f);
 
-    qDebug()<<countdown_second;
+    qDebug()<<countdown_second<<"xxx";
+    if(countdown_second == 1){
+        ui->stackedWidget_4->setCurrentIndex(0);
+    }
 
     if (countdown_hour==0 && countdown_minute==0 && (countdown_second)==0) {
+        startbtnCountdown();
         countdown_timer->stop();
         countdownNoticeDialogShow();
-        startbtnCountdown();
     }
 
     countdown_second--;
