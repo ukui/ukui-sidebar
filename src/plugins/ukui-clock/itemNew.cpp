@@ -28,16 +28,14 @@ item_new::item_new(QWidget *parent) :
 
     alarmLabel_w0 = new QLabel(this);//闹钟用途//Alarm function
     alarmLabel_w0->move(27  ,6);
-    alarmLabel_w0->setFixedSize(170, 25);
+    alarmLabel_w0->setFixedSize(200, 25);
     alarmLabel_w0->setText("闹钟");
-
 
     alarmLabel_s0 = new QLabel( this);//闹钟重复//Repetition of alarm clock
     alarmLabel_s0->move(27, 74);
     alarmLabel_s0->setFixedSize(270, 17);
     alarmLabel_s0->setText("工作日");
     alarmLabel_s0->setVisible(true);
-
 
     alarmLabel0 = new QLabel(this);//闹钟//Alarm clock
     alarmLabel0->move(25,24);
@@ -73,7 +71,6 @@ void item_new::setupUi(QWidget *item_new)
     item_new->resize(376, 56);
     item_new->setStyleSheet(QString::fromUtf8("border-radius:12px;\n"
                                               ""));
-
     retranslateUi(item_new);
 
     QMetaObject::connectSlotsByName(item_new);

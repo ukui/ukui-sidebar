@@ -217,6 +217,11 @@ Clock::Clock(QWidget *parent) :
     ui->label_12->hide();
     ui->label_13->hide();
     ui->pushButton_8->hide();
+    //字体设置
+    QString selfFont = loadFontFamilyFromTTF();
+    QFont f(selfFont);
+    f.setPixelSize(38);
+    ui->label_4->setFont(f);
 }
 
 Clock::~Clock()
@@ -321,6 +326,10 @@ void Clock::buttonImageInit()
     ui->pushButton_5->setProperty("useIconHighlightEffect", 0x8);
     ui->pushButton_12->setProperty("useIconHighlightEffect", 0x2);
 
+    ui->pushButton_4->setToolTip(tr("minimize"));
+    ui->pushButton_5->setToolTip(tr("close"));
+    ui->pushButton_12->setToolTip(tr("menu"));
+
     count_sel = new Btn_new(0, tr("  Remind"), ui->page_4);
     count_sel->move(25,310);
     count_sel_1 = new Btn_new(0, tr("  Remind"), ui->page_5);
@@ -373,11 +382,6 @@ void Clock::CountdownInit()
 */
 void Clock::stopwatchInit()
 {
-    //字体设置
-    QString selfFont = loadFontFamilyFromTTF();
-    QFont f(selfFont);
-    f.setPixelSize(38);
-    ui->label_4->setFont(f);
     /*初始化定时器
      Initialize timer*/
     timer = new QTimer();
@@ -2007,11 +2011,6 @@ void Clock::statCountdown(){
     QFont f(selfFont);
     f.setPixelSize(40);
     ui->label_9->setFont(f);
-
-    qDebug()<<countdown_second<<"xxx";
-    if(countdown_second == 1){
-        ui->stackedWidget_4->setCurrentIndex(0);
-    }
 
     if (countdown_hour==0 && countdown_minute==0 && (countdown_second)==0) {
         startbtnCountdown();
