@@ -23,6 +23,7 @@ CleanPromptBox::CleanPromptBox()
 {
     this->setFixedSize(400, 218);
     this->setObjectName("CleanPromptBoxWidget");
+    this->setProperty("useSystemStyleBlur", true);
     m_pHintInformationWidget = new QWidget();
     m_pCheckBoxWidget        = new QWidget();
     m_pButtonWidget          = new QWidget();

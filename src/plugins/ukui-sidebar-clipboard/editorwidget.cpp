@@ -30,7 +30,7 @@ EditorWidget::EditorWidget()
     this->setContentsMargins(0, 0, 0, 0);
     this->setWindowTitle(QObject::tr("edit box"));
     this->setWindowIcon(QIcon::fromTheme("kylin-clipboard"));
-
+    this->setProperty("useSystemStyleBlur", true);
     m_pMainQVBoxLayout = new QVBoxLayout();
     m_pMainQVBoxLayout->setContentsMargins(0, 0, 0, 0);
 
