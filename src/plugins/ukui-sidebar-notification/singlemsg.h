@@ -23,6 +23,7 @@
 #include <QLabel>
 #include <QDateTime>
 #include <QVBoxLayout>
+#include "picturetowhite.h"
 #define CONTROL_CENTER_TIME_FORMAT_GSETTING "org.ukui.control-center.panel.plugins"
 #define CONTROL_TINE_FORMAT_GSETTING_VALUE "hoursystem"
 #define TIME_FORMAT "12"
