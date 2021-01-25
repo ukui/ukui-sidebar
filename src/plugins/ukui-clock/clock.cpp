@@ -3045,6 +3045,9 @@ void Clock::showPaint8()
     }
 }
 
+/*窗口拖动事件，
+ *添加原因为：通用窗口拖动事件导致窗口周边大约8像素左右无法拖动。
+ *注释原因为：非系统窗口拖动事件会导致在4K屏幕下，拖动光标偏移现象。
 void Clock::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
@@ -3053,26 +3056,22 @@ void Clock::mousePressEvent(QMouseEvent *event)
     }
     QWidget::mousePressEvent(event);
 }
-
 void Clock::mouseReleaseEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
         this->mousePressed = false;
         this->setCursor(Qt::ArrowCursor);
     }
-
     QWidget::mouseReleaseEvent(event);
 }
-
 void Clock::mouseMoveEvent(QMouseEvent *event)
 {
     if (this->mousePressed) {
         move(event->globalPos() - this->dragPosition);
         this->setCursor(Qt::ClosedHandCursor);
     }
-
     QWidget::mouseMoveEvent(event);
-}
+}*/
 
 //字体设置 华康金刚黑Semibold
 QString Clock::loadFontFamilyFromTTF()
