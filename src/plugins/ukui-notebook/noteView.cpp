@@ -50,7 +50,6 @@ NoteView::~NoteView()
 
 void NoteView::animateAddedRow(const QModelIndex& parent, int start, int end)
 {
-    qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
     Q_UNUSED(parent)
     Q_UNUSED(end)
 
@@ -143,7 +142,6 @@ void NoteView::rowsAboutToBeMoved(const QModelIndex &sourceParent, int sourceSta
 void NoteView::rowsMoved(const QModelIndex &parent, int start, int end,
                          const QModelIndex &destination, int row)
 {
-    qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
     Q_UNUSED(parent)
     Q_UNUSED(start)
     Q_UNUSED(end)
@@ -174,8 +172,6 @@ void NoteView::init()
     setUpdatesEnabled(true);
     //当鼠标进入或离开小部件时，强制Qt生成绘制事件
     viewport()->setAttribute(Qt::WA_Hover);
-
-    setupSignalsSlots();
 }
 
 void NoteView::mouseMoveEvent(QMouseEvent* e)
@@ -189,6 +185,15 @@ void NoteView::mousePressEvent(QMouseEvent* e)
 {
     m_isMousePressed = true;
     QListView::mousePressEvent(e);
+}
+
+void NoteView::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
+{
+    emit viewportPressed();
+    if (selected.indexes().isEmpty()){
+        return;
+    }
+    QListView::selectionChanged(selected, deselected);
 }
 
 void NoteView::mouseReleaseEvent(QMouseEvent* e)
@@ -212,62 +217,3 @@ void NoteView::setAnimationEnabled(bool isEnabled)
 {
     m_animationEnabled = isEnabled;
 }
-
-void NoteView::setupSignalsSlots()
-{
-    // remove/add separator
-    // current selectected row changed
-    connect(selectionModel(), &QItemSelectionModel::currentRowChanged, [this]
-            (const QModelIndex & current, const QModelIndex & previous){
-        qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
-        if(model() != Q_NULLPTR){
-            if(current.row() < previous.row()){
-                if(current.row() > 0){
-                    QModelIndex prevIndex = model()->index(current.row()-1, 0);
-                    viewport()->update(visualRect(prevIndex));
-                }
-            }
-
-            if(current.row() > 1){
-                QModelIndex prevPrevIndex = model()->index(current.row()-2, 0);
-                viewport()->update(visualRect(prevPrevIndex));
-            }
-        }
-    });
-
-    // row was entered
-    connect(this, &NoteView::entered,[this](QModelIndex index){
-        qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
-        if(model() != Q_NULLPTR){
-            if(index.row() > 1){
-                QModelIndex prevPrevIndex = model()->index(index.row()-2, 0);
-                viewport()->update(visualRect(prevPrevIndex));
-
-                QModelIndex prevIndex = model()->index(index.row()-1, 0);
-                viewport()->update(visualRect(prevIndex));
-
-            }else if(index.row() > 0){
-                QModelIndex prevIndex = model()->index(index.row()-1, 0);
-                viewport()->update(visualRect(prevIndex));
-            }
-
-            listViewModeDelegate* delegate = static_cast<listViewModeDelegate *>(itemDelegate());
-            if(delegate != Q_NULLPTR)
-                delegate->setHoveredIndex(index);
-        }
-    });
-
-    // viewport was entered
-    connect(this, &NoteView::viewportEntered,[this](){
-        qDebug() << "当前文件 :" << __FILE__ << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
-        if(model() != Q_NULLPTR && model()->rowCount() > 1){
-            listViewModeDelegate* delegate = static_cast<listViewModeDelegate *>(itemDelegate());
-            if(delegate != Q_NULLPTR)
-                delegate->setHoveredIndex(QModelIndex());
-
-            QModelIndex lastIndex = model()->index(model()->rowCount()-2, 0);
-            viewport()->update(visualRect(lastIndex));
-        }
-    });
-}
-

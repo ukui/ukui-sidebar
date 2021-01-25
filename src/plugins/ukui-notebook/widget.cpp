@@ -305,7 +305,7 @@ void Widget::kyNoteConn()
     //清空便签
     connect(m_menuActionEmpty,&QAction::triggered,this,&Widget::clearNoteSlot);
     //设置界面
-//    connect(m_menuActionSet,&QAction::triggered,this,&Widget::SetNoteSlot);
+    //connect(m_menuActionSet,&QAction::triggered,this,&Widget::SetNoteSlot);
     //列表平铺切换
     connect(m_viewChangeButton,&QPushButton::clicked,this,&Widget::changePageSlot);
     //搜索栏文本输入
@@ -315,7 +315,17 @@ void Widget::kyNoteConn()
     //listview单击事件
     connect(m_noteView, &NoteView::pressed, this, &Widget::listClickSlot);
     //listview双击事件
-    connect(m_noteView,&NoteView::doubleClicked,this,&Widget::listDoubleClickSlot);
+    connect(m_noteView,&NoteView::doubleClicked,this,&Widget::listDoubleClickSlot);    
+    connect(m_noteView, &NoteView::viewportPressed, this, [this](){
+        if(m_noteModel->rowCount() > 0){
+            QModelIndex index = m_noteView->currentIndex();
+            m_currentSelectedNoteProxy = index;
+            m_noteView->selectionModel()->select(m_currentSelectedNoteProxy, QItemSelectionModel::ClearAndSelect);
+            m_noteView->setCurrentIndex(m_currentSelectedNoteProxy);
+            m_noteView->scrollTo(m_currentSelectedNoteProxy);
+        }
+    });
+
     // auto save timer
     connect(m_autoSaveTimer, &QTimer::timeout, [this](){
         m_autoSaveTimer->stop();
@@ -1275,6 +1285,7 @@ void Widget::listClickSlot(const QModelIndex& index)
             m_noteView->scrollTo(m_currentSelectedNoteProxy);
         }else{
             qDebug() << "Widget::selectNote() : indexInProxy is not valid";
+            m_currentSelectedNoteProxy = QModelIndex();
         }
         m_noteView->setCurrentRowActive(false);
     }
