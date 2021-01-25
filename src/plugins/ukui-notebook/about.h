@@ -4,6 +4,8 @@
 #include <QDialog>
 #include <QPainter>
 #include <QPainterPath>
+#include <QDesktopServices>
+#include <QUrl>
 
 namespace Ui {
 class About;

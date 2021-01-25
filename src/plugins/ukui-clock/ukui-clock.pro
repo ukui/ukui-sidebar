@@ -26,6 +26,7 @@ LIBS    +=  -lX11
 PKGCONFIG += gsettings-qt
 
 SOURCES += \
+    CustomButton.cpp \
     about.cpp \
     adaptscreeninfo.cpp \
     btnNew.cpp \
@@ -55,6 +56,7 @@ TRANSLATIONS += ../../../translations/ukui-clock/ukui-clock_tr.ts \
                 ../../../translations/ukui-clock/ukui-clock_zh_CN.ts
 
 HEADERS  += clock.h \
+    CustomButton.h \
     about.h \
     adaptscreeninfo.h \
     btnNew.h \

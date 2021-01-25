@@ -217,7 +217,6 @@ Clock::Clock(QWidget *parent) :
     ui->label_12->hide();
     ui->label_13->hide();
     ui->pushButton_8->hide();
-
 }
 
 Clock::~Clock()
@@ -292,10 +291,10 @@ void Clock::settingsStyle()
 */
 void Clock::buttonImageInit()
 {
-    pixmap4 = QPixmap(":/icon-4-16x16.png");
-    repeat_on_Pixmap = QPixmap(":/object-select-symbolic.png");
+    pixmap4 = QPixmap(":/image/icon-4-16x16.png");
+    repeat_on_Pixmap = QPixmap(":/image/object-select-symbolic.png");
     repeat_off_Pixmap = QPixmap("");
-    this->setWindowIcon(QIcon::fromTheme("kylin-alarm-clock",QIcon(":/kylin-alarm-clock.svg")));
+    this->setWindowIcon(QIcon::fromTheme("kylin-alarm-clock",QIcon(":/image/kylin-alarm-clock.svg")));
     ui->label_2->setPixmap(QIcon::fromTheme("kylin-alarm-clock").pixmap(24,24));
     ui->pushButton->setIcon(pixmap4);
     ui->pushButton->setFlat(true);
@@ -412,7 +411,6 @@ void Clock::stopwatchInit()
     ui->pushButton_timeselect->raise();
     ui->pushButton_timeselect->setEnabled(false);
     ui->pushButton_ring->setEnabled(false);
-
 }
 
 /*
@@ -450,7 +448,6 @@ void Clock::clockInit()
     action_Delete_In_ListWidget_ = new QAction(tr("Delete"), this);
     action_Clear_In_ListWidget_ = new QAction(tr("ClearAll"), this);
     popMenu_In_ListWidget_->addAction(action_Delete_In_ListWidget_);
-//    popMenu_In_ListWidget_->addAction(action_Clear_In_ListWidget_);
 
     connect(this->action_Delete_In_ListWidget_, SIGNAL(triggered()), this, SLOT(deleteAlarm()));
     connect(ui->listWidget,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(listdoubleClickslot()));
@@ -549,10 +546,10 @@ void Clock::setupInit()
     modelSetupSet(); /*设置数据库初始化
                         Set database initialization*/
     textTimerupdate();
-    ui->lineEdit->setMaxLength(8);/*限制闹钟名字长度为9个字符*/
+    ui->lineEdit->setMaxLength(16);/*限制闹钟名字长度为9个字符*/
 
     /*设置输入框无视空格*/
-    QRegExp rx = QRegExp("^[\u4e00-\u9fa5a-zA-Z]+$");
+    QRegExp rx = QRegExp("^[\u4E00-\u9FA5A-Za-z0-9_]+$");
     QRegExpValidator* validator = new QRegExpValidator(rx);
     ui->lineEdit->setValidator(validator);
 
@@ -1222,9 +1219,9 @@ void Clock::updateAlarmClock()
         /*闹钟开关
          Alarm switch*/
         if (model->index(alarmNum, 3).data().toInt() == 1) {
-            w1[alarmNum]->alarm_on_off0->setStyleSheet("border-image: url(:/alarm_off.png); border-radius:7px;");
+            w1[alarmNum]->alarm_on_off0->initClose();
         } else {
-            w1[alarmNum]->alarm_on_off0->setStyleSheet("border-image: url(:/alarm_on.png); border-radius:7px;");
+            w1[alarmNum]->alarm_on_off0->initOpen();
         }
         w1[alarmNum]->alarmLabel_w0->setText(model->index(alarmNum, 14).data().toString());
 
@@ -1897,20 +1894,18 @@ void Clock::deleteAlarm()
 void Clock::OnOffAlarm()
 {
     int i=0 ;
-    QPushButton *btn = qobject_cast<QPushButton*>(QObject::sender());
+    CustomButton *btn = qobject_cast<CustomButton*>(QObject::sender());
     while (btn != w1[i]->alarm_on_off0) {
         i++;
     }
     if (model->index(i, 3).data().toInt() == 0) {
-        btn->setStyleSheet("border-image: url(:/alarm_off.png);border-radius:7px;");
+        btn->closeSlot();
         qDebug() << "off";
-
         model->setData(model->index(i, 3), int(1));
         model->submitAll();
     } else {
-        btn->setStyleSheet("border-image: url(:/alarm_on.png);border-radius:7px;");
+        btn->openSlot();
         qDebug() << "on";
-
         model->setData(model->index(i, 3), int(0));
         model->submitAll();
     }
@@ -1921,9 +1916,7 @@ void Clock::OnOffAlarm()
  */
 void Clock::offAlarm(int i)
 {
-    w1[i]->alarm_on_off0->setStyleSheet("border-image: url(:/alarm_off.png);border-radius:7px;");
-    qDebug() << "on";
-
+    w1[i]->alarm_on_off0->closeSlot();
     model->setData(model->index(i, 3), int(1));
     model->submitAll();
 
@@ -2015,12 +2008,15 @@ void Clock::statCountdown(){
     f.setPixelSize(40);
     ui->label_9->setFont(f);
 
-    qDebug()<<countdown_second;
+    qDebug()<<countdown_second<<"xxx";
+    if(countdown_second == 1){
+        ui->stackedWidget_4->setCurrentIndex(0);
+    }
 
     if (countdown_hour==0 && countdown_minute==0 && (countdown_second)==0) {
+        startbtnCountdown();
         countdown_timer->stop();
         countdownNoticeDialogShow();
-        startbtnCountdown();
     }
 
     countdown_second--;
@@ -2790,7 +2786,7 @@ void Clock::setUpPage()
     if(!setup_page){
         setup_page = new setuppage(position1.x(), position1.y(),  this);
         connect(setup_page->ui->pushButton, SIGNAL(clicked()), this, SLOT(alarmClcokSelfStarting()) );
-        connect(setup_page->ui->pushButton_2, SIGNAL(clicked()), this, SLOT(MuteStarting()) );
+        connect(setup_page->muteBtn, SIGNAL(clicked()), this, SLOT(MuteStarting()) );
         connect(setup_page->ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(setVolumeValue(int)));
         grand = new QWidget(setup_page->ui->widget);
     }
@@ -2809,13 +2805,9 @@ void Clock::setUpPage()
         setup_page->ui->pushButton->setStyleSheet("border-image: url(:/alarm_off.png);");
     }
     if (model_setup->index(0, 1).data().toInt()) {
-        setup_page->ui->pushButton_2->setStyleSheet("border-image: url(:/alarm_on.png);\
-                                                    border-radius:6px;\
-                border:0px solid rgba();");
+        setup_page->muteBtn->openSlot();
     } else {
-        setup_page->ui->pushButton_2->setStyleSheet("border-image: url(:/alarm_off.png);\
-                                                    border-radius:6px;\
-                border:0px solid rgba();");
+        setup_page->muteBtn->closeSlot();
     }
     setup_page->ui->horizontalSlider->setValue(model_setup->index(0, 6).data().toInt());
 
@@ -2853,18 +2845,14 @@ void Clock::alarmClcokSelfStarting()
 void Clock::MuteStarting()
 {
     if (model_setup->index(0, 1).data().toInt()) {
-        setup_page->ui->pushButton_2->setStyleSheet("border-image: url(:/alarm_off.png);\
-                                                    border-radius:6px;\
-                                                    border:0px solid rgba();");
+        setup_page->muteBtn->closeSlot();
         model_setup->setData(model_setup->index(0, 1), 0);
         grand->hide();
         model_setup->setData(model_setup->index(0, 6),model_setup->index(0, 18).data().toInt());//滑动条记忆回复
                                                                                                 // Slider memory recall
         setup_page->ui->horizontalSlider->setValue(model_setup->index(0, 6).data().toInt());
     } else {
-        setup_page->ui->pushButton_2->setStyleSheet("border-image: url(:/alarm_on.png);\
-                                                    border-radius:6px;\
-                                                    border:0px solid rgba();");
+        setup_page->muteBtn->openSlot();
         model_setup->setData(model_setup->index(0, 1), 1);
 
         model_setup->setData(model_setup->index(0, 18),model_setup->index(0, 6).data().toInt());//记忆滑动条
@@ -3106,7 +3094,11 @@ QString Clock::loadFontFamilyFromTTF()
 //黑色主题
 void  Clock::blackStyle()
 {
-    ui->label_4->setStyleSheet("color: rgba(255, 255, 255, 0.9)");
+    ui->label_4->setStyleSheet("color: rgba(255, 255, 255, 0.9);font-size:38px;");
+    QString selfFont = loadFontFamilyFromTTF();
+    QFont f(selfFont);
+    f.setPixelSize(38);
+    ui->label_4->setFont(f);
     ui->label_9->setStyleSheet("color: rgba(255, 255, 255, 0.9)");
     ui->noAlarmIcon->setPixmap(QPixmap(":/image/noClockBlack.png"));
     ui->noAlarm->setStyleSheet("color: rgba(255, 255, 255, 0.6);font-size:16px;");
@@ -3124,7 +3116,11 @@ void  Clock::blackStyle()
 //白色主题
 void  Clock::whiteStyle()
 {
-    ui->label_4->setStyleSheet("color: rgba(49, 66, 89, 1)");
+    ui->label_4->setStyleSheet("color: rgba(49, 66, 89, 1);font-size:38px;");
+    QString selfFont = loadFontFamilyFromTTF();
+    QFont f(selfFont);
+    f.setPixelSize(38);
+    ui->label_4->setFont(f);
     ui->label_9->setStyleSheet("color: rgba(49, 66, 89, 1)");
     ui->noAlarmIcon->setPixmap(QPixmap(":/image/noClockWhite.png"));
     ui->noAlarm->setStyleSheet("color: rgba(49, 66, 89, 0.6);font-size:16px;");

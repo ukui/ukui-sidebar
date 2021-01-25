@@ -53,14 +53,11 @@ item_new::item_new(QWidget *parent) :
     alarmLabel1->setText("上午");
     alarmLabel1->setVisible(true);
 
-
-    alarm_on_off0 = new QPushButton(this);//闹钟开关// Alarm switch
+    alarm_on_off0 = new CustomButton(this,54,24,1);//闹钟开关// Alarm switch
     alarm_on_off0->move(263,43);
-    alarm_on_off0->setFixedSize(50, 24);
     alarm_on_off0->setFlat(true);
     alarm_on_off0->setVisible(true);
-    alarm_on_off0->setStyleSheet("border-image: url(:/alarm_on.png);background-color: rgb();border-radius:7px;");
-
+    alarm_on_off0->myLabel->move(32,1);
     settingsStyle();
 }
 

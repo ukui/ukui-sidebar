@@ -14,7 +14,7 @@ About::About(QWidget *parent) :
     setAttribute(Qt::WA_TranslucentBackground);
     setAttribute(Qt::WA_DeleteOnClose);
 
-    this->setWindowIcon(QIcon::fromTheme("kylin-alarm-clock",QIcon(":/kylin-alarm-clock.svg")));
+    this->setWindowIcon(QIcon::fromTheme("kylin-alarm-clock",QIcon(":/image/kylin-alarm-clock.svg")));
     ui->titleIcon->setPixmap(QIcon::fromTheme("kylin-alarm-clock").pixmap(24,24));
 
     ui->closeBtn->setIcon(QIcon::fromTheme("window-close-symbolic"));
@@ -29,9 +29,13 @@ About::About(QWidget *parent) :
     ui->versionLabel->setText(tr("Version: 2020.1.0"));
     ui->introduceLabel->setText(tr("Service & Support: ") +
                                 "<a href=\"mailto://support@kylinos.cn\""
-                                "style=\"color:#595959\">"
+                                "style=\"color:palette(buttonText)\">"
                                 "support@kylinos.cn</a>");
     ui->appiconLabel->setPixmap(QIcon::fromTheme("kylin-alarm-clock").pixmap(96,96));
+    connect(ui->introduceLabel, &QLabel::linkActivated, this, [=](const QString url){
+         QDesktopServices::openUrl(QUrl(url));
+     });
+    ui->introduceLabel->setContextMenuPolicy(Qt::NoContextMenu);
 }
 
 About::~About()

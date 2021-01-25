@@ -88,7 +88,7 @@ Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
     ui->pushButton->setProperty("useIconHighlightEffect", 0x8);
     ui->pushButton->setFlat(true);
 
-    this->setWindowIcon(QIcon::fromTheme("kylin-alarm-clock",QIcon(":/kylin-alarm-clock.svg")));
+    this->setWindowIcon(QIcon::fromTheme("kylin-alarm-clock",QIcon(":/image/kylin-alarm-clock.svg")));
     ui->titleIcon->setPixmap(QIcon::fromTheme("kylin-alarm-clock").pixmap(24,24));
 }
 
