@@ -102,9 +102,9 @@ public:
 
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    //void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    //void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    //void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
 private:
     Edit_page *m_notebook;                                          //新建便签指针
@@ -132,7 +132,7 @@ private:
     QThread* m_dbThread;                                            //数据库线程
     QMenu* m_menu;                                                  //功能菜单
     QAction* m_menuActionEmpty;                                     //菜单动作-清空便签
-//    QAction* m_menuActionSet;                                       //菜单动作-设置界面
+    //QAction* m_menuActionSet;                                       //菜单动作-设置界面
     adaptScreenInfo *m_pSreenInfo;                                  //屏幕信息
     QPoint dragPosition;                                            //拖动坐标
     bool mousePressed;                                              //鼠标是否按下
@@ -193,7 +193,7 @@ private slots:
     void changePageSlot();                                          //列表平铺切换槽函数
     void setNoteNullSlot();                                         //便签页关闭置空槽函数
     void clearNoteSlot();                                           //清空便签槽函数
-//    void SetNoteSlot();                                             //便签设置界面槽函数
+    //void SetNoteSlot();                                             //便签设置界面槽函数
 
 signals:
     void requestNotesList();                                        //加载列表请求信号

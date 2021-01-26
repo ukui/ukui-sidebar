@@ -1052,38 +1052,41 @@ void Widget::clearSearch()
  * \brief Widget::mousePressEvent
  *
  */
-void Widget::mousePressEvent(QMouseEvent *event)
-{
-    if (event->button() == Qt::LeftButton) {
-        this->dragPosition = event->globalPos() - frameGeometry().topLeft();
-        this->mousePressed = true;
-    }
-    QWidget::mousePressEvent(event);
-}
+//void Widget::mousePressEvent(QMouseEvent *event)
+//{
+//    if (event->button() == Qt::LeftButton) {
+//        this->dragPosition = event->globalPos() - frameGeometry().topLeft();
+//        this->mousePressed = true;
+//    }
+//    QWidget::mousePressEvent(event);
+//}
 
 /*!
  * \brief Widget::mouseReleaseEvent
  *
  */
-void Widget::mouseReleaseEvent(QMouseEvent *event)
-{
-    if (event->button() == Qt::LeftButton) {
-        this->mousePressed = false;
-    }
-    QWidget::mouseReleaseEvent(event);
-}
+//void Widget::mouseReleaseEvent(QMouseEvent *event)
+//{
+//    if (event->button() == Qt::LeftButton) {
+//        this->mousePressed = false;
+//    }
+//    QWidget::mouseReleaseEvent(event);
+//}
 
 /*!
  * \brief Widget::mouseMoveEvent
  *
  */
-void Widget::mouseMoveEvent(QMouseEvent *event)
-{
-    if (this->mousePressed) {
-        move(event->globalPos() - this->dragPosition);
-    }
-    QWidget::mouseMoveEvent(event);
-}
+//void Widget::mouseMoveEvent(QMouseEvent *event)
+//{
+//    if (this->mousePressed) {
+//        int dpiRatio = qApp->devicePixelRatio();
+//        move(event->globalPos() - this->dragPosition.x() * dpiRatio,
+//             (event->globalPos() - this->dragPosition.y() * dpiRatio));
+//        this->setCursor(Qt::ClosedHandCursor);
+//    }
+//    QWidget::mouseMoveEvent(event);
+//}
 
 /*!
  * \brief Widget::paintEvent
