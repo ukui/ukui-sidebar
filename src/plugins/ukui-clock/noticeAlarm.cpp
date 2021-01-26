@@ -159,7 +159,12 @@ void Natice_alarm::set_dialog_close()
 {
     timer->stop();
     music->stop();
-    this->close();
+    if(num_flag >= 0)
+    {
+        this->close();
+    }else{
+        this->hide();
+    }
 }
 //关闭音乐
 //Turn off music
@@ -302,4 +307,18 @@ void Natice_alarm::mouseMoveEvent(QMouseEvent *event)
     }
 
     QWidget::mouseMoveEvent(event);
+}
+
+void Natice_alarm::closeEvent(QCloseEvent *event)
+{
+    timer->stop();
+    music->stop();
+    if(num_flag >= 0)
+    {
+        event->accept();//接受
+        this->close();
+    }else{
+        event->ignore();//忽视
+        this->hide();
+    }
 }

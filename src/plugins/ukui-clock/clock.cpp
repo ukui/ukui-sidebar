@@ -17,56 +17,6 @@
 */
 #include "clock.h"
 #include "ui_clock.h"
-#include <QPainter>
-#include <math.h>
-#include <QTimerEvent>
-#include <QTime>
-#include <QTimer>
-#include <QDialog>
-#include <QSpinBox>
-#include <QComboBox>
-#include <QPushButton>
-#include <QLabel>
-#include <QPixmap>
-#include <QMatrix>
-#include <QFont>
-#include <QMediaPlayer>
-#include <QMediaPlaylist>
-#include <QUrl>
-#include <QMessageBox>
-#include <QSqlTableModel>
-#include <QSqlRecord>
-#include <QModelIndex>
-#include <QSqlQuery>
-#include <QFile>
-#include <QFileDialog>
-#include <QFileInfo>
-#include <QVBoxLayout>
-#include <QDebug>
-#include "debug.h"
-#include <unistd.h>
-#include <QTimer>
-#include <QTime>
-#include "connection.h"
-#include <QMessageBox>
-#include "itemNew.h"
-#include "set_clock.h"
-#include "stopwatchItem.h"
-#include "noticeDialog.h"
-#include <QBitmap>
-#include <QProcess>
-#include <QScreen>
-#include "noticeAlarm.h"
-#include "ui_noticeAlarm.h"
-#include "deleteMsg.h"
-#include "ui_deleteMsg.h"
-#include <QScroller>
-#include <QTranslator>
-#include <QDesktopWidget>
-#include "btnNew.h"
-#include "closeOrHide.h"
-#include "ui_setupPage.h"
-#include <QGraphicsOpacityEffect>
 
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 const double PI=3.141592;
@@ -111,9 +61,7 @@ Clock::Clock(QWidget *parent) :
     ui->listWidget ->setGridSize(QSize(340, 108+15));
     ui->listWidget_2 ->setGridSize(QSize(340, 58+10));
 
-
     m_pSreenInfo = new adaptScreenInfo();
-    qDebug()<<m_pSreenInfo->m_screenWidth<<m_pSreenInfo->m_screenHeight;
     move((m_pSreenInfo->m_screenWidth - this->width() + m_pSreenInfo->m_nScreen_x )/2, (m_pSreenInfo->m_screenHeight - this->height())/2);
 
     pushclock = new QPushButton(ui->page_7);
@@ -374,6 +322,10 @@ void Clock::CountdownInit()
      Initialize countdown progress circle*/
     ui->page_5->RoundBar3->setValue(3600);
     ui->count_stat->raise();
+    countdownNoticeDialog = new Natice_alarm(360,-1);
+    countdownNoticeDialog->timer->stop();
+    countdownNoticeDialog->timer_xumhuan->stop();
+    countdownNoticeDialog->music->stop();
 }
 
 /*
@@ -834,7 +786,6 @@ void Clock::onPushbuttonTimeselectClicked()
         palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
         ui->pushButton_Start->setPalette(palette);
 
-
         for (int i=0; i < stopwatch_item_flag; i++) {
             delete stopwatch_w[i];
             delete stopwatch_aItem[i];
@@ -1158,7 +1109,7 @@ void Clock::noticeDialogShow(int close_time, int alarm_num)
     if (model_setup->index(0, 3).data().toInt()) {
         dialog1->showFullScreen();
     } else {
-        dialog1->move(screen_width-450,screen_height-300);
+        dialog1->move(screen_width-450,screen_height-250);
     }
     dialog1->show();
 }
@@ -2041,17 +1992,20 @@ void Clock::countdownNoticeDialogShow()
     int screen_width = mm.width();
     int screen_height = mm.height();
     model_setup->select();
-    Natice_alarm *dialog1 = new Natice_alarm(360,-1);
-    dialog1->ui->label_4->setText(tr("360 Seconds to close"));
-    dialog1->ui->label_2->hide();
-    dialog1->ui->label->setText(tr("Count down"));
-    dialog1->ui->label_3->setText(tr("Time out"));
+    countdownNoticeDialog->timer_value = 359;
+    countdownNoticeDialog->ui->label_4->setText(tr("360 Seconds to close"));
+    countdownNoticeDialog->ui->label_2->hide();
+    countdownNoticeDialog->ui->label->setText(tr("Count down"));
+    countdownNoticeDialog->ui->label_3->setText(tr("Time out"));
     if (model_setup->index(0, 3).data().toInt()) {
-        dialog1->showFullScreen();
+        countdownNoticeDialog->showFullScreen();
     } else {
-        dialog1->move(screen_width-450,screen_height-300);
+        countdownNoticeDialog->move(screen_width-450,screen_height-250);
     }
-    dialog1->show();
+    countdownNoticeDialog->timer->start();
+    countdownNoticeDialog->timer_xumhuan->start();
+    countdownNoticeDialog->show();
+    countdownNoticeDialog->music->play();
 }
 
 /*
