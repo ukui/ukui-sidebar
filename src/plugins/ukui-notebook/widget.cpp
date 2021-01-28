@@ -640,7 +640,6 @@ void Widget::deleteNote(const QModelIndex &noteIndex, bool isFromUser)
         qDebug() << "emit requestDeleteNote";
         // delete from sql
         emit requestDeleteNote(noteTobeRemoved);
-
         if(isFromUser){
             if(m_noteModel->rowCount() > 0){
                 QModelIndex index = m_noteView->currentIndex();
@@ -669,9 +668,8 @@ void Widget::deleteSelectedNote()
     qDebug() << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
     if(!m_isOperationRunning){
         m_isOperationRunning = true;
-        if(m_currentSelectedNoteProxy.isValid()){
+        if(m_noteModel->rowCount() > 0 && m_currentSelectedNoteProxy.isValid()){
             int noteId = m_currentSelectedNoteProxy.data(NoteModel::NoteID).toInt();
-
             for(auto it = m_editors.begin(); it!=m_editors.end();it++)
             {
                 if ((*it)->m_noteId == noteId) {
@@ -684,8 +682,8 @@ void Widget::deleteSelectedNote()
             }
             //--m_noteCounter;
             deleteNote(m_currentSelectedNoteProxy, true);
-//            int row = m_currentSelectedNoteProxy.row();
-//            m_noteView->animateRemovedRow(QModelIndex(),row, row);
+            //int row = m_currentSelectedNoteProxy.row();
+            //m_noteView->animateRemovedRow(QModelIndex(),row, row);
         }
         m_isOperationRunning = false;
     }
