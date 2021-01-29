@@ -30,7 +30,7 @@ About::About(QWidget *parent) :
                            "style=\"color: palette(buttonText)\">"
                            "support@kylinos.cn</a>");
     ui->appiconLabel->setPixmap(QIcon::fromTheme("kylin-notebook").pixmap(96,96));
-    ui->introduceLabel->setText(tr("Kylin Note is a self-developed sidebar application plug-in, "
+    ui->introduceLabel->setText(tr("Kylin Memo is a self-developed sidebar application plug-in, "
                                    "which provides a rich interface, convenient operation and stable functions, "
                                    "aiming at a friendly user experience."));
     ui->introduceLabel->setAlignment(Qt::AlignJustify);

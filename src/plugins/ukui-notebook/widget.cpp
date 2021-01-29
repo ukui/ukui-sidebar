@@ -259,7 +259,7 @@ void Widget::kyNoteInit()
     m_pSreenInfo = new adaptScreenInfo();
     move((m_pSreenInfo->m_screenWidth - this->width() + m_pSreenInfo->m_nScreen_x )/2, (m_pSreenInfo->m_screenHeight - this->height())/2);
     //标题
-    this->setWindowTitle(tr("ukui-note"));
+    this->setWindowTitle(tr("Kylin Memo"));
     //任务栏图标
     setWindowIcon(QIcon::fromTheme("kylin-notebook"));
     ui->iconLabel->setPixmap(QIcon::fromTheme("kylin-notebook").pixmap(24,24));
@@ -481,15 +481,15 @@ void Widget::btnInit()
 
     m_menuActionEmpty = new QAction(m_menu);
     QAction *m_aboutAction = new QAction(m_menu);
-//    m_menuActionSet = new QAction(m_menu);
+    //m_menuActionSet = new QAction(m_menu);
 
     m_aboutAction->setText(tr("About"));
     m_menuActionEmpty->setText(tr("Empty Note"));
-//    m_menuActionSet->setText(tr("Set Note"));
+    //m_menuActionSet->setText(tr("Set Note"));
 
     m_menu->addAction(m_menuActionEmpty);
     m_menu->addAction(m_aboutAction);
-//    m_menu->addAction(m_menuActionSet);
+    //m_menu->addAction(m_menuActionSet);
     ui->menuBtn->setMenu(m_menu);
 
     connect(m_aboutAction, &QAction::triggered, this, [=](){
@@ -541,8 +541,6 @@ void Widget::btnInit()
     palette.setBrush(QPalette::ButtonText, brush);
     //palette.setColor(QPalette::Highlight, Qt::transparent); /* 取消按钮高亮 */
     // ui->pushButton_Mini->setPalette(palette);
-    //ui->pushButton_Exit->setPalette(palette);
-    //ui->menuBtn->setPalette(palette);
 
     //设置新建按钮背景文本颜色
     QPalette palette2 = m_newKynote->palette();
@@ -556,8 +554,8 @@ void Widget::btnInit()
     m_newKynote->setToolTip(tr("Create New Note"));
     m_trashButton->setToolTip(tr("Delete Selected Note"));
     m_viewChangeButton->setToolTip(tr("Switch View"));
-    ui->pushButton_Exit->setToolTip(tr("Exit"));
-    ui->pushButton_Mini->setToolTip(tr("Mini"));
+    ui->pushButton_Exit->setToolTip(tr("Close"));
+    ui->pushButton_Mini->setToolTip(tr("Minimize"));
     ui->menuBtn->setToolTip(tr("Menu"));
 }
 
@@ -927,7 +925,7 @@ NoteData* Widget::generateNote(const int noteID)
     QDateTime noteDate = QDateTime::currentDateTime();
     newNote->setCreationDateTime(noteDate);
     newNote->setLastModificationDateTime(noteDate);
-    newNote->setFullTitle(tr("Welcome to use Kylin Note."));
+    newNote->setFullTitle(tr("Welcome to use Kylin Memo."));
     newNote->setNoteColor(15169356);
     newNote->m_note = nullptr;
     return newNote;
@@ -975,7 +973,7 @@ void Widget::moveNoteToTop()
 QString Widget::getFirstLine(const QString& str)
 {
     if(str.simplified().isEmpty()){
-        return tr("Welcome to use Kylin Note.");
+        return tr("Welcome to use Kylin Memo.");
     }
 
     QString text = str.trimmed();
@@ -1231,8 +1229,7 @@ void Widget::onColorChanged(const QColor &color,int noteId)
  */
 void Widget::exitSlot()
 {
-    //m_noteExitWindow->exec();          //退出时弹窗弹窗
-    m_noteExitWindow->exitImmediate();  //不弹窗，直接退出
+    this->close();
 }
 
 /*!

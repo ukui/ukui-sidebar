@@ -113,7 +113,7 @@ void Edit_page::leaveEvent(QEvent *event)
 void Edit_page::initSetup()
 {
     //标题
-    this->setWindowTitle(tr("ukui-memo"));
+    this->setWindowTitle(tr("Kylin Memo"));
     //任务栏图标
     setWindowIcon(QIcon::fromTheme("kylin-notebook"));
 

@@ -117,7 +117,8 @@ int main(int argc, char *argv[])
        如果调用了addVersionOption，则内置选项为--version，如果调用了addHelpOption，则为--help --help-all。
        当调用这些选项之一时，或者当发生错误（例如，传递了未知选项）时，当前进程将使用exit（）函数停止。
     */
-    parser.process(a);   Widget w;
+    parser.process(a);
+    Widget w;
     //if (QApplication::arguments().length() > 1) {
     //    if (QApplication::arguments().at(1) == "--display" || QApplication::arguments().at(1) == "-m") {
     //        w.createNewNote();

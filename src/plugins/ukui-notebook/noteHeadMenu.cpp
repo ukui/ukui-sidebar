@@ -135,7 +135,7 @@ void noteHeadMenu::btnInit()
     ui->pushButtonMenu->setProperty("isWindowButton", 0x1);
     ui->pushButtonMenu->setProperty("useIconHighlightEffect", 0x2);
     ui->pushButtonNew->setToolTip(tr("Create New Note"));
-    ui->pushButtonExit->setToolTip(tr("Exit"));
+    ui->pushButtonExit->setToolTip(tr("Close"));
     ui->pushButtonMenu->setToolTip(tr("Menu"));
 
     ui->pushButtonPalette->setProperty("isOptionButton", true);
