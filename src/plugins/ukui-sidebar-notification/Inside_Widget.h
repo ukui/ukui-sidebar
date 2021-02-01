@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QPainter>
 #include <QGSettings>
+#include <QLabel>
 #define UKUI_TRANSPARENCY_SETTING "org.ukui.control-center.personalise"
 class inside_widget : public QWidget
 {
@@ -21,5 +22,18 @@ signals:
 
 public slots:
 };
+
+
+
+class TakeInCoutLabel : public QLabel
+{
+    Q_OBJECT
+public:
+    explicit TakeInCoutLabel(QWidget *parent = nullptr);
+
+protected:
+    void paintEvent(QPaintEvent *e);
+};
+
 
 #endif // M_PMSG_H

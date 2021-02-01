@@ -78,8 +78,9 @@ NotificationPlugin::NotificationPlugin()
     pNotificationVBoxLayout->addWidget(pWidget1);
 
     //悬浮收纳数标签
-    m_pTakeInCoutLabel = new QLabel(m_pMainWidget);
+    m_pTakeInCoutLabel = new TakeInCoutLabel(m_pMainWidget);
     m_pTakeInCoutLabel->setObjectName("takeincout");
+    m_pTakeInCoutLabel->setFixedSize(15,15);
     QPalette pe1;
     pe1.setColor(QPalette::WindowText,Qt::black);
     m_pTakeInCoutLabel->setPalette(pe1);
@@ -98,9 +99,9 @@ NotificationPlugin::NotificationPlugin()
     pQHBoxLayout2->setContentsMargins(12,0,10,8);
 
     m_pNotificationLabel = new QLabel(QObject::tr("Important notice"));
-    QPalette pe2;
-    pe2.setColor(QPalette::WindowText,Qt::black);
-    m_pTakeInCoutLabel->setPalette(pe2);
+//    QPalette pe2;
+//    pe2.setColor(QPalette::WindowText,Qt::black);
+//    m_pTakeInCoutLabel->setPalette(pe2);
     m_pNotificationLabel->setObjectName("importantnotification");
     m_pNotificationLabel->setAttribute(Qt::WA_TranslucentBackground);
     QSpacerItem* pHSpacer = new QSpacerItem(300, 10, QSizePolicy::Expanding, QSizePolicy::Fixed);
