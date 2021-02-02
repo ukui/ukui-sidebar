@@ -117,7 +117,7 @@ private slots:
     void yellowBtnSlot();
     void defaultBtnSlot();
     void pinkBtnSlot();
-//    void ShowFullScreenSlot();
+    void ShowFullScreenSlot();
 signals:
     void texthasChanged(int noteId, int id);
     void colorhasChanged(const QColor &color,int);

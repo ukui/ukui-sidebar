@@ -27,6 +27,7 @@
 #include "ui_widget.h"
 #include "editPage.h"
 #include "ui_editPage.h"
+#include "utils/xatom-helper.h"
 
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 
@@ -60,40 +61,9 @@ void Edit_page::paintEvent(QPaintEvent *event)
     Q_UNUSED(event);
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-
     QPainterPath rectPath;
-    rectPath.addRoundedRect(this->rect().adjusted(1, 1, -1, -1), 6, 6);
-
-    // 画一个黑底
-    QPixmap pixmap(this->rect().size());
-    pixmap.fill(Qt::transparent);
-    QPainter pixmapPainter(&pixmap);
-    pixmapPainter.setRenderHint(QPainter::Antialiasing);
-    pixmapPainter.setPen(Qt::transparent);
-    pixmapPainter.setBrush(Qt::black);
-    pixmapPainter.drawPath(rectPath);
-    pixmapPainter.end();
-
-    // 模糊这个黑底
-    QImage img = pixmap.toImage();
-    qt_blurImage(img, 10, false, false);
-
-    // 挖掉中心
-    pixmap = QPixmap::fromImage(img);
-    QPainter pixmapPainter2(&pixmap);
-    pixmapPainter2.setRenderHint(QPainter::Antialiasing);
-    pixmapPainter2.setCompositionMode(QPainter::CompositionMode_Clear);
-    pixmapPainter2.setPen(Qt::transparent);
-    pixmapPainter2.setBrush(Qt::transparent);
-    pixmapPainter2.drawPath(rectPath);
-
-    // 绘制阴影
-    p.drawPixmap(this->rect(), pixmap, pixmap.rect());
-
-    // 绘制一个背景
-    p.save();
+    rectPath.addRect(this->rect());
     p.fillPath(rectPath,palette().color(QPalette::Base));
-    p.restore();
 }
 
 void Edit_page::enterEvent(QEvent *event)
@@ -116,17 +86,14 @@ void Edit_page::initSetup()
     this->setWindowTitle(tr("Kylin Memo"));
     //任务栏图标
     setWindowIcon(QIcon::fromTheme("kylin-notebook"));
+    //setWindowFlags(Qt::FramelessWindowHint);
 
-    QBitmap bmp(this->size());
-    bmp.fill();
-    QPainter p(&bmp);
-    p.setPen(Qt::NoPen);
-    p.setBrush(Qt::black);
-    p.setRenderHint(QPainter::Antialiasing);
-    p.drawRoundedRect(bmp.rect(),6,6);
-    setMask(bmp);
-
-    setWindowFlags(Qt::FramelessWindowHint);
+    // 添加窗管协议
+    MotifWmHints hints;
+    hints.flags = MWM_HINTS_FUNCTIONS|MWM_HINTS_DECORATIONS;
+    hints.functions = MWM_FUNC_ALL;
+    hints.decorations = MWM_DECOR_BORDER;
+    XAtomHelper::getInstance()->setWindowMotifHint(this->winId(), hints);
     // 配置按钮
     btnSetup();
     initColor();
@@ -270,9 +237,9 @@ void Edit_page::slotsSetup()
         set_color_fort_page->show();
     });
 
-//    connect(m_noteHeadMenu, &noteHeadMenu::requestFullscreen, this, [=](){
-//        ShowFullScreenSlot();
-//    });
+    //connect(m_noteHeadMenu, &noteHeadMenu::requestFullscreen, this, [=](){
+    //    ShowFullScreenSlot();
+    //});
 }
 
 void Edit_page::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
@@ -730,16 +697,16 @@ void Edit_page::defaultBtnSlot()
     update();
 }
 
-//void Edit_page::ShowFullScreenSlot()
-//{
-//    if(!m_isFullscreen)
-//    {
-//        this->showFullScreen();
-//        m_isFullscreen = true;
-//    }
-//    else
-//    {
-//        this->showNormal();
-//        m_isFullscreen = false;
-//    }
-//}
+void Edit_page::ShowFullScreenSlot()
+{
+    if(!m_isFullscreen)
+    {
+        this->showFullScreen();
+        m_isFullscreen = true;
+    }
+    else
+    {
+        this->showNormal();
+        m_isFullscreen = false;
+    }
+}
