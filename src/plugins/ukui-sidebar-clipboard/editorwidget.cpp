@@ -55,8 +55,7 @@ EditorWidget::EditorWidget()
     m_pMainQVBoxLayout->addWidget(m_pOperationWidget);
     m_pMainQVBoxLayout->addItem(new QSpacerItem(20, 18));
     m_pMainQVBoxLayout->setSpacing(0);
-    this->setWindowFlags(Qt::FramelessWindowHint);
-
+    this->setWindowFlags(Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
     QScreen* pScreen = QGuiApplication::primaryScreen();
     QRect ScreenSize = pScreen->availableGeometry();
     int m_nScreenWidth = ScreenSize.width();        //屏幕分辨率的宽
