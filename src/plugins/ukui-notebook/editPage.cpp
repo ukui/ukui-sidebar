@@ -268,17 +268,17 @@ void Edit_page::fontChanged(const QFont &f)
         if (lfmt.style() == QTextListFormat::ListDisc) {
             ui->unorderedBtn->setChecked(true);
             ui->orderedBtn->setChecked(false);
-          } else if (lfmt.style() == QTextListFormat::ListDecimal) {
+        } else if (lfmt.style() == QTextListFormat::ListDecimal) {
             ui->unorderedBtn->setChecked(false);
             ui->orderedBtn->setChecked(true);
-          } else {
+        } else {
             ui->unorderedBtn->setChecked(false);
             ui->orderedBtn->setChecked(false);
-            }
-      } else {
+        }
+    } else {
         ui->unorderedBtn->setChecked(false);
         ui->orderedBtn->setChecked(false);
-      }
+    }
 }
 
 void Edit_page::fontColorChanged(const QColor &c)

@@ -836,6 +836,8 @@ void Widget::createNewNote()
         newSlot();
     });
     connect(m_notebook->m_noteHeadMenu, &noteHeadMenu::requestShowNote, this, [=]{
+        this->raise();
+        this->activateWindow();
         this->show();
     });
     connect(m_editors[m_editors.size() - 1], SIGNAL(texthasChanged(int,int)), this, SLOT(onTextEditTextChanged(int, int)));
@@ -1324,6 +1326,11 @@ void Widget::listDoubleClickSlot(const QModelIndex& index)
             selectNote(index);
             m_noteView->setCurrentRowActive(false);
         }
+        connect(m_notebook->m_noteHeadMenu, &noteHeadMenu::requestShowNote, this, [=]{
+            this->raise();
+            this->activateWindow();
+            this->show();
+        });
         connect(m_editors[m_editors.size() - 1], &Edit_page::requestDel, this, [=](int noteId){
             for(int count = 0; count <= m_proxyModel->rowCount();count ++)
             {
