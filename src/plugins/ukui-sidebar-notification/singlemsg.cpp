@@ -113,7 +113,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
     //放置时间和收纳删除按钮的窗口
     m_pTimeLabelWidget = new QWidget;
-    m_pTimeLabelWidget->setFixedSize(146, 20);
+    m_pTimeLabelWidget->setFixedSize(146, 25);
     QHBoxLayout* pTimeLableHLayout = new QHBoxLayout();
 
 
@@ -124,6 +124,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     //设置通知消息中的通知时间
     m_pTimeLabel = new QLabel();
     m_pTimeLabel->setObjectName("pushtime");
+    m_pTimeLabel->setFixedSize(55,25);
     m_pTimeLabel->setText(tr("now"));
     m_pTimeLabel->setAttribute(Qt::WA_TranslucentBackground);
 
@@ -162,7 +163,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
     //设置标签布局
     pTimeLableHLayout->addWidget(m_pTimeLabel, 0, Qt::AlignRight);
-    pTimeLableHLayout->addItem(new QSpacerItem(26, 10 , QSizePolicy::Fixed, QSizePolicy::Fixed));
+    pTimeLableHLayout->addItem(new QSpacerItem(3, 10 , QSizePolicy::Fixed, QSizePolicy::Fixed));
     pTimeLableHLayout->setContentsMargins(0, 0, 0, 0);
     pTimeLableHLayout->setSpacing(0);
     m_pTimeLabelWidget->setLayout(pTimeLableHLayout);
@@ -183,7 +184,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pIconHLayout->addItem(new QSpacerItem(6, 10, QSizePolicy::Fixed, QSizePolicy::Fixed));
     m_pIconHLayout->addWidget(pAppNameLabel, 0, Qt::AlignLeft|Qt::AlignVCenter);
     m_pIconHLayout->addItem(pHExpandSpacer);
-    m_pIconHLayout->addWidget(m_pTimeLabelWidget);
+    m_pIconHLayout->addWidget(m_pTimeLabelWidget, 0, Qt::AlignRight );
     m_pIconHLayout->addWidget(m_pStorageDeleteButtonWidget);
     m_pIconWidget->setLayout(m_pIconHLayout);
     pMainVLaout->addWidget(m_pIconWidget, 0);
