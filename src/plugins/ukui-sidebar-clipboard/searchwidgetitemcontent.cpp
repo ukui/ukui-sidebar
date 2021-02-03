@@ -50,7 +50,7 @@ SearchWidgetItemContent::SearchWidgetItemContent(QWidget *parent)
     m_pLineEditArea = new QLineEdit;
     m_pLineEditArea->setAttribute(Qt::WA_Hover, true);
     m_pLineEditArea->setStyle(new CustomStyle("ukui-default"));
-    m_pLineEditArea->setFixedSize(264, 30);
+    m_pLineEditArea->setFixedSize(264, 40);
     m_pLineEditArea->setObjectName("SearchLabel");
     m_pLineEditArea->setTextMargins(8, 0, 0, 0);
     m_pLineEditArea->setPlaceholderText(tr("search..."));

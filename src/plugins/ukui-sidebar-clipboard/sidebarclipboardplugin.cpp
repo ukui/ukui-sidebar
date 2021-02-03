@@ -117,7 +117,7 @@ void SidebarClipboardPlugin::createWidget()
     m_pShortcutOperationListWidget->setContentsMargins(0,0,0,0);
 
     m_pSearchWidgetListWidget      = new QListWidget;
-    m_pSearchWidgetListWidget->setFixedSize(400, 42);
+    m_pSearchWidgetListWidget->setFixedSize(400, 50);
     m_pSearchWidgetListWidget->setContentsMargins(0,0,0,0);
 }
 
@@ -191,6 +191,7 @@ void SidebarClipboardPlugin::createFindClipboardWidgetItem()
     QListWidgetItem *pListWidgetItem = new QListWidgetItem;
     pListWidgetItem->setFlags(Qt::NoItemFlags);
     m_pSearchArea = new SearchWidgetItemContent;
+    m_pSearchArea->setFixedHeight(50);
     connect(m_pSearchArea->m_pClearListWidgetButton, &QPushButton::clicked, this, &SidebarClipboardPlugin::removeAllWidgetItem);
 
     connect(m_pSearchArea->m_pLineEditArea, SIGNAL(textChanged(QString)), this, SLOT(searchClipboardLableTextSlots(QString)));
