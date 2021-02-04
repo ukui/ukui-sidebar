@@ -278,12 +278,15 @@ void listViewModeDelegate::paintLabels(QPainter* painter, const QStyleOptionView
     QStyleOptionViewItem opt = option;
     QString title{index.data(NoteModel::NoteFullTitle).toString()};
 
-    QFont titleFont = (option.state & QStyle::State_Selected) == QStyle::State_Selected ? m_titleSelectedFont : m_titleFont;
+    //QFont titleFont = (option.state & QStyle::State_Selected) == QStyle::State_Selected ? m_titleSelectedFont : m_titleFont;
+    QFont titleFont;
     QFontMetrics fmTitle(titleFont);
     QRect fmRectTitle = fmTitle.boundingRect(title);
 
+    QFont dateFont;
+    dateFont.setPointSize(9);
     QString date = parseDateTime(index.data(NoteModel::NoteLastModificationDateTime).toDateTime());
-    QFontMetrics fmDate(m_dateFont);
+    QFontMetrics fmDate(dateFont);
     QRect fmRectDate = fmDate.boundingRect(title);
 
     double rowPosX = option.rect.x();
@@ -343,7 +346,7 @@ void listViewModeDelegate::paintLabels(QPainter* painter, const QStyleOptionView
     title = fmTitle.elidedText(title, Qt::ElideRight, int(titleRectWidth));
 
     drawStr(titleRectPosX, titleRectPosY, titleRectWidth, titleRectHeight, opt.palette.color(QPalette::Text), titleFont, title);
-    drawStr(dateRectPosX, dateRectPosY, dateRectWidth, dateRectHeight, opt.palette.color(QPalette::Text), m_dateFont, date);
+    drawStr(dateRectPosX, dateRectPosY, dateRectWidth, dateRectHeight, opt.palette.color(QPalette::Text), dateFont, date);
 }
 
 QString listViewModeDelegate::parseDateTime(const QDateTime &dateTime) const
