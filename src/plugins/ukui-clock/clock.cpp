@@ -2002,6 +2002,7 @@ void Clock::countdownNoticeDialogShow()
     } else {
         countdownNoticeDialog->move(screen_width-450,screen_height-250);
     }
+    countdownNoticeDialog->music->setVolume(model_setup->index(0, 6).data().toInt());
     countdownNoticeDialog->timer->start();
     countdownNoticeDialog->timer_xumhuan->start();
     countdownNoticeDialog->show();
