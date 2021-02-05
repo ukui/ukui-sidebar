@@ -43,6 +43,10 @@
 #define UKUI_TRANSPARENCY_SETTING "org.ukui.control-center.personalise"
 #define UKUI_PANEL_SETTING "org.ukui.panel.settings"
 
+#define DBUS_NAME       "org.ukui.SettingsDaemon"
+#define DBUS_PATH       "/org/ukui/SettingsDaemon/xrandr"
+#define DBUS_INTERFACE  "org.ukui.SettingsDaemon.xrandr"
+
 class QGroupBox;
 class QGridLayout;
 class QVBoxLayout;
@@ -89,6 +93,11 @@ public:
     void MostGrandWidgetCoordinates();                                          // 根据任务栏位置调整侧边栏位置
     void InitializeHomeScreenGeometry();                                        // 初始化主屏的X坐标
     void setAllWidgetFont();                                                    // 监听gsetting，修改所有窗口的字体
+
+    void PrimaryManager();                                                      // 990获取屏幕坐标
+    void getScreenCoordinates();
+    int getScreenGeometry(QString methodName);
+    void priScreenChanged(int x, int y, int width, int height);
     bool m_bfinish;
 
 
@@ -127,6 +136,7 @@ private:
     QAction*                    OpenSetUp;
 
     QGSettings                  *m_pTransparency;                               // 插件的界面的透明度
+    QDBusInterface              *m_pDbusXrandInter;
 
 private slots :
     void onResolutionChanged(const QRect argc);                                 // 当改变屏幕分辨率时重新获取屏幕分辨率

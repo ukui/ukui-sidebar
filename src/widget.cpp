@@ -38,13 +38,15 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     initPanelDbusGsetting();
 
     /* 初始化屏幕 */
-    initDesktopPrimary();
+//    initDesktopPrimary();
+    PrimaryManager();
 
     /* 初始化主屏的X坐标 */
-    InitializeHomeScreenGeometry();
+//    InitializeHomeScreenGeometry();
+    getScreenCoordinates();
 
     /* 获取屏幕可用高度区域 */
-    GetsAvailableAreaScreen();
+//    GetsAvailableAreaScreen();
 
     /* 初始化动画 */
     initAimation();
@@ -706,7 +708,6 @@ void Widget::InitializeHomeScreenGeometry()
     if (count > 1) {
         m_nScreen_x = screen[0]->geometry().x();
         m_nScreen_y = screen[0]->geometry().y();
-
     } else {
         m_nScreen_x = 0;
         m_nScreen_y = 0;
@@ -794,6 +795,59 @@ void Widget::bootOptionsFilter(QString opt){
         m_bShowFlag = true;
         setIcon(QIcon::fromTheme("kylin-tool-box", QIcon(TRAY_ICON)));
     }
+}
+
+void Widget::PrimaryManager()
+{
+    //QDBusConnection conn = QDBusConnection::sessionBus();
+    m_pDbusXrandInter = new QDBusInterface(DBUS_NAME,
+                                         DBUS_PATH,
+                                         DBUS_INTERFACE,
+                                         QDBusConnection::sessionBus());
+    connect(m_pDbusXrandInter, SIGNAL(screenPrimaryChanged(int,int,int,int)),
+            this, SLOT(priScreenChanged(int,int,int,int)));
+
+}
+
+void Widget::getScreenCoordinates()
+{
+    m_nScreen_x = getScreenGeometry("x");
+    m_nScreen_y = getScreenGeometry("y");
+    m_nScreenWidth = getScreenGeometry("width");
+    m_nScreenHeight = getScreenGeometry("height");
+
+    qDebug("Start: Primary screen geometry is x=%d, y=%d, windth=%d, height=%d", \
+           m_nScreen_x, m_nScreen_y, m_nScreenWidth, m_nScreenHeight);
+}
+
+int Widget::getScreenGeometry(QString methodName)
+{
+    int res = 0;
+    QDBusMessage message = QDBusMessage::createMethodCall(DBUS_NAME,
+                               DBUS_PATH,
+                               DBUS_INTERFACE,
+                               methodName);
+    QDBusMessage response = QDBusConnection::sessionBus().call(message);
+    if (response.type() == QDBusMessage::ReplyMessage) {
+        if(response.arguments().isEmpty() == false) {
+            int value = response.arguments().takeFirst().toInt();
+            res = value;
+            qDebug() << value;
+        }
+    } else {
+        qDebug()<<methodName<<"called failed";
+    }
+    return res;
+}
+
+/* get primary screen changed */
+void Widget::priScreenChanged(int x, int y, int width, int height)
+{
+    qDebug("primary screen  changed, geometry is  x=%d, y=%d, windth=%d, height=%d", x, y, width, height);
+    m_nScreen_x = x;
+    m_nScreen_y = y;
+    m_nScreenWidth = width;
+    m_nScreenHeight = height;
 }
 
 /* 事件过滤器 */
