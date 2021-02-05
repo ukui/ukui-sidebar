@@ -97,7 +97,6 @@ public:
     void PrimaryManager();                                                      // 990获取屏幕坐标
     void getScreenCoordinates();
     int getScreenGeometry(QString methodName);
-    void priScreenChanged(int x, int y, int width, int height);
     bool m_bfinish;
 
 
@@ -155,6 +154,7 @@ private slots :
     void bootOptionsFilter(QString opt);                                        // 过滤当前的终端命令
     void XkbEventsPress(const QString &keycode);                                // 键盘按键按下事件
     void XkbEventsRelease(const QString &keycode);                              // 键盘按键弹出事件
+    void priScreenChanged(int x, int y, int width, int height);
 };
 
 #endif // WIDGET_H
