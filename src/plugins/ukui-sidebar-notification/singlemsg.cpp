@@ -462,6 +462,8 @@ void SingleMsg::enterEvent(QEvent *event)
         emit Sig_onMainEnter();
     }
     this->update();
+    QTimer::singleShot(50,[this]{this->update();});
+
     return;
 }
 
