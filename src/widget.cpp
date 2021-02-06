@@ -38,15 +38,10 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     initPanelDbusGsetting();
 
     /* 初始化屏幕 */
-//    initDesktopPrimary();
     PrimaryManager();
 
-    /* 初始化主屏的X坐标 */
-//    InitializeHomeScreenGeometry();
+    /* 初始化主屏的X坐标; 获取屏幕可用高度区域*/
     getScreenCoordinates();
-
-    /* 获取屏幕可用高度区域 */
-//    GetsAvailableAreaScreen();
 
     /* 初始化动画 */
     initAimation();
@@ -815,7 +810,11 @@ void Widget::getScreenCoordinates()
     m_nScreen_y = getScreenGeometry("y");
     m_nScreenWidth = getScreenGeometry("width");
     m_nScreenHeight = getScreenGeometry("height");
-
+    if (m_nScreenWidth == 0 || m_nScreenHeight == 0) {
+        initDesktopPrimary();
+        InitializeHomeScreenGeometry();
+        GetsAvailableAreaScreen();
+    }
     qDebug("Start: Primary screen geometry is x=%d, y=%d, windth=%d, height=%d", \
            m_nScreen_x, m_nScreen_y, m_nScreenWidth, m_nScreenHeight);
 }
