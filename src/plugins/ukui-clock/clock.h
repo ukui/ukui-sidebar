@@ -20,9 +20,9 @@
 #include <QPainterPath>
 #include <QWidget>
 #include <QTimer>
+#include <QTime>
 #include <QQueue>
 #include <QSlider>
-#include <QWidget>
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QPainter>
@@ -32,24 +32,63 @@
 #include <QFrame>
 #include <itemNew.h>
 #include <QListWidgetItem>
-#include "stopwatchItem.h"
 #include <QPaintEvent>
+#include <QPointF>
+#include <QLineEdit>
+#include <QPropertyAnimation>
+#include <QCloseEvent>
+#include <QMenu>
+#include <QFontDatabase>
+#include <math.h>
+#include <QTimerEvent>
+#include <QDialog>
+#include <QSpinBox>
+#include <QComboBox>
+#include <QLabel>
+#include <QPixmap>
+#include <QMatrix>
+#include <QFont>
+#include <QMediaPlaylist>
+#include <QUrl>
+#include <QMessageBox>
+#include <QSqlTableModel>
+#include <QSqlRecord>
+#include <QModelIndex>
+#include <QSqlQuery>
+#include <QFile>
+#include <QFileDialog>
+#include <QFileInfo>
+#include <QDebug>
+#include <unistd.h>
+#include <QMessageBox>
+#include <QBitmap>
+#include <QProcess>
+#include <QScreen>
+#include <QScroller>
+#include <QTranslator>
+#include <QDesktopWidget>
+#include <QGraphicsOpacityEffect>
+#include "stopwatchItem.h"
 #include "verticalScroll24.h"
 #include "verticalScroll60.h"
 #include "verticalScroll99.h"
 #include "dotlineDemo.h"
 #include "setAlarmRepeatDialog.h"
-#include <QPointF>
-#include <QLineEdit>
 #include "setupPage.h"
-#include <QPropertyAnimation>
 #include "adaptscreeninfo.h"
-#include <QCloseEvent>
 #include "about.h"
-#include <QMenu>
+#include "debug.h"
+#include "connection.h"
+#include "set_clock.h"
+#include "noticeDialog.h"
+#include "noticeAlarm.h"
+#include "ui_noticeAlarm.h"
+#include "deleteMsg.h"
+#include "ui_deleteMsg.h"
+#include "btnNew.h"
+#include "closeOrHide.h"
+#include "ui_setupPage.h"
 
-class QSpinBox;
-class QComboBox;
 class QDialog;
 class QSpinBox;
 class QComboBox;
@@ -58,7 +97,6 @@ class QFont;
 class QPushButton;
 class QMediaPlaylist;
 class QSqlTableModel;
-class QTimer;
 class Btn_new;
 class close_or_hide;
 
@@ -91,10 +129,6 @@ public:
     void showPaint7();
     void showPaint8();
 
-    void mousePressEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-
     Ui::Clock *ui;
     QSqlTableModel *model_setup;
 
@@ -118,6 +152,8 @@ public slots:
 
     void  drawNoAlarmPrompt();                                                           //绘制无闹钟提示
                                                                                          //Draw no alarm prompt
+    QString loadFontFamilyFromTTF();                                                     //字体设置
+
 
 private slots:
     void buttonImageInit();                                                              //闹钟按钮图片初始化
@@ -378,6 +414,7 @@ private:
     QMenu *popMenu_In_ListWidget_;                                  /*闹钟右键删除菜单*/
     QAction *action_Delete_In_ListWidget_ ;
     QAction *action_Clear_In_ListWidget_ ;                          /*闹钟右键删除动作*/
+    Natice_alarm *countdownNoticeDialog;
 };
 
 

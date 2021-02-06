@@ -49,27 +49,6 @@ border:0px solid rgba();</string>
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
-    <property name="geometry">
-     <rect>
-      <x>236</x>
-      <y>66</y>
-      <width>50</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">width:50px;
-border-image: url(:/alarm_off.png);
-height:24px;
-background:linear-gradient(0deg,rgba(39,207,129,1) 0%,rgba(39,207,129,0.9) 100%);
-border-radius:6px;
-border:0px solid rgba();</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <widget class="QSlider" name="horizontalSlider">
     <property name="geometry">
      <rect>

@@ -18,30 +18,27 @@
 #include "itemNew.h"
 #include<QApplication>
 #include <QDebug>
+#include <QFontDatabase>
 
 item_new::item_new(QWidget *parent) :
     QWidget(parent)
 {
     setupUi(this);
-//    this->setStyleSheet("border-radius:12px;");
-
     this->setFixedSize(340, 108);
 
     alarmLabel_w0 = new QLabel(this);//闹钟用途//Alarm function
-    alarmLabel_w0->move(25  ,4);
-    alarmLabel_w0->setFixedSize(170, 25);
+    alarmLabel_w0->move(27  ,6);
+    alarmLabel_w0->setFixedSize(200, 25);
     alarmLabel_w0->setText("闹钟");
 
-
     alarmLabel_s0 = new QLabel( this);//闹钟重复//Repetition of alarm clock
-    alarmLabel_s0->move(25, 76);
-    alarmLabel_s0->setFixedSize(170, 17);
+    alarmLabel_s0->move(27, 74);
+    alarmLabel_s0->setFixedSize(270, 17);
     alarmLabel_s0->setText("工作日");
     alarmLabel_s0->setVisible(true);
 
-
     alarmLabel0 = new QLabel(this);//闹钟//Alarm clock
-    alarmLabel0->move(25,20);
+    alarmLabel0->move(25,24);
     alarmLabel0->setFixedSize(105, 56);
     alarmLabel0->setText("00:00");
     alarmLabel0->setVisible(true);
@@ -54,14 +51,11 @@ item_new::item_new(QWidget *parent) :
     alarmLabel1->setText("上午");
     alarmLabel1->setVisible(true);
 
-
-    alarm_on_off0 = new QPushButton(this);//闹钟开关// Alarm switch
+    alarm_on_off0 = new CustomButton(this,54,24,1);//闹钟开关// Alarm switch
     alarm_on_off0->move(263,43);
-    alarm_on_off0->setFixedSize(50, 24);
     alarm_on_off0->setFlat(true);
     alarm_on_off0->setVisible(true);
-    alarm_on_off0->setStyleSheet("border-image: url(:/alarm_on.png);background-color: rgb();border-radius:7px;");
-
+    alarm_on_off0->myLabel->move(32,1);
     settingsStyle();
 }
 
@@ -77,7 +71,6 @@ void item_new::setupUi(QWidget *item_new)
     item_new->resize(376, 56);
     item_new->setStyleSheet(QString::fromUtf8("border-radius:12px;\n"
                                               ""));
-
     retranslateUi(item_new);
 
     QMetaObject::connectSlotsByName(item_new);
@@ -97,7 +90,7 @@ void item_new::settingsStyle()
     QStringList stylelist;
     QGSettings *style_settings = new QGSettings(style_id);
 
-    stylelist<<STYLE_NAME_KEY_DARK<<STYLE_NAME_KEY_BLACK<<STYLE_NAME_KEY_DEFAULT;
+    stylelist<<STYLE_NAME_KEY_DARK<<STYLE_NAME_KEY_BLACK; //<<STYLE_NAME_KEY_DEFAULT;
     if(QGSettings::isSchemaInstalled(style_id)){
         style_settings = new QGSettings(style_id);
         if(stylelist.contains(style_settings->get(STYLE_NAME).toString())){
@@ -118,17 +111,33 @@ void item_new::settingsStyle()
     });
 }
 
+//强制字体
+QString item_new::loadFontFamilyFromTTF()
+{
+    static QString font;
+    static bool loaded = false;
+    if(!loaded)
+    {
+        loaded = true;
+        int loadedFontID = QFontDatabase::addApplicationFont(":/image/DFPKingGothicGB-Semibold-2.ttf");
+        QStringList loadedFontFamilies = QFontDatabase::applicationFontFamilies(loadedFontID);
+        if(!loadedFontFamilies.empty())
+            font = loadedFontFamilies.at(0);
+    }
+    return font;
+}
+
 //黑色主题
 void item_new::blackStyle()
 {
     alarmLabel_w0->setStyleSheet("color:rgba(255,255,255,0.6);font-size:12px;"); //名字
     alarmLabel0->setStyleSheet("font-size:30px;");//时间
-    alarmLabel_s0->setStyleSheet("font-size:14px;color:rgba(255,255,255,0.94);");//重复
+    alarmLabel_s0->setStyleSheet("font-size:14px;color:rgba(255,255,255,0.94);font-size:12px;");//重复
 }
 //白色主题
 void item_new::whiteStyle()
 {
     alarmLabel_w0->setStyleSheet("color:rgba(0,0,0,0.5);font-size:12px;"); //名字
     alarmLabel0->setStyleSheet("font-size:30px;");//时间
-    alarmLabel_s0->setStyleSheet("font-size:14px;color:rgba(0,0,0,0.8);");//重复
+    alarmLabel_s0->setStyleSheet("font-size:14px;color:rgba(0,0,0,0.8);font-size:12px;");//重复
 }

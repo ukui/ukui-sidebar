@@ -17,56 +17,6 @@
 */
 #include "clock.h"
 #include "ui_clock.h"
-#include <QPainter>
-#include <math.h>
-#include <QTimerEvent>
-#include <QTime>
-#include <QTimer>
-#include <QDialog>
-#include <QSpinBox>
-#include <QComboBox>
-#include <QPushButton>
-#include <QLabel>
-#include <QPixmap>
-#include <QMatrix>
-#include <QFont>
-#include <QMediaPlayer>
-#include <QMediaPlaylist>
-#include <QUrl>
-#include <QMessageBox>
-#include <QSqlTableModel>
-#include <QSqlRecord>
-#include <QModelIndex>
-#include <QSqlQuery>
-#include <QFile>
-#include <QFileDialog>
-#include <QFileInfo>
-#include <QVBoxLayout>
-#include <QDebug>
-#include "debug.h"
-#include <unistd.h>
-#include <QTimer>
-#include <QTime>
-#include "connection.h"
-#include <QMessageBox>
-#include "itemNew.h"
-#include "set_clock.h"
-#include "stopwatchItem.h"
-#include "noticeDialog.h"
-#include <QBitmap>
-#include <QProcess>
-#include <QScreen>
-#include "noticeAlarm.h"
-#include "ui_noticeAlarm.h"
-#include "deleteMsg.h"
-#include "ui_deleteMsg.h"
-#include <QScroller>
-#include <QTranslator>
-#include <QDesktopWidget>
-#include "btnNew.h"
-#include "closeOrHide.h"
-#include "ui_setupPage.h"
-#include <QGraphicsOpacityEffect>
 
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 const double PI=3.141592;
@@ -90,6 +40,7 @@ Clock::Clock(QWidget *parent) :
     QPainterPath blurPath;
     setProperty("useSystemStyleBlur", true);
     setProperty("blurRegion", QRegion(blurPath.toFillPolygon().toPolygon()));//使用QPainterPath的api生成多边形Region
+    settingsStyle();
 
     mousePressed = 0;
     buttonImageInit();
@@ -110,31 +61,28 @@ Clock::Clock(QWidget *parent) :
     ui->listWidget ->setGridSize(QSize(340, 108+15));
     ui->listWidget_2 ->setGridSize(QSize(340, 58+10));
 
-    settingsStyle();
-
     m_pSreenInfo = new adaptScreenInfo();
-    qDebug()<<m_pSreenInfo->m_screenWidth<<m_pSreenInfo->m_screenHeight;
     move((m_pSreenInfo->m_screenWidth - this->width() + m_pSreenInfo->m_nScreen_x )/2, (m_pSreenInfo->m_screenHeight - this->height())/2);
-
-    pushcount = new QPushButton(ui->page_7);
-    pushcount->setFixedSize(40,40);
-    pushcount->setIconSize(QSize(16,16));
-    pushcount->move(109,15);
-    pushcount->setIcon(QIcon(":/icon-1.png"));
-    pushcount->setToolTip(tr("Count"));
 
     pushclock = new QPushButton(ui->page_7);
     pushclock->setFixedSize(40,40);
-    pushclock->setIconSize(QSize(16,16));
-    pushclock->move(175,15);
-    pushclock->setIcon(QIcon(":/icon-4-16x16.png"));
+    pushclock->move(109,15);
+    pushclock->setIcon(QIcon(":/image/alarm.png"));
+    pushclock->setIconSize(QSize(20, 20));
     pushclock->setToolTip(tr("Alarm"));
+
+    pushcount = new QPushButton(ui->page_7);
+    pushcount->setFixedSize(40,40);
+    pushcount->move(175,15);
+    pushcount->setIcon(QIcon(":/image/count.png"));
+    pushcount->setIconSize(QSize(20, 20));
+    pushcount->setToolTip(tr("Count"));
 
     pushstop = new QPushButton(ui->page_7);
     pushstop->setFixedSize(40,40);
-    pushstop->setIconSize(QSize(16,16));
     pushstop->move(241,15);
-    pushstop->setIcon(QIcon(":/icon-2.png"));
+    pushstop->setIcon(QIcon(":/image/stopwatch.png"));
+    pushstop->setIconSize(QSize(20, 20));
     pushstop->setToolTip(tr("Watch"));
 
     pushcount->setProperty("useIconHighlightEffect", true);
@@ -167,7 +115,7 @@ Clock::Clock(QWidget *parent) :
     shadow1->installEventFilter(this);
     ui->listWidget->installEventFilter(this);
 
-    ui->lineEdit->setStyleSheet("QLineEdit{background-color:transparent}");
+    ui->lineEdit->setStyleSheet("QLineEdit{background-color:transparent;color: rgb(148, 148, 148);}");
 
     QPalette palette2 = ui->count_stat->palette();
     QColor ColorPlaceholderText2(61,107,229,255);
@@ -204,8 +152,8 @@ Clock::Clock(QWidget *parent) :
 
     count_stat->setEnabled(false);
     ui->stackedWidget_4->setCurrentIndex(0);
-    drawNoAlarmPrompt();
-
+    drawNoAlarmPrompt();//绘制无闹钟提示图标
+    onMin_5btnClicked();//倒计时初始时间默认五分钟
     ui->label_6->hide();
     ui->label_7->hide();
     ui->label_15->hide();
@@ -217,6 +165,11 @@ Clock::Clock(QWidget *parent) :
     ui->label_12->hide();
     ui->label_13->hide();
     ui->pushButton_8->hide();
+    //字体设置
+    QString selfFont = loadFontFamilyFromTTF();
+    QFont f(selfFont);
+    f.setPixelSize(38);
+    ui->label_4->setFont(f);
 }
 
 Clock::~Clock()
@@ -255,7 +208,6 @@ void Clock::closeEvent(QCloseEvent *event)
         }
 }
 
-
 /*
 *监听主题
 */
@@ -265,7 +217,7 @@ void Clock::settingsStyle()
     QStringList stylelist;
     QGSettings *style_settings = new QGSettings(style_id);
 
-    stylelist<<STYLE_NAME_KEY_DARK<<STYLE_NAME_KEY_BLACK<<STYLE_NAME_KEY_DEFAULT;
+    stylelist<<STYLE_NAME_KEY_DARK<<STYLE_NAME_KEY_BLACK; //<<STYLE_NAME_KEY_DEFAULT;
     if(QGSettings::isSchemaInstalled(style_id)){
         style_settings = new QGSettings(style_id);
         if(stylelist.contains(style_settings->get(STYLE_NAME).toString())){
@@ -286,34 +238,17 @@ void Clock::settingsStyle()
     });
 }
 
-
 /*
 *闹钟按钮图片初始化
 * Alarm button picture initialization
 */
 void Clock::buttonImageInit()
 {
-    pixmap1 = QPixmap(":/icon-1.png");
-    pixmap1 = ChangeImageColor(pixmap1, QColor(255,255,255), QColor(0,0,0));
-    pixmap2 = QPixmap(":/icon-2.png");
-    pixmap3 = QPixmap(":/icon-3.png");
-    pixmap4 = QPixmap(":/icon-4-16x16.png");
-    pixmap5 = QPixmap(":/window-close-symbolic.png");
-    pixmap6 = QPixmap(":/window-minimize-symbolic.png");
-    pixmap7 = QPixmap(":/open-menu-symbolic.png");
-    pixmap8 = QPixmap(":/start_1.png");
-    pixmap9 = QPixmap(":/start_2.png");
-    pixmap10 = QPixmap(":/push_1.png");
-    pixmap11 = QPixmap(":/push_2.png");
-    bgPixmap = QPixmap(":/go-bottom-symbolic.png");
-    repeat_on_Pixmap = QPixmap(":/object-select-symbolic.png");
+    pixmap4 = QPixmap(":/image/icon-4-16x16.png");
+    repeat_on_Pixmap = QPixmap(":/image/object-select-symbolic.png");
     repeat_off_Pixmap = QPixmap("");
-    delBtnPixmap = QPixmap(":/deleteBtn.png");
-    on_pixmap = QPixmap(":/alarm_on.png");
-    off_pixmap = QPixmap(":/alarm_off.png");
-    clock_icon = QPixmap(":/kylin-alarm-clock.svg");
-    this->setWindowIcon(QIcon::fromTheme("kylin-alarm-clock",QIcon(":/kylin-alarm-clock.svg")));
-
+    this->setWindowIcon(QIcon::fromTheme("kylin-alarm-clock",QIcon(":/image/kylin-alarm-clock.svg")));
+    ui->label_2->setPixmap(QIcon::fromTheme("kylin-alarm-clock").pixmap(24,24));
     ui->pushButton->setIcon(pixmap4);
     ui->pushButton->setFlat(true);
     ui->pushButton->setVisible(true);
@@ -339,10 +274,16 @@ void Clock::buttonImageInit()
     ui->pushButton_5->setProperty("useIconHighlightEffect", 0x8);
     ui->pushButton_12->setProperty("useIconHighlightEffect", 0x2);
 
+    ui->pushButton_4->setToolTip(tr("Minimize"));
+    ui->pushButton_5->setToolTip(tr("Quit"));
+    ui->pushButton_12->setToolTip(tr("Menu"));
+
     count_sel = new Btn_new(0, tr("  Remind"), ui->page_4);
     count_sel->move(25,310);
     count_sel_1 = new Btn_new(0, tr("  Remind"), ui->page_5);
     count_sel_1->move(25,310);
+    count_sel->textLabel->setFixedSize(227, 36);
+    count_sel_1->textLabel->setFixedSize(227, 36);
 
     repeat_sel = new Btn_new(10, tr("  repeat"), ui->set_page);
     repeat_sel->move(25,248);
@@ -350,6 +291,7 @@ void Clock::buttonImageInit()
     time_sel->move(25,311);
     ring_sel = new Btn_new(0, tr("  ring time"), ui->set_page);
     ring_sel->move(25,311);
+    time_sel->textLabel->setFixedSize(227, 36);
 
     ring_sel->hide();
 }
@@ -380,6 +322,10 @@ void Clock::CountdownInit()
      Initialize countdown progress circle*/
     ui->page_5->RoundBar3->setValue(3600);
     ui->count_stat->raise();
+    countdownNoticeDialog = new Natice_alarm(360,-1);
+    countdownNoticeDialog->timer->stop();
+    countdownNoticeDialog->timer_xumhuan->stop();
+    countdownNoticeDialog->music->stop();
 }
 
 /*
@@ -413,8 +359,8 @@ void Clock::stopwatchInit()
     stopwatch_second = 0;
     stopwatch_isStarted = 0;
 
-    ui->label_4->move(90,136);
-    ui->label_5->move(90,210);
+    ui->label_4->move(90,125);
+    ui->label_5->move(90,173);
     ui->listWidget_2->move(25,230);
     ui->pushButton_Start->raise();
     ui->pushButton_ring->raise();
@@ -458,10 +404,8 @@ void Clock::clockInit()
     action_Delete_In_ListWidget_ = new QAction(tr("Delete"), this);
     action_Clear_In_ListWidget_ = new QAction(tr("ClearAll"), this);
     popMenu_In_ListWidget_->addAction(action_Delete_In_ListWidget_);
-//    popMenu_In_ListWidget_->addAction(action_Clear_In_ListWidget_);
 
     connect(this->action_Delete_In_ListWidget_, SIGNAL(triggered()), this, SLOT(deleteAlarm()));
-
     connect(ui->listWidget,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(listdoubleClickslot()));
     connect(ui->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(listClickslot()));
     connect(ui->pushButton_8, SIGNAL(clicked()), this, SLOT(deleteAlarm()) );
@@ -528,6 +472,7 @@ void Clock::clockInit()
         About *dialog = new About();
         dialog->exec();
     });
+
     connect(m_menuAction, SIGNAL(triggered()), this, SLOT(setUpPage()));
     connect(m_closeAction, SIGNAL(triggered()), this, SLOT(windowClosingClicked()));
 }
@@ -557,10 +502,10 @@ void Clock::setupInit()
     modelSetupSet(); /*设置数据库初始化
                         Set database initialization*/
     textTimerupdate();
-    ui->lineEdit->setMaxLength(8);/*限制闹钟名字长度为9个字符*/
+    ui->lineEdit->setMaxLength(16);/*限制闹钟名字长度为9个字符*/
 
     /*设置输入框无视空格*/
-    QRegExp rx = QRegExp("^[\u4e00-\u9fa5a-zA-Z]+$");
+    QRegExp rx = QRegExp("^[\u4E00-\u9FA5A-Za-z0-9_]+$");
     QRegExpValidator* validator = new QRegExpValidator(rx);
     ui->lineEdit->setValidator(validator);
 
@@ -652,7 +597,10 @@ void Clock::CountDown()
         stopwatch_s = QString::number(second);
     }
     ui->label_4->setText(stopwatch_h+":"+stopwatch_m+"."+stopwatch_s);
-
+    QString selfFont = loadFontFamilyFromTTF();
+    QFont f(selfFont);
+    f.setPixelSize(38);
+    ui->label_4->setFont(f);
     second++;
     if (second==100){
         minute++; second=0;
@@ -724,13 +672,13 @@ void Clock::stopwatchStartAnimation()
 {
     animation1 = new QPropertyAnimation(ui->label_4, "geometry");
     animation1->setDuration(1000);
-    animation1->setKeyValueAt(0, QRect(90, 136, 210, 61));
-    animation1->setEndValue(QRect(90, 0, 210, 61));
+    animation1->setKeyValueAt(0, QRect(90, 125, 210, 61));
+    animation1->setEndValue(QRect(90, 4, 210, 61));
     animation1->start();
 
     animation2 = new QPropertyAnimation(ui->label_5, "geometry");
     animation2->setDuration(1000);
-    animation2->setKeyValueAt(0, QRect(90, 210, 210, 41));
+    animation2->setKeyValueAt(0, QRect(90, 173, 210, 41));
     animation2->setEndValue(QRect(90, 55, 210, 41));
     animation2->start();
 
@@ -748,14 +696,14 @@ void Clock::stopwatchStopAnimation()
 {
     animation1 = new QPropertyAnimation(ui->label_4, "geometry");
     animation1->setDuration(1000);
-    animation1->setKeyValueAt(0, QRect(90, 0, 210, 61));
-    animation1->setEndValue(QRect(90, 136, 210, 61));
+    animation1->setKeyValueAt(0, QRect(90, 4, 210, 61));
+    animation1->setEndValue(QRect(90, 125, 210, 61));
     animation1->start();
 
     animation2 = new QPropertyAnimation(ui->label_5, "geometry");
     animation2->setDuration(1000);
     animation2->setKeyValueAt(0, QRect(90, 55, 210, 41));
-    animation2->setEndValue(QRect(90, 210, 210, 41));
+    animation2->setEndValue(QRect(90, 173, 210, 41));
     animation2->start();
 
     animation3 = new QPropertyAnimation(ui->listWidget_2, "geometry");
@@ -792,6 +740,10 @@ void Clock::onPushbuttonRingClicked()
         stopwatch_w[stopwatch_item_flag]->stopwatch1->setText(tr("count")+QString::number(stopwatch_item_flag+1));
         stopwatch_w[stopwatch_item_flag]->stopwatch2->setText(tr("interval ")+stopwatch_jg_h+":"+stopwatch_jg_m+"."+stopwatch_jg_s);
         stopwatch_w[stopwatch_item_flag]->stopwatch3->setText(stopwatch_h+":"+stopwatch_m+"."+stopwatch_s);
+        QString selfFont = loadFontFamilyFromTTF();
+        QFont f(selfFont);
+        f.setPixelSize(24);
+        stopwatch_w[stopwatch_item_flag]->stopwatch3->setFont(f);
 
         ui->listWidget_2->setItemWidget(stopwatch_aItem[stopwatch_item_flag],stopwatch_w[stopwatch_item_flag]);
 
@@ -833,7 +785,6 @@ void Clock::onPushbuttonTimeselectClicked()
         palette.setColor(QPalette::Button,QColor(61,107,229,255));
         palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
         ui->pushButton_Start->setPalette(palette);
-
 
         for (int i=0; i < stopwatch_item_flag; i++) {
             delete stopwatch_w[i];
@@ -881,8 +832,11 @@ void Clock::windowMinimizingClicked()
  */
 void Clock:: CountdownPageSwitch ()
 {
-    ui->stackedWidget->setCurrentIndex(0);
+    pushclock->setIcon(QIcon(":/image/alarm.png"));
+    pushcount->setIcon(QIcon(":/image/countselect.png"));
+    pushstop->setIcon(QIcon(":/image/stopwatch.png"));
 
+    ui->stackedWidget->setCurrentIndex(0);
     QPalette palette = pushcount->palette();
     QColor ColorPlaceholderText(61,107,229,255);
     QBrush brush2;
@@ -906,8 +860,11 @@ void Clock:: CountdownPageSwitch ()
  */
 void Clock:: AlarmPageSwitch ()
 {
-    ui->stackedWidget->setCurrentIndex(1);
+    pushclock->setIcon(QIcon(":/image/alarmselect.png"));
+    pushcount->setIcon(QIcon(":/image/count.png"));
+    pushstop->setIcon(QIcon(":/image/stopwatch.png"));
 
+    ui->stackedWidget->setCurrentIndex(1);
     QPalette palette = pushclock->palette();
     QColor ColorPlaceholderText(61,107,229,255);
     QBrush brush2;
@@ -931,8 +888,11 @@ void Clock:: AlarmPageSwitch ()
  */
 void Clock:: StopwatchPageSwitch ()
 {
-    ui->stackedWidget->setCurrentIndex(2);
+    pushclock->setIcon(QIcon(":/image/alarm.png"));
+    pushcount->setIcon(QIcon(":/image/count.png"));
+    pushstop->setIcon(QIcon(":/image/stopwatchselect.png"));
 
+    ui->stackedWidget->setCurrentIndex(2);
     QPalette palette = pushstop->palette();
     QColor ColorPlaceholderText(61,107,229,255);
     QBrush brush2;
@@ -1149,7 +1109,7 @@ void Clock::noticeDialogShow(int close_time, int alarm_num)
     if (model_setup->index(0, 3).data().toInt()) {
         dialog1->showFullScreen();
     } else {
-        dialog1->move(screen_width-450,screen_height-300);
+        dialog1->move(screen_width-450,screen_height-250);
     }
     dialog1->show();
 }
@@ -1186,8 +1146,13 @@ void Clock::updateAlarmClock()
 
         if (system_time_flag) {
             changeTimeNum(hour_now,min_now);//转换int为QString
-                                              // Convert int to qstring
-            w1[alarmNum]->alarmLabel0->setText(alarmHour_str+" : "+alarmMinute_str);
+            // Convert int to qstring
+            w1[alarmNum]->alarmLabel0->setText(alarmHour_str+":"+alarmMinute_str);
+            QString selfFont = loadFontFamilyFromTTF();
+            QFont f(selfFont);
+            f.setPixelSize(38);
+            w1[alarmNum]->alarmLabel0->setFont(f);
+
             w1[alarmNum]->alarmLabel1->hide();
         } else {
             if (hour_now >= 12) {
@@ -1209,9 +1174,9 @@ void Clock::updateAlarmClock()
         /*闹钟开关
          Alarm switch*/
         if (model->index(alarmNum, 3).data().toInt() == 1) {
-            w1[alarmNum]->alarm_on_off0->setStyleSheet("border-image: url(:/alarm_off.png); border-radius:7px;");
+            w1[alarmNum]->alarm_on_off0->initClose();
         } else {
-            w1[alarmNum]->alarm_on_off0->setStyleSheet("border-image: url(:/alarm_on.png); border-radius:7px;");
+            w1[alarmNum]->alarm_on_off0->initOpen();
         }
         w1[alarmNum]->alarmLabel_w0->setText(model->index(alarmNum, 14).data().toString());
 
@@ -1222,19 +1187,19 @@ void Clock::updateAlarmClock()
         for (int i=0; i<7; i++) {
             if (model->index(alarmNum, 6+i).data().toInt()) {
                 if(i == 0){
-                    werk_day = werk_day + tr("Mon");
+                    werk_day = werk_day + tr("Mon")+"  ";
                 }else if(i == 1){
-                    werk_day = werk_day + tr("Tue");
+                    werk_day = werk_day + tr("Tue")+"  ";
                 }else if(i == 2){
-                    werk_day = werk_day + tr("Wed");
+                    werk_day = werk_day + tr("Wed")+"  ";
                 }else if(i == 3){
-                    werk_day = werk_day + tr("Thu");
+                    werk_day = werk_day + tr("Thu")+"  ";
                 }else if(i == 4){
-                    werk_day = werk_day + tr("Fri");
+                    werk_day = werk_day + tr("Fri")+"  ";
                 }else if(i == 5){
-                    werk_day = werk_day + tr("Sat");
+                    werk_day = werk_day + tr("Sat")+"  ";
                 }else if(i == 6){
-                    werk_day = werk_day + tr("Sun");
+                    werk_day = werk_day + tr("Sun")+"  ";
                 }
             }else{
                 werk = 1;
@@ -1500,14 +1465,11 @@ void Clock::alarmCancelSave()
  */
 void Clock::listdoubleClickslot()
 {
-//    ui->set_page->show();
     ui->stackedWidget->setCurrentIndex(3);
-//    ui->pushButton_8->show();
     ui->pushButton_9->show();
     ui->set_alarm_savebtn->hide();
     timer_alarm_start24->m_currentValue=model->index(ui->listWidget->currentRow(), 0).data().toInt();
     timer_alarm_start60->m_currentValue=model->index(ui->listWidget->currentRow(), 1).data().toInt();
-//    ui->set_page->raise();
     timer_set_page->start();
     ui->label_13->setText(tr("Edit alarm clock"));
     repeat_new_or_edit_flag = 1;
@@ -1521,19 +1483,19 @@ void Clock::listdoubleClickslot()
     for (int i=0; i<7; i++) {
         if (model->index(num, 6+i).data().toInt()) {
             if(i == 0){
-                werk_day = werk_day + tr("Mon");
+                werk_day = werk_day + tr("Mon")+"  ";
             }else if(i == 1){
-                werk_day = werk_day + tr("Tue");
+                werk_day = werk_day + tr("Tue")+"  ";
             }else if(i == 2){
-                werk_day = werk_day + tr("Wed");
+                werk_day = werk_day + tr("Wed")+"  ";
             }else if(i == 3){
-                werk_day = werk_day + tr("Thu");
+                werk_day = werk_day + tr("Thu")+"  ";
             }else if(i == 4){
-                werk_day = werk_day + tr("Fri");
+                werk_day = werk_day + tr("Fri")+"  ";
             }else if(i == 5){
-                werk_day = werk_day + tr("Sat");
+                werk_day = werk_day + tr("Sat")+"  ";
             }else if(i == 6){
-                werk_day = werk_day + tr("Sun");
+                werk_day = werk_day + tr("Sun")+"  ";
             }
         }else{
             werk = 1;
@@ -1887,20 +1849,18 @@ void Clock::deleteAlarm()
 void Clock::OnOffAlarm()
 {
     int i=0 ;
-    QPushButton *btn = qobject_cast<QPushButton*>(QObject::sender());
+    CustomButton *btn = qobject_cast<CustomButton*>(QObject::sender());
     while (btn != w1[i]->alarm_on_off0) {
         i++;
     }
     if (model->index(i, 3).data().toInt() == 0) {
-        btn->setStyleSheet("border-image: url(:/alarm_off.png);border-radius:7px;");
+        btn->closeSlot();
         qDebug() << "off";
-
         model->setData(model->index(i, 3), int(1));
         model->submitAll();
     } else {
-        btn->setStyleSheet("border-image: url(:/alarm_on.png);border-radius:7px;");
+        btn->openSlot();
         qDebug() << "on";
-
         model->setData(model->index(i, 3), int(0));
         model->submitAll();
     }
@@ -1911,9 +1871,7 @@ void Clock::OnOffAlarm()
  */
 void Clock::offAlarm(int i)
 {
-    w1[i]->alarm_on_off0->setStyleSheet("border-image: url(:/alarm_off.png);border-radius:7px;");
-    qDebug() << "on";
-
+    w1[i]->alarm_on_off0->closeSlot();
     model->setData(model->index(i, 3), int(1));
     model->submitAll();
 
@@ -2000,13 +1958,15 @@ void Clock::statCountdown(){
         s = QString::number(countdown_second);
     }
     ui->label_9->setText(h+":"+m+":"+s);
-
-    qDebug()<<countdown_second;
+    QString selfFont = loadFontFamilyFromTTF();
+    QFont f(selfFont);
+    f.setPixelSize(40);
+    ui->label_9->setFont(f);
 
     if (countdown_hour==0 && countdown_minute==0 && (countdown_second)==0) {
+        startbtnCountdown();
         countdown_timer->stop();
         countdownNoticeDialogShow();
-        startbtnCountdown();
     }
 
     countdown_second--;
@@ -2032,17 +1992,21 @@ void Clock::countdownNoticeDialogShow()
     int screen_width = mm.width();
     int screen_height = mm.height();
     model_setup->select();
-    Natice_alarm *dialog1 = new Natice_alarm(360,-1);
-    dialog1->ui->label_4->setText(tr("360 Seconds to close"));
-    dialog1->ui->label_2->hide();
-    dialog1->ui->label->setText(tr("Count down"));
-    dialog1->ui->label_3->setText(tr("Time out"));
+    countdownNoticeDialog->timer_value = 359;
+    countdownNoticeDialog->ui->label_4->setText(tr("360 Seconds to close"));
+    countdownNoticeDialog->ui->label_2->hide();
+    countdownNoticeDialog->ui->label->setText(tr("Count down"));
+    countdownNoticeDialog->ui->label_3->setText(tr("Time out"));
     if (model_setup->index(0, 3).data().toInt()) {
-        dialog1->showFullScreen();
+        countdownNoticeDialog->showFullScreen();
     } else {
-        dialog1->move(screen_width-450,screen_height-300);
+        countdownNoticeDialog->move(screen_width-450,screen_height-250);
     }
-    dialog1->show();
+    countdownNoticeDialog->music->setVolume(model_setup->index(0, 6).data().toInt());
+    countdownNoticeDialog->timer->start();
+    countdownNoticeDialog->timer_xumhuan->start();
+    countdownNoticeDialog->show();
+    countdownNoticeDialog->music->play();
 }
 
 /*
@@ -2061,7 +2025,7 @@ void Clock::startbtnCountdown(){
         ui->count_stat->setText(tr("End"));
         ui->stackedWidget_4->setCurrentIndex(1);
         setcoutdownNumber(timer_ring99->m_currentValue, timer_ring60->m_currentValue, timer_ring60_2->m_currentValue);//获取转轮当前值
-        countdown_second--;
+        statCountdown();//提前进行一次数字减小，对其时间显示与光圈显示；
         countdown_timer->start();
         ui->page_5->timer->start();
     } else {
@@ -2470,13 +2434,13 @@ void Clock::repeatListclickslot()
 {
     int num=dialog_repeat->listWidget->currentRow();
     QString day[7] ;
-    day[0]= tr("Mon");
-    day[1] = tr("Tue");
-    day[2] = tr("Wed");
-    day[3] = tr("Thu");
-    day[4] = tr("Fri");
-    day[5] = tr("Sat");
-    day[6] = tr("Sun");
+    day[0]= tr("Mon")+"  ";
+    day[1] = tr("Tue")+"  ";
+    day[2] = tr("Wed")+"  ";
+    day[3] = tr("Thu")+"  ";
+    day[4] = tr("Fri")+"  ";
+    day[5] = tr("Sat")+"  ";
+    day[6] = tr("Sun")+"  ";
 
     switch (num)
     {
@@ -2776,7 +2740,7 @@ void Clock::setUpPage()
     if(!setup_page){
         setup_page = new setuppage(position1.x(), position1.y(),  this);
         connect(setup_page->ui->pushButton, SIGNAL(clicked()), this, SLOT(alarmClcokSelfStarting()) );
-        connect(setup_page->ui->pushButton_2, SIGNAL(clicked()), this, SLOT(MuteStarting()) );
+        connect(setup_page->muteBtn, SIGNAL(clicked()), this, SLOT(MuteStarting()) );
         connect(setup_page->ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(setVolumeValue(int)));
         grand = new QWidget(setup_page->ui->widget);
     }
@@ -2795,13 +2759,9 @@ void Clock::setUpPage()
         setup_page->ui->pushButton->setStyleSheet("border-image: url(:/alarm_off.png);");
     }
     if (model_setup->index(0, 1).data().toInt()) {
-        setup_page->ui->pushButton_2->setStyleSheet("border-image: url(:/alarm_on.png);\
-                                                    border-radius:6px;\
-                border:0px solid rgba();");
+        setup_page->muteBtn->openSlot();
     } else {
-        setup_page->ui->pushButton_2->setStyleSheet("border-image: url(:/alarm_off.png);\
-                                                    border-radius:6px;\
-                border:0px solid rgba();");
+        setup_page->muteBtn->closeSlot();
     }
     setup_page->ui->horizontalSlider->setValue(model_setup->index(0, 6).data().toInt());
 
@@ -2839,18 +2799,14 @@ void Clock::alarmClcokSelfStarting()
 void Clock::MuteStarting()
 {
     if (model_setup->index(0, 1).data().toInt()) {
-        setup_page->ui->pushButton_2->setStyleSheet("border-image: url(:/alarm_off.png);\
-                                                    border-radius:6px;\
-                                                    border:0px solid rgba();");
+        setup_page->muteBtn->closeSlot();
         model_setup->setData(model_setup->index(0, 1), 0);
         grand->hide();
         model_setup->setData(model_setup->index(0, 6),model_setup->index(0, 18).data().toInt());//滑动条记忆回复
                                                                                                 // Slider memory recall
         setup_page->ui->horizontalSlider->setValue(model_setup->index(0, 6).data().toInt());
     } else {
-        setup_page->ui->pushButton_2->setStyleSheet("border-image: url(:/alarm_on.png);\
-                                                    border-radius:6px;\
-                                                    border:0px solid rgba();");
+        setup_page->muteBtn->openSlot();
         model_setup->setData(model_setup->index(0, 1), 1);
 
         model_setup->setData(model_setup->index(0, 18),model_setup->index(0, 6).data().toInt());//记忆滑动条
@@ -3044,6 +3000,9 @@ void Clock::showPaint8()
     }
 }
 
+/*窗口拖动事件，
+ *添加原因为：通用窗口拖动事件导致窗口周边大约8像素左右无法拖动。
+ *注释原因为：非系统窗口拖动事件会导致在4K屏幕下，拖动光标偏移现象。
 void Clock::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
@@ -3052,30 +3011,48 @@ void Clock::mousePressEvent(QMouseEvent *event)
     }
     QWidget::mousePressEvent(event);
 }
-
 void Clock::mouseReleaseEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
         this->mousePressed = false;
         this->setCursor(Qt::ArrowCursor);
     }
-
     QWidget::mouseReleaseEvent(event);
 }
-
 void Clock::mouseMoveEvent(QMouseEvent *event)
 {
     if (this->mousePressed) {
         move(event->globalPos() - this->dragPosition);
         this->setCursor(Qt::ClosedHandCursor);
     }
-
     QWidget::mouseMoveEvent(event);
+}*/
+
+//字体设置 华康金刚黑Semibold
+QString Clock::loadFontFamilyFromTTF()
+{
+    static QString font;
+    static bool loaded = false;
+    if(!loaded)
+    {
+        loaded = true;
+        int loadedFontID = QFontDatabase::addApplicationFont(":/image/DFPKingGothicGB-Semibold-2.ttf");
+        QStringList loadedFontFamilies = QFontDatabase::applicationFontFamilies(loadedFontID);
+        if(!loadedFontFamilies.empty())
+            font = loadedFontFamilies.at(0);
+    }
+    return font;
 }
 
 //黑色主题
 void  Clock::blackStyle()
 {
+    ui->label_4->setStyleSheet("color: rgba(255, 255, 255, 0.9);font-size:38px;");
+    QString selfFont = loadFontFamilyFromTTF();
+    QFont f(selfFont);
+    f.setPixelSize(38);
+    ui->label_4->setFont(f);
+    ui->label_9->setStyleSheet("color: rgba(255, 255, 255, 0.9)");
     ui->noAlarmIcon->setPixmap(QPixmap(":/image/noClockBlack.png"));
     ui->noAlarm->setStyleSheet("color: rgba(255, 255, 255, 0.6);font-size:16px;");
     ui->listWidget->setStyleSheet("QListWidget{background-color: rgba(0, 0, 0, 0);}\
@@ -3092,6 +3069,12 @@ void  Clock::blackStyle()
 //白色主题
 void  Clock::whiteStyle()
 {
+    ui->label_4->setStyleSheet("color: rgba(49, 66, 89, 1);font-size:38px;");
+    QString selfFont = loadFontFamilyFromTTF();
+    QFont f(selfFont);
+    f.setPixelSize(38);
+    ui->label_4->setFont(f);
+    ui->label_9->setStyleSheet("color: rgba(49, 66, 89, 1)");
     ui->noAlarmIcon->setPixmap(QPixmap(":/image/noClockWhite.png"));
     ui->noAlarm->setStyleSheet("color: rgba(49, 66, 89, 0.6);font-size:16px;");
     ui->listWidget->setStyleSheet("QListWidget{background-color: rgba(0, 0, 0, 0);}\

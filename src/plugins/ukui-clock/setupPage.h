@@ -26,6 +26,7 @@
 #include <btnNew.h>
 #include <setUpBtnNew.h>
 #include <QGSettings/QGSettings>
+#include "CustomButton.h"
 
 namespace Ui {
 class setuppage;
@@ -51,6 +52,7 @@ public:
     set_alarm_repeat_Dialog * Pop_up_window = nullptr;
     set_alarm_repeat_Dialog * Reminder_off = nullptr;
     set_alarm_repeat_Dialog * Default_ringtone = nullptr;
+    CustomButton * muteBtn;
 
     void showEvent(QShowEvent *event)
 

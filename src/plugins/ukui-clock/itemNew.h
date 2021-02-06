@@ -24,6 +24,7 @@
 #include <QLabel>
 #include <QFrame>
 #include <QGSettings>
+#include "CustomButton.h"
 
 #define ORG_UKUI_STYLE            "org.ukui.style"
 #define STYLE_NAME                "styleName"
@@ -52,6 +53,8 @@ public:
     void  settingsStyle();
     void  blackStyle();                                                                  //黑色主题
     void  whiteStyle();                                                                  //白色主题
+    QString loadFontFamilyFromTTF();                                                     //字体设置
+
 
     Ui::item_new *ui;
 
@@ -61,7 +64,7 @@ public:
     QLabel *alarmLabel_w0;
     QLabel *alarmLabel_s0;
 
-    QPushButton *alarm_on_off0;
+    CustomButton *alarm_on_off0;
     QPushButton *alarm_changed0;
     QPushButton *alarm_edit0;
 

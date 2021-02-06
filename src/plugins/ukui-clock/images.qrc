@@ -1,38 +1,24 @@
 <RCC>
     <qresource prefix="/">
-        <file>alarm_off.png</file>
-        <file>alarm_on.png</file>
-        <file>icon-4-16x16.png</file>
-        <file>icon-1.png</file>
-        <file>icon-2.png</file>
-        <file>icon-3.png</file>
-        <file>open-menu-symbolic.png</file>
-        <file>window-close-symbolic.png</file>
-        <file>window-minimize-symbolic.png</file>
-        <file>push_1.png</file>
-        <file>push_2.png</file>
-        <file>start_1.png</file>
-        <file>start_2.png</file>
-        <file>continu.png</file>
-        <file>sax.mp3</file>
-        <file>object-select-symbolic.png</file>
-        <file>go-bottom-symbolic.png</file>
         <file>clock.ico</file>
-        <file>kylin-alarm-clock.svg</file>
-        <file>image/close_light.png</file>
-        <file>image/close2.png</file>
-        <file>image/close3.png</file>
-        <file>image/mini_light.png</file>
-        <file>image/mini2.png</file>
-        <file>image/mini3.png</file>
-        <file>image/more_light.png</file>
-        <file>image/more2.png</file>
-        <file>image/more3.png</file>
-        <file>image/aptdaemon-error.png</file>
         <file alias="ukui-clock_tr.qm">../../../translations/ukui-clock/ukui-clock_tr.qm</file>
         <file alias="ukui-clock_zh_CN.qm">../../../translations/ukui-clock/ukui-clock_zh_CN.qm</file>
-        <file>image/kylin-alarm-clock.png</file>
         <file>image/noClockWhite.png</file>
         <file>image/noClockBlack.png</file>
+        <file>image/HuaKangJinGangHei-Regular-2.ttf</file>
+        <file>image/DFPKingGothicGB-Semibold-2.ttf</file>
+        <file>image/alarm.png</file>
+        <file>image/count.png</file>
+        <file>image/stopwatch.png</file>
+        <file>image/stopwatchselect.png</file>
+        <file>image/alarmselect.png</file>
+        <file>image/countselect.png</file>
+        <file>image/aptdaemon-error.png</file>
+        <file>image/siyuanheiti_CN_Medium.otf</file>
+        <file>image/kylin-alarm-clock.png</file>
+        <file>image/go-bottom-symbolic.png</file>
+        <file>image/object-select-symbolic.png</file>
+        <file>image/icon-4-16x16.png</file>
+        <file>image/kylin-alarm-clock.svg</file>
     </qresource>
 </RCC>
