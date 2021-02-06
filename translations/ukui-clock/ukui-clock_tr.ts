@@ -378,6 +378,21 @@
         <translation>Bardak</translation>
     </message>
     <message>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="277"/>
+        <source>Minimize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="278"/>
+        <source>Quit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="279"/>
+        <source>Menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="516"/>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1333"/>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1523"/>
@@ -461,19 +476,8 @@
         <translation>Pzt</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="277"/>
-        <source>minimize</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="278"/>
         <source>close</source>
-        <translation type="unfinished">Kapat</translation>
-    </message>
-    <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="279"/>
-        <source>menu</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Kapat</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="404"/>

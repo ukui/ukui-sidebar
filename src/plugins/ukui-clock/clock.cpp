@@ -274,9 +274,9 @@ void Clock::buttonImageInit()
     ui->pushButton_5->setProperty("useIconHighlightEffect", 0x8);
     ui->pushButton_12->setProperty("useIconHighlightEffect", 0x2);
 
-    ui->pushButton_4->setToolTip(tr("minimize"));
-    ui->pushButton_5->setToolTip(tr("close"));
-    ui->pushButton_12->setToolTip(tr("menu"));
+    ui->pushButton_4->setToolTip(tr("Minimize"));
+    ui->pushButton_5->setToolTip(tr("Quit"));
+    ui->pushButton_12->setToolTip(tr("Menu"));
 
     count_sel = new Btn_new(0, tr("  Remind"), ui->page_4);
     count_sel->move(25,310);

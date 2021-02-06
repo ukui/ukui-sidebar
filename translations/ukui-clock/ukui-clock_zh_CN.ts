@@ -389,6 +389,24 @@
         <translation>秒表</translation>
     </message>
     <message>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="277"/>
+        <source>Minimize</source>
+        <translatorcomment>最小化</translatorcomment>
+        <translation>最小化</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="278"/>
+        <source>Quit</source>
+        <translatorcomment>退出</translatorcomment>
+        <translation>退出</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="279"/>
+        <source>Menu</source>
+        <translatorcomment>菜单</translatorcomment>
+        <translation>菜单</translation>
+    </message>
+    <message>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="404"/>
         <source>Delete</source>
         <translatorcomment>删除</translatorcomment>
@@ -533,22 +551,19 @@
         <translation>玻璃</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="277"/>
         <source>minimize</source>
         <translatorcomment>最小化</translatorcomment>
-        <translation>最小化</translation>
+        <translation type="vanished">最小化</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="278"/>
         <source>close</source>
         <translatorcomment>关闭</translatorcomment>
-        <translation>关闭</translation>
+        <translation type="vanished">关闭</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/clock.cpp" line="279"/>
         <source>menu</source>
         <translatorcomment>菜单</translatorcomment>
-        <translation>菜单</translation>
+        <translation type="vanished">菜单</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="516"/>
