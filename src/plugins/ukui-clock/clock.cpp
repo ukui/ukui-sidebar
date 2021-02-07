@@ -912,7 +912,6 @@ void Clock:: StopwatchPageSwitch ()
     palette1.setColor(QPalette::Button,QColor(255,255,255,102));
     pushclock->setPalette(palette1);
     pushcount->setPalette(palette1);
-
 }
 
 /*
