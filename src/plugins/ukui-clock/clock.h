@@ -105,9 +105,11 @@ class close_or_hide;
 #define STYLE_NAME                "styleName"
 #define STYLE_NAME_KEY_DARK       "ukui-dark"
 #define STYLE_NAME_KEY_DEFAULT    "ukui-default"
-#define STYLE_NAME_KEY_BLACK       "ukui-black"
-#define STYLE_NAME_KEY_LIGHT       "ukui-light"
-#define STYLE_NAME_KEY_WHITE       "ukui-white"
+#define STYLE_NAME_KEY_BLACK      "ukui-black"
+#define STYLE_NAME_KEY_LIGHT      "ukui-light"
+#define STYLE_NAME_KEY_WHITE      "ukui-white"
+#define STYLE_ICON                "icon-theme-name"
+#define STYLE_ICON_NAME           "iconThemeName"
 
 namespace Ui {
 class Clock;
@@ -143,7 +145,7 @@ public slots:
     void  AlarmPageSwitch ();                                                            //闹钟窗口切换
                                                                                          // Alarm window switching
     void  StopwatchPageSwitch ();                                                        //秒表窗口切换
-                                                                                         // Stopwatch window switch
+                                                                                         // Stopwatch window switc
     void  settingsStyle();                                                               //监听主题
 
     void  blackStyle();                                                                  //黑色主题

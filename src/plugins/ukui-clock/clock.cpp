@@ -229,11 +229,16 @@ void Clock::settingsStyle()
 
     connect(style_settings, &QGSettings::changed, this, [=] (const QString &key){
         if(key==STYLE_NAME){
+            qDebug()<<"STYLE_NAME : "<<key;
             if(stylelist.contains(style_settings->get(STYLE_NAME).toString())){
                 blackStyle();
             }else{
                 whiteStyle();
             }
+        }
+        if(key==STYLE_ICON_NAME || key==STYLE_ICON){
+            qDebug()<<"STYLE_ICON_NAME : "<<key;
+            setWindowIcon(QIcon::fromTheme("kylin-alarm-clock",QIcon(":/image/kylin-alarm-clock.svg")));
         }
     });
 }
