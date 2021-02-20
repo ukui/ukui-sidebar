@@ -263,6 +263,7 @@ void Widget::kyNoteInit()
     //任务栏图标
     setWindowIcon(QIcon::fromTheme("kylin-notebook"));
     ui->iconLabel->setPixmap(QIcon::fromTheme("kylin-notebook").pixmap(24,24));
+    ui->titleLabel->setText(tr("Kylin Memo"));
     //按钮
     btnInit();
     //搜索

@@ -23,6 +23,7 @@ About::About(QWidget *parent) :
     XAtomHelper::getInstance()->setWindowMotifHint(this->winId(), hints);
 
     ui->iconLabel->setPixmap(QIcon::fromTheme("kylin-notebook").pixmap(24,24));
+    ui->titleLabel->setText(tr("Kylin Memo"));
     ui->closeBtn->setIcon(QIcon::fromTheme("window-close-symbolic"));
     ui->closeBtn->setProperty("isWindowButton", 0x2);
     ui->closeBtn->setProperty("useIconHighlightEffect", 0x8);
@@ -38,6 +39,7 @@ About::About(QWidget *parent) :
                            "style=\"color: palette(buttonText)\">"
                            "support@kylinos.cn</a>");
     ui->appiconLabel->setPixmap(QIcon::fromTheme("kylin-notebook").pixmap(96,96));
+    ui->appnameLabel->setText(tr("Kylin Memo"));
     ui->introduceLabel->setText(tr("Kylin Memo is a self-developed sidebar application plug-in, "
                                    "which provides a rich interface, convenient operation and stable functions, "
                                    "aiming at a friendly user experience."));

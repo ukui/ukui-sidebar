@@ -82,7 +82,7 @@
        <item>
         <widget class="QLabel" name="titleLabel">
          <property name="text">
-          <string>Kylin Note</string>
+          <string/>
          </property>
         </widget>
        </item>
@@ -167,7 +167,7 @@
        <item>
         <widget class="QLabel" name="appnameLabel">
          <property name="text">
-          <string>Kylin Note</string>
+          <string/>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
