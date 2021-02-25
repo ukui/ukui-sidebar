@@ -44,8 +44,8 @@
 #define UKUI_PANEL_SETTING "org.ukui.panel.settings"
 
 #define DBUS_NAME       "org.ukui.SettingsDaemon"
-#define DBUS_PATH       "/org/ukui/SettingsDaemon/xrandr"
-#define DBUS_INTERFACE  "org.ukui.SettingsDaemon.xrandr"
+#define DBUS_PATH       "/org/ukui/SettingsDaemon/wayland"
+#define DBUS_INTERFACE  "org.ukui.SettingsDaemon.wayland"
 
 class QGroupBox;
 class QGridLayout;
