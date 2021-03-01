@@ -782,7 +782,6 @@ void Widget::updateSmallPluginsClipboardWidget()
 /* 过滤终端命令 */
 void Widget::bootOptionsFilter(QString opt){
     if (opt == "-s" || opt == "-show" && m_bShowFlag == false) {
-        qDebug() << "哈哈哈哈，第一次用命令进入这";
         mostGrandWidget::getInstancemostGrandWidget()->hide();
         MostGrandWidgetCoordinates();
         mostGrandWidget::getInstancemostGrandWidget()->show();

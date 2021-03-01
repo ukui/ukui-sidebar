@@ -1,3 +1,10 @@
+ukui-sidebar (3.1.0-1-0004) v101; urgency=medium
+
+  * 改动:
+    - 修改获取主副屏dbus名称
+
+ -- liushanwen <liushanwen@kylinos.cn>  Thu, 25 Feb 2021 10:37:27 +0800
+
 ukui-sidebar (3.1.0-1) unstable; urgency=medium
 
   * New upstream release.
