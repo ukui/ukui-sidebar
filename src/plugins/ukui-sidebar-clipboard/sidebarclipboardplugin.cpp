@@ -904,7 +904,8 @@ void SidebarClipboardPlugin::fixedWidgetEntrySlots(ClipboardWidgetEntry *w)
         m_pClipboardDb->insertSqlClipbarodDb(s_pDataHashValue->text, s_pDataHashValue->Clipbaordformat, s_pDataHashValue->Sequence);
     } else if (s_pDataHashValue->Clipbaordformat == IMAGE) {
         int seq = m_pClipboardDb->SelectSqlClipbaordDbId();
-        QString url_filepath =  QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + QStringLiteral("/%1.bmp").arg(seq + 1);
+        QString url_filepath =  QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/.config" + QStringLiteral("/%1.bmp").arg(seq + 1);
+        qDebug() << "------------------------------->" << url_filepath;
         s_pDataHashValue->text = "file://" + url_filepath;          //将文件路径已Url的方式保存
         m_pClipboardDb->insertSqlClipbarodDb(s_pDataHashValue->text, s_pDataHashValue->Clipbaordformat, s_pDataHashValue->Sequence);
         s_pDataHashValue->p_pixmap->save(url_filepath, "bmp", 100);
@@ -924,6 +925,10 @@ void SidebarClipboardPlugin::cancelFixedWidgetEntrySLots(ClipboardWidgetEntry *w
     }
     QListWidgetItem *Item = iterationClipboardDataHash(w);
     OriginalDataHashValue *s_pDataHashValue = GetOriginalDataValue(Item);
+    if (s_pDataHashValue->Clipbaordformat ==IMAGE && s_pDataHashValue->associatedDb == DBDATA) {
+        QString DeleteFile = QStringLiteral("rm %1").arg(s_pDataHashValue->text.mid(7));
+        QProcess::execute(DeleteFile);//删除保存在本地的文件
+    }
     m_pClipboardDb->deleteSqlClipboardDb(s_pDataHashValue->text);  //删除数据库中此条数据
     s_pDataHashValue->associatedDb = "";
     w->m_pPopButton->setVisible(true);
