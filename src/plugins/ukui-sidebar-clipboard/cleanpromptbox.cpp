@@ -53,7 +53,6 @@ void CleanPromptBox::initGsettingTransparency()
         m_dTranSparency = m_pTransparency->get("transparency").toDouble();
         connect(m_pTransparency, &QGSettings::changed, this, [=](QString value) {
             if (value == "transparency") {
-                qDebug() << "hello world23333";
                 m_dTranSparency = m_pTransparency->get("transparency").toDouble();
             }
         });
@@ -98,13 +97,13 @@ void CleanPromptBox::creatorCheckBoxWidget()
 {
     m_pCheckBoxNoHint = new QCheckBox;
     m_pCheckBoxNoHint->setText(QObject::tr("Don't ask"));
-    m_pCheckBoxNoHint->setFixedSize(85, 20);
+    m_pCheckBoxNoHint->setFixedHeight(20);
     m_pChechBoxHLaout = new QHBoxLayout;
     m_pChechBoxHLaout->setContentsMargins(0,0,0,0);
     m_pChechBoxHLaout->setSpacing(0);
     m_pChechBoxHLaout->addItem(new QSpacerItem(95, 20));
     m_pChechBoxHLaout->addWidget(m_pCheckBoxNoHint);
-    m_pChechBoxHLaout->addItem(new QSpacerItem(220, 20));
+    m_pChechBoxHLaout->addItem(new QSpacerItem(220, 20, QSizePolicy::Expanding));
     m_pCheckBoxWidget->setLayout(m_pChechBoxHLaout);
     return;
 }
