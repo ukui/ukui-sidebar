@@ -109,7 +109,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     pAppNameLabel->setText(formatAppName);
 
     //设置通知消息中的弹簧，水平任意伸缩使应用名和时间分开
-    QSpacerItem* pHExpandSpacer = new QSpacerItem(400, 10, QSizePolicy::Expanding, QSizePolicy::Fixed);
+    QSpacerItem* pHExpandSpacer = new QSpacerItem(500, 10, QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     //放置时间和收纳删除按钮的窗口
     m_pTimeLabelWidget = new QWidget;
@@ -124,7 +124,6 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     //设置通知消息中的通知时间
     m_pTimeLabel = new QLabel();
     m_pTimeLabel->setObjectName("pushtime");
-    m_pTimeLabel->setFixedSize(55,25);
     m_pTimeLabel->setText(tr("now"));
     m_pTimeLabel->setAttribute(Qt::WA_TranslucentBackground);
 
@@ -163,7 +162,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
     //设置标签布局
     pTimeLableHLayout->addWidget(m_pTimeLabel, 0, Qt::AlignRight);
-    pTimeLableHLayout->addItem(new QSpacerItem(3, 10 , QSizePolicy::Fixed, QSizePolicy::Fixed));
+    pTimeLableHLayout->addItem(new QSpacerItem(13, 10 , QSizePolicy::Fixed, QSizePolicy::Fixed));
     pTimeLableHLayout->setContentsMargins(0, 0, 0, 0);
     pTimeLableHLayout->setSpacing(0);
     m_pTimeLabelWidget->setLayout(pTimeLableHLayout);
