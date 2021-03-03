@@ -24,6 +24,8 @@ protected:
 
 private:
     Ui::About *ui;
+
+    void listenToGsettings();
 };
 
 #endif // ABOUT_H
