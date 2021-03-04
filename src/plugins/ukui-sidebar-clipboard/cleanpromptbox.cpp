@@ -54,6 +54,7 @@ void CleanPromptBox::initGsettingTransparency()
         connect(m_pTransparency, &QGSettings::changed, this, [=](QString value) {
             if (value == "transparency") {
                 m_dTranSparency = m_pTransparency->get("transparency").toDouble();
+                this->update();
             }
         });
     }
