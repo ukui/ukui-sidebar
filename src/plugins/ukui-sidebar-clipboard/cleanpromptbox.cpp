@@ -82,7 +82,15 @@ void CleanPromptBox::creatorHintInfomationWidget()
     m_pIconButton->setIcon(tipIcon);
     m_pIconButton->setIconSize(QSize(48,48));
 
+
     m_pHintInformation = new QLabel(QObject::tr("Are you sure empty your clipboard history?"));
+    m_pHintInformation->setToolTip(m_pHintInformation->text());
+    QFont Informationfont;
+    m_pHintInformation->setFont(Informationfont);
+    QFontMetrics fontMetrics1(m_pHintInformation->font());
+    QString formatAppName = fontMetrics1.elidedText(m_pHintInformation->text(), Qt::ElideRight, m_pHintInformation->width()/3);
+    m_pHintInformation->setText(formatAppName);
+
     m_pHintInformation->setFixedSize(250, 30);
     m_pIconLableHLaout->addItem(new QSpacerItem(31,20));
     m_pIconLableHLaout->addWidget(m_pIconButton);
@@ -98,7 +106,8 @@ void CleanPromptBox::creatorCheckBoxWidget()
 {
     m_pCheckBoxNoHint = new QCheckBox;
     m_pCheckBoxNoHint->setText(QObject::tr("Don't ask"));
-    m_pCheckBoxNoHint->setFixedHeight(20);
+    m_pCheckBoxNoHint->setFixedHeight(30);
+    m_pCheckBoxNoHint->setFixedWidth(150);
     m_pChechBoxHLaout = new QHBoxLayout;
     m_pChechBoxHLaout->setContentsMargins(0,0,0,0);
     m_pChechBoxHLaout->setSpacing(0);
