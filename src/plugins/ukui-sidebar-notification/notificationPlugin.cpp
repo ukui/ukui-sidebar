@@ -80,7 +80,8 @@ NotificationPlugin::NotificationPlugin()
     //悬浮收纳数标签
     m_pTakeInCoutLabel = new TakeInCoutLabel(m_pMainWidget);
     m_pTakeInCoutLabel->setObjectName("takeincout");
-    m_pTakeInCoutLabel->setFixedSize(15,15);
+    m_pTakeInCoutLabel->setFixedSize(20,20);
+
     QPalette pe1;
     pe1.setColor(QPalette::WindowText,Qt::black);
     m_pTakeInCoutLabel->setPalette(pe1);
@@ -393,7 +394,7 @@ void NotificationPlugin::onClearAllMessage()
 
         if (1 == m_pScrollAreaTakeInVBoxLayout->count()) {
             m_pTakeinMessageCenterLabel->setVisible(true);
-            m_pScrollAreaTakeInVBoxLayout->insertWidget(0, m_pTakeinMessageCenterLabel, 0, Qt::AlignHCenter);
+            m_pScrollAreaTakeInVBoxLayout->insertWidget(0, m_pTakeinMessageCenterLabel, 4, Qt::AlignHCenter);
         }
         onCountTakeInBitAndUpate();
     }
@@ -513,7 +514,7 @@ void NotificationPlugin::onClearTakeInAppMsg(AppMsg* pAppMsg)
 
     if (0 == m_listTakeInAppMsg.count() && 1 == m_pScrollAreaTakeInVBoxLayout->count()) {
         m_pTakeinMessageCenterLabel->setVisible(true);
-        m_pScrollAreaTakeInVBoxLayout->insertWidget(0, m_pTakeinMessageCenterLabel, 0, Qt::AlignHCenter);
+        m_pScrollAreaTakeInVBoxLayout->insertWidget(0, m_pTakeinMessageCenterLabel, 4, Qt::AlignHCenter);
     }
     return;
 }
