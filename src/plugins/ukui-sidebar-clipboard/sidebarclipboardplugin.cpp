@@ -322,7 +322,9 @@ void SidebarClipboardPlugin::AddWidgetEntry(OriginalDataHashValue *s_pDataHashVa
         w->m_pCopyDataLabal->setTextFormat(Qt::PlainText);
         if (s_pDataHashValue->urls.size() == 1) {
             //判断文件类型，根据文件类型去读取主题图标
-            QString filename = catUrlFileName(text);
+//            QString filename = catUrlFileName(text);
+            QUrl texturl(text);
+            QString filename=texturl.fileName();
             filename = setMiddleFormatBody(filename, w);
             w->m_pCopyDataLabal->setText(filename);
             getPixmapListFileIcon(text, w->m_pCopyFileIcon);
@@ -481,13 +483,16 @@ bool SidebarClipboardPlugin::substringSposition(QString formatBody, QStringList 
 /* 判断Url中当前后缀名，根据后缀名读取图标 */
 QIcon SidebarClipboardPlugin::fileSuffixGetsIcon(QString Url)
 {
+    QUrl texturl(Url);
+    QString  filePath;
     if (Url == nullptr) {
         qWarning() << "传入后缀名有错误， 为空";
     }
     int tmp = m_fileSuffix.size();
     QStringList UrlList = Url.split(".");
     if (UrlList.size() < 2) {
-        QString  filePath = Url.mid(7);
+//        QString  filePath = Url.mid(7);
+        filePath=texturl.toLocalFile();
         QFileInfo fileinfo(filePath);
         if (fileinfo.isFile()) {
             return QIcon::fromTheme("unknown");//返回其余文本图标
