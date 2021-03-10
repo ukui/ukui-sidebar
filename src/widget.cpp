@@ -313,6 +313,7 @@ void Widget::initDesktopPrimary()
     /* 监听屏幕分辨率是否变化 主频是否有变化 初始化屏幕宽高 和主屏起始X坐标值 */
     m_pDeskWgt = QApplication::desktop();
     connect(QApplication::primaryScreen(), &QScreen::geometryChanged, this, &Widget::onResolutionChanged);
+    connect(QApplication::primaryScreen(), &QScreen::virtualGeometryChanged, this, &Widget::onResolutionChanged);
     connect(m_pDeskWgt, &QDesktopWidget::primaryScreenChanged, this, &Widget::primaryScreenChangedSLot);
     connect(m_pDeskWgt, &QDesktopWidget::screenCountChanged, this, &Widget::screenCountChangedSlots);
 
@@ -378,7 +379,7 @@ void Widget::GetsAvailableAreaScreen()
         m_nScreenHeight = DeskSize.height();                    //桌面分辨率的高
     } else {
         //如果取到任务栏的高度,则取屏幕分辨率的高度
-        QRect screenRect = m_pDeskWgt->screenGeometry();
+        QRect screenRect = QGuiApplication::primaryScreen()->geometry();
         m_nScreenWidth = screenRect.width();
         m_nScreenHeight = screenRect.height();
     }
@@ -701,18 +702,23 @@ void Widget::ModifyScreenNeeds()
 /* 初始化主屏的X坐标 */
 void Widget::InitializeHomeScreenGeometry()
 {
-    QList<QScreen*> screen = QGuiApplication::screens();
-    int count = m_pDeskWgt->screenCount();
-    if (count > 1) {
-        m_nScreen_x = screen[0]->geometry().x();
-        m_nScreen_y = screen[0]->geometry().y();
-
+    if (QGuiApplication::primaryScreen()) {
+        m_nScreen_x = QGuiApplication::primaryScreen()->geometry().x();
+        m_nScreen_y = QGuiApplication::primaryScreen()->geometry().y();
     } else {
-        m_nScreen_x = 0;
-        m_nScreen_y = 0;
+        QList<QScreen*> screen = QGuiApplication::screens();
+        int count = m_pDeskWgt->screenCount();
+        if (count > 1) {
+            m_nScreen_x = screen[0]->geometry().x();
+            m_nScreen_y = screen[0]->geometry().y();
+
+        } else {
+            m_nScreen_x = 0;
+            m_nScreen_y = 0;
+        }
     }
-    qDebug() << "偏移的x坐标" << m_nScreen_x;
-    qDebug() << "偏移的Y坐标" << m_nScreen_y;
+    qDebug() << "偏移的x坐标------------------------------>" << m_nScreen_x;
+    qDebug() << "偏移的Y坐标------------------------------>" << m_nScreen_y;
 }
 
 /* 监听gsetting，修改所有的字体 */
@@ -786,7 +792,6 @@ void Widget::updateSmallPluginsClipboardWidget()
 /* 过滤终端命令 */
 void Widget::bootOptionsFilter(QString opt){
     if (opt == "-s" || opt == "-show" && m_bShowFlag == false) {
-        qDebug() << "哈哈哈哈，第一次用命令进入这";
         mostGrandWidget::getInstancemostGrandWidget()->hide();
         MostGrandWidgetCoordinates();
         mostGrandWidget::getInstancemostGrandWidget()->show();
@@ -802,7 +807,6 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
     if (obj == this) {
         if (event->type() == QEvent::WindowDeactivate \
                 && true == m_bShowFlag && true == m_bClipboardFlag) {
-            qDebug() << "Widget::eventFilter 消失";
             mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
             hideAnimation();
             m_bShowFlag = false;
