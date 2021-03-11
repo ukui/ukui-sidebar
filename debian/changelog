@@ -1,4 +1,20 @@
-ukui-sidebar (1.1.2-0013) v101; urgency=medium
+ukui-sidebar (3.1.0-1-0005) v101; urgency=medium
+
+  * 修复bug：
+    - 修改控制面板主副屏上下位置后，侧边栏显示异常bug
+    - 特殊符号文件夹在剪切板图标异常
+    - 剪切板提示文字随字体变化会显示不全
+    - 通知中心适配系统字号异常
+    - 通知中心适配系统字号异常
+    - 不重要的通知弹出之后，通知消息区域提示“没有不重要的通知”不居中显示
+    - 剪切板清除弹窗打开时，改变主题特效，清除弹窗UI异常
+    - 提示框文本显示不全bug修复
+    - 英文环境，时间为12小时制时，每条通知的时间显示不全
+    - 修改剪贴板固定图片时保存图片路径
+
+ -- liushanwen <liushanwen@kylinos.cn>  Thu, 11 Mar 2021 09:18:37 +0800
+
+ukui-sidebar (1.1.2-0014) v101; urgency=medium
 
   * New upstream release.
 

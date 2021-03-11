@@ -351,6 +351,50 @@ int Widget::connectTaskBarDbus()
     return panelHeight;
 }
 
+// 初始化华为990dbus接口
+bool Widget::initHuaWeiDbus()
+{
+    m_pDbusXrandInter = new QDBusInterface(DBUS_NAME,
+                                         DBUS_PATH,
+                                         DBUS_INTERFACE,
+                                         QDBusConnection::sessionBus());
+
+
+    connect(m_pDbusXrandInter, SIGNAL(screenPrimaryChanged(int,int,int,int)),
+            this, SLOT(priScreenChanged(int,int,int,int)));
+    m_nScreen_x = getScreenGeometry("x");
+    m_nScreen_y = getScreenGeometry("y");
+    m_nScreenWidth = getScreenGeometry("width");
+    m_nScreenHeight = getScreenGeometry("height");
+    if (m_nScreenWidth == 0 || m_nScreenHeight == 0) {
+        qDebug() << "无dbus可用接口HW";
+        return false;
+    } else {
+        qDebug() << "有dbus可用接口HW";
+        return true;
+    }
+}
+
+int Widget::getScreenGeometry(QString methodName)
+{
+    int res = 0;
+    QDBusMessage message = QDBusMessage::createMethodCall(DBUS_NAME,
+                               DBUS_PATH,
+                               DBUS_INTERFACE,
+                               methodName);
+    QDBusMessage response = QDBusConnection::sessionBus().call(message);
+    if (response.type() == QDBusMessage::ReplyMessage) {
+        if(response.arguments().isEmpty() == false) {
+            int value = response.arguments().takeFirst().toInt();
+            res = value;
+            qDebug() << value;
+        }
+    } else {
+        qDebug()<<methodName<<"called failed";
+    }
+    return res;
+}
+
 //获取任务栏状态位置下上左右
 int Widget::getPanelSite()
 {
@@ -702,6 +746,11 @@ void Widget::ModifyScreenNeeds()
 /* 初始化主屏的X坐标 */
 void Widget::InitializeHomeScreenGeometry()
 {
+    if (initHuaWeiDbus()) {
+        qDebug() << "HW--->偏移的x坐标------------------------------>" << m_nScreen_x;
+        qDebug() << "HW--->偏移的Y坐标------------------------------>" << m_nScreen_y;
+        return;
+    }
     if (QGuiApplication::primaryScreen()) {
         m_nScreen_x = QGuiApplication::primaryScreen()->geometry().x();
         m_nScreen_y = QGuiApplication::primaryScreen()->geometry().y();
