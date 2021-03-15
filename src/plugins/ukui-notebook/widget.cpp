@@ -1327,6 +1327,9 @@ void Widget::listDoubleClickSlot(const QModelIndex& index)
             selectNote(index);
             m_noteView->setCurrentRowActive(false);
         }
+        connect(m_notebook->m_noteHeadMenu, &noteHeadMenu::requestNewNote, this, [=](){
+            newSlot();
+        });
         connect(m_notebook->m_noteHeadMenu, &noteHeadMenu::requestShowNote, this, [=]{
             this->raise();
             this->activateWindow();
