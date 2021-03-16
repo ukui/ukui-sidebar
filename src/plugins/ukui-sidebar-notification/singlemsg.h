@@ -23,6 +23,10 @@
 #include <QLabel>
 #include <QDateTime>
 #include <QVBoxLayout>
+#include <QDBusInterface>
+#include <QDBusConnection>
+#include <QDBusError>
+#include <QDBusReply>
 #include "picturetowhite.h"
 #define CONTROL_CENTER_TIME_FORMAT_GSETTING "org.ukui.control-center.panel.plugins"
 #define CONTROL_TINE_FORMAT_GSETTING_VALUE "hoursystem"
@@ -47,6 +51,9 @@ public:
     void startAnimationUnfold();                        //开启展开动画
     void startAnimationFold();                          //开启折叠动画
     void startAnimationDeleUpperMove();                 //开启删除上移动画
+    void listenTimeZone();                              //监听时区变化dbus
+
+    QDBusInterface *m_datetimeInterface;
 
     uint        getPushTime() {return m_uNotifyTime;}
     QDateTime   getPushDateTime() {return m_dateTime;}
@@ -91,6 +98,7 @@ private:
     QString         m_strBody;                      //保存正文
     QDateTime       m_dateTime;                     //保存推送时间
     uint            m_uNotifyTime;                  //保存推送时间的绝对时间
+    uint            m_uTimeDifference;              //保存当前时间与推送时间的时间差
     bool            m_bTakeInFlag;                  //收纳标志
     bool            m_bFold;                        //是否折叠
     bool            m_bMain;                        //是否为主窗口
@@ -124,6 +132,7 @@ public slots:
     void            updateDeleUpperMove(const QVariant &value);     //更新删除上移时的移动数据
     void            onDeleUpperMoveFinish();                        //处理删除上移完成时的函数
     void            startAnimationDeleLeftMove();                   //开启删除左移动画
+    void            listenTimeZoneSlots();                          //监听时区变化函数
 };
 
 #endif // SINGLEMSG_H

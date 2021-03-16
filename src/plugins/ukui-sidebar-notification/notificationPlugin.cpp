@@ -80,7 +80,7 @@ NotificationPlugin::NotificationPlugin()
     //悬浮收纳数标签
     m_pTakeInCoutLabel = new TakeInCoutLabel(m_pMainWidget);
     m_pTakeInCoutLabel->setObjectName("takeincout");
-    m_pTakeInCoutLabel->setFixedSize(20,20);
+    m_pTakeInCoutLabel->setFixedSize(23,23);
 
     QPalette pe1;
     pe1.setColor(QPalette::WindowText,Qt::black);
