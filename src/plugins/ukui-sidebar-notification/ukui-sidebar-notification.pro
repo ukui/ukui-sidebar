@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui widgets svg
+QT       += core gui widgets svg dbus
 
 TARGET = notification_plugin
 TEMPLATE = lib
