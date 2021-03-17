@@ -40,6 +40,9 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     /* 初始化屏幕 */
     initDesktopPrimary();
 
+    /* 判断华为接口是否存在 */
+    m_bHWdbusExit = initHuaWeiDbus();
+
     /* 初始化主屏的X坐标 */
     InitializeHomeScreenGeometry();
 
@@ -279,7 +282,6 @@ void Widget::iconActivated(QSystemTrayIcon::ActivationReason reason)
             tranSparency = m_pTransparency->get("transparency").toDouble();
         }
     }
-    qDebug() << "获取的透明度为:" << tranSparency;
     switch (reason) {
         case QSystemTrayIcon::Trigger: {
             if (m_bShowFlag) {
@@ -359,7 +361,6 @@ bool Widget::initHuaWeiDbus()
                                          DBUS_INTERFACE,
                                          QDBusConnection::sessionBus());
 
-
     connect(m_pDbusXrandInter, SIGNAL(screenPrimaryChanged(int,int,int,int)),
             this, SLOT(priScreenChanged(int,int,int,int)));
     m_nScreen_x = getScreenGeometry("x");
@@ -373,6 +374,16 @@ bool Widget::initHuaWeiDbus()
         qDebug() << "有dbus可用接口HW";
         return true;
     }
+}
+
+/* get primary screen changed */
+void Widget::priScreenChanged(int x, int y, int width, int height)
+{
+    qDebug("primary screen  changed, geometry is  x=%d, y=%d, windth=%d, height=%d", x, y, width, height);
+    m_nScreen_x = x;
+    m_nScreen_y = y;
+    m_nScreenWidth = width;
+    m_nScreenHeight = height;
 }
 
 int Widget::getScreenGeometry(QString methodName)
@@ -663,9 +674,8 @@ void Widget::onResolutionChanged(const QRect argc)
 {
     Q_UNUSED(argc);
     qDebug() << "屏幕分辨率发生变化";
-    GetsAvailableAreaScreen();                               //获取屏幕可用高度区域
-    ModifyScreenNeeds();                                     //修改屏幕分辨率或者主屏需要做的事情
     InitializeHomeScreenGeometry();
+    ModifyScreenNeeds();                                     //修改屏幕分辨率或者主屏需要做的事情
     return;
 }
 
@@ -673,9 +683,8 @@ void Widget::onResolutionChanged(const QRect argc)
 void Widget::primaryScreenChangedSLot()
 {
     qDebug() << "主屏发生变化";
-    GetsAvailableAreaScreen();
-    ModifyScreenNeeds();
     InitializeHomeScreenGeometry();
+    ModifyScreenNeeds();
     return;
 }
 
@@ -684,9 +693,8 @@ void Widget::screenCountChangedSlots(int count)
 {
     Q_UNUSED(count);
     qDebug() << "屏幕数量发生变化";
-    GetsAvailableAreaScreen();
-    ModifyScreenNeeds();
     InitializeHomeScreenGeometry();
+    ModifyScreenNeeds();
     return;
 }
 
@@ -746,7 +754,7 @@ void Widget::ModifyScreenNeeds()
 /* 初始化主屏的X坐标 */
 void Widget::InitializeHomeScreenGeometry()
 {
-    if (initHuaWeiDbus()) {
+    if (m_bHWdbusExit) {
         qDebug() << "HW--->偏移的x坐标------------------------------>" << m_nScreen_x;
         qDebug() << "HW--->偏移的Y坐标------------------------------>" << m_nScreen_y;
         return;
@@ -766,6 +774,7 @@ void Widget::InitializeHomeScreenGeometry()
             m_nScreen_y = 0;
         }
     }
+    GetsAvailableAreaScreen();
     qDebug() << "偏移的x坐标------------------------------>" << m_nScreen_x;
     qDebug() << "偏移的Y坐标------------------------------>" << m_nScreen_y;
 }
