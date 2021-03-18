@@ -32,6 +32,7 @@
 
 SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, QString strSummary, QDateTime dateTime, QString strBody, bool bTakeInFlag)
 {
+    listenTimeZone();
     m_bMain = true;                 //默认是主窗口
     m_bFold = true;                 //默认折叠状态
     m_strIconPath = strIconPath;
@@ -290,6 +291,28 @@ void SingleMsg::initTimeFormatGsetting()
     });
 }
 
+void SingleMsg::listenTimeZone()
+{
+    m_datetimeInterface = new QDBusInterface("org.freedesktop.timedate1",
+                                       "/org/freedesktop/timedate1",
+                                       "org.freedesktop.timedate1",
+                                       QDBusConnection::systemBus(), this);
+
+    QDBusConnection::systemBus().connect(QString("org.freedesktop.timedate1"),
+                                         QString("/org/freedesktop/timedate1"),
+                                         QString("org.freedesktop.DBus.Properties"),
+                                         QString("PropertiesChanged"), this, SLOT(listenTimeZoneSlots()));
+
+}
+
+void SingleMsg::listenTimeZoneSlots()
+{
+    QDateTime currentDateTime(QDateTime::currentDateTime());
+    m_uNotifyTime = currentDateTime.toTime_t() - m_uTimeDifference;
+    m_dateTime = QDateTime::fromTime_t(m_uNotifyTime);
+    updatePushTime();
+}
+
 void SingleMsg::paintEvent(QPaintEvent *e)
 {
 
@@ -329,6 +352,8 @@ void SingleMsg::paintEvent(QPaintEvent *e)
 void SingleMsg::updatePushTime()
 {
     QDateTime currentDateTime(QDateTime::currentDateTime());
+
+    m_uTimeDifference = currentDateTime.toTime_t() - m_uNotifyTime;
 
     if (currentDateTime.toTime_t() < (m_uNotifyTime + 60)) {
         return;
@@ -389,7 +414,7 @@ void SingleMsg::setBodyLabelWordWrap(bool bFlag)
     m_pBodyLabel->setWordWrap(bFlag);
     QFont font14;
     font14.setPixelSize(14);
-    m_pBodyLabel->setFont(font14);
+//    m_pBodyLabel->setFont(font14);
     QFontMetrics fontMetrics(m_pBodyLabel->font());
     QString strLineHeight24Body;
     strLineHeight24Body.append("<p style='line-height:24px'>").append(m_strBody).append("</p>");
