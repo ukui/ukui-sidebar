@@ -91,7 +91,8 @@ void shortcutPanelPlugin::initMemberVariables()
     m_pShortWidget->setContentsMargins(0, 0, 0, 0);
 
     /* 当系统有背光文件时，new调整音量与屏幕亮度界面 */
-    if (m_bBacklitFile) {
+    if (m_bBacklitFile)
+    {
         m_pScrollingAreaWidget = new ScrollingAreaWidget();
         m_pScrollingAreaWidget->setFixedSize(392, 56);
     }
@@ -125,8 +126,8 @@ void shortcutPanelPlugin::initShortButtonWidget()
 
     /* 平板模式 */
     m_ppadWidget       = new padWidget();
-//    ShortButtonWidgetList.append(m_ppadWidget);
-//    m_pButtonGsettingValue.append("padwidgetvalue");
+    ShortButtonWidgetList.append(m_ppadWidget);
+    m_pButtonGsettingValue.append("padwidgetvalue");
     connect(m_ppadWidget->m_pDeleteButton, &QPushButton::clicked, this, [=](){
         setCanceGsettingButtonValue("padwidgetvalue");
     });
@@ -159,16 +160,16 @@ void shortcutPanelPlugin::initShortButtonWidget()
 
     /* 蓝牙 */
     m_pbluetoothWidget = new bluetoothWidget();
-//    ShortButtonWidgetList.append(m_pbluetoothWidget);
-//    m_pButtonGsettingValue.append("bluetoothwidgetvalue");
+    ShortButtonWidgetList.append(m_pbluetoothWidget);
+    m_pButtonGsettingValue.append("bluetoothwidgetvalue");
     connect(m_pbluetoothWidget->m_pDeleteButton, &QPushButton::clicked, this, [=](){
         setCanceGsettingButtonValue("bluetoothwidgetvalue");
     });
 
     /* 热点 */
     m_photspotWidget = new hotspotWidget();
-//    ShortButtonWidgetList.append(m_photspotWidget);
-//    m_pButtonGsettingValue.append("hotspotwidgetvalue");
+    ShortButtonWidgetList.append(m_photspotWidget);
+    m_pButtonGsettingValue.append("hotspotwidgetvalue");
     connect(m_photspotWidget->m_pDeleteButton, &QPushButton::clicked, this, [=](){
         setCanceGsettingButtonValue("hotspotwidgetvalue");
     });
@@ -233,8 +234,8 @@ void shortcutPanelPlugin::initShortButtonWidget()
 //    ShortButtonWidgetList.append(m_pAutomaticRotationWidget);
 
     /* Wifi */
-//    m_pWifiWidget = new WifiWidget();
-//    ShortButtonWidgetList.append(m_pWifiWidget);
+    m_pWifiWidget = new WifiWidget();
+    ShortButtonWidgetList.append(m_pWifiWidget);
     return;
 }
 
@@ -242,10 +243,11 @@ void shortcutPanelPlugin::initShortButtonWidget()
 void shortcutPanelPlugin::initShortcutButtonGsetting()
 {
     const QByteArray id(SHORTCUT_BUTTON_GSETTING_PATH);
-    if(QGSettings::isSchemaInstalled(id))
+    if(QGSettings::isSchemaInstalled(id)){
         m_pGsettingShutcutValue = new QGSettings(id);
-    if (m_pGsettingShutcutValue != nullptr) {
-        connect(m_pGsettingShutcutValue, &QGSettings::changed, this, &shortcutPanelPlugin::resetShortWidget);
+        if (m_pGsettingShutcutValue != nullptr) {
+            connect(m_pGsettingShutcutValue, &QGSettings::changed, this, &shortcutPanelPlugin::resetShortWidget);
+        }
     }
     /* 用于记录当前节能模式开关状态 */
     const QByteArray id_2(UKUI_VOLUME_BRIGHTNESS_GSETTING_ID);
@@ -282,15 +284,23 @@ void shortcutPanelPlugin::initThemeGsetting()
 /* 布局8个快捷方式的按钮, 初始化 */
 void shortcutPanelPlugin::initsetShortWidget()
 {
+    qDebug()<<"1111";
     int tmpx = 0, tmpy = 0;
     for (int j = 0; j < 3; j++) {
         for (int k = 0; k < 4; k++) {
-            if ((4 * j + k) < m_pButtonGsettingValue.count() && m_pGsettingShutcutValue->get(m_pButtonGsettingValue.at(4 * j + k)).toBool()) {
-                m_pShortGLayout->addWidget(ShortButtonWidgetList.at(4 * j + k), tmpx, tmpy, 1, 1);
-                tmpy++;
-                if (tmpy == 4) {
-                    tmpy = 0;
-                    tmpx++;
+            if ((4 * j + k) < m_pButtonGsettingValue.count()){
+                //QString str = m_pButtonGsettingValue.at(4 * j + k);
+                //const QByteArray id = str.toLatin1();
+                //if((QGSettings::isSchemaInstalled(id)) &&
+                       //m_pGsettingShutcutValue->get(m_pButtonGsettingValue.at(4 * j + k)).toBool())
+                        {
+
+                    m_pShortGLayout->addWidget(ShortButtonWidgetList.at(4 * j + k), tmpx, tmpy, 1, 1);
+                    tmpy++;
+                    if (tmpy == 4) {
+                        tmpy = 0;
+                        tmpx++;
+                    }
                 }
             }
         }
@@ -311,6 +321,7 @@ void shortcutPanelPlugin::setScrollWidget()
     } else {
         m_bBacklitFile = true;
     }
+    m_bBacklitFile = true;
     qDebug() << "是否含有背光文件---->" << str_output;
     return;
 }
@@ -469,7 +480,8 @@ void shortcutPanelPlugin::spreadClikedSlots()
     }
     m_pLinelabel_2->setVisible(true);
     m_pLinelabel_3->setVisible(true);
-    m_pNotificationStatusGsetting->set("notificationvalue", true);
+    if(QGSettings::isSchemaInstalled("notificationvalue"))
+        m_pNotificationStatusGsetting->set("notificationvalue", true);
     m_pMainWidget->update();
     return;
 }
@@ -488,7 +500,8 @@ void shortcutPanelPlugin::foldClikedSlots()
     m_pWeatherWidget->setVisible(false);
     m_pLinelabel_2->setVisible(false);
     m_pLinelabel_3->setVisible(false);
-    m_pNotificationStatusGsetting->set("notificationvalue", false);
+    if(QGSettings::isSchemaInstalled("notificationvalue"))
+        m_pNotificationStatusGsetting->set("notificationvalue", false);
     m_pMainWidget->update();
     return;
 }

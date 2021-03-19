@@ -241,14 +241,18 @@ void eyeProtectionMode::setLabelTextColor()
 
 void eyeProtectionMode::setPreStyleName()
 {
-    m_pCureentTheme = m_pqtstyleGsettings->get("styleName").toString();
-    QString preStyleName = m_pShortCutGsettings->get("prethemename").toString();
-    if (preStyleName != m_pCureentTheme && m_pCureentTheme != "ukui-dark") {
-        m_pShortCutGsettings->set("prethemename", m_pCureentTheme);
-    } else {
-        m_pCureentTheme = preStyleName;
+    if(QGSettings::isSchemaInstalled("styleName")){
+         m_pCureentTheme = m_pqtstyleGsettings->get("styleName").toString();
+        if(QGSettings::isSchemaInstalled("styleName")){
+            QString preStyleName = m_pShortCutGsettings->get("prethemename").toString();
+            if (preStyleName != m_pCureentTheme && m_pCureentTheme != "ukui-dark") {
+                m_pShortCutGsettings->set("prethemename", m_pCureentTheme);
+            } else {
+                m_pCureentTheme = preStyleName;
+            }
+            qDebug() << "前一个主题" << preStyleName;
+        }
     }
-    qDebug() << "前一个主题" << preStyleName;
 }
 
 void eyeProtectionMode::EyeButtonClickSlots()

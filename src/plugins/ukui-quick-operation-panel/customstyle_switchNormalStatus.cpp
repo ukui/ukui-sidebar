@@ -15,7 +15,7 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include "customstyle_switchNormalStatus.h".h"
+#include "customstyle_switchNormalStatus.h"
 #include <QWidget>
 
 #include <QStyleOption>
@@ -30,7 +30,69 @@ customstyle_switchNormalStatus::customstyle_switchNormalStatus(const QString &pr
 
 void customstyle_switchNormalStatus::drawComplexControl(QStyle::ComplexControl control, const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const
 {
-    return QProxyStyle::drawComplexControl(control, option, painter, widget);
+    switch (control) {
+    case CC_Slider: {
+        QRect groove = subControlRect(CC_Slider, option, SC_SliderGroove, widget);
+        QRect handle = subControlRect(CC_Slider, option, SC_SliderHandle, widget);
+        painter->save();
+        if(const QSlider *ms = qobject_cast<const QSlider *>(widget))
+        {
+            if(const QStyleOptionSlider *sl = qstyleoption_cast<const QStyleOptionSlider *>(option))
+            {
+                QStyleOptionSlider sll = *sl;
+                if ((option->subControls & QStyle::SC_SliderGroove) && groove.isValid() && handle.isValid())// 背景
+                {
+                    painter->setRenderHint(QPainter::Antialiasing, true);
+                    QPen pen;
+                    pen.setColor(QColor(204,204,204,255));
+                    QBrush brush;
+                    brush.setColor(QColor(204,204,204,255));
+                    brush.setStyle(Qt::SolidPattern);
+                    painter->setPen(pen);
+                    painter->setBrush(brush);
+
+                    painter->drawChord(QRect(groove.x(), ms->height()/2-5,10,10),90*16,180*16);
+                    painter->drawRect(QRect(groove.x()+5, ms->height()/2-5,groove.width()-10,10)); //矩形
+                    painter->drawChord(QRect(groove.width()-11, ms->height()/2-5,10,10),90*16,-180*16);
+
+                    QPen pen2;
+                    pen2.setColor(QColor(47,179,232,255));
+                    QBrush brush2;
+                    brush2.setColor(QColor(47,179,232,255));
+                    brush2.setStyle(Qt::SolidPattern);
+                    painter->setPen(pen2);
+                    painter->setBrush(brush2);
+                    if(handle.x()<=0){;
+                        painter->drawChord(QRect(groove.x(), ms->height()/2-5,10,10),90*16,180*16);
+                        painter->drawChord(QRect(handle.x(), ms->height()/2-5,10,10),90*16,-180*16);
+                    }
+                    else
+                    {
+                        painter->drawChord(QRect(groove.x(), ms->height()/2-5,10,10),90*16,180*16);
+                        painter->drawRect(QRect(groove.x()+5, ms->height()/2-5,handle.x(),10)); //矩形
+                        painter->drawChord(QRect(handle.x(), ms->height()/2-5,10,10),90*16,-180*16);
+                    }
+                    QPen pen3;
+                    pen3.setColor(QColor(255,255,255,255));
+                    QBrush brush3;
+                    brush3.setColor(QColor(255,255,255,255));
+                    brush3.setStyle(Qt::SolidPattern);
+                    painter->setPen(pen3);
+                    painter->setBrush(brush3);
+                    painter->drawRect(QRect(handle.x()+4, ms->height()/2-2,1,4)); //小矩形
+
+                }
+                //return QProxyStyle::drawComplexControl(control, &sll, painter, widget);
+            }
+        }
+        //return QProxyStyle::drawComplexControl(control, option, painter, widget);
+    }
+        break;
+    default:
+        break;
+    }
+
+    //return QProxyStyle::drawComplexControl(control, option, painter, widget);
 }
 
 void customstyle_switchNormalStatus::drawControl(QStyle::ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const

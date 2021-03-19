@@ -363,10 +363,7 @@ void feedback::UI_init()
     label_11 = new QLabel(frame_2);
     label_11->setObjectName(QString::fromUtf8("label_11"));
     label_11->setGeometry(QRect(15, 50, 200, 20));
-    qDebug()<<"22222";
 
-
-    qDebug()<<"@22222";
     if((style_name.compare("ukui-white")==0) || (style_name.compare("ukui-default")==0)){
         verticalWidget->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);\n"
                                                         "border-top-left-radius:4px;\n"

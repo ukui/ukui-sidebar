@@ -16,6 +16,7 @@
 *
 */
 #include "scrollingareawidget.h"
+#include "customstyle_switchNormalStatus.h"
 
 ScrollingAreaWidget::ScrollingAreaWidget(QWidget *parent) : QWidget(parent)
 {
@@ -42,6 +43,9 @@ void ScrollingAreaWidget::initMemberVariable()
     m_pVolumeIconLabel->setFixedSize(24, 24);
     m_pVolumeSlide       = new QSlider(Qt::Horizontal);
     m_pVolumeSlide->setFixedSize(120, 20);
+    m_pVolumeSlide->setSingleStep(10);
+    m_pVolumeSlide->setPageStep(10);
+    m_pVolumeSlide->setStyle(new customstyle_switchNormalStatus());
     connect(m_pVolumeSlide, &QSlider::valueChanged, this, &ScrollingAreaWidget::setVolumeSlideSlots);
 
     m_pHVolumeLayout     = new QHBoxLayout();
@@ -52,13 +56,19 @@ void ScrollingAreaWidget::initMemberVariable()
     m_pBrightNessWidget->setContentsMargins(0, 0, 0, 0);
     m_pBrightIconLabel   = new QLabel();
     m_pBrightIconLabel->setFixedSize(24, 24);
+
+
     m_pBrightSlide       = new QSlider(Qt::Horizontal);
     m_pBrightSlide->setFixedSize(120, 20);
+    m_pBrightSlide->setSingleStep(10);
+    m_pBrightSlide->setPageStep(10);
+    m_pBrightSlide->setStyle(new customstyle_switchNormalStatus());
     connect(m_pBrightSlide, &QSlider::valueChanged, this, &ScrollingAreaWidget::setBrightSlideSlots);
 
     m_pBrightLayout      = new QHBoxLayout();
     m_pBrightLayout->setContentsMargins(0, 0, 0, 0);
     m_pBrightLayout->setSpacing(0);
+
 }
 
 void ScrollingAreaWidget::initGsettingValue()
@@ -80,7 +90,7 @@ void ScrollingAreaWidget::initGsettingValue()
     }
     if (m_pBrightNessSetting != nullptr) {
         connect(m_pBrightNessSetting, &QGSettings::changed, this, &ScrollingAreaWidget::setSliderValue);
-        qDebug() << "当前的gsetting的key值" << m_pVolumeLightSetting->keys();
+        //qDebug() << "当前的gsetting的key值" << m_pVolumeLightSetting->keys();
     }
 
     return;
@@ -88,13 +98,15 @@ void ScrollingAreaWidget::initGsettingValue()
 
 void ScrollingAreaWidget::initSlideStatus()
 {
-    int value = m_pVolumeLightSetting->get(UKUI_VOLUME_KEY).toInt();
-    m_pVolumeSlide->setValue(value);
-    setVolumeStatusIcon(value);
+    if(QGSettings::isSchemaInstalled(UKUI_VOLUME_KEY)){
+        int value = m_pVolumeLightSetting->get(UKUI_VOLUME_KEY).toInt();
+        m_pVolumeSlide->setValue(value);
+        setVolumeStatusIcon(value);
 
-    value = m_pBrightNessSetting->get(UKUI_BRIGHTNESS_KEY).toInt();
-    m_pBrightSlide->setValue(value);
-    setLightStatusIcon();
+        value = m_pBrightNessSetting->get(UKUI_BRIGHTNESS_KEY).toInt();
+        m_pBrightSlide->setValue(value);
+        setLightStatusIcon();
+    }
     return;
 }
 

@@ -84,17 +84,20 @@ void powerSavingMode::initGsettingValue()
 
 void powerSavingMode::initButtonStatus()
 {
-    m_bModelStatus = m_pSavingModeButtonStatusGsetting->get(UKUI_ENERGY_SAVING_MODE_KEY).toBool();
-    m_pPowerModeButton->m_bStatusButton = m_bModelStatus;
-    if (m_bModelStatus) {
-        m_pPowerModeButton->setStyle(m_pStyleOpen);
-        m_pPowerModeButton->setIcon(QIcon::fromTheme(KYLIN_POWER_SAVING_OPEN_NAME, QIcon(KYLIN_POWER_SAVING_OPEN_PATH)));
-    } else {
-        m_pPowerModeButton->setStyle(m_pStyleNormal);
-        m_pPowerModeButton->setIcon(QIcon::fromTheme(KYLIN_POWER_SAVING_NORMAL_NAME, QIcon(KYLIN_POWER_SAVING_NORMAL_PATH)));
+    if(QGSettings::isSchemaInstalled(UKUI_ENERGY_SAVING_MODE_KEY)){
+        m_bModelStatus = m_pSavingModeButtonStatusGsetting->get(UKUI_ENERGY_SAVING_MODE_KEY).toBool();
+        m_pPowerModeButton->m_bStatusButton = m_bModelStatus;
+        if (m_bModelStatus) {
+            m_pPowerModeButton->setStyle(m_pStyleOpen);
+            m_pPowerModeButton->setIcon(QIcon::fromTheme(KYLIN_POWER_SAVING_OPEN_NAME, QIcon(KYLIN_POWER_SAVING_OPEN_PATH)));
+        } else {
+            m_pPowerModeButton->setStyle(m_pStyleNormal);
+            m_pPowerModeButton->setIcon(QIcon::fromTheme(KYLIN_POWER_SAVING_NORMAL_NAME, QIcon(KYLIN_POWER_SAVING_NORMAL_PATH)));
+        }
     }
     m_pPowerModeButton->update();
     setLabelTextColor();
+
 }
 
 void powerSavingMode::initLayout()
