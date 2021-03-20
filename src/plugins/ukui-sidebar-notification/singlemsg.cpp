@@ -30,6 +30,10 @@
 #include <QThread>
 #include <QGSettings>
 
+#define STYLE_FONT_SCHEMA "org.ukui.style"
+#define SYSTEM_FONT_EKY "system-font-size"
+#define SYSTEM_NAME_KEY "system-font"
+
 SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, QString strSummary, QDateTime dateTime, QString strBody, bool bTakeInFlag)
 {
     listenTimeZone();
@@ -94,6 +98,17 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     pIconToolButton->setPixmap(pictToWhite.drawSymbolicColoredPixmap(pixmap));
     pIconToolButton->setAttribute(Qt::WA_TranslucentBackground);
 
+    //获取系统字体大小
+    QFont ft;
+    ft.setPointSize(14);
+    if(QGSettings::isSchemaInstalled(STYLE_FONT_SCHEMA))
+    {
+        const QByteArray styleID(STYLE_FONT_SCHEMA);
+        stylesettings = new QGSettings(styleID);
+        int fontSize = stylesettings->get("system-font-size").toInt();
+        ft.setPointSize(fontSize);
+    }
+    connect(stylesettings, &QGSettings::changed, this, &SingleMsg::slotChangeFonts);
 
     //设置应用名标签，采用省略模式
     QLabel* pAppNameLabel = new QLabel();
@@ -102,7 +117,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     pAppNameLabel->setAttribute(Qt::WA_TranslucentBackground);
     QFont font14;
     font14.setPixelSize(14);
-    pAppNameLabel->setFont(font14);
+    pAppNameLabel->setFont(ft);
     QFontMetrics fontMetrics1(pAppNameLabel->font());
 
 
@@ -125,6 +140,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     //设置通知消息中的通知时间
     m_pTimeLabel = new QLabel();
     m_pTimeLabel->setObjectName("pushtime");
+    m_pTimeLabel->setFont(ft);
     m_pTimeLabel->setText(tr("now"));
     m_pTimeLabel->setAttribute(Qt::WA_TranslucentBackground);
 
@@ -207,9 +223,6 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pSummaryLabel = new QLabel();
     m_pSummaryLabel->setFixedWidth(314);
     m_pSummaryLabel->setAttribute(Qt::WA_TranslucentBackground);
-    QFont font16;
-    font16.setPixelSize(16);
-    m_pSummaryLabel->setFont(font16);
     QString formatSummary;
     formatSummary.append("<p style='line-height:26px'>").append(m_strSummary).append("</p>");
     QFontMetrics fontMetrics(m_pSummaryLabel->font());
@@ -219,7 +232,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     {
         strformatSummary = fontMetrics.elidedText(formatSummary, Qt::ElideRight, m_pSummaryLabel->width() + 210);
     }
-
+    m_pSummaryLabel->setFont(ft);
     m_pSummaryLabel->setText(strformatSummary);
     pVContextLayout->addWidget(m_pSummaryLabel, 0, Qt::AlignLeft);
 
@@ -244,6 +257,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
         {
             formatBody = fontMetrics.elidedText(strLineHeight24Body, Qt::ElideRight, m_pBodyLabel->width() + 180);
         }
+        m_pBodyLabel->setFont(ft);
         m_pBodyLabel->setText(formatBody);
         pVContextLayout->addWidget(m_pBodyLabel, 0, Qt::AlignLeft);
     }
@@ -311,6 +325,39 @@ void SingleMsg::listenTimeZoneSlots()
     m_uNotifyTime = currentDateTime.toTime_t() - m_uTimeDifference;
     m_dateTime = QDateTime::fromTime_t(m_uNotifyTime);
     updatePushTime();
+}
+
+void SingleMsg::slotChangeFonts()
+{
+    QFont ft;
+    ft.setPointSize(14);
+    int fontSize = stylesettings->get("system-font-size").toInt();
+    ft.setPointSize(fontSize);
+    //主题显示
+    QString formatSummary;
+    formatSummary.append("<p style='line-height:26px'>").append(m_strSummary).append("</p>");
+    QFontMetrics fontMetrics(m_pSummaryLabel->font());
+    int nFontSize = fontMetrics.width(formatSummary);
+    QString strformatSummary = formatSummary;
+    if(nFontSize > (m_pSummaryLabel->width() + 239))
+    {
+        strformatSummary = fontMetrics.elidedText(formatSummary, Qt::ElideRight, m_pSummaryLabel->width() + 210);
+    }
+    m_pSummaryLabel->setFont(ft);
+    m_pSummaryLabel->setText(strformatSummary);
+
+    //正文显示
+    QString strLineHeight24Body;
+    strLineHeight24Body.append("<p style='line-height:24px'>").append(m_strBody).append("</p>");
+    QFontMetrics fontMetrics1(m_pBodyLabel->font());
+    QString formatBody = strLineHeight24Body;
+    if(fontSize > (m_pBodyLabel->width() + 209))
+    {
+        formatBody = fontMetrics1.elidedText(strLineHeight24Body, Qt::ElideRight, m_pBodyLabel->width() + 180);
+    }
+    m_pBodyLabel->setFont(ft);
+    m_pBodyLabel->setText(formatBody);
+
 }
 
 void SingleMsg::paintEvent(QPaintEvent *e)

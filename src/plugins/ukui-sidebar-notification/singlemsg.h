@@ -104,6 +104,7 @@ private:
     bool            m_bMain;                        //是否为主窗口
     int             m_nShowLeftCount;               //为主窗口时,剩余显示条数
     bool            m_bTimeFormat;                  //time制式，0代表12小时制，1代表24小时制
+    QGSettings      *stylesettings;                 //获取系统字体大小
 
 signals:
     void            Sig_onDeleSingleMsg(SingleMsg* p);
@@ -133,6 +134,7 @@ public slots:
     void            onDeleUpperMoveFinish();                        //处理删除上移完成时的函数
     void            startAnimationDeleLeftMove();                   //开启删除左移动画
     void            listenTimeZoneSlots();                          //监听时区变化函数
+    void            slotChangeFonts();                              //系统字体变化时，优化显示显示格式
 };
 
 #endif // SINGLEMSG_H
