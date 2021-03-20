@@ -134,7 +134,7 @@ public slots:
     void            onDeleUpperMoveFinish();                        //处理删除上移完成时的函数
     void            startAnimationDeleLeftMove();                   //开启删除左移动画
     void            listenTimeZoneSlots();                          //监听时区变化函数
-    void            slotChangeFonts();                              //系统字体变化时，优化显示显示格式
+    void            slotChangeFonts(QString &key);                              //系统字体变化时，优化显示显示格式
 };
 
 #endif // SINGLEMSG_H

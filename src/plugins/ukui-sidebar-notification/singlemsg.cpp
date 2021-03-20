@@ -108,7 +108,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
         int fontSize = stylesettings->get("system-font-size").toInt();
         ft.setPointSize(fontSize);
     }
-    connect(stylesettings, &QGSettings::changed, this, &SingleMsg::slotChangeFonts);
+    connect(stylesettings, &QGSettings::changed(QString &key), this, &SingleMsg::slotChangeFonts(QString &key));
 
     //设置应用名标签，采用省略模式
     QLabel* pAppNameLabel = new QLabel();
@@ -327,12 +327,16 @@ void SingleMsg::listenTimeZoneSlots()
     updatePushTime();
 }
 
-void SingleMsg::slotChangeFonts()
+void SingleMsg::slotChangeFonts(QString &key)
 {
+    if(key != "system-font-size")
+        return;
     QFont ft;
     ft.setPointSize(14);
-    int fontSize = stylesettings->get("system-font-size").toInt();
-    ft.setPointSize(fontSize);
+    if(QGSettings::isSchemaInstalled("system-font-size")){
+        int fontSize = stylesettings->get("system-font-size").toInt();
+        ft.setPointSize(fontSize);
+    }
     //主题显示
     QString formatSummary;
     formatSummary.append("<p style='line-height:26px'>").append(m_strSummary).append("</p>");
