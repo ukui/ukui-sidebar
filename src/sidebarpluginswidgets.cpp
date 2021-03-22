@@ -104,7 +104,7 @@ void sidebarPluginsWidgets::initUpGroupBoxButton()
     m_pClipboardButton = new SmallPluginsButton();
     m_pClipboardButton->setText(tr("Clipboard"));
     m_pClipboardButton->setObjectName("ClipboardButton");
-    m_pClipboardButton->setFixedSize(90,34);
+    m_pClipboardButton->setFixedSize(100,34);
     connect(m_pClipboardButton, &SmallPluginsButton::clicked, this, &sidebarPluginsWidgets::m_ClipboardButtonSlots);
 
     //小插件按钮
@@ -138,9 +138,9 @@ void sidebarPluginsWidgets::initUpGroupBoxButton()
     m_pGrouBoxUpButtonHLayout->addWidget(m_pClipboardButton);
     m_pGrouBoxUpButtonHLayout->addItem(new QSpacerItem(10, 20));
     m_pGrouBoxUpButtonHLayout->addWidget(m_pSidebarPluginButton);
-    m_pGrouBoxUpButtonHLayout->addItem(new QSpacerItem(10, 20));
+    m_pGrouBoxUpButtonHLayout->addItem(new QSpacerItem(0, 20));
     m_pGrouBoxUpButtonHLayout->addWidget(m_pBlueBackgroundButton);
-    m_pGrouBoxUpButtonHLayout->addItem(new QSpacerItem(202, 20));
+    m_pGrouBoxUpButtonHLayout->addItem(new QSpacerItem(192, 20));
     m_pButtonWidget->setLayout(m_pGrouBoxUpButtonHLayout);
     m_pGrouBoxUpButtonHLayout->setSpacing(0);
     return;
