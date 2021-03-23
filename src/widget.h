@@ -43,6 +43,10 @@
 #define UKUI_TRANSPARENCY_SETTING "org.ukui.control-center.personalise"
 #define UKUI_PANEL_SETTING "org.ukui.panel.settings"
 
+#define ENV_X11       "x11"
+#define ENV_WAYLAND   "wayland"
+#define ENV_XDG_SESSION_TYPE "XDG_SESSION_TYPE"
+
 #define DBUS_NAME       "org.ukui.SettingsDaemon"
 #define DBUS_PATH       "/org/ukui/SettingsDaemon/wayland"
 #define DBUS_INTERFACE  "org.ukui.SettingsDaemon.wayland"
@@ -72,6 +76,7 @@ public:
     //主界面
     void initTranslation();                                                     // 初始化翻译
     void initAimation();                                                        // 初始化动画
+    void initOsSiteXY();                                                        // 初始化使用qt接口初始化接口
     void showAnimation();                                                       // show动作
     void hideAnimation();                                                       // hide动作
     void initDesktopPrimary();                                                  // 初始化分辨率和信号连接

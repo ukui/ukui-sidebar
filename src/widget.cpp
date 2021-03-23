@@ -40,9 +40,6 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     /* 初始化屏幕 */
     initDesktopPrimary();
 
-    /* 判断华为接口是否存在 */
-    m_bHWdbusExit = initHuaWeiDbus();
-
     /* 初始化主屏的X坐标 */
     InitializeHomeScreenGeometry();
 
@@ -367,6 +364,8 @@ bool Widget::initHuaWeiDbus()
     m_nScreen_y = getScreenGeometry("y");
     m_nScreenWidth = getScreenGeometry("width");
     m_nScreenHeight = getScreenGeometry("height");
+    qDebug() << "HW--->偏移的x坐标------------------------------>" << m_nScreen_x;
+    qDebug() << "HW--->偏移的Y坐标------------------------------>" << m_nScreen_y;
     if (m_nScreenWidth == 0 || m_nScreenHeight == 0) {
         qDebug() << "无dbus可用接口HW";
         return false;
@@ -751,14 +750,8 @@ void Widget::ModifyScreenNeeds()
     return;
 }
 
-/* 初始化主屏的X坐标 */
-void Widget::InitializeHomeScreenGeometry()
+void Widget::initOsSiteXY()
 {
-    if (m_bHWdbusExit) {
-        qDebug() << "HW--->偏移的x坐标------------------------------>" << m_nScreen_x;
-        qDebug() << "HW--->偏移的Y坐标------------------------------>" << m_nScreen_y;
-        return;
-    }
     if (QGuiApplication::primaryScreen()) {
         m_nScreen_x = QGuiApplication::primaryScreen()->geometry().x();
         m_nScreen_y = QGuiApplication::primaryScreen()->geometry().y();
@@ -774,9 +767,27 @@ void Widget::InitializeHomeScreenGeometry()
             m_nScreen_y = 0;
         }
     }
-    GetsAvailableAreaScreen();
-    qDebug() << "偏移的x坐标------------------------------>" << m_nScreen_x;
-    qDebug() << "偏移的Y坐标------------------------------>" << m_nScreen_y;
+}
+
+/* 初始化主屏的X坐标 */
+void Widget::InitializeHomeScreenGeometry()
+{
+    QString ArchDiff = qgetenv(ENV_XDG_SESSION_TYPE);
+    if (ArchDiff == ENV_WAYLAND) {
+        if (!initHuaWeiDbus()) {
+            initOsSiteXY();
+            GetsAvailableAreaScreen();
+            qDebug() << "HW--->偏移的x坐标，初始化坐标错误------------------------------>" << m_nScreen_x;
+            qDebug() << "HW--->偏移的Y坐标，初始化坐标错误------------------------------>" << m_nScreen_y;
+            return;
+        }
+    } else if (ArchDiff == ENV_X11) {
+        initOsSiteXY();
+        GetsAvailableAreaScreen();
+        qDebug() << "偏移的x坐标------------------------------>" << m_nScreen_x;
+        qDebug() << "偏移的Y坐标------------------------------>" << m_nScreen_y;
+    }
+    return;
 }
 
 /* 监听gsetting，修改所有的字体 */
