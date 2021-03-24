@@ -48,6 +48,9 @@
 #include <QPainterPath>
 #include <QSettings>
 #include <QGSettings>
+#include <QDBusInterface>
+#include <unistd.h>
+#include <QShortcut>
 
 #include "myThrow.h"
 #include "noteView.h"
@@ -76,6 +79,11 @@
  * ukui-control-center
  */
 #define PERSONALISE_SCHEMA "org.ukui.control-center.personalise"
+
+/**
+ * kylin-user-guide
+ */
+#define USER_GUIDE_SCHEMA "com.kylinUserGuide.hotel_1000"
 
 
 namespace Ui {
@@ -138,6 +146,7 @@ private:
     bool mousePressed;                                              //鼠标是否按下
     QString currentTheme;                                           //当前主题名
     double m_transparency;                                          //透明度
+    QDBusInterface *userGuideInterface;                                   //用户手册
 
     int m_noteCounter;                                              //便签总数
     int m_trashCounter;                                             //废纸篓总数
@@ -194,6 +203,7 @@ private slots:
     void setNoteNullSlot();                                         //便签页关闭置空槽函数
     void clearNoteSlot();                                           //清空便签槽函数
     //void SetNoteSlot();                                             //便签设置界面槽函数
+    void onF1ButtonClicked();                                       //快捷键F1槽函数
 
 signals:
     void requestNotesList();                                        //加载列表请求信号

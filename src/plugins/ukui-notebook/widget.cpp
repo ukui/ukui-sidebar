@@ -357,6 +357,8 @@ void Widget::kyNoteConn()
             m_dbManager, &DBManager::onForceLastRowIndexValueRequested, Qt::BlockingQueuedConnection);
 
     connect(m_dbManager, &DBManager::notesReceived, this, &Widget::loadNotes);
+    //快捷键
+    new QShortcut(QKeySequence(Qt::Key_F1), this, SLOT(onF1ButtonClicked()));
 }
 
 /*!
@@ -389,6 +391,7 @@ void Widget::listenToGsettings()
         });
     }
 
+    // 监听控制面板字体变化
     const QByteArray idd(PERSONALISE_SCHEMA);
 
     if(QGSettings::isSchemaInstalled(idd))
@@ -404,6 +407,20 @@ void Widget::listenToGsettings()
             repaint();
         });
         m_transparency = opacitySettings->get("transparency").toDouble();
+    }
+
+    // 用户手册
+    QString serviceName = "com.kylinUserGuide.hotel" + QString("%1%2").arg("_").arg(QString::number(getuid()));
+    userGuideInterface = new QDBusInterface(serviceName,
+                                          "/",
+                                          "com.guide.hotel",
+                                          QDBusConnection::sessionBus());
+    qDebug() << "connect to kylinUserGuide" << userGuideInterface->isValid();
+    if (!userGuideInterface->isValid())
+    {
+        qDebug() << "fail to connect to kylinUserGuide";
+        qDebug() << qPrintable(QDBusConnection::sessionBus().lastError().message());
+        return;
     }
 }
 
@@ -481,18 +498,25 @@ void Widget::btnInit()
     m_menu->setProperty("fillIconSymbolicColor", true);
 
     m_menuActionEmpty = new QAction(m_menu);
+    QAction *m_helpAction = new QAction(m_menu);
     QAction *m_aboutAction = new QAction(m_menu);
     //m_menuActionSet = new QAction(m_menu);
 
+    m_helpAction->setText(tr("Help"));
     m_aboutAction->setText(tr("About"));
     m_menuActionEmpty->setText(tr("Empty Note"));
     //m_menuActionSet->setText(tr("Set Note"));
 
     m_menu->addAction(m_menuActionEmpty);
+    m_menu->addAction(m_helpAction);
     m_menu->addAction(m_aboutAction);
     //m_menu->addAction(m_menuActionSet);
     ui->menuBtn->setMenu(m_menu);
 
+    connect(m_helpAction, &QAction::triggered, this, [=](){
+        qDebug() << "help clicked";
+        userGuideInterface->call(QString("showGuide"), "tools/ukui-notebook");
+    });
     connect(m_aboutAction, &QAction::triggered, this, [=](){
         About *dialog = new About();
         dialog->exec();
@@ -1484,4 +1508,13 @@ void Widget::setNoteNullSlot()
         NoteData* note = m_noteModel->getNote(index);
         note->m_note = nullptr;
     }
+}
+
+/*!
+ * \brief Widget::onF1ButtonClicked
+ *
+ */
+void Widget::onF1ButtonClicked() {
+    qDebug() << "onF1ButtonClicked";
+    userGuideInterface->call(QString("showGuide"), "tools/ukui-notebook");
 }
