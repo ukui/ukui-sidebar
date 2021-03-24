@@ -44,7 +44,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     InitializeHomeScreenGeometry();
 
     /* 获取屏幕可用高度区域 */
-    GetsAvailableAreaScreen();
+//    GetsAvailableAreaScreen();
 
     /* 初始化动画 */
     initAimation();
