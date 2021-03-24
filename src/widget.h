@@ -110,7 +110,7 @@ private:
     //主界面
     QVBoxLayout*                m_pMainQVBoxLayout;                             // 主界面垂直布局器
     QDBusInterface*             m_pServiceInterface;                            // 获取任务栏的高度
-    QDBusInterface*             m_pDbusXrandInter;                              // 华为990dbus接口
+    QDBusInterface*             m_pDbusXrandInter=nullptr;                              // 华为990dbus接口
     bool                        m_bHWdbusExit;                                  // 华为dbus接口是否存在
     bool                        m_bShowFlag = false;                            // 控制托盘栏点击事件的标志位
     bool                        m_bClipboardFlag = true;                        // 剪贴板编辑框打开和关闭时控制侧边栏是否关闭
