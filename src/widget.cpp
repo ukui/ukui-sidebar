@@ -353,10 +353,12 @@ int Widget::connectTaskBarDbus()
 // 初始化华为990dbus接口
 bool Widget::initHuaWeiDbus()
 {
+    if(!m_pDbusXrandInter){
     m_pDbusXrandInter = new QDBusInterface(DBUS_NAME,
                                          DBUS_PATH,
                                          DBUS_INTERFACE,
                                          QDBusConnection::sessionBus());
+    }
 
     connect(m_pDbusXrandInter, SIGNAL(screenPrimaryChanged(int,int,int,int)),
             this, SLOT(priScreenChanged(int,int,int,int)));
