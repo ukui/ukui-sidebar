@@ -23,6 +23,7 @@
 #include "editPage.h"
 #include "customStyle.h"
 #include "CloseButton/closebutton.h"
+#include "utils/xatom-helper.h"
 
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 
@@ -244,7 +245,7 @@ void Widget::kyNoteInit()
     m_viewChangeButton = ui->viewChangeButton;
 
     initListMode();
-
+    setFixedSize(712,590);
     setMouseTracking(true);               //设置鼠标追踪
     //窗口属性
     //setWindowFlags(Qt::FramelessWindowHint);    //开启窗口无边框
@@ -861,6 +862,12 @@ void Widget::createNewNote()
         newSlot();
     });
     connect(m_notebook->m_noteHeadMenu, &noteHeadMenu::requestShowNote, this, [=]{
+        // 添加窗管协议
+        MotifWmHints hints;
+        hints.flags = MWM_HINTS_FUNCTIONS|MWM_HINTS_DECORATIONS;
+        hints.functions = MWM_FUNC_ALL;
+        hints.decorations = MWM_DECOR_BORDER;
+        XAtomHelper::getInstance()->setWindowMotifHint(this->winId(), hints);
         this->raise();
         this->activateWindow();
         this->show();
@@ -1355,6 +1362,12 @@ void Widget::listDoubleClickSlot(const QModelIndex& index)
             newSlot();
         });
         connect(m_notebook->m_noteHeadMenu, &noteHeadMenu::requestShowNote, this, [=]{
+            // 添加窗管协议
+            MotifWmHints hints;
+            hints.flags = MWM_HINTS_FUNCTIONS|MWM_HINTS_DECORATIONS;
+            hints.functions = MWM_FUNC_ALL;
+            hints.decorations = MWM_DECOR_BORDER;
+            XAtomHelper::getInstance()->setWindowMotifHint(this->winId(), hints);
             this->raise();
             this->activateWindow();
             this->show();
