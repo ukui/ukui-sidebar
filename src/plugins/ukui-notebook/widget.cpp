@@ -25,6 +25,12 @@
 #include "CloseButton/closebutton.h"
 #include "utils/xatom-helper.h"
 
+/*!
+ * 系统时间
+ */
+#define FORMAT_SCHEMA   "org.ukui.control-center.panel.plugins"
+#define TIME_FORMAT_KEY "hoursystem"
+
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 
 /*!
@@ -368,8 +374,9 @@ void Widget::kyNoteConn()
  */
 void Widget::listenToGsettings()
 {
-    //监听主题改变
+    // 监听主题改变
     const QByteArray id(THEME_QT_SCHEMA);
+
     if(QGSettings::isSchemaInstalled(id)){
         QGSettings *styleSettings = new QGSettings(id);
         connect(styleSettings, &QGSettings::changed, this, [=](const QString &key){
@@ -395,8 +402,7 @@ void Widget::listenToGsettings()
     // 监听控制面板字体变化
     const QByteArray idd(PERSONALISE_SCHEMA);
 
-    if(QGSettings::isSchemaInstalled(idd))
-    {
+    if(QGSettings::isSchemaInstalled(idd)){
         QGSettings *opacitySettings = new QGSettings(idd);
         connect(opacitySettings,&QGSettings::changed, this, [=](const QString &key){
             if(key == "transparency"){
@@ -417,11 +423,25 @@ void Widget::listenToGsettings()
                                           "com.guide.hotel",
                                           QDBusConnection::sessionBus());
     qDebug() << "connect to kylinUserGuide" << userGuideInterface->isValid();
-    if (!userGuideInterface->isValid())
-    {
+    if (!userGuideInterface->isValid()){
         qDebug() << "fail to connect to kylinUserGuide";
         qDebug() << qPrintable(QDBusConnection::sessionBus().lastError().message());
         return;
+    }
+
+    // 监听时区变化
+    const QByteArray iddd(FORMAT_SCHEMA);
+
+    if (QGSettings::isSchemaInstalled(iddd)){
+        QGSettings *m_formatsettings = new QGSettings(iddd);
+
+        connect(m_formatsettings, &QGSettings::changed, this, [=] (const QString &key) {
+            if (key == "hoursystem") {
+                QString value = m_formatsettings->get(TIME_FORMAT_KEY).toString();
+                qDebug() << "hoursystem changed" << value;
+                m_noteView->viewport()->update();
+            }
+        });
     }
 }
 

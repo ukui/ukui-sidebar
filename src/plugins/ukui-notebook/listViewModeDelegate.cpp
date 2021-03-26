@@ -30,6 +30,12 @@
 #include "listViewModeDelegate.h"
 #include "noteView.h"
 
+/*!
+ * 系统时间
+ */
+#define FORMAT_SCHEMA   "org.ukui.control-center.panel.plugins"
+#define TIME_FORMAT_KEY "hoursystem"
+
 listViewModeDelegate::listViewModeDelegate(QObject *parent)
     : QStyledItemDelegate(parent),
       m_titleFont(QStringLiteral("Noto Sans CJK SC"), 10.5),              //标题字体
@@ -71,6 +77,20 @@ listViewModeDelegate::listViewModeDelegate(QObject *parent)
         m_animatedIndex = QModelIndex();
         m_state = Normal;
     });
+
+    // 监听时区变化
+    const QByteArray iddd(FORMAT_SCHEMA);
+
+    if (QGSettings::isSchemaInstalled(iddd)){
+        QGSettings *m_formatsettings = new QGSettings(iddd);
+
+        m_timeZone = m_formatsettings->get(TIME_FORMAT_KEY).toString();
+        connect(m_formatsettings, &QGSettings::changed, this, [=] (const QString &key) {
+            if (key == "hoursystem") {
+                m_timeZone = m_formatsettings->get(TIME_FORMAT_KEY).toString();
+            }
+        });
+    }
 }
 
 void listViewModeDelegate::setState(States NewState, QModelIndex index)
@@ -357,11 +377,20 @@ QString listViewModeDelegate::parseDateTime(const QDateTime &dateTime) const
 
     if(dateTime.date() == currDateTime.date()){
         d = tr("Today  ");
-        d.append(usLocale.toString(dateTime.time(),"hh:mm"));
+        if(m_timeZone == "24"){
+            d.append(usLocale.toString(dateTime.time(),"hh:mm"));
+        }else {
+            d.append(usLocale.toString(dateTime.time(),"AP hh:mm"));
+        }
+
         return d;
     }else if(dateTime.daysTo(currDateTime) == 1){
         d = tr("Yesterday  ");
-        d.append(usLocale.toString(dateTime.time(),"hh:mm"));
+        if(m_timeZone == "24"){
+            d.append(usLocale.toString(dateTime.time(),"hh:mm"));
+        }else {
+            d.append(usLocale.toString(dateTime.time(),"AP hh:mm"));
+        }
         return d;
     }
     //else if(dateTime.daysTo(currDateTime) >= 2 &&
@@ -369,6 +398,9 @@ QString listViewModeDelegate::parseDateTime(const QDateTime &dateTime) const
     //    return usLocale.toString(dateTime.date(), "dddd");
     //}
 
+    if(m_timeZone == "12"){
+        return dateTime.toString("yyyy/MM/dd AP hh:mm");
+    }
     return dateTime.toString("yyyy/MM/dd  hh:mm");
 }
 
