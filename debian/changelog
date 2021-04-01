@@ -1,3 +1,11 @@
+ukui-sidebar (1.1.2-0008) v101; urgency=medium
+
+  * 改动：
+    - 删除对于屏幕宽度判断，自适应屏幕缩放比200%
+    - 避免重复new 华为dbus接口
+
+ -- liushanwen <liushanwen@kylinos.cn>  Thu, 01 Apr 2021 11:34:40 +0800
+
 ukui-sidebar (1.1.2-0023) v101; urgency=medium
 
   * 改动：
