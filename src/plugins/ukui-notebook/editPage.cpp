@@ -82,11 +82,17 @@ void Edit_page::leaveEvent(QEvent *event)
 
 void Edit_page::initSetup()
 {
-    //标题
+    // 标题
     this->setWindowTitle(tr("Kylin Memo"));
-    //任务栏图标
+    // 任务栏图标
     setWindowIcon(QIcon::fromTheme("kylin-notebook"));
     //setWindowFlags(Qt::FramelessWindowHint);
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 12, 0))
+    // 高分屏适配
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+#endif
 
     // 添加窗管协议
     MotifWmHints hints;
