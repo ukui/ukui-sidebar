@@ -241,6 +241,20 @@ void Clock::settingsStyle()
             setWindowIcon(QIcon::fromTheme("kylin-alarm-clock",QIcon(":/image/kylin-alarm-clock.svg")));
         }
     });
+
+    // 用户手册
+    QString serviceName = "com.kylinUserGuide.hotel"
+                          + QString("%1%2").arg("_").arg(QString::number(getuid()));
+    userGuideInterface = new QDBusInterface(serviceName,
+                                            "/",
+                                            "com.guide.hotel",
+                                            QDBusConnection::sessionBus());
+    qDebug() << "connect to kylinUserGuide" << userGuideInterface->isValid();
+    if (!userGuideInterface->isValid()) {
+        qDebug() << "fail to connect to kylinUserGuide";
+        qDebug() << qPrintable(QDBusConnection::sessionBus().lastError().message());
+        return;
+    }
 }
 
 /*
@@ -460,18 +474,26 @@ void Clock::clockInit()
     m_menu = new QMenu(ui->pushButton_12);
     m_menu->setProperty("fillIconSymbolicColor", true);
     m_menuAction = new QAction(m_menu);
+    QAction *m_helpAction = new QAction(m_menu);
     QAction *m_aboutAction = new QAction(m_menu);
     QAction *m_closeAction = new QAction(m_menu);
 
     m_menuAction->setText(tr("Set Up"));
+    m_helpAction->setText(tr("Help"));
     m_aboutAction->setText(tr("About"));
     m_closeAction->setText(tr("Close"));
 
     m_menu->addAction(m_menuAction);
+    m_menu->addAction(m_helpAction);
     m_menu->addAction(m_aboutAction);
     m_menu->addAction(m_closeAction);
 
     ui->pushButton_12->setMenu(m_menu);
+
+    connect(m_helpAction, &QAction::triggered, this, [=](){
+        qDebug() << "help clicked";
+        userGuideInterface->call(QString("showGuide"), "tools/ukui-clock");
+    });
 
     connect(m_aboutAction, &QAction::triggered, this, [=](){
         About *dialog = new About();
