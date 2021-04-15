@@ -88,14 +88,14 @@ void CleanPromptBox::creatorHintInfomationWidget()
     QFont Informationfont;
     m_pHintInformation->setFont(Informationfont);
     QFontMetrics fontMetrics1(m_pHintInformation->font());
-    QString formatAppName = fontMetrics1.elidedText(m_pHintInformation->text(), Qt::ElideRight, m_pHintInformation->width()/2);
+    QString formatAppName = fontMetrics1.elidedText(m_pHintInformation->text(), Qt::ElideRight, m_pHintInformation->width()/3);
     m_pHintInformation->setText(formatAppName);
-
+    m_pHintInformation->setFixedHeight(Informationfont.pointSize()*4);
     m_pHintInformation->setGeometry(QRect(328, 240, 329, 27*4));  //四倍行距
     m_pHintInformation->setWordWrap(true);
-    m_pHintInformation->setAlignment(Qt::AlignTop);
+    m_pHintInformation->setAlignment(Qt::AlignVCenter);
 
-    m_pHintInformation->setFixedSize(250, 100);
+//    m_pHintInformation->setFixedSize(250, 100);
     m_pIconLableHLaout->addItem(new QSpacerItem(31,20));
     m_pIconLableHLaout->addWidget(m_pIconButton);
     m_pIconLableHLaout->addItem(new QSpacerItem(16, 20));
@@ -103,6 +103,7 @@ void CleanPromptBox::creatorHintInfomationWidget()
     m_pIconLableHLaout->addItem(new QSpacerItem(55, 20));
     m_pIconLableHLaout->setSpacing(0);
     m_pHintInformationWidget->setLayout(m_pIconLableHLaout);
+    m_pHintInformationWidget->setFixedHeight(m_pHintInformation->height());
     return;
 }
 
@@ -163,7 +164,7 @@ void CleanPromptBox::creatorCleanPromptBoxWidget()
     m_pHintWidgetVLaout->setSpacing(0);
     m_pHintWidgetVLaout->addItem(new QSpacerItem(20, 48));
     m_pHintWidgetVLaout->addWidget(m_pHintInformationWidget);
-    m_pHintWidgetVLaout->addItem(new QSpacerItem(10, 10));
+    m_pHintWidgetVLaout->addItem(new QSpacerItem(15, 10));
     m_pHintWidgetVLaout->addWidget(m_pCheckBoxWidget);
     m_pHintWidgetVLaout->addItem(new QSpacerItem(10, 41));
     m_pHintWidgetVLaout->addWidget(m_pButtonWidget);
