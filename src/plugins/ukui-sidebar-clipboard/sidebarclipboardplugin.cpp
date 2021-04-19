@@ -218,6 +218,10 @@ void SidebarClipboardPlugin::createWidgetEntry()
     if (mimeData->hasImage()) {
         s_pDataHashValue->p_pixmap = new QPixmap((qvariant_cast<QPixmap>(mimeData->imageData())));
         format = IMAGE;
+        if(mimeData->hasText()){
+            text = mimeData->text();
+            format = TEXT;
+        }
         if (nullptr == s_pDataHashValue->p_pixmap) {
            qWarning() << "构造数据类型有错误-->p_pixmap == nullptr";
            return;
