@@ -25,6 +25,11 @@
 #include <X11/Xlib.h>
 //#include <KWindowEffects>
 
+//SDK统一格式日志
+#ifdef KYDEBUG
+#include <ukui-log4qt.h>
+#endif
+
 /*!
  * \brief myMessageOutput
  * 日志打印输出
@@ -97,7 +102,12 @@ int getScreenWidth() {
 int main(int argc, char *argv[])
 {
     //自定义消息处理
-    qInstallMessageHandler(myMessageOutput);
+    //qInstallMessageHandler(myMessageOutput);
+
+    //SDK统一格式日志
+    #ifdef KYDEBUG
+       initUkuiLog4qt("ukui-notebook");
+    #endif
 
     if (getScreenWidth() > 2560) {
         #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
