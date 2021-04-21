@@ -17,6 +17,8 @@
 */
 #include "deleteMsg.h"
 #include "ui_deleteMsg.h"
+#include <X11/Xlib.h>
+#include "xatom-helper.h"
 
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 
@@ -25,9 +27,16 @@ delete_msg::delete_msg(QWidget *parent) :
     ui(new Ui::delete_msg)
 {
     ui->setupUi(this);
-    this->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
-    setAttribute(Qt::WA_TranslucentBackground);
-    this->setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
+
+    // 添加窗管协议
+    MotifWmHints hints;
+    hints.flags = MWM_HINTS_FUNCTIONS|MWM_HINTS_DECORATIONS;
+    hints.functions = MWM_FUNC_ALL;
+    hints.decorations = MWM_DECOR_BORDER;
+    XAtomHelper::getInstance()->setWindowMotifHint(this->winId(), hints);
+//    this->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
+//    setAttribute(Qt::WA_TranslucentBackground);
+//    this->setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
 
     QPalette palette = ui->surebtn->palette();
     QColor ColorPlaceholderText(61,107,229,255);
@@ -77,39 +86,10 @@ void delete_msg::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
     QPainter p(this);
-    p.setRenderHint(QPainter::Antialiasing);
+    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     QPainterPath rectPath;
-    rectPath.addRoundedRect(this->rect().adjusted(6, 6, -6, -6), 6, 6);
-    // 画一个黑底
-    QPixmap pixmap(this->rect().size());
-    pixmap.fill(Qt::transparent);
-    QPainter pixmapPainter(&pixmap);
-    pixmapPainter.setRenderHint(QPainter::Antialiasing);
-    pixmapPainter.setPen(Qt::transparent);
-    pixmapPainter.setBrush(Qt::black);
-    pixmapPainter.drawPath(rectPath);
-    pixmapPainter.end();
-
-    // 模糊这个黑底
-    QImage img = pixmap.toImage();
-    qt_blurImage(img, 10, false, false);
-
-    // 挖掉中心
-    pixmap = QPixmap::fromImage(img);
-    QPainter pixmapPainter2(&pixmap);
-    pixmapPainter2.setRenderHint(QPainter::Antialiasing);
-    pixmapPainter2.setCompositionMode(QPainter::CompositionMode_Clear);
-    pixmapPainter2.setPen(Qt::transparent);
-    pixmapPainter2.setBrush(Qt::transparent);
-    pixmapPainter2.drawPath(rectPath);
-
-    // 绘制阴影
-    p.drawPixmap(this->rect(), pixmap, pixmap.rect());
-
-    // 绘制一个背景
-    p.save();
+    rectPath.addRect(this->rect());
     p.fillPath(rectPath,palette().color(QPalette::Base));
-    p.restore();
 }
 
 void delete_msg::mousePressEvent(QMouseEvent *event)

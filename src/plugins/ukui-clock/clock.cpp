@@ -36,10 +36,10 @@ Clock::Clock(QWidget *parent) :
     createConnection();
 
     this->setWindowTitle(tr("Alarm"));
-    this->setAttribute(Qt::WA_TranslucentBackground);
-    QPainterPath blurPath;
-    setProperty("useSystemStyleBlur", true);
-    setProperty("blurRegion", QRegion(blurPath.toFillPolygon().toPolygon()));//使用QPainterPath的api生成多边形Region
+//    this->setAttribute(Qt::WA_TranslucentBackground);
+//    QPainterPath blurPath;
+//    setProperty("useSystemStyleBlur", true);
+//    setProperty("blurRegion", QRegion(blurPath.toFillPolygon().toPolygon()));//使用QPainterPath的api生成多边形Region
     settingsStyle();
 
     mousePressed = 0;
@@ -1091,29 +1091,30 @@ void Clock::noticeDialogShow(int close_time, int alarm_num)
     int screen_width = mm.width();
     int screen_height = mm.height();
     Natice_alarm  *dialog1 = new Natice_alarm(close_time,alarm_num);
-    dialog1->ui->label_2->setText(model->index(alarm_num, 14).data().toString());
-    if (system_time_flag) {
-        dialog1->ui->label_3->setText(changeNumToStr(hour_now)+" : "+changeNumToStr(min_now));
-    } else {
-        if (hour_now >= 12) {
-            if (hour_now == 12) {
-                dialog1->ui->label_3->setText(tr("PM")+" "+changeNumToStr(hour_now)+" : "+changeNumToStr(min_now));
-            } else {
-                dialog1->ui->label_3->setText(tr("PM")+" "+changeNumToStr(hour_now-12)+" : "+changeNumToStr(min_now));
-            }
-        } else {
-            if (hour_now == 0){
-                dialog1->ui->label_3->setText(tr("AM")+" "+changeNumToStr(12)+" : "+changeNumToStr(min_now));
-            } else {
-                dialog1->ui->label_3->setText(tr("AM")+" "+changeNumToStr(hour_now)+" : "+changeNumToStr(min_now));
-            }
-        }
-    }
+    dialog1->ui->label_2->hide();
+    dialog1->ui->label_3->setText(model->index(alarm_num, 14).data().toString());
+//    if (system_time_flag) {
+//        dialog1->ui->label_3->setText(changeNumToStr(hour_now)+" : "+changeNumToStr(min_now));
+//    } else {
+//        if (hour_now >= 12) {
+//            if (hour_now == 12) {
+//                dialog1->ui->label_3->setText(tr("PM")+" "+changeNumToStr(hour_now)+" : "+changeNumToStr(min_now));
+//            } else {
+//                dialog1->ui->label_3->setText(tr("PM")+" "+changeNumToStr(hour_now-12)+" : "+changeNumToStr(min_now));
+//            }
+//        } else {
+//            if (hour_now == 0){
+//                dialog1->ui->label_3->setText(tr("AM")+" "+changeNumToStr(12)+" : "+changeNumToStr(min_now));
+//            } else {
+//                dialog1->ui->label_3->setText(tr("AM")+" "+changeNumToStr(hour_now)+" : "+changeNumToStr(min_now));
+//            }
+//        }
+//    }
     dialog1->ui->label_4->setText(QString::number(close_time)+tr(" Seconds to close"));
     if (model_setup->index(0, 3).data().toInt()) {
         dialog1->showFullScreen();
     } else {
-        dialog1->move(screen_width-450,screen_height-250);
+        dialog1->move(screen_width-350,screen_height-150);
     }
     dialog1->show();
 }
@@ -1896,7 +1897,7 @@ void Clock::countdownMusicSellect()
         QPointF position = this->pos();
         count_music_sellect->move(position.x()+15,position.y()+470);
         count_music_sellect->setFixedSize(360, 172);
-        count_music_sellect->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
+        count_music_sellect->setWindowFlags(Qt::Popup);
         count_music_sellect->listWidget->setFixedSize(340,151);
         count_music_sellect->widget[0]->alarmLabel0->setText(tr("glass"));
         count_music_sellect->widget[1]->alarmLabel0->setText(tr("bark"));
@@ -2004,7 +2005,7 @@ void Clock::countdownNoticeDialogShow()
     if (model_setup->index(0, 3).data().toInt()) {
         countdownNoticeDialog->showFullScreen();
     } else {
-        countdownNoticeDialog->move(screen_width-450,screen_height-250);
+        countdownNoticeDialog->move(screen_width-350,screen_height-150);
     }
     countdownNoticeDialog->music->setVolume(model_setup->index(0, 6).data().toInt());
     countdownNoticeDialog->timer->start();
@@ -2410,8 +2411,8 @@ void Clock::alarmRepeat()
         dialog_repeat->move(position.x()+15,position.y()+408);
         dialog_repeat->setFixedSize(360,290);
         dialog_repeat->listWidget->setFixedSize(340,270);
-        dialog_repeat->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
-        dialog_repeat->setAttribute(Qt::WA_TranslucentBackground);
+        dialog_repeat->setWindowFlags(Qt::Popup);
+        //dialog_repeat->setAttribute(Qt::WA_TranslucentBackground);
         dialog_repeat->widget[0]->alarmLabel0->setText(tr("No repetition"));
         dialog_repeat->widget[1]->alarmLabel0->setText(tr("Workingday"));
         dialog_repeat->widget[2]->alarmLabel0->setText(tr("Mon"));
@@ -2597,8 +2598,8 @@ void Clock::selectAlarmMusic()
         num= model->rowCount();
     QPointF position = this->pos();
     dialog_music->move(position.x()+15,position.y()+471);
-    dialog_music->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
-    dialog_music->setAttribute(Qt::WA_TranslucentBackground);
+    dialog_music->setWindowFlags(Qt::Popup);
+    //dialog_music->setAttribute(Qt::WA_TranslucentBackground);
     dialog_music->setFixedSize(360,172);
     dialog_music->listWidget->setFixedSize(340,152);
     dialog_music->widget[0]->alarmLabel0->setText(tr("glass"));
@@ -2652,8 +2653,8 @@ void Clock::timeMusic()
     QPointF position = this->pos();
     time_music->move(position.x()+88,position.y()+534);
     time_music->listWidget->setFixedSize(340,162);
-    time_music->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
-    time_music->setAttribute(Qt::WA_TranslucentBackground);
+    time_music->setWindowFlags(Qt::Popup);
+    //time_music->setAttribute(Qt::WA_TranslucentBackground);
     time_music->setFixedSize(340,162);
     time_music->listWidget->move(0,0);
     time_music->widget[0]->alarmLabel0->setText(tr("1min"));
@@ -2748,7 +2749,7 @@ void Clock::setUpPage()
         connect(setup_page->ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(setVolumeValue(int)));
         grand = new QWidget(setup_page->ui->widget);
     }
-    setup_page->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
+    setup_page->setWindowFlags(Qt::Popup);
     setup_page->setFixedSize(328,300);
 
     QPointF position = this->pos();
