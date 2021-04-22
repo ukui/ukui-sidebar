@@ -41,6 +41,7 @@ Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget),
     m_noteExitWindow(new noteExitWindow(this, this)),
+    m_emptyNotes(Q_NULLPTR),
     m_autoSaveTimer(new QTimer(this)),
     m_settingsDatabase(Q_NULLPTR),
     m_searchLine(Q_NULLPTR),
@@ -140,7 +141,7 @@ void Widget::setupListModeModel()
 {
     m_proxyModel->setSourceModel(m_noteModel);          // 代理真正的数据模型，对数据进行排序和过滤
     m_proxyModel->setFilterKeyColumn(0);                // 此属性保存用于读取源模型内容的键的列,listview只有一列所以是0
-    m_proxyModel->setFilterRole(NoteModel::NoteFullTitle);// 此属性保留项目角色，该角色用于在过滤项目时查询源模型的数据
+    m_proxyModel->setFilterRole(NoteModel::NoteMdContent);// 此属性保留项目角色，该角色用于在过滤项目时查询源模型的数据
     m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);//
 
     m_noteView->setItemDelegate(new listViewModeDelegate(m_noteView));    // 安装定制delegate提供编辑功能
@@ -155,7 +156,7 @@ void Widget::setupIconModeModel()
 {
     m_proxyModel->setSourceModel(m_noteModel);          // 代理真正的数据模型，对数据进行排序和过滤
     m_proxyModel->setFilterKeyColumn(0);                // 此属性保存用于读取源模型内容的键的列,listview只有一列所以是0
-    m_proxyModel->setFilterRole(NoteModel::NoteFullTitle);// 此属性保留项目角色，该角色用于在过滤项目时查询源模型的数据
+    m_proxyModel->setFilterRole(NoteModel::NoteMdContent);// 此属性保留项目角色，该角色用于在过滤项目时查询源模型的数据
     m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);//
 
     m_noteView->setItemDelegate(new iconViewModeDelegate(m_noteView));    // 安装定制delegate提供编辑功能
@@ -294,6 +295,8 @@ void Widget::kyNoteInit()
 
     // 退出框
     m_noteExitWindow = new noteExitWindow(this, this);
+    //清除便签页弹框
+    m_emptyNotes = new emptyNotes(this);
 }
 
 /*!
@@ -318,7 +321,8 @@ void Widget::kyNoteConn()
     // connect(m_sortLabel,&QPushButton::clicked,this,&Widget::sortSlot);
     connect(this, &Widget::switchSortTypeRequest, this, &Widget::sortSlot);
     // 清空便签
-    connect(m_menuActionEmpty, &QAction::triggered, this, &Widget::clearNoteSlot);
+    connect(m_menuActionEmpty, &QAction::triggered, this, &Widget::trashSlot);
+    connect(m_emptyNotes, &emptyNotes::requestEmptyNotes, this, &Widget::clearNoteSlot);
     // 设置界面
     // connect(m_menuActionSet,&QAction::triggered,this,&Widget::SetNoteSlot);
     // 列表平铺切换
@@ -1296,6 +1300,15 @@ void Widget::onColorChanged(const QColor &color, int noteId)
 void Widget::exitSlot()
 {
     this->close();
+}
+
+/*!
+ * \brief Widget::trashSlot
+ *
+ */
+void Widget::trashSlot()
+{
+    m_emptyNotes->exec();
 }
 
 /*!

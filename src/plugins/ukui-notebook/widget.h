@@ -62,6 +62,7 @@
 #include "ui_editPage.h"
 #include "adaptscreeninfo.h"
 #include "about.h"
+#include "emptyNotes.h"
 
 #define     FIRST_LINE_MAX 80
 #define     tristateButton(className,imageUrl)     (""#className"{image:url("#imageUrl".svg);}   \
@@ -119,6 +120,7 @@ private:
     int m_listflag;                                                 //平铺/展开列表切换
     int sortflag;                                                   //升降序切换
     noteExitWindow* m_noteExitWindow;                               //退出弹窗
+    emptyNotes* m_emptyNotes;                                       //清除便签页弹窗
     QAction *searchAction;                                          //搜索栏图标
     QAction *delAction;                                             //搜索栏删除图标
     QTimer* m_autoSaveTimer;                                        //自动保存定时器
@@ -190,6 +192,7 @@ private slots:
     void initData();                                                //初始化加载第一个便签
     void loadNotes(QList<NoteData *> noteList, int noteCounter);    //加载便签列表
     void exitSlot();                                                //关闭按钮槽函数
+    void trashSlot();                                               //清空便签页按钮槽函数
     void miniSlot();                                                //最小化按钮槽函数
     void newSlot();                                                 //新建按钮槽函数
     void listClickSlot(const QModelIndex &index);                   //item单击事件槽函数
