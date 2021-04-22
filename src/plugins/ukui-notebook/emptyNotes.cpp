@@ -19,6 +19,7 @@
 #include <QBitmap>
 #include <QDebug>
 #include <QPainter>
+#include <QPainterPath>
 
 #include "emptyNotes.h"
 #include "ui_emptyNotes.h"
