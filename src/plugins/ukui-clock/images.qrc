@@ -20,5 +20,6 @@
         <file>image/object-select-symbolic.png</file>
         <file>image/icon-4-16x16.png</file>
         <file>image/kylin-alarm-clock.svg</file>
+        <file>image/warning-24x24.png</file>
     </qresource>
 </RCC>
