@@ -20,6 +20,7 @@
 #include "widget.h"
 #include "pluginmanage.h"
 #include "sidebarAppLog.h"
+#include <ukui-log4qt.h>
 #include <stdio.h>
 #include <sys/file.h>
 #include <unistd.h>
@@ -59,7 +60,7 @@ int main(int argc, char *argv[])
        QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
        QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     #endif
-
+    initUkuiLog4qt("ukui-sidebar");
     /* 如果系统中有实例在运行则退出 */
     QString id = QString("ukui-sidebar-" + QLatin1String(getenv("DISPLAY")));
     QtSingleApplication a(id, argc, argv);
