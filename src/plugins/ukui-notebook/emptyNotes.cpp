@@ -22,43 +22,51 @@
 
 #include "emptyNotes.h"
 #include "ui_emptyNotes.h"
+#include "utils/xatom-helper.h"
 
 emptyNotes::emptyNotes(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::emptyNotes)
 {
     ui->setupUi(this);
+    setWindowTitle(tr("emptyNotes"));
+    this->setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
+    setAttribute(Qt::WA_TranslucentBackground);
 
-    ui->setupUi(this);
-    //p = page;
-    QBitmap bmp(this->size());
-    bmp.fill();
-    QPainter p(&bmp);
-    p.setPen(Qt::NoPen);
-    p.setBrush(Qt::black);
-    p.setRenderHint(QPainter::Antialiasing);
-    p.drawRoundedRect(bmp.rect(),6,6);
-    setMask(bmp);
+    // 添加窗管协议
+    MotifWmHints hints;
+    hints.flags = MWM_HINTS_FUNCTIONS|MWM_HINTS_DECORATIONS;
+    hints.functions = MWM_FUNC_ALL;
+    hints.decorations = MWM_DECOR_BORDER;
+    XAtomHelper::getInstance()->setWindowMotifHint(this->winId(), hints);
 
-    this->setAttribute(Qt::WA_TranslucentBackground);
-    ui->widget->setStyleSheet("QWidget{background-color: rgba(255, 255, 255, 0.4);}");
-    ui->label->setStyleSheet("background-color: rgba();\
-                             font-size:20px;\
-                                font-weight:400;\
-                                color:rgba(40,40,40,1);\
-                                line-height:34px;\
-                                opacity:0.97;\
-                                 ");
-     ui->checkBox->setStyleSheet("background-color: rgba();\
-                                 font-size:14px;\
-                                 font-weight:400;\
-                                 color:rgba(102,102,102,1);\
-                                 line-height:40px;\
-                                 opacity:0.91;");
-
-    setWindowFlags(Qt::FramelessWindowHint);
+//    ui->widget->setStyleSheet("QWidget{background-color: rgba(255, 255, 255, 0.4);}");
+//    ui->label->setStyleSheet("background-color: rgba();\
+//                             font-size:20px;\
+//                                font-weight:400;\
+//                                color:rgba(40,40,40,1);\
+//                                line-height:34px;\
+//                                opacity:0.97;\
+//                                 ");
+//    ui->checkBox->setStyleSheet("background-color: rgba();\
+//                                font-size:14px;\
+//                                font-weight:400;\
+//                                color:rgba(102,102,102,1);\
+//                                line-height:40px;\
+//                                opacity:0.91;");
 
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(on_pushButton_clicked()) );
+    connect(ui->pushButton_2, SIGNAL(clicked()), this, SLOT(on_pushButton_2_clicked()) );
+}
+
+void emptyNotes::paintEvent(QPaintEvent *event)
+{
+    Q_UNUSED(event);
+    QPainter p(this);
+    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+    QPainterPath rectPath;
+    rectPath.addRect(this->rect());
+    p.fillPath(rectPath,palette().color(QPalette::Base));
 }
 
 emptyNotes::~emptyNotes()
@@ -68,5 +76,11 @@ emptyNotes::~emptyNotes()
 
 void emptyNotes::on_pushButton_clicked()
 {
+    this->close();
+}
+
+void emptyNotes::on_pushButton_2_clicked()
+{
+    emit requestEmptyNotes();
     this->close();
 }
