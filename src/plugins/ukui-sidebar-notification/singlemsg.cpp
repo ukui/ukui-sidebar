@@ -472,11 +472,22 @@ void SingleMsg::setBodyLabelWordWrap(bool bFlag)
 
     if(true == bFlag)
     {
-        //如果展开,就超过四行末尾显示省略号
-
-        {
-            formatBody = fontMetrics.elidedText(strLineHeight24Body, Qt::ElideRight, m_pBodyLabel->width() * 4 + 152);
+        //处理要显示的字符串，在换行处加入空格,防止因为QLabel换行机制导致显示不完整
+        QString strDisplay;
+        uint j=1;
+        int labelWidth = m_pBodyLabel->width();
+        for(int i=0;i<m_strBody.length();i++){
+            strDisplay += QString(m_strBody.at(i));
+            uint fontSize = fontMetrics.width(strDisplay);
+            if(fontSize > (j*(labelWidth-8))){
+                strDisplay+=" ";
+                j++;
+            }
         }
+        QString strTmp;
+        strTmp.append("<p style='line-height:24px'>").append(strDisplay).append("</p>");
+        //如果展开,超过四行末尾显示省略号
+        formatBody = fontMetrics.elidedText(strTmp, Qt::ElideRight, m_pBodyLabel->width() * 4 + 152);
     }
     else
     {
@@ -486,7 +497,10 @@ void SingleMsg::setBodyLabelWordWrap(bool bFlag)
             formatBody = fontMetrics.elidedText(strLineHeight24Body, Qt::ElideRight, m_pBodyLabel->width() + 180);
         }
     }
+
     m_pBodyLabel->setText(formatBody);
+
+    //--<<
 
     return;
 }
@@ -787,7 +801,7 @@ void SingleMsg::updateUnfoldMove(const QVariant &value)
     QString strCurrentTime = currentDateTime.toString("hh:mm:ss.zzz");
 //    QString LogInfo;
 //    LogInfo.sprintf("%p", QThread::currentThread());
-    qDebug()<<strCurrentTime <<"SingleMsg::updateUnfoldMove"<<this<<" x1=" <<x1<<" y1="<<y1<<" x2=" <<x2<<" y2="<<y2;
+    //qDebug()<<strCurrentTime <<"SingleMsg::updateUnfoldMove"<<this<<" x1=" <<x1<<" y1="<<y1<<" x2=" <<x2<<" y2="<<y2;
 
 
     //首先将填充控件的高度不断增加直至6
