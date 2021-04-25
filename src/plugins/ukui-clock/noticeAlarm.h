@@ -19,6 +19,7 @@
 #define NATICE_ALARM_H
 
 #include <QWidget>
+#include <QDialog>
 #include <QPainter>
 #include <QTime>
 #include <QTimer>
@@ -32,7 +33,7 @@ namespace Ui {
 class Natice_alarm;
 }
 
-class Natice_alarm : public QWidget
+class Natice_alarm : public QDialog
 {
     Q_OBJECT
 
@@ -41,7 +42,7 @@ public:
     ~Natice_alarm();
      Ui::Natice_alarm *ui;
 
-     bool eventFilter(QObject *watched, QEvent *event);
+     //bool eventFilter(QObject *watched, QEvent *event);
      void showPaint();
      void mousePressEvent(QMouseEvent *event);
      void mouseReleaseEvent(QMouseEvent *event);

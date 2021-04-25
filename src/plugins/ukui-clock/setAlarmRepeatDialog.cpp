@@ -38,12 +38,12 @@ set_alarm_repeat_Dialog::set_alarm_repeat_Dialog(int width, int Length, int rowN
 
     this->setWindowTitle(tr("Alarm"));
 
-    setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
-    this->setAttribute(Qt::WA_TranslucentBackground);
-    QPainterPath blurPath;
-    blurPath.addRoundedRect(rect().adjusted(10, 10, -10, -10), 10, 10);      //增加圆角
-    setProperty("useSystemStyleBlur", true);
-    setProperty("blurRegion", QRegion(blurPath.toFillPolygon().toPolygon()));//使用QPainterPath的api生成多边形Region
+    setWindowFlags(Qt::Dialog);
+//    this->setAttribute(Qt::WA_TranslucentBackground);
+//    QPainterPath blurPath;
+//    blurPath.addRoundedRect(rect().adjusted(10, 10, -10, -10), 10, 10);      //增加圆角
+//    setProperty("useSystemStyleBlur", true);
+//    setProperty("blurRegion", QRegion(blurPath.toFillPolygon().toPolygon()));//使用QPainterPath的api生成多边形Region
 
     QBitmap bmp(this->size());
     bmp.fill();
