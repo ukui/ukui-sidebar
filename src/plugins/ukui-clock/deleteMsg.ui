@@ -86,7 +86,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font:  15pt;</string>
+     <string notr="true">font:  11pt;</string>
     </property>
     <property name="text">
      <string>are you sure ?</string>
