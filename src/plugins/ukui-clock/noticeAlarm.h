@@ -33,7 +33,7 @@ namespace Ui {
 class Natice_alarm;
 }
 
-class Natice_alarm : public QDialog
+class Natice_alarm : public QWidget
 {
     Q_OBJECT
 
