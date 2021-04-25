@@ -12,7 +12,7 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>704</width>
+    <width>712</width>
     <height>590</height>
    </size>
   </property>
@@ -82,7 +82,7 @@
        <item>
         <widget class="QLabel" name="titleLabel">
          <property name="text">
-          <string>Note</string>
+          <string/>
          </property>
         </widget>
        </item>
@@ -223,13 +223,13 @@
          <property name="minimumSize">
           <size>
            <width>90</width>
-           <height>30</height>
+           <height>36</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>90</width>
-           <height>30</height>
+           <height>36</height>
           </size>
          </property>
          <property name="cursor">
@@ -261,13 +261,13 @@
          <property name="minimumSize">
           <size>
            <width>320</width>
-           <height>30</height>
+           <height>36</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>320</width>
-           <height>30</height>
+           <height>36</height>
           </size>
          </property>
          <property name="styleSheet">
@@ -302,14 +302,14 @@
         <widget class="QPushButton" name="trashButton">
          <property name="minimumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>36</width>
+           <height>36</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>36</width>
+           <height>36</height>
           </size>
          </property>
          <property name="cursor">
@@ -340,14 +340,14 @@
         <widget class="QPushButton" name="viewChangeButton">
          <property name="minimumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>36</width>
+           <height>36</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>36</width>
+           <height>36</height>
           </size>
          </property>
          <property name="styleSheet">

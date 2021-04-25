@@ -20,9 +20,9 @@
 #include <QPainterPath>
 #include <QWidget>
 #include <QTimer>
+#include <QTime>
 #include <QQueue>
 #include <QSlider>
-#include <QWidget>
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QPainter>
@@ -32,24 +32,65 @@
 #include <QFrame>
 #include <itemNew.h>
 #include <QListWidgetItem>
-#include "stopwatchItem.h"
 #include <QPaintEvent>
+#include <QPointF>
+#include <QLineEdit>
+#include <QPropertyAnimation>
+#include <QCloseEvent>
+#include <QMenu>
+#include <QFontDatabase>
+#include <math.h>
+#include <QTimerEvent>
+#include <QDialog>
+#include <QSpinBox>
+#include <QComboBox>
+#include <QLabel>
+#include <QPixmap>
+#include <QMatrix>
+#include <QFont>
+#include <QMediaPlaylist>
+#include <QUrl>
+#include <QMessageBox>
+#include <QSqlTableModel>
+#include <QSqlRecord>
+#include <QModelIndex>
+#include <QSqlQuery>
+#include <QFile>
+#include <QFileDialog>
+#include <QFileInfo>
+#include <QDebug>
+#include <unistd.h>
+#include <QMessageBox>
+#include <QBitmap>
+#include <QProcess>
+#include <QScreen>
+#include <QScroller>
+#include <QTranslator>
+#include <QDesktopWidget>
+#include <QGraphicsOpacityEffect>
+#include <QDBusInterface>
+
+#include "stopwatchItem.h"
 #include "verticalScroll24.h"
 #include "verticalScroll60.h"
 #include "verticalScroll99.h"
 #include "dotlineDemo.h"
 #include "setAlarmRepeatDialog.h"
-#include <QPointF>
-#include <QLineEdit>
 #include "setupPage.h"
-#include <QPropertyAnimation>
 #include "adaptscreeninfo.h"
-#include <QCloseEvent>
 #include "about.h"
-#include <QMenu>
+#include "debug.h"
+#include "connection.h"
+#include "set_clock.h"
+#include "noticeDialog.h"
+#include "noticeAlarm.h"
+#include "ui_noticeAlarm.h"
+#include "deleteMsg.h"
+#include "ui_deleteMsg.h"
+#include "btnNew.h"
+#include "closeOrHide.h"
+#include "ui_setupPage.h"
 
-class QSpinBox;
-class QComboBox;
 class QDialog;
 class QSpinBox;
 class QComboBox;
@@ -58,18 +99,18 @@ class QFont;
 class QPushButton;
 class QMediaPlaylist;
 class QSqlTableModel;
-class QTimer;
 class Btn_new;
 class close_or_hide;
-
 
 #define ORG_UKUI_STYLE            "org.ukui.style"
 #define STYLE_NAME                "styleName"
 #define STYLE_NAME_KEY_DARK       "ukui-dark"
 #define STYLE_NAME_KEY_DEFAULT    "ukui-default"
-#define STYLE_NAME_KEY_BLACK       "ukui-black"
-#define STYLE_NAME_KEY_LIGHT       "ukui-light"
-#define STYLE_NAME_KEY_WHITE       "ukui-white"
+#define STYLE_NAME_KEY_BLACK      "ukui-black"
+#define STYLE_NAME_KEY_LIGHT      "ukui-light"
+#define STYLE_NAME_KEY_WHITE      "ukui-white"
+#define STYLE_ICON                "icon-theme-name"
+#define STYLE_ICON_NAME           "iconThemeName"
 
 namespace Ui {
 class Clock;
@@ -90,11 +131,6 @@ public:
     void showPaint1();
     void showPaint7();
     void showPaint8();
-    void showPaint9();
-
-    void mousePressEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
 
     Ui::Clock *ui;
     QSqlTableModel *model_setup;
@@ -105,145 +141,151 @@ protected:
     void closeEvent(QCloseEvent *event);
 
 public slots:
-    void  CountdownPageSwitch ();                                                        //倒计时切换
+    void  CountdownPageSwitch();                                                         // 倒计时切换
                                                                                          // Countdown switch
-    void  AlarmPageSwitch ();                                                            //闹钟窗口切换
+    void  AlarmPageSwitch();                                                             // 闹钟窗口切换
                                                                                          // Alarm window switching
-    void  StopwatchPageSwitch ();                                                        //秒表窗口切换
-                                                                                         // Stopwatch window switch
-    void  settingsStyle();                                                               //监听主题
+    void  StopwatchPageSwitch();                                                         // 秒表窗口切换
+                                                                                         // Stopwatch window switc
+    void  settingsStyle();                                                               // 监听主题
 
-    void  blackStyle();                                                                  //黑色主题
+    void  blackStyle();                                                                  // 黑色主题
 
-    void  whiteStyle();                                                                  //白色主题
+    void  whiteStyle();                                                                  // 白色主题
+
+    void  drawNoAlarmPrompt();                                                           // 绘制无闹钟提示
+                                                                                         // Draw no alarm prompt
+    QString loadFontFamilyFromTTF();                                                     // 字体设置
 
 private slots:
-    void buttonImageInit();                                                              //闹钟按钮图片初始化
+    void buttonImageInit();                                                              // 闹钟按钮图片初始化
                                                                                          // Alarm button picture initialization
-    void CountdownInit();                                                                //倒计时页初始化
+    void CountdownInit();                                                                // 倒计时页初始化
                                                                                          // Countdown page initialization
-    void stopwatchInit();                                                                //秒表页初始化
+    void stopwatchInit();                                                                // 秒表页初始化
                                                                                          // Stopwatch page initialization
-    void clockInit();                                                                    //闹钟页初始化
+    void clockInit();                                                                    // 闹钟页初始化
                                                                                          // Alarm page initialization
-    void setupInit();                                                                    //默认初始设置
+    void setupInit();                                                                    // 默认初始设置
                                                                                          // Default initial settings
-    void noticeDialogShow(int,int);                                                      //通知弹窗
-                                                                                         // Notification Popup
-    void modelSetupSet();                                                                //默认设置数据库数据初始化
+    void noticeDialogShow(int, int);                                                      // 通知弹窗
+                                                                                          // Notification Popup
+    void modelSetupSet();                                                                // 默认设置数据库数据初始化
                                                                                          // Default setting database data initialization
-    void CountDown();                                                                    //秒表执行
+    void CountDown();                                                                    // 秒表执行
                                                                                          // Stopwatch execution
-    void onPushbuttonStartClicked();                                                     //秒表开始暂停继续
+    void onPushbuttonStartClicked();                                                     // 秒表开始暂停继续
                                                                                          // Stopwatch start pause continue
-    void onPushbuttonRingClicked();                                                      //计次
+    void onPushbuttonRingClicked();                                                      // 计次
                                                                                          // times count
-    void onPushbuttonTimeselectClicked();                                                //复位
+    void onPushbuttonTimeselectClicked();                                                // 位
                                                                                          // reset
-    void windowClosingClicked();                                                         //窗口关闭
+    void windowClosingClicked();                                                         // 窗口关闭
                                                                                          // window closing
-    void windowMinimizingClicked();                                                      //窗口最小化
+    void windowMinimizingClicked();                                                      // 窗口最小化
                                                                                          // window minimizing
-    void timerUpdate();                                                                  //动态监控闹钟与本地时间
+    void timerUpdate();                                                                  // 动态监控闹钟与本地时间
                                                                                          // Dynamic monitoring alarm clock and local time
-    void textTimerupdate();                                                              //闹钟上方电子表
+    void textTimerupdate();                                                              // 闹钟上方电子表
                                                                                          // Electronic watch above alarm clock
-    void setAlarmClock();                                                                //新建闹钟按钮回调
+    void setAlarmClock();                                                                // 新建闹钟按钮回调
                                                                                          // New alarm button callback
-    void cancelAlarmClock();                                                             //添加闹钟dialog关闭
+    void cancelAlarmClock();                                                             // 添加闹钟dialog关闭
                                                                                          // Add alarm dialogclose
-    void updateAlarmClock();                                                             //重绘窗口，更新闹钟
+    void updateAlarmClock();                                                             // 重绘窗口，更新闹钟
                                                                                          // Redraw window, update alarm clock
-    void OnOffAlarm();                                                                   //闹钟开关
+    void OnOffAlarm();                                                                   // 闹钟开关
                                                                                          // Alarm switch
-    void deleteAlarm();                                                                  //闹钟重编辑页面删除闹钟回调
+    void deleteAlarm();                                                                  // 闹钟重编辑页面删除闹钟回调
                                                                                          // Alarm re edit page delete alarm callback
-    void stopPlayMusic();                                                                //停止音乐
+    void stopPlayMusic();                                                                // 停止音乐
                                                                                          // Stop music
-    void ChooseAlarmMusic();                                                             //选择音乐
-                                                                                         //Choose music
-    void rePlayMusic();                                                                  //播放音乐
+    void ChooseAlarmMusic();                                                             // 择音乐
+                                                                                         // Choose music
+    void rePlayMusic();                                                                  // 播放音乐
                                                                                          // Play music
-    void aitemNew();                                                                     //增加item
+    void aitemNew();                                                                     // 增加item
                                                                                          // Add item
-    void listdoubleClickslot();                                                          //双击闹钟打开重编辑页面
+    void listdoubleClickslot();                                                          // 双击闹钟打开重编辑页面
                                                                                          // Double click the alarm clock to open the re edit page
-    void listClickslot();                                                                //单击闹钟显示铃声剩余时间
+    void listClickslot();                                                                // 单击闹钟显示铃声剩余时间
                                                                                          // Click the alarm to display the remaining time
-    void alarmReEditClicked();                                                           //闹钟重编辑保存回调
+    void alarmReEditClicked();                                                           // 闹钟重编辑保存回调
                                                                                          // Alarm re edit save callback
-    void stopwatchStartAnimation();                                                      //倒计时开始动画移动
+    void stopwatchStartAnimation();                                                      // 倒计时开始动画移动
                                                                                          // Countdown start animation move
-    void stopwatchStopAnimation();                                                       //倒计时结束动画移动
+    void stopwatchStopAnimation();                                                       // 倒计时结束动画移动
                                                                                          // Countdown start animation move
-    void statCountdown();                                                                //倒计时执行
+    void statCountdown();                                                                // 倒计时执行
                                                                                          // Countdown execution
-    void setcoutdownNumber(int h, int m, int s);                                         //设置倒计时初始时间
+    void setcoutdownNumber(int h, int m, int s);                                         // 设置倒计时初始时间
                                                                                          // Set the initial countdown time
-    void startbtnCountdown();                                                            //倒计时开始-结束回调
+    void startbtnCountdown();                                                            // 倒计时开始-结束回调
                                                                                          // Countdown start end callback
-    void onMin_5btnClicked();                                                            //倒计时5分钟设置回调
+    void onMin_5btnClicked();                                                            // 倒计时5分钟设置回调
                                                                                          // Countdown 5 minutes set callback
-    void onMin_10btnClicked();                                                           //倒计时10分钟设置回调
+    void onMin_10btnClicked();                                                           // 倒计时10分钟设置回调
                                                                                          // Countdown 10 minutes set callback
-    void onMin_20btnClicked();                                                           //倒计时20分钟设置回调
+    void onMin_20btnClicked();                                                           // 倒计时20分钟设置回调
                                                                                          // Countdown 20 minutes set callback
-    void onMin_30btnClicked();                                                           //倒计时30分钟设置回调
+    void onMin_30btnClicked();                                                           // 倒计时30分钟设置回调
                                                                                          // Countdown 30 minutes set callback
-    void onMin_60btnClicked();                                                           //倒计时60分钟设置回调
+    void onMin_60btnClicked();                                                           // 倒计时60分钟设置回调
                                                                                          // Countdown 60 minutes set callback
-    void getCountdownOverTime();                                                         //获取倒计时结束时间
+    void getCountdownOverTime();                                                         // 获取倒计时结束时间
                                                                                          // Get countdown end time
-    void onCountPushClicked();                                                           //倒计时-暂停继续回调
+    void onCountPushClicked();                                                           // 倒计时-暂停继续回调
                                                                                          // Countdown - pause resume callback
-    void stopwatchJg();                                                                  //时间间隔计算执行回调
+    void stopwatchJg();                                                                  // 时间间隔计算执行回调
                                                                                          // Interval calculation execution callback
-    void changeTimeNum(int Hour,int Minute);                                             //修改时间单数 为两位数
-                                                                                         // Modify time singular to two digits
-    void countdownSetStartTime();                                                        //倒计时初始数字转盘
+    void changeTimeNum(int Hour, int Minute);                                             // 修改时间单数 为两位数
+                                                                                          // Modify time singular to two digits
+    void countdownSetStartTime();                                                        // 倒计时初始数字转盘
                                                                                          // Countdown initial digital dial
-    void alarmSetStartTime();                                                            //闹钟初始化数字转盘绘制
+    void alarmSetStartTime();                                                            // 闹钟初始化数字转盘绘制
                                                                                          // Alarm clock initialization digital turntable drawing
-    void alarmCancelSave();                                                              //闹钟新建界面取消回调
+    void alarmCancelSave();                                                              // 闹钟新建界面取消回调
                                                                                          // Cancel callback in alarm new interface
-    void setAlarmSave();                                                                 //闹钟新建界面保存回调
+    void setAlarmSave();                                                                 // 闹钟新建界面保存回调
                                                                                          // Alarm new interface save callback
-    void verticalscrollRingTime();                                                       //闹钟新建与重编辑界面剩余时间实时显示回调
+    void verticalscrollRingTime();                                                       // 闹钟新建与重编辑界面剩余时间实时显示回调
                                                                                          // Alarm clock new and re edit interface remaining time real-time display callback
-    void alarmRepeat();                                                                  //闹钟初始化工作日选择界面绘制回调
+    void alarmRepeat();                                                                  // 闹钟初始化工作日选择界面绘制回调
                                                                                          // Alarm clock initialization workday selection interface drawing callback
-    void repeatListclickslot();                                                          //重复选项单击回调
+    void repeatListclickslot();                                                          // 重复选项单击回调
                                                                                          // Repeat option click callback
-    void selectAlarmMusic();                                                             //闹钟初始化音乐选择界面回调
+    void selectAlarmMusic();                                                             // 闹钟初始化音乐选择界面回调
                                                                                          // Alarm clock initialization music selection interface callback
-    void musicListclickslot();                                                           //闹钟初始化单击选择音乐
+    void musicListclickslot();                                                           // 闹钟初始化单击选择音乐
                                                                                          // Alarm initialization Click to select music
-    void timeMusic();                                                                    //闹钟初始化音乐时长选择界面回调
+    void timeMusic();                                                                    // 闹钟初始化音乐时长选择界面回调
                                                                                          // Alarm clock initialization music time selection interface callback
-    void timeMusicListclickslot();                                                       //单击选择音乐时长回调
+    void timeMusicListclickslot();                                                       // 单击选择音乐时长回调
                                                                                          // Click to select music duration callback
-    void setUpPage();                                                                    //设置页面绘制回调
+    void setUpPage();                                                                    // 设置页面绘制回调
                                                                                          // Set page draw callback
-    void alarmClcokSelfStarting();                                                       //开机自启动开关回调
+    void alarmClcokSelfStarting();                                                       // 开机自启动开关回调
                                                                                          // Power on self start switch callback
-    void MuteStarting();                                                                 //静音开关回调
+    void MuteStarting();                                                                 // 静音开关回调
                                                                                          // Mute switch callback
-    void setVolumeValue(int value);                                                      //设置音量回调
+    void setVolumeValue(int value);                                                      // 设置音量回调
                                                                                          // Set volume callback
-    void countdownMusicSellect();                                                        //倒计时音乐选择
+    void countdownMusicSellect();                                                        // 倒计时音乐选择
                                                                                          // Countdown music selection
-    void countMusicListclickslot();                                                      //倒计时音乐选择单机回调
+    void countMusicListclickslot();                                                      // 倒计时音乐选择单机回调
                                                                                          // Countdown music selection single callback
-    void countdownNoticeDialogShow();                                                    //倒计时通知弹窗
+    void countdownNoticeDialogShow();                                                    // 倒计时通知弹窗
                                                                                          // Countdown notification pop-up
-    void offAlarm(int );                                                                 //不重复时单独关闭闹钟
+    void offAlarm(int);                                                                  // 重复时单独关闭闹钟
                                                                                          // Turn off the alarm separately if it is not repeated
-    int getAlarmClockWillRingDays(int num);                                              //计算下次闹钟响起天数间隔
+    int getAlarmClockWillRingDays(int num);                                              // 计算下次闹钟响起天数间隔
                                                                                          // Calculate the next alarm ring interval
-    int getAlarmClockWillRingDays_2(int num);                                            //计算下次闹钟响起天数间隔
+    int getAlarmClockWillRingDays_2(int num);                                            // 计算下次闹钟响起天数间隔
                                                                                          // Calculate the next alarm ring interval
-    QString changeNumToStr(int alarmHour);                                               //整型转字符
+    QString changeNumToStr(int alarmHour);                                               // 整型转字符
                                                                                          // Integer to character
+    void onCustomContextMenuRequested(const QPoint &pos);                                // 闹钟右键删除事件处理函数
+
     void countStatBtnGray();
 
 private:
@@ -251,9 +293,9 @@ private:
     QTimer *timer = nullptr;
     QTimer *countdown_timer = nullptr;
     QTimer *timer_2 = nullptr;
-    int hour, minute, second, pushflag ;
-    int stopwatch_hour, stopwatch_minute, stopwatch_second ;
-    int countdown_hour, countdown_minute, countdown_second, countdown_pushflag ;
+    int hour, minute, second, pushflag;
+    int stopwatch_hour, stopwatch_minute, stopwatch_second;
+    int countdown_hour, countdown_minute, countdown_second, countdown_pushflag;
     int alarmHour;
     int alarmMinute;
     int cPauseTime;
@@ -263,7 +305,7 @@ private:
     bool stopwatch_isStarted;
 
     QMediaPlayer *player;
-    QString ring;//铃声名字
+    QString ring;// 铃声名字
                  // Ring name
     QPixmap pixmap1;
     QPixmap pixmap2;
@@ -305,9 +347,14 @@ private:
     QListWidgetItem *aItem[20];
     stopwatch_item *stopwatch_w[100];
     QListWidgetItem *stopwatch_aItem[100];
-    QString stopwatch_h;QString stopwatch_m;QString stopwatch_s;
-    QString stopwatch_jg_h ="00";QString stopwatch_jg_m= "00";QString stopwatch_jg_s= "00";
-    QString alarmHour_str; QString alarmMinute_str;
+    QString stopwatch_h;
+    QString stopwatch_m;
+    QString stopwatch_s;
+    QString stopwatch_jg_h = "00";
+    QString stopwatch_jg_m = "00";
+    QString stopwatch_jg_s = "00";
+    QString alarmHour_str;
+    QString alarmMinute_str;
 
     int stopwatch_item_flag = 0;
     int clock_num = 0;
@@ -327,11 +374,11 @@ private:
 
     QTimer *timer_Surplus;
     QTimer *timer_set_page;
-    VerticalScroll_99 * timer_ring99;
-    VerticalScroll_60 * timer_ring60;
-    VerticalScroll_60 * timer_ring60_2;
-    VerticalScroll_24 * timer_alarm_start24;
-    VerticalScroll_60 * timer_alarm_start60;
+    VerticalScroll_99 *timer_ring99;
+    VerticalScroll_60 *timer_ring60;
+    VerticalScroll_60 *timer_ring60_2;
+    VerticalScroll_24 *timer_alarm_start24;
+    VerticalScroll_60 *timer_alarm_start60;
 
     set_alarm_repeat_Dialog *dialog_repeat = nullptr;
     set_alarm_repeat_Dialog *dialog_music = nullptr;
@@ -342,13 +389,13 @@ private:
     adaptScreenInfo *m_pSreenInfo = nullptr;
 
     QWidget *grand = nullptr;
-    setuppage  *setup_page= nullptr;
+    setuppage *setup_page = nullptr;
     QString repeat_str;
     QString repeat_str_model;
     QString music_str_model;
     QString time_music_str_model;
     QString clock_name;
-    QLineEdit *lineEdit= nullptr ;
+    QLineEdit *lineEdit = nullptr;
     QPropertyAnimation *animation1;
     QPropertyAnimation *animation2;
     QPropertyAnimation *animation3;
@@ -370,7 +417,12 @@ private:
     Btn_new *ring_sel;
     QMenu *m_menu;                                                  /*功能菜单*/
     QAction *m_menuAction;                                          /*菜单动作*/
-};
 
+    QMenu *popMenu_In_ListWidget_;                                  /*闹钟右键删除菜单*/
+    QAction *action_Delete_In_ListWidget_;
+    QAction *action_Clear_In_ListWidget_;                           /*闹钟右键删除动作*/
+    Natice_alarm *countdownNoticeDialog;
+    QDBusInterface *userGuideInterface;                                   // 用户手册
+};
 
 #endif // CLOCK_H

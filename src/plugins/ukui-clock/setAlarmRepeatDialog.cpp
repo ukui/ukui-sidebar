@@ -27,18 +27,19 @@
 
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 
-set_alarm_repeat_Dialog::set_alarm_repeat_Dialog(QWidget *parent , int rowNum ) :
+set_alarm_repeat_Dialog::set_alarm_repeat_Dialog(int width, int Length, int rowNum , QWidget *parent ) :
     rowNum_all(rowNum),
+    width_num(width),
+    Length_num(Length),
     QWidget(parent)
 {
     setupUi(this);
-    this->resize(360, 290);
+    this->resize(width_num, Length_num);
 
     this->setWindowTitle(tr("Alarm"));
 
-    this->setAttribute(Qt::WA_TranslucentBackground);
     setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
-
+    this->setAttribute(Qt::WA_TranslucentBackground);
     QPainterPath blurPath;
     blurPath.addRoundedRect(rect().adjusted(10, 10, -10, -10), 10, 10);      //增加圆角
     setProperty("useSystemStyleBlur", true);
@@ -78,7 +79,7 @@ void set_alarm_repeat_Dialog::settingsStyle()
     QStringList stylelist;
     QGSettings *style_settings = new QGSettings(style_id);
 
-    stylelist<<STYLE_NAME_KEY_DARK<<STYLE_NAME_KEY_BLACK<<STYLE_NAME_KEY_DEFAULT;
+    stylelist<<STYLE_NAME_KEY_DARK<<STYLE_NAME_KEY_BLACK; //<<STYLE_NAME_KEY_DEFAULT;
     if(QGSettings::isSchemaInstalled(style_id)){
         style_settings = new QGSettings(style_id);
         if(stylelist.contains(style_settings->get(STYLE_NAME).toString())){
@@ -208,7 +209,7 @@ set_alarm_repeat_widget::set_alarm_repeat_widget(QWidget *parent):
     this->setFixedSize(340, 38);
 
     alarmLabel0 = new QLabel(this);
-    alarmLabel0->move(12, 0);
+    alarmLabel0->move(16, 0);
     alarmLabel0->setFixedSize(160, 38);
     alarmLabel0->setStyleSheet("background-color: rgb();");
     alarmLabel0->setText("选项");
@@ -216,13 +217,13 @@ set_alarm_repeat_widget::set_alarm_repeat_widget(QWidget *parent):
     alarmLabel1 = new ClickableLabel(this);
     alarmLabel1->move(296, 0);
     alarmLabel1->setFixedSize(34, 38);
-    alarmLabel1->setStyleSheet("background-color: rgb();");
     alarmLabel1->setText("");
+    alarmLabel1->setProperty("useIconHighlightEffect", true);
+    alarmLabel1->setProperty("iconHighlightEffectMode", 1);
 }
 
 set_alarm_repeat_widget::~set_alarm_repeat_widget()
 {
-    delete   alarmLabel0;
-    delete   alarmLabel1;
+
 }
 

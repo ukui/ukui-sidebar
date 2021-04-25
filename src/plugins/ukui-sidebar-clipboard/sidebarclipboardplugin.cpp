@@ -95,6 +95,8 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
     connect(m_pThread, &QThread::started,this, &SidebarClipboardPlugin::loadClipboardDb);
     m_pThread->start();
 
+    resetWidgetLabelText();
+
     /* 加载样式表 */
     QFile file(SIDEBAR_CLIPBOARD_QSS_PATH);
     if (file.open(QFile::ReadOnly)) {
@@ -115,7 +117,7 @@ void SidebarClipboardPlugin::createWidget()
     m_pShortcutOperationListWidget->setContentsMargins(0,0,0,0);
 
     m_pSearchWidgetListWidget      = new QListWidget;
-    m_pSearchWidgetListWidget->setFixedSize(400, 42);
+    m_pSearchWidgetListWidget->setFixedSize(400, 50);
     m_pSearchWidgetListWidget->setContentsMargins(0,0,0,0);
 }
 
@@ -189,6 +191,7 @@ void SidebarClipboardPlugin::createFindClipboardWidgetItem()
     QListWidgetItem *pListWidgetItem = new QListWidgetItem;
     pListWidgetItem->setFlags(Qt::NoItemFlags);
     m_pSearchArea = new SearchWidgetItemContent;
+    m_pSearchArea->setFixedHeight(50);
     connect(m_pSearchArea->m_pClearListWidgetButton, &QPushButton::clicked, this, &SidebarClipboardPlugin::removeAllWidgetItem);
 
     connect(m_pSearchArea->m_pLineEditArea, SIGNAL(textChanged(QString)), this, SLOT(searchClipboardLableTextSlots(QString)));
@@ -319,7 +322,9 @@ void SidebarClipboardPlugin::AddWidgetEntry(OriginalDataHashValue *s_pDataHashVa
         w->m_pCopyDataLabal->setTextFormat(Qt::PlainText);
         if (s_pDataHashValue->urls.size() == 1) {
             //判断文件类型，根据文件类型去读取主题图标
-            QString filename = catUrlFileName(text);
+//            QString filename = catUrlFileName(text);
+            QUrl texturl(text);
+            QString filename=texturl.fileName();
             filename = setMiddleFormatBody(filename, w);
             w->m_pCopyDataLabal->setText(filename);
             getPixmapListFileIcon(text, w->m_pCopyFileIcon);
@@ -478,13 +483,16 @@ bool SidebarClipboardPlugin::substringSposition(QString formatBody, QStringList 
 /* 判断Url中当前后缀名，根据后缀名读取图标 */
 QIcon SidebarClipboardPlugin::fileSuffixGetsIcon(QString Url)
 {
+    QUrl texturl(Url);
+    QString  filePath;
     if (Url == nullptr) {
         qWarning() << "传入后缀名有错误， 为空";
     }
     int tmp = m_fileSuffix.size();
     QStringList UrlList = Url.split(".");
     if (UrlList.size() < 2) {
-        QString  filePath = Url.mid(7);
+//        QString  filePath = Url.mid(7);
+        filePath=texturl.toLocalFile();
         QFileInfo fileinfo(filePath);
         if (fileinfo.isFile()) {
             return QIcon::fromTheme("unknown");//返回其余文本图标
@@ -901,7 +909,8 @@ void SidebarClipboardPlugin::fixedWidgetEntrySlots(ClipboardWidgetEntry *w)
         m_pClipboardDb->insertSqlClipbarodDb(s_pDataHashValue->text, s_pDataHashValue->Clipbaordformat, s_pDataHashValue->Sequence);
     } else if (s_pDataHashValue->Clipbaordformat == IMAGE) {
         int seq = m_pClipboardDb->SelectSqlClipbaordDbId();
-        QString url_filepath =  QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + QStringLiteral("/%1.bmp").arg(seq + 1);
+        QString url_filepath =  QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/.config" + QStringLiteral("/%1.bmp").arg(seq + 1);
+        qDebug() << "------------------------------->" << url_filepath;
         s_pDataHashValue->text = "file://" + url_filepath;          //将文件路径已Url的方式保存
         m_pClipboardDb->insertSqlClipbarodDb(s_pDataHashValue->text, s_pDataHashValue->Clipbaordformat, s_pDataHashValue->Sequence);
         s_pDataHashValue->p_pixmap->save(url_filepath, "bmp", 100);
@@ -921,6 +930,10 @@ void SidebarClipboardPlugin::cancelFixedWidgetEntrySLots(ClipboardWidgetEntry *w
     }
     QListWidgetItem *Item = iterationClipboardDataHash(w);
     OriginalDataHashValue *s_pDataHashValue = GetOriginalDataValue(Item);
+    if (s_pDataHashValue->Clipbaordformat ==IMAGE && s_pDataHashValue->associatedDb == DBDATA) {
+        QString DeleteFile = QStringLiteral("rm %1").arg(s_pDataHashValue->text.mid(7));
+        QProcess::execute(DeleteFile);//删除保存在本地的文件
+    }
     m_pClipboardDb->deleteSqlClipboardDb(s_pDataHashValue->text);  //删除数据库中此条数据
     s_pDataHashValue->associatedDb = "";
     w->m_pPopButton->setVisible(true);
@@ -1248,7 +1261,9 @@ bool SidebarClipboardPlugin::judgeFileExit(QString fullFilePath)
         qWarning() << "参数错误 ---> 参数类型 Qstring" << fullFilePath;
         return false;
     }
+
     QStringList filePath = fullFilePath.split('\n');
+//    qDebug() << "当前文件路径" << filePath;
     if (filePath.count() == 1) {
         QFileInfo fileInfo(fullFilePath.mid(7));
         if (fileInfo.exists()) {
@@ -1260,8 +1275,6 @@ bool SidebarClipboardPlugin::judgeFileExit(QString fullFilePath)
             QFileInfo fileInfo(filePath[i].mid(7));
             if (fileInfo.exists() && i == tmp - 1) {
                 return true;
-            } else {
-                return false;
             }
         }
     }
@@ -1348,6 +1361,18 @@ void SidebarClipboardPlugin::setEntryItemSize(OriginalDataHashValue* value, Clip
         item->setSizeHint(QSize(397,84));
     }
     return;
+}
+
+/* 当监听到主题字体发生变化时，则重新设置label条目的text */
+void SidebarClipboardPlugin::resetWidgetLabelText()
+{
+    const QByteArray id("org.ukui.style");
+    QGSettings * fontSetting = new QGSettings(id);
+    connect(fontSetting, &QGSettings::changed,[=](QString key){
+        if ("systemFont" == key || "systemFontSize" ==key) {
+            searchClipboardLableTextSlots("");
+        }
+    });
 }
 
 void SidebarClipboardPlugin::sortingEntryShow()

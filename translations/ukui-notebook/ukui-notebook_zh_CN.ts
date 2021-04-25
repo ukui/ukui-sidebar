@@ -4,33 +4,77 @@
 <context>
     <name>About</name>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/about.ui" line="14"/>
+        <location filename="../../src/plugins/ukui-notebook/about.ui" line="26"/>
         <source>Dialog</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/about.ui" line="114"/>
-        <source>Kylin Note</source>
-        <translatorcomment>麒麟便签本</translatorcomment>
-        <translation>麒麟便签本</translation>
+        <source>Note</source>
+        <translation type="vanished">麒麟便签本</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/about.cpp" line="12"/>
+        <source>Kylin Note</source>
+        <translatorcomment>麒麟便签本</translatorcomment>
+        <translation type="vanished">麒麟便签本</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/about.cpp" line="26"/>
         <source>About</source>
         <translatorcomment>关于</translatorcomment>
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/about.cpp" line="26"/>
+        <source>Kylin Memo</source>
+        <translatorcomment>麒麟便签本</translatorcomment>
+        <translation type="vanished">麒麟便签本</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/about.cpp" line="39"/>
+        <location filename="../../src/plugins/ukui-notebook/about.cpp" line="55"/>
+        <source>Notes</source>
+        <translatorcomment>便签贴</translatorcomment>
+        <translation>便签贴</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/about.cpp" line="49"/>
         <source>Version: 2020.1.0</source>
         <translatorcomment>版本: 2020.1.0</translatorcomment>
         <translation>版本: 2020.1.0</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/about.cpp" line="27"/>
+        <location filename="../../src/plugins/ukui-notebook/about.cpp" line="56"/>
+        <source>Notes is a self-developed sidebar application plug-in, which provides a rich interface, convenient operation and stable functions, aiming at a friendly user experience.</source>
+        <translatorcomment>便签贴是自主研发的侧边栏应用小插件，它提供了丰富的界面、便捷的操作、稳定的功能，旨在友好的用户体验感。</translatorcomment>
+        <translation>便签贴是自主研发的侧边栏应用小插件，它提供了丰富的界面、便捷的操作、稳定的功能，旨在友好的用户体验感。</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/about.cpp" line="95"/>
+        <location filename="../../src/plugins/ukui-notebook/about.cpp" line="100"/>
+        <location filename="../../src/plugins/ukui-notebook/about.cpp" line="109"/>
+        <location filename="../../src/plugins/ukui-notebook/about.cpp" line="114"/>
+        <source>Service &amp; Support: </source>
+        <translatorcomment>服务与支持团队： </translatorcomment>
+        <translation>服务与支持团队： </translation>
+    </message>
+    <message>
+        <source>Kylin Memo is a self-developed sidebar application plug-in, which provides a rich interface, convenient operation and stable functions, aiming at a friendly user experience.</source>
+        <translatorcomment>麒麟便签本是自主研发的侧边栏应用小插件，它提供了丰富的界面、便捷的操作、稳定的功能，旨在友好的用户体验感。</translatorcomment>
+        <translation type="vanished">麒麟便签本是自主研发的侧边栏应用小插件，它提供了丰富的界面、便捷的操作、稳定的功能，旨在友好的用户体验感。</translation>
+    </message>
+    <message>
+        <source>Support: support@kylinos.cn</source>
+        <translatorcomment>服务与支持团队：support@kylinos.cn</translatorcomment>
+        <translation type="vanished">服务与支持团队：support@kylinos.cn</translation>
+    </message>
+    <message>
+        <source>Kylin Note is a self-developed sidebar application plug-in, which provides a rich interface, convenient operation and stable functions, aiming at a friendly user experience.</source>
+        <translatorcomment>麒麟便签本是自主研发的侧边栏应用小插件，它提供了丰富的界面、便捷的操作、稳定的功能，旨在友好的用户体验感。</translatorcomment>
+        <translation type="vanished">麒麟便签本是自主研发的侧边栏应用小插件，它提供了丰富的界面、便捷的操作、稳定的功能，旨在友好的用户体验感。</translation>
+    </message>
+    <message>
         <source>Developer: yueshuai@kylinos.cn</source>
         <translatorcomment>开发者: yueshuai@kylinos.cn</translatorcomment>
-        <translation>开发者: yueshuai@kylinos.cn</translation>
+        <translation type="vanished">开发者: yueshuai@kylinos.cn</translation>
     </message>
 </context>
 <context>
@@ -46,10 +90,68 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="141"/>
         <source>ukui-memo</source>
         <translatorcomment>麒麟便签页</translatorcomment>
-        <translation>麒麟便签页</translation>
+        <translation type="vanished">麒麟便签页</translation>
+    </message>
+    <message>
+        <source>Kylin Memo</source>
+        <translatorcomment>麒麟便签本</translatorcomment>
+        <translation type="vanished">麒麟便签本</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="85"/>
+        <source>Notes</source>
+        <translatorcomment>便签贴</translatorcomment>
+        <translation>便签贴</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="137"/>
+        <source>Bold</source>
+        <translatorcomment>加粗</translatorcomment>
+        <translation>加粗</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="138"/>
+        <source>Italic</source>
+        <translatorcomment>斜体</translatorcomment>
+        <translation>斜体</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="139"/>
+        <source>Underline</source>
+        <translatorcomment>下划线</translatorcomment>
+        <translation>下划线</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="140"/>
+        <source>Strikeout</source>
+        <translatorcomment>删除线</translatorcomment>
+        <translation>删除线</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="141"/>
+        <source>Unordered</source>
+        <translatorcomment>无序列表</translatorcomment>
+        <translation>无序列表</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="142"/>
+        <source>Ordered</source>
+        <translatorcomment>有序列表</translatorcomment>
+        <translation>有序列表</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="144"/>
+        <source>Font Size</source>
+        <translatorcomment>字号</translatorcomment>
+        <translation>字号</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="145"/>
+        <source>Font Color</source>
+        <translatorcomment>字体颜色</translatorcomment>
+        <translation>字体颜色</translation>
     </message>
     <message>
         <source>Close</source>
@@ -123,10 +225,14 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.ui" line="85"/>
+        <source>Kylin Note</source>
+        <translatorcomment>麒麟便签本</translatorcomment>
+        <translation type="vanished">麒麟便签本</translation>
+    </message>
+    <message>
         <source>Note</source>
         <translatorcomment>麒麟便签本</translatorcomment>
-        <translation>麒麟便签本</translation>
+        <translation type="vanished">麒麟便签本</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-notebook/widget.ui" line="245"/>
@@ -135,41 +241,80 @@
         <translation>新建</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="262"/>
         <source>ukui-note</source>
         <translatorcomment>麒麟便签本</translatorcomment>
-        <translation>麒麟便签本</translation>
+        <translation type="vanished">麒麟便签本</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="476"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="541"/>
         <source>About</source>
         <translatorcomment>关于</translatorcomment>
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="922"/>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="970"/>
         <source>Welcome to use Kylin Note.</source>
         <translatorcomment>欢迎使用麒麟便签本。</translatorcomment>
-        <translation>欢迎使用麒麟便签本。</translation>
+        <translation type="vanished">欢迎使用麒麟便签本。</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="1002"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="1075"/>
         <source>Search</source>
         <translatorcomment>搜索</translatorcomment>
         <translation>搜索</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="546"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="614"/>
         <source>Create New Note</source>
         <translatorcomment>新建便签</translatorcomment>
         <translation>新建便签</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="477"/>
+        <source>Kylin Memo</source>
+        <translatorcomment>麒麟便签本</translatorcomment>
+        <translation type="vanished">麒麟便签本</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="276"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="280"/>
+        <source>Notes</source>
+        <translatorcomment>便签贴</translatorcomment>
+        <translation>便签贴</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="540"/>
+        <source>Help</source>
+        <translatorcomment>帮助</translatorcomment>
+        <translation>帮助</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="542"/>
         <source>Empty Note</source>
         <translatorcomment>清空便签本</translatorcomment>
         <translation>清空便签本</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="617"/>
+        <source>Close</source>
+        <translatorcomment>关闭</translatorcomment>
+        <translation>关闭</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="618"/>
+        <source>Minimize</source>
+        <translatorcomment>最小化</translatorcomment>
+        <translation>最小化</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="996"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="1043"/>
+        <source>Welcome to use Notes.</source>
+        <translatorcomment>欢迎使用便签贴，双击可编辑便签内容。</translatorcomment>
+        <translation>欢迎使用便签贴，双击可编辑便签内容。</translation>
+    </message>
+    <message>
+        <source>Welcome to use Kylin Memo.</source>
+        <translatorcomment>欢迎使用便签本，双击可编辑便签内容。</translatorcomment>
+        <translation type="vanished">欢迎使用便签本，双击可编辑便签内容。</translation>
     </message>
     <message>
         <source>Creation Date</source>
@@ -187,13 +332,13 @@
         <translation type="vanished">便签名称</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="547"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="615"/>
         <source>Delete Selected Note</source>
         <translatorcomment>删除</translatorcomment>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="548"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="616"/>
         <source>Switch View</source>
         <translatorcomment>切换视图</translatorcomment>
         <translation>切换视图</translation>
@@ -209,19 +354,17 @@
         <translation type="vanished">换肤</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="549"/>
         <source>Exit</source>
         <translatorcomment>关闭</translatorcomment>
-        <translation>关闭</translation>
+        <translation type="vanished">关闭</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="550"/>
         <source>Mini</source>
         <translatorcomment>最小化</translatorcomment>
-        <translation>最小化</translation>
+        <translation type="vanished">最小化</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="551"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="619"/>
         <source>Menu</source>
         <translatorcomment>菜单</translatorcomment>
         <translation>菜单</translation>
@@ -271,15 +414,25 @@
 <context>
     <name>iconViewModeDelegate</name>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/iconViewModeDelegate.cpp" line="386"/>
         <source>Today </source>
+        <translatorcomment>今天  </translatorcomment>
+        <translation type="vanished">今天  </translation>
+    </message>
+    <message>
+        <source>Yesterday </source>
+        <translatorcomment>昨天</translatorcomment>
+        <translation type="vanished">昨天  </translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/iconViewModeDelegate.cpp" line="337"/>
+        <source>Today  </source>
         <translatorcomment>今天  </translatorcomment>
         <translation>今天  </translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/iconViewModeDelegate.cpp" line="390"/>
-        <source>Yesterday </source>
-        <translatorcomment>昨天</translatorcomment>
+        <location filename="../../src/plugins/ukui-notebook/iconViewModeDelegate.cpp" line="346"/>
+        <source>Yesterday  </source>
+        <translatorcomment>昨天  </translatorcomment>
         <translation>昨天  </translation>
     </message>
 </context>
@@ -296,12 +449,12 @@
         <translation type="vanished">昨天</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/listViewModeDelegate.cpp" line="458"/>
+        <location filename="../../src/plugins/ukui-notebook/listViewModeDelegate.cpp" line="379"/>
         <source>Today  </source>
         <translation>今天  </translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/listViewModeDelegate.cpp" line="462"/>
+        <location filename="../../src/plugins/ukui-notebook/listViewModeDelegate.cpp" line="388"/>
         <source>Yesterday  </source>
         <translation>昨天  </translation>
     </message>
@@ -354,43 +507,48 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/noteHeadMenu.cpp" line="108"/>
+        <location filename="../../src/plugins/ukui-notebook/noteHeadMenu.cpp" line="101"/>
         <source>Open note list</source>
         <translatorcomment>打开便签本</translatorcomment>
         <translation>打开便签本</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/noteHeadMenu.cpp" line="110"/>
+        <location filename="../../src/plugins/ukui-notebook/noteHeadMenu.cpp" line="102"/>
         <source>Delete this note</source>
         <translatorcomment>删除此便签</translatorcomment>
         <translation>删除此便签</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/noteHeadMenu.cpp" line="111"/>
+        <location filename="../../src/plugins/ukui-notebook/noteHeadMenu.cpp" line="103"/>
         <source>Share</source>
         <translatorcomment>分享</translatorcomment>
         <translation>分享</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/noteHeadMenu.cpp" line="137"/>
+        <location filename="../../src/plugins/ukui-notebook/noteHeadMenu.cpp" line="129"/>
         <source>Create New Note</source>
         <translatorcomment>新建便签</translatorcomment>
         <translation>新建便签</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/noteHeadMenu.cpp" line="138"/>
-        <source>Exit</source>
+        <location filename="../../src/plugins/ukui-notebook/noteHeadMenu.cpp" line="130"/>
+        <source>Close</source>
         <translatorcomment>关闭</translatorcomment>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/noteHeadMenu.cpp" line="139"/>
+        <source>Exit</source>
+        <translatorcomment>关闭</translatorcomment>
+        <translation type="vanished">关闭</translation>
+    </message>
+    <message>
+        <location filename="../../src/plugins/ukui-notebook/noteHeadMenu.cpp" line="131"/>
         <source>Menu</source>
         <translatorcomment>菜单</translatorcomment>
         <translation>菜单</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/noteHeadMenu.cpp" line="145"/>
+        <location filename="../../src/plugins/ukui-notebook/noteHeadMenu.cpp" line="137"/>
         <source>Palette</source>
         <translation>调色板</translation>
     </message>

@@ -28,12 +28,14 @@ EditorWidget::EditorWidget()
     installEventFilter(this);
     this->setFixedSize(400, 338);
     this->setContentsMargins(0, 0, 0, 0);
+    this->setWindowTitle(QObject::tr("edit box"));
+    this->setWindowIcon(QIcon::fromTheme("kylin-clipboard"));
+    this->setProperty("useSystemStyleBlur", true);
     m_pMainQVBoxLayout = new QVBoxLayout();
     m_pMainQVBoxLayout->setContentsMargins(0, 0, 0, 0);
 
     editBox();
     operationBox();
-
     m_pConfirmButton->setObjectName("ConfirmButton");
     m_pCancelButton->setObjectName("CancelButton");
     connect(m_pConfirmButton, &QPushButton::clicked, this, &EditorWidget::accept);
@@ -41,6 +43,7 @@ EditorWidget::EditorWidget()
     connect(m_pConfirmButton, &QPushButton::clicked, globalClipboardSignal, &ClipboardSignal::CLipBoardEditConfirmButtonSignal);
     connect(m_pCancelButton, &QPushButton::clicked, globalClipboardSignal, &ClipboardSignal::CLipBoardEditConfirmButtonSignal);
     m_pEditingArea->setObjectName("EditingArea");
+    m_pEditingArea->setAcceptRichText(false);
     m_pEditWidget->setObjectName("EditBox");
     m_pOperationWidget->setObjectName("OperationBox");
     this->setObjectName("EditorWidget");
@@ -52,8 +55,7 @@ EditorWidget::EditorWidget()
     m_pMainQVBoxLayout->addWidget(m_pOperationWidget);
     m_pMainQVBoxLayout->addItem(new QSpacerItem(20, 18));
     m_pMainQVBoxLayout->setSpacing(0);
-    this->setWindowFlags(Qt::FramelessWindowHint);
-
+    this->setWindowFlags(Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
     QScreen* pScreen = QGuiApplication::primaryScreen();
     QRect ScreenSize = pScreen->availableGeometry();
     int m_nScreenWidth = ScreenSize.width();        //屏幕分辨率的宽
@@ -123,7 +125,6 @@ void EditorWidget::operationBox()
     m_pOperationWidget->setContentsMargins(0, 0, 0, 0);
     m_pOperationWidget->setLayout(m_pOperationLayout);
     return;
-
 }
 
 /* 重绘时间 */

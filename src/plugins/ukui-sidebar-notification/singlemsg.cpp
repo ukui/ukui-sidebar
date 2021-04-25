@@ -28,10 +28,16 @@
 #include <QDebug>
 #include <QTimer>
 #include <QThread>
+#include <QGSettings>
+
+#define STYLE_FONT_SCHEMA "org.ukui.style"
+#define SYSTEM_FONT_EKY "system-font-size"
+#define SYSTEM_NAME_KEY "system-font"
 
 
 SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, QString strSummary, QDateTime dateTime, QString strBody, bool bTakeInFlag)
 {
+    listenTimeZone();
     m_bMain = true;                 //默认是主窗口
     m_bFold = true;                 //默认折叠状态
     m_strIconPath = strIconPath;
@@ -41,7 +47,8 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_dateTime = dateTime;
     m_uNotifyTime = dateTime.toTime_t();
     m_bTakeInFlag = bTakeInFlag;
-    m_bTimeFormat = true;
+
+    initTimeFormatGsetting();
 
     connect(this, SIGNAL(Sig_setAppFoldFlag(bool)), pParent, SLOT(setAppFoldFlag(bool)));
     connect(this, SIGNAL(Sig_onDeleSingleMsg(SingleMsg*)), pParent, SLOT(onDeleSingleMsg(SingleMsg*)));
@@ -83,24 +90,33 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
     //设置通知消息中的Icon，使用QToolButton
     QLabel* pIconToolButton = new QLabel;
-    QPixmap iconaaa(strIconPath);
-
 
     m_pAnimationBaseMapWidget->setAttribute(Qt::WA_TranslucentBackground);
 
     pIconToolButton->setFixedSize(24, 24);
-    pIconToolButton->setPixmap(iconaaa);
+    QPixmap pixmap = QIcon::fromTheme(strIconPath, QIcon::fromTheme("application-x-desktop")).pixmap(QSize(24, 24));
+    PictureToWhite pictToWhite;
+    pIconToolButton->setPixmap(pictToWhite.drawSymbolicColoredPixmap(pixmap));
     pIconToolButton->setAttribute(Qt::WA_TranslucentBackground);
 
+    //获取系统字体大小
+    QFont ft;
+    ft.setPointSize(14);
+    if(QGSettings::isSchemaInstalled(STYLE_FONT_SCHEMA))
+    {
+        const QByteArray styleID(STYLE_FONT_SCHEMA);
+        stylesettings = new QGSettings(styleID);
+        int fontSize = stylesettings->get("system-font-size").toInt();
+        ft.setPointSize(fontSize);
+    }
+    connect(stylesettings, SIGNAL(changed(const QString &)), this, SLOT(slotChangeFonts(const QString &)));
 
     //设置应用名标签，采用省略模式
     QLabel* pAppNameLabel = new QLabel();
     pAppNameLabel->setObjectName("AppName");
 //    pAppNameLabel->setFixedWidth(84);
     pAppNameLabel->setAttribute(Qt::WA_TranslucentBackground);
-    QFont font14;
-    font14.setPixelSize(14);
-    pAppNameLabel->setFont(font14);
+    pAppNameLabel->setFont(ft);
     QFontMetrics fontMetrics1(pAppNameLabel->font());
 
 
@@ -108,11 +124,11 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     pAppNameLabel->setText(formatAppName);
 
     //设置通知消息中的弹簧，水平任意伸缩使应用名和时间分开
-    QSpacerItem* pHExpandSpacer = new QSpacerItem(400, 10, QSizePolicy::Expanding, QSizePolicy::Fixed);
+    QSpacerItem* pHExpandSpacer = new QSpacerItem(500, 10, QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     //放置时间和收纳删除按钮的窗口
     m_pTimeLabelWidget = new QWidget;
-    m_pTimeLabelWidget->setFixedSize(146, 20);
+    m_pTimeLabelWidget->setFixedSize(146, 25);
     QHBoxLayout* pTimeLableHLayout = new QHBoxLayout();
 
 
@@ -161,7 +177,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
     //设置标签布局
     pTimeLableHLayout->addWidget(m_pTimeLabel, 0, Qt::AlignRight);
-    pTimeLableHLayout->addItem(new QSpacerItem(26, 10 , QSizePolicy::Fixed, QSizePolicy::Fixed));
+    pTimeLableHLayout->addItem(new QSpacerItem(13, 10 , QSizePolicy::Fixed, QSizePolicy::Fixed));
     pTimeLableHLayout->setContentsMargins(0, 0, 0, 0);
     pTimeLableHLayout->setSpacing(0);
     m_pTimeLabelWidget->setLayout(pTimeLableHLayout);
@@ -182,7 +198,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pIconHLayout->addItem(new QSpacerItem(6, 10, QSizePolicy::Fixed, QSizePolicy::Fixed));
     m_pIconHLayout->addWidget(pAppNameLabel, 0, Qt::AlignLeft|Qt::AlignVCenter);
     m_pIconHLayout->addItem(pHExpandSpacer);
-    m_pIconHLayout->addWidget(m_pTimeLabelWidget);
+    m_pIconHLayout->addWidget(m_pTimeLabelWidget, 0, Qt::AlignRight );
     m_pIconHLayout->addWidget(m_pStorageDeleteButtonWidget);
     m_pIconWidget->setLayout(m_pIconHLayout);
     pMainVLaout->addWidget(m_pIconWidget, 0);
@@ -205,9 +221,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pSummaryLabel = new QLabel();
     m_pSummaryLabel->setFixedWidth(314);
     m_pSummaryLabel->setAttribute(Qt::WA_TranslucentBackground);
-    QFont font16;
-    font16.setPixelSize(16);
-    m_pSummaryLabel->setFont(font16);
+    m_pSummaryLabel->setFont(ft);
     QString formatSummary;
     formatSummary.append("<p style='line-height:26px'>").append(m_strSummary).append("</p>");
     QFontMetrics fontMetrics(m_pSummaryLabel->font());
@@ -267,12 +281,91 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     return;
 }
 
+void SingleMsg::initTimeFormatGsetting()
+{
+    const QByteArray id(CONTROL_CENTER_TIME_FORMAT_GSETTING);
+    QGSettings * fontSetting = new QGSettings(id);
+    QString timeFormat = fontSetting->get(CONTROL_TINE_FORMAT_GSETTING_VALUE).toString();
+    if (timeFormat == TIME_FORMAT) {
+        m_bTimeFormat = false;
+    } else {
+        m_bTimeFormat = true;
+    }
+    connect(fontSetting, &QGSettings::changed, this, [=](QString key) {
+        if (key == CONTROL_TINE_FORMAT_GSETTING_VALUE) {
+            QString value = fontSetting->get(CONTROL_TINE_FORMAT_GSETTING_VALUE).toString();
+            if (value == TIME_FORMAT) {
+                m_bTimeFormat = false;
+            } else {
+                m_bTimeFormat = true;
+            }
+        }
+    });
+}
 
+void SingleMsg::listenTimeZone()
+{
+    m_datetimeInterface = new QDBusInterface("org.freedesktop.timedate1",
+                                       "/org/freedesktop/timedate1",
+                                       "org.freedesktop.timedate1",
+                                       QDBusConnection::systemBus(), this);
+
+    QDBusConnection::systemBus().connect(QString("org.freedesktop.timedate1"),
+                                         QString("/org/freedesktop/timedate1"),
+                                         QString("org.freedesktop.DBus.Properties"),
+                                         QString("PropertiesChanged"), this, SLOT(listenTimeZoneSlots()));
+
+}
+
+void SingleMsg::listenTimeZoneSlots()
+{
+    QDateTime currentDateTime(QDateTime::currentDateTime());
+    m_uNotifyTime = currentDateTime.toTime_t() - m_uTimeDifference;
+    m_dateTime = QDateTime::fromTime_t(m_uNotifyTime);
+    updatePushTime();
+}
+
+void SingleMsg::slotChangeFonts(const QString &key)
+{
+    if(key != "systemFontSize")
+        return;
+    QFont ft;
+    int fontSize;
+    ft.setPointSize(14);
+    if(QGSettings::isSchemaInstalled(STYLE_FONT_SCHEMA)){
+        fontSize = stylesettings->get("system-font-size").toInt();
+        ft.setPointSize(fontSize);
+    }
+    //主题显示
+    QString formatSummary;
+    formatSummary.append("<p style='line-height:26px'>").append(m_strSummary).append("</p>");
+    QFontMetrics fontMetrics(m_pSummaryLabel->font());
+    int nFontSize = fontMetrics.width(formatSummary);
+    QString strformatSummary = formatSummary;
+    if(nFontSize > (m_pSummaryLabel->width() + 239))
+    {
+        strformatSummary = fontMetrics.elidedText(formatSummary, Qt::ElideRight, m_pSummaryLabel->width() + 210);
+    }
+    m_pSummaryLabel->setFont(ft);
+    m_pSummaryLabel->setText(strformatSummary);
+
+    //正文显示
+    QString strLineHeight24Body;
+    strLineHeight24Body.append("<p style='line-height:24px'>").append(m_strBody).append("</p>");
+    QFontMetrics fontMetrics1(m_pBodyLabel->font());
+    QString formatBody = strLineHeight24Body;
+    if(fontSize > (m_pBodyLabel->width() + 209))
+    {
+        formatBody = fontMetrics1.elidedText(strLineHeight24Body, Qt::ElideRight, m_pBodyLabel->width() + 180);
+    }
+    m_pBodyLabel->setFont(ft);
+    m_pBodyLabel->setText(formatBody);
+
+}
 void SingleMsg::paintEvent(QPaintEvent *e)
 {
 
     QPainter p(this);
-
 
     QRect rect = this->rect();
     rect.setWidth(rect.width() - 1);
@@ -282,31 +375,26 @@ void SingleMsg::paintEvent(QPaintEvent *e)
     p.setPen(Qt::transparent);
     p.drawRoundedRect(rect,6,6);
 
-
-
     switch (status) {
       case NORMAL: {
-
-              p.setBrush(QBrush(QColor(255, 255, 255, 0)));
-              p.setPen(Qt::NoPen);
-              p.drawRoundedRect(rect,6,6);
-              break;
+            p.setBrush(QBrush(QColor(255, 255, 255, 0)));
+            p.setPen(Qt::NoPen);
+            p.drawRoundedRect(rect,6,6);
+            break;
           }
       case HOVER: {
-          p.setBrush(QBrush(QColor(255, 255,255,40)));
-          p.setPen(Qt::NoPen);
-          p.drawRoundedRect(rect,6,6);
-              break;
+            p.setBrush(QBrush(QColor(255, 255,255,40)));
+            p.setPen(Qt::NoPen);
+            p.drawRoundedRect(rect,6,6);
+            break;
           }
       case PRESS: {
-        p.setBrush(QBrush(QColor(255, 255, 255, 0)));
-        p.setPen(Qt::NoPen);
-
-         p.drawRoundedRect(rect,6,6);
-              break;
-          }
+            p.setBrush(QBrush(QColor(255, 255, 255, 0)));
+            p.setPen(Qt::NoPen);
+            p.drawRoundedRect(rect,6,6);
+            break;
+        }
     }
-    this->update();
     QWidget::paintEvent(e);
 
 }
@@ -314,39 +402,31 @@ void SingleMsg::updatePushTime()
 {
     QDateTime currentDateTime(QDateTime::currentDateTime());
 
-    if(currentDateTime.toTime_t() < (m_uNotifyTime + 60))
-    {
+    m_uTimeDifference = currentDateTime.toTime_t() - m_uNotifyTime;
+
+    if (currentDateTime.toTime_t() < (m_uNotifyTime + 60)) {
         return;
     }
 
     QString strPushDate;
-    if(m_dateTime.date() == currentDateTime.date())
-    {
-        if(true == m_bTimeFormat)
-        {
+    if (m_dateTime.date() == currentDateTime.date()) {
+        if(true == m_bTimeFormat) {
             strPushDate = m_dateTime.toString("hh:mm");                     //24小时制
-        }
-        else
-        {
+        } else {
             strPushDate = m_dateTime.toString("AP h:mm");                   //12小时制
         }
         m_pTimeLabel->setText(strPushDate);
         return;
     }
 
-    if(1 == (currentDateTime.date().toJulianDay() - m_dateTime.date().toJulianDay()))
-    {
+    if (1 == (currentDateTime.date().toJulianDay() - m_dateTime.date().toJulianDay())) {
         strPushDate = tr("Yesterday ");
-        if(true == m_bTimeFormat)
-        {
+        if(true == m_bTimeFormat) {
             strPushDate = strPushDate + m_dateTime.toString("hh:mm");       //24小时制
-        }
-        else
-        {
+        } else {
             strPushDate = strPushDate + m_dateTime.toString("AP h:mm");     //12小时制
         }
         m_pTimeLabel->setText(strPushDate);
-
         return;
     }
 
@@ -383,7 +463,7 @@ void SingleMsg::setBodyLabelWordWrap(bool bFlag)
     m_pBodyLabel->setWordWrap(bFlag);
     QFont font14;
     font14.setPixelSize(14);
-    m_pBodyLabel->setFont(font14);
+//    m_pBodyLabel->setFont(font14);
     QFontMetrics fontMetrics(m_pBodyLabel->font());
     QString strLineHeight24Body;
     strLineHeight24Body.append("<p style='line-height:24px'>").append(m_strBody).append("</p>");
@@ -453,8 +533,9 @@ void SingleMsg::enterEvent(QEvent *event)
     if((true == m_bMain) && (true == m_bFold) && (m_nShowLeftCount > 0))
     {
         emit Sig_onMainEnter();
-
     }
+    this->update();
+    QTimer::singleShot(50,[this]{this->update();});
 
     return;
 }
@@ -471,7 +552,7 @@ void SingleMsg::leaveEvent(QEvent *event)
     {
         emit Sig_onMainLeave();
     }
-
+    this->update();
     return;
 }
 
@@ -509,6 +590,7 @@ void SingleMsg::mousePressEvent(QMouseEvent *event)
 
             emit Sig_setAppFoldFlag(m_bFold);
         }
+        this->update();
     }
     return;
 }

@@ -52,53 +52,51 @@ void MonitorThread::extractData(QString strOutput)
 
     //app名的获取
     int nIndex = strOutputTmp.indexOf("\"");
-    if(-1 == nIndex)
-    {
+    if (-1 == nIndex) {
         return;
     }
+
     strOutputTmp = strOutputTmp.mid(nIndex + 1);
     nIndex = strOutputTmp.indexOf("\"");
-    if(-1 == nIndex)
-    {
+    if (-1 == nIndex) {
         return;
     }
     QString strAppName = strOutputTmp.mid(0, nIndex);
     strOutputTmp = strOutputTmp.mid(nIndex + 1);
-    if("notify-send" == strAppName)
-    {
+    //检查电源信息是否被禁用
+    if ("电源管理" == strAppName) {
+        if (!powerstatus) {
+            return;
+        }
+    }
+    if ("notify-send" == strAppName) {
         strAppName = "未知来源";
     }
-
     //图标路径的获取
     nIndex = strOutputTmp.indexOf("\"");
-    if(-1 == nIndex)
-    {
+    if (-1 == nIndex) {
         return;
     }
     strOutputTmp = strOutputTmp.mid(nIndex + 1);
     nIndex = strOutputTmp.indexOf("\"");
-    if(-1 == nIndex)
-    {
+    if (-1 == nIndex) {
         return;
     }
     QString strIcon = strOutputTmp.mid(0, nIndex);
     strOutputTmp = strOutputTmp.mid(nIndex + 1);
 
-    if("" == strIcon)
-    {
+    if ("" == strIcon) {
         strIcon = "/usr/share/icons/ukui-icon-theme-default/24x24/mimetypes/application-x-desktop.png";
     }
 
     //主题的获取
     nIndex = strOutputTmp.indexOf("\"");
-    if(-1 == nIndex)
-    {
+    if (-1 == nIndex) {
         return;
     }
     strOutputTmp = strOutputTmp.mid(nIndex + 1);
     nIndex = strOutputTmp.indexOf("\"");
-    if(-1 == nIndex)
-    {
+    if (-1 == nIndex) {
         return;
     }
     QString strSummary = strOutputTmp.mid(0, nIndex);
@@ -106,14 +104,12 @@ void MonitorThread::extractData(QString strOutput)
 
     //正文的获取
     nIndex = strOutputTmp.indexOf("\"");
-    if(-1 == nIndex)
-    {
+    if (-1 == nIndex) {
         return;
     }
     strOutputTmp = strOutputTmp.mid(nIndex + 1);
     nIndex = strOutputTmp.indexOf("\"");
-    if(-1 == nIndex)
-    {
+    if (-1 == nIndex) {
         return;
     }
     QString strBody = strOutputTmp.mid(0, nIndex);
@@ -121,20 +117,17 @@ void MonitorThread::extractData(QString strOutput)
 
     QMap<QString, int>::const_iterator iter = m_nAppMaxNum.find(strAppName);
     int nMaxNum = 20;
-    if((iter != m_nAppMaxNum.end()) && (iter.value() > 0))  //找到
-    {
+
+    if ((iter != m_nAppMaxNum.end()) && (iter.value() > 0)) { //找到
         nMaxNum = iter.value();
     }
 
     QDateTime dateTime(QDateTime::currentDateTime());
 
     QMap<QString, bool>::const_iterator iter1 = m_mapAppSwitch.find(strAppName);
-    if(iter1 == m_mapAppSwitch.end())                       //未找到
-    {
+    if (iter1 == m_mapAppSwitch.end()) {    //未找到
         emit Sig_Notify(strAppName, strIcon, strSummary, strBody, dateTime, nMaxNum, true);
-    }
-    else
-    {
+    } else {
         emit Sig_Takein(strAppName, strIcon, strSummary, strBody, dateTime, nMaxNum, true);
     }
 
@@ -145,8 +138,7 @@ void MonitorThread::extractData(QString strOutput)
 void MonitorThread::getSettingsValue()
 {
     QList<char*> existsPath = listExistsPath();
-    for (char* path : existsPath)
-    {
+    for (char* path : existsPath) {
         char* prepath = QString(NOTICE_ORIGIN_PATH).toLatin1().data();
         char* allpath = strcat(prepath, path);
 
@@ -162,25 +154,21 @@ void MonitorThread::getSettingsValue()
 void MonitorThread::fromSettingsGetInfoToList()
 {
     //存储settings,应用名和最大显示数目,以及true
-    if (false == m_pSettings->keys().contains(NAME_KEY))
-    {
+    if (false == m_pSettings->keys().contains(NAME_KEY)) {
         return;
     }
 
     QString strAppName = m_pSettings->get(NAME_KEY).toString();
 
-    if (m_pSettings->keys().contains(MAXIMINE_KEY))
-    {
+    if (m_pSettings->keys().contains(MAXIMINE_KEY)) {
         int maxNum = m_pSettings->get(MAXIMINE_KEY).toInt();
         m_nAppMaxNum.insert(strAppName, maxNum);
     }
 
-    if (m_pSettings->keys().contains(SWITCH_KEY))
-    {
-        bool status = m_pSettings->get(SWITCH_KEY).toBool();
-        if(false == status)
-        {
-            m_mapAppSwitch.insert(strAppName, status);
+    if (m_pSettings->keys().contains(SWITCH_KEY)) {
+        powerstatus = m_pSettings->get(SWITCH_KEY).toBool();
+        if (false == powerstatus) {
+            m_mapAppSwitch.insert(strAppName, powerstatus);
         }
     }
 }
@@ -197,10 +185,8 @@ QList<char*> MonitorThread::listExistsPath()
 
     QList<char*> vals;
 
-    for (int i = 0; childs[i] != NULL; i++)
-    {
-        if (dconf_is_rel_dir(childs[i], NULL))
-        {
+    for (int i = 0; childs[i] != NULL; i++) {
+        if (dconf_is_rel_dir(childs[i], NULL)) {
             char* val = g_strdup(childs[i]);
             vals.append(val);
         }
@@ -215,75 +201,77 @@ void MonitorThread::appNotifySettingChangedSlot()
     QString strAppName = "";
     bool status = false;
 
-    if (false == m_pSettings->keys().contains(NAME_KEY))
-    {
+    if (false == m_pSettings->keys().contains(NAME_KEY)) {
         return;
     }
 
     strAppName = m_pSettings->get(NAME_KEY).toString();
 
-    if (m_pSettings->keys().contains(MAXIMINE_KEY))
-    {
+    if (m_pSettings->keys().contains(MAXIMINE_KEY)) {
         maxNum = m_pSettings->get(MAXIMINE_KEY).toInt();
         m_nAppMaxNum[strAppName] = maxNum;
         emit Sig_UpdateAppMaxNum(strAppName, maxNum);
     }
 
-    if (m_pSettings->keys().contains(SWITCH_KEY))
-    {
+    if (m_pSettings->keys().contains(SWITCH_KEY)) {
         status = m_pSettings->get(SWITCH_KEY).toBool();
+        powerstatus= m_pSettings->get(SWITCH_KEY).toBool();
         QMap<QString, bool>::const_iterator iter1 = m_mapAppSwitch.find(strAppName);
-        if(iter1 == m_mapAppSwitch.end())                   //没找到，没在黑名单
-        {
-            if(false == status)
-            {
+        if (iter1 == m_mapAppSwitch.end()) {    //没找到，没在黑名单
+            if(false == status) {
                 m_mapAppSwitch.insert(strAppName, status);
                 emit Sig_CloseAppMsg(strAppName);           //对于没在黑名单的，新增黑名单关闭消息要求实时更新至通知列表
             }
-        }
-        else
-        {
-            if(true == status)
-            {
+        } else {
+            if (true == status) {
                 m_mapAppSwitch.remove(strAppName);
             }
         }
     }
-
 }
 
 void MonitorThread::readOutputData()
 {
     QByteArray output = m_pProcess->readAllStandardOutput();
-    QString str_output = output;
-    if(str_output.isEmpty())
-    {
+
+    if (false == m_bEnabled) {  //上面的内容必须读空再返回，不然就一直有缓存
         return;
     }
-    qDebug()<<str_output;
+
+    QString str_output = output;
+
+    if (str_output.isEmpty()) {
+        return;
+    }
 
     int nIndex = 0;
-    do{
+    do {
         nIndex = str_output.indexOf("member=Notify");
-        if(-1 == nIndex)
-        {
+        if (-1 == nIndex) {
             break;
         }
         str_output = str_output.mid(nIndex + 13);
         extractData(str_output);
 
-    }while(str_output.size() > 0);
+    } while (str_output.size() > 0);
 
     return;
+}
+
+void MonitorThread::switchEnable(bool bEnabled)
+{
+    if (m_bEnabled != bEnabled) {
+        m_bEnabled = bEnabled;
+    }
 }
 
 void MonitorThread::run()
 {
     system("killall dbus-monitor");
-    m_pProcess = new QProcess();
+    m_pProcess = new QProcess(this);
     m_pProcess->start("dbus-monitor interface=org.freedesktop.Notifications");
 
-    QTimer* pTimer = new QTimer();
+    QTimer* pTimer = new QTimer(this);
     connect(pTimer, SIGNAL(timeout()), this, SLOT(readOutputData()));
     pTimer->start(1000);
 

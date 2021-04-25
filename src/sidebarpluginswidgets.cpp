@@ -16,9 +16,25 @@
 *
 */
 #include "sidebarpluginswidgets.h"
+
 extern double tranSparency;
 
 static sidebarPluginsWidgets *global_Plugin_Widgets_instance = nullptr;
+
+m_ToolButton::m_ToolButton()
+{
+
+}
+
+void m_ToolButton::enterEvent(QEvent *event)
+{
+    char*  charname ;
+    QByteArray ba = pluginname.toLocal8Bit();
+    charname =ba.data();
+    this->setToolTip((tr(charname)));
+    return;
+}
+
 sidebarPluginsWidgets::sidebarPluginsWidgets(QWidget *parent) : QWidget(parent)
 {
     Q_UNUSED(parent);
@@ -88,7 +104,7 @@ void sidebarPluginsWidgets::initUpGroupBoxButton()
     m_pClipboardButton = new SmallPluginsButton();
     m_pClipboardButton->setText(tr("Clipboard"));
     m_pClipboardButton->setObjectName("ClipboardButton");
-    m_pClipboardButton->setFixedSize(90,34);
+    m_pClipboardButton->setFixedSize(100,34);
     connect(m_pClipboardButton, &SmallPluginsButton::clicked, this, &sidebarPluginsWidgets::m_ClipboardButtonSlots);
 
     //小插件按钮
@@ -122,9 +138,9 @@ void sidebarPluginsWidgets::initUpGroupBoxButton()
     m_pGrouBoxUpButtonHLayout->addWidget(m_pClipboardButton);
     m_pGrouBoxUpButtonHLayout->addItem(new QSpacerItem(10, 20));
     m_pGrouBoxUpButtonHLayout->addWidget(m_pSidebarPluginButton);
-    m_pGrouBoxUpButtonHLayout->addItem(new QSpacerItem(10, 20));
+    m_pGrouBoxUpButtonHLayout->addItem(new QSpacerItem(0, 20));
     m_pGrouBoxUpButtonHLayout->addWidget(m_pBlueBackgroundButton);
-    m_pGrouBoxUpButtonHLayout->addItem(new QSpacerItem(202, 20));
+    m_pGrouBoxUpButtonHLayout->addItem(new QSpacerItem(192, 20));
     m_pButtonWidget->setLayout(m_pGrouBoxUpButtonHLayout);
     m_pGrouBoxUpButtonHLayout->setSpacing(0);
     return;
@@ -373,7 +389,7 @@ void sidebarPluginsWidgets::parsingDesktopFile()
         QString icon = getAppIcon(desktopfp);
         QString name = getAppName(desktopfp);
         QString Exec = getAppExec(desktopfp);
-        QToolButton *p_button = StructToolButtol(icon, name);
+        m_ToolButton *p_button = StructToolButtol(icon, name);
         connect(p_button, &QToolButton::clicked, this, [=]() {
             QProcess p(0);
             p.startDetached(Exec);
@@ -397,9 +413,9 @@ void sidebarPluginsWidgets::parsingDesktopFile()
 }
 
 /* 构建小插件图标 */
-QToolButton* sidebarPluginsWidgets::StructToolButtol(QString icon, QString name)
+m_ToolButton* sidebarPluginsWidgets::StructToolButtol(QString icon, QString name)
 {
-    QToolButton *p_ToolButton = new QToolButton();
+    m_ToolButton *p_ToolButton = new m_ToolButton();
     p_ToolButton->setFixedSize(90,90);
     QPixmap pixmap = QIcon::fromTheme(icon).pixmap(QSize(45, 45));
     QLabel *IconLabel = new QLabel();
@@ -425,6 +441,7 @@ QToolButton* sidebarPluginsWidgets::StructToolButtol(QString icon, QString name)
     p_ToolButton->setLayout(ToolButtonLaout);
     p_ToolButton->setStyle(new CustomStyle("ukui-default"));
     qDebug() << "插件接口名称" << name;
+    p_ToolButton->pluginname=name;
     return p_ToolButton;
 }
 

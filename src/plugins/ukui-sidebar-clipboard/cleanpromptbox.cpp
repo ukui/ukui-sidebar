@@ -23,6 +23,7 @@ CleanPromptBox::CleanPromptBox()
 {
     this->setFixedSize(400, 218);
     this->setObjectName("CleanPromptBoxWidget");
+    this->setProperty("useSystemStyleBlur", true);
     m_pHintInformationWidget = new QWidget();
     m_pCheckBoxWidget        = new QWidget();
     m_pButtonWidget          = new QWidget();
@@ -39,7 +40,7 @@ CleanPromptBox::CleanPromptBox()
 
 
     this->setLayout(m_pHintWidgetVLaout);
-    this->setWindowFlags(Qt::FramelessWindowHint /*| Qt::X11BypassWindowManagerHint*/);
+    this->setWindowFlags(Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
     this->setAttribute(Qt::WA_TranslucentBackground);
     return;
 }
@@ -52,8 +53,8 @@ void CleanPromptBox::initGsettingTransparency()
         m_dTranSparency = m_pTransparency->get("transparency").toDouble();
         connect(m_pTransparency, &QGSettings::changed, this, [=](QString value) {
             if (value == "transparency") {
-                qDebug() << "hello world23333";
                 m_dTranSparency = m_pTransparency->get("transparency").toDouble();
+                this->update();
             }
         });
     }
@@ -81,8 +82,20 @@ void CleanPromptBox::creatorHintInfomationWidget()
     m_pIconButton->setIcon(tipIcon);
     m_pIconButton->setIconSize(QSize(48,48));
 
+
     m_pHintInformation = new QLabel(QObject::tr("Are you sure empty your clipboard history?"));
-    m_pHintInformation->setFixedSize(250, 30);
+    m_pHintInformation->setToolTip(m_pHintInformation->text());
+    QFont Informationfont;
+    m_pHintInformation->setFont(Informationfont);
+    QFontMetrics fontMetrics1(m_pHintInformation->font());
+    QString formatAppName = fontMetrics1.elidedText(m_pHintInformation->text(), Qt::ElideRight, m_pHintInformation->width()/2);
+    m_pHintInformation->setText(formatAppName);
+
+    m_pHintInformation->setGeometry(QRect(328, 240, 329, 27*4));  //四倍行距
+    m_pHintInformation->setWordWrap(true);
+    m_pHintInformation->setAlignment(Qt::AlignTop);
+
+    m_pHintInformation->setFixedSize(250, 100);
     m_pIconLableHLaout->addItem(new QSpacerItem(31,20));
     m_pIconLableHLaout->addWidget(m_pIconButton);
     m_pIconLableHLaout->addItem(new QSpacerItem(16, 20));
@@ -97,13 +110,14 @@ void CleanPromptBox::creatorCheckBoxWidget()
 {
     m_pCheckBoxNoHint = new QCheckBox;
     m_pCheckBoxNoHint->setText(QObject::tr("Don't ask"));
-    m_pCheckBoxNoHint->setFixedSize(85, 20);
+    m_pCheckBoxNoHint->setFixedHeight(30);
+    m_pCheckBoxNoHint->setFixedWidth(150);
     m_pChechBoxHLaout = new QHBoxLayout;
     m_pChechBoxHLaout->setContentsMargins(0,0,0,0);
     m_pChechBoxHLaout->setSpacing(0);
     m_pChechBoxHLaout->addItem(new QSpacerItem(95, 20));
     m_pChechBoxHLaout->addWidget(m_pCheckBoxNoHint);
-    m_pChechBoxHLaout->addItem(new QSpacerItem(220, 20));
+    m_pChechBoxHLaout->addItem(new QSpacerItem(220, 20, QSizePolicy::Expanding));
     m_pCheckBoxWidget->setLayout(m_pChechBoxHLaout);
     return;
 }
@@ -149,7 +163,7 @@ void CleanPromptBox::creatorCleanPromptBoxWidget()
     m_pHintWidgetVLaout->setSpacing(0);
     m_pHintWidgetVLaout->addItem(new QSpacerItem(20, 48));
     m_pHintWidgetVLaout->addWidget(m_pHintInformationWidget);
-    m_pHintWidgetVLaout->addItem(new QSpacerItem(10, 15));
+    m_pHintWidgetVLaout->addItem(new QSpacerItem(10, 10));
     m_pHintWidgetVLaout->addWidget(m_pCheckBoxWidget);
     m_pHintWidgetVLaout->addItem(new QSpacerItem(10, 41));
     m_pHintWidgetVLaout->addWidget(m_pButtonWidget);

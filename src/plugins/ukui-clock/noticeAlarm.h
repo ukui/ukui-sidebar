@@ -46,7 +46,12 @@ public:
      void mousePressEvent(QMouseEvent *event);
      void mouseReleaseEvent(QMouseEvent *event);
      void mouseMoveEvent(QMouseEvent *event);
+     void closeEvent(QCloseEvent *event);
 
+     QTimer *timer = nullptr;
+     QTimer *timer_xumhuan = nullptr;
+     QMediaPlayer  *music;
+     int timer_value;
 
 protected:
      //绘制背景
@@ -65,12 +70,8 @@ private slots:
 
 private:
     void natice_init();
-    QTimer *timer = nullptr;
-    QTimer *timer_xumhuan = nullptr;
 
-    int timer_value;
     int num_flag;
-    QMediaPlayer  *music;
     QMediaPlaylist *playlist;
     int ring_num;
     int timer_value2;

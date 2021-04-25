@@ -73,6 +73,7 @@ private:
     int m_rowRightOffset;
     States m_state;
     bool m_isActive;
+    QString m_timeZone;
 
     QTimeLine *m_timeLine;
     QModelIndex m_animatedIndex;

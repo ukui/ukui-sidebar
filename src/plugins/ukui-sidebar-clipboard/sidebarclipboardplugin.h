@@ -40,6 +40,7 @@
 #include <QFileInfo>
 #include <QThread>
 #include <QProcess>
+#include <unistd.h>
 #include "clipboardpluginiface.h"
 #include "clipboardwidgetentry.h"
 #include "sidebarclipboardsignal.h"
@@ -184,6 +185,7 @@ public:
     QMimeData *structureQmimeDate(OriginalDataHashValue *value);            /* 构造一个QMimeDate类型数据 */
     void AddWidgetEntry(OriginalDataHashValue *s_pDataHashValue, ClipboardWidgetEntry *w, QString text);     /* 将信息写入到WidgetEntry条目中去 */
     void setEntryItemSize(OriginalDataHashValue* value, ClipboardWidgetEntry *w, QListWidgetItem *item);    /* 设置条目大小 */
+    void resetWidgetLabelText();
 
 signals:
     void Itemchange();

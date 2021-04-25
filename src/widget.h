@@ -43,6 +43,14 @@
 #define UKUI_TRANSPARENCY_SETTING "org.ukui.control-center.personalise"
 #define UKUI_PANEL_SETTING "org.ukui.panel.settings"
 
+#define ENV_X11       "x11"
+#define ENV_WAYLAND   "wayland"
+#define ENV_XDG_SESSION_TYPE "XDG_SESSION_TYPE"
+
+#define DBUS_NAME       "org.ukui.SettingsDaemon"
+#define DBUS_PATH       "/org/ukui/SettingsDaemon/wayland"
+#define DBUS_INTERFACE  "org.ukui.SettingsDaemon.wayland"
+
 class QGroupBox;
 class QGridLayout;
 class QVBoxLayout;
@@ -68,12 +76,15 @@ public:
     //主界面
     void initTranslation();                                                     // 初始化翻译
     void initAimation();                                                        // 初始化动画
+    void initOsSiteXY();                                                        // 初始化使用qt接口初始化接口
     void showAnimation();                                                       // show动作
     void hideAnimation();                                                       // hide动作
     void initDesktopPrimary();                                                  // 初始化分辨率和信号连接
     void initPanelDbusGsetting();                                               // 初始化与任务栏gsetting和dbus
     int  ListenClipboardSignal();                                               // 监听剪贴板发送的信号
     int  connectTaskBarDbus();                                                  // 连接任务栏dbus接口，获取任务栏高度
+    bool initHuaWeiDbus();                                                      // 初始化华为990专用dbus
+    int  getScreenGeometry(QString methodName);                                 // 华为990获取屏幕高度
     int  getPanelSite();                                                        // 获取任务栏位置
     int  setClipBoardWidgetScaleFactor();                                       // 获取通知中心下半部分高度比例系数
 
@@ -99,6 +110,8 @@ private:
     //主界面
     QVBoxLayout*                m_pMainQVBoxLayout;                             // 主界面垂直布局器
     QDBusInterface*             m_pServiceInterface;                            // 获取任务栏的高度
+    QDBusInterface*             m_pDbusXrandInter=nullptr;                              // 华为990dbus接口
+    bool                        m_bHWdbusExit;                                  // 华为dbus接口是否存在
     bool                        m_bShowFlag = false;                            // 控制托盘栏点击事件的标志位
     bool                        m_bClipboardFlag = true;                        // 剪贴板编辑框打开和关闭时控制侧边栏是否关闭
     bool                        m_winFlag = false;
@@ -145,6 +158,7 @@ private slots :
     void bootOptionsFilter(QString opt);                                        // 过滤当前的终端命令
     void XkbEventsPress(const QString &keycode);                                // 键盘按键按下事件
     void XkbEventsRelease(const QString &keycode);                              // 键盘按键弹出事件
+    void priScreenChanged(int x, int y, int width, int height);                 // hw990屏幕分辨率变化后
 };
 
 #endif // WIDGET_H

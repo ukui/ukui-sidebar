@@ -42,15 +42,13 @@ protected:
     void mouseMoveEvent(QMouseEvent* e) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent* e) Q_DECL_OVERRIDE;
     void mouseReleaseEvent(QMouseEvent* e) Q_DECL_OVERRIDE;
+    void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected) Q_DECL_OVERRIDE;
 
 private:
     bool m_isScrollBarHidden;
     bool m_animationEnabled;
     bool m_isMousePressed;
     int m_rowHeight;
-
-private:
-    void setupSignalsSlots();
 
 public slots:
     void rowsAboutToBeMoved(const QModelIndex &sourceParent, int sourceStart, int sourceEnd,

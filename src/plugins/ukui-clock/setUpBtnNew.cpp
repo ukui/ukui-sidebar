@@ -8,7 +8,7 @@ setUpBtnNew::setUpBtnNew(int num, QString name, QWidget *parent) :
     QPushButton(parent),
     clock_num(num)
 {
-    QPixmap pixmap = QPixmap(":/go-bottom-symbolic.png");
+    QPixmap pixmap = QPixmap(":/image/go-bottom-symbolic.png");
     nameLabel = new QLabel(this);
     textLabel = new QLabel(this);
     IconLabel = new QLabel(this);
@@ -25,12 +25,15 @@ setUpBtnNew::setUpBtnNew(int num, QString name, QWidget *parent) :
     textLabel->setText(name);
     IconLabel->setPixmap(pixmap);
     textLabel->setAlignment(Qt::AlignRight | Qt::AlignCenter);
-
+    nameLabel->setStyleSheet("font-size:14px;");
+    textLabel->setStyleSheet("font-size:14px;");
     this->resize(268,40);
 
     QPalette palette;
     palette.setColor(QPalette::ButtonText,QColor(148, 148, 148, 255));
     textLabel->setPalette(palette);
+    IconLabel->setProperty("useIconHighlightEffect", true);
+    IconLabel->setProperty("iconHighlightEffectMode", 1);
 }
 
 setUpBtnNew::~setUpBtnNew()

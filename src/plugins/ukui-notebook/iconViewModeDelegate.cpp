@@ -29,6 +29,12 @@
 #include "iconViewModeDelegate.h"
 #include "noteView.h"
 
+/*!
+ * 系统时间
+ */
+#define FORMAT_SCHEMA   "org.ukui.control-center.panel.plugins"
+#define TIME_FORMAT_KEY "hoursystem"
+
 iconViewModeDelegate::iconViewModeDelegate(QObject *parent)
     : QStyledItemDelegate(parent),
       m_titleFont(QStringLiteral(""), 14, 30),              //标题字体
@@ -70,6 +76,19 @@ iconViewModeDelegate::iconViewModeDelegate(QObject *parent)
         m_animatedIndex = QModelIndex();
         m_state = Normal;
     });
+
+    // 监听时区变化
+    const QByteArray iddd(FORMAT_SCHEMA);
+
+    if (QGSettings::isSchemaInstalled(iddd)){
+        QGSettings *m_formatsettings = new QGSettings(iddd);
+        m_timeZone = m_formatsettings->get(TIME_FORMAT_KEY).toString();
+        connect(m_formatsettings, &QGSettings::changed, this, [=] (const QString &key) {
+            if (key == "hoursystem") {
+                m_timeZone = m_formatsettings->get(TIME_FORMAT_KEY).toString();
+            }
+        });
+    }
 }
 
 void iconViewModeDelegate::setState(States NewState, QModelIndex index)
@@ -116,46 +135,36 @@ void iconViewModeDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     int m_noteColor{index.data(NoteModel::NoteColor).toInt()};
     painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     painter->setBrush(QBrush(intToQcolor(m_noteColor)));
-
+    painter->setOpacity(1);
     painter->setPen(Qt::transparent);
     opt.rect.setLeft(opt.rect.left() + 3);
-    opt.rect.setWidth(opt.rect.width() - 12);
-    opt.rect.setHeight(opt.rect.height() - 46);
+    opt.rect.setWidth(opt.rect.width() - 12);   // 左右间距
+    opt.rect.setHeight(opt.rect.height() - 241);// 上下间距
     {
         QPainterPath painterPath;
-        painterPath.addRoundedRect(opt.rect, 7, 7);
+        painterPath.addRoundedRect(opt.rect, 4, 4);
+        painterPath.setFillRule(Qt::WindingFill); // 多块区域组合填充模式
+        painterPath.addRect(opt.rect.x() , opt.rect.y() + 1, 4, 4);
+        painterPath.addRect(opt.rect.x() + opt.rect.width() - 4, opt.rect.y() + 1, 4, 4);
         painter->drawPath(painterPath);
     }
 
     //绘制第二层底色背景
     painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-    painter->setBrush(opt.palette.color(QPalette::Base));
-
-    //系统默认 255 、 248  深色模式 34 30
-    if(painter->brush().color().value() == 255)
-    {
-        painter->setBrush(QColor(245,245,245));
-    }else if(painter->brush().color().value() == 248)
-    {
-        painter->setBrush(QColor(245,245,245));
-    }else if(painter->brush().color().value() == 30)
-    {
-        painter->setBrush(QColor(40,40,46));
-    }else if(painter->brush().color().value() == 34)
-    {
-        painter->setBrush(QColor(40,40,46));
-    }
-
+    painter->setOpacity(0.04);
+    painter->setBrush(opt.palette.color(QPalette::Text));
     painter->setPen(Qt::transparent);
-    opt.rect.setHeight(opt.rect.height() - 0);
+
+    opt.rect.setHeight(200);
     opt.rect.setTop(opt.rect.top() + 5);
     {
         QPainterPath painterPath;
         painterPath.addRoundedRect(opt.rect, 0, 0);
         painter->drawPath(painterPath);
     }
-
+    painter->setOpacity(1);
     paintBackground(painter, opt, index);
+    painter->setOpacity(1);
     paintLabels(painter, option, index);
 }
 
@@ -181,99 +190,56 @@ void iconViewModeDelegate::paintBackground(QPainter *painter, const QStyleOption
         if(qApp->applicationState() == Qt::ApplicationActive){      //返回应用程序的当前状态。
             if(m_isActive){//用指定的画笔填充给定的矩形。
                 painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-                painter->setBrush(opt.palette.color(QPalette::Base));
-
-                //系统默认 255 、 248  深色模式 34 30
-                if(painter->brush().color().value() == 255)
-                {
-                    painter->setBrush(QColor(255,255,255));
-                }
-                else if(painter->brush().color().value() == 34)
-                {
-                    painter->setBrush(QBrush(m_selectColor));
-                }
-
+                painter->setBrush(opt.palette.color(QPalette::Text));
+                painter->setOpacity(0.08);
                 painter->setPen(Qt::transparent);
+
                 QPainterPath painterPath;
                 painterPath.addRoundedRect(opt.rect, 0, 0);
                 painter->drawPath(painterPath);
-                //painter->fillRect(option.rect, QBrush(m_ActiveColor));//浅蓝
             }else{
                 painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-                painter->setBrush(opt.palette.color(QPalette::Base));
-
-                //系统默认 255 、 248  深色模式 34 30
-                if(painter->brush().color().value() == 255)
-                {
-                    painter->setBrush(QColor(255,255,255));
-                }
-                else if(painter->brush().color().value() == 34)
-                {
-                    painter->setBrush(QBrush(m_selectColor));
-                }
-
+                painter->setBrush(opt.palette.color(QPalette::Text));
+                painter->setOpacity(0.08);
                 painter->setPen(Qt::transparent);
+
                 QPainterPath painterPath;
                 painterPath.addRoundedRect(opt.rect, 0, 0);
                 painter->drawPath(painterPath);
-                //painter->fillRect(option.rect, QBrush(m_notActiveColor));//深蓝
             }
             //应用程序可见，但未选择显示在前面
         }else if(qApp->applicationState() == Qt::ApplicationInactive){
             painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-            painter->setBrush(opt.palette.color(QPalette::Base));
-
-            //系统默认 255 、 248  深色模式 34 30
-            if(painter->brush().color().value() == 255)
-            {
-                painter->setBrush(QColor(255,255,255));
-            }
-            else if(painter->brush().color().value() == 34)
-            {
-                painter->setBrush(QBrush(m_selectColor));
-            }
-
+            painter->setBrush(opt.palette.color(QPalette::Text));
+            painter->setOpacity(0.08);
             painter->setPen(Qt::transparent);
+
             QPainterPath painterPath;
             painterPath.addRoundedRect(opt.rect, 0, 0);
             painter->drawPath(painterPath);
-            //painter->fillRect(option.rect, QBrush(m_defaultColor));
         }
     }
     //鼠标悬停时颜色
     //用于指示小部件是否在鼠标下。
     else if((option.state & QStyle::State_MouseOver) == QStyle::State_MouseOver){
         painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-        painter->setBrush(opt.palette.color(QPalette::Base));
-
-        //系统默认 255 、 248  深色模式 34 30
-        if(painter->brush().color().value() == 255)
-        {
-            painter->setBrush(QColor(205,205,205));
-        }
-        else if(painter->brush().color().value() == 34)
-        {
-            painter->setBrush(QBrush(m_hoverColor));
-        }
-
+        painter->setBrush(opt.palette.color(QPalette::Text));
+        painter->setOpacity(0.04);
         painter->setPen(Qt::transparent);
+
         QPainterPath painterPath;
         painterPath.addRoundedRect(opt.rect, 0, 0);
         painter->drawPath(painterPath);
-        //painter->fillRect(option.rect, QBrush(m_hoverColor));//灰色
     //当前item未选中 未悬停时颜色
     }else if((index.row() !=  m_currentSelectedIndex.row() - 1)
              && (index.row() !=  m_hoveredIndex.row() - 1)){
         painter->setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-        //painter->fillRect(option.rect, QBrush(m_defaultColor));//黑色
     }
-
 }
 
 void iconViewModeDelegate::paintLabels(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
     const int leftOffsetX = 20;        // 标题左边距
-    //const int leftoffsetXdate = 75;    // 日期左边距
     const int topOffsetY = 18;         // 标题上方的空格
     const int spaceY = 160;            // 标题和日期之间的空格
 
@@ -296,12 +262,9 @@ void iconViewModeDelegate::paintLabels(QPainter* painter, const QStyleOptionView
     double titleRectPosY = rowPosY;
     double titleRectWidth = rowWidth - 2.0 * leftOffsetX;
     double titleRectHeight = fmRectTitle.height() + topOffsetY;
-    //qDebug() << "titleRectHeight" << titleRectHeight << fmRectTitle.height();
     double dateRectPosX = rowPosX + (rowWidth / 2 - fmRectDate.width() / 2);
-    //double dateRectPosY = rowPosY + fmRectTitle.height() + topOffsetY;
     double dateRectPosY = rowPosY + 26 + topOffsetY;
     double dateRectWidth = rowWidth;
-    //double dateRectHeight = fmRectDate.height() + spaceY;
     double dateRectHeight = 18 + spaceY;
 
     double rowRate = m_timeLine->currentFrame()/(m_maxFrame * 1.0);
@@ -326,7 +289,6 @@ void iconViewModeDelegate::paintLabels(QPainter* painter, const QStyleOptionView
 
             if((fmRectTitle.height() + topOffsetY) >= ((1.0 - rowRate) * m_rowHeight)){
                 titleRectHeight = (fmRectTitle.height() + topOffsetY) - (1.0 - rowRate) * m_rowHeight;
-                //qDebug() << "dateRectHeight1111" << dateRectHeight;
             }else{
                 titleRectHeight = 0;
 
@@ -343,23 +305,12 @@ void iconViewModeDelegate::paintLabels(QPainter* painter, const QStyleOptionView
             dateRectPosY = titleRectHeight + rowPosY;
         }
     }
-    //qDebug() << "dateRectHeight" << dateRectHeight << fmRectDate.height() << dateRectPosY << fmRectTitle.height();
     // 绘图标题和日期
     // 超出字符串转换为...
     title = fmTitle.elidedText(title, Qt::ElideRight, int(titleRectWidth));
-    painter->setBrush(opt.palette.color(QPalette::Base));
 
-    //系统默认 255 、 248  深色模式 34 30
-    if(painter->brush().color().value() == 255)
-    {
-        drawStr(titleRectPosX, titleRectPosY, titleRectWidth, titleRectHeight, QColor(0,0,0), titleFont, title);
-        drawStr(dateRectPosX, dateRectPosY, dateRectWidth, dateRectHeight, QColor(0,0,0), m_dateFont, date);
-    }
-    else if(painter->brush().color().value() == 34)
-    {
-        drawStr(titleRectPosX, titleRectPosY, titleRectWidth, titleRectHeight, QColor(244,244,244), titleFont, title);
-        drawStr(dateRectPosX, dateRectPosY, dateRectWidth, dateRectHeight, QColor(244,244,244), m_dateFont, date);
-    }
+    drawStr(titleRectPosX, titleRectPosY, titleRectWidth, titleRectHeight, opt.palette.color(QPalette::Text), titleFont, title);
+    drawStr(dateRectPosX, dateRectPosY, dateRectWidth, dateRectHeight, opt.palette.color(QPalette::Text), m_dateFont, date);
 }
 
 void iconViewModeDelegate::paintSeparator(QPainter*painter, const QStyleOptionViewItem&option, const QModelIndex&index) const
@@ -383,12 +334,21 @@ QString iconViewModeDelegate::parseDateTime(const QDateTime &dateTime) const
     auto currDateTime = QDateTime::currentDateTime();
 
     if(dateTime.date() == currDateTime.date()){
-        d = tr("Today ");
-        d.append(usLocale.toString(dateTime.time(),"hh:mm"));
+        d = tr("Today  ");
+        if(m_timeZone == "24"){
+            d.append(usLocale.toString(dateTime.time(),"hh:mm"));
+        }else {
+            d.append(usLocale.toString(dateTime.time(),"AP hh:mm"));
+        }
+
         return d;
     }else if(dateTime.daysTo(currDateTime) == 1){
-        d = tr("Yesterday ");
-        d.append(usLocale.toString(dateTime.time(),"hh:mm"));
+        d = tr("Yesterday  ");
+        if(m_timeZone == "24"){
+            d.append(usLocale.toString(dateTime.time(),"hh:mm"));
+        }else {
+            d.append(usLocale.toString(dateTime.time(),"AP hh:mm"));
+        }
         return d;
     }
     //else if(dateTime.daysTo(currDateTime) >= 2 &&
@@ -396,7 +356,10 @@ QString iconViewModeDelegate::parseDateTime(const QDateTime &dateTime) const
     //    return usLocale.toString(dateTime.date(), "dddd");
     //}
 
-    return dateTime.toString("yyyy/MM/dd hh:mm");
+    if(m_timeZone == "12"){
+        return dateTime.toString("yyyy/MM/dd AP hh:mm");
+    }
+    return dateTime.toString("yyyy/MM/dd  hh:mm");
 }
 
 void iconViewModeDelegate::setActive(bool isActive)

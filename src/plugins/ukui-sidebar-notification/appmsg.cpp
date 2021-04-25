@@ -27,31 +27,30 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
     m_bTakeInFlag = bTakeInFlag;
     m_strAppName = strAppName;
     this->setFixedWidth(380);
-
     m_nMaxCount = 20;
 
     //App信息中的总的垂直布局器
     m_pMainVLaout = new QVBoxLayout();
     m_pMainVLaout->setContentsMargins(0,0,0,0);
-    m_pMainVLaout->setSpacing(0);
+    m_pMainVLaout->setSpacing(6);
 
     //如果只有m_pMainVLaout一个管理所有消息列表，当应用消息动态展开时，0号消息会出现闪屏的情况
     //为了规避上述情况，m_pMainVLaout中只防止0号消息，1号消息起全部放置m_pIndexFromOneVLaout中
     m_pIndexFromOneVLaout = new QVBoxLayout();
     m_pIndexFromOneVLaout->setContentsMargins(0,0,0,0);
-    m_pIndexFromOneVLaout->setSpacing(0);
+    m_pIndexFromOneVLaout->setSpacing(6);
     m_pMainVLaout->addLayout(m_pIndexFromOneVLaout);
 
     //当出现多条消息时，增加底图
     m_pAppBaseMapWidget = new QWidget;
     QVBoxLayout* pBaseMapVLaout = new QVBoxLayout();
-    pBaseMapVLaout->setContentsMargins(0,0,0,6);
+    pBaseMapVLaout->setContentsMargins(0,0,0,0);
     pBaseMapVLaout->setSpacing(0);
 
     m_pBaseMapWidget = new QWidget;
     m_pBaseMapWidget->setObjectName("BaseMap");
     m_pBaseMapWidget->setFixedWidth(360);
-    m_pBaseMapWidget->setFixedHeight(6);
+    m_pBaseMapWidget->setFixedHeight(0);
     m_pAppBaseMapWidget->setAttribute(Qt::WA_TranslucentBackground);
     m_pAppBaseMapWidget->setLayout(pBaseMapVLaout);
     m_pMainVLaout->addWidget(m_pAppBaseMapWidget, 0 , Qt::AlignHCenter);
@@ -71,7 +70,7 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
 
     //发个统计收纳数更新信号
     connect(this, SIGNAL(Sig_countTakeInBitAndUpate()), parent, SLOT(onCountTakeInBitAndUpate()));
-
+    this->setStyleSheet("background:transparent");
     return;
 }
 
@@ -88,8 +87,7 @@ void AppMsg::paintEvent(QPaintEvent *)
     p.setPen(Qt::transparent);
 
     p.drawRoundedRect(rect,6,6);
-
-
+    return;
 }
 //统计应用剩余显示条数
 void AppMsg::statisticLeftItem()
@@ -102,12 +100,9 @@ void AppMsg::statisticLeftItem()
 
     int nShowLeftCount = m_listSingleMsg.count() - 1;
     //当应用处于折叠状态，且剩余条数大于0时,应用底图部件显示
-    if((true == m_bFold) && (nShowLeftCount > 0))
-    {
+    if ((true == m_bFold) && (nShowLeftCount > 0)) {
         m_pAppBaseMapWidget->setVisible(true);
-    }
-    else
-    {
+    } else {
         m_pAppBaseMapWidget->setVisible(false);
     }
 
@@ -534,18 +529,3 @@ void AppMsg::onHideBaseMap()
 {
     m_pAppBaseMapWidget->setVisible(false);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -4,6 +4,8 @@
 #include <QDialog>
 #include <QPainter>
 #include <QPainterPath>
+#include <QDesktopServices>
+#include <QUrl>
 
 namespace Ui {
 class About;
@@ -22,6 +24,8 @@ protected:
 
 private:
     Ui::About *ui;
+
+    void listenToGsettings();
 };
 
 #endif // ABOUT_H
