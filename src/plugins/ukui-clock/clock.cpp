@@ -2786,9 +2786,9 @@ void Clock::setUpPage()
         setup_page->ui->pushButton->setStyleSheet("border-image: url(:/alarm_off.png);");
     }
     if (model_setup->index(0, 1).data().toInt()) {
-        setup_page->muteBtn->openSlot();
+        setup_page->muteBtn->initOpen();
     } else {
-        setup_page->muteBtn->closeSlot();
+        setup_page->muteBtn->initClose();
     }
     setup_page->ui->horizontalSlider->setValue(model_setup->index(0, 6).data().toInt());
 
