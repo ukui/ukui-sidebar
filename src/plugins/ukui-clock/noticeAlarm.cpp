@@ -29,7 +29,7 @@
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 
 Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
-    QDialog(parent),
+    QWidget(parent),
     num_flag(num),
     timer_value(close_time),
     ui(new Ui::Natice_alarm)
