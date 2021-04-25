@@ -8,5 +8,6 @@
         <file>data/images/kylin-notebook.svg</file>
         <file>data/images/kylin-feedback.png</file>
         <file>data/images/application-menu.svg</file>
+        <file>data/org.ukui.log4qt.ukui-sidebar.gschema.xml</file>
     </qresource>
 </RCC>

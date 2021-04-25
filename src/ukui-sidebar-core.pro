@@ -69,19 +69,25 @@ unix {
     INSTALLS += translation
 }
 
+
 CONFIG += link_pkgconfig
 
 PKGCONFIG +=gio-2.0 glib-2.0 gio-unix-2.0 xtst
-LIBS += -lX11 -lgio-2.0 -lgobject-2.0 -lglib-2.0
+LIBS += -lX11 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lukui-log4qt
 
 desktopfile.files = data/ukui-sidebar.desktop
 desktopfile.path = /etc/xdg/autostart/
+
+schemes.files += data/org.ukui.log4qt.ukui-sidebar.gschema.xml
+schemes.path = /usr/share/glib-2.0/schemas/
 
 # Default rules for deployment.
 target.path = /usr/bin/
 !isEmpty(target.path): INSTALLS += target
 
 INSTALLS += desktopfile
+INSTALLS += schemes
 
 DISTFILES += \
-    env.pri
+    env.pri\
+
