@@ -2027,7 +2027,8 @@ void Clock::countdownNoticeDialogShow()
     if (model_setup->index(0, 3).data().toInt()) {
         countdownNoticeDialog->showFullScreen();
     } else {
-        countdownNoticeDialog->move(screen_width-350,screen_height-150);
+        moveUnderMultiScreen(SP_RIGHT);
+//        countdownNoticeDialog->move(screen_width-350,screen_height-150);
     }
     countdownNoticeDialog->music->setVolume(model_setup->index(0, 6).data().toInt());
     countdownNoticeDialog->timer->start();
@@ -3024,6 +3025,34 @@ void Clock::showPaint8()
         QPainterPath painterPath;
         painterPath.addRoundedRect(rect, 4, 4);
         painter.drawPath(painterPath);
+    }
+}
+
+void Clock::moveUnderMultiScreen(Clock::ScreenPosition spostion)
+{
+    QScreen *screen=QGuiApplication::primaryScreen ();
+    int screen_width = screen->geometry().width();
+    int screen_height = screen->geometry().height();
+    switch (spostion) {
+    case SP_LEFT:
+    {
+        QPoint po = this->geometry().bottomLeft();
+        countdownNoticeDialog->move(po.x(),po.y());
+    }break;
+    case SP_RIGHT:
+    {
+
+        QPoint po = this->geometry().bottomRight();
+        //略微调整下右下角
+        countdownNoticeDialog->move(po.x()+screen_width/4,po.y());
+    }break;
+    case SP_CENTER:
+    {
+        QPoint po = this->geometry().center();
+        countdownNoticeDialog->move(po);
+    }break;
+    default:
+    {}
     }
 }
 
