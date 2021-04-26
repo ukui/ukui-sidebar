@@ -131,7 +131,13 @@ public:
     void showPaint1();
     void showPaint7();
     void showPaint8();
+    enum ScreenPosition {
+        SP_LEFT = 1,
+        SP_CENTER,
+        SP_RIGHT
+    };
 
+    void moveUnderMultiScreen(Clock::ScreenPosition);                                    //多显示器下，位置移动
     Ui::Clock *ui;
     QSqlTableModel *model_setup;
 
