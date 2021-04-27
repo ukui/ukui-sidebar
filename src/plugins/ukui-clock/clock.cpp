@@ -341,10 +341,6 @@ void Clock::CountdownInit()
      Initialize countdown progress circle*/
     ui->page_5->RoundBar3->setValue(3600);
     ui->count_stat->raise();
-    countdownNoticeDialog = new Natice_alarm(360,-1);
-    countdownNoticeDialog->timer->stop();
-    countdownNoticeDialog->timer_xumhuan->stop();
-    countdownNoticeDialog->music->stop();
 }
 
 /*
@@ -2019,6 +2015,11 @@ void Clock::countdownNoticeDialogShow()
     int screen_width = mm.width();
     int screen_height = mm.height();
     model_setup->select();
+
+    countdownNoticeDialog = new Natice_alarm(360,-1);
+    countdownNoticeDialog->timer->stop();
+    countdownNoticeDialog->timer_xumhuan->stop();
+    countdownNoticeDialog->music->stop();
     countdownNoticeDialog->timer_value = 359;
     countdownNoticeDialog->ui->label_4->setText(tr("360 Seconds to close"));
     countdownNoticeDialog->ui->label_2->hide();
