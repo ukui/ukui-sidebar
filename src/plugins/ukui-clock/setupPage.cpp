@@ -532,6 +532,7 @@ void setuppage::Reminder_off_listClickslot()
 {
     model_setup->select();
     int num=Reminder_off->listWidget->currentRow();
+    //配置稍后提醒时间间隔
     model_setup->setData(model_setup->index(0, 4), num);
 
     switch (num) {
@@ -554,8 +555,8 @@ void setuppage::Reminder_off_listClickslot()
         break;
     }
     duration_sel->textLabel->setText(model_setup->index(0, 17).data().toString());
-    Reminder_off->hide();
     model_setup->submitAll();
+    Reminder_off->hide();
 }
 //默认铃声设置回调
 // Default ringtone setting callback

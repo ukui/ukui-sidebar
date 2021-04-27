@@ -54,6 +54,8 @@ public:
      QMediaPlayer  *music;
      int timer_value;
 
+     void refreshMusic();
+
 protected:
      //绘制背景
      // Draw background
@@ -80,6 +82,7 @@ private:
     QSqlTableModel *model_setup;
     QPoint dragPosition;                                            //拖动坐标
     bool mousePressed;                                              //鼠标是否按下
+
 };
 
 #endif // NATICE_ALARM_H

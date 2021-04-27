@@ -2033,7 +2033,7 @@ void Clock::countdownNoticeDialogShow()
     countdownNoticeDialog->timer->start();
     countdownNoticeDialog->timer_xumhuan->start();
     countdownNoticeDialog->show();
-    countdownNoticeDialog->music->play();
+    countdownNoticeDialog->refreshMusic();
 }
 
 /*

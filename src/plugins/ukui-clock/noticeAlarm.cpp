@@ -74,6 +74,7 @@ Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
     timer->start();
 
     timer_xumhuan = new QTimer();
+    //每秒执行一次
     connect(timer_xumhuan, SIGNAL(timeout()), this, SLOT(ring()));
     timer_xumhuan->setInterval(1000);
 
@@ -165,6 +166,46 @@ void Natice_alarm::natice_init()
     music->setVolume(  model_setup->index(0, 6).data().toInt() );
     music->play();
 }
+//重新加载最新音乐
+void Natice_alarm::refreshMusic()
+{
+    QSqlTableModel *model = new QSqlTableModel(this);
+    model->setTable("clock");
+    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    model->select();
+    model_setup->select();
+    playlist->clear();
+    if(num_flag >= 0)
+
+        {
+            if(model->index(num_flag, 2).data().toString().compare(tr("glass"))==0){
+                playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/glass.ogg"));
+            } else if (model->index(num_flag, 2).data().toString().compare(tr("bark"))==0) {
+                playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/bark.ogg"));
+            } else if (model->index(num_flag, 2).data().toString().compare(tr("sonar"))==0) {
+                playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/sonar.ogg"));
+            } else if (model->index(num_flag, 2).data().toString().compare(tr("drip"))==0) {
+                playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/drip.ogg"));
+            }
+        } else {
+            if (model_setup->index(0, 19).data().toString().compare(tr("glass"))==0) {
+                playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/glass.ogg"));
+            } else if(model_setup->index(0, 19).data().toString().compare(tr("bark"))==0) {
+                playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/bark.ogg"));
+            } else if(model_setup->index(0, 19).data().toString().compare(tr("sonar"))==0) {
+                playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/sonar.ogg"));
+            } else {
+                playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/drip.ogg"));
+            }
+        }
+
+        playlist->setPlaybackMode(QMediaPlaylist::Loop);//设置播放模式(顺序播放，单曲循环，随机播放等)
+                                                        // Set playback mode (sequential playback, single loop, random playback, etc.)
+        music->setPlaylist(playlist);  //设置播放列表
+                                       // Set up playlist
+        music->setVolume(  model_setup->index(0, 6).data().toInt() );
+        music->play();
+}
 
 //窗口关闭
 //window closing
@@ -208,6 +249,8 @@ void Natice_alarm::paintEvent(QPaintEvent *event)
 void Natice_alarm::show_again()
 {
     this->hide();
+    //刷新数据
+    model_setup->select();
     int remind = model_setup->index(0, 4).data().toInt();
     if (remind == 0) {
         ring_num = 120;
@@ -226,7 +269,7 @@ void Natice_alarm::show_again()
     music->stop();
 }
 //响铃
-//Ring a bell
+//Ring a bell 每一秒减一
 void Natice_alarm::ring()
 {
     ring_num--;
@@ -234,7 +277,8 @@ void Natice_alarm::ring()
         natice_init();
         this->show();
         timer->start();
-        music->play();
+        refreshMusic();
+//        music->play();
     }
 }
 
