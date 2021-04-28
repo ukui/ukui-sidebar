@@ -98,9 +98,12 @@ public:
     void ModifyScreenNeeds();                                                   // 修改屏幕分辨率或者主屏需要做的事情
     void GetsAvailableAreaScreen();                                             // 获取屏幕可用区域高度
     void MostGrandWidgetCoordinates();                                          // 根据任务栏位置调整侧边栏位置
-    void InitializeHomeScreenGeometry();                                        // 初始化主屏的X坐标
+    void selectGeometry();                                                      // 选择获取屏幕大小的方式
+    void InitializeHomeScreenGeometry();                                        // 初始化主屏的X坐标 标准模式
+    void InitializeHomeScreenGeometryFromPanel();                               // 直接从任务栏获取坐标 方案2
     void setAllWidgetFont();                                                    // 监听gsetting，修改所有窗口的字体
     bool m_bfinish;
+    bool coordinatesStatus = false;                                             //屏幕获取方式的标志位 false:标准模式 true: 任务栏获取方式
 
 
 protected:
@@ -110,7 +113,7 @@ private:
     //主界面
     QVBoxLayout*                m_pMainQVBoxLayout;                             // 主界面垂直布局器
     QDBusInterface*             m_pServiceInterface;                            // 获取任务栏的高度
-    QDBusInterface*             m_pDbusXrandInter=nullptr;                              // 华为990dbus接口
+    QDBusInterface*             m_pDbusXrandInter=nullptr;                      // 华为990dbus接口
     bool                        m_bHWdbusExit;                                  // 华为dbus接口是否存在
     bool                        m_bShowFlag = false;                            // 控制托盘栏点击事件的标志位
     bool                        m_bClipboardFlag = true;                        // 剪贴板编辑框打开和关闭时控制侧边栏是否关闭
