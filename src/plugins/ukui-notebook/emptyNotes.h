@@ -35,9 +35,15 @@ public:
 
 private slots:
     void on_pushButton_clicked();
+    void on_pushButton_2_clicked();
 
 private:
+    void paintEvent(QPaintEvent*);
     Ui::emptyNotes *ui;
+
+signals:
+    void requestEmptyNotes();
+
 };
 
 #endif // EMPTY_NOTEPAD_H
