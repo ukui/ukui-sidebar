@@ -23,6 +23,8 @@
 #include <QMediaPlaylist>
 #include <QDebug>
 #include <QPainterPath>
+#include <X11/Xlib.h>
+#include "xatom-helper.h"
 
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 
@@ -32,10 +34,21 @@ Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
     timer_value(close_time),
     ui(new Ui::Natice_alarm)
 {
-    this->setFixedSize(486,286);
-    setWindowFlags(Qt::FramelessWindowHint);
-    setAttribute(Qt::WA_TranslucentBackground);
+    //setWindowFlags(Qt::FramelessWindowHint);
+    //setAttribute(Qt::WA_TranslucentBackground);
     ui->setupUi(this);
+
+    Qt::WindowFlags m_flags = windowFlags();
+    this->setWindowFlags(m_flags | Qt::WindowStaysOnTopHint);
+
+    // 添加窗管协议
+    MotifWmHints hints;
+    hints.flags = MWM_HINTS_FUNCTIONS|MWM_HINTS_DECORATIONS;
+    hints.functions = MWM_FUNC_ALL;
+    hints.decorations = MWM_DECOR_BORDER;
+    XAtomHelper::getInstance()->setWindowMotifHint(this->winId(), hints);
+
+    this->setFixedSize(270,162);
     QPixmap dialogPixmap = QPixmap(":/clock.ico");
     this->setWindowTitle(tr("Ring prompt"));
     this->setWindowIcon(dialogPixmap);
@@ -43,10 +56,11 @@ Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
     ui->label_3->setAlignment(Qt::AlignHCenter);
     ui->label_4->setAlignment(Qt::AlignHCenter);
 
+    QPalette pa;
+    pa.setColor(QPalette::WindowText,Qt::gray);
+    ui->label_4->setPalette(pa);
 
-    this->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
-    Qt::WindowFlags m_flags = windowFlags();
-    this->setWindowFlags(m_flags | Qt::WindowStaysOnTopHint);
+    //this->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
 
     timer_value2 = timer_value;
 
@@ -54,19 +68,19 @@ Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
     connect(ui->pushButton_3, SIGNAL(clicked()), this, SLOT(set_dialog_close()) );
     connect(ui->pushButton_2, SIGNAL(clicked()), this, SLOT(show_again()) );
 
-
     timer = new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(close_music()));
     timer->setInterval(1000);
     timer->start();
 
     timer_xumhuan = new QTimer();
+    //每秒执行一次
     connect(timer_xumhuan, SIGNAL(timeout()), this, SLOT(ring()));
     timer_xumhuan->setInterval(1000);
 
     natice_init();
     setAttribute(Qt::WA_DeleteOnClose);
-    ui->widget->installEventFilter(this);
+    //ui->widget->installEventFilter(this);
 
     QPalette palette = ui->pushButton_3->palette();
     QColor ColorPlaceholderText(61,107,229,255);
@@ -152,6 +166,46 @@ void Natice_alarm::natice_init()
     music->setVolume(  model_setup->index(0, 6).data().toInt() );
     music->play();
 }
+//重新加载最新音乐
+void Natice_alarm::refreshMusic()
+{
+    QSqlTableModel *model = new QSqlTableModel(this);
+    model->setTable("clock");
+    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    model->select();
+    model_setup->select();
+    playlist->clear();
+    if(num_flag >= 0)
+
+        {
+            if(model->index(num_flag, 2).data().toString().compare(tr("glass"))==0){
+                playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/glass.ogg"));
+            } else if (model->index(num_flag, 2).data().toString().compare(tr("bark"))==0) {
+                playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/bark.ogg"));
+            } else if (model->index(num_flag, 2).data().toString().compare(tr("sonar"))==0) {
+                playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/sonar.ogg"));
+            } else if (model->index(num_flag, 2).data().toString().compare(tr("drip"))==0) {
+                playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/drip.ogg"));
+            }
+        } else {
+            if (model_setup->index(0, 19).data().toString().compare(tr("glass"))==0) {
+                playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/glass.ogg"));
+            } else if(model_setup->index(0, 19).data().toString().compare(tr("bark"))==0) {
+                playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/bark.ogg"));
+            } else if(model_setup->index(0, 19).data().toString().compare(tr("sonar"))==0) {
+                playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/sonar.ogg"));
+            } else {
+                playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/drip.ogg"));
+            }
+        }
+
+        playlist->setPlaybackMode(QMediaPlaylist::Loop);//设置播放模式(顺序播放，单曲循环，随机播放等)
+                                                        // Set playback mode (sequential playback, single loop, random playback, etc.)
+        music->setPlaylist(playlist);  //设置播放列表
+                                       // Set up playlist
+        music->setVolume(  model_setup->index(0, 6).data().toInt() );
+        music->play();
+}
 
 //窗口关闭
 //window closing
@@ -178,28 +232,25 @@ void Natice_alarm::close_music()
 }
 //绘制背景
 // Draw background
-void Natice_alarm::paintEvent(QPaintEvent *)
+void Natice_alarm::paintEvent(QPaintEvent *event)
 {
-    if (!full_flag) {
-        return;
-    }
-    QStyleOption opt;
-    opt.init(this);
+//    if (!full_flag) {
+//        return;
+//    }
+    Q_UNUSED(event);
     QPainter p(this);
-    p.setBrush(QBrush(QColor("#161617")));
-    p.setOpacity(0.5);
-    p.setPen(Qt::NoPen);
-
-    p.setRenderHint(QPainter::Antialiasing);//反锯齿  Antialiasing
-    p.drawRoundedRect(opt.rect,0,0);
-    p.drawRect(opt.rect);
-    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+    QPainterPath rectPath;
+    rectPath.addRect(this->rect());
+    p.fillPath(rectPath,palette().color(QPalette::Base));
 }
 //再次弹出
 //Eject again
 void Natice_alarm::show_again()
 {
     this->hide();
+    //刷新数据
+    model_setup->select();
     int remind = model_setup->index(0, 4).data().toInt();
     if (remind == 0) {
         ring_num = 120;
@@ -218,7 +269,7 @@ void Natice_alarm::show_again()
     music->stop();
 }
 //响铃
-//Ring a bell
+//Ring a bell 每一秒减一
 void Natice_alarm::ring()
 {
     ring_num--;
@@ -226,59 +277,60 @@ void Natice_alarm::ring()
         natice_init();
         this->show();
         timer->start();
-        music->play();
+        refreshMusic();
+//        music->play();
     }
 }
 
 
-bool Natice_alarm::eventFilter(QObject *watched, QEvent *event)
-{
-    if(watched == ui->widget && event->type() == QEvent::Paint)
-    {
-        showPaint(); //响应函数
-    }
-    return QWidget::eventFilter(watched,event);
-}
+//bool Natice_alarm::eventFilter(QObject *watched, QEvent *event)
+//{
+//    if(watched == ui->widget && event->type() == QEvent::Paint)
+//    {
+//        showPaint(); //响应函数
+//    }
+//    return QWidget::eventFilter(watched,event);
+//}
 
-//实现响应函数
-void Natice_alarm::showPaint()
-{
-    QPainter p(ui->widget);
-    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-    QPainterPath rectPath;
-    rectPath.addRoundedRect(ui->widget->rect().adjusted(6, 6, -6, -6), 6, 6);
+////实现响应函数
+//void Natice_alarm::showPaint()
+//{
+//    QPainter p(ui->widget);
+//    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+//    QPainterPath rectPath;
+//    rectPath.addRoundedRect(ui->widget->rect().adjusted(6, 6, -6, -6), 6, 6);
 
-    // 画一个黑底
-    QPixmap pixmap(ui->widget->rect().size());
-    pixmap.fill(Qt::transparent);
-    QPainter pixmapPainter(&pixmap);
-    pixmapPainter.setRenderHint(QPainter::Antialiasing);
-    pixmapPainter.setPen(Qt::transparent);
-    pixmapPainter.setBrush(Qt::gray);
-    pixmapPainter.drawPath(rectPath);
-    pixmapPainter.end();
+//    // 画一个黑底
+//    QPixmap pixmap(ui->widget->rect().size());
+//    pixmap.fill(Qt::transparent);
+//    QPainter pixmapPainter(&pixmap);
+//    pixmapPainter.setRenderHint(QPainter::Antialiasing);
+//    pixmapPainter.setPen(Qt::transparent);
+//    pixmapPainter.setBrush(Qt::gray);
+//    pixmapPainter.drawPath(rectPath);
+//    pixmapPainter.end();
 
-    // 模糊这个黑底
-    QImage img = pixmap.toImage();
-    qt_blurImage(img, 10, false, false);
+//    // 模糊这个黑底
+//    QImage img = pixmap.toImage();
+//    qt_blurImage(img, 10, false, false);
 
-    // 挖掉中心
-    pixmap = QPixmap::fromImage(img);
-    QPainter pixmapPainter2(&pixmap);
-    pixmapPainter2.setRenderHint(QPainter::Antialiasing);
-    pixmapPainter2.setCompositionMode(QPainter::CompositionMode_Clear);
-    pixmapPainter2.setPen(Qt::transparent);
-    pixmapPainter2.setBrush(QColor(0,0,0));
-    pixmapPainter2.drawPath(rectPath);
+//    // 挖掉中心
+//    pixmap = QPixmap::fromImage(img);
+//    QPainter pixmapPainter2(&pixmap);
+//    pixmapPainter2.setRenderHint(QPainter::Antialiasing);
+//    pixmapPainter2.setCompositionMode(QPainter::CompositionMode_Clear);
+//    pixmapPainter2.setPen(Qt::transparent);
+//    pixmapPainter2.setBrush(QColor(0,0,0));
+//    pixmapPainter2.drawPath(rectPath);
 
-    // 绘制阴影
-    p.drawPixmap(ui->widget->rect(), pixmap, pixmap.rect());
-    p.setOpacity(0.9);
-    // 绘制一个背景
-    p.save();
-    p.fillPath(rectPath,palette().color(QPalette::Base));
-    p.restore();
-}
+//    // 绘制阴影
+//    p.drawPixmap(ui->widget->rect(), pixmap, pixmap.rect());
+//    p.setOpacity(0.9);
+//    // 绘制一个背景
+//    p.save();
+//    p.fillPath(rectPath,palette().color(QPalette::Base));
+//    p.restore();
+//}
 
 void Natice_alarm::mousePressEvent(QMouseEvent *event)
 {

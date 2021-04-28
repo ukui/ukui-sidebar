@@ -33,12 +33,12 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     pos_y(position_y),
     ui(new Ui::setuppage)
 {
-    setAttribute(Qt::WA_TranslucentBackground);
-    QPainterPath blurPath;
-    setProperty("useSystemStyleBlur", true);
-    setProperty("blurRegion", QRegion(blurPath.toFillPolygon().toPolygon()));//使用QPainterPath的api生成多边形Region
+//    setAttribute(Qt::WA_TranslucentBackground);
+//    QPainterPath blurPath;
+//    setProperty("useSystemStyleBlur", true);
+//    setProperty("blurRegion", QRegion(blurPath.toFillPolygon().toPolygon()));//使用QPainterPath的api生成多边形Region
 
-    this->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
+//    this->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
     Qt::WindowFlags m_flags = windowFlags();
     this->setWindowFlags(m_flags | Qt::WindowStaysOnTopHint);
 
@@ -214,7 +214,7 @@ void setuppage::werk_day_set()
     QCoreApplication::sendEvent(repeat_sel, &hoverEvent);
 
     dialog_werk_day->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
-    dialog_werk_day->setAttribute(Qt::WA_TranslucentBackground);
+    //dialog_werk_day->setAttribute(Qt::WA_TranslucentBackground);
     QPointF position = parentWidget()->pos();
     dialog_werk_day->move(position.x()+83,position.y()+250);
     dialog_werk_day->resize(280,225);
@@ -414,7 +414,7 @@ void setuppage::Time_format_set()
     QCoreApplication::sendEvent(Time_sel, &hoverEvent);
 
     Time_format->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
-    Time_format->setAttribute(Qt::WA_TranslucentBackground);
+    //Time_format->setAttribute(Qt::WA_TranslucentBackground);
     QPointF position = parentWidget()->pos();
     Time_format->move(position.x()+51,position.y()+265);
     Time_format->resize(288,138);
@@ -467,7 +467,7 @@ void setuppage::Pop_up_window_set()
     QCoreApplication::sendEvent(Pop_sel, &hoverEvent);
 
     Pop_up_window->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
-    Pop_up_window->setAttribute(Qt::WA_TranslucentBackground);;
+    //Pop_up_window->setAttribute(Qt::WA_TranslucentBackground);;
     QPointF position = parentWidget()->pos();
     Pop_up_window->move(position.x()+83,position.y()+242);
     Pop_up_window->resize(280,75);
@@ -513,7 +513,7 @@ void setuppage::Reminder_off_set()
     QCoreApplication::sendEvent(duration_sel, &hoverEvent);
 
     Reminder_off->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
-    Reminder_off->setAttribute(Qt::WA_TranslucentBackground);
+    //Reminder_off->setAttribute(Qt::WA_TranslucentBackground);
     QPointF position = parentWidget()->pos();
     Reminder_off->move(position.x()+51,position.y()+320);
     Reminder_off->resize(288,190);
@@ -532,6 +532,7 @@ void setuppage::Reminder_off_listClickslot()
 {
     model_setup->select();
     int num=Reminder_off->listWidget->currentRow();
+    //配置稍后提醒时间间隔
     model_setup->setData(model_setup->index(0, 4), num);
 
     switch (num) {
@@ -554,8 +555,8 @@ void setuppage::Reminder_off_listClickslot()
         break;
     }
     duration_sel->textLabel->setText(model_setup->index(0, 17).data().toString());
-    Reminder_off->hide();
     model_setup->submitAll();
+    Reminder_off->hide();
 }
 //默认铃声设置回调
 // Default ringtone setting callback
@@ -566,7 +567,7 @@ void setuppage::Default_ringtone_set()
     QCoreApplication::sendEvent(ringtone_sel, &hoverEvent);
 
     Default_ringtone->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
-    Default_ringtone->setAttribute(Qt::WA_TranslucentBackground);
+    //Default_ringtone->setAttribute(Qt::WA_TranslucentBackground);
     QPointF position = parentWidget()->pos();
     Default_ringtone->move(position.x()+51,position.y()+373);
     Default_ringtone->resize(288,169);

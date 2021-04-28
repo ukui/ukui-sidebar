@@ -19,6 +19,7 @@
 #define NATICE_ALARM_H
 
 #include <QWidget>
+#include <QDialog>
 #include <QPainter>
 #include <QTime>
 #include <QTimer>
@@ -41,7 +42,7 @@ public:
     ~Natice_alarm();
      Ui::Natice_alarm *ui;
 
-     bool eventFilter(QObject *watched, QEvent *event);
+     //bool eventFilter(QObject *watched, QEvent *event);
      void showPaint();
      void mousePressEvent(QMouseEvent *event);
      void mouseReleaseEvent(QMouseEvent *event);
@@ -52,6 +53,8 @@ public:
      QTimer *timer_xumhuan = nullptr;
      QMediaPlayer  *music;
      int timer_value;
+
+     void refreshMusic();
 
 protected:
      //绘制背景
@@ -79,6 +82,7 @@ private:
     QSqlTableModel *model_setup;
     QPoint dragPosition;                                            //拖动坐标
     bool mousePressed;                                              //鼠标是否按下
+
 };
 
 #endif // NATICE_ALARM_H
