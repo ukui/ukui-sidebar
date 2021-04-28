@@ -39,39 +39,40 @@ extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int tran
  */
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::Widget)
-  , m_noteExitWindow(new noteExitWindow(this, this))
-  , m_autoSaveTimer(new QTimer(this))
-  , m_settingsDatabase(Q_NULLPTR)
-  , m_searchLine(Q_NULLPTR)
-  , m_newKynote(Q_NULLPTR)
-  , m_trashButton(Q_NULLPTR)
-  , m_viewChangeButton(Q_NULLPTR)
-  , m_noteView(Q_NULLPTR)
-  , m_noteTable(Q_NULLPTR)
-  , m_noteModel(new NoteModel(this))
-  , m_deletedNotesModel(new NoteModel(this))
-  , m_proxyModel(new QSortFilterProxyModel(this))
-  , m_dbManager(Q_NULLPTR)
-  , m_dbThread(Q_NULLPTR)
-  , m_isContentModified(false)
-  , m_isColorModified(false)
-  , m_isOperationRunning(false)
-  , mousePressed(false)
-{    
+    ui(new Ui::Widget),
+    m_noteExitWindow(new noteExitWindow(this, this)),
+    m_autoSaveTimer(new QTimer(this)),
+    m_settingsDatabase(Q_NULLPTR),
+    m_searchLine(Q_NULLPTR),
+    m_newKynote(Q_NULLPTR),
+    m_trashButton(Q_NULLPTR),
+    m_viewChangeButton(Q_NULLPTR),
+    m_noteView(Q_NULLPTR),
+    m_noteTable(Q_NULLPTR),
+    m_noteModel(new NoteModel(this)),
+    m_deletedNotesModel(new NoteModel(this)),
+    m_proxyModel(new QSortFilterProxyModel(this)),
+    m_dbManager(Q_NULLPTR),
+    m_dbThread(Q_NULLPTR),
+    m_isContentModified(false),
+    m_isColorModified(false),
+    m_isOperationRunning(false),
+    mousePressed(false)
+{
     translator = new QTranslator;
-    if (translator->load(QLocale(), QLatin1String("ukui-notebook"), QLatin1String("_"), QLatin1String("/usr/share/ukui-sidebar/ukui-notebook")))
+    if (translator->load(QLocale(), QLatin1String("ukui-notebook"), QLatin1String("_"),
+                         QLatin1String("/usr/share/ukui-sidebar/ukui-notebook")))
         QApplication::installTranslator(translator);
     else
         qDebug() << "cannot load translator ukui-notebook_" << QLocale::system().name() << ".qm!";
 
     ui->setupUi(this);
-    m_noteView = static_cast<NoteView*>(ui->listView);
+    m_noteView = static_cast<NoteView *>(ui->listView);
     setupDatabases();
     listenToGsettings();
     kyNoteInit();
     kyNoteConn();
-    QTimer::singleShot(200,this, SLOT(initData()));
+    QTimer::singleShot(200, this, SLOT(initData()));
 }
 
 /*!
@@ -80,7 +81,7 @@ Widget::Widget(QWidget *parent) :
  */
 Widget::~Widget()
 {
-    for (auto it = m_editors.begin(); it!= m_editors.end();it++) {
+    for (auto it = m_editors.begin(); it != m_editors.end(); it++) {
         delete *it;
     }
     m_editors.clear();
@@ -97,7 +98,7 @@ Widget::~Widget()
  */
 void Widget::initData()
 {
-    qDebug() << "kyNote initData";    
+    qDebug() << "kyNote initData";
 
     QFileInfo fi(m_settingsDatabase->fileName());
     QDir dir(fi.absolutePath());
@@ -106,25 +107,26 @@ void Widget::initData()
 
     bool exist = (QFile::exists(oldNoteDBPath) || QFile::exists(oldTrashDBPath));
 
-    if(exist){
-        QProgressDialog* pd = new QProgressDialog(QStringLiteral("Migrating database, please wait."), QString(), 0, 0, this);
+    if (exist) {
+        QProgressDialog *pd = new QProgressDialog(QStringLiteral(
+                                                      "Migrating database, please wait."),
+                                                  QString(), 0, 0, this);
         pd->setCancelButton(Q_NULLPTR);
         pd->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
         pd->setMinimumDuration(0);
         pd->show();
 
-        //setButtonsAndFieldsEnabled(false);
+        // setButtonsAndFieldsEnabled(false);
 
-        QFutureWatcher<void>* watcher = new QFutureWatcher<void>(this);
+        QFutureWatcher<void> *watcher = new QFutureWatcher<void>(this);
         connect(watcher, &QFutureWatcher<void>::finished, this, [&, pd](){
             pd->deleteLater();
-            //setButtonsAndFieldsEnabled(true);
+            // setButtonsAndFieldsEnabled(true);
             emit requestNotesList();
         });
 
         QFuture<void> migration = QtConcurrent::run(this, &Widget::checkMigration);
         watcher->setFuture(migration);
-
     } else {
         emit requestNotesList();
     }
@@ -166,10 +168,10 @@ void Widget::setupIconModeModel()
  */
 void Widget::initializeSettingsDatabase()
 {
-    if(m_settingsDatabase->value(QStringLiteral("version"), "NULL") == "NULL")
+    if (m_settingsDatabase->value(QStringLiteral("version"), "NULL") == "NULL")
         m_settingsDatabase->setValue(QStringLiteral("version"), qApp->applicationVersion());
 
-    if(m_settingsDatabase->value(QStringLiteral("windowGeometry"), "NULL") == "NULL"){
+    if (m_settingsDatabase->value(QStringLiteral("windowGeometry"), "NULL") == "NULL") {
         int initWidth = 704;
         int initHeight = 590;
         QPoint center = qApp->desktop()->geometry().center();
@@ -188,22 +190,24 @@ void Widget::setupDatabases()
     // QSettings::IniFormat 将设置存储在INI文件中。从INI文件读取设置时不会保留类型信息。所有值将作为QString返回
     // QSettings::UserScope 将设置存储在特定于当前用户的位置
     m_settingsDatabase = new QSettings(QSettings::IniFormat, QSettings::UserScope,
-                                       QStringLiteral("kylin-note"), QStringLiteral("Settings"), this);
-    m_settingsDatabase->setFallbacksEnabled(false);     //禁用回退
+                                       QStringLiteral("kylin-note"), QStringLiteral(
+                                           "Settings"), this);
+    m_settingsDatabase->setFallbacksEnabled(false);     // 禁用回退
     initializeSettingsDatabase();
 
     bool doCreate = false;
     QFileInfo fi(m_settingsDatabase->fileName());
     QDir dir(fi.absolutePath());
     bool folderCreated = dir.mkpath(QStringLiteral("."));
-    if(!folderCreated)
-        qFatal("ERROR: Can't create settings folder : %s", dir.absolutePath().toStdString().c_str());
+    if (!folderCreated)
+        qFatal("ERROR: Can't create settings folder : %s",
+               dir.absolutePath().toStdString().c_str());
 
     QString noteDBFilePath(dir.path() + QDir::separator() + QStringLiteral("kyNotes.db"));
 
-    if(!QFile::exists(noteDBFilePath)){
+    if (!QFile::exists(noteDBFilePath)) {
         QFile noteDBFile(noteDBFilePath);
-        if(!noteDBFile.open(QIODevice::WriteOnly))
+        if (!noteDBFile.open(QIODevice::WriteOnly))
             qFatal("ERROR : Can't create database file");
 
         noteDBFile.close();
@@ -214,7 +218,9 @@ void Widget::setupDatabases()
     m_dbThread = new QThread;
     m_dbThread->setObjectName(QStringLiteral("dbThread"));
     m_dbManager->moveToThread(m_dbThread);
-    connect(m_dbThread, &QThread::started, [=](){emit requestOpenDBManager(noteDBFilePath, doCreate);});
+    connect(m_dbThread, &QThread::started, [=](){
+        emit requestOpenDBManager(noteDBFilePath, doCreate);
+    });
     connect(this, &Widget::requestOpenDBManager, m_dbManager, &DBManager::onOpenDBManagerRequested);
     connect(m_dbThread, &QThread::finished, m_dbManager, &QObject::deleteLater);
     m_dbThread->start();
@@ -227,9 +233,9 @@ void Widget::setupDatabases()
 void Widget::error_throw()
 {
     try{
-        MY_THROW(ExceptionDerived,"error throw");
+        MY_THROW(ExceptionDerived, "error throw");
     }
-    catch(ExceptionDerived &e){
+    catch (ExceptionDerived &e) {
         std::cout << e.what() << std::endl;
     }
 }
@@ -241,9 +247,9 @@ void Widget::error_throw()
 void Widget::kyNoteInit()
 {
     qDebug() << "\033[32m" << "kyNote init";
-    sortflag = 1;           //排序
-    m_listflag = 1;         //平铺\列表
-    m_isThemeChanged = 0;   //ukui-default
+    sortflag = 1;           // 排序
+    m_listflag = 1;         // 平铺\列表
+    m_isThemeChanged = 0;   // ukui-default
 
     m_searchLine = ui->SearchLine;
     m_newKynote = ui->newKynote;
@@ -251,41 +257,42 @@ void Widget::kyNoteInit()
     m_viewChangeButton = ui->viewChangeButton;
 
     initListMode();
-    setFixedSize(712,590);
-    setMouseTracking(true);               //设置鼠标追踪
-    //窗口属性
-    //setWindowFlags(Qt::FramelessWindowHint);    //开启窗口无边框
-    //setAttribute(Qt::WA_TranslucentBackground); //设置窗口透明显示(毛玻璃效果)
+    setFixedSize(712, 590);
+    setMouseTracking(true);               // 设置鼠标追踪
+    // 窗口属性
+    // setWindowFlags(Qt::FramelessWindowHint);    //开启窗口无边框
+    // setAttribute(Qt::WA_TranslucentBackground); //设置窗口透明显示(毛玻璃效果)
 
-    //QPainterPath blurPath;
-    //blurPath.addRoundedRect(rect().adjusted(0, 0, -0, -0), 6, 6);
-    //setProperty("useSystemStyleBlur", true);
-    //setProperty("blurRegion", QRegion(blurPath.toFillPolygon().toPolygon()));//使用QPainterPath的api生成多边形Region
+    // QPainterPath blurPath;
+    // blurPath.addRoundedRect(rect().adjusted(0, 0, -0, -0), 6, 6);
+    // setProperty("useSystemStyleBlur", true);
+    // setProperty("blurRegion", QRegion(blurPath.toFillPolygon().toPolygon()));//使用QPainterPath的api生成多边形Region
 
-    //弹出位置
+    // 弹出位置
     m_pSreenInfo = new adaptScreenInfo();
-    move((m_pSreenInfo->m_screenWidth - this->width() + m_pSreenInfo->m_nScreen_x )/2, (m_pSreenInfo->m_screenHeight - this->height())/2);
-    //标题
-    this->setWindowTitle(tr("Kylin Memo"));
-    //任务栏图标
+    move((m_pSreenInfo->m_screenWidth - this->width() + m_pSreenInfo->m_nScreen_x)/2,
+         (m_pSreenInfo->m_screenHeight - this->height())/2);
+    // 标题
+    this->setWindowTitle(tr("Notes"));
+    // 任务栏图标
     setWindowIcon(QIcon::fromTheme("kylin-notebook"));
-    ui->iconLabel->setPixmap(QIcon::fromTheme("kylin-notebook").pixmap(24,24));
-    ui->titleLabel->setText(tr("Kylin Memo"));
-    //按钮
+    ui->iconLabel->setPixmap(QIcon::fromTheme("kylin-notebook").pixmap(24, 24));
+    ui->titleLabel->setText(tr("Notes"));
+    // 钮
     btnInit();
-    //搜索
+    // 搜索
     searchInit();
 
-    //QBitmap bmp(this->size());
-    //bmp.fill();
-    //QPainter p(&bmp);
-    //p.setPen(Qt::NoPen);
-    //p.setBrush(Qt::black);
-    //p.setRenderHint(QPainter::Antialiasing);
-    //p.drawRoundedRect(bmp.rect(),6,6);
-    //setMask(bmp);
+    // QBitmap bmp(this->size());
+    // bmp.fill();
+    // QPainter p(&bmp);
+    // p.setPen(Qt::NoPen);
+    // p.setBrush(Qt::black);
+    // p.setRenderHint(QPainter::Antialiasing);
+    // p.drawRoundedRect(bmp.rect(),6,6);
+    // setMask(bmp);
 
-    //退出框
+    // 退出框
     m_noteExitWindow = new noteExitWindow(this, this);
 }
 
@@ -296,39 +303,40 @@ void Widget::kyNoteInit()
 void Widget::kyNoteConn()
 {
     qDebug() << "init connect slot";
-    //主界面退出按钮
-    connect(ui->pushButton_Exit,SIGNAL(clicked()),this,SLOT(exitSlot()));
-    //主界面最小化按钮
-    connect(ui->pushButton_Mini,SIGNAL(clicked()),this,SLOT(miniSlot()));
-    //新建按钮
-    connect(m_newKynote,&QPushButton::clicked, this, &Widget::newSlot);
-    //删除按钮
+    // 主界面退出按钮
+    connect(ui->pushButton_Exit, SIGNAL(clicked()), this, SLOT(exitSlot()));
+    // 主界面最小化按钮
+    connect(ui->pushButton_Mini, SIGNAL(clicked()), this, SLOT(miniSlot()));
+    // 新建按钮
+    connect(m_newKynote, &QPushButton::clicked, this, &Widget::newSlot);
+    // 除按钮
     connect(m_trashButton, &QPushButton::clicked, this, &Widget::onTrashButtonClicked);
 
-    //connect(m_noteModel, &NoteModel::rowsAboutToBeMoved, m_noteView, &NoteView::rowsAboutToBeMoved);
-    //connect(m_noteModel, &NoteModel::rowsMoved, m_noteView, &NoteView::rowsMoved);
-    //升/降序按钮
-    //connect(m_sortLabel,&QPushButton::clicked,this,&Widget::sortSlot);
+    // connect(m_noteModel, &NoteModel::rowsAboutToBeMoved, m_noteView, &NoteView::rowsAboutToBeMoved);
+    // connect(m_noteModel, &NoteModel::rowsMoved, m_noteView, &NoteView::rowsMoved);
+    // 升/降序按钮
+    // connect(m_sortLabel,&QPushButton::clicked,this,&Widget::sortSlot);
     connect(this, &Widget::switchSortTypeRequest, this, &Widget::sortSlot);
-    //清空便签
-    connect(m_menuActionEmpty,&QAction::triggered,this,&Widget::clearNoteSlot);
-    //设置界面
-    //connect(m_menuActionSet,&QAction::triggered,this,&Widget::SetNoteSlot);
-    //列表平铺切换
-    connect(m_viewChangeButton,&QPushButton::clicked,this,&Widget::changePageSlot);
-    //搜索栏文本输入
+    // 清空便签
+    connect(m_menuActionEmpty, &QAction::triggered, this, &Widget::clearNoteSlot);
+    // 设置界面
+    // connect(m_menuActionSet,&QAction::triggered,this,&Widget::SetNoteSlot);
+    // 列表平铺切换
+    connect(m_viewChangeButton, &QPushButton::clicked, this, &Widget::changePageSlot);
+    // 搜索栏文本输入
     connect(m_searchLine, &QLineEdit::textChanged, this, &Widget::onSearchEditTextChanged);
-    //退出弹窗
-    connect(m_noteExitWindow,&noteExitWindow::requestSetNoteNull,this,&Widget::setNoteNullSlot);
-    //listview单击事件
+    // 退出弹窗
+    connect(m_noteExitWindow, &noteExitWindow::requestSetNoteNull, this, &Widget::setNoteNullSlot);
+    // listview单击事件
     connect(m_noteView, &NoteView::pressed, this, &Widget::listClickSlot);
-    //listview双击事件
-    connect(m_noteView,&NoteView::doubleClicked,this,&Widget::listDoubleClickSlot);    
+    // listview双击事件
+    connect(m_noteView, &NoteView::doubleClicked, this, &Widget::listDoubleClickSlot);
     connect(m_noteView, &NoteView::viewportPressed, this, [this](){
-        if(m_noteModel->rowCount() > 0){
+        if (m_noteModel->rowCount() > 0) {
             QModelIndex index = m_noteView->currentIndex();
             m_currentSelectedNoteProxy = index;
-            m_noteView->selectionModel()->select(m_currentSelectedNoteProxy, QItemSelectionModel::ClearAndSelect);
+            m_noteView->selectionModel()->select(m_currentSelectedNoteProxy,
+                                                 QItemSelectionModel::ClearAndSelect);
             m_noteView->setCurrentIndex(m_currentSelectedNoteProxy);
             m_noteView->scrollTo(m_currentSelectedNoteProxy);
         }
@@ -343,28 +351,29 @@ void Widget::kyNoteConn()
     // 这种类型类似于QueuedConnection，但是它只能应用于跨线程操作即发送者和接收者处于不同的线程中的情况
     // 并且信号发送者线程会阻塞等待接收者的槽函数执行结束
     connect(this, &Widget::requestNotesList,
-            m_dbManager,&DBManager::onNotesListRequested, Qt::BlockingQueuedConnection);
+            m_dbManager, &DBManager::onNotesListRequested, Qt::BlockingQueuedConnection);
     connect(this, &Widget::requestCreateUpdateNote,
             m_dbManager, &DBManager::onCreateUpdateRequested, Qt::BlockingQueuedConnection);
     connect(this, &Widget::requestDeleteNote,
             m_dbManager, &DBManager::onDeleteNoteRequested);
     connect(this, &Widget::requestClearNote,
             m_dbManager, &DBManager::permanantlyRemoveAllNotes);
-    //connect(this, &Widget::requestRestoreNotes,
-    //            m_dbManager, &DBManager::onRestoreNotesRequested, Qt::BlockingQueuedConnection);
-    //connect(this, &Widget::requestImportNotes,
-    //            m_dbManager, &DBManager::onImportNotesRequested, Qt::BlockingQueuedConnection);
-    //connect(this, &Widget::requestExportNotes,
-    //            m_dbManager, &DBManager::onExportNotesRequested, Qt::BlockingQueuedConnection);
+    // connect(this, &Widget::requestRestoreNotes,
+    // m_dbManager, &DBManager::onRestoreNotesRequested, Qt::BlockingQueuedConnection);
+    // connect(this, &Widget::requestImportNotes,
+    // m_dbManager, &DBManager::onImportNotesRequested, Qt::BlockingQueuedConnection);
+    // connect(this, &Widget::requestExportNotes,
+    // m_dbManager, &DBManager::onExportNotesRequested, Qt::BlockingQueuedConnection);
     connect(this, &Widget::requestMigrateNotes,
             m_dbManager, &DBManager::onMigrateNotesRequested, Qt::BlockingQueuedConnection);
     connect(this, &Widget::requestMigrateTrash,
             m_dbManager, &DBManager::onMigrateTrashRequested, Qt::BlockingQueuedConnection);
     connect(this, &Widget::requestForceLastRowIndexValue,
-            m_dbManager, &DBManager::onForceLastRowIndexValueRequested, Qt::BlockingQueuedConnection);
+            m_dbManager, &DBManager::onForceLastRowIndexValueRequested,
+            Qt::BlockingQueuedConnection);
 
     connect(m_dbManager, &DBManager::notesReceived, this, &Widget::loadNotes);
-    //快捷键
+    // 快捷键
     new QShortcut(QKeySequence(Qt::Key_F1), this, SLOT(onF1ButtonClicked()));
 }
 
@@ -377,22 +386,22 @@ void Widget::listenToGsettings()
     // 监听主题改变
     const QByteArray id(THEME_QT_SCHEMA);
 
-    if(QGSettings::isSchemaInstalled(id)){
+    if (QGSettings::isSchemaInstalled(id)) {
         QGSettings *styleSettings = new QGSettings(id);
         connect(styleSettings, &QGSettings::changed, this, [=](const QString &key){
             auto style = styleSettings->get(key).toString();
-            if (key == "styleName"){
+            if (key == "styleName") {
                 currentTheme = styleSettings->get(MODE_QT_KEY).toString();
-                if(currentTheme == "ukui-default" || currentTheme == "ukui-white"
-                        || currentTheme == "ukui-light" || currentTheme == "ukui"){
+                if (currentTheme == "ukui-default" || currentTheme == "ukui-white"
+                    || currentTheme == "ukui-light" || currentTheme == "ukui") {
                     m_isThemeChanged = 0;
-                }else if(style == "ukui-dark" || currentTheme == "ukui-black"){
+                } else if (style == "ukui-dark" || currentTheme == "ukui-black") {
                     m_isThemeChanged = 1;
                 }
             }
-            QTimer::singleShot(500,this, [=](){
+            QTimer::singleShot(500, this, [=](){
                 QList<QWidget *> wid = m_searchLine->findChildren<QWidget *>();
-                for (int i=0; i < wid.count(); i++){
+                for (int i = 0; i < wid.count(); i++) {
                     wid.at(i)->setAttribute(Qt::WA_Hover, false);
                 }
             });
@@ -402,12 +411,12 @@ void Widget::listenToGsettings()
     // 监听控制面板字体变化
     const QByteArray idd(PERSONALISE_SCHEMA);
 
-    if(QGSettings::isSchemaInstalled(idd)){
+    if (QGSettings::isSchemaInstalled(idd)) {
         QGSettings *opacitySettings = new QGSettings(idd);
-        connect(opacitySettings,&QGSettings::changed, this, [=](const QString &key){
-            if(key == "transparency"){
+        connect(opacitySettings, &QGSettings::changed, this, [=](const QString &key){
+            if (key == "transparency") {
                 QStringList keys = opacitySettings->keys();
-                if (keys.contains("transparency")){
+                if (keys.contains("transparency")) {
                     m_transparency = opacitySettings->get("transparency").toDouble();
                 }
             }
@@ -417,13 +426,14 @@ void Widget::listenToGsettings()
     }
 
     // 用户手册
-    QString serviceName = "com.kylinUserGuide.hotel" + QString("%1%2").arg("_").arg(QString::number(getuid()));
+    QString serviceName = "com.kylinUserGuide.hotel"
+                          + QString("%1%2").arg("_").arg(QString::number(getuid()));
     userGuideInterface = new QDBusInterface(serviceName,
-                                          "/",
-                                          "com.guide.hotel",
-                                          QDBusConnection::sessionBus());
+                                            "/",
+                                            "com.guide.hotel",
+                                            QDBusConnection::sessionBus());
     qDebug() << "connect to kylinUserGuide" << userGuideInterface->isValid();
-    if (!userGuideInterface->isValid()){
+    if (!userGuideInterface->isValid()) {
         qDebug() << "fail to connect to kylinUserGuide";
         qDebug() << qPrintable(QDBusConnection::sessionBus().lastError().message());
         return;
@@ -432,10 +442,10 @@ void Widget::listenToGsettings()
     // 监听时区变化
     const QByteArray iddd(FORMAT_SCHEMA);
 
-    if (QGSettings::isSchemaInstalled(iddd)){
+    if (QGSettings::isSchemaInstalled(iddd)) {
         QGSettings *m_formatsettings = new QGSettings(iddd);
 
-        connect(m_formatsettings, &QGSettings::changed, this, [=] (const QString &key) {
+        connect(m_formatsettings, &QGSettings::changed, this, [=](const QString &key) {
             if (key == "hoursystem") {
                 QString value = m_formatsettings->get(TIME_FORMAT_KEY).toString();
                 qDebug() << "hoursystem changed" << value;
@@ -456,12 +466,12 @@ void Widget::checkMigration()
     QDir dir(fi.absolutePath());
 
     QString oldNoteDBPath(dir.path() + QDir::separator() + "Notes.ini");
-    if(QFile::exists(oldNoteDBPath))
+    if (QFile::exists(oldNoteDBPath))
         migrateNote(oldNoteDBPath);
 
     QString oldTrashDBPath(dir.path() + QDir::separator() + "Trash.ini");
-    if(QFile::exists(oldTrashDBPath)){
-        //migrateTrash(oldTrashDBPath);
+    if (QFile::exists(oldTrashDBPath)) {
+        // migrateTrash(oldTrashDBPath);
         emit requestForceLastRowIndexValue(m_noteCounter);
     }
 }
@@ -480,21 +490,24 @@ void Widget::migrateNote(QString notePath)
     QList<NoteData *> noteList;
 
     auto it = dbKeys.begin();
-    for(; it < dbKeys.end() - 1; it += 3){
+    for (; it < dbKeys.end() - 1; it += 3) {
         QString noteName = it->split(QStringLiteral("/"))[0];
         int id = noteName.split(QStringLiteral("_"))[1].toInt();
 
         // sync db index with biggest notes id
         m_noteCounter = m_noteCounter < id ? id : m_noteCounter;
 
-        NoteData* newNote = new NoteData(this);
+        NoteData *newNote = new NoteData(this);
         newNote->setId(id);
 
-        QString createdDateDB = notesIni.value(noteName + QStringLiteral("/dateCreated"), "Error").toString();
+        QString createdDateDB
+            = notesIni.value(noteName + QStringLiteral("/dateCreated"), "Error").toString();
         newNote->setCreationDateTime(QDateTime::fromString(createdDateDB, Qt::ISODate));
-        QString lastEditedDateDB = notesIni.value(noteName + QStringLiteral("/dateEdited"), "Error").toString();
+        QString lastEditedDateDB
+            = notesIni.value(noteName + QStringLiteral("/dateEdited"), "Error").toString();
         newNote->setLastModificationDateTime(QDateTime::fromString(lastEditedDateDB, Qt::ISODate));
-        QString contentText = notesIni.value(noteName + QStringLiteral("/content"), "Error").toString();
+        QString contentText
+            = notesIni.value(noteName + QStringLiteral("/content"), "Error").toString();
         newNote->setContent(contentText);
         QString firstLine = getFirstLine(contentText);
         newNote->setFullTitle(firstLine);
@@ -502,11 +515,12 @@ void Widget::migrateNote(QString notePath)
         noteList.append(newNote);
     }
 
-    if(!noteList.isEmpty())
+    if (!noteList.isEmpty())
         emit requestMigrateNotes(noteList);
 
     QFile oldNoteDBFile(notePath);
-    oldNoteDBFile.rename(QFileInfo(notePath).dir().path() + QDir::separator() + QStringLiteral("oldNotes.ini"));
+    oldNoteDBFile.rename(QFileInfo(notePath).dir().path() + QDir::separator()
+                         + QStringLiteral("oldNotes.ini"));
 }
 
 /*!
@@ -521,17 +535,17 @@ void Widget::btnInit()
     m_menuActionEmpty = new QAction(m_menu);
     QAction *m_helpAction = new QAction(m_menu);
     QAction *m_aboutAction = new QAction(m_menu);
-    //m_menuActionSet = new QAction(m_menu);
+    // m_menuActionSet = new QAction(m_menu);
 
     m_helpAction->setText(tr("Help"));
     m_aboutAction->setText(tr("About"));
     m_menuActionEmpty->setText(tr("Empty Note"));
-    //m_menuActionSet->setText(tr("Set Note"));
+    // m_menuActionSet->setText(tr("Set Note"));
 
     m_menu->addAction(m_menuActionEmpty);
     m_menu->addAction(m_helpAction);
     m_menu->addAction(m_aboutAction);
-    //m_menu->addAction(m_menuActionSet);
+    // m_menu->addAction(m_menuActionSet);
     ui->menuBtn->setMenu(m_menu);
 
     connect(m_helpAction, &QAction::triggered, this, [=](){
@@ -542,10 +556,10 @@ void Widget::btnInit()
         About *dialog = new About();
         dialog->exec();
     });
-    //隐藏menu下箭头
-    //ui->menuBtn->setStyleSheet("QPushButton::menu-indicator{image:none}");
+    // 隐藏menu下箭头
+    // ui->menuBtn->setStyleSheet("QPushButton::menu-indicator{image:none}");
     ui->menuBtn->setProperty("isOptionButton", true);
-    //设置是否自动凸起
+    // 设置是否自动凸起
     ui->menuBtn->setAutoRaise(false);
     ui->menuBtn->setIconSize(QSize(16, 16));
     ui->menuBtn->setPopupMode(QToolButton::InstantPopup);
@@ -578,22 +592,22 @@ void Widget::btnInit()
     m_trashButton->setProperty("useIconHighlightEffect", true);
     m_trashButton->setProperty("iconHighlightEffectMode", 1);
 
-    //取消按钮默认主题灰色背景
+    // 取消按钮默认主题灰色背景
     QPalette palette = ui->pushButton_Mini->palette();
-    QColor ColorPlaceholderText(255,255,255,0);
+    QColor ColorPlaceholderText(255, 255, 255, 0);
     QBrush brush;
     brush.setColor(ColorPlaceholderText);
     palette.setBrush(QPalette::Button, brush);
     palette.setBrush(QPalette::ButtonText, brush);
-    //palette.setColor(QPalette::Highlight, Qt::transparent); /* 取消按钮高亮 */
+    // palette.setColor(QPalette::Highlight, Qt::transparent); /* 取消按钮高亮 */
     // ui->pushButton_Mini->setPalette(palette);
 
-    //设置新建按钮背景文本颜色
+    // 设置新建按钮背景文本颜色
     QPalette palette2 = m_newKynote->palette();
-    QColor ColorPlaceholderText2(61,107,229,255);
+    QColor ColorPlaceholderText2(61, 107, 229, 255);
     QBrush brush2;
     brush2.setColor(ColorPlaceholderText2);
-    palette2.setColor(QPalette::Button,QColor(61,107,229,255));
+    palette2.setColor(QPalette::Button, QColor(61, 107, 229, 255));
     palette2.setBrush(QPalette::ButtonText, QBrush(Qt::white));
     m_newKynote->setPalette(palette2);
 
@@ -634,10 +648,10 @@ void Widget::initIconMode()
     m_noteView->setSelectionMode(QListView::ExtendedSelection);
     m_noteView->setEditTriggers(QListView::NoEditTriggers);
     m_noteView->setResizeMode(QListView::Adjust);
-    //m_noteView->setMovement(QListView::Snap);
+    // m_noteView->setMovement(QListView::Snap);
     m_noteView->setContextMenuPolicy(Qt::CustomContextMenu);
-    //m_noteView->setGridSize(QSize(227, 246));
-    //m_noteView->setIconSize(QSize(227, 246));
+    // m_noteView->setGridSize(QSize(227, 246));
+    // m_noteView->setIconSize(QSize(227, 246));
     setupIconModeModel();
 }
 
@@ -648,23 +662,23 @@ void Widget::initIconMode()
 void Widget::initListMode()
 {
     qDebug() << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
-    //列表模式
+    // 列表模式
     m_noteView->setViewMode(QListView::ListMode);
-    //禁用双击编辑
+    // 禁用双击编辑
     m_noteView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    //隐藏滑动条
+    // 隐藏滑动条
     m_noteView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_noteView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_noteView->setSelectionMode(QAbstractItemView::ExtendedSelection);
-    //视图将一次滚动一个像素的内容
+    // 视图将一次滚动一个像素的内容
     m_noteView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     m_noteView->setFrameShape(QListView::NoFrame);
-    //启用项的拖动
-    //m_noteView->setDragEnabled(true);
-    //允许用户将内部或外部项拖放到视图中
-    //m_noteView->setAcceptDrops(true);
-    //显示当前拖动的项将被放在什么地方
-    //m_noteView->setDropIndicatorShown(true);
+    // 启用项的拖动
+    // m_noteView->setDragEnabled(true);
+    // 允许用户将内部或外部项拖放到视图中
+    // m_noteView->setAcceptDrops(true);
+    // 显示当前拖动的项将被放在什么地方
+    // m_noteView->setDropIndicatorShown(true);
     setupListModeModel();
 }
 
@@ -675,28 +689,29 @@ void Widget::initListMode()
 void Widget::deleteNote(const QModelIndex &noteIndex, bool isFromUser)
 {
     qDebug() << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
-    if(noteIndex.isValid()){
+    if (noteIndex.isValid()) {
         // delete from model
         QModelIndex indexToBeRemoved = m_proxyModel->mapToSource(noteIndex);
-        NoteData* noteTobeRemoved = m_noteModel->removeNote(indexToBeRemoved);
+        NoteData *noteTobeRemoved = m_noteModel->removeNote(indexToBeRemoved);
 
         noteTobeRemoved->setDeletionDateTime(QDateTime::currentDateTime());
         qDebug() << "emit requestDeleteNote";
         // delete from sql
         emit requestDeleteNote(noteTobeRemoved);
-        if(isFromUser){
-            if(m_noteModel->rowCount() > 0){
+        if (isFromUser) {
+            if (m_noteModel->rowCount() > 0) {
                 QModelIndex index = m_noteView->currentIndex();
                 m_currentSelectedNoteProxy = index;
-                m_noteView->selectionModel()->select(m_currentSelectedNoteProxy, QItemSelectionModel::ClearAndSelect);
+                m_noteView->selectionModel()->select(m_currentSelectedNoteProxy,
+                                                     QItemSelectionModel::ClearAndSelect);
                 m_noteView->setCurrentIndex(m_currentSelectedNoteProxy);
                 m_noteView->scrollTo(m_currentSelectedNoteProxy);
-            }else{
+            } else {
                 // 创建新的空模型索引 此类型的模型索引用于指示模型中的位置无效
                 m_currentSelectedNoteProxy = QModelIndex();
             }
         }
-    }else{
+    } else {
         qDebug() << "Widget::deleteNote noteIndex is not valid";
     }
 
@@ -710,12 +725,11 @@ void Widget::deleteNote(const QModelIndex &noteIndex, bool isFromUser)
 void Widget::deleteSelectedNote()
 {
     qDebug() << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
-    if(!m_isOperationRunning){
+    if (!m_isOperationRunning) {
         m_isOperationRunning = true;
-        if(m_noteModel->rowCount() > 0 && m_currentSelectedNoteProxy.isValid()){
+        if (m_noteModel->rowCount() > 0 && m_currentSelectedNoteProxy.isValid()) {
             int noteId = m_currentSelectedNoteProxy.data(NoteModel::NoteID).toInt();
-            for(auto it = m_editors.begin(); it!=m_editors.end();it++)
-            {
+            for (auto it = m_editors.begin(); it != m_editors.end(); it++) {
                 if ((*it)->m_noteId == noteId) {
                     m_notebook = *it;
                     m_notebook->close();
@@ -724,10 +738,10 @@ void Widget::deleteSelectedNote()
                     break;
                 }
             }
-            //--m_noteCounter;
+            // --m_noteCounter;
             deleteNote(m_currentSelectedNoteProxy, true);
-            //int row = m_currentSelectedNoteProxy.row();
-            //m_noteView->animateRemovedRow(QModelIndex(),row, row);
+            // int row = m_currentSelectedNoteProxy.row();
+            // m_noteView->animateRemovedRow(QModelIndex(),row, row);
         }
         m_isOperationRunning = false;
     }
@@ -737,21 +751,22 @@ void Widget::deleteSelectedNote()
  * \brief Widget::selectNote
  *
  */
-//双击选中笔记
+// 双击选中笔记
 void Widget::selectNote(const QModelIndex &noteIndex)
 {
     qDebug() << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
-    if(noteIndex.isValid()){
+    if (noteIndex.isValid()) {
         // show the content of the pressed note in the text editor
         QModelIndex indexSrc = m_proxyModel->mapToSource(noteIndex);
         showNoteInEditor(indexSrc);
 
         m_currentSelectedNoteProxy = noteIndex;
 
-        m_noteView->selectionModel()->select(m_currentSelectedNoteProxy, QItemSelectionModel::ClearAndSelect);
+        m_noteView->selectionModel()->select(m_currentSelectedNoteProxy,
+                                             QItemSelectionModel::ClearAndSelect);
         m_noteView->setCurrentIndex(m_currentSelectedNoteProxy);
         m_noteView->scrollTo(m_currentSelectedNoteProxy);
-    }else{
+    } else {
         qDebug() << "Widget::selectNote() : noteIndex is not valid";
     }
 }
@@ -765,9 +780,9 @@ void Widget::showNoteInEditor(const QModelIndex &noteIndex)
     qDebug() << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
     QString content = noteIndex.data(NoteModel::NoteContent).toString();
     QDateTime dateTime = noteIndex.data(NoteModel::NoteLastModificationDateTime).toDateTime();
-    //int scrollbarPos = noteIndex.data(NoteModel::NoteScrollbarPos).toInt();
+    // int scrollbarPos = noteIndex.data(NoteModel::NoteScrollbarPos).toInt();
     int noteColor = noteIndex.data(NoteModel::NoteColor).toInt();
-    //QString mdContent = noteIndex.data(NoteModel::NoteMdContent).toString();
+    // QString mdContent = noteIndex.data(NoteModel::NoteMdContent).toString();
 
     const listViewModeDelegate delegate;
     QColor m_color = delegate.intToQcolor(noteColor);
@@ -780,7 +795,7 @@ void Widget::showNoteInEditor(const QModelIndex &noteIndex)
     QString noteDate = dateTime.toString(Qt::ISODate);
     QString noteDateEditor = getNoteDateEditor(noteDate);
     // set scrollbar position
-    //m_textEdit->verticalScrollBar()->setValue(scrollbarPos);
+    // m_textEdit->verticalScrollBar()->setValue(scrollbarPos);
 }
 
 /*!
@@ -789,10 +804,10 @@ void Widget::showNoteInEditor(const QModelIndex &noteIndex)
  */
 void Widget::selectFirstNote()
 {
-    if(m_proxyModel->rowCount() > 0){
-        QModelIndex index = m_proxyModel->index(0,0);
+    if (m_proxyModel->rowCount() > 0) {
+        QModelIndex index = m_proxyModel->index(0, 0);
         m_noteView->selectionModel()->select(index, QItemSelectionModel::ClearAndSelect);
-        //设置索引index所在的页面为当前页面
+        // 设置索引index所在的页面为当前页面
         m_noteView->setCurrentIndex(index);
 
         m_currentSelectedNoteProxy = index;
@@ -805,7 +820,7 @@ void Widget::selectFirstNote()
  */
 void Widget::createNewNoteIfEmpty()
 {
-    //if(m_proxyModel->rowCount() == 0)
+    // if(m_proxyModel->rowCount() == 0)
     createNewNote();
 }
 
@@ -817,14 +832,14 @@ void Widget::createNewNoteIfEmpty()
 void Widget::createNewNote()
 {
     qDebug() << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
-    if(!m_isOperationRunning){
+    if (!m_isOperationRunning) {
         m_isOperationRunning = true;
 
         m_noteView->scrollToTop();
 
         ++m_noteCounter;
         qDebug() << "创建便签 m_noteCounter:" << m_noteCounter;
-        NoteData* tmpNote = generateNote(m_noteCounter);
+        NoteData *tmpNote = generateNote(m_noteCounter);
 
         // insert the new note to NoteModel
         QModelIndex indexSrc = m_noteModel->insertNote(tmpNote, 0);
@@ -835,32 +850,31 @@ void Widget::createNewNote()
         // 从排序过滤器模型返回与给定 indexSrc 对应的源模型索引。
         m_currentSelectedNoteProxy = m_proxyModel->mapFromSource(indexSrc);
         saveNoteToDB(m_currentSelectedNoteProxy);
-        //int row = m_currentSelectedNoteProxy.row();
-        //m_noteView->animateAddedRow(QModelIndex(),row, row);
+        // int row = m_currentSelectedNoteProxy.row();
+        // m_noteView->animateAddedRow(QModelIndex(),row, row);
 
-        //设置索引 m_currentSelectedNoteProxy 所在的页面为当前页面
+        // 设置索引 m_currentSelectedNoteProxy 所在的页面为当前页面
         m_noteView->setCurrentIndex(m_currentSelectedNoteProxy);
         m_isOperationRunning = false;
     }
     int noteId = m_currentSelectedNoteProxy.data(NoteModel::NoteID).toInt();
-    m_notebook = new Edit_page(this,noteId);
+    m_notebook = new Edit_page(this, noteId);
     m_editors.push_back(m_notebook);
     m_notebook->id = m_editors.size() - 1;
 
-    if(sender() != Q_NULLPTR){
-        //获取当前选中item下标
-        //QModelIndex indexInProxy = m_proxyModel->index(index.row(), 0);
-        //加载便签
+    if (sender() != Q_NULLPTR) {
+        // 获取当前选中item下标
+        // QModelIndex indexInProxy = m_proxyModel->index(index.row(), 0);
+        // 加载便签
         selectNote(m_currentSelectedNoteProxy);
         m_noteView->setCurrentRowActive(false);
     }
     connect(m_editors[m_editors.size() - 1], &Edit_page::isEmptyNote, this, [=](int noteId){
-        //m_editors.erase(m_editors[m_editors.size() - 1]);
+        // m_editors.erase(m_editors[m_editors.size() - 1]);
         qDebug() << "receive signal isEmptyNote" << noteId;
-        for(int count = 0; count <= m_proxyModel->rowCount();count ++)
-        {
-            QModelIndex m_tmpIndex = m_proxyModel->index(count,0);
-            if(m_tmpIndex.data(NoteModel::NoteID).toInt() == noteId){
+        for (int count = 0; count <= m_proxyModel->rowCount(); count++) {
+            QModelIndex m_tmpIndex = m_proxyModel->index(count, 0);
+            if (m_tmpIndex.data(NoteModel::NoteID).toInt() == noteId) {
                 QModelIndex sourceIndex = m_proxyModel->mapToSource(m_tmpIndex);
                 deleteNote(m_tmpIndex, true);
                 break;
@@ -868,10 +882,9 @@ void Widget::createNewNote()
         }
     });
     connect(m_editors[m_editors.size() - 1], &Edit_page::requestDel, this, [=](int noteId){
-        for(int count = 0; count <= m_proxyModel->rowCount();count ++)
-        {
-            QModelIndex m_tmpIndex = m_proxyModel->index(count,0);
-            if(m_tmpIndex.data(NoteModel::NoteID).toInt() == noteId){
+        for (int count = 0; count <= m_proxyModel->rowCount(); count++) {
+            QModelIndex m_tmpIndex = m_proxyModel->index(count, 0);
+            if (m_tmpIndex.data(NoteModel::NoteID).toInt() == noteId) {
                 QModelIndex sourceIndex = m_proxyModel->mapToSource(m_tmpIndex);
                 deleteNote(m_tmpIndex, true);
                 break;
@@ -881,7 +894,7 @@ void Widget::createNewNote()
     connect(m_notebook->m_noteHeadMenu, &noteHeadMenu::requestNewNote, this, [=](){
         newSlot();
     });
-    connect(m_notebook->m_noteHeadMenu, &noteHeadMenu::requestShowNote, this, [=]{
+    connect(m_notebook->m_noteHeadMenu, &noteHeadMenu::requestShowNote, this, [=] {
         // 添加窗管协议
         MotifWmHints hints;
         hints.flags = MWM_HINTS_FUNCTIONS|MWM_HINTS_DECORATIONS;
@@ -892,11 +905,13 @@ void Widget::createNewNote()
         this->activateWindow();
         this->show();
     });
-    connect(m_editors[m_editors.size() - 1], SIGNAL(texthasChanged(int,int)), this, SLOT(onTextEditTextChanged(int, int)));
-    connect(m_editors[m_editors.size() - 1], SIGNAL(colorhasChanged(QColor,int)), this, SLOT(onColorChanged(QColor,int)));
-    //设置鼠标焦点
+    connect(m_editors[m_editors.size() - 1], SIGNAL(texthasChanged(int,int)), this,
+            SLOT(onTextEditTextChanged(int,int)));
+    connect(m_editors[m_editors.size() - 1], SIGNAL(colorhasChanged(QColor,int)), this,
+            SLOT(onColorChanged(QColor,int)));
+    // 设置鼠标焦点
     m_notebook->ui->textEdit->setFocus();
-    //移动光标至行末
+    // 移动光标至行末
     m_notebook->ui->textEdit->moveCursor(QTextCursor::End, QTextCursor::MoveAnchor);
     m_notebook->show();
 }
@@ -907,10 +922,10 @@ void Widget::createNewNote()
  */
 void Widget::loadNotes(QList<NoteData *> noteList, int noteCounter)
 {
-    if(!noteList.isEmpty()){
+    if (!noteList.isEmpty()) {
         m_noteModel->addListNote(noteList);
         // Qt::AscendingOrder 升序排序
-        m_noteModel->sort(1,Qt::AscendingOrder);
+        m_noteModel->sort(1, Qt::AscendingOrder);
     }
 
     m_noteCounter = noteCounter;
@@ -923,23 +938,22 @@ void Widget::loadNotes(QList<NoteData *> noteList, int noteCounter)
  * \brief Widget::saveNoteToDB
  *
  */
-//将当前便笺保存到数据库
-void Widget::saveNoteToDB(const QModelIndex& noteIndex)
+// 将当前便笺保存到数据库
+void Widget::saveNoteToDB(const QModelIndex &noteIndex)
 {
-    if(noteIndex.isValid()){
-        //从排序过滤器模型返回与给定 noteIndex 对应的源模型索引。
+    if (noteIndex.isValid()) {
+        // 从排序过滤器模型返回与给定 noteIndex 对应的源模型索引。
         QModelIndex indexInSrc = m_proxyModel->mapToSource(noteIndex);
-        NoteData* note = m_noteModel->getNote(indexInSrc);
-        if(note != Q_NULLPTR)
+        NoteData *note = m_noteModel->getNote(indexInSrc);
+        if (note != Q_NULLPTR)
             emit requestCreateUpdateNote(note);
 
         m_isContentModified = false;
-    }else if(noteIndex.isValid() && m_isColorModified)
-    {
-        //从排序过滤器模型返回与给定 noteIndex 对应的源模型索引。
+    } else if (noteIndex.isValid() && m_isColorModified) {
+        // 从排序过滤器模型返回与给定 noteIndex 对应的源模型索引。
         QModelIndex indexInSrc = m_proxyModel->mapToSource(noteIndex);
-        NoteData* note = m_noteModel->getNote(indexInSrc);
-        if(note != Q_NULLPTR)
+        NoteData *note = m_noteModel->getNote(indexInSrc);
+        if (note != Q_NULLPTR)
             emit requestCreateUpdateNote(note);
         m_isColorModified = false;
     }
@@ -971,15 +985,15 @@ QString Widget::getNoteDateEditor(QString dateEdited)
  * \brief Widget::generateNote
  * 初始化一个笔记
  */
-NoteData* Widget::generateNote(const int noteID)
+NoteData *Widget::generateNote(const int noteID)
 {
-    NoteData* newNote = new NoteData(this);
+    NoteData *newNote = new NoteData(this);
     newNote->setId(noteID);
 
     QDateTime noteDate = QDateTime::currentDateTime();
     newNote->setCreationDateTime(noteDate);
     newNote->setLastModificationDateTime(noteDate);
-    newNote->setFullTitle(tr("Welcome to use Kylin Memo."));
+    newNote->setFullTitle(tr("Welcome to use Notes."));
     newNote->setNoteColor(15169356);
     newNote->m_note = nullptr;
     return newNote;
@@ -994,11 +1008,10 @@ void Widget::moveNoteToTop()
     qDebug() << "movenote to top";
     // check if the current note is note on the top of the list
     // if true move the note to the top
-    if(m_tmpIndex.isValid()){
-
+    if (m_tmpIndex.isValid()) {
         m_noteView->scrollToTop();
 
-        //NoteData* note = m_noteModel->getNote(index);
+        // NoteData* note = m_noteModel->getNote(index);
 
         // move the current selected note to the top
         // 当前要移动到顶端的item QSortFilterProxyModel
@@ -1015,7 +1028,7 @@ void Widget::moveNoteToTop()
         m_currentSelectedNoteProxy = m_tmpIndex;
         // 修改当前选中
         m_noteView->setCurrentIndex(m_tmpIndex);
-    }else{
+    } else {
         qDebug() << "Widget::moveNoteTop : m_currentSelectedNoteProxy not valid";
     }
 }
@@ -1024,10 +1037,10 @@ void Widget::moveNoteToTop()
  * \brief Widget::getFirstLine
  *
  */
-QString Widget::getFirstLine(const QString& str)
+QString Widget::getFirstLine(const QString &str)
 {
-    if(str.simplified().isEmpty()){
-        return tr("Welcome to use Kylin Memo.");
+    if (str.simplified().isEmpty()) {
+        return tr("Welcome to use Notes.");
     }
 
     QString text = str.trimmed();
@@ -1039,15 +1052,15 @@ QString Widget::getFirstLine(const QString& str)
  * \brief Widget::findNotesContain
  *
  */
-void Widget::findNotesContain(const QString& keyword)
+void Widget::findNotesContain(const QString &keyword)
 {
-    //将用于过滤源模型内容的固定字符串设置为给定模式
+    // 将用于过滤源模型内容的固定字符串设置为给定模式
     m_proxyModel->setFilterFixedString(keyword);
 
-    //如果匹配到不止一行
-    if(m_proxyModel->rowCount() > 0){
+    // 如果匹配到不止一行
+    if (m_proxyModel->rowCount() > 0) {
         selectFirstNote();
-    }else{
+    } else {
         m_currentSelectedNoteProxy = QModelIndex();
     }
 }
@@ -1064,12 +1077,12 @@ void Widget::searchInit()
     searchAction->setIcon(QIcon::fromTheme("system-search-symbolic"));
     m_searchLine->setProperty("useIconHighlightEffect", true);
     m_searchLine->setProperty("iconHighlightEffectMode", 1);
-    m_searchLine->addAction(searchAction,QLineEdit::LeadingPosition);  //图片在左侧
-    //m_searchLine->setAttribute(Qt::WA_Hover, true);
+    m_searchLine->addAction(searchAction, QLineEdit::LeadingPosition);  // 图片在左侧
+    // m_searchLine->setAttribute(Qt::WA_Hover, true);
 
-    QTimer::singleShot(500,this, [=](){
+    QTimer::singleShot(500, this, [=](){
         QList<QWidget *> wid = m_searchLine->findChildren<QWidget *>();
-        for (int i=0; i < wid.count(); i++){
+        for (int i = 0; i < wid.count(); i++) {
             wid.at(i)->setAttribute(Qt::WA_Hover, false);
         }
     });
@@ -1094,7 +1107,7 @@ void Widget::clearSearch()
     m_searchLine->blockSignals(false);
     m_proxyModel->setFilterFixedString(QString());
     m_searchLine->setFocus();
-    m_searchLine->addAction(searchAction,QLineEdit::LeadingPosition);  //图片在左侧
+    m_searchLine->addAction(searchAction, QLineEdit::LeadingPosition);  // 图片在左侧
     m_searchLine->removeAction(delAction);
 }
 
@@ -1102,41 +1115,41 @@ void Widget::clearSearch()
  * \brief Widget::mousePressEvent
  *
  */
-//void Widget::mousePressEvent(QMouseEvent *event)
-//{
-//    if (event->button() == Qt::LeftButton) {
-//        this->dragPosition = event->globalPos() - frameGeometry().topLeft();
-//        this->mousePressed = true;
-//    }
-//    QWidget::mousePressEvent(event);
-//}
+// void Widget::mousePressEvent(QMouseEvent *event)
+// {
+// if (event->button() == Qt::LeftButton) {
+// this->dragPosition = event->globalPos() - frameGeometry().topLeft();
+// this->mousePressed = true;
+// }
+// QWidget::mousePressEvent(event);
+// }
 
 /*!
  * \brief Widget::mouseReleaseEvent
  *
  */
-//void Widget::mouseReleaseEvent(QMouseEvent *event)
-//{
-//    if (event->button() == Qt::LeftButton) {
-//        this->mousePressed = false;
-//    }
-//    QWidget::mouseReleaseEvent(event);
-//}
+// void Widget::mouseReleaseEvent(QMouseEvent *event)
+// {
+// if (event->button() == Qt::LeftButton) {
+// this->mousePressed = false;
+// }
+// QWidget::mouseReleaseEvent(event);
+// }
 
 /*!
  * \brief Widget::mouseMoveEvent
  *
  */
-//void Widget::mouseMoveEvent(QMouseEvent *event)
-//{
-//    if (this->mousePressed) {
-//        int dpiRatio = qApp->devicePixelRatio();
-//        move(event->globalPos() - this->dragPosition.x() * dpiRatio,
-//             (event->globalPos() - this->dragPosition.y() * dpiRatio));
-//        this->setCursor(Qt::ClosedHandCursor);
-//    }
-//    QWidget::mouseMoveEvent(event);
-//}
+// void Widget::mouseMoveEvent(QMouseEvent *event)
+// {
+// if (this->mousePressed) {
+// int dpiRatio = qApp->devicePixelRatio();
+// move(event->globalPos() - this->dragPosition.x() * dpiRatio,
+// (event->globalPos() - this->dragPosition.y() * dpiRatio));
+// this->setCursor(Qt::ClosedHandCursor);
+// }
+// QWidget::mouseMoveEvent(event);
+// }
 
 /*!
  * \brief Widget::paintEvent
@@ -1145,45 +1158,45 @@ void Widget::clearSearch()
 void Widget::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
-    //QStyleOption opt;
-    //opt.init(this);
+    // QStyleOption opt;
+    // opt.init(this);
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     QPainterPath rectPath;
     rectPath.addRect(this->rect());
-    //rectPath.addRoundedRect(this->rect(), 6, 6); // 左上右下
+    // rectPath.addRoundedRect(this->rect(), 6, 6); // 左上右下
 
     // 画一个黑底
-    //QPixmap pixmap(this->rect().size());
-    //pixmap.fill(Qt::transparent);
-    //QPainter pixmapPainter(&pixmap);
-    //pixmapPainter.setRenderHint(QPainter::Antialiasing);
-    //pixmapPainter.setPen(Qt::transparent);
-    //pixmapPainter.setBrush(Qt::black);
-    //pixmapPainter.drawPath(rectPath);
-    //pixmapPainter.end();
+    // QPixmap pixmap(this->rect().size());
+    // pixmap.fill(Qt::transparent);
+    // QPainter pixmapPainter(&pixmap);
+    // pixmapPainter.setRenderHint(QPainter::Antialiasing);
+    // pixmapPainter.setPen(Qt::transparent);
+    // pixmapPainter.setBrush(Qt::black);
+    // pixmapPainter.drawPath(rectPath);
+    // pixmapPainter.end();
 
     // 模糊这个黑底
-    //QImage img = pixmap.toImage();
-    //qt_blurImage(img, 10, false, false);
+    // QImage img = pixmap.toImage();
+    // qt_blurImage(img, 10, false, false);
 
     // 挖掉中心
-    //pixmap = QPixmap::fromImage(img);
-    //QPainter pixmapPainter2(&pixmap);
-    //pixmapPainter2.setRenderHint(QPainter::Antialiasing);
-    //pixmapPainter2.setCompositionMode(QPainter::CompositionMode_Clear);
-    //pixmapPainter2.setPen(Qt::transparent);
-    //pixmapPainter2.setBrush(Qt::transparent);
-    //pixmapPainter2.drawPath(rectPath);
+    // pixmap = QPixmap::fromImage(img);
+    // QPainter pixmapPainter2(&pixmap);
+    // pixmapPainter2.setRenderHint(QPainter::Antialiasing);
+    // pixmapPainter2.setCompositionMode(QPainter::CompositionMode_Clear);
+    // pixmapPainter2.setPen(Qt::transparent);
+    // pixmapPainter2.setBrush(Qt::transparent);
+    // pixmapPainter2.drawPath(rectPath);
 
     // 绘制阴影
-    //p.drawPixmap(this->rect(), pixmap, pixmap.rect());
+    // p.drawPixmap(this->rect(), pixmap, pixmap.rect());
 
     // 绘制一个背景
-    //p.save();
-    //p.setOpacity(0.7);
-    p.fillPath(rectPath,palette().color(QPalette::Base));
-    //p.restore();
+    // p.save();
+    // p.setOpacity(0.7);
+    p.fillPath(rectPath, palette().color(QPalette::Base));
+    // p.restore();
 }
 
 /********************Slots************************/
@@ -1195,45 +1208,45 @@ void Widget::paintEvent(QPaintEvent *event)
 void Widget::onTextEditTextChanged(int noteId, int i)
 {
     qDebug() << "receive signal textchange" << noteId;
-    for(int count = 0; count <= m_proxyModel->rowCount();count ++)
-    {
-        m_tmpIndex = m_proxyModel->index(count,0);
-        if(m_tmpIndex.data(NoteModel::NoteID).toInt() == noteId){
+    for (int count = 0; count <= m_proxyModel->rowCount(); count++) {
+        m_tmpIndex = m_proxyModel->index(count, 0);
+        if (m_tmpIndex.data(NoteModel::NoteID).toInt() == noteId) {
             qDebug() << m_tmpIndex.data(NoteModel::NoteID).toInt();
             break;
         }
     }
 
-    if(m_tmpIndex.isValid()){
+    if (m_tmpIndex.isValid()) {
         QString content = m_tmpIndex.data(NoteModel::NoteContent).toString();
         QString mdContent = m_tmpIndex.data(NoteModel::NoteMdContent).toString();
 
-        if(m_editors[i]->ui->textEdit->toHtml().toUtf8() != content){
-            //move note to the top of the list
+        if (m_editors[i]->ui->textEdit->toHtml().toUtf8() != content) {
+            // move note to the top of the list
             QModelIndex sourceIndex = m_proxyModel->mapToSource(m_tmpIndex);
 
             qDebug() << m_currentSelectedNoteProxy;
-            if(m_tmpIndex.row() != 0){
-                //m_noteView->setAnimationEnabled(false);
+            if (m_tmpIndex.row() != 0) {
+                // m_noteView->setAnimationEnabled(false);
                 moveNoteToTop();
-                //m_noteView->setAnimationEnabled(true);
-            }
-            else if(!m_searchLine->text().isEmpty() && sourceIndex.row() != 0){
+                // m_noteView->setAnimationEnabled(true);
+            } else if (!m_searchLine->text().isEmpty() && sourceIndex.row() != 0) {
                 m_noteView->setAnimationEnabled(false);
                 moveNoteToTop();
                 m_noteView->setAnimationEnabled(true);
             }
 
-            //QModelIndex firstIndex = m_proxyModel->index(0,0);
+            // QModelIndex firstIndex = m_proxyModel->index(0,0);
             // Get the new data
             QString firstline = getFirstLine(m_editors[i]->ui->textEdit->toPlainText());
             QDateTime dateTime = QDateTime::currentDateTime();
-            //QString noteDate = dateTime.toString(Qt::ISODate);
+            // QString noteDate = dateTime.toString(Qt::ISODate);
 
             // update model
             QMap<int, QVariant> dataValue;
-            dataValue[NoteModel::NoteContent] = QVariant::fromValue(m_editors[i]->ui->textEdit->toHtml().toUtf8());
-            dataValue[NoteModel::NoteMdContent] = QVariant::fromValue(m_editors[i]->ui->textEdit->toPlainText());
+            dataValue[NoteModel::NoteContent] = QVariant::fromValue(
+                m_editors[i]->ui->textEdit->toHtml().toUtf8());
+            dataValue[NoteModel::NoteMdContent] = QVariant::fromValue(
+                m_editors[i]->ui->textEdit->toPlainText());
             dataValue[NoteModel::NoteFullTitle] = QVariant::fromValue(firstline);
             dataValue[NoteModel::NoteLastModificationDateTime] = QVariant::fromValue(dateTime);
 
@@ -1241,10 +1254,10 @@ void Widget::onTextEditTextChanged(int noteId, int i)
             m_noteModel->setItemData(currentIndex, dataValue);
 
             m_isContentModified = true;
-            //m_autoSaveTimer->start(500);
+            // m_autoSaveTimer->start(500);
             saveNoteToDB(m_tmpIndex);
         }
-    }else{
+    } else {
         qDebug() << "Widget::onTextEditTextChanged() : index is not valid";
     }
 }
@@ -1253,18 +1266,17 @@ void Widget::onTextEditTextChanged(int noteId, int i)
  * \brief Widget::onColorChanged
  *
  */
-void Widget::onColorChanged(const QColor &color,int noteId)
+void Widget::onColorChanged(const QColor &color, int noteId)
 {
     qDebug() << "receive signal onColorChanged";
-    for(int count = 0; count <= m_proxyModel->rowCount();count ++)
-    {
-        m_tmpColorIndex = m_proxyModel->index(count,0);
-        if(m_tmpColorIndex.data(NoteModel::NoteID).toInt() == noteId){
+    for (int count = 0; count <= m_proxyModel->rowCount(); count++) {
+        m_tmpColorIndex = m_proxyModel->index(count, 0);
+        if (m_tmpColorIndex.data(NoteModel::NoteID).toInt() == noteId) {
             break;
         }
     }
 
-    if(m_tmpColorIndex.isValid()){
+    if (m_tmpColorIndex.isValid()) {
         const listViewModeDelegate delegate;
         int m_color = delegate.qcolorToInt(color);
         QMap<int, QVariant> dataValue;
@@ -1302,9 +1314,8 @@ void Widget::miniSlot()
  */
 void Widget::newSlot()
 {
-    //如果搜索栏有内容,则在新建便签时清空
-    if(!m_searchLine->text().isEmpty())
-    {
+    // 如果搜索栏有内容,则在新建便签时清空
+    if (!m_searchLine->text().isEmpty()) {
         clearSearch();
     }
     this->createNewNote();
@@ -1325,17 +1336,18 @@ void Widget::onTrashButtonClicked()
  * \brief Widget::listClickSlot
  * listview单击事件
  */
-void Widget::listClickSlot(const QModelIndex& index)
+void Widget::listClickSlot(const QModelIndex &index)
 {
-    if(sender() != Q_NULLPTR){
+    if (sender() != Q_NULLPTR) {
         QModelIndex indexInProxy = m_proxyModel->index(index.row(), 0);
-        if(indexInProxy.isValid()){
+        if (indexInProxy.isValid()) {
             m_currentSelectedNoteProxy = indexInProxy;
 
-            m_noteView->selectionModel()->select(m_currentSelectedNoteProxy, QItemSelectionModel::ClearAndSelect);
+            m_noteView->selectionModel()->select(m_currentSelectedNoteProxy,
+                                                 QItemSelectionModel::ClearAndSelect);
             m_noteView->setCurrentIndex(m_currentSelectedNoteProxy);
             m_noteView->scrollTo(m_currentSelectedNoteProxy);
-        }else{
+        } else {
             qDebug() << "Widget::selectNote() : indexInProxy is not valid";
             m_currentSelectedNoteProxy = QModelIndex();
         }
@@ -1351,13 +1363,12 @@ void Widget::listClickSlot(const QModelIndex& index)
  * 突出显示所选便笺
  * 将所选便笺内容加载到textedit
  */
-void Widget::listDoubleClickSlot(const QModelIndex& index)
-{    
+void Widget::listDoubleClickSlot(const QModelIndex &index)
+{
     int noteId = index.data(NoteModel::NoteID).toInt();
     int isExistInMeditors = 0;
     qDebug() << "list double click" << noteId << index;
-    for(auto it = m_editors.begin(); it != m_editors.end(); it++)
-    {
+    for (auto it = m_editors.begin(); it != m_editors.end(); it++) {
         if ((*it)->m_noteId == noteId) {
             isExistInMeditors = 1;
             m_notebook = *it;
@@ -1367,21 +1378,21 @@ void Widget::listDoubleClickSlot(const QModelIndex& index)
         }
     }
     if (isExistInMeditors == 0) {
-        m_notebook =  new Edit_page(this,noteId);
+        m_notebook = new Edit_page(this, noteId);
         m_editors.push_back(m_notebook);
         m_notebook->id = m_editors.size() - 1;
 
-        if(sender() != Q_NULLPTR){
-            //获取当前选中item下标
-            //QModelIndex indexInProxy = m_proxyModel->index(index.row(), 0);
-            //加载便签
+        if (sender() != Q_NULLPTR) {
+            // 获取当前选中item下标
+            // QModelIndex indexInProxy = m_proxyModel->index(index.row(), 0);
+            // 加载便签
             selectNote(index);
             m_noteView->setCurrentRowActive(false);
         }
         connect(m_notebook->m_noteHeadMenu, &noteHeadMenu::requestNewNote, this, [=](){
             newSlot();
         });
-        connect(m_notebook->m_noteHeadMenu, &noteHeadMenu::requestShowNote, this, [=]{
+        connect(m_notebook->m_noteHeadMenu, &noteHeadMenu::requestShowNote, this, [=] {
             // 添加窗管协议
             MotifWmHints hints;
             hints.flags = MWM_HINTS_FUNCTIONS|MWM_HINTS_DECORATIONS;
@@ -1393,22 +1404,23 @@ void Widget::listDoubleClickSlot(const QModelIndex& index)
             this->show();
         });
         connect(m_editors[m_editors.size() - 1], &Edit_page::requestDel, this, [=](int noteId){
-            for(int count = 0; count <= m_proxyModel->rowCount();count ++)
-            {
-                QModelIndex m_tmpIndex = m_proxyModel->index(count,0);
-                if(m_tmpIndex.data(NoteModel::NoteID).toInt() == noteId){
+            for (int count = 0; count <= m_proxyModel->rowCount(); count++) {
+                QModelIndex m_tmpIndex = m_proxyModel->index(count, 0);
+                if (m_tmpIndex.data(NoteModel::NoteID).toInt() == noteId) {
                     QModelIndex sourceIndex = m_proxyModel->mapToSource(m_tmpIndex);
                     deleteNote(m_tmpIndex, true);
                     break;
                 }
             }
         });
-        connect(m_editors[m_editors.size() - 1] ,SIGNAL(texthasChanged(int,int)), this,SLOT(onTextEditTextChanged(int, int)));
-        connect(m_editors[m_editors.size() - 1] ,SIGNAL(colorhasChanged(QColor,int)),this,SLOT(onColorChanged(QColor,int)));
+        connect(m_editors[m_editors.size() - 1], SIGNAL(texthasChanged(int,int)), this,
+                SLOT(onTextEditTextChanged(int,int)));
+        connect(m_editors[m_editors.size() - 1], SIGNAL(colorhasChanged(QColor,int)), this,
+                SLOT(onColorChanged(QColor,int)));
     }
-    //设置鼠标焦点
+    // 设置鼠标焦点
     m_notebook->ui->textEdit->setFocus();
-    //移动光标至行末
+    // 移动光标至行末
     m_notebook->ui->textEdit->moveCursor(QTextCursor::End, QTextCursor::MoveAnchor);
     m_notebook->show();
 }
@@ -1417,33 +1429,33 @@ void Widget::listDoubleClickSlot(const QModelIndex& index)
  * \brief Widget::onSearchEditTextChanged
  *
  */
-void Widget::onSearchEditTextChanged(const QString& keyword)
+void Widget::onSearchEditTextChanged(const QString &keyword)
 {
     qDebug() << "onSearchEditTextChanged";
     m_searchQueue.enqueue(keyword);
 
-    if(m_searchLine->text().isEmpty()){
-        m_searchLine->addAction(searchAction,QLineEdit::LeadingPosition);  //图片在左侧
+    if (m_searchLine->text().isEmpty()) {
+        m_searchLine->addAction(searchAction, QLineEdit::LeadingPosition);  // 图片在左侧
         m_searchLine->removeAction(delAction);
-    }else{
+    } else {
         m_searchLine->removeAction(searchAction);
-        m_searchLine->addAction(delAction,QLineEdit::TrailingPosition);  //图片在右侧
+        m_searchLine->addAction(delAction, QLineEdit::TrailingPosition);  // 图片在右侧
     }
 
-    if(!m_isOperationRunning){
+    if (!m_isOperationRunning) {
         m_isOperationRunning = true;
 
         // disable animation while searching
         m_noteView->setAnimationEnabled(false);
 
-        while(!m_searchQueue.isEmpty()){
+        while (!m_searchQueue.isEmpty()) {
             qApp->processEvents();
             QString str = m_searchQueue.dequeue();
-            if(str.isEmpty()){
+            if (str.isEmpty()) {
                 clearSearch();
-            }else{
+            } else {
                 m_noteView->setFocusPolicy(Qt::NoFocus);
-                //过滤
+                // 过滤
                 findNotesContain(str);
             }
         }
@@ -1459,23 +1471,23 @@ void Widget::onSearchEditTextChanged(const QString& keyword)
  */
 void Widget::changePageSlot()
 {
-    if(getListFlag() != 0){
+    if (getListFlag() != 0) {
         initIconMode();
         m_viewChangeButton->setIcon(QIcon::fromTheme("view-list-symbolic"));
         setListFlag(0);
-    }else if(getListFlag() == 0)
-    {
+    } else if (getListFlag() == 0) {
         initListMode();
         m_viewChangeButton->setIcon(QIcon::fromTheme("view-grid-symbolic"));
         setListFlag(1);
     }
-    if(m_noteModel->rowCount() > 0){
+    if (m_noteModel->rowCount() > 0) {
         QModelIndex index = m_noteView->currentIndex();
         m_currentSelectedNoteProxy = index;
-        m_noteView->selectionModel()->select(m_currentSelectedNoteProxy, QItemSelectionModel::ClearAndSelect);
+        m_noteView->selectionModel()->select(m_currentSelectedNoteProxy,
+                                             QItemSelectionModel::ClearAndSelect);
         m_noteView->setCurrentIndex(m_currentSelectedNoteProxy);
         m_noteView->scrollTo(m_currentSelectedNoteProxy);
-    }else{
+    } else {
         // 创建新的空模型索引 此类型的模型索引用于指示模型中的位置无效
         m_currentSelectedNoteProxy = QModelIndex();
     }
@@ -1487,17 +1499,14 @@ void Widget::changePageSlot()
  */
 void Widget::sortSlot(int index)
 {
-    //Qt::AscendingOrder 升序排序
-    //参见 NoteModel::sort
-    if(m_proxyModel->rowCount())
-    {
-        if(sortflag)
-        {
-            m_noteModel->sort(index,Qt::DescendingOrder);
+    // Qt::AscendingOrder 升序排序
+    // 参见 NoteModel::sort
+    if (m_proxyModel->rowCount()) {
+        if (sortflag) {
+            m_noteModel->sort(index, Qt::DescendingOrder);
             sortflag = 0;
-        }else
-        {
-            m_noteModel->sort(index,Qt::AscendingOrder);
+        } else {
+            m_noteModel->sort(index, Qt::AscendingOrder);
             sortflag = 1;
         }
     }
@@ -1510,9 +1519,9 @@ void Widget::sortSlot(int index)
 void Widget::clearNoteSlot()
 {
     qDebug() << "empty note" << m_editors.size();
-    for(auto it = m_editors.begin(); it != m_editors.end();it++){
+    for (auto it = m_editors.begin(); it != m_editors.end(); it++) {
         (*it)->close();
-        //m_editors.erase(it);
+        // m_editors.erase(it);
         delete (*it);
     }
     m_editors.clear();
@@ -1525,10 +1534,10 @@ void Widget::clearNoteSlot()
  * \brief Widget::SetNoteSlot
  *
  */
-//void Widget::SetNoteSlot()
-//{
-//    qDebug() << "SetNoteSlot";
-//}
+// void Widget::SetNoteSlot()
+// {
+// qDebug() << "SetNoteSlot";
+// }
 
 /*!
  * \brief Widget::setNoteNullSlot
@@ -1536,9 +1545,9 @@ void Widget::clearNoteSlot()
  */
 void Widget::setNoteNullSlot()
 {
-    for (int i = 0; i < m_proxyModel->rowCount(); i++){
-        QModelIndex index = m_proxyModel->index(i,0);
-        NoteData* note = m_noteModel->getNote(index);
+    for (int i = 0; i < m_proxyModel->rowCount(); i++) {
+        QModelIndex index = m_proxyModel->index(i, 0);
+        NoteData *note = m_noteModel->getNote(index);
         note->m_note = nullptr;
     }
 }
@@ -1547,7 +1556,8 @@ void Widget::setNoteNullSlot()
  * \brief Widget::onF1ButtonClicked
  *
  */
-void Widget::onF1ButtonClicked() {
+void Widget::onF1ButtonClicked()
+{
     qDebug() << "onF1ButtonClicked";
     userGuideInterface->call(QString("showGuide"), "tools/ukui-notebook");
 }

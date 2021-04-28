@@ -24,8 +24,8 @@ About::About(QWidget *parent) :
     ui->setupUi(this);
 
     setWindowTitle(tr("About"));
-    //setWindowFlags(Qt::FramelessWindowHint | Qt::Tool);
-    //setAttribute(Qt::WA_TranslucentBackground);
+    // setWindowFlags(Qt::FramelessWindowHint | Qt::Tool);
+    // setAttribute(Qt::WA_TranslucentBackground);
     setAttribute(Qt::WA_DeleteOnClose);
 
     // 添加窗管协议
@@ -35,8 +35,8 @@ About::About(QWidget *parent) :
     hints.decorations = MWM_DECOR_BORDER;
     XAtomHelper::getInstance()->setWindowMotifHint(this->winId(), hints);
 
-    ui->iconLabel->setPixmap(QIcon::fromTheme("kylin-notebook").pixmap(24,24));
-    ui->titleLabel->setText(tr("Kylin Memo"));
+    ui->iconLabel->setPixmap(QIcon::fromTheme("kylin-notebook").pixmap(24, 24));
+    ui->titleLabel->setText(tr("Notes"));
     ui->closeBtn->setIcon(QIcon::fromTheme("window-close-symbolic"));
     ui->closeBtn->setProperty("isWindowButton", 0x2);
     ui->closeBtn->setProperty("useIconHighlightEffect", 0x8);
@@ -47,13 +47,13 @@ About::About(QWidget *parent) :
     });
 
     ui->versionLabel->setText(tr("Version: 2020.1.0"));
-//    ui->teamLabel->setText(tr("Service & Support: ") +
-//                           "<a href=\"mailto://support@kylinos.cn\""
-//                           "style=\"color: palette(buttonText)\">"
-//                           "support@kylinos.cn</a>");
-    ui->appiconLabel->setPixmap(QIcon::fromTheme("kylin-notebook").pixmap(96,96));
-    ui->appnameLabel->setText(tr("Kylin Memo"));
-    ui->introduceLabel->setText(tr("Kylin Memo is a self-developed sidebar application plug-in, "
+// ui->teamLabel->setText(tr("Service & Support: ") +
+// "<a href=\"mailto://support@kylinos.cn\""
+// "style=\"color: palette(buttonText)\">"
+// "support@kylinos.cn</a>");
+    ui->appiconLabel->setPixmap(QIcon::fromTheme("kylin-notebook").pixmap(96, 96));
+    ui->appnameLabel->setText(tr("Notes"));
+    ui->introduceLabel->setText(tr("Notes is a self-developed sidebar application plug-in, "
                                    "which provides a rich interface, convenient operation and stable functions, "
                                    "aiming at a friendly user experience."));
     ui->introduceLabel->setAlignment(Qt::AlignJustify);
@@ -71,13 +71,14 @@ About::~About()
     delete ui;
 }
 
-void About::paintEvent(QPaintEvent *event) {
+void About::paintEvent(QPaintEvent *event)
+{
     Q_UNUSED(event);
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     QPainterPath rectPath;
     rectPath.addRect(this->rect());
-    p.fillPath(rectPath,palette().color(QPalette::Base));
+    p.fillPath(rectPath, palette().color(QPalette::Base));
 }
 
 void About::listenToGsettings()
@@ -85,40 +86,40 @@ void About::listenToGsettings()
     const QByteArray styleID(UKUI_STYLE_SCHEMA);
     QStringList stylelist;
 
-    if (QGSettings::isSchemaInstalled(styleID)){
+    if (QGSettings::isSchemaInstalled(styleID)) {
         QGSettings *styleUKUI = new QGSettings(styleID);
 
-        stylelist << STYLE_NAME_KEY_DARK << STYLE_NAME_KEY_BLACK; //<<STYLE_NAME_KEY_DEFAULT;
+        stylelist << STYLE_NAME_KEY_DARK << STYLE_NAME_KEY_BLACK; // <<STYLE_NAME_KEY_DEFAULT;
 
-        if(stylelist.contains(styleUKUI->get(STYLE_NAME).toString())){
-            ui->teamLabel->setText(tr("Service & Support: ") +
-                                   "<a href=\"mailto://support@kylinos.cn\""
-                                   "style=\"color:white\">"
-                                   "support@kylinos.cn</a>");
-        }else{
-            ui->teamLabel->setText(tr("Service & Support: ") +
-                                   "<a href=\"mailto://support@kylinos.cn\""
-                                   "style=\"color:black\">"
-                                   "support@kylinos.cn</a>");
+        if (stylelist.contains(styleUKUI->get(STYLE_NAME).toString())) {
+            ui->teamLabel->setText(tr("Service & Support: ")
+                                   +"<a href=\"mailto://support@kylinos.cn\""
+                                    "style=\"color:white\">"
+                                    "support@kylinos.cn</a>");
+        } else {
+            ui->teamLabel->setText(tr("Service & Support: ")
+                                   +"<a href=\"mailto://support@kylinos.cn\""
+                                    "style=\"color:black\">"
+                                    "support@kylinos.cn</a>");
         }
 
-        connect(styleUKUI, &QGSettings::changed, this, [=] (const QString &key){
-            if(key==STYLE_NAME){
-                if(stylelist.contains(styleUKUI->get(STYLE_NAME).toString())){
-                    ui->teamLabel->setText(tr("Service & Support: ") +
-                                           "<a href=\"mailto://support@kylinos.cn\""
-                                           "style=\"color:white\">"
-                                           "support@kylinos.cn</a>");
-                }else{
-                    ui->teamLabel->setText(tr("Service & Support: ") +
-                                           "<a href=\"mailto://support@kylinos.cn\""
-                                           "style=\"color:black\">"
-                                           "support@kylinos.cn</a>");
+        connect(styleUKUI, &QGSettings::changed, this, [=](const QString &key){
+            if (key == STYLE_NAME) {
+                if (stylelist.contains(styleUKUI->get(STYLE_NAME).toString())) {
+                    ui->teamLabel->setText(tr("Service & Support: ")
+                                           +"<a href=\"mailto://support@kylinos.cn\""
+                                            "style=\"color:white\">"
+                                            "support@kylinos.cn</a>");
+                } else {
+                    ui->teamLabel->setText(tr("Service & Support: ")
+                                           +"<a href=\"mailto://support@kylinos.cn\""
+                                            "style=\"color:black\">"
+                                            "support@kylinos.cn</a>");
                 }
             }
         });
 
-        if(styleUKUI->get(SYSTEM_FONT_EKY).toInt()){
+        if (styleUKUI->get(SYSTEM_FONT_EKY).toInt()) {
             const int size = styleUKUI->get(SYSTEM_FONT_EKY).toInt();
             QFont dateFont;
             dateFont.setPointSize(size * 1.3);
@@ -126,7 +127,7 @@ void About::listenToGsettings()
         }
 
         connect(styleUKUI, &QGSettings::changed, this, [=](const QString &key){
-            if(key == "systemFontSize"){
+            if (key == "systemFontSize") {
                 const int size = styleUKUI->get(SYSTEM_FONT_EKY).toInt();
                 QFont dateFont;
                 dateFont.setPointSize(size * 1.3);
