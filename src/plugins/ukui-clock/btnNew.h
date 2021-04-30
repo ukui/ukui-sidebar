@@ -23,7 +23,7 @@ public:
     QLabel *IconLabel;
 
     void paintEvent(QPaintEvent *event);
-
+    void updateWidthForFontChange(int px);
 private:
     Ui::Btn_new *ui;
     Clock * m_pclock;

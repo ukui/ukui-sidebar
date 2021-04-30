@@ -170,6 +170,7 @@ Clock::Clock(QWidget *parent) :
     QFont f(selfFont);
     f.setPixelSize(38);
     ui->label_4->setFont(f);
+    listenToGsettings();
 }
 
 Clock::~Clock()
@@ -300,14 +301,20 @@ void Clock::buttonImageInit()
     count_sel = new Btn_new(0, tr("  Remind"), ui->page_4);
     count_sel->move(25,310);
     count_sel_1 = new Btn_new(0, tr("  Remind"), ui->page_5);
+    //调整一下，不然放大字体回遮挡
+    count_sel->updateWidthForFontChange(20);
     count_sel_1->move(25,310);
     count_sel->textLabel->setFixedSize(227, 36);
+    //调整一下，不然放大字体回遮挡
+    count_sel_1->updateWidthForFontChange(20);
     count_sel_1->textLabel->setFixedSize(227, 36);
 
     repeat_sel = new Btn_new(10, tr("  repeat"), ui->set_page);
     repeat_sel->move(25,248);
     time_sel = new Btn_new(0, tr("  Remind"), ui->set_page);
     time_sel->move(25,311);
+    //调整一下，不然放大字体回遮挡
+    time_sel->updateWidthForFontChange(20);
     ring_sel = new Btn_new(0, tr("  ring time"), ui->set_page);
     ring_sel->move(25,311);
     time_sel->textLabel->setFixedSize(227, 36);
@@ -375,7 +382,7 @@ void Clock::stopwatchInit()
     stopwatch_isStarted = 0;
 
     ui->label_4->move(90,125);
-    ui->label_5->move(90,173);
+    ui->label_5->move(90,190);
     ui->listWidget_2->move(25,230);
     ui->pushButton_Start->raise();
     ui->pushButton_ring->raise();
@@ -695,14 +702,14 @@ void Clock::stopwatchStartAnimation()
 {
     animation1 = new QPropertyAnimation(ui->label_4, "geometry");
     animation1->setDuration(1000);
-    animation1->setKeyValueAt(0, QRect(90, 125, 210, 61));
-    animation1->setEndValue(QRect(90, 4, 210, 61));
+    animation1->setKeyValueAt(0, QRect(90, 125, 210, 70));
+    animation1->setEndValue(QRect(90, 4, 210, 70));
     animation1->start();
 
     animation2 = new QPropertyAnimation(ui->label_5, "geometry");
     animation2->setDuration(1000);
     animation2->setKeyValueAt(0, QRect(90, 173, 210, 41));
-    animation2->setEndValue(QRect(90, 55, 210, 41));
+    animation2->setEndValue(QRect(90, 60, 210, 41));
     animation2->start();
 
     animation3 = new QPropertyAnimation(ui->listWidget_2, "geometry");
@@ -719,14 +726,14 @@ void Clock::stopwatchStopAnimation()
 {
     animation1 = new QPropertyAnimation(ui->label_4, "geometry");
     animation1->setDuration(1000);
-    animation1->setKeyValueAt(0, QRect(90, 4, 210, 61));
-    animation1->setEndValue(QRect(90, 125, 210, 61));
+    animation1->setKeyValueAt(0, QRect(90, 4, 210, 70));
+    animation1->setEndValue(QRect(90, 125, 210, 70));
     animation1->start();
 
     animation2 = new QPropertyAnimation(ui->label_5, "geometry");
     animation2->setDuration(1000);
     animation2->setKeyValueAt(0, QRect(90, 55, 210, 41));
-    animation2->setEndValue(QRect(90, 173, 210, 41));
+    animation2->setEndValue(QRect(90, 183, 210, 41));
     animation2->start();
 
     animation3 = new QPropertyAnimation(ui->listWidget_2, "geometry");
@@ -775,7 +782,10 @@ void Clock::onPushbuttonRingClicked()
         stopwatch_second = 0;
 
         stopwatch_item_flag++;
+
     }
+    //秒表页面子项字体更新
+    updateStopwatchItemFront(CURRENT_FONT_SIZE);
 }
 
 /*
@@ -1093,6 +1103,8 @@ void Clock::timerUpdate()
         }
     }
     update();
+    //闹钟页面子项
+    updateAlarmItemFront(CURRENT_FONT_SIZE);
 }
 
 /*
@@ -1428,6 +1440,8 @@ void Clock::setAlarmSave()
         dialog_music->close();
     if (time_music)
         time_music->close();
+    //闹钟页面子项
+    updateAlarmItemFront(CURRENT_FONT_SIZE);
 }
 
 /*
@@ -1863,6 +1877,8 @@ void Clock::deleteAlarm()
         ui->pushButton_12->raise();
     }
     timer_set_page->stop();
+    //闹钟页面子项
+    updateAlarmItemFront(CURRENT_FONT_SIZE);
 }
 
 /*
@@ -2374,6 +2390,119 @@ void Clock::countStatBtnGray()
         count_stat->setPalette(palette2);
     }
 }
+
+#define UKUI_STYLE_SCHEMA          "org.ukui.style"
+#define SYSTEM_FONT_EKY            "system-font-size"
+void Clock::listenToGsettings()
+{
+    const QByteArray styleID(UKUI_STYLE_SCHEMA);
+        if (QGSettings::isSchemaInstalled(styleID)) {
+            QGSettings *styleUKUI = new QGSettings(styleID);
+            if (styleUKUI->get(SYSTEM_FONT_EKY).toInt()) {
+                const int size = styleUKUI->get(SYSTEM_FONT_EKY).toInt();
+                Clock::CURRENT_FONT_SIZE=size;
+                updateFront(size);
+            }
+
+            connect(styleUKUI, &QGSettings::changed, this, [=](const QString &key){
+                if (key == "systemFontSize") {
+                    const int size = styleUKUI->get(SYSTEM_FONT_EKY).toInt();
+                    Clock::CURRENT_FONT_SIZE=size;
+                    updateFront(size);
+                }
+            });
+        }
+}
+void Clock::debugLabelInfo(QLabel *label)
+{
+    qDebug()<<label->text()<<"pointSize："<<label->font().pointSize();
+    qDebug()<<label->text()<<"pixelSize："<<label->font().pixelSize();
+}
+
+void Clock::updateLabelFront(QLabel *label, int size)
+{
+    QString styleSheet = "font-size:";
+    styleSheet.append(QString::number(size)).append("px;");
+    label->setStyleSheet(styleSheet);
+}
+
+void Clock::updateQLineEditFront(QLineEdit *lineEdit, int size)
+{
+    QFont font ;
+    font.setPixelSize(size);
+    lineEdit->setFont(font);
+}
+
+void Clock::updateAlarmItemFront(int size)
+{
+    QListWidget * alarmList = ui->listWidget;
+    for (int i=0;i<alarmList->count() ;i++ ) {
+        QListWidgetItem * varItem =  alarmList->item(i);
+        item_new * varWidget = static_cast<item_new*>(alarmList->itemWidget(varItem)) ;
+        updateLabelFront(varWidget->alarmLabel0,round(2.7*size));
+        updateLabelFront(varWidget->alarmLabel1,round(0.9*size));
+        updateLabelFront(varWidget->alarmLabel_w0,round(1.1*size));
+        updateLabelFront(varWidget->alarmLabel_s0,round(1.1*size));
+    }
+}
+
+void Clock::updateStopwatchItemFront(int size)
+{
+    QListWidget * stopwatchList = ui->listWidget_2;
+    for (int i=0;i<stopwatchList->count() ;i++ ) {
+        QListWidgetItem * varItem =  stopwatchList->item(i);
+        stopwatch_item * varWidget = static_cast<stopwatch_item*>(stopwatchList->itemWidget(varItem)) ;
+        updateLabelFront(varWidget->stopwatch1,round(1.1*size));
+        updateLabelFront(varWidget->stopwatch2,round(1.1*size));
+        updateLabelFront(varWidget->stopwatch3,round(2.2*size));
+    }
+}
+void Clock::updateFront(const int size)
+{
+
+    //闹钟页面子项
+    updateAlarmItemFront(size);
+    //秒表页面 两个时间
+    updateLabelFront(ui->label_4,round(3.2*size));
+    updateLabelFront(ui->label_5,round(1.73*size));
+    //秒表页面子项
+    updateStopwatchItemFront(size);
+    //闹钟编辑页面
+    //重复
+    updateLabelFront(repeat_sel->nameLabel,round(1.27*size));
+    updateLabelFront(repeat_sel->textLabel,round(1.27*size));
+    //提醒铃声
+    updateLabelFront(time_sel->nameLabel,round(1.27*size));
+    updateLabelFront(time_sel->textLabel,round(1.27*size));
+    //闹钟名
+    updateLabelFront(ui->label_14,round(1.27*size));
+    updateQLineEditFront(ui->lineEdit,round(1.27*size));
+    //提醒铃声 倒计时主页
+    updateLabelFront(count_sel->nameLabel,round(1.27*size));
+    updateLabelFront(count_sel->textLabel,round(1.27*size));
+    //提醒铃声 倒计时运行页
+    updateLabelFront(count_sel_1->nameLabel,round(1.27*size));
+    updateLabelFront(count_sel_1->textLabel,round(1.27*size));
+
+//    updateLabelFront(ui->label_14,round(1.27*size));
+//    timer_alarm_start24 = new VerticalScroll_24(ui->set_page, this);
+//    timer_alarm_start60 = new VerticalScroll_60(ui->set_page);
+//    QSize  varSize = timer_alarm_start24->baseSize();
+//    qDebug()<<"timer_alarm_start24"<<timer_alarm_start24->width()<<":"<<timer_alarm_start24->height();
+//    timer_alarm_start24->resize(round(5.73*size),round(20*size));
+//    timer_alarm_start24->setBaseSize();
+//    updateLabelFront(ring_sel->nameLabel,round(1.27*size));
+//    updateLabelFront(ring_sel->textLabel,round(1.27*size));
+//    debugLabelInfo(count_sel->nameLabel);
+//    debugLabelInfo(count_sel_1->nameLabel);
+//    debugLabelInfo(repeat_sel->textLabel);
+//    debugLabelInfo(time_sel->nameLabel);
+//    debugLabelInfo(time_sel->textLabel);
+//    debugLabelInfo(ring_sel->nameLabel);
+//    debugLabelInfo(ring_sel->textLabel);
+
+}
+
 
 /*
  * 闹钟初始化数字转盘

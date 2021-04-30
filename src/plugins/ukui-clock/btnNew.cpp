@@ -65,3 +65,9 @@ void Btn_new::paintEvent(QPaintEvent *event)
 
     p.fillPath(rectPath,QBrush(mainColor));
 }
+void Btn_new::updateWidthForFontChange(int px)
+{
+    //调整一下，不然放大字体回遮挡
+    int wideth =nameLabel->size().width();
+    nameLabel->setFixedWidth(wideth+px);
+}

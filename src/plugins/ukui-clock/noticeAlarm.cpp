@@ -52,10 +52,10 @@ Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
     QPixmap dialogPixmap = QPixmap(":/clock.ico");
     this->setWindowTitle(tr("Ring prompt"));
     this->setWindowIcon(dialogPixmap);
+
     ui->label_2->setAlignment(Qt::AlignHCenter);
     ui->label_3->setAlignment(Qt::AlignHCenter);
     ui->label_4->setAlignment(Qt::AlignHCenter);
-
     QPalette pa;
     pa.setColor(QPalette::WindowText,Qt::gray);
     ui->label_4->setPalette(pa);
@@ -104,6 +104,14 @@ Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
 
     this->setWindowIcon(QIcon::fromTheme("kylin-alarm-clock",QIcon(":/image/kylin-alarm-clock.svg")));
     ui->titleIcon->setPixmap(QIcon::fromTheme("kylin-alarm-clock").pixmap(24,24));
+    //固定字体大小，避免放大覆盖
+    QFont font;
+    font.setPixelSize(14);
+    ui->label->setStyleSheet("font-size : 14px;");
+    ui->label_3->setStyleSheet("font-size : 14px;");
+    ui->label_4->setStyleSheet("font-size : 14px;");
+    ui->pushButton_2->setFont(font);
+    ui->pushButton_3->setFont(font);
 }
 
 Natice_alarm::~Natice_alarm()
