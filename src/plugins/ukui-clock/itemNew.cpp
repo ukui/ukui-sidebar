@@ -39,13 +39,13 @@ item_new::item_new(QWidget *parent) :
 
     alarmLabel0 = new QLabel(this);//闹钟//Alarm clock
     alarmLabel0->move(25,24);
-    alarmLabel0->setFixedSize(105, 56);
+    alarmLabel0->setFixedSize(125, 56);
     alarmLabel0->setText("00:00");
     alarmLabel0->setVisible(true);
     alarmLabel0->show();
 
     alarmLabel1 = new QLabel(this);//上下午//Last afternoon
-    alarmLabel1->move(130,22);
+    alarmLabel1->move(155,22);
     alarmLabel1->setFixedSize(31, 56);
     alarmLabel1->setStyleSheet("font: 10pt;background-color: rgb();");
     alarmLabel1->setText("上午");

@@ -184,7 +184,7 @@
          <x>0</x>
          <y>90</y>
          <width>391</width>
-         <height>38</height>
+         <height>47</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout">
@@ -433,7 +433,7 @@ font: 19pt
        <x>90</x>
        <y>0</y>
        <width>210</width>
-       <height>61</height>
+       <height>70</height>
       </rect>
      </property>
      <property name="styleSheet">

@@ -131,6 +131,12 @@ public:
     void showPaint1();
     void showPaint7();
     void showPaint8();
+    void debugLabelInfo(QLabel * label);                                //打印label信息
+    void updateLabelFront(QLabel * label,int size);                      //修改label字体
+    void updateQLineEditFront(QLineEdit * lineEdit,int size);                      //修改QLineEdit字体
+    void updateAlarmItemFront(int size);                                         //修改闹钟子项字体
+    void updateStopwatchItemFront(int size);                                      //修改秒表子项字体
+    int CURRENT_FONT_SIZE;
     enum ScreenPosition {
         SP_LEFT = 1,
         SP_CENTER,
@@ -429,6 +435,8 @@ private:
     QAction *action_Clear_In_ListWidget_;                           /*闹钟右键删除动作*/
     Natice_alarm *countdownNoticeDialog;
     QDBusInterface *userGuideInterface;                                   // 用户手册
+    void listenToGsettings();                                           //监听
+    void updateFront(const int size);
 };
 
 #endif // CLOCK_H
