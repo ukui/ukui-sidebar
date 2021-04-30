@@ -366,6 +366,7 @@ void Clock::stopwatchInit()
      Set the timer to send a timeout () signal every milliseconds*/
     timer->setInterval(10);
     ui->label_4->setText("00:00.00");
+    ui->label_5->setText("00:00.00");
     isStarted = 0;
     hour=0;
     minute=0;
