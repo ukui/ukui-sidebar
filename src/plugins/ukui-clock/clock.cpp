@@ -1106,6 +1106,8 @@ void Clock::timerUpdate()
     update();
     //闹钟页面子项
     updateAlarmItemFront(CURRENT_FONT_SIZE);
+    //刷新倒计时上 时间格式
+    getCountdownOverTime();
 }
 
 /*
@@ -2212,18 +2214,56 @@ void Clock::getCountdownOverTime()
     }
    if (x_h >= 48) {
         x_h = x_h - 48;
-        ui->label_11->setText(tr("after tomorrow")+changeNumToStr(x_h)+":"+changeNumToStr(x_m));
+        ui->label_11->setText(tr("after tomorrow")+formatX_h(x_h)+":"+changeNumToStr(x_m));
     } else if (x_h >= 24) {
         x_h = x_h - 24;
-        ui->label_11->setText(tr("Tomorrow")+changeNumToStr(x_h)+":"+changeNumToStr(x_m));
-    } else if (x_h >= 12) {
-        x_h = x_h - 12;
-        ui->label_11->setText(tr("PM")+changeNumToStr(x_h)+":"+changeNumToStr(x_m));
-    } else {
-        ui->label_11->setText(tr("AM")+changeNumToStr(x_h)+":"+changeNumToStr(x_m));
-    }
+        ui->label_11->setText(tr("Tomorrow")+formatX_h(x_h)+":"+changeNumToStr(x_m));
+   } else{
+       ui->label_11->setText(formatX_h(x_h)+":"+changeNumToStr(x_m));
+   }
 }
-
+//上下午格式
+QString Clock::get12hourStr(int x_h)
+{
+    QString str;
+    //12时
+   if (x_h >= 12) {
+       x_h = x_h - 12;
+       str=tr("PM")+" "+changeNumToStr(x_h);
+   } else {
+       str=tr("AM")+" "+changeNumToStr(x_h);
+   }
+   return str;
+}
+//刷新时间格式
+QString Clock::formatX_h(int x_h)
+{
+    model_setup->select();
+    int timeType = model_setup->index(0, 2).data().toInt();
+    QString str;
+    switch (timeType) {
+    case 0:
+         //跟随系统时间
+        if(m_timeZone == "24"){
+            str=changeNumToStr(x_h);
+        }else{
+            //12时
+           str =get12hourStr(x_h);
+        }
+        break;
+    case 1:
+         //24时
+        str=changeNumToStr(x_h);
+        break;
+    case 2:
+         //12时
+        str =get12hourStr(x_h);
+        break;
+    default:
+        break;
+    }
+    return str;
+}
 /*
  * 单位变双位
  * Integer to character
@@ -2392,8 +2432,15 @@ void Clock::countStatBtnGray()
     }
 }
 
+
+
 #define UKUI_STYLE_SCHEMA          "org.ukui.style"
 #define SYSTEM_FONT_EKY            "system-font-size"
+/*!
+ * 系统时间
+ */
+#define FORMAT_SCHEMA   "org.ukui.control-center.panel.plugins"
+#define TIME_FORMAT_KEY "hoursystem"
 void Clock::listenToGsettings()
 {
     const QByteArray styleID(UKUI_STYLE_SCHEMA);
@@ -2410,6 +2457,18 @@ void Clock::listenToGsettings()
                     const int size = styleUKUI->get(SYSTEM_FONT_EKY).toInt();
                     Clock::CURRENT_FONT_SIZE=size;
                     updateFront(size);
+                }
+            });
+        }
+        // 监听时区变化
+        const QByteArray iddd(FORMAT_SCHEMA);
+
+        if (QGSettings::isSchemaInstalled(iddd)){
+            QGSettings *m_formatsettings = new QGSettings(iddd);
+            m_timeZone = m_formatsettings->get(TIME_FORMAT_KEY).toString();
+            connect(m_formatsettings, &QGSettings::changed, this, [=] (const QString &key) {
+                if (key == "hoursystem") {
+                    m_timeZone = m_formatsettings->get(TIME_FORMAT_KEY).toString();
                 }
             });
         }
@@ -3186,6 +3245,8 @@ void Clock::moveUnderMultiScreen(Clock::ScreenPosition spostion)
     {}
     }
 }
+
+
 
 /*窗口拖动事件，
  *添加原因为：通用窗口拖动事件导致窗口周边大约8像素左右无法拖动。

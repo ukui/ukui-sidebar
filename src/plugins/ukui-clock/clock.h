@@ -144,7 +144,9 @@ public:
     };
 
     void moveUnderMultiScreen(Clock::ScreenPosition);                                    //多显示器下，位置移动
+    QString formatX_h(int x_h);
     Ui::Clock *ui;
+    QString m_timeZone;
     QSqlTableModel *model_setup;
 
 protected:
@@ -299,6 +301,8 @@ private slots:
     void onCustomContextMenuRequested(const QPoint &pos);                                // 闹钟右键删除事件处理函数
 
     void countStatBtnGray();
+
+    QString get12hourStr(int x_h);
 
 private:
     QPoint m_startPoint;
