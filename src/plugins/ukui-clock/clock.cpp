@@ -784,6 +784,8 @@ void Clock::onPushbuttonRingClicked()
 
         stopwatch_item_flag++;
 
+    } else if(stopwatch_item_flag >= 100) {
+        QToolTip::showText(mapToGlobal(ui->listWidget_2->pos()+QPoint(90,340)),tr("up to 100 times"),this);
     }
     //秒表页面子项字体更新
     updateStopwatchItemFront(CURRENT_FONT_SIZE);
