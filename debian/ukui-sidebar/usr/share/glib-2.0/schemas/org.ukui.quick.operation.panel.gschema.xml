@@ -1,0 +1,44 @@
+<schemalist gettext-domain="ukui-quick-operation">
+     <schema id="org.ukui.quick-operation.panel"  path="/org/ukui/quick-operation/panel/">
+        <key name="volumesize" type="i">
+            <default>50</default>
+            <summary>volume size</summary>
+            <description>Interacts with the volume component to adjust the volume</description>
+        </key>
+        <key name="screenbrightness" type="i">
+            <default>50</default>
+            <summary>screen brightness</summary>
+            <description>Interacts with the luminance modulator to adjust screen brightness</description>
+        </key>
+        <key name="energysavingmode" type="b">
+            <default>false</default>
+            <summary>energy saving mode</summary>
+            <description>Remember the energy saving mode button switch</description>
+        </key>
+        <key name="disturbmodesoundoff" type="b">
+            <default>false</default>
+            <summary>disturb Mode Sound Off</summary>
+            <description>Volume off in do not disturb mode, remember the status</description>
+        </key>
+        <key name="disturbmodenotifyclose" type="b">
+            <default>false</default>
+            <summary>disturb Mode Notify Close</summary>
+            <description>Tell the popover to close in do not disturb mode, and remember the status</description>
+        </key>
+        <key name="disturbmodestatus" type="b">
+            <default>false</default>
+            <summary>disturb Mode status</summary>
+            <description>Remember not to disturb the mode state</description>
+        </key>
+        <key name="notificationvalue" type="b">
+            <default>true</default>
+            <summary>notification signals widget size value</summary>
+            <description>notification signals widget size value</description>
+        </key>
+        <key name="prethemename" type="s">
+            <default>"ukui-default"</default>
+            <summary>Last topic name</summary>
+            <description>Last topic name</description>
+        </key>
+    </schema>
+</schemalist>

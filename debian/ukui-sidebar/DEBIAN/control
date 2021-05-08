@@ -1,0 +1,14 @@
+Package: ukui-sidebar
+Version: 3.0.0-1
+Architecture: amd64
+Maintainer: Kylin Team <team+kylin@tracker.debian.org>
+Installed-Size: 2752
+Depends: libc6 (>= 2.14), libdconf1 (>= 0.14.0), libgcc-s1 (>= 3.0), libglib2.0-0 (>= 2.12.0), libgsettings-qt1 (>= 0.1+14.04.20140408), libqt5core5a (>= 5.12.2), libqt5dbus5 (>= 5.0.2), libqt5gui5 (>= 5.8.0) | libqt5gui5-gles (>= 5.8.0), libqt5multimedia5 (>= 5.6.0~beta), libqt5network5 (>= 5.0.2), libqt5sql5 (>= 5.0.2), libqt5svg5 (>= 5.6.0~beta), libqt5widgets5 (>= 5.11.0~rc1), libqt5x11extras5 (>= 5.6.0), libstdc++6 (>= 5.2), libx11-6, libxtst6, dconf-gsettings-backend | gsettings-backend
+Section: x11
+Priority: optional
+Homepage: https://github.com/ukui/ukui-sidebar.git
+Description: parallels toolbox for UKUI
+ The ukui-sidebar is mainly used in the desktop operating system.
+ It pops up from the right side of the desktop in the form of a tray,
+ displaying some application notification messages and some cutting
+ storage information.

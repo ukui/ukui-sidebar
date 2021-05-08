@@ -1,0 +1,13 @@
+Package: ukui-sidebar-dbgsym
+Package-Type: ddeb
+Source: ukui-sidebar
+Version: 3.0.0-1
+Auto-Built-Package: debug-symbols
+Architecture: amd64
+Maintainer: Kylin Team <team+kylin@tracker.debian.org>
+Installed-Size: 12070
+Depends: ukui-sidebar (= 3.0.0-1)
+Section: debug
+Priority: optional
+Description: debug symbols for ukui-sidebar
+Build-Ids: 014f8b25fc4034661b2590ff4ccfacb6f85cc432 07ba3aaf71174a782bd928b0cf2df0c75bf41bb2 33705c820e6c6eb95d9f45bd4b61b2e05ff6de5d 80b6dcdd79d1617ce95c2008a000cf4d6c92f673 ab6b2614a94c71683428bb0b8ae16113dd1137ac eb99f415ea5411410ec7c15eded05048070478da

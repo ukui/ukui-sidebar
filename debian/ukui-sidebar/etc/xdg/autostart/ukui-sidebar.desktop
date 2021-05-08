@@ -1,0 +1,22 @@
+[Desktop Entry]
+Name=ukui-sidebar
+Name[zh_CN]=侧边栏
+Comment=ukui-sidebar
+Exec=ukui-sidebar
+Terminal=false
+Type=Application
+#Categories=
+Keywords=UKUI;
+NoDisplay=true
+OnlyShowIn=UKUI;
+X-UKUI-Autostart-Phase=Application
+X-UKUI-Bugzilla-Bugzilla=UKUI
+X-UKUI-Bugzilla-Product=ukui-media
+X-UKUI-Bugzilla-Component=ukui-sidebar
+X-MATE-Autostart-Phase=Applications
+X-KDE-autostart-after=panel
+X-UKUI-Autostart-Notify=true
+X-UKUI-Autostart-Delay=3
+X-UKUI-AutoRestart=true
+
+

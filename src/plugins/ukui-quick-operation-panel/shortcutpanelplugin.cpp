@@ -16,6 +16,10 @@
 *
 */
 #include "shortcutpanelplugin.h"
+#include "tableviewcustom.h"
+#include "recordsequencefile.h"
+#include "tableviewdelegate.h"
+#include <QHeaderView>
 #include <QGSettings>
 
 shortcutPanelPlugin::shortcutPanelPlugin(QObject *parent)
@@ -32,13 +36,44 @@ shortcutPanelPlugin::shortcutPanelPlugin(QObject *parent)
     else
         qDebug() << "cannot load translator ukui-feedback_" << QLocale::system().name() << ".qm!";
 
+
     setScrollWidget();             // 获取当前系统是否有背光文件
     initMemberVariables();         // 初始化插件成员变量
-    initShortButtonWidget();       // 初始化8个快捷按钮界面
-    initShortcutButtonGsetting();  // 初始化记住上次编辑按钮的gsetting值
+    //initShortButtonWidget();       // 初始化8个快捷按钮界面
+    initTableViewWidget();         //初始化tableview 12个快捷按钮界面
+    //initShortcutButtonGsetting();  // 初始化记住上次编辑按钮的gsetting值       //注：涉及到多用户问题，不能用gSettings去做记录
     initsetShortWidget();          // 布局快捷按钮界面
     setWidget();                   // 将切换按钮和ListView界面set进插件主界面
     initThemeGsetting();           // 初始化主题gsetting值
+}
+
+/* 使用tableview初始化12个快捷按钮界面 */
+void shortcutPanelPlugin::initTableViewWidget()
+{
+    tableView = new TableViewCustom();
+
+     //获取数据
+    RecordSequenceFile *record = new RecordSequenceFile;
+    QMap<QString,QString> map = record->shortcutShowMap;
+    QMap<QString,QString>::iterator iter;
+    uint i=0;
+    //添加数据
+    model = new QStandardItemModel();
+    QStandardItem *parentItem =  model->invisibleRootItem();
+    for(iter=map.begin(); iter!=map.end();iter++){
+        //qDebug()<<"iter.key():"<<iter.key();
+        QStandardItem *item = new QStandardItem;
+        item->setText(iter.key());
+        model->setItem(i/4,i%4,item);
+        i++;
+    }
+    TableViewDelegate*  delegate = new TableViewDelegate(this);
+    tableView->setItemDelegate(delegate);
+    tableView->SetModel(model);
+
+    m_pShortVLayout->addWidget(tableView);
+
+
 }
 
 /* 初始化插件成员变量 */
@@ -52,10 +87,12 @@ void shortcutPanelPlugin::initMemberVariables()
     m_pButtonHLaout->setContentsMargins(0, 0, 0, 0);
     m_pButtonHLaout->setSpacing(0);
 
-    m_pShortGLayout  = new QGridLayout;
-    m_pShortGLayout->setContentsMargins(30, 16, 16, 16);
-    m_pShortGLayout->setHorizontalSpacing(35);
-    m_pShortGLayout->setVerticalSpacing(16);
+    m_pShortVLayout = new QVBoxLayout;
+
+//    m_pShortGLayout  = new QGridLayout;
+//    m_pShortGLayout->setContentsMargins(30, 16, 16, 16);
+//    m_pShortGLayout->setHorizontalSpacing(35);
+//    m_pShortGLayout->setVerticalSpacing(16);
 
     m_pMainWidget  = new MainWidget;
     m_pMainWidget->setContentsMargins(0, 0, 0, 0);
@@ -87,8 +124,8 @@ void shortcutPanelPlugin::initMemberVariables()
 
     /* 快捷操作面板界面 */
     m_pShortWidget   = new QWidget;
-    m_pShortWidget->setFixedWidth(372);
-    m_pShortWidget->setContentsMargins(0, 0, 0, 0);
+    //m_pShortWidget->setFixedWidth(600);
+    m_pShortWidget->setContentsMargins(25, 0, 25, 0);
 
     /* 当系统有背光文件时，new调整音量与屏幕亮度界面 */
     if (m_bBacklitFile)
@@ -335,7 +372,10 @@ void shortcutPanelPlugin::setWidget()
     m_pButtonWidget->setLayout(m_pButtonHLaout);
     m_pSpreadButton->setVisible(false);
 
-    m_pShortWidget->setLayout(m_pShortGLayout);
+    //m_pShortWidget->setLayout(m_pShortGLayout);
+    //m_pShortWidget->setStyleSheet("background-color:red;");
+
+    m_pShortWidget->setLayout(m_pShortVLayout);
 
     m_pMainVLayout->addItem(new QSpacerItem(8, 8, QSizePolicy::Fixed));
     m_pMainVLayout->addWidget(m_pButtonWidget);
