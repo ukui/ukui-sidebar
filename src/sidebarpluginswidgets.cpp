@@ -422,6 +422,16 @@ m_ToolButton* sidebarPluginsWidgets::StructToolButtol(QString icon, QString name
     QLabel *IconLabel = new QLabel();
     IconLabel->setFixedSize(45, 45);
     IconLabel->setPixmap(pixmap);
+
+    const QByteArray id(THEME_QT_SCHEMA);
+    if (QGSettings::isSchemaInstalled(id)) {
+        QGSettings *styleSettings = new QGSettings(id);
+        connect(styleSettings,&QGSettings::changed,this,[=](const QString &key){
+        QPixmap pixmap = QIcon::fromTheme(icon).pixmap(QSize(45, 45));
+        IconLabel->setPixmap(pixmap);
+    });
+    }
+
     QLabel *textLabel = new QLabel();
     textLabel->setText(SetFormatBody(name, textLabel));
     m_LabelTextMap.insert(textLabel, name);

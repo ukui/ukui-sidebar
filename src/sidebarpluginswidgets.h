@@ -44,6 +44,11 @@
 #include "customstyleCleanPushbutton.h"
 #include "customstyle.h"
 
+#define THEME_QT_SCHEMA "org.ukui.style"
+#define MODE_QT_KEY "style-name"
+#define FONT_SIZE "system-font-size"
+
+
 
 class m_ToolButton : public QToolButton
 {
