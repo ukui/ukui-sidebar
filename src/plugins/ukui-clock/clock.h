@@ -69,6 +69,7 @@
 #include <QDesktopWidget>
 #include <QGraphicsOpacityEffect>
 #include <QDBusInterface>
+#include <QToolTip>
 
 #include "stopwatchItem.h"
 #include "verticalScroll24.h"
