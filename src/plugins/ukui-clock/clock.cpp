@@ -60,10 +60,12 @@ Clock::Clock(QWidget *parent) :
     ui->listWidget->setProperty("contextMenuPolicy", Qt::CustomContextMenu);    /*重要：设置QListWidget的contextMenuPolicy属性，不然不能显示右键菜单*/
     ui->listWidget ->setGridSize(QSize(340, 108+15));
     ui->listWidget_2 ->setGridSize(QSize(340, 58+10));
-
+    //获取屏幕信息
     m_pSreenInfo = new adaptScreenInfo();
+    //闹钟居中
+    qDebug()<<"dbq-屏幕居中-左"<<(m_pSreenInfo->m_screenWidth - this->width() + m_pSreenInfo->m_nScreen_x )/2;
+    qDebug()<<"dbq-屏幕居中-右"<<(m_pSreenInfo->m_screenHeight - this->height())/2;
     move((m_pSreenInfo->m_screenWidth - this->width() + m_pSreenInfo->m_nScreen_x )/2, (m_pSreenInfo->m_screenHeight - this->height())/2);
-
     pushclock = new QPushButton(ui->page_7);
     pushclock->setFixedSize(40,40);
     pushclock->move(109,15);
@@ -297,9 +299,10 @@ void Clock::buttonImageInit()
     ui->pushButton_4->setToolTip(tr("Minimize"));
     ui->pushButton_5->setToolTip(tr("Quit"));
     ui->pushButton_12->setToolTip(tr("Menu"));
-
+    //提醒铃声
     count_sel = new Btn_new(0, tr("  Remind"), ui->page_4);
     count_sel->move(25,310);
+    //提醒铃声
     count_sel_1 = new Btn_new(0, tr("  Remind"), ui->page_5);
     //调整一下，不然放大字体回遮挡
     count_sel->updateWidthForFontChange(20);
@@ -308,13 +311,15 @@ void Clock::buttonImageInit()
     //调整一下，不然放大字体回遮挡
     count_sel_1->updateWidthForFontChange(20);
     count_sel_1->textLabel->setFixedSize(227, 36);
-
+    //重复
     repeat_sel = new Btn_new(10, tr("  repeat"), ui->set_page);
     repeat_sel->move(25,248);
+    //提醒铃声
     time_sel = new Btn_new(0, tr("  Remind"), ui->set_page);
     time_sel->move(25,311);
     //调整一下，不然放大字体回遮挡
     time_sel->updateWidthForFontChange(20);
+    //铃声时长 隐藏
     ring_sel = new Btn_new(0, tr("  ring time"), ui->set_page);
     ring_sel->move(25,311);
     time_sel->textLabel->setFixedSize(227, 36);

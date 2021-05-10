@@ -1,4 +1,5 @@
 /*
+
 * Copyright (C) 2019 Tianjin KYLIN Information Technology Co., Ltd.
 *
 * This program is free software; you can redistribute it and/or modify
@@ -15,6 +16,7 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
+//避免重复加载，循环引用
 #ifndef CLICKABLELABEL_H
 #define CLICKABLELABEL_H
 #include <QLabel>
