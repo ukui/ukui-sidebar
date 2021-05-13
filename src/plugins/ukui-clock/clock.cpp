@@ -501,7 +501,8 @@ void Clock::clockInit()
 
     connect(m_helpAction, &QAction::triggered, this, [=](){
         qDebug() << "help clicked";
-        userGuideInterface->call(QString("showGuide"), "tools/ukui-clock");
+//        userGuideInterface->call(QString("showGuide"), "tools/ukui-clock");
+        userGuideInterface->call(QString("showGuide"), "ukui/ukui-clock");
     });
 
     connect(m_aboutAction, &QAction::triggered, this, [=](){
