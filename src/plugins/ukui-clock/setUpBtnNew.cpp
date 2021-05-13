@@ -47,6 +47,7 @@ void setUpBtnNew::paintEvent(QPaintEvent *event)
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     QPainterPath rectPath;
+    //圆角
     rectPath.addRoundedRect(this->rect(), 6, 6); // 左上右下
 
     QPainter painter(this);

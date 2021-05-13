@@ -31,7 +31,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
     // 加锁
     static QMutex mutex;
     mutex.lock();
-
+    qDebug()<<msg;
     QByteArray localMsg = msg.toLocal8Bit();
 
     QString strMsg("");
@@ -84,16 +84,20 @@ int main(int argc, char *argv[])
 {
     // 自定义消息处理
     qInstallMessageHandler(myMessageOutput);
-
+    //在支持的平台上的Qt中启用高DPI缩放,启用后可以使Qt比例成为主要的（与设备无关的坐标）坐标系
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    //生成可以大于请求大小的高dpi像素图
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+    //构造单例 利用本地连接qlocalsocket作为判断的公共访问资源
     SingleApplication a(argc, argv);
+    //关闭最后一个窗口时是否隐式退出应用程序,默认true
     a.setQuitOnLastWindowClosed(false);
+    //如果没在运行
     if (!a.isRunning()) {
         Clock w;
         a.w = &w;
 
-        // 添加窗管协议
+        // 添加窗管协议。显示的位置
         MotifWmHints hints;
         hints.flags = MWM_HINTS_FUNCTIONS|MWM_HINTS_DECORATIONS;
         hints.functions = MWM_FUNC_ALL;

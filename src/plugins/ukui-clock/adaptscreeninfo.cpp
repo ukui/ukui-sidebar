@@ -19,21 +19,29 @@
 
 adaptScreenInfo::adaptScreenInfo(QObject *parent) : QObject(parent)
 {
+    //返回桌面小部件（也称为根窗口）。
+    //桌面可能由多个屏幕组成，因此尝试在窗口的几何图形中居中某个窗口小部件是不正确的
     m_pDeskWgt = QApplication::desktop();
+    //初始化主屏坐标
     InitializeHomeScreenGeometry();
+    //初始化屏幕宽高
     initScreenSize();
+    //当改变屏幕分辨率时 重新计算 主屏坐标 屏幕宽高
     connect(QApplication::primaryScreen(), &QScreen::geometryChanged, this, &adaptScreenInfo::onResolutionChanged);
+    //主屏发生变化槽函数 重新计算 主屏坐标 屏幕宽高
     connect(m_pDeskWgt, &QDesktopWidget::primaryScreenChanged, this, &adaptScreenInfo::primaryScreenChangedSlot);
+    //屏幕数量改变时 重新计算 主屏坐标 屏幕宽高
     connect(m_pDeskWgt, &QDesktopWidget::screenCountChanged, this, &adaptScreenInfo::screenCountChangedSlots);
+    //屏幕list
     m_pListScreen = QGuiApplication::screens();
 }
 
-/* 当屏幕数量发生改变时，重新赋值m_pListScreen */
+/* 当屏幕数量发生改变时，重新赋值m_pListScreen 未发现调用 */
 void adaptScreenInfo::screenNumChange()
 {
     m_pListScreen = QGuiApplication::screens();
 }
-
+//未发现调用
 void adaptScreenInfo::modifyMemberVariable()
 {
     foreach (QScreen *screen, QGuiApplication::screens()) {
@@ -53,6 +61,8 @@ void adaptScreenInfo::initScreenSize()
         m_screenWidth = m_pDeskWgt->width() + m_nScreen_x;
         m_screenHeight = m_pDeskWgt->height() + m_nScreen_y;
     }
+    qDebug() << "屏幕高度m_screenWidth" << m_screenWidth;
+    qDebug() << "屏幕宽度m_screenHeight" << m_screenHeight;
     return;
 }
 

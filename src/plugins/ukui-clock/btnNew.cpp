@@ -6,6 +6,7 @@
 
 Btn_new::Btn_new(int num, QString name, QWidget *parent) :
     QPushButton(parent),
+    //无用
     clock_num(num)
 {
     QPixmap pixmap = QPixmap(":/image/go-bottom-symbolic.png");
@@ -13,6 +14,7 @@ Btn_new::Btn_new(int num, QString name, QWidget *parent) :
     textLabel = new QLabel(this);
     IconLabel = new QLabel(this);
     noName = new QLabel(this);
+    //num不同，name与text的大小配比不同
     nameLabel->setFixedSize(71-num, 36);
     textLabel->setFixedSize(233+num, 36);
     IconLabel->setFixedSize(27, 36);

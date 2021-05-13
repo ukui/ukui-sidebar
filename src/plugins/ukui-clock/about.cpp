@@ -21,14 +21,17 @@ About::About(QWidget *parent) :
     setWindowTitle(tr("About"));
     //setWindowFlags(Qt::FramelessWindowHint | Qt::Tool);
     //setAttribute(Qt::WA_TranslucentBackground);
+    //当小部件接受了关闭事件时，使Qt删除此小部件（请参阅QWidget :: closeEvent（））。
     setAttribute(Qt::WA_DeleteOnClose);
 
     this->setWindowIcon(QIcon::fromTheme("kylin-alarm-clock",QIcon(":/image/kylin-alarm-clock.svg")));
+    //左上角闹钟图标
     ui->titleIcon->setPixmap(QIcon::fromTheme("kylin-alarm-clock").pixmap(24,24));
-
+    //右上角关闭X
     ui->closeBtn->setIcon(QIcon::fromTheme("window-close-symbolic"));
     ui->closeBtn->setProperty("isWindowButton", 0x2);
     ui->closeBtn->setProperty("useIconHighlightEffect", 0x8);
+    //按钮边框是否凸起 默认false
     ui->closeBtn->setFlat(true);
     connect(ui->closeBtn, &QPushButton::clicked, this, [=](){
         this->close();
@@ -37,10 +40,13 @@ About::About(QWidget *parent) :
                                     "QLabel{font-family: NotoSansCJKsc-Medium, NotoSansCJKsc;}");
     ui->versionLabel->setText(tr("Version: ")+"2021.2.0");
     settingsStyle();
+    //中间大图标
     ui->appiconLabel->setPixmap(QIcon::fromTheme("kylin-alarm-clock").pixmap(96,96));
+    //介绍的超链接 url 时text里的a标签
     connect(ui->introduceLabel, &QLabel::linkActivated, this, [=](const QString url){
          QDesktopServices::openUrl(QUrl(url));
      });
+    //该窗口小部件不具有上下文菜单，上下文菜单的处理将延迟到该窗口小部件的父级。
     ui->introduceLabel->setContextMenuPolicy(Qt::NoContextMenu);
 }
 
@@ -78,11 +84,12 @@ void About::settingsStyle()
         }
     });
 }
-
+//dbq-这个重写的意义？
 void About::paintEvent(QPaintEvent *event) {
     Q_UNUSED(event);
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+    //绘制器路径
     QPainterPath rectPath;
     rectPath.addRect(this->rect());
     p.fillPath(rectPath,palette().color(QPalette::Base));

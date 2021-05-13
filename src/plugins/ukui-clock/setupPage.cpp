@@ -55,11 +55,15 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     connect(Pop_up_window->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(Pop_up_window_listClickslot()));
     connect(Reminder_off->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(Reminder_off_listClickslot()));
     connect(Default_ringtone->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(Default_ringtone_listClickslot()));
-
+    //工作日 隐藏了
     repeat_sel = new Btn_new(10, tr("  work"), this);
+    //弹窗方式 隐藏了
     Pop_sel = new Btn_new(0, tr("  Pop-up"), this);
+    //时间格式
     Time_sel = new setUpBtnNew(0, tr("  Time"), this);
+    //稍后提醒
     duration_sel = new setUpBtnNew(0, tr("  duration"), this);
+    //默认铃声
     ringtone_sel = new setUpBtnNew(0, tr("  ringtone"), this);
     repeat_sel->move(45, 97);repeat_sel->hide();
     Pop_sel ->move(45, 197);Pop_sel->hide();
