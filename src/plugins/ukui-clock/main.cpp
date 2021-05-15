@@ -31,7 +31,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
     // 加锁
     static QMutex mutex;
     mutex.lock();
-    qDebug()<<msg;
+//    qDebug()<<msg;
     QByteArray localMsg = msg.toLocal8Bit();
 
     QString strMsg("");
@@ -90,7 +90,9 @@ int main(int argc, char *argv[])
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     //构造单例 利用本地连接qlocalsocket作为判断的公共访问资源
     SingleApplication a(argc, argv);
-    //关闭最后一个窗口时是否隐式退出应用程序,默认true
+    //支持主题框架图标
+     a.setWindowIcon(QIcon::fromTheme("kylin-alarm-clock"));
+    //此属性保存关闭最后一个窗口时应用程序是否隐式退出。默认值为true。
     a.setQuitOnLastWindowClosed(false);
     //如果没在运行
     if (!a.isRunning()) {
@@ -103,7 +105,6 @@ int main(int argc, char *argv[])
         hints.functions = MWM_FUNC_ALL;
         hints.decorations = MWM_DECOR_BORDER;
         XAtomHelper::getInstance()->setWindowMotifHint(w.winId(), hints);
-
         w.show();
         return a.exec();
     }

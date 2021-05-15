@@ -23,8 +23,8 @@ About::About(QWidget *parent) :
     //setAttribute(Qt::WA_TranslucentBackground);
     //当小部件接受了关闭事件时，使Qt删除此小部件（请参阅QWidget :: closeEvent（））。
     setAttribute(Qt::WA_DeleteOnClose);
-
-    this->setWindowIcon(QIcon::fromTheme("kylin-alarm-clock",QIcon(":/image/kylin-alarm-clock.svg")));
+    //启用主题框架不需要代码
+//    this->setWindowIcon(QIcon::fromTheme("kylin-alarm-clock",QIcon(":/image/kylin-alarm-clock.svg")));
     //左上角闹钟图标
     ui->titleIcon->setPixmap(QIcon::fromTheme("kylin-alarm-clock").pixmap(24,24));
     //右上角关闭X

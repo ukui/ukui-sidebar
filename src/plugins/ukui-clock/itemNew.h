@@ -37,7 +37,9 @@
 namespace Ui {
 class item_new;
 }
-
+/**
+ * @brief 闹钟列表子项
+ */
 class item_new : public QWidget
 {
     Q_OBJECT

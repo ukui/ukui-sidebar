@@ -89,7 +89,7 @@ void QRoundProgressBar::setValue()
     ring_max = ring_max - 3600/(time_max);
     setValue(double(ring_max));
 }
-
+//定义最小值位置
 void QRoundProgressBar::setNullPosition(double position)
 {
     if (position != m_nullPosition) {
@@ -99,7 +99,7 @@ void QRoundProgressBar::setNullPosition(double position)
         update();
     }
 }
-
+//设置视觉样式圆环（甜甜圈）风格、饼（派）风格、线型
 void QRoundProgressBar::setBarStyle(QRoundProgressBar::BarStyle style)
 {
     if (style != m_barStyle) {
@@ -107,7 +107,7 @@ void QRoundProgressBar::setBarStyle(QRoundProgressBar::BarStyle style)
         update();
     }
 }
-
+//设置轮廓圆笔的宽度。
 void QRoundProgressBar::setOutlinePenWidth(double penWidth)
 {
     if (penWidth != m_outlinePenWidth) {
@@ -115,7 +115,7 @@ void QRoundProgressBar::setOutlinePenWidth(double penWidth)
         update();
     }
 }
-
+//设置数据圆笔的宽度。
 void QRoundProgressBar::setDataPenWidth(double penWidth)
 {
     if (penWidth != m_dataPenWidth) {
@@ -123,7 +123,8 @@ void QRoundProgressBar::setDataPenWidth(double penWidth)
         update();
     }
 }
-
+//设置可见数据的颜色，并使用它们制作渐变画笔。
+//此函数将覆盖widget的`palette（）`来设置动态创建的渐变笔刷
 void QRoundProgressBar::setDataColors(const QGradientStops &stopPoints)
 {
     if (stopPoints != m_gradientData) {
@@ -132,7 +133,9 @@ void QRoundProgressBar::setDataColors(const QGradientStops &stopPoints)
         update();
     }
 }
-
+//定义用于生成当前文本的字符串。
+//％p-用完成的百分比代替。 ％v-由当前值替换。 ％m-由最大值代替。
+//默认值为“％p％”
 void QRoundProgressBar::setFormat(const QString &format)
 {
     if (format != m_format) {
@@ -141,13 +144,13 @@ void QRoundProgressBar::setFormat(const QString &format)
         valueFormatChanged();
     }
 }
-
+//将格式字符串设置为空字符串。 因此，将不会显示任何文本。
 void QRoundProgressBar::resetFormat()
 {
     m_format = QString::null;
     valueFormatChanged();
 }
-
+//设置要在逗号后显示的小数位数（默认为1）。
 void QRoundProgressBar::setDecimals(int count)
 {
     if (count >= 0 && count != m_decimals) {
@@ -158,19 +161,24 @@ void QRoundProgressBar::setDecimals(int count)
 
 void QRoundProgressBar::paintEvent(QPaintEvent* /*event*/)
 {
+    //构造和自定义（例如，设置笔或画笔）painter。 然后画。 记住在绘制后销毁QPainter对象。
     QPainter painter(this);
     painter.save();
+    //mainColor 在settingsStyle配置
     painter.setPen(mainColor);
     painter.setBrush(mainColor);
+    //在指定的boundingRectangle中创建一个椭圆，并将其作为封闭的子路径添加到painter路径。
     QPainterPath bigCircle;
     bigCircle.addEllipse(65, 13, 266, 266);
     QPainterPath path = bigCircle ;
     painter.drawPath(path);
+    //保存当前的画家状态（将状态推送到堆栈上）。 在save（）之后必须有一个相应的restore（）； end（）函数展开堆栈。
     painter.restore();
 
     double outerRadius = 133;
     QRectF baseRect(198 - outerRadius, 146 - outerRadius, outerRadius * 2, outerRadius * 2);
     QPainter p(this);
+    //表示引擎应尽可能对图元的边缘进行抗锯齿。
     p.setRenderHint(QPainter::Antialiasing);
     // data brush
     rebuildDataBrushIfNeeded();
@@ -189,13 +197,13 @@ void QRoundProgressBar::paintEvent(QPaintEvent* /*event*/)
     p.end();
 }
 
-
+//背景色
 void QRoundProgressBar::drawBackground(QPainter &p, const QRectF &baseRect)
 {
     p.fillRect(baseRect, palette().background());
 }
 
-
+//画基础
 void QRoundProgressBar::drawBase(QPainter &p, const QRectF &baseRect,const QRectF &innerRect)
 {
 
@@ -221,7 +229,7 @@ void QRoundProgressBar::drawBase(QPainter &p, const QRectF &baseRect,const QRect
     default:;
     }
 }
-
+//画数据
 void QRoundProgressBar::drawValue(QPainter &p
                                   , const QRectF &baseRect
                                   , double value

@@ -18,7 +18,9 @@
 #define STYLE_NAME_KEY_BLACK       "ukui-black"
 #define STYLE_NAME_KEY_LIGHT       "ukui-light"
 #define STYLE_NAME_KEY_WHITE       "ukui-white"
-
+/**
+ * @brief 自定义滑动按钮
+ */
 class CustomButton : public QPushButton
 {
     Q_OBJECT
