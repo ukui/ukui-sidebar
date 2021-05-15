@@ -245,94 +245,94 @@ void TableViewCustom::MoveRow(int from, int to)
 
 void TableViewCustom::MoveRow(int RowFrom, int ColumnFrom, int RowTo, int ColumnTo)
 {
-    qDebug()<<"---";
-    qDebug()<<"RowFrom : ColumnFrom "<<RowFrom <<" : " <<ColumnFrom;
-    qDebug()<<"RowTo : ColumnTo "<<RowTo <<" : " <<ColumnTo;
-    if(RowFrom==RowTo && ColumnFrom==ColumnTo){
-        return;
-    }
-    //移动行思路：将map中的数据重新排列，然后清空模型，再讲map中的数据添加进去
-    //->
-    //[1]重新排序
-    static RecordSequenceFile *record = new RecordSequenceFile();
-    QMap<QString,QString> map = record->shortcutShowMap;
-    if(RowFrom>RowTo || ColumnFrom>ColumnTo){   //后面移到前面，先删除后插入
-        qDebug()<<"先删除后插入";
-        QMap<QString,QString>::iterator iter;
+//    qDebug()<<"---";
+//    qDebug()<<"RowFrom : ColumnFrom "<<RowFrom <<" : " <<ColumnFrom;
+//    qDebug()<<"RowTo : ColumnTo "<<RowTo <<" : " <<ColumnTo;
+//    if(RowFrom==RowTo && ColumnFrom==ColumnTo){
+//        return;
+//    }
+//    //移动行思路：将map中的数据重新排列，然后清空模型，再讲map中的数据添加进去
+//    //->
+//    //[1]重新排序
+//    static RecordSequenceFile *record = new RecordSequenceFile();
+//    QMap<QString,QString> map = record->shortcutShowMap;
+//    if(RowFrom>RowTo || ColumnFrom>ColumnTo){   //后面移到前面，先删除后插入
+//        qDebug()<<"先删除后插入";
+//        QMap<QString,QString>::iterator iter;
 
-        QVector<QStringList> tmpVector;
-        for(iter=map.begin(); iter!=map.end();iter++){
-            QStringList list;
-            list.append(iter.key());
-            list.append(iter.value());
-            tmpVector.append(list);
-        }
-
-        //删除
-        int num = RowFrom*ColumnFrom+ColumnFrom;
-        QStringList tmpList = tmpVector.at(num);
-        tmpVector.remove(num);
-        for(int i=0;i<tmpVector.size();i++){
-            qDebug()<<"000 "<<tmpVector.at(i).at(0);
-        }
-        //插入
-        num = RowTo*ColumnTo+ColumnTo;
-        tmpVector.insert(num,tmpList);
-        for(int i=0;i<tmpVector.size();i++){
-            qDebug()<<"111 "<<tmpVector.at(i).at(0);
-        }
-
-        map.clear();
-
-
-
-        QMap<QString,QString> map2;
-        for(int i=0;i<tmpVector.size();i++){
-            QStringList list = tmpVector.at(i);
-            qDebug()<<"222 "<<list.at(0);
-            QMap<QString,QString>::iterator iter3;
-            iter3 = map2.insert(list.at(0),list.at(1));
-
-            QMap<QString,QString>::iterator itt=map2.begin();
-            for(itt=map2.begin();itt!=map2.end();itt++){
-                qDebug()<<"=== "<<itt.key();
-            }
-        }
-//        QMap<QString,QString>::iterator itt=map2.begin();
-//        //qDebug()<<"=== "<<itt.key();
-
-
-//        for(itt=map2.begin();itt!=map2.end();itt++){
-//            qDebug()<<"=== "<<itt.key();
+//        QVector<QStringList> tmpVector;
+//        for(iter=map.begin(); iter!=map.end();iter++){
+//            QStringList list;
+//            list.append(iter.key());
+//            list.append(iter.value());
+//            tmpVector.append(list);
 //        }
 
-    }
-//    else{                                       //前面移动后面，先插入后删除
-//        qDebug()<<"先插入后删除";
-//        QMap<QString,QString>::iterator iter = map.begin();
-//        //插入
-//        iter = map.begin();
-//        iter += RowTo*ColumnTo+ColumnTo;
-//        QString key = iter.key();
-//        QString value = iter.value();
-//        map.insert(iter,key,value);
 //        //删除
-//        iter = map.begin();
-//        iter += RowFrom*ColumnFrom+ColumnFrom;
-//        map.erase(iter);
-//    }
-//    //[2]清空模型，再将数据重新添加到模型中
-//    mModel->clear();
-//    QMap<QString,QString>::iterator iter = map.begin();
-//    int i=0;
-//    for(iter=map.begin(); iter!=map.end();iter++){
-//        QStandardItem *item = new QStandardItem;
-//        item->setText(iter.key());
-//        mModel->setItem(i/4,i%4,item);
-//        i++;
-//    }
+//        int num = RowFrom*ColumnFrom+ColumnFrom;
+//        QStringList tmpList = tmpVector.at(num);
+//        tmpVector.remove(num);
+//        for(int i=0;i<tmpVector.size();i++){
+//            qDebug()<<"000 "<<tmpVector.at(i).at(0);
+//        }
+//        //插入
+//        num = RowTo*ColumnTo+ColumnTo;
+//        tmpVector.insert(num,tmpList);
+//        for(int i=0;i<tmpVector.size();i++){
+//            qDebug()<<"111 "<<tmpVector.at(i).at(0);
+//        }
 
-    emit sigRowChange(mRowFrom,mRowTo);
+//        map.clear();
 
-    //-<
+
+
+//        QMap<QString,QString> map2;
+//        for(int i=0;i<tmpVector.size();i++){
+//            QStringList list = tmpVector.at(i);
+//            qDebug()<<"222 "<<list.at(0);
+//            QMap<QString,QString>::iterator iter3;
+//            iter3 = map2.insert(list.at(0),list.at(1));
+
+//            QMap<QString,QString>::iterator itt=map2.begin();
+//            for(itt=map2.begin();itt!=map2.end();itt++){
+//                qDebug()<<"=== "<<itt.key();
+//            }
+//        }
+////        QMap<QString,QString>::iterator itt=map2.begin();
+////        //qDebug()<<"=== "<<itt.key();
+
+
+////        for(itt=map2.begin();itt!=map2.end();itt++){
+////            qDebug()<<"=== "<<itt.key();
+////        }
+
+//    }
+////    else{                                       //前面移动后面，先插入后删除
+////        qDebug()<<"先插入后删除";
+////        QMap<QString,QString>::iterator iter = map.begin();
+////        //插入
+////        iter = map.begin();
+////        iter += RowTo*ColumnTo+ColumnTo;
+////        QString key = iter.key();
+////        QString value = iter.value();
+////        map.insert(iter,key,value);
+////        //删除
+////        iter = map.begin();
+////        iter += RowFrom*ColumnFrom+ColumnFrom;
+////        map.erase(iter);
+////    }
+////    //[2]清空模型，再将数据重新添加到模型中
+////    mModel->clear();
+////    QMap<QString,QString>::iterator iter = map.begin();
+////    int i=0;
+////    for(iter=map.begin(); iter!=map.end();iter++){
+////        QStandardItem *item = new QStandardItem;
+////        item->setText(iter.key());
+////        mModel->setItem(i/4,i%4,item);
+////        i++;
+////    }
+
+//    emit sigRowChange(mRowFrom,mRowTo);
+
+//    //-<
 }

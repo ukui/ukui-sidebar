@@ -38,6 +38,8 @@ SOURCES += \
     eyeprotectionmode.cpp \
     iconlabel.cpp \
     labelfotmattext.cpp \
+    listviewcustom.cpp \
+    listviewdelegate.cpp \
     notebookbuttonwidget.cpp \
     picturetowhite.cpp \
     powersavingmode.cpp \
@@ -74,6 +76,8 @@ HEADERS += \
     eyeprotectionmode.h \
     iconlabel.h \
     labelfotmattext.h \
+    listviewcustom.h \
+    listviewdelegate.h \
     notebookbuttonwidget.h \
     picturetowhite.h \
     powersavingmode.h \

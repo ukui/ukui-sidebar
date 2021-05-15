@@ -55,6 +55,9 @@
 #include "dropdownbox.h"
 #include "tableviewcustom.h"
 #include "recordsequencefile.h"
+#include "tableviewdelegate.h"
+#include "listviewcustom.h"
+#include "listviewdelegate.h"
 
 #define SPREAD_BUTTON_NORMAL       ":/image/open-normal.svg"
 #define SPREAD_BUTTON_HOVER        ":/image/open-hover.svg"
@@ -190,6 +193,11 @@ private:
 
     TableViewCustom             *tableView;
     QStandardItemModel          *model;
+
+    ListViewCustom          *listView;
+    QStringListModel        *listModel;
+    ListViewDelegate        *listDelegate;
+
 
     QMap<QString,QString>   shortcutMap;
 };

@@ -16,48 +16,48 @@ TableViewDelegate::~TableViewDelegate()
 
 void TableViewDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    if(index.isValid())
-    {
-        painter->save();
+//    if(index.isValid())
+//    {
+//        painter->save();
 
-        QString shortcutName = index.data(Qt::DisplayRole).toString();
-        //qDebug()<<"shortcutName:"<<shortcutName;
-        QStyleOptionViewItem viewOption(option); //用来在视图中画一个item
+//        QString shortcutName = index.data(Qt::DisplayRole).toString();
+//        //qDebug()<<"shortcutName:"<<shortcutName;
+//        QStyleOptionViewItem viewOption(option); //用来在视图中画一个item
 
-        QRectF rect;
-        rect.setX(option.rect.x());
-        rect.setY(option.rect.y());
-        rect.setWidth(option.rect.width()-1);
-        rect.setHeight(option.rect.height()-1);
+//        QRectF rect;
+//        rect.setX(option.rect.x());
+//        rect.setY(option.rect.y());
+//        rect.setWidth(option.rect.width()-1);
+//        rect.setHeight(option.rect.height()-1);
 
-        //画图标背景图
-        QPalette ple;
-        QBrush br = ple.button();
-        //qDebug()<<"br:"<<br.color();
-        painter->setPen(QColor(br.color().red(), br.color().green(), br.color().blue()));
-        painter->setBrush(QColor(br.color().red(), br.color().green(), br.color().blue()));
-        painter->drawEllipse(QPoint(rect.x()+20+20,rect.y()+20+20),20,20); //（圆心，横轴半径，纵轴半径）
-        //画图标
-        static RecordSequenceFile *record = new RecordSequenceFile();
-        QMap<QString,QString> map = record->shortcutShowMap;
-        QMap<QString,QString>::iterator iter;
-        for(iter = map.begin(); iter != map.end(); iter++){
-            if(iter.key() == shortcutName){
-               painter->drawPixmap(rect.x()+30,rect.y()+30,20,20,QPixmap(iter.value()));  //添加对应图标
-               break;
-            }
-        }
-        //画文字
-        painter->setPen(QPen(Qt::blue));
-        painter->setBrush(QColor(229, 241, 255));
-//        painter->setPen(QPen(Qt::black));
-        painter->setFont(QFont("Times", 12, QFont::Bold));
-        painter->drawText(QRect(rect.x()+10,rect.y()+58,80,20),Qt::AlignLeft,shortcutName); //绘制名字
+//        //画图标背景图
+//        QPalette ple;
+//        QBrush br = ple.button();
+//        //qDebug()<<"br:"<<br.color();
+//        painter->setPen(QColor(br.color().red(), br.color().green(), br.color().blue()));
+//        painter->setBrush(QColor(br.color().red(), br.color().green(), br.color().blue()));
+//        painter->drawEllipse(QPoint(rect.x()+20+20,rect.y()+20+20),20,20); //（圆心，横轴半径，纵轴半径）
+//        //画图标
+//        static RecordSequenceFile *record = new RecordSequenceFile();
+//        QMap<QString,QString> map = record->shortcutShowMap;
+//        QMap<QString,QString>::iterator iter;
+//        for(iter = map.begin(); iter != map.end(); iter++){
+//            if(iter.key() == shortcutName){
+//               painter->drawPixmap(rect.x()+30,rect.y()+30,20,20,QPixmap(iter.value()));  //添加对应图标
+//               break;
+//            }
+//        }
+//        //画文字
+//        painter->setPen(QPen(Qt::blue));
+//        painter->setBrush(QColor(229, 241, 255));
+////        painter->setPen(QPen(Qt::black));
+//        painter->setFont(QFont("Times", 12, QFont::Bold));
+//        painter->drawText(QRect(rect.x()+10,rect.y()+58,80,20),Qt::AlignLeft,shortcutName); //绘制名字
 
 
 
-        painter->restore();
-    }
+//        painter->restore();
+//    }
 }
 
 QSize TableViewDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const

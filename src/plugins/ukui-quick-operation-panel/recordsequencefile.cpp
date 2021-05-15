@@ -45,48 +45,73 @@ RecordSequenceFile::RecordSequenceFile()
 
 void RecordSequenceFile::initShortcutMap()
 {
-    //初始化shortcutShowMap和sidebarRecordShow文件
+    //初始化shortcutShowVector和sidebarRecordShow文件
     if(QFile::exists(recordShowPath)){
         //解析sidebarRecordShow文件，输出到shortcutShowMap中
-        if(readFile(recordShowPath,shortcutShowMap)){
-            qDebug()<<"初始化shortcutShowMap read失败！";
-            return;
+        if(readFile(recordShowPath,shortcutShowVector)){
+            qDebug()<<"初始化shortcutShowVector read失败！";
+            //return;
         }
     }
     else{
-        //初始化shortcutShowMap，输出sidebarRecordShow文件中
+        //初始化shortcutShowVector，输出sidebarRecordShow文件中
+        QMap<QString,QString> shortcutShowMap;
         shortcutShowMap.clear();
         shortcutShowMap.insert(TABLE_MODE_NAME,TABLE_MODE_ICON);
+        shortcutShowVector.append(shortcutShowMap);
+        shortcutShowMap.clear();
         shortcutShowMap.insert(NO_DISTURBING_NAME,NO_DISTURBING_ICON);
+        shortcutShowVector.append(shortcutShowMap);
+        shortcutShowMap.clear();
         shortcutShowMap.insert(ENERGY_SAVING_NAME,ENERGY_SAVING_ICON);
+        shortcutShowVector.append(shortcutShowMap);
+        shortcutShowMap.clear();
         shortcutShowMap.insert(EYE_CARE_NAME,EYE_CARE_ICON);
+        shortcutShowVector.append(shortcutShowMap);
+        shortcutShowMap.clear();
         shortcutShowMap.insert(BLUETOOTH_NAME,BLUETOOTH_ICON);
+        shortcutShowVector.append(shortcutShowMap);
+        shortcutShowMap.clear();
         shortcutShowMap.insert(HOTSPOT_NAME,HOTSPOT_icon);
+        shortcutShowVector.append(shortcutShowMap);
+        shortcutShowMap.clear();
         shortcutShowMap.insert(VPN_NAME,VPN_ICON);
+        shortcutShowVector.append(shortcutShowMap);
+        shortcutShowMap.clear();
         shortcutShowMap.insert(SETTING_NAME,SETTING_ICON);
+        shortcutShowVector.append(shortcutShowMap);
+        shortcutShowMap.clear();
         shortcutShowMap.insert(CALCULATOR_NAME,CALCULATOR_ICON);
+        shortcutShowVector.append(shortcutShowMap);
+        shortcutShowMap.clear();
         shortcutShowMap.insert(SCREENSHOTS_NAME,SCREENSHOTS_ICON);
+        shortcutShowVector.append(shortcutShowMap);
+        shortcutShowMap.clear();
         shortcutShowMap.insert(ALARM_NAME,ALARM_ICON);
+        shortcutShowVector.append(shortcutShowMap);
+        shortcutShowMap.clear();
         shortcutShowMap.insert(NOTEBOOK_NAME,NOTEBOOK_ICON);
-        if(!writeFile(recordShowPath, shortcutShowMap)){
-            qDebug()<<"初始化shortcutShowMap write失败！";
-            return;
+        shortcutShowVector.append(shortcutShowMap);
+
+        if(!writeFile(recordShowPath, shortcutShowVector)){
+            qDebug()<<"初始化shortcutShowVector write失败！";
+            //return;
         }
     }
 
 
-    //初始化shortcutHideMap和sidebarRecordHide文件
+    //初始化shortcutHideVector和sidebarRecordHide文件
     if(QFile::exists(recordHidePath)){
-        if(readFile(recordHidePath,shortcutHideMap)){
-            qDebug()<<"shortcutHideMap read失败！";
-            return;
+        if(readFile(recordHidePath,shortcutHideVector)){
+            qDebug()<<"shortcutHideVector read失败！";
+            //return;
         }
     }
     else{
-        shortcutHideMap.clear();
-        if(!writeFile(recordHidePath, shortcutHideMap)){
-            qDebug()<<"初始化shortcutShowMap 失败！";
-            return;
+        shortcutHideVector.clear();
+        if(!writeFile(recordHidePath, shortcutHideVector)){
+            qDebug()<<"初始化shortcutHideVector wirte失败！";
+            //return;
         }
     }
 
@@ -106,46 +131,46 @@ bool RecordSequenceFile::isExist()
         return false;
 }
 
-bool RecordSequenceFile::readFile(QString filePath, QMap<QString,QString> map)
+bool RecordSequenceFile::readFile(QString filePath, QVector<QMap<QString,QString>> vector)
 {
-    QFile file(filePath);
-    if(!file.open(QFile::ReadOnly| QFile::Text)){
-        return false;
-    }
-    map.clear();
-    QString fileDate = QString(file.readAll());
-    QList<QString> fileList = fileDate.split(";");
-    for(int i=0; i<=fileList.size(); i++){
-        QStringList currList = fileList.at(i).split(",");
-        map.insert(currList.at(0),currList.at(1));
-    }
-    return true;
+//    QFile file(filePath);
+//    if(!file.open(QFile::ReadOnly| QFile::Text)){
+//        return false;
+//    }
+//    map.clear();
+//    QString fileDate = QString(file.readAll());
+//    QList<QString> fileList = fileDate.split(";");
+//    for(int i=0; i<=fileList.size(); i++){
+//        QStringList currList = fileList.at(i).split(",");
+//        map.insert(currList.at(0),currList.at(1));
+//    }
+//    return true;
 }
 
 /*存放格式如下:
 Alarm,:/images/icon-alarm.svg;
 NoteBook,:/images/icon-notes.svg;
 */
-bool RecordSequenceFile::writeFile(QString filePath, QMap<QString,QString> map)
+bool RecordSequenceFile::writeFile(QString filePath, QVector<QMap<QString,QString>> vector)
 {
-    QFile file(filePath);
-    if (!file.open(QFile::ReadOnly | QFile::Text)){     //清空文件
-        return false;
-    }
-    file.close();
-    //文件写操作
-    file.setFileName(filePath);
-    if (file.open(QFile::WriteOnly | QFile::Text)){
-        return false;
-    }
+//    QFile file(filePath);
+//    if (!file.open(QFile::ReadOnly | QFile::Text)){     //清空文件
+//        return false;
+//    }
+//    file.close();
+//    //文件写操作
+//    file.setFileName(filePath);
+//    if (file.open(QFile::WriteOnly | QFile::Text)){
+//        return false;
+//    }
 
-    QMap<QString,QString>::iterator iter = map.begin();
-    for(iter;iter!=map.end();iter++){
-        QString str = iter.key() + "," + iter.value() + ";";
-        file.write(str.toStdString().c_str(),str.size());
-    }
-    file.close();
-    return true;
+//    QMap<QString,QString>::iterator iter = map.begin();
+//    for(iter;iter!=map.end();iter++){
+//        QString str = iter.key() + "," + iter.value() + ";";
+//        file.write(str.toStdString().c_str(),str.size());
+//    }
+//    file.close();
+//    return true;
 }
 
 

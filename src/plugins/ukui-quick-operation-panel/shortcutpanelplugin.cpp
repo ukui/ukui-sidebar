@@ -18,7 +18,6 @@
 #include "shortcutpanelplugin.h"
 #include "tableviewcustom.h"
 #include "recordsequencefile.h"
-#include "tableviewdelegate.h"
 #include <QHeaderView>
 #include <QGSettings>
 
@@ -50,7 +49,26 @@ shortcutPanelPlugin::shortcutPanelPlugin(QObject *parent)
 /* 使用tableview初始化12个快捷按钮界面 */
 void shortcutPanelPlugin::initTableViewWidget()
 {
-    tableView = new TableViewCustom();
+    //--------------listView实现
+    listView = new ListViewCustom();
+
+     //获取数据,添加到模型,设置委托
+    RecordSequenceFile *record = new RecordSequenceFile;
+    QVector<QMap<QString,QString>> dataVector = record->shortcutShowVector;
+    QStringList dataList;
+    for (int i = 0; i < dataVector.size(); ++i) {
+        dataList << dataVector.at(i).begin().key();
+    }
+
+    listDelegate = new ListViewDelegate(this);
+    listModel = new QStringListModel(dataList);
+    listView->SetModel(listModel);
+    listView->setItemDelegate(listDelegate);
+
+    m_pShortVLayout->addWidget(listView);
+
+    //------------------tableView实现
+ /*   tableView = new TableViewCustom();
 
      //获取数据
     RecordSequenceFile *record = new RecordSequenceFile;
@@ -71,7 +89,7 @@ void shortcutPanelPlugin::initTableViewWidget()
     tableView->setItemDelegate(delegate);
     tableView->SetModel(model);
 
-    m_pShortVLayout->addWidget(tableView);
+    m_pShortVLayout->addWidget(tableView);*/
 
 
 }
@@ -125,7 +143,7 @@ void shortcutPanelPlugin::initMemberVariables()
     /* 快捷操作面板界面 */
     m_pShortWidget   = new QWidget;
     //m_pShortWidget->setFixedWidth(600);
-    m_pShortWidget->setContentsMargins(25, 0, 25, 0);
+    m_pShortWidget->setContentsMargins(0, 0, 0, 0);
 
     /* 当系统有背光文件时，new调整音量与屏幕亮度界面 */
     if (m_bBacklitFile)
@@ -371,11 +389,16 @@ void shortcutPanelPlugin::setWidget()
     m_pButtonHLaout->addWidget(m_pfoldButton);
     m_pButtonWidget->setLayout(m_pButtonHLaout);
     m_pSpreadButton->setVisible(false);
+    if(!m_pSpreadButton->isVisible())
+        m_pShortWidget->setFixedHeight(280);
+    else
+        m_pShortWidget->setFixedHeight(107);
 
     //m_pShortWidget->setLayout(m_pShortGLayout);
     //m_pShortWidget->setStyleSheet("background-color:red;");
 
     m_pShortWidget->setLayout(m_pShortVLayout);
+    //m_pShortWidget->setStyleSheet("background-color:red;");
 
     m_pMainVLayout->addItem(new QSpacerItem(8, 8, QSizePolicy::Fixed));
     m_pMainVLayout->addWidget(m_pButtonWidget);
