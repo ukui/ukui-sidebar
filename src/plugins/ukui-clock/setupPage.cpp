@@ -81,7 +81,7 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     duration_sel->resize(268,40);
     ringtone_sel->resize(268,40);
 
-
+    //绑定下拉框
     connect(repeat_sel, SIGNAL(clicked()), this, SLOT(werk_day_set()) );
     connect(Time_sel, SIGNAL(clicked()), this, SLOT(Time_format_set()) );
     connect(Pop_sel, SIGNAL(clicked()), this, SLOT(Pop_up_window_set()) );
@@ -183,6 +183,7 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     palette1.setBrush(QPalette::Button, brush);
     ui->pushButton_6->setPalette(palette1);
     ui->pushButton_6->setEnabled(false);
+    //引入主体的事件过滤器
     ui->pushButton_6->installEventFilter(this);
 
     ui->closeBtn->setIcon(QIcon::fromTheme("window-close-symbolic"));
@@ -674,9 +675,12 @@ void setuppage::paintEvent(QPaintEvent *event)
 
 }
 
-
+/**
+ * @brief 事件拦截器
+ */
 bool setuppage::eventFilter(QObject *watched, QEvent *event)
 {
+    //拦截按钮pushButton_6 的Paint QEvent
     if(watched == ui->pushButton_6 && event->type() == QEvent::Paint)
     {
         showPaint2();
@@ -695,7 +699,9 @@ void setuppage::showPaint1()
 {
 
 }
-
+/**
+ * @brief 颜色切换
+ */
 void setuppage::showPaint2()
 {
     QPalette palette = ui->pushButton_6->palette();

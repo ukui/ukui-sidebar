@@ -91,6 +91,7 @@
 #include "btnNew.h"
 #include "closeOrHide.h"
 #include "ui_setupPage.h"
+#include "constant_class.h"
 
 class QDialog;
 class QSpinBox;
@@ -103,15 +104,6 @@ class QSqlTableModel;
 class Btn_new;
 class close_or_hide;
 
-#define ORG_UKUI_STYLE            "org.ukui.style"
-#define STYLE_NAME                "styleName"
-#define STYLE_NAME_KEY_DARK       "ukui-dark"
-#define STYLE_NAME_KEY_DEFAULT    "ukui-default"
-#define STYLE_NAME_KEY_BLACK      "ukui-black"
-#define STYLE_NAME_KEY_LIGHT      "ukui-light"
-#define STYLE_NAME_KEY_WHITE      "ukui-white"
-#define STYLE_ICON                "icon-theme-name"
-#define STYLE_ICON_NAME           "iconThemeName"
 
 namespace Ui {
 class Clock;
@@ -143,8 +135,7 @@ public:
         SP_CENTER,
         SP_RIGHT
     };
-
-    void moveUnderMultiScreen(Clock::ScreenPosition);                                    //多显示器下，位置移动
+    void moveUnderMultiScreen(Clock::ScreenPosition,Natice_alarm * dialog);                                    //多显示器下，位置移动
     QString formatX_h(int x_h);
     Ui::Clock *ui;
     QString m_timeZone;
