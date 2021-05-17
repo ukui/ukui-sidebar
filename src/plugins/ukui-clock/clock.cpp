@@ -63,8 +63,6 @@ Clock::Clock(QWidget *parent) :
     //获取屏幕信息
     m_pSreenInfo = new adaptScreenInfo();
     //闹钟居中
-    qDebug()<<"dbq-屏幕居中-左"<<(m_pSreenInfo->m_screenWidth - this->width() + m_pSreenInfo->m_nScreen_x )/2;
-    qDebug()<<"dbq-屏幕居中-右"<<(m_pSreenInfo->m_screenHeight - this->height())/2;
     move((m_pSreenInfo->m_screenWidth - this->width() + m_pSreenInfo->m_nScreen_x )/2, (m_pSreenInfo->m_screenHeight - this->height())/2);
     pushclock = new QPushButton(ui->page_7);
     pushclock->setFixedSize(40,40);
@@ -192,7 +190,7 @@ Clock::~Clock()
     delete ui->page_5;
     delete ui;
 }
-
+//重写关闭事件
 void Clock::closeEvent(QCloseEvent *event)
 {
         QPointF position = this->pos();
@@ -241,7 +239,10 @@ void Clock::settingsStyle()
         }
         if(key==STYLE_ICON_NAME || key==STYLE_ICON){
             qDebug()<<"STYLE_ICON_NAME : "<<key;
-            setWindowIcon(QIcon::fromTheme("kylin-alarm-clock",QIcon(":/image/kylin-alarm-clock.svg")));
+            //启用主题框架不需要代码
+//            setWindowIcon(QIcon::fromTheme("kylin-alarm-clock",QIcon(":/image/kylin-alarm-clock.svg")));
+            //主题框架不能更新 label_2
+            ui->label_2->setPixmap(QIcon::fromTheme("kylin-alarm-clock").pixmap(24,24));
         }
     });
 
@@ -269,7 +270,8 @@ void Clock::buttonImageInit()
     pixmap4 = QPixmap(":/image/icon-4-16x16.png");
     repeat_on_Pixmap = QPixmap(":/image/object-select-symbolic.png");
     repeat_off_Pixmap = QPixmap("");
-    this->setWindowIcon(QIcon::fromTheme("kylin-alarm-clock",QIcon(":/image/kylin-alarm-clock.svg")));
+    //启用主题框架不需要代码
+//    this->setWindowIcon(QIcon::fromTheme("kylin-alarm-clock",QIcon(":/image/kylin-alarm-clock.svg")));
     ui->label_2->setPixmap(QIcon::fromTheme("kylin-alarm-clock").pixmap(24,24));
     ui->pushButton->setIcon(pixmap4);
     ui->pushButton->setFlat(true);
@@ -302,7 +304,8 @@ void Clock::buttonImageInit()
     //提醒铃声
     count_sel = new Btn_new(0, tr("  Remind"), ui->page_4);
     count_sel->move(25,310);
-    //提醒铃声
+
+    //提醒铃声 倒计时页面
     count_sel_1 = new Btn_new(0, tr("  Remind"), ui->page_5);
     //调整一下，不然放大字体回遮挡
     count_sel->updateWidthForFontChange(20);
@@ -311,10 +314,10 @@ void Clock::buttonImageInit()
     //调整一下，不然放大字体回遮挡
     count_sel_1->updateWidthForFontChange(20);
     count_sel_1->textLabel->setFixedSize(227, 36);
-    //重复
+    //重复 新建闹钟
     repeat_sel = new Btn_new(10, tr("  repeat"), ui->set_page);
     repeat_sel->move(25,248);
-    //提醒铃声
+    //提醒铃声 新建闹钟
     time_sel = new Btn_new(0, tr("  Remind"), ui->set_page);
     time_sel->move(25,311);
     //调整一下，不然放大字体回遮挡
@@ -442,6 +445,7 @@ void Clock::clockInit()
     connect(ui->pushButton_ring, SIGNAL(clicked()), this, SLOT(onPushbuttonRingClicked()));
     connect(ui->pushButton_timeselect, SIGNAL(clicked()), this, SLOT(onPushbuttonTimeselectClicked()));
     connect(ui->set_alarm_cancelbtn, SIGNAL(clicked()), this, SLOT(alarmCancelSave()) );
+    //与下拉框绑定
     connect(repeat_sel, SIGNAL(clicked()), this, SLOT(alarmRepeat()) );
     connect(time_sel, SIGNAL(clicked()), this, SLOT(selectAlarmMusic()) );
     connect(ring_sel, SIGNAL(clicked()), this, SLOT(timeMusic()) );
@@ -558,12 +562,17 @@ void Clock::setupInit()
     }
     count_sel->textLabel->setText(Default);
     count_sel_1->textLabel->setText(Default);
+    //存储重复选择的星期，默认清零
     for (int i = 0; i < 9; i++) {
         repeat_day[i] = 0;
     }
+    //重复下拉框
     dialog_repeat = new  set_alarm_repeat_Dialog(360,290,9,ui->set_page);dialog_repeat->hide();
+    //铃声下拉框
     dialog_music = new  set_alarm_repeat_Dialog(360,172,4,ui->set_page);dialog_music->hide();
+    //音乐时长下拉框 废弃
     time_music = new  set_alarm_repeat_Dialog(340,162,5,ui->set_page);time_music->hide();
+    //倒计时铃声选择
     count_music_sellect = new  set_alarm_repeat_Dialog(360,172,4,ui->page);count_music_sellect->hide();
 
     connect(dialog_repeat->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(repeatListclickslot()));
@@ -1067,6 +1076,7 @@ void Clock::timerUpdate()
     textTimerupdate();
 
     int rowNum = model->rowCount();
+    //便利闹钟
     for (int i = 0; i < rowNum; i++) {
         /*判断星期
          Judgment week*/
@@ -1131,6 +1141,7 @@ void Clock::noticeDialogShow(int close_time, int alarm_num)
     QRect mm=screen->availableGeometry() ;
     int screen_width = mm.width();
     int screen_height = mm.height();
+    //闹钟弹窗
     Natice_alarm  *dialog1 = new Natice_alarm(close_time,alarm_num);
     dialog1->ui->label_2->hide();
     dialog1->ui->label_3->setText(model->index(alarm_num, 14).data().toString());
@@ -1155,7 +1166,7 @@ void Clock::noticeDialogShow(int close_time, int alarm_num)
     if (model_setup->index(0, 3).data().toInt()) {
         dialog1->showFullScreen();
     } else {
-        dialog1->move(screen_width-350,screen_height-150);
+        moveUnderMultiScreen(SP_RIGHT,dialog1);
     }
     dialog1->show();
 }
@@ -2048,15 +2059,17 @@ void Clock::countdownNoticeDialogShow()
     countdownNoticeDialog->timer_xumhuan->stop();
     countdownNoticeDialog->music->stop();
     countdownNoticeDialog->timer_value = 359;
+    //多少秒后自动关闭
     countdownNoticeDialog->ui->label_4->setText(tr("360 Seconds to close"));
     countdownNoticeDialog->ui->label_2->hide();
+    //左上图标
     countdownNoticeDialog->ui->label->setText(tr("Count down"));
+    //时间到
     countdownNoticeDialog->ui->label_3->setText(tr("Time out"));
     if (model_setup->index(0, 3).data().toInt()) {
         countdownNoticeDialog->showFullScreen();
     } else {
-        moveUnderMultiScreen(SP_RIGHT);
-//        countdownNoticeDialog->move(screen_width-350,screen_height-150);
+        moveUnderMultiScreen(SP_RIGHT,countdownNoticeDialog);
     }
     countdownNoticeDialog->music->setVolume(model_setup->index(0, 6).data().toInt());
     countdownNoticeDialog->timer->start();
@@ -2268,6 +2281,13 @@ QString Clock::formatX_h(int x_h)
         str =get12hourStr(x_h);
         break;
     default:
+        //跟随系统时间
+       if(m_timeZone == "24"){
+           str=changeNumToStr(x_h);
+       }else{
+           //12时
+          str =get12hourStr(x_h);
+       }
         break;
     }
     return str;
@@ -2341,11 +2361,13 @@ void Clock::countdownSetStartTime()
     shadow1->move(97-27,162-5);
     shadow1->resize(253,40);
     shadow1->hide();
-
+    //倒计时小时滚轮
     timer_ring99 = new VerticalScroll_99(ring_widget);
     QLabel * h_in_m = new QLabel (ring_widget);
+    //倒计时分钟
     timer_ring60 = new VerticalScroll_60(ring_widget);
     QLabel * m_in_s = new QLabel (ring_widget);
+    //倒计时秒
     timer_ring60_2 = new VerticalScroll_60(ring_widget);
 
     QLabel * hour_ring = new QLabel (ring_widget);
@@ -2581,9 +2603,10 @@ void Clock::alarmSetStartTime()
     shadow = new QWidget(ui->set_page);
     shadow->move(115,58);
     shadow->resize(160,58);
-
+    //闹钟小时滚轮
     timer_alarm_start24 = new VerticalScroll_24(ui->set_page, this);
     QLabel * h_in_m = new QLabel (ui->set_page);
+    //闹钟分钟滚轮
     timer_alarm_start60 = new VerticalScroll_60(ui->set_page);
 
     timer_alarm_start24->resize(63,220);
@@ -2623,6 +2646,7 @@ void Clock::alarmSetStartTime()
 void Clock::alarmRepeat()
 {
     int num;
+    //repeat_new_or_edit_flag 编辑是1
     if(repeat_new_or_edit_flag)
         num = ui->listWidget->currentRow();
     else {
@@ -2645,6 +2669,7 @@ void Clock::alarmRepeat()
         dialog_repeat->widget[8]->alarmLabel0->setText(tr("Sun"));
         for (int i=0; i<7; i++) {
             if (repeat_day[i]) {
+                //前两个是不重复和工作日
                 dialog_repeat->widget[i+2]->alarmLabel1->setPixmap(repeat_on_Pixmap);
             } else {
                 dialog_repeat->widget[i+2]->alarmLabel1->setPixmap(repeat_off_Pixmap);
@@ -3225,8 +3250,14 @@ void Clock::showPaint8()
         painter.drawPath(painterPath);
     }
 }
-
-void Clock::moveUnderMultiScreen(Clock::ScreenPosition spostion)
+/**
+ * @brief 多屏幕下，Natice_alarm移动
+ * @param spostion SP_LEFT 左下角 SP_RIGHT 右下角 SP_CENTER 居中
+ * @param
+ *
+ * @return 返回说明
+ */
+void Clock::moveUnderMultiScreen(Clock::ScreenPosition spostion,Natice_alarm * tempDialog)
 {
     QScreen *screen=QGuiApplication::primaryScreen ();
     int screen_width = screen->geometry().width();
@@ -3234,20 +3265,21 @@ void Clock::moveUnderMultiScreen(Clock::ScreenPosition spostion)
     switch (spostion) {
     case SP_LEFT:
     {
-        QPoint po = this->geometry().bottomLeft();
-        countdownNoticeDialog->move(po.x(),po.y());
+        int moveWidth = m_pSreenInfo->m_nScreen_x+round(tempDialog->width()+round(1.0/20*screen_width));
+        int moveHeight = m_pSreenInfo->m_nScreen_y+round(screen_height-tempDialog->height()-round(1.0/14*screen_height));
+        tempDialog->move(moveWidth,moveHeight);
     }break;
     case SP_RIGHT:
     {
-
-        QPoint po = this->geometry().bottomRight();
-        //略微调整下右下角
-        countdownNoticeDialog->move(po.x()+screen_width/4,po.y());
+        int moveWidth = m_pSreenInfo->m_nScreen_x+round(screen_width-tempDialog->width()-round(1.0/20*screen_width));
+        int moveHeight = m_pSreenInfo->m_nScreen_y+round(screen_height-tempDialog->height()-round(1.0/14*screen_height));
+        tempDialog->move(moveWidth,moveHeight);
     }break;
     case SP_CENTER:
     {
-        QPoint po = this->geometry().center();
-        countdownNoticeDialog->move(po);
+        int moveWidth = m_pSreenInfo->m_nScreen_x+round((screen_width-tempDialog->width())*1.0/2);
+        int moveHeight = m_pSreenInfo->m_nScreen_y+round((screen_height-tempDialog->height())*1.0/2);
+        tempDialog->move(moveWidth,moveHeight);
     }break;
     default:
     {}

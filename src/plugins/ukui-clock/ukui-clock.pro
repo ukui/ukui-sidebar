@@ -63,6 +63,7 @@ HEADERS  += clock.h \
     clickableLabel.h \
     closeOrHide.h \
     connection.h \
+    constant_class.h \
     countdownAnimation.h \
     customStyle.h \
     debug.h \

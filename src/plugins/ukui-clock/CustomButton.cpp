@@ -12,6 +12,7 @@ CustomButton::CustomButton(QWidget *parent,int width, int height, int status) : 
 //开
 void CustomButton::openSlot()
 {
+    //滑动动画
     animation1 = new QPropertyAnimation(myLabel, "geometry");
     animation1->setDuration(100);
     animation1->setKeyValueAt(0, QRect(2, 2, 20, 20));
