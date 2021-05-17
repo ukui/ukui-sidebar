@@ -8,7 +8,6 @@
 
 ListViewDelegate::ListViewDelegate(QObject *parent)
 {
-    qDebug()<<"----------------ListViewDelegate";
 }
 
 ListViewDelegate::~ListViewDelegate()
@@ -17,7 +16,6 @@ ListViewDelegate::~ListViewDelegate()
 
 void ListViewDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    qDebug()<<"----------------开始绘制";
     if(index.isValid())
     {
         painter->save();
@@ -40,8 +38,8 @@ void ListViewDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
         painter->setBrush(QColor(br.color().red(), br.color().green(), br.color().blue()));
         painter->drawEllipse(QPoint(rect.x()+20+20,rect.y()+20+20),20,20); //（圆心，横轴半径，纵轴半径）
         //绘制图标
-        static RecordSequenceFile *record = new RecordSequenceFile();
-        QVector<QMap<QString,QString>> vector = record->shortcutShowVector;
+        RecordSequenceFile *record = RecordSequenceFile::getInstance();
+        QVector<QMap<QString,QString>> vector = record->getShortcutShowVector();
         for (int i = 0; i < vector.size(); ++i) {
             QString name = vector.at(i).begin().key();
             if(shortcutName == name){

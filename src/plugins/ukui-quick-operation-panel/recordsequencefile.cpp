@@ -2,8 +2,6 @@
 #include <QDir>
 #include <QDebug>
 
-
-
 #define TABLE_MODE_NAME     "Tablet Mode"
 #define TABLE_MODE_ICON     ":/images/icon-PC-mode.svg"
 #define NO_DISTURBING_NAME  "No disturbing"
@@ -34,23 +32,25 @@
 #define WIFI_ICON           ":/image/wifi-normal.svg"
 
 
-
+RecordSequenceFile *RecordSequenceFile::m_instance = 0;
+QMutex RecordSequenceFile::m_mutex;
 
 RecordSequenceFile::RecordSequenceFile()
 {
-    recordShowPath = QDir::homePath() + "/.config/sidebarRecordShow";
-    recordHidePath = QDir::homePath() + "/.config/sidebarRecordHide";
+    m_recordShowPath = QDir::homePath() + "/.config/sidebarRecordShow";
+    m_recordHidePath = QDir::homePath() + "/.config/sidebarRecordHide";
     initShortcutMap();
+
+    connect(this, SIGNAL(orderChange(QVector<QMap<QString,QString>>)),this,SLOT(saveOrder(QVector<QMap<QString,QString>>)));
 }
 
-void RecordSequenceFile::initShortcutMap()
+bool RecordSequenceFile::initShortcutMap()
 {
     //初始化shortcutShowVector和sidebarRecordShow文件
-    if(QFile::exists(recordShowPath)){
-        //解析sidebarRecordShow文件，输出到shortcutShowMap中
-        if(readFile(recordShowPath,shortcutShowVector)){
-            qDebug()<<"初始化shortcutShowVector read失败！";
-            //return;
+    if(QFile::exists(m_recordShowPath)){
+        if(!readFile(m_recordShowPath,m_shortcutShowVector)){  //解析sidebarRecordShow文件，输出到shortcutShowMap中
+            qDebug()<<"init m_shortcutShowVector read failed！";
+            return false;
         }
     }
     else{
@@ -58,119 +58,108 @@ void RecordSequenceFile::initShortcutMap()
         QMap<QString,QString> shortcutShowMap;
         shortcutShowMap.clear();
         shortcutShowMap.insert(TABLE_MODE_NAME,TABLE_MODE_ICON);
-        shortcutShowVector.append(shortcutShowMap);
+        m_shortcutShowVector.append(shortcutShowMap);
         shortcutShowMap.clear();
         shortcutShowMap.insert(NO_DISTURBING_NAME,NO_DISTURBING_ICON);
-        shortcutShowVector.append(shortcutShowMap);
+        m_shortcutShowVector.append(shortcutShowMap);
         shortcutShowMap.clear();
         shortcutShowMap.insert(ENERGY_SAVING_NAME,ENERGY_SAVING_ICON);
-        shortcutShowVector.append(shortcutShowMap);
+        m_shortcutShowVector.append(shortcutShowMap);
         shortcutShowMap.clear();
         shortcutShowMap.insert(EYE_CARE_NAME,EYE_CARE_ICON);
-        shortcutShowVector.append(shortcutShowMap);
+        m_shortcutShowVector.append(shortcutShowMap);
         shortcutShowMap.clear();
         shortcutShowMap.insert(BLUETOOTH_NAME,BLUETOOTH_ICON);
-        shortcutShowVector.append(shortcutShowMap);
+        m_shortcutShowVector.append(shortcutShowMap);
         shortcutShowMap.clear();
         shortcutShowMap.insert(HOTSPOT_NAME,HOTSPOT_icon);
-        shortcutShowVector.append(shortcutShowMap);
+        m_shortcutShowVector.append(shortcutShowMap);
         shortcutShowMap.clear();
         shortcutShowMap.insert(VPN_NAME,VPN_ICON);
-        shortcutShowVector.append(shortcutShowMap);
+        m_shortcutShowVector.append(shortcutShowMap);
         shortcutShowMap.clear();
         shortcutShowMap.insert(SETTING_NAME,SETTING_ICON);
-        shortcutShowVector.append(shortcutShowMap);
+        m_shortcutShowVector.append(shortcutShowMap);
         shortcutShowMap.clear();
         shortcutShowMap.insert(CALCULATOR_NAME,CALCULATOR_ICON);
-        shortcutShowVector.append(shortcutShowMap);
+        m_shortcutShowVector.append(shortcutShowMap);
         shortcutShowMap.clear();
         shortcutShowMap.insert(SCREENSHOTS_NAME,SCREENSHOTS_ICON);
-        shortcutShowVector.append(shortcutShowMap);
+        m_shortcutShowVector.append(shortcutShowMap);
         shortcutShowMap.clear();
         shortcutShowMap.insert(ALARM_NAME,ALARM_ICON);
-        shortcutShowVector.append(shortcutShowMap);
+        m_shortcutShowVector.append(shortcutShowMap);
         shortcutShowMap.clear();
         shortcutShowMap.insert(NOTEBOOK_NAME,NOTEBOOK_ICON);
-        shortcutShowVector.append(shortcutShowMap);
+        m_shortcutShowVector.append(shortcutShowMap);
 
-        if(!writeFile(recordShowPath, shortcutShowVector)){
-            qDebug()<<"初始化shortcutShowVector write失败！";
-            //return;
+        if(!writeFile(m_recordShowPath, m_shortcutShowVector)){
+            qDebug()<<"init m_shortcutShowVector write failed！";
+            return false;
         }
     }
-
-
-    //初始化shortcutHideVector和sidebarRecordHide文件
-    if(QFile::exists(recordHidePath)){
-        if(readFile(recordHidePath,shortcutHideVector)){
-            qDebug()<<"shortcutHideVector read失败！";
-            //return;
-        }
-    }
-    else{
-        shortcutHideVector.clear();
-        if(!writeFile(recordHidePath, shortcutHideVector)){
-            qDebug()<<"初始化shortcutHideVector wirte失败！";
-            //return;
-        }
-    }
-
-}
-
-bool RecordSequenceFile::creatorRecordFile()
-{
-
 }
 
 bool RecordSequenceFile::isExist()
 {
-    QString recoedPath = QDir::homePath() + "/.config/sidebarRecord";
-    if(QFile::exists(recoedPath))
-        return true;
-    else
-        return false;
 }
 
-bool RecordSequenceFile::readFile(QString filePath, QVector<QMap<QString,QString>> vector)
+bool RecordSequenceFile::readFile(QString filePath, QVector<QMap<QString,QString>> &vector)
 {
-//    QFile file(filePath);
-//    if(!file.open(QFile::ReadOnly| QFile::Text)){
-//        return false;
-//    }
-//    map.clear();
-//    QString fileDate = QString(file.readAll());
-//    QList<QString> fileList = fileDate.split(";");
-//    for(int i=0; i<=fileList.size(); i++){
-//        QStringList currList = fileList.at(i).split(",");
-//        map.insert(currList.at(0),currList.at(1));
-//    }
-//    return true;
+        QFile file(filePath);
+        if(!file.open(QFile::ReadOnly| QFile::Text)){
+            qDebug()<<"read open false";
+            return false;
+        }
+        QString fileDate = QString(file.readAll());
+        QList<QString> fileList = fileDate.split(";");
+        fileList.removeLast();
+        vector.clear();
+        for(int i=0; i<fileList.size(); i++){
+            QStringList currList = fileList.at(i).split(",");
+            QMap<QString,QString> map;
+            map.insert(QString(currList.at(0)),QString(currList.at(1)));
+            vector.append(map);
+        }
+
+        return true;
 }
 
 /*存放格式如下:
 Alarm,:/images/icon-alarm.svg;
 NoteBook,:/images/icon-notes.svg;
 */
-bool RecordSequenceFile::writeFile(QString filePath, QVector<QMap<QString,QString>> vector)
+bool RecordSequenceFile::writeFile(QString filePath, const QVector<QMap<QString,QString>> vector)
 {
-//    QFile file(filePath);
-//    if (!file.open(QFile::ReadOnly | QFile::Text)){     //清空文件
-//        return false;
-//    }
-//    file.close();
-//    //文件写操作
-//    file.setFileName(filePath);
-//    if (file.open(QFile::WriteOnly | QFile::Text)){
-//        return false;
-//    }
+    qDebug()<<"---writeFile:"<<filePath;
+    QFile file(filePath);
+    if (!file.open(QFile::WriteOnly | QFile::Text)){
+        qDebug()<<"---write open false";
+        return false;
+    }
 
-//    QMap<QString,QString>::iterator iter = map.begin();
-//    for(iter;iter!=map.end();iter++){
-//        QString str = iter.key() + "," + iter.value() + ";";
-//        file.write(str.toStdString().c_str(),str.size());
-//    }
-//    file.close();
-//    return true;
+    for (int i = 0; i < vector.size(); ++i) {
+        QString key = vector.at(i).begin().key();
+        QString value = vector.at(i).begin().value();
+        QString str = key + "," + value + ";";
+        file.write(str.toUtf8());
+    }
+    file.close();
+        return true;
+}
+
+QVector<QMap<QString, QString>> &RecordSequenceFile::getShortcutShowVector()
+{
+    return m_shortcutShowVector;
+}
+
+//次序改变时(增、删、改),更新存储文件内容
+void RecordSequenceFile::saveOrder(QVector<QMap<QString,QString>> vector)
+{
+    m_shortcutShowVector = vector;
+    if(!writeFile(m_recordShowPath, vector)){
+        return;
+    }
 }
 
 

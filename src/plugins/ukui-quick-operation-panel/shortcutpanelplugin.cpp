@@ -49,12 +49,12 @@ shortcutPanelPlugin::shortcutPanelPlugin(QObject *parent)
 /* 使用tableview初始化12个快捷按钮界面 */
 void shortcutPanelPlugin::initTableViewWidget()
 {
-    //--------------listView实现
+//    //--------------listView实现
     listView = new ListViewCustom();
 
      //获取数据,添加到模型,设置委托
-    RecordSequenceFile *record = new RecordSequenceFile;
-    QVector<QMap<QString,QString>> dataVector = record->shortcutShowVector;
+    RecordSequenceFile *record = RecordSequenceFile::getInstance();
+    QVector<QMap<QString,QString>> dataVector = record->getShortcutShowVector();
     QStringList dataList;
     for (int i = 0; i < dataVector.size(); ++i) {
         dataList << dataVector.at(i).begin().key();

@@ -94,8 +94,8 @@ void ListViewCustom::doDrag()
     drag->setMimeData(mimeData);
 
     //[2]设置拖拽时的缩略图
-    RecordSequenceFile *record = new RecordSequenceFile;
-    QVector<QMap<QString,QString>> dataVector = record->shortcutShowVector;
+    RecordSequenceFile *record = RecordSequenceFile::getInstance();
+    QVector<QMap<QString,QString>> dataVector = record->getShortcutShowVector();
     QString iconPath = dataVector.at(m_cellFrom).begin().value();
     m_thumbnailImg.load(iconPath);
     m_thumbnailImg = m_thumbnailImg.scaled(25, 25, Qt::KeepAspectRatio);
@@ -175,7 +175,6 @@ void ListViewCustom::dropEvent(QDropEvent *e)
     {
         if (m_rowTo != m_rowFrom || m_columnTo != m_columnFrom)
         {
-            //moveRow(mRowFrom, mRowTo);
             moveRow(m_rowFrom, m_columnFrom, m_rowTo, m_columnTo);
         }
         e->acceptProposedAction();
@@ -186,11 +185,6 @@ void ListViewCustom::dropEvent(QDropEvent *e)
 }
 
 void ListViewCustom::resetOrder()
-{
-
-}
-
-void ListViewCustom::moveRow(int from, int to)
 {
 
 }
@@ -206,11 +200,10 @@ void ListViewCustom::moveRow(int rowFrom, int columnFrom, int rowTo, int columnT
     //移动行思路：将Vector中的数据重新排列，然后清空模型，再讲Vector中的数据添加进去
     //->
     //[1]重新排序
-    static RecordSequenceFile *record = new RecordSequenceFile();
-    QVector<QMap<QString,QString>> vectorData = record->shortcutShowVector;
+    static RecordSequenceFile *record = RecordSequenceFile::getInstance();
+    QVector<QMap<QString,QString>> vectorData = record->getShortcutShowVector();
     if(rowFrom > rowTo || columnFrom > columnTo)  //后面移到前面，先删除后插入
     {
-        qDebug()<<"先删除后插入";
         //删除
         uint num = rowFrom*4+columnFrom;
         QMap<QString,QString> tmpMap = vectorData.at(num);
@@ -218,10 +211,11 @@ void ListViewCustom::moveRow(int rowFrom, int columnFrom, int rowTo, int columnT
         //插入
         num = rowTo*4+columnTo;
         vectorData.insert(num, tmpMap);
+
+        emit record->orderChange(vectorData);
     }
     else  //前面移动后面，先插入后删除
     {
-        qDebug()<<"先插入后删除";
         //插入
         uint numFrom = rowFrom*4+columnFrom;
         QMap<QString,QString> tmpMap = vectorData.at(numFrom);
@@ -229,6 +223,7 @@ void ListViewCustom::moveRow(int rowFrom, int columnFrom, int rowTo, int columnT
         vectorData.insert(numTo,tmpMap);
         //删除
         vectorData.remove(numFrom);
+        emit record->orderChange(vectorData);
     }
     //[2]清空模型，再将数据重新添加到模型中
     QStringList dataList;

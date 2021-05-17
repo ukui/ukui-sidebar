@@ -3,24 +3,47 @@
 #include <QMap>
 #include <QFile>
 #include <QVector>
+#include <QMutex>
+#include <QDebug>
 
-class RecordSequenceFile
+class RecordSequenceFile : public QObject
 {
-public:
+    Q_OBJECT
+private:
+    static RecordSequenceFile *m_instance;
+    static QMutex m_mutex;        //实例互斥锁。
     RecordSequenceFile();
-    void initShortcutMap();
-    bool creatorRecordFile();
+
+public:
+    static RecordSequenceFile* getInstance(){
+        if(!m_instance){
+            QMutexLocker locker(&m_mutex);//加互斥锁。
+            if(!m_instance){
+                RecordSequenceFile *instance = new RecordSequenceFile();
+                m_instance = instance;
+            }
+        }
+        return m_instance;
+    }
+    bool initShortcutMap();
     bool isExist();
-    bool readFile(QString filePath,QVector<QMap<QString,QString>> vector);
-    bool writeFile(QString filePath,QVector<QMap<QString,QString>> vector);
+    bool readFile(QString filePath,QVector<QMap<QString,QString>> &vector);
+    bool writeFile(QString filePath,const QVector<QMap<QString,QString>> vector);
+    QVector<QMap<QString,QString>>& getShortcutShowVector();
+
+Q_SIGNALS:
+    void orderChange(QVector<QMap<QString,QString>> vector);
+public Q_SLOTS:
+    void saveOrder(QVector<QMap<QString,QString>> vector);
+
 
 private:
-    QFile *file;
-    QString recordShowPath;
-    QString recordHidePath;
+    QFile *m_file;
+    QString m_recordShowPath;
+    QString m_recordHidePath;
 public:    
-    QVector<QMap<QString,QString>> shortcutShowVector;
-    QVector<QMap<QString,QString>> shortcutHideVector; //未添加到显示区的快捷键
+    QVector<QMap<QString,QString>> m_shortcutShowVector;
+    QVector<QMap<QString,QString>> m_shortcutHideVector; //未添加到显示区的快捷键
 
 };
 
