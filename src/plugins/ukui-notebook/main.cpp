@@ -147,6 +147,9 @@ int main(int argc, char *argv[])
         XAtomHelper::getInstance()->setWindowMotifHint(w.winId(), hints);
         //w.setAttribute(Qt::WA_TranslucentBackground);
         //KWindowEffects::enableBlurBehind(w.winId(),true);
+
+        QObject::connect(&a, SIGNAL(messageReceived(/*const QString&*/)), &w, SLOT(sltMessageReceived(/*const QString&*/)));
+
         return a.exec();
     }
     return 0;

@@ -48,6 +48,8 @@ bool SingleApplication::isRunning() {
  */
 void SingleApplication::_newLocalConnection() {
     QLocalSocket *socket = _localServer->nextPendingConnection();
+    emit messageReceived(/*message*/); //### (might take a long time to return)
+
     if(socket) {
         socket->waitForReadyRead(2*TIME_OUT);
         delete socket;

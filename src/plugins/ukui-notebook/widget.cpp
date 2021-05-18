@@ -1574,3 +1574,44 @@ void Widget::onF1ButtonClicked()
     qDebug() << "onF1ButtonClicked";
     userGuideInterface->call(QString("showGuide"), "tools/ukui-notebook");
 }
+
+/*!
+ * \brief Widget::sltMessageReceived
+ *
+ */
+void Widget::sltMessageReceived(/*const QString &msg*/) {
+
+#if 1
+    if(this->isHidden())
+    {
+        this->m_notebook->show();
+        this->m_notebook->activateWindow();
+        this->m_notebook->raise();
+    }
+    else
+    {
+        this->raise();
+        this->activateWindow();
+        this->show();
+    }
+#endif
+
+#if 0
+    int noteId = m_currentSelectedNoteProxy.data(NoteModel::NoteID).toInt();
+
+        if (m_noteModel->rowCount() > 0/* && m_currentSelectedNoteProxy.isValid()*/) {
+            int noteId = m_currentSelectedNoteProxy.data(NoteModel::NoteID).toInt();
+            for (auto it = m_editors.begin(); it != m_editors.end(); it++) {
+                if ((*it)->m_noteId == noteId) {
+//                    m_notebooksig = *it;
+                    (*it)->raise();
+                    (*it)->activateWindow();
+                    (*it)->show();
+                    qDebug() << "ZDEBUG " << __FUNCTION__ << __LINE__ << "for for for noteId  == " << noteId;
+                    qDebug() << "ZDEBUG " << __FUNCTION__ << __LINE__ << "for for for m_notebook->m_noteId  == " << m_notebook->m_noteId;
+                    break;
+                }
+            }
+        }
+#endif
+}
