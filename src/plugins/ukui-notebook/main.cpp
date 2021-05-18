@@ -118,6 +118,7 @@ int main(int argc, char *argv[])
 
     SingleApplication a(argc, argv);
 
+    a.setWindowIcon(QIcon::fromTheme("kylin-notebook"));
     a.setApplicationVersion ("1.0.0");
 
     QCommandLineParser parser;

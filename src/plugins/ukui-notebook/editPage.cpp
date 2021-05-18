@@ -84,7 +84,7 @@ void Edit_page::initSetup()
     // 标题
     this->setWindowTitle(tr("Notes"));
     // 任务栏图标
-    setWindowIcon(QIcon::fromTheme("kylin-notebook"));
+    //setWindowIcon(QIcon::fromTheme("kylin-notebook"));
     // setWindowFlags(Qt::FramelessWindowHint);
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 12, 0))
