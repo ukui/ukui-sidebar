@@ -109,6 +109,9 @@ public:
     void setListFlag(const int &listflag);                          //设置列表切换标志位
     void createNewNote();                                           //新建便签
 
+public slots:
+    void sltMessageReceived(/*const QString &msg*/);
+
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
     //void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
