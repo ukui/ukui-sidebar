@@ -276,7 +276,18 @@ void Edit_page::fontChanged(const QFont &f)
 {
     qDebug() << "font Changed" << f.pointSize() << f.bold();
     set_size_page->ui->listWidget->setCurrentRow(f.pointSize() - 10);
-    ui->fontSizeBtn->setText(QString::number(f.pointSize()));
+//    ui->fontSizeBtn->setText(QString::number(f.pointSize()));
+
+    if(f.pointSize() < 10 )
+    {
+        qDebug() << "ZDEBUG " << "f.pointSize() === " << f.pointSize();
+        qDebug() << "ZDEBUG " << "QString::number(f.pointSize() === " << QString::number(f.pointSize());
+        ui->fontSizeBtn->setText(QString::number(10));
+    }
+    else
+    {
+        ui->fontSizeBtn->setText(QString::number(f.pointSize()));
+    }
     ui->boldBtn->setChecked(f.bold());
     ui->italicBtn->setChecked(f.italic());
     ui->underlineBtn->setChecked(f.underline());
