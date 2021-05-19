@@ -60,7 +60,7 @@ Widget::Widget(QWidget *parent) :
     m_isOperationRunning(false),
     mousePressed(false)
 {
-    translator = new QTranslator;
+    translator = new QTranslator(this);
     if (translator->load(QLocale(), QLatin1String("ukui-notebook"), QLatin1String("_"),
                          QLatin1String("/usr/share/ukui-sidebar/ukui-notebook")))
         QApplication::installTranslator(translator);
@@ -87,6 +87,7 @@ Widget::~Widget()
     }
     m_editors.clear();
     delete ui;
+    delete m_dbManager;
     m_dbThread->quit();
     m_dbThread->wait();
     delete m_dbThread;
@@ -270,7 +271,7 @@ void Widget::kyNoteInit()
     // setProperty("blurRegion", QRegion(blurPath.toFillPolygon().toPolygon()));//使用QPainterPath的api生成多边形Region
 
     // 弹出位置
-    m_pSreenInfo = new adaptScreenInfo();
+    m_pSreenInfo = new adaptScreenInfo(this);
     move((m_pSreenInfo->m_screenWidth - this->width() + m_pSreenInfo->m_nScreen_x)/2,
          (m_pSreenInfo->m_screenHeight - this->height())/2);
     // 标题
@@ -391,7 +392,7 @@ void Widget::listenToGsettings()
     const QByteArray id(THEME_QT_SCHEMA);
 
     if (QGSettings::isSchemaInstalled(id)) {
-        QGSettings *styleSettings = new QGSettings(id);
+        QGSettings *styleSettings = new QGSettings(id, QByteArray(), this);
         connect(styleSettings, &QGSettings::changed, this, [=](const QString &key){
             auto style = styleSettings->get(key).toString();
             if (key == "styleName") {
@@ -416,7 +417,7 @@ void Widget::listenToGsettings()
     const QByteArray idd(PERSONALISE_SCHEMA);
 
     if (QGSettings::isSchemaInstalled(idd)) {
-        QGSettings *opacitySettings = new QGSettings(idd);
+        QGSettings *opacitySettings = new QGSettings(idd, QByteArray(), this);
         connect(opacitySettings, &QGSettings::changed, this, [=](const QString &key){
             if (key == "transparency") {
                 QStringList keys = opacitySettings->keys();
@@ -435,7 +436,7 @@ void Widget::listenToGsettings()
     userGuideInterface = new QDBusInterface(serviceName,
                                             "/",
                                             "com.guide.hotel",
-                                            QDBusConnection::sessionBus());
+                                            QDBusConnection::sessionBus(), this);
     qDebug() << "connect to kylinUserGuide" << userGuideInterface->isValid();
     if (!userGuideInterface->isValid()) {
         qDebug() << "fail to connect to kylinUserGuide";
@@ -447,7 +448,7 @@ void Widget::listenToGsettings()
     const QByteArray iddd(FORMAT_SCHEMA);
 
     if (QGSettings::isSchemaInstalled(iddd)) {
-        QGSettings *m_formatsettings = new QGSettings(iddd);
+        QGSettings *m_formatsettings = new QGSettings(iddd, QByteArray(), this);
 
         connect(m_formatsettings, &QGSettings::changed, this, [=](const QString &key) {
             if (key == "hoursystem") {
@@ -557,7 +558,7 @@ void Widget::btnInit()
         userGuideInterface->call(QString("showGuide"), "ukui/ukui-notebook");
     });
     connect(m_aboutAction, &QAction::triggered, this, [=](){
-        About *dialog = new About();
+        About *dialog = new About(this);
         dialog->exec();
     });
     // 隐藏menu下箭头

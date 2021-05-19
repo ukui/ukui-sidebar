@@ -39,7 +39,7 @@ Edit_page::Edit_page(Widget *page, int noteId, QWidget *parent) :
     mousePressed(false),
     defaultFontColorChanged(false),
     pNotebook(page),
-    color_page(new SelectColor(pNotebook)),
+    color_page(new SelectColor(pNotebook, this)),
     set_size_page(new SetFontSize(pNotebook)),
     set_color_fort_page(new SetFontColor(pNotebook)),
     m_isFullscreen(false)
@@ -354,7 +354,7 @@ void Edit_page::listenToGsettings()
     // 监听主题改变
     const QByteArray id(THEME_QT_SCHEMA);
     if (QGSettings::isSchemaInstalled(id)) {
-        QGSettings *styleSettings = new QGSettings(id);
+        QGSettings *styleSettings = new QGSettings(id, QByteArray(), this);
         auto style = styleSettings->get("styleName").toString();
         if (ui->textEdit->document()->isEmpty()) {
             if (style == "ukui-default" || style == "ukui-white"

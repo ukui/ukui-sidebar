@@ -37,7 +37,7 @@ class SelectColor : public QWidget
     Q_OBJECT
 
 public:
-    explicit SelectColor(Widget* page , QWidget *parent = nullptr);
+    explicit SelectColor(Widget* page, QWidget *parent = nullptr);
     ~SelectColor();
 
     Ui::SelectColor *ui;

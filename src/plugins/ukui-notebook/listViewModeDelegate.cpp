@@ -82,7 +82,7 @@ listViewModeDelegate::listViewModeDelegate(QObject *parent)
     const QByteArray iddd(FORMAT_SCHEMA);
 
     if (QGSettings::isSchemaInstalled(iddd)){
-        QGSettings *m_formatsettings = new QGSettings(iddd);
+        QGSettings *m_formatsettings = new QGSettings(iddd, QByteArray(), this);
 
         m_timeZone = m_formatsettings->get(TIME_FORMAT_KEY).toString();
         connect(m_formatsettings, &QGSettings::changed, this, [=] (const QString &key) {

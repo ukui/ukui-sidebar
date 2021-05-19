@@ -29,7 +29,7 @@
 #define SHADOW_WIDTH 0
 #endif
 
-SelectColor::SelectColor(Widget* page ,QWidget *parent) :
+SelectColor::SelectColor(Widget* page, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SelectColor),
     paletteWidget(new PaletteWidget(this))

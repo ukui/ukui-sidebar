@@ -33,6 +33,11 @@ SetFontSize::SetFontSize(QWidget *parent) :
 SetFontSize::~SetFontSize()
 {
     delete ui;
+    //释放内存
+    for (int i=0; i < 10;i++)
+    {
+        delete list_aItem[i];
+    }
 }
 
 void SetFontSize::paintEvent(QPaintEvent *event)
