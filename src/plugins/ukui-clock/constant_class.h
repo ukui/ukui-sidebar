@@ -12,5 +12,7 @@
 #define STYLE_NAME_KEY_WHITE       "ukui-white"
 #define STYLE_ICON                "icon-theme-name"
 #define STYLE_ICON_NAME           "iconThemeName"
+#define TIME_SEPARATOR             ":"
+
 
 #endif // CONSTANTCLASS_H

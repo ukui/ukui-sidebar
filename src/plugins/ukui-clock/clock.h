@@ -266,9 +266,7 @@ private slots:
                                                                                          // Alarm clock initialization music selection interface callback
     void musicListclickslot();                                                           // 闹钟初始化单击选择音乐
                                                                                          // Alarm initialization Click to select music
-    void timeMusic();                                                                    // 闹钟初始化音乐时长选择界面回调
                                                                                          // Alarm clock initialization music time selection interface callback
-    void timeMusicListclickslot();                                                       // 单击选择音乐时长回调
                                                                                          // Click to select music duration callback
     void setUpPage();                                                                    // 设置页面绘制回调
                                                                                          // Set page draw callback
@@ -297,7 +295,7 @@ private slots:
     void countStatBtnGray();
 
     QString get12hourStr(int x_h);
-
+    void createUserGuideDebusClient();
 private:
     QPoint m_startPoint;
     QTimer *timer = nullptr;
@@ -310,6 +308,9 @@ private:
     int alarmMinute;
     int cPauseTime;
     bool isStarted;
+    /**
+ * @brief 倒计时运行标记
+ */
     bool countdown_isStarted;
     bool countdown_isStarted_2;
     bool stopwatch_isStarted;
@@ -392,7 +393,7 @@ private:
 
     set_alarm_repeat_Dialog *dialog_repeat = nullptr;
     set_alarm_repeat_Dialog *dialog_music = nullptr;
-    set_alarm_repeat_Dialog *time_music = nullptr;
+//    set_alarm_repeat_Dialog *time_music = nullptr;
     set_alarm_repeat_Dialog *count_music_sellect = nullptr;
 
     close_or_hide *close_or_hide_page;
@@ -404,7 +405,7 @@ private:
     QString repeat_str;
     QString repeat_str_model;
     QString music_str_model;
-    QString time_music_str_model;
+//    QString time_music_str_model;
     QString clock_name;
     QLineEdit *lineEdit = nullptr;
     QPropertyAnimation *animation1;
@@ -425,7 +426,7 @@ private:
     Btn_new *count_sel_1;
     Btn_new *repeat_sel;
     Btn_new *time_sel;
-    Btn_new *ring_sel;
+//    Btn_new *ring_sel;
     QMenu *m_menu;                                                  /*功能菜单*/
     QAction *m_menuAction;                                          /*菜单动作*/
 
@@ -436,6 +437,9 @@ private:
     QDBusInterface *userGuideInterface;                                   // 用户手册
     void listenToGsettings();                                           //监听
     void updateFront(const int size);
+    void set24ClockItem(int time_H,int time_M,int time_S,int rowNum);
+    void set12ClockItem(int time_H,int time_M,int time_S,int rowNum);
+    void clearClockItem(int rowNum);
 };
 
 #endif // CLOCK_H

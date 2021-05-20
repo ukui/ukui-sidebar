@@ -31,7 +31,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
     // 加锁
     static QMutex mutex;
     mutex.lock();
-//    qDebug()<<msg;
+    //qDebug()<<msg;
     QByteArray localMsg = msg.toLocal8Bit();
 
     QString strMsg("");
