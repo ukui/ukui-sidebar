@@ -51,6 +51,7 @@
 #include <QDBusInterface>
 #include <unistd.h>
 #include <QShortcut>
+#include <QClipboard>
 
 #include "myThrow.h"
 #include "noteView.h"
@@ -111,6 +112,7 @@ public:
 
 public slots:
     void sltMessageReceived(/*const QString &msg*/);
+    void textForNewEditpageSigReceived();
 
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
@@ -158,7 +160,7 @@ private:
     bool m_isContentModified;                                       //便签内容是否修改
     bool m_isColorModified;                                         //便签颜色是否修改
     bool m_isOperationRunning;
-
+    bool m_isTextCpNew;
 
 
     void kyNoteInit();                                              //加载界面组件
