@@ -84,10 +84,15 @@ int main(int argc, char *argv[])
 {
     // 自定义消息处理
     qInstallMessageHandler(myMessageOutput);
-    //在支持的平台上的Qt中启用高DPI缩放,启用后可以使Qt比例成为主要的（与设备无关的坐标）坐标系
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    //生成可以大于请求大小的高dpi像素图
-    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+    //适配分数缩放
+    #if (QT_VERSION >= QT_VERSION_CHECK(5, 12, 0))
+        QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+        QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+    #endif
+    #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+        QApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
+    #endif
+
     //构造单例 利用本地连接qlocalsocket作为判断的公共访问资源
     SingleApplication a(argc, argv);
     //支持主题框架图标
