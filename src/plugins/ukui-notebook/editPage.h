@@ -69,6 +69,7 @@ public:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
     void enterEvent(QEvent *event) Q_DECL_OVERRIDE;
     void leaveEvent(QEvent *event) Q_DECL_OVERRIDE;
+    //bool eventFilter(QObject *obj, QEvent *event);
 
 private:
     void initSetup();                                                // 初始配置
@@ -117,12 +118,17 @@ private slots:
     void yellowBtnSlot();
     void defaultBtnSlot();
     void pinkBtnSlot();
-    void ShowFullScreenSlot();
+    void showFullScreenSlot();
+    void textRightMenu(QPoint);
+    void textForNewEditpageSlot();
+
 signals:
     void texthasChanged(int noteId, int id);
     void colorhasChanged(const QColor &color,int);
     void isEmptyNote(int noteId);
     void requestDel(int noteId);
+    void textForNewEditpageSig();
+
 };
 
 #endif // EDIT_PAGE_H

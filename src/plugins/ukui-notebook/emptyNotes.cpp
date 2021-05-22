@@ -27,7 +27,8 @@
 
 emptyNotes::emptyNotes(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::emptyNotes)
+    ui(new Ui::emptyNotes),
+    mIsDontShow(false)
 {
     ui->setupUi(this);
     setWindowTitle(tr("emptyNotes"));
@@ -58,6 +59,7 @@ emptyNotes::emptyNotes(QWidget *parent) :
 
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(on_pushButton_clicked()) );
     connect(ui->pushButton_2, SIGNAL(clicked()), this, SLOT(on_pushButton_2_clicked()) );
+    connect(ui->checkBox, SIGNAL(stateChanged(int)), this, SLOT(checkBoxStateChanged(int)) );
 }
 
 void emptyNotes::paintEvent(QPaintEvent *event)
@@ -77,11 +79,23 @@ emptyNotes::~emptyNotes()
 
 void emptyNotes::on_pushButton_clicked()
 {
+
+    ui->checkBox->setCheckState(Qt::Unchecked);
     this->close();
 }
 
 void emptyNotes::on_pushButton_2_clicked()
 {
+
+    if(ui->checkBox->isChecked())
+    {
+        mIsDontShow = true;
+    }
+    else
+    {
+        mIsDontShow = false;
+    }
+
     emit requestEmptyNotes();
     this->close();
 }

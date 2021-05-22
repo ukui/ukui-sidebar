@@ -58,7 +58,8 @@ Widget::Widget(QWidget *parent) :
     m_isContentModified(false),
     m_isColorModified(false),
     m_isOperationRunning(false),
-    mousePressed(false)
+    mousePressed(false),
+    m_isTextCpNew(false)
 {
     translator = new QTranslator(this);
     if (translator->load(QLocale(), QLatin1String("ukui-notebook"), QLatin1String("_"),
@@ -914,10 +915,20 @@ void Widget::createNewNote()
             SLOT(onTextEditTextChanged(int,int)));
     connect(m_editors[m_editors.size() - 1], SIGNAL(colorhasChanged(QColor,int)), this,
             SLOT(onColorChanged(QColor,int)));
+    //将选择的内容复制到新的便签页
+    connect(m_notebook, SIGNAL(textForNewEditpageSig()), this, SLOT(textForNewEditpageSigReceived()));
     // 设置鼠标焦点
     m_notebook->ui->textEdit->setFocus();
     // 移动光标至行末
     m_notebook->ui->textEdit->moveCursor(QTextCursor::End, QTextCursor::MoveAnchor);
+    if(m_isTextCpNew)
+    {
+        //qDebug() << "ZDEBUG " << " m_isTextCpNew = true";
+        QClipboard *clipboard = QApplication::clipboard();   //获取系统剪贴板指针
+        QString originalText  = clipboard->text();       //获取剪贴板上文本信息
+        m_notebook->ui->textEdit->setText(originalText);
+        m_isTextCpNew = false;
+    }
     m_notebook->show();
 }
 
@@ -1309,7 +1320,10 @@ void Widget::exitSlot()
  */
 void Widget::trashSlot()
 {
+    if(!m_emptyNotes->mIsDontShow)
     m_emptyNotes->exec();
+        else
+    emit m_emptyNotes->requestEmptyNotes();
 }
 
 /*!
@@ -1322,6 +1336,11 @@ void Widget::miniSlot()
     this->showMinimized();
 }
 
+void Widget::textForNewEditpageSigReceived()
+{
+    m_isTextCpNew = true;
+    newSlot();
+}
 /*!
  * \brief Widget::newSlot
  *
@@ -1573,7 +1592,8 @@ void Widget::setNoteNullSlot()
 void Widget::onF1ButtonClicked()
 {
     qDebug() << "onF1ButtonClicked";
-    userGuideInterface->call(QString("showGuide"), "tools/ukui-notebook");
+    userGuideInterface->call(QString("showGuide"), "ukui/ukui-notebook");
+    //userGuideInterface->call(QString("showGuide"), "tools/ukui-notebook");
 }
 
 /*!
@@ -1581,8 +1601,9 @@ void Widget::onF1ButtonClicked()
  *
  */
 void Widget::sltMessageReceived(/*const QString &msg*/) {
+    int noteId = m_currentSelectedNoteProxy.data(NoteModel::NoteID).toInt();
+    qDebug() << __FUNCTION__ << __LINE__ << "noteId  == " << noteId;
 
-#if 1
     if(this->isHidden())
     {
         this->m_notebook->show();
@@ -1595,7 +1616,6 @@ void Widget::sltMessageReceived(/*const QString &msg*/) {
         this->activateWindow();
         this->show();
     }
-#endif
 
 #if 0
     int noteId = m_currentSelectedNoteProxy.data(NoteModel::NoteID).toInt();
@@ -1604,12 +1624,9 @@ void Widget::sltMessageReceived(/*const QString &msg*/) {
             int noteId = m_currentSelectedNoteProxy.data(NoteModel::NoteID).toInt();
             for (auto it = m_editors.begin(); it != m_editors.end(); it++) {
                 if ((*it)->m_noteId == noteId) {
-//                    m_notebooksig = *it;
                     (*it)->raise();
                     (*it)->activateWindow();
                     (*it)->show();
-                    qDebug() << "ZDEBUG " << __FUNCTION__ << __LINE__ << "for for for noteId  == " << noteId;
-                    qDebug() << "ZDEBUG " << __FUNCTION__ << __LINE__ << "for for for m_notebook->m_noteId  == " << m_notebook->m_noteId;
                     break;
                 }
             }

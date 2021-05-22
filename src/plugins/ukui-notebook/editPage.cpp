@@ -20,6 +20,7 @@
 #include <QPalette>
 #include <QPainter>
 #include <QTextList>
+//#include <QClipboard>
 #include <QDebug>
 
 #include "widget.h"
@@ -85,7 +86,7 @@ void Edit_page::initSetup()
     this->setWindowTitle(tr("Notes"));
     // 任务栏图标
     //setWindowIcon(QIcon::fromTheme("kylin-notebook"));
-    // setWindowFlags(Qt::FramelessWindowHint);
+    //setWindowFlags(Qt::FramelessWindowHint);
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 12, 0))
     // 高分屏适配
@@ -114,8 +115,9 @@ void Edit_page::initSetup()
 
     ui->textEdit->setFrameShape(QFrame::NoFrame);
     ui->textEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    // 禁用右键菜单
-    ui->textEdit->setContextMenuPolicy(Qt::NoContextMenu);
+    // 右键菜单
+    ui->textEdit->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->textEdit, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(textRightMenu(QPoint)));
 
     // 设置字体大小
     set_size_page = new SetFontSize(this);
@@ -257,7 +259,7 @@ void Edit_page::slotsSetup()
     });
 
     // connect(m_noteHeadMenu, &noteHeadMenu::requestFullscreen, this, [=](){
-    // ShowFullScreenSlot();
+    // showFullScreenSlot();
     // });
 }
 
@@ -427,6 +429,86 @@ void Edit_page::textChangedSlot()
 {
     qDebug() << "emit textchange" << "note id" << m_noteId << this->id;
     emit texthasChanged(m_noteId, this->id);
+}
+
+//textedit右键菜单
+void Edit_page::textRightMenu(QPoint)
+{
+    QMenu *m_rightMenu = new QMenu;
+
+    //定义action
+    QAction *undoact = new QAction(tr("undo"));
+    QAction *redoact = new QAction(tr("redo"));
+    QAction *cutact = new QAction(tr("cut"));
+    QAction *copyact = new QAction(tr("copy"));
+    QAction *pasteact = new QAction(tr("paste"));
+    QAction *textfornew = new QAction(tr("copy to newpage"));
+
+    undoact->setIcon(QIcon::fromTheme("edit-undo"));
+    redoact->setIcon(QIcon::fromTheme("edit-redo"));
+    cutact->setIcon(QIcon::fromTheme("edit-cut"));
+    copyact->setIcon(QIcon::fromTheme("edit-copy"));
+    pasteact->setIcon(QIcon::fromTheme("edit-paste"));
+//    textfornew->setIcon(QIcon::fromTheme("add-files-to-archive"));
+    textfornew->setIcon(QIcon(":/image/1x/copy_to_new_note.png"));
+    //定义action end
+
+    //action使能与非使能
+    connect(ui->textEdit->document(), SIGNAL(undoAvailable(bool)),
+            undoact, SLOT(setEnabled(bool)));
+    connect(ui->textEdit->document(), SIGNAL(redoAvailable(bool)),
+            redoact, SLOT(setEnabled(bool)));
+    undoact->setEnabled(ui->textEdit->document()->isUndoAvailable());
+    redoact->setEnabled(ui->textEdit->document()->isRedoAvailable());
+
+    cutact->setEnabled(!ui->textEdit->textCursor().selectedText().isEmpty());
+    copyact->setEnabled(!ui->textEdit->textCursor().selectedText().isEmpty());
+    pasteact->setEnabled(!QApplication::clipboard()->text().isEmpty());
+    connect(QApplication::clipboard(), &QClipboard::dataChanged, this, [=](){
+        pasteact->setEnabled(!QApplication::clipboard()->text().isEmpty());
+    });
+
+    textfornew->setEnabled(!ui->textEdit->textCursor().selectedText().isEmpty());
+    //action使能与非使能 end
+
+    //action绑定槽函数
+    connect(undoact, SIGNAL(triggered(bool)), ui->textEdit, SLOT(undo()));
+    connect(redoact, SIGNAL(triggered(bool)), ui->textEdit, SLOT(redo()));
+
+    connect(cutact, SIGNAL(triggered()), ui->textEdit, SLOT(cut()));
+    connect(copyact, SIGNAL(triggered()), ui->textEdit, SLOT(copy()));
+    connect(pasteact, SIGNAL(triggered(bool)), ui->textEdit, SLOT(paste()));
+
+    connect(textfornew, SIGNAL(triggered()), this, SLOT(textForNewEditpageSlot()));
+    //action绑定槽函数 end
+
+    //action添加到menu
+    m_rightMenu->addAction(undoact);
+    m_rightMenu->addAction(redoact);
+    m_rightMenu->addSeparator();         // 添加分割线
+
+    m_rightMenu->addAction(cutact);
+    m_rightMenu->addAction(copyact);
+    m_rightMenu->addAction(pasteact);
+    m_rightMenu->addSeparator();         // 添加分割线
+
+    m_rightMenu->addAction(textfornew);
+    //action添加到menu end
+
+    m_rightMenu->move (cursor().pos());
+    m_rightMenu->show();
+
+}
+
+//拷贝选中内容到新便签页
+void Edit_page::textForNewEditpageSlot()
+{
+    //qDebug() << "ZDEBUG " << "selectedText  === "<< ui->textEdit->textCursor().selectedText();
+    if(!ui->textEdit->textCursor().selectedText().isEmpty())
+    {
+        ui->textEdit->copy();
+        emit textForNewEditpageSig();
+    }
 }
 
 // 加粗
@@ -723,7 +805,7 @@ void Edit_page::defaultBtnSlot()
     update();
 }
 
-void Edit_page::ShowFullScreenSlot()
+void Edit_page::showFullScreenSlot()
 {
     if (!m_isFullscreen) {
         this->showFullScreen();
