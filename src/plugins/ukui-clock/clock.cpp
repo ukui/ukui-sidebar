@@ -60,10 +60,12 @@ Clock::Clock(QWidget *parent) :
     ui->listWidget->setProperty("contextMenuPolicy", Qt::CustomContextMenu);    /*重要：设置QListWidget的contextMenuPolicy属性，不然不能显示右键菜单*/
     ui->listWidget ->setGridSize(QSize(340, 108+15));
     ui->listWidget_2 ->setGridSize(QSize(340, 58+10));
-    //获取屏幕信息
-    m_pSreenInfo = new adaptScreenInfo();
+    //主屏信息
+    primaryManager = new PrimaryManager();
     //闹钟居中
-    move((m_pSreenInfo->m_screenWidth - this->width() + m_pSreenInfo->m_nScreen_x )/2, (m_pSreenInfo->m_screenHeight - this->height())/2);
+    //move((m_pSreenInfo->m_screenWidth - this->width() + m_pSreenInfo->m_nScreen_x )/2, (m_pSreenInfo->m_screenHeight - this->height())/2);
+    utils = new Utils();
+    utils->centerToScreen(this);
     pushclock = new QPushButton(ui->page_7);
     pushclock->setFixedSize(40,40);
     pushclock->move(109,15);
@@ -189,6 +191,8 @@ Clock::~Clock()
     delete count_music_sellect;
     delete ui->page_5;
     delete ui;
+    delete utils;
+    delete primaryManager;
 }
 //重写关闭事件
 void Clock::closeEvent(QCloseEvent *event)
@@ -3262,23 +3266,25 @@ void Clock::moveUnderMultiScreen(Clock::ScreenPosition spostion,Natice_alarm * t
     QScreen *screen=QGuiApplication::primaryScreen ();
     int screen_width = screen->geometry().width();
     int screen_height = screen->geometry().height();
+    int x = primaryManager->getNScreen_x();
+    int y = primaryManager->getNScreen_y();
     switch (spostion) {
     case SP_LEFT:
     {
-        int moveWidth = m_pSreenInfo->m_nScreen_x+round(tempDialog->width()+round(1.0/20*screen_width));
-        int moveHeight = m_pSreenInfo->m_nScreen_y+round(screen_height-tempDialog->height()-round(1.0/14*screen_height));
+        int moveWidth = x+round(tempDialog->width()+round(1.0/20*screen_width));
+        int moveHeight = y+round(screen_height-tempDialog->height()-round(1.0/14*screen_height));
         tempDialog->move(moveWidth,moveHeight);
     }break;
     case SP_RIGHT:
     {
-        int moveWidth = m_pSreenInfo->m_nScreen_x+round(screen_width-tempDialog->width()-round(1.0/20*screen_width));
-        int moveHeight = m_pSreenInfo->m_nScreen_y+round(screen_height-tempDialog->height()-round(1.0/14*screen_height));
+        int moveWidth = x+round(screen_width-tempDialog->width()-round(1.0/20*screen_width));
+        int moveHeight = y+round(screen_height-tempDialog->height()-round(1.0/14*screen_height));
         tempDialog->move(moveWidth,moveHeight);
     }break;
     case SP_CENTER:
     {
-        int moveWidth = m_pSreenInfo->m_nScreen_x+round((screen_width-tempDialog->width())*1.0/2);
-        int moveHeight = m_pSreenInfo->m_nScreen_y+round((screen_height-tempDialog->height())*1.0/2);
+        int moveWidth = x+round((screen_width-tempDialog->width())*1.0/2);
+        int moveHeight = y+round((screen_height-tempDialog->height())*1.0/2);
         tempDialog->move(moveWidth,moveHeight);
     }break;
     default:

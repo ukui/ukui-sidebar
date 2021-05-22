@@ -41,12 +41,14 @@ SOURCES += \
     main.cpp \
     noticeAlarm.cpp \
     noticeDialog.cpp \
+    primarymanager.cpp \
     qroundProgressBar.cpp \
     setAlarmRepeatDialog.cpp \
     setUpBtnNew.cpp \
     setupPage.cpp \
     singleApplication.cpp \
     stopwatchItem.cpp \
+    utils.cpp \
     verticalScroll24.cpp \
     verticalScroll60.cpp \
     verticalScroll99.cpp \
@@ -72,12 +74,14 @@ HEADERS  += clock.h \
     itemNew.h \
     noticeAlarm.h \
     noticeDialog.h \
+    primarymanager.h \
     qroundProgressBar.h \
     setAlarmRepeatDialog.h \
     setUpBtnNew.h \
     setupPage.h \
     singleApplication.h \
     stopwatchItem.h \
+    utils.h \
     verticalScroll24.h \
     verticalScroll60.h \
     verticalScroll99.h \
