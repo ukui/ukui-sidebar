@@ -92,6 +92,8 @@
 #include "closeOrHide.h"
 #include "ui_setupPage.h"
 #include "constant_class.h"
+#include "utils.h"
+#include "primarymanager.h"
 
 class QDialog;
 class QSpinBox;
@@ -395,7 +397,8 @@ private:
 
     close_or_hide *close_or_hide_page;
     adaptScreenInfo *m_pSreenInfo = nullptr;
-
+    PrimaryManager * primaryManager = nullptr;
+    Utils *utils = nullptr;
     QWidget *grand = nullptr;
     setuppage *setup_page = nullptr;
     QString repeat_str;
