@@ -1591,7 +1591,8 @@ void Widget::setNoteNullSlot()
 void Widget::onF1ButtonClicked()
 {
     qDebug() << "onF1ButtonClicked";
-    userGuideInterface->call(QString("showGuide"), "tools/ukui-notebook");
+    userGuideInterface->call(QString("showGuide"), "ukui/ukui-notebook");
+    //userGuideInterface->call(QString("showGuide"), "tools/ukui-notebook");
 }
 
 /*!
