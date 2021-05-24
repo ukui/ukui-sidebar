@@ -2112,6 +2112,8 @@ void Clock::startbtnCountdown(){
         //倒计时页面
         ui->stackedWidget_4->setCurrentIndex(1);
         //显示当前倒计时时间
+        //点击开始，刷新数值
+        refreshCountdownLabel11Flag = true;
         setcoutdownNumber(timer_ring99->m_currentValue, timer_ring60->m_currentValue, timer_ring60_2->m_currentValue);//获取转轮当前值
         statCountdown();//提前进行一次数字减小，对其时间显示与光圈显示；
         countdown_timer->start();
@@ -2244,14 +2246,19 @@ void Clock::onMin_60btnClicked()
  */
 void Clock::getCountdownOverTime()
 {
-    int x_h, x_m ;
     QTime time = QTime::currentTime();
     int timeH = time.hour();
     int timeM = time.minute();
-
-    x_h = countdown_hour + timeH;
-    x_m = countdown_minute + timeM;
-
+    int timeS = time.second();
+    if(refreshCountdownLabel11Flag){
+        x_h = countdown_hour + timeH;
+        x_m = countdown_minute + timeM;
+        //分钟位进1
+        if(countdown_second+timeS>=60){
+            x_m+=1;
+        }
+        refreshCountdownLabel11Flag = false;
+    }
     if (x_m >= 60) {
         x_m = x_m - 60;
         x_h ++;
@@ -2373,7 +2380,7 @@ void Clock::onCountPushClicked()
         countdown_timer->start();
         ui->page_5->timer->start();
         countdown_isStarted_2=0;
-
+        refreshCountdownLabel11Flag = true;
         getCountdownOverTime();
     } else {
         //点击了暂停

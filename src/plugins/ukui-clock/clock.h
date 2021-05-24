@@ -435,6 +435,8 @@ private:
     QAction *action_Clear_In_ListWidget_;                           /*闹钟右键删除动作*/
     Natice_alarm *countdownNoticeDialog;
     QDBusInterface *userGuideInterface;                                   // 用户手册
+    bool refreshCountdownLabel11Flag = false;               //是否刷新，倒计时上的小闹钟时间的数值。因为秒数的变化，如果一直动态计算，会出现1分钟的误差
+    int x_h=0, x_m=0 ;
     void listenToGsettings();                                           //监听
     void updateFront(const int size);
     void set24ClockItem(int time_H,int time_M,int time_S,int rowNum);
