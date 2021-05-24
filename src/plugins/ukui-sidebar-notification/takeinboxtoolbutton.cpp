@@ -31,14 +31,11 @@ void TakeInBoxToolButton::enterEvent(QEvent *event)
     Q_UNUSED(event);
     setIconSize(QSize(24,24));
     //设置边框, 边框色, 背景色, 字体色, 字号
-    if(false == m_bEnterTakeInBox)
-    {
+    if (false == m_bEnterTakeInBox) {
           setIcon(QIcon(":/images/box-24-hover.svg"));
           this->setToolTip((tr("Enter unimportant news")));
 
-    }
-    else
-    {
+    } else {
         setIcon(QIcon(":/images/exitbox-24-hover.svg"));
         this->setToolTip((tr("Quit unimportant news")));
     }
@@ -48,11 +45,9 @@ void TakeInBoxToolButton::enterEvent(QEvent *event)
 void TakeInBoxToolButton::leaveEvent(QEvent *event)
 {
     Q_UNUSED(event);
-    if(false == m_bEnterTakeInBox)
-    {
+    if (false == m_bEnterTakeInBox) {
         setIcon(QIcon(":/images/box-24.svg"));
-    }
-    else {
+    } else {
         setIcon(QIcon(":/images/exitbox-24.svg"));
     }
 
@@ -63,15 +58,11 @@ void TakeInBoxToolButton::leaveEvent(QEvent *event)
 void TakeInBoxToolButton::mousePressEvent(QMouseEvent *event)
 {
 
-    if (event->buttons() == Qt::LeftButton)
-    {
+    if (event->buttons() == Qt::LeftButton) {
         setIconSize(QSize(20,20));
-        if(false == m_bEnterTakeInBox)
-        {
+        if (false == m_bEnterTakeInBox) {
             setIcon(QIcon(":/images/box-24-hover.svg"));
-        }
-        else
-        {
+        } else {
             setIcon(QIcon(":/images/exitbox-24-hover.svg"));
         }
     }
@@ -83,23 +74,18 @@ void TakeInBoxToolButton::mouseReleaseEvent(QMouseEvent *event)
 {
     setIconSize(QSize(24,24));
     //设置边框, 边框色, 背景色, 字体色, 字号
-    if(false == m_bEnterTakeInBox)
-    {
+    if (false == m_bEnterTakeInBox) {
         setIcon(QIcon(":/images/box-24.svg"));
-    }
-    else
-    {
+    } else {
         setIcon(QIcon(":/images/exitbox-24.svg"));
     }
 
     int x = event->x();
     int y = event->y();
     //假如在QRect(0, 0, 24, 24));这个区域里，就发出信号
-    if (x >= 0 && x <= 24 && y >= 0 && y<=24)
-    {
+    if (x >= 0 && x <= 29 && y >= 0 && y<=29) {
         emit Sig_clicked();
     }
-
     return;
 }
 
