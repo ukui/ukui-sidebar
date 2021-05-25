@@ -94,6 +94,10 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pAnimationBaseMapWidget->setAttribute(Qt::WA_TranslucentBackground);
 
     pIconToolButton->setFixedSize(24, 24);
+    if (strIconPath.contains("file://")) {
+        int length = strIconPath.length();
+        strIconPath = strIconPath.mid(7, length);
+    }
     QPixmap pixmap = QIcon::fromTheme(strIconPath, QIcon::fromTheme("application-x-desktop")).pixmap(QSize(24, 24));
     PictureToWhite pictToWhite;
     pIconToolButton->setPixmap(pictToWhite.drawSymbolicColoredPixmap(pixmap));
