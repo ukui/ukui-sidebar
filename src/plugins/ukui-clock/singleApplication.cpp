@@ -30,7 +30,7 @@ SingleApplication::SingleApplication(int &argc, char **argv)
     // 取应用程序名作为LocalServer的名字
     // Take the application name as the name of localserver
     _serverName = QFileInfo(QCoreApplication::applicationFilePath()).fileName() + QLatin1String(getenv("DISPLAY"));
-
+    qDebug()<<"dbq-_serverName"<<_serverName;
     _initLocalConnection();
 }
 
@@ -46,9 +46,14 @@ bool SingleApplication::isRunning() {
 // The single instance of the program is run through socket communication, which is triggered when listening to a new connection
 void SingleApplication::_newLocalConnection()
 {
+    //返回下一个挂起的连接，作为连接的QLocalSocket对象。
     QLocalSocket *socket = _localServer->nextPendingConnection();
+    qDebug()<<"dbq-socket"<<socket;
     if (socket) {
+        //该函数将阻塞，直到可以读取数据并且发出readyRead（）信号为止。 该函数将在毫秒毫秒后超时； 默认超时为30000毫秒。
+       // 如果有可供读取的数据，则该函数返回true；否则返回false 否则返回false（如果发生错误或操作超时）。
         socket->waitForReadyRead(2*TIME_OUT);
+        //关闭socket
         delete socket;
 
         // 其他处理，如：读取启动参数
@@ -67,9 +72,11 @@ void SingleApplication::_initLocalConnection()
 
     QLocalSocket socket;
     socket.connectToServer(_serverName);
+    //建立链接，超时时间500ms
     if (socket.waitForConnected(TIME_OUT)) {
         fprintf(stderr, "%s already running.\n",
                 _serverName.toLocal8Bit().constData());
+        //有连接，改状态，直接返回
         _isRunning = true;
         // 其他处理，如：将启动参数发送到服务端
         // Other processing, such as sending startup parameters to the server
@@ -86,6 +93,7 @@ void SingleApplication::_initLocalConnection()
 void SingleApplication::_newLocalServer()
 {
     _localServer = new QLocalServer(this);
+    //信号：每当有新的连接
     connect(_localServer, SIGNAL(newConnection()), this, SLOT(_newLocalConnection()));
     if (!_localServer->listen(_serverName)) {
         // 此时监听失败，可能是程序崩溃时,残留进程服务导致的,移除之
@@ -102,6 +110,7 @@ void SingleApplication::_newLocalServer()
 // Activate main window
 void SingleApplication::_activateWindow() {
     if (w) {
+        qDebug("dbq-执行_activateWindow");
         w->show();
         w->raise();
         w->activateWindow(); // 激活窗口

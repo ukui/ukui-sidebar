@@ -34,7 +34,7 @@ class noteExitWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit noteExitWindow(Widget* page,QWidget *parent=nullptr);
+    explicit noteExitWindow(Widget* page, QWidget *parent=nullptr);
     ~noteExitWindow();
     void exitImmediate();
 

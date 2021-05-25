@@ -20,7 +20,9 @@
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
 #include <QDebug>
-
+/**
+ * @brief 未被使用的类
+ */
 Notice_Dialog::Notice_Dialog(QWidget *parent, int close_time, int num) :
     QDialog(parent),
     num_flag(num),

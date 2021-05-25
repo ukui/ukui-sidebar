@@ -33,6 +33,8 @@ public:
     bool isRunning();               // 是否已經有实例在运行
     Widget *w;                      // Widget指针
 
+signals:
+    void messageReceived(/*const QString &message*/);
 private slots: 
     void _newLocalConnection();     // 有新连接时触发
 

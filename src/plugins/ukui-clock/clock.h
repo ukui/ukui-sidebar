@@ -91,6 +91,9 @@
 #include "btnNew.h"
 #include "closeOrHide.h"
 #include "ui_setupPage.h"
+#include "constant_class.h"
+#include "utils.h"
+#include "primarymanager.h"
 
 class QDialog;
 class QSpinBox;
@@ -103,15 +106,6 @@ class QSqlTableModel;
 class Btn_new;
 class close_or_hide;
 
-#define ORG_UKUI_STYLE            "org.ukui.style"
-#define STYLE_NAME                "styleName"
-#define STYLE_NAME_KEY_DARK       "ukui-dark"
-#define STYLE_NAME_KEY_DEFAULT    "ukui-default"
-#define STYLE_NAME_KEY_BLACK      "ukui-black"
-#define STYLE_NAME_KEY_LIGHT      "ukui-light"
-#define STYLE_NAME_KEY_WHITE      "ukui-white"
-#define STYLE_ICON                "icon-theme-name"
-#define STYLE_ICON_NAME           "iconThemeName"
 
 namespace Ui {
 class Clock;
@@ -143,8 +137,7 @@ public:
         SP_CENTER,
         SP_RIGHT
     };
-
-    void moveUnderMultiScreen(Clock::ScreenPosition);                                    //多显示器下，位置移动
+    void moveUnderMultiScreen(Clock::ScreenPosition,Natice_alarm * dialog);                                    //多显示器下，位置移动
     QString formatX_h(int x_h);
     Ui::Clock *ui;
     QString m_timeZone;
@@ -273,9 +266,7 @@ private slots:
                                                                                          // Alarm clock initialization music selection interface callback
     void musicListclickslot();                                                           // 闹钟初始化单击选择音乐
                                                                                          // Alarm initialization Click to select music
-    void timeMusic();                                                                    // 闹钟初始化音乐时长选择界面回调
                                                                                          // Alarm clock initialization music time selection interface callback
-    void timeMusicListclickslot();                                                       // 单击选择音乐时长回调
                                                                                          // Click to select music duration callback
     void setUpPage();                                                                    // 设置页面绘制回调
                                                                                          // Set page draw callback
@@ -304,7 +295,7 @@ private slots:
     void countStatBtnGray();
 
     QString get12hourStr(int x_h);
-
+    void createUserGuideDebusClient();
 private:
     QPoint m_startPoint;
     QTimer *timer = nullptr;
@@ -317,6 +308,9 @@ private:
     int alarmMinute;
     int cPauseTime;
     bool isStarted;
+    /**
+ * @brief 倒计时运行标记
+ */
     bool countdown_isStarted;
     bool countdown_isStarted_2;
     bool stopwatch_isStarted;
@@ -399,18 +393,19 @@ private:
 
     set_alarm_repeat_Dialog *dialog_repeat = nullptr;
     set_alarm_repeat_Dialog *dialog_music = nullptr;
-    set_alarm_repeat_Dialog *time_music = nullptr;
+//    set_alarm_repeat_Dialog *time_music = nullptr;
     set_alarm_repeat_Dialog *count_music_sellect = nullptr;
 
     close_or_hide *close_or_hide_page;
     adaptScreenInfo *m_pSreenInfo = nullptr;
-
+    PrimaryManager * primaryManager = nullptr;
+    Utils *utils = nullptr;
     QWidget *grand = nullptr;
     setuppage *setup_page = nullptr;
     QString repeat_str;
     QString repeat_str_model;
     QString music_str_model;
-    QString time_music_str_model;
+//    QString time_music_str_model;
     QString clock_name;
     QLineEdit *lineEdit = nullptr;
     QPropertyAnimation *animation1;
@@ -431,7 +426,7 @@ private:
     Btn_new *count_sel_1;
     Btn_new *repeat_sel;
     Btn_new *time_sel;
-    Btn_new *ring_sel;
+//    Btn_new *ring_sel;
     QMenu *m_menu;                                                  /*功能菜单*/
     QAction *m_menuAction;                                          /*菜单动作*/
 
@@ -440,8 +435,13 @@ private:
     QAction *action_Clear_In_ListWidget_;                           /*闹钟右键删除动作*/
     Natice_alarm *countdownNoticeDialog;
     QDBusInterface *userGuideInterface;                                   // 用户手册
+    bool refreshCountdownLabel11Flag = false;               //是否刷新，倒计时上的小闹钟时间的数值。因为秒数的变化，如果一直动态计算，会出现1分钟的误差
+    int x_h=0, x_m=0 ;
     void listenToGsettings();                                           //监听
     void updateFront(const int size);
+    void set24ClockItem(int time_H,int time_M,int time_S,int rowNum);
+    void set12ClockItem(int time_H,int time_M,int time_S,int rowNum);
+    void clearClockItem(int rowNum);
 };
 
 #endif // CLOCK_H

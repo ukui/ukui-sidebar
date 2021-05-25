@@ -27,7 +27,13 @@
 #include "xatom-helper.h"
 
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
-
+/**
+ * @brief
+ * @param
+ * @param      num 闹钟序号 倒计时传-1
+ *
+ * @return 返回说明
+ */
 Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
     QWidget(parent),
     num_flag(num),
@@ -50,31 +56,37 @@ Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
 
     this->setFixedSize(270,162);
     QPixmap dialogPixmap = QPixmap(":/clock.ico");
+    //响铃提示
     this->setWindowTitle(tr("Ring prompt"));
     this->setWindowIcon(dialogPixmap);
-
+    //隐藏
     ui->label_2->setAlignment(Qt::AlignHCenter);
+    //时间到
     ui->label_3->setAlignment(Qt::AlignHCenter);
+    //多少秒后自动关闭
     ui->label_4->setAlignment(Qt::AlignHCenter);
     QPalette pa;
     pa.setColor(QPalette::WindowText,Qt::gray);
     ui->label_4->setPalette(pa);
 
     //this->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
-
+    //保存一个多少秒后关闭，用于稍后提醒的显式
     timer_value2 = timer_value;
-
+    //右上角关闭
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(set_dialog_close()) );
+    //关闭
     connect(ui->pushButton_3, SIGNAL(clicked()), this, SLOT(set_dialog_close()) );
+    //稍后提醒
     connect(ui->pushButton_2, SIGNAL(clicked()), this, SLOT(show_again()) );
-
+    //进行 剩余秒数显示 的定时
     timer = new QTimer();
+    //剩余秒 减1
     connect(timer, SIGNAL(timeout()), this, SLOT(close_music()));
     timer->setInterval(1000);
     timer->start();
 
     timer_xumhuan = new QTimer();
-    //每秒执行一次
+    //稍后提醒的定时
     connect(timer_xumhuan, SIGNAL(timeout()), this, SLOT(ring()));
     timer_xumhuan->setInterval(1000);
 
@@ -101,8 +113,8 @@ Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
     ui->pushButton->setProperty("isWindowButton", 0x2);
     ui->pushButton->setProperty("useIconHighlightEffect", 0x8);
     ui->pushButton->setFlat(true);
-
-    this->setWindowIcon(QIcon::fromTheme("kylin-alarm-clock",QIcon(":/image/kylin-alarm-clock.svg")));
+    //启用主题框架不需要代码
+//    this->setWindowIcon(QIcon::fromTheme("kylin-alarm-clock",QIcon(":/image/kylin-alarm-clock.svg")));
     ui->titleIcon->setPixmap(QIcon::fromTheme("kylin-alarm-clock").pixmap(24,24));
     //固定字体大小，避免放大覆盖
     QFont font;
@@ -120,7 +132,13 @@ Natice_alarm::~Natice_alarm()
     delete timer_xumhuan;
     delete ui;
 }
-
+/**
+ * @brief 初始化铃声
+ * @param
+ * @param
+ *
+ * @return 返回说明
+ */
 void Natice_alarm::natice_init()
 {
     QSqlTableModel *model = new QSqlTableModel(this);
@@ -146,6 +164,7 @@ void Natice_alarm::natice_init()
                                         // Initialize playlist
     if(num_flag >= 0)
     {
+        //闹钟的铃声配置
         if(model->index(num_flag, 2).data().toString().compare(tr("glass"))==0){
             playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/glass.ogg"));
         } else if (model->index(num_flag, 2).data().toString().compare(tr("bark"))==0) {
@@ -156,6 +175,7 @@ void Natice_alarm::natice_init()
             playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/drip.ogg"));
         }
     } else {
+        //倒计时的铃声配置
         if (model_setup->index(0, 19).data().toString().compare(tr("glass"))==0) {
             playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/glass.ogg"));
         } else if(model_setup->index(0, 19).data().toString().compare(tr("bark"))==0) {
@@ -216,7 +236,13 @@ void Natice_alarm::refreshMusic()
 }
 
 //窗口关闭
-//window closing
+/**
+ * @brief 铃声、窗体、timer关闭
+ * @param
+ * @param
+ *
+ * @return 返回说明
+ */
 void Natice_alarm::set_dialog_close()
 {
     timer->stop();
@@ -224,12 +250,18 @@ void Natice_alarm::set_dialog_close()
     if(num_flag >= 0)
     {
         this->close();
-    }else{
+    }else{ //倒计时的隐藏不关闭
         this->hide();
     }
 }
 //关闭音乐
-//Turn off music
+/**
+ * @brief 剩余时间读秒 全关闭
+ * @param
+ * @param
+ *
+ * @return 返回说明
+ */
 void Natice_alarm::close_music()
 {
     if (timer_value == 0) {

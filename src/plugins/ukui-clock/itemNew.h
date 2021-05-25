@@ -25,19 +25,16 @@
 #include <QFrame>
 #include <QGSettings>
 #include "CustomButton.h"
+#include "constant_class.h"
 
-#define ORG_UKUI_STYLE            "org.ukui.style"
-#define STYLE_NAME                "styleName"
-#define STYLE_NAME_KEY_DARK       "ukui-dark"
-#define STYLE_NAME_KEY_DEFAULT    "ukui-default"
-#define STYLE_NAME_KEY_BLACK       "ukui-black"
-#define STYLE_NAME_KEY_LIGHT       "ukui-light"
-#define STYLE_NAME_KEY_WHITE       "ukui-white"
+
 
 namespace Ui {
 class item_new;
 }
-
+/**
+ * @brief 闹钟列表子项
+ */
 class item_new : public QWidget
 {
     Q_OBJECT

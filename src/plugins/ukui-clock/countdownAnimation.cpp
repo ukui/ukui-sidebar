@@ -28,11 +28,12 @@ Countdown_Animation::Countdown_Animation(QWidget *parent , int value) :
     QWidget(parent)
 {
     setupUi(this);
-
+    //渐变色
     QGradientStops gradientPoints;
     gradientPoints << QGradientStop(0.5, QColor(255, 160, 90)) << QGradientStop(1, QColor(180, 30, 10)); //渐变起止颜色设置
                                                                                                          // Gradient start and stop color settings
     RoundBar3->setDataColors(gradientPoints);
+    //设置动态光圈转动频率
     connectToSlider(RoundBar3);
 }
 
@@ -56,38 +57,59 @@ void Countdown_Animation::connectToSlider(QRoundProgressBar *bar)
     timer->start();
 }
 
-
+/**
+ * @brief 设置UI
+ * @param TestWidget  窗体
+ * @param
+ *
+ * @return 返回说明
+ */
 void Countdown_Animation::setupUi(QWidget *TestWidget)
 {
     if (TestWidget->objectName().isEmpty())
         TestWidget->setObjectName(QString::fromUtf8("TestWidget"));
     TestWidget->resize(454, 461);
+    //时间滚轮
     RoundBar3 = new QRoundProgressBar(TestWidget);
     RoundBar3->setObjectName(QString::fromUtf8("RoundBar3"));
     RoundBar3->setGeometry(QRect(0, 0, 454, 461));
+    //管理着控件或窗体的所有颜色信息
     QPalette palette;
     QBrush brush(QColor(255, 255, 255, 0));
     brush.setStyle(Qt::SolidPattern);
     palette.setBrush(QPalette::Active, QPalette::Base, brush);
-    QBrush brush1(QColor(170, 0, 0, 255));
-    brush1.setStyle(Qt::SolidPattern);
-    palette.setBrush(QPalette::Active, QPalette::Highlight, brush1);
+    //红色
+    QBrush brushRed(QColor(170, 0, 0, 255));
+    brushRed.setStyle(Qt::SolidPattern);
+    //活跃状态（获得焦点） 高亮背景色
+    palette.setBrush(QPalette::Active, QPalette::Highlight, brushRed);
     palette.setBrush(QPalette::Inactive, QPalette::Base, brush);
-    palette.setBrush(QPalette::Inactive, QPalette::Highlight, brush1);
-    QBrush brush2(QColor(244, 244, 244, 255));
-    brush2.setStyle(Qt::SolidPattern);
-    palette.setBrush(QPalette::Disabled, QPalette::Base, brush2);
-    QBrush brush3(QColor(50, 100, 150, 255));
-    brush3.setStyle(Qt::SolidPattern);
-    palette.setBrush(QPalette::Disabled, QPalette::Highlight, brush3);
+    //不活跃状态（未获得焦点）
+    palette.setBrush(QPalette::Inactive, QPalette::Highlight, brushRed);
+    //白色
+    QBrush brushWhite(QColor(244, 244, 244, 255));
+    brushWhite.setStyle(Qt::SolidPattern);
+    palette.setBrush(QPalette::Disabled, QPalette::Base, brushWhite);
+    //深蓝
+    QBrush brushBlue(QColor(50, 100, 150, 255));
+    brushBlue.setStyle(Qt::SolidPattern);
+    //不可用状态
+    palette.setBrush(QPalette::Disabled, QPalette::Highlight, brushBlue);
     RoundBar3->setPalette(palette);
 
     retranslateUi(TestWidget);
 
     QMetaObject::connectSlotsByName(TestWidget);
 }
-
+/**
+ * @brief 翻译窗体名称
+ * @param
+ * @param
+ *
+ * @return 返回说明
+ */
 void Countdown_Animation::retranslateUi(QWidget *TestWidget)
 {
+    //翻译标题是个""
     TestWidget->setWindowTitle(QApplication::translate("TestWidget", "TestWidget", nullptr));
 }

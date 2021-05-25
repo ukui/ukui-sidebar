@@ -93,22 +93,22 @@ void noteHeadMenu::btnInit()
     QAction *m_menuAction = new QAction(m_menu);
 
     m_menuActionDel = new QAction(m_menu);
-    QAction *m_childAction1 = new QAction(m_childMenu);
-    QAction *m_childAction2 = new QAction(m_childMenu);
-    QAction *m_childAction3 = new QAction(m_childMenu);
+    QAction *m_jpgAction = new QAction(m_childMenu);
+    QAction *m_pdfAction = new QAction(m_childMenu);
+    QAction *m_mailAction = new QAction(m_childMenu);
 
     m_menu->setProperty("fillIconSymbolicColor", true);
     m_menuAction->setText(tr("Open note list"));
     m_menuActionDel->setText(tr("Delete this note"));
     m_childMenu->setTitle(tr("Share"));
 
-    m_childAction1->setText("Export to jpg");
-    m_childAction2->setText("Export to pdf");
-    m_childAction3->setText("Mail");
+    m_jpgAction->setText("Export to jpg");
+    m_pdfAction->setText("Export to pdf");
+    m_mailAction->setText("Mail");
 
-    m_childMenu->addAction(m_childAction1);
-    m_childMenu->addAction(m_childAction2);
-    m_childMenu->addAction(m_childAction3);
+    m_childMenu->addAction(m_jpgAction);
+    m_childMenu->addAction(m_pdfAction);
+    m_childMenu->addAction(m_mailAction);
 
     //m_menu->addMenu(m_childMenu);
     m_menu->addAction(m_menuActionDel);

@@ -21,17 +21,19 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QStandardPaths>
+#include <QDebug>
 //创建或打开数据库
 //Create or open database
 static bool createConnection()
 {
 
     QString url_filepath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) +"/.config/Clock_database.db";
+    //SQLite是一款轻量级的开源的嵌入式数据库
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(url_filepath);
-
+    qDebug()<<"dbq-"<<"数据库地址"<<url_filepath;
     if(!db.open()) return false;
-
+    //建表语句
     QSqlQuery query;
     query.exec(QString(
                    "create table clock (Hour int, Minute int, Music QString, onoroff int, NUM int, repeat Qstring,Monday int, Tuesday int, Wednesday int, Thursday int, Friday int, Saturday int , Sunday int, Musictime QString, Name Qstring)"));
@@ -41,7 +43,7 @@ static bool createConnection()
                       QSqlQuery query_stop;
             query_stop.exec(QString(
                                     "create table Stopwatch (num int, stopwatch_h int, stopwatch_m int, stopwatch_s int, stopwatch_jg_h int, stopwatch_jg_m int, stopwatch_jg_s int)"));
-
+            qDebug()<<"dbq-"<<"执行建表语句";
             return true;
 }
 

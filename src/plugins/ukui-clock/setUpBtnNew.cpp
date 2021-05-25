@@ -3,7 +3,9 @@
 #include <QDebug>
 #include "clock.h"
 #include <QPainterPath>
-
+/**
+ * @brief 在setUp页面使用的BtnNew、与BtnNew区别于组件大小
+ */
 setUpBtnNew::setUpBtnNew(int num, QString name, QWidget *parent) :
     QPushButton(parent),
     clock_num(num)
@@ -47,6 +49,7 @@ void setUpBtnNew::paintEvent(QPaintEvent *event)
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     QPainterPath rectPath;
+    //圆角
     rectPath.addRoundedRect(this->rect(), 6, 6); // 左上右下
 
     QPainter painter(this);

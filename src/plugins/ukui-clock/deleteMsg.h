@@ -26,7 +26,9 @@
 namespace Ui {
 class delete_msg;
 }
-
+/**
+ * @brief 删除消息弹框
+ */
 class delete_msg : public QDialog
 {
     Q_OBJECT

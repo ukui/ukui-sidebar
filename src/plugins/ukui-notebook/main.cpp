@@ -118,6 +118,7 @@ int main(int argc, char *argv[])
 
     SingleApplication a(argc, argv);
 
+    a.setWindowIcon(QIcon::fromTheme("kylin-notebook"));
     a.setApplicationVersion ("1.0.0");
 
     QCommandLineParser parser;
@@ -146,6 +147,9 @@ int main(int argc, char *argv[])
         XAtomHelper::getInstance()->setWindowMotifHint(w.winId(), hints);
         //w.setAttribute(Qt::WA_TranslucentBackground);
         //KWindowEffects::enableBlurBehind(w.winId(),true);
+
+        QObject::connect(&a, SIGNAL(messageReceived(/*const QString&*/)), &w, SLOT(sltMessageReceived(/*const QString&*/)));
+
         return a.exec();
     }
     return 0;

@@ -58,9 +58,10 @@ Widget::Widget(QWidget *parent) :
     m_isContentModified(false),
     m_isColorModified(false),
     m_isOperationRunning(false),
-    mousePressed(false)
+    mousePressed(false),
+    m_isTextCpNew(false)
 {
-    translator = new QTranslator;
+    translator = new QTranslator(this);
     if (translator->load(QLocale(), QLatin1String("ukui-notebook"), QLatin1String("_"),
                          QLatin1String("/usr/share/ukui-sidebar/ukui-notebook")))
         QApplication::installTranslator(translator);
@@ -87,6 +88,7 @@ Widget::~Widget()
     }
     m_editors.clear();
     delete ui;
+    delete m_dbManager;
     m_dbThread->quit();
     m_dbThread->wait();
     delete m_dbThread;
@@ -270,13 +272,13 @@ void Widget::kyNoteInit()
     // setProperty("blurRegion", QRegion(blurPath.toFillPolygon().toPolygon()));//使用QPainterPath的api生成多边形Region
 
     // 弹出位置
-    m_pSreenInfo = new adaptScreenInfo();
+    m_pSreenInfo = new adaptScreenInfo(this);
     move((m_pSreenInfo->m_screenWidth - this->width() + m_pSreenInfo->m_nScreen_x)/2,
          (m_pSreenInfo->m_screenHeight - this->height())/2);
     // 标题
     this->setWindowTitle(tr("Notes"));
     // 任务栏图标
-    setWindowIcon(QIcon::fromTheme("kylin-notebook"));
+    //setWindowIcon(QIcon::fromTheme("kylin-notebook"));
     ui->iconLabel->setPixmap(QIcon::fromTheme("kylin-notebook").pixmap(24, 24));
     ui->titleLabel->setText(tr("Notes"));
     // 钮
@@ -391,7 +393,7 @@ void Widget::listenToGsettings()
     const QByteArray id(THEME_QT_SCHEMA);
 
     if (QGSettings::isSchemaInstalled(id)) {
-        QGSettings *styleSettings = new QGSettings(id);
+        QGSettings *styleSettings = new QGSettings(id, QByteArray(), this);
         connect(styleSettings, &QGSettings::changed, this, [=](const QString &key){
             auto style = styleSettings->get(key).toString();
             if (key == "styleName") {
@@ -416,7 +418,7 @@ void Widget::listenToGsettings()
     const QByteArray idd(PERSONALISE_SCHEMA);
 
     if (QGSettings::isSchemaInstalled(idd)) {
-        QGSettings *opacitySettings = new QGSettings(idd);
+        QGSettings *opacitySettings = new QGSettings(idd, QByteArray(), this);
         connect(opacitySettings, &QGSettings::changed, this, [=](const QString &key){
             if (key == "transparency") {
                 QStringList keys = opacitySettings->keys();
@@ -435,7 +437,7 @@ void Widget::listenToGsettings()
     userGuideInterface = new QDBusInterface(serviceName,
                                             "/",
                                             "com.guide.hotel",
-                                            QDBusConnection::sessionBus());
+                                            QDBusConnection::sessionBus(), this);
     qDebug() << "connect to kylinUserGuide" << userGuideInterface->isValid();
     if (!userGuideInterface->isValid()) {
         qDebug() << "fail to connect to kylinUserGuide";
@@ -447,7 +449,7 @@ void Widget::listenToGsettings()
     const QByteArray iddd(FORMAT_SCHEMA);
 
     if (QGSettings::isSchemaInstalled(iddd)) {
-        QGSettings *m_formatsettings = new QGSettings(iddd);
+        QGSettings *m_formatsettings = new QGSettings(iddd, QByteArray(), this);
 
         connect(m_formatsettings, &QGSettings::changed, this, [=](const QString &key) {
             if (key == "hoursystem") {
@@ -557,7 +559,7 @@ void Widget::btnInit()
         userGuideInterface->call(QString("showGuide"), "ukui/ukui-notebook");
     });
     connect(m_aboutAction, &QAction::triggered, this, [=](){
-        About *dialog = new About();
+        About *dialog = new About(this);
         dialog->exec();
     });
     // 隐藏menu下箭头
@@ -913,10 +915,20 @@ void Widget::createNewNote()
             SLOT(onTextEditTextChanged(int,int)));
     connect(m_editors[m_editors.size() - 1], SIGNAL(colorhasChanged(QColor,int)), this,
             SLOT(onColorChanged(QColor,int)));
+    //将选择的内容复制到新的便签页
+    connect(m_notebook, SIGNAL(textForNewEditpageSig()), this, SLOT(textForNewEditpageSigReceived()));
     // 设置鼠标焦点
     m_notebook->ui->textEdit->setFocus();
     // 移动光标至行末
     m_notebook->ui->textEdit->moveCursor(QTextCursor::End, QTextCursor::MoveAnchor);
+    if(m_isTextCpNew)
+    {
+        //qDebug() << "ZDEBUG " << " m_isTextCpNew = true";
+        QClipboard *clipboard = QApplication::clipboard();   //获取系统剪贴板指针
+        QString originalText  = clipboard->text();       //获取剪贴板上文本信息
+        m_notebook->ui->textEdit->setText(originalText);
+        m_isTextCpNew = false;
+    }
     m_notebook->show();
 }
 
@@ -1308,7 +1320,10 @@ void Widget::exitSlot()
  */
 void Widget::trashSlot()
 {
+    if(!m_emptyNotes->mIsDontShow)
     m_emptyNotes->exec();
+        else
+    emit m_emptyNotes->requestEmptyNotes();
 }
 
 /*!
@@ -1321,6 +1336,11 @@ void Widget::miniSlot()
     this->showMinimized();
 }
 
+void Widget::textForNewEditpageSigReceived()
+{
+    m_isTextCpNew = true;
+    newSlot();
+}
 /*!
  * \brief Widget::newSlot
  *
@@ -1572,5 +1592,44 @@ void Widget::setNoteNullSlot()
 void Widget::onF1ButtonClicked()
 {
     qDebug() << "onF1ButtonClicked";
-    userGuideInterface->call(QString("showGuide"), "tools/ukui-notebook");
+    userGuideInterface->call(QString("showGuide"), "ukui/ukui-notebook");
+    //userGuideInterface->call(QString("showGuide"), "tools/ukui-notebook");
+}
+
+/*!
+ * \brief Widget::sltMessageReceived
+ *
+ */
+void Widget::sltMessageReceived(/*const QString &msg*/) {
+    int noteId = m_currentSelectedNoteProxy.data(NoteModel::NoteID).toInt();
+    qDebug() << __FUNCTION__ << __LINE__ << "noteId  == " << noteId;
+
+    if(this->isHidden())
+    {
+        this->m_notebook->show();
+        this->m_notebook->activateWindow();
+        this->m_notebook->raise();
+    }
+    else
+    {
+        this->raise();
+        this->activateWindow();
+        this->show();
+    }
+
+#if 0
+    int noteId = m_currentSelectedNoteProxy.data(NoteModel::NoteID).toInt();
+
+        if (m_noteModel->rowCount() > 0/* && m_currentSelectedNoteProxy.isValid()*/) {
+            int noteId = m_currentSelectedNoteProxy.data(NoteModel::NoteID).toInt();
+            for (auto it = m_editors.begin(); it != m_editors.end(); it++) {
+                if ((*it)->m_noteId == noteId) {
+                    (*it)->raise();
+                    (*it)->activateWindow();
+                    (*it)->show();
+                    break;
+                }
+            }
+        }
+#endif
 }

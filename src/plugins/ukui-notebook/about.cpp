@@ -87,7 +87,7 @@ void About::listenToGsettings()
     QStringList stylelist;
 
     if (QGSettings::isSchemaInstalled(styleID)) {
-        QGSettings *styleUKUI = new QGSettings(styleID);
+        QGSettings *styleUKUI = new QGSettings(styleID, QByteArray(), this);
 
         stylelist << STYLE_NAME_KEY_DARK << STYLE_NAME_KEY_BLACK; // <<STYLE_NAME_KEY_DEFAULT;
 

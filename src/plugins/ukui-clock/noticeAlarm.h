@@ -32,7 +32,9 @@
 namespace Ui {
 class Natice_alarm;
 }
-
+/**
+ * @brief 右下角通知弹窗
+ */
 class Natice_alarm : public QWidget
 {
     Q_OBJECT

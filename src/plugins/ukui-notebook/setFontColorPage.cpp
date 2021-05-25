@@ -31,6 +31,11 @@ SetFontColor::SetFontColor(QWidget *parent) :
 SetFontColor::~SetFontColor()
 {
     delete ui;
+    //释放内存
+    for (int i=0; i < 10;i++)
+    {
+        delete list_aItem[i];
+    }
 }
 
 void SetFontColor::paintEvent(QPaintEvent *event)
@@ -68,7 +73,7 @@ void SetFontColor::setColor()
     //监听主题改变
     const QByteArray id(THEME_QT_SCHEMA);
     if(QGSettings::isSchemaInstalled(id)){
-        QGSettings *styleSettings = new QGSettings(id);
+        QGSettings *styleSettings = new QGSettings(id, QByteArray(), this);
         QString style = styleSettings->get(MODE_QT_KEY).toString();
         if(style == "ukui-default" || style == "ukui-white"
                 || style == "ukui-light" || style == "ukui"){

@@ -24,15 +24,13 @@ close_or_hide::close_or_hide(QWidget *parent) :
     XAtomHelper::getInstance()->setWindowMotifHint(this->winId(), hints);
 
     ui->label->setText(tr("Please select the state after closing:"));
-
+    //调色板
     QPalette palette = ui->surebtn->palette();
-    QColor ColorPlaceholderText(61,107,229,255);
-    QBrush brush2;
-    brush2.setColor(ColorPlaceholderText);
     palette.setColor(QPalette::Button,QColor(61,107,229,255));
     palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
+    //保留按钮
     ui->surebtn->setPalette(palette);
-
+    //退出按钮
     QPalette palette1 = ui->closebtn->palette();
     QColor ColorPlaceholderText1(255,255,255,0);
     QBrush brush;

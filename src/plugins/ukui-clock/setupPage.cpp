@@ -43,11 +43,15 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     this->setWindowFlags(m_flags | Qt::WindowStaysOnTopHint);
 
     ui->setupUi(this);
-
+    //工作日 废弃
     dialog_werk_day = new  set_alarm_repeat_Dialog(280,225,7,ui->widget);
+    //时间格式
     Time_format = new  set_alarm_repeat_Dialog(288,138,3,ui->widget);
+    //弹窗方式 废弃
     Pop_up_window = new  set_alarm_repeat_Dialog(280,75,2,ui->widget);
+    //稍后提醒时间间隔
     Reminder_off = new  set_alarm_repeat_Dialog(288,190,5,ui->widget);
+    //默认铃声
     Default_ringtone = new  set_alarm_repeat_Dialog(288,169,4,ui->widget);
 
     connect(dialog_werk_day->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(werk_day_listClickslot()));
@@ -55,11 +59,16 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     connect(Pop_up_window->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(Pop_up_window_listClickslot()));
     connect(Reminder_off->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(Reminder_off_listClickslot()));
     connect(Default_ringtone->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(Default_ringtone_listClickslot()));
-
+    //工作日 废弃
     repeat_sel = new Btn_new(10, tr("  work"), this);
+    //弹窗方式 废弃
     Pop_sel = new Btn_new(0, tr("  Pop-up"), this);
+    //时间格式
     Time_sel = new setUpBtnNew(0, tr("  Time"), this);
+    //稍后提醒时间间隔
+
     duration_sel = new setUpBtnNew(0, tr("  duration"), this);
+    //默认铃声
     ringtone_sel = new setUpBtnNew(0, tr("  ringtone"), this);
     repeat_sel->move(45, 97);repeat_sel->hide();
     Pop_sel ->move(45, 197);Pop_sel->hide();
@@ -72,7 +81,7 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     duration_sel->resize(268,40);
     ringtone_sel->resize(268,40);
 
-
+    //绑定下拉框
     connect(repeat_sel, SIGNAL(clicked()), this, SLOT(werk_day_set()) );
     connect(Time_sel, SIGNAL(clicked()), this, SLOT(Time_format_set()) );
     connect(Pop_sel, SIGNAL(clicked()), this, SLOT(Pop_up_window_set()) );
@@ -116,6 +125,8 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
             werk = 1;
         }
     }
+
+    //可以比较 Time.compare(tr("Following system") 而不是两个都写
     if(Time.compare("Following system") == 0 || Time.compare("跟随系统") == 0){
         Time = tr("Following system");
     }else if(Time.compare("24 hour system") == 0 || Time.compare("24小时制") == 0){
@@ -172,6 +183,7 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     palette1.setBrush(QPalette::Button, brush);
     ui->pushButton_6->setPalette(palette1);
     ui->pushButton_6->setEnabled(false);
+    //引入主体的事件过滤器
     ui->pushButton_6->installEventFilter(this);
 
     ui->closeBtn->setIcon(QIcon::fromTheme("window-close-symbolic"));
@@ -663,9 +675,12 @@ void setuppage::paintEvent(QPaintEvent *event)
 
 }
 
-
+/**
+ * @brief 事件拦截器
+ */
 bool setuppage::eventFilter(QObject *watched, QEvent *event)
 {
+    //拦截按钮pushButton_6 的Paint QEvent
     if(watched == ui->pushButton_6 && event->type() == QEvent::Paint)
     {
         showPaint2();
@@ -684,7 +699,9 @@ void setuppage::showPaint1()
 {
 
 }
-
+/**
+ * @brief 颜色切换
+ */
 void setuppage::showPaint2()
 {
     QPalette palette = ui->pushButton_6->palette();
