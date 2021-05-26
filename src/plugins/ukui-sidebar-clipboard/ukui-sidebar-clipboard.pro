@@ -13,6 +13,8 @@ CONFIG += plugin c++11 link_pkgconfig
 PKGCONFIG += gsettings-qt
 include(../../env.pri)
 
+QMAKE_CFLAGS += -D_FORTIFY_SOURCE=2 -O2
+
 DEFINES += QT_DEPRECATED_WARNINGS
 
 RESOURCES  += clipboardPlugin.qrc
