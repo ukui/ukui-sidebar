@@ -41,13 +41,7 @@ void adaptScreenInfo::screenNumChange()
 {
     m_pListScreen = QGuiApplication::screens();
 }
-//未发现调用
-void adaptScreenInfo::modifyMemberVariable()
-{
-    foreach (QScreen *screen, QGuiApplication::screens()) {
 
-    }
-}
 
 /* 初始化屏幕高度， 宽度 */
 void adaptScreenInfo::initScreenSize()

@@ -21,6 +21,7 @@
 #include <QDesktopWidget>
 #include <X11/Xlib.h>
 #include "xatom-helper.h"
+#include <ukui-log4qt.h>
 
 /*!
  * \brief myMessageOutput
@@ -31,7 +32,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
     // 加锁
     static QMutex mutex;
     mutex.lock();
-    //qDebug()<<msg;
+    qDebug()<<msg;
     QByteArray localMsg = msg.toLocal8Bit();
 
     QString strMsg("");
@@ -82,8 +83,9 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 
 int main(int argc, char *argv[])
 {
-    // 自定义消息处理
-    qInstallMessageHandler(myMessageOutput);
+    //实例化日志
+//    qInstallMessageHandler(myMessageOutput);
+    initUkuiLog4qt(APPLICATION_NAME);
     //适配分数缩放
     #if (QT_VERSION >= QT_VERSION_CHECK(5, 12, 0))
         QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
