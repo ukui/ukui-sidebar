@@ -38,7 +38,7 @@
         <location filename="../../src/plugins/ukui-clock/about.cpp" line="44"/>
         <source>Version: </source>
         <translatorcomment>版本：</translatorcomment>
-        <translation>版本：</translation>
+        <translation>版本: </translation>
     </message>
     <message>
         <source>Version: 2020.1.0</source>
@@ -50,7 +50,7 @@
         <location filename="../../src/plugins/ukui-clock/about.cpp" line="112"/>
         <source>Service &amp; Support: </source>
         <translatorcomment>服务与支持团队：</translatorcomment>
-        <translation>服务与支持团队：</translation>
+        <translation>服务与支持团队: </translation>
     </message>
     <message>
         <source>Support and service team: support@kylinos.cn</source>
@@ -1293,7 +1293,7 @@
     <message>
         <location filename="../../src/plugins/ukui-clock/itemNew.cpp" line="81"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>

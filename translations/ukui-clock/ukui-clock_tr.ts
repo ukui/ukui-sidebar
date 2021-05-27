@@ -11,12 +11,12 @@
     <message>
         <location filename="../../src/plugins/ukui-clock/about.ui" line="87"/>
         <source>Alarm</source>
-        <translation type="unfinished">Alarm</translation>
+        <translation>Saat</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/about.ui" line="162"/>
         <source>Kylin Alarm</source>
-        <translation type="unfinished"></translation>
+        <translation>kylin saat</translation>
     </message>
     <message>
         <source>Clock</source>
@@ -34,7 +34,7 @@
     <message>
         <location filename="../../src/plugins/ukui-clock/about.cpp" line="44"/>
         <source>Version: </source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Version: 2020.1.0</source>
@@ -44,7 +44,7 @@
         <location filename="../../src/plugins/ukui-clock/about.cpp" line="104"/>
         <location filename="../../src/plugins/ukui-clock/about.cpp" line="112"/>
         <source>Service &amp; Support: </source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Support and service team: support@kylinos.cn</source>
@@ -126,7 +126,7 @@
         <location filename="../../src/plugins/ukui-clock/clock.ui" line="546"/>
         <location filename="../../src/plugins/ukui-clock/clock.ui" line="600"/>
         <source>save</source>
-        <translation type="unfinished"></translation>
+        <translation>Cts</translation>
     </message>
     <message>
         <source>Remind</source>
@@ -364,22 +364,22 @@
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="311"/>
         <source>Minimize</source>
-        <translation type="unfinished"></translation>
+        <translation>küçültmek</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="312"/>
         <source>Quit</source>
-        <translation type="unfinished"></translation>
+        <translation>Çık</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="313"/>
         <source>Menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Menü</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="515"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Yardım</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="578"/>
@@ -417,7 +417,7 @@
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="824"/>
         <source>up to 100 times</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="2078"/>
@@ -816,7 +816,7 @@
     <message>
         <location filename="../../src/plugins/ukui-clock/closeOrHide.cpp" line="26"/>
         <source>Please select the state after closing:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -847,7 +847,7 @@
     <message>
         <location filename="../../src/plugins/ukui-clock/itemNew.cpp" line="81"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
