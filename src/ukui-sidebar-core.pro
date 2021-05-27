@@ -81,13 +81,18 @@ desktopfile.path = /etc/xdg/autostart/
 schemes.files += data/org.ukui.log4qt.ukui-sidebar.gschema.xml
 schemes.path = /usr/share/glib-2.0/schemas/
 
+schemes1.files += data/org.ukui.sidebar.gschema.xml
+schemes1.path = /usr/share/glib-2.0/schemas/
+
 # Default rules for deployment.
 target.path = /usr/bin/
 !isEmpty(target.path): INSTALLS += target
 
 INSTALLS += desktopfile
 INSTALLS += schemes
+INSTALLS += schemes1
 
 DISTFILES += \
+    data/org.ukui.sidebar.gschema.xml \
     env.pri\
 

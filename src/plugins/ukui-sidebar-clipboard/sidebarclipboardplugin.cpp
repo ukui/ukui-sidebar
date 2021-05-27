@@ -44,7 +44,15 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
         qDebug() << "cannot load translator ukui-feedback_" << QLocale::system().name() << ".qm!";
 
     installEventFilter(this);
-    m_bPromptBoxBool = true;
+
+    const QByteArray id("org.ukui.sidebar");
+    if (QGSettings::isSchemaInstalled(id)) {
+        QGSettings *m_pGsetting = new QGSettings(id);
+        m_bPromptBoxBool = m_pGsetting->get("promptboxbool").toBool();
+    } else {
+        m_bPromptBoxBool = true;
+    }
+
 
     m_pClipboardDb = new clipboardDb();
 
@@ -66,7 +74,14 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
 
     /* 在点击确认键后判断是否有勾选不再提示这一功能 */
     connect(InternalSignal, &ClipBoardInternalSignal::CheckBoxSelectedSignal, this, [=]() {
-        m_bPromptBoxBool = false;
+        const QByteArray id("org.ukui.sidebar");
+        if (QGSettings::isSchemaInstalled(id)) {
+            QGSettings *m_pGsetting = new QGSettings(id);
+            m_bPromptBoxBool = false;
+            m_pGsetting->set("promptboxbool",false);
+        } else {
+            m_bPromptBoxBool = false;
+        }
     });
 
     /* 当剪贴板条目发生变化的时候执行该槽函数 */
