@@ -14,6 +14,7 @@
 #define STYLE_ICON_NAME           "iconThemeName"
 #define TIME_SEPARATOR             ":"
 #define APPLICATION_NAME "ukui-clock"
+#define CLOCK_TITLE_NAME "Clock"
 
 
 #endif // CONSTANTCLASS_H

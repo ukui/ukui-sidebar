@@ -40,7 +40,7 @@ Clock::Clock(QWidget *parent) :
     //创建或打开数据库
     createConnection();
 
-    this->setWindowTitle(tr("Alarm"));
+    this->setWindowTitle(tr(CLOCK_TITLE_NAME));
 //    this->setAttribute(Qt::WA_TranslucentBackground);
 //    QPainterPath blurPath;
 //    setProperty("useSystemStyleBlur", true);
@@ -82,7 +82,7 @@ Clock::Clock(QWidget *parent) :
     pushclock->move(109,15);
     pushclock->setIcon(QIcon(":/image/alarm.png"));
     pushclock->setIconSize(QSize(20, 20));
-    pushclock->setToolTip(tr("Alarm"));
+    pushclock->setToolTip(tr(CLOCK_TITLE_NAME));
 
     pushcount = new QPushButton(ui->page_7);
     pushcount->setFixedSize(40,40);
@@ -1423,7 +1423,7 @@ void Clock::setAlarmClock()
     }
 
     time_sel->textLabel->setText(music_str_model+tr("(default)"));
-    clock_name = tr("Alarm");
+    clock_name = tr(CLOCK_TITLE_NAME);
     ui->lineEdit->setText(clock_name);
 }
 
