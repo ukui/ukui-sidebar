@@ -64,7 +64,7 @@ Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
     //时间到
     ui->label_3->setAlignment(Qt::AlignHCenter);
     //多少秒后自动关闭
-    ui->label_4->setAlignment(Qt::AlignHCenter);
+    ui->label_4->setAlignment(Qt::AlignRight);
     QPalette pa;
     pa.setColor(QPalette::WindowText,Qt::gray);
     ui->label_4->setPalette(pa);
