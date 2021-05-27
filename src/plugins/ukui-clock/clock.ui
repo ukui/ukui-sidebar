@@ -734,7 +734,7 @@ border-radius:4px;
     </rect>
    </property>
    <property name="text">
-    <string>Alarm</string>
+    <string>Clock</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">

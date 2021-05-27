@@ -117,11 +117,14 @@ Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
 //    this->setWindowIcon(QIcon::fromTheme("kylin-alarm-clock",QIcon(":/image/kylin-alarm-clock.svg")));
     ui->titleIcon->setPixmap(QIcon::fromTheme("kylin-alarm-clock").pixmap(24,24));
     //固定字体大小，避免放大覆盖
+    int pointSize = 12;
     QFont font;
-    font.setPixelSize(14);
-    ui->label->setStyleSheet("font-size : 14px;");
-    ui->label_3->setStyleSheet("font-size : 14px;");
-    ui->label_4->setStyleSheet("font-size : 14px;");
+    font.setPixelSize(pointSize);
+    QString styleSheet = "font-size:";
+    styleSheet.append(QString::number(pointSize)).append("px;");
+    ui->label->setStyleSheet(styleSheet);
+    ui->label_3->setStyleSheet(styleSheet);
+    ui->label_4->setStyleSheet(styleSheet);
     ui->pushButton_2->setFont(font);
     ui->pushButton_3->setFont(font);
 }

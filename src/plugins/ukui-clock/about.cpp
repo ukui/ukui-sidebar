@@ -84,7 +84,7 @@ void About::settingsStyle()
         }
     });
 }
-//dbq-这个重写的意义？
+
 void About::paintEvent(QPaintEvent *event) {
     Q_UNUSED(event);
     QPainter p(this);
