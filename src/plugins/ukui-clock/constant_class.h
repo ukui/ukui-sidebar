@@ -14,7 +14,8 @@
 #define STYLE_ICON_NAME           "iconThemeName"
 #define TIME_SEPARATOR             ":"
 #define APPLICATION_NAME "ukui-clock"
-#define CLOCK_TITLE_NAME "Clock"
+#define CLOCK_TITLE_NAME "Alarm"
+#define KYLIN_CLOCK_APP_NAME "Kylin Alarm"
 
 
 #endif // CONSTANTCLASS_H

@@ -36,6 +36,9 @@ About::About(QWidget *parent) :
     connect(ui->closeBtn, &QPushButton::clicked, this, [=](){
         this->close();
     });
+    //in order to use the same world in English
+    ui->titlename->setText(tr(CLOCK_TITLE_NAME));
+    ui->appnameLabel->setText(tr(KYLIN_CLOCK_APP_NAME));
     ui->appnameLabel->setStyleSheet("QLabel{font-size: 18px; color: palette(windowText);}"
                                     "QLabel{font-family: NotoSansCJKsc-Medium, NotoSansCJKsc;}");
     ui->versionLabel->setText(tr("Version: ")+"2021.2.0");
