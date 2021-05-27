@@ -358,7 +358,7 @@ void Edit_page::listenToGsettings()
     if (QGSettings::isSchemaInstalled(id)) {
         QGSettings *styleSettings = new QGSettings(id, QByteArray(), this);
         auto style = styleSettings->get("styleName").toString();
-        if (ui->textEdit->document()->isEmpty()) {
+        //if (ui->textEdit->document()->isEmpty()) {
             if (style == "ukui-default" || style == "ukui-white"
                 || style == "ukui-light" || style == "ukui") {
                 ui->fontColorBtn->setStyleSheet("background-color: black;"
@@ -367,10 +367,10 @@ void Edit_page::listenToGsettings()
                 ui->fontColorBtn->setStyleSheet("background-color: white;"
                                                 "border-radius:3px;");
             }
-        }
+        //}
 
         connect(styleSettings, &QGSettings::changed, this, [=](const QString &key){
-            if (ui->textEdit->document()->isEmpty() && !defaultFontColorChanged) {
+            if (/*ui->textEdit->document()->isEmpty() && */!defaultFontColorChanged) {
                 if (key == "styleName") {
                     QString currentTheme = styleSettings->get(MODE_QT_KEY).toString();
                     if (currentTheme == "ukui-default" || currentTheme == "ukui-white"
