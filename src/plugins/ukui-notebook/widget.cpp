@@ -132,6 +132,7 @@ void Widget::initData()
     } else {
         emit requestNotesList();
     }
+    iniNoteModeRead();
 }
 
 /*!
@@ -1507,10 +1508,12 @@ void Widget::changePageSlot()
         initIconMode();
         m_viewChangeButton->setIcon(QIcon::fromTheme("view-list-symbolic"));
         setListFlag(0);
+        m_settingsDatabase->setValue(QStringLiteral("iniNoteMode"), "icon");
     } else if (getListFlag() == 0) {
         initListMode();
         m_viewChangeButton->setIcon(QIcon::fromTheme("view-grid-symbolic"));
         setListFlag(1);
+        m_settingsDatabase->setValue(QStringLiteral("iniNoteMode"), "list");
     }
     if (m_noteModel->rowCount() > 0) {
         QModelIndex index = m_noteView->currentIndex();
@@ -1599,7 +1602,8 @@ void Widget::onF1ButtonClicked()
  * \brief Widget::sltMessageReceived
  *
  */
-void Widget::sltMessageReceived(/*const QString &msg*/) {
+void Widget::sltMessageReceived(/*const QString &msg*/)
+{
     int noteId = m_currentSelectedNoteProxy.data(NoteModel::NoteID).toInt();
     qDebug() << __FUNCTION__ << __LINE__ << "noteId  == " << noteId;
 
@@ -1631,4 +1635,16 @@ void Widget::sltMessageReceived(/*const QString &msg*/) {
             }
         }
 #endif
+}
+
+/*!
+ * \brief Widget::readIniNoteMode
+ *
+ */
+void Widget::iniNoteModeRead()
+{
+    qDebug() << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
+    //读取配置文件，确定要不要变更视图
+    if (m_settingsDatabase->value(QStringLiteral("iniNoteMode"), "NULL") == "icon")
+        changePageSlot();
 }
