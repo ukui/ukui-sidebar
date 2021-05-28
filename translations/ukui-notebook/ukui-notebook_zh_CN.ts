@@ -100,86 +100,86 @@
         <translation type="vanished">麒麟便签本</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="107"/>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="86"/>
         <source>Notes</source>
         <translatorcomment>便签贴</translatorcomment>
         <translation>便签贴</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="160"/>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="139"/>
         <source>Bold</source>
         <translatorcomment>加粗</translatorcomment>
         <translation>加粗</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="161"/>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="140"/>
         <source>Italic</source>
         <translatorcomment>斜体</translatorcomment>
         <translation>斜体</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="162"/>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="141"/>
         <source>Underline</source>
         <translatorcomment>下划线</translatorcomment>
         <translation>下划线</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="163"/>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="142"/>
         <source>Strikeout</source>
         <translatorcomment>删除线</translatorcomment>
         <translation>删除线</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="164"/>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="143"/>
         <source>Unordered</source>
         <translatorcomment>无序列表</translatorcomment>
         <translation>无序列表</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="165"/>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="144"/>
         <source>Ordered</source>
         <translatorcomment>有序列表</translatorcomment>
         <translation>有序列表</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="167"/>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="146"/>
         <source>Font Size</source>
         <translatorcomment>字号</translatorcomment>
         <translation>字号</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="168"/>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="147"/>
         <source>Font Color</source>
         <translatorcomment>字体颜色</translatorcomment>
         <translation>字体颜色</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="463"/>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="440"/>
         <source>undo</source>
         <translation>撤销</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="464"/>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="441"/>
         <source>redo</source>
         <translation>恢复</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="465"/>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="442"/>
         <source>cut</source>
         <translation>剪切</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="466"/>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="443"/>
         <source>copy</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="467"/>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="444"/>
         <source>paste</source>
         <translation>粘贴</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="468"/>
+        <location filename="../../src/plugins/ukui-notebook/editPage.cpp" line="445"/>
         <source>copy to newpage</source>
         <translation>将选中区域复制到新便签</translation>
     </message>
@@ -276,7 +276,7 @@
         <translation type="vanished">麒麟便签本</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="567"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="546"/>
         <source>About</source>
         <translatorcomment>关于</translatorcomment>
         <translation>关于</translation>
@@ -287,13 +287,13 @@
         <translation type="vanished">欢迎使用麒麟便签本。</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="1118"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="1090"/>
         <source>Search</source>
         <translatorcomment>搜索</translatorcomment>
         <translation>搜索</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="640"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="619"/>
         <source>Create New Note</source>
         <translatorcomment>新建便签</translatorcomment>
         <translation>新建便签</translation>
@@ -311,32 +311,32 @@
         <translation>便签贴</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="566"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="545"/>
         <source>Help</source>
         <translatorcomment>帮助</translatorcomment>
         <translation>帮助</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="568"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="547"/>
         <source>Empty Note</source>
         <translatorcomment>清空便签本</translatorcomment>
         <translation>清空便签本</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="643"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="622"/>
         <source>Close</source>
         <translatorcomment>关闭</translatorcomment>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="644"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="623"/>
         <source>Minimize</source>
         <translatorcomment>最小化</translatorcomment>
         <translation>最小化</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="1039"/>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="1086"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="1011"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="1058"/>
         <source>Welcome to use Notes.</source>
         <translatorcomment>欢迎使用便签贴，双击可编辑便签内容。</translatorcomment>
         <translation>欢迎使用便签贴，双击可编辑便签内容。</translation>
@@ -362,13 +362,13 @@
         <translation type="vanished">便签名称</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="641"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="620"/>
         <source>Delete Selected Note</source>
         <translatorcomment>删除</translatorcomment>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="642"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="621"/>
         <source>Switch View</source>
         <translatorcomment>切换视图</translatorcomment>
         <translation>切换视图</translation>
@@ -394,7 +394,7 @@
         <translation type="vanished">最小化</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="645"/>
+        <location filename="../../src/plugins/ukui-notebook/widget.cpp" line="624"/>
         <source>Menu</source>
         <translatorcomment>菜单</translatorcomment>
         <translation>菜单</translation>
@@ -414,28 +414,33 @@
     </message>
     <message>
         <location filename="../../src/plugins/ukui-notebook/emptyNotes.ui" line="44"/>
-        <source>确定要清空便签本吗?</source>
-        <translation></translation>
+        <source>Are you sure empty notebook?</source>
+        <translatorcomment>确定要清空便签本吗？</translatorcomment>
+        <translation>确定要清空便签本吗？</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-notebook/emptyNotes.ui" line="64"/>
-        <source>不再询问</source>
-        <translation></translation>
+        <source>No Tips</source>
+        <translatorcomment>不再提示</translatorcomment>
+        <translation>不再提示</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-notebook/emptyNotes.ui" line="81"/>
-        <source>取消</source>
-        <translation></translation>
+        <source>cancel</source>
+        <translatorcomment>取消</translatorcomment>
+        <translation>取消</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-notebook/emptyNotes.ui" line="98"/>
-        <source>确定</source>
-        <translation></translation>
+        <source>yes</source>
+        <translatorcomment>确定</translatorcomment>
+        <translation>确定</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-notebook/emptyNotes.cpp" line="34"/>
         <source>emptyNotes</source>
-        <translation></translation>
+        <translatorcomment>清空便签本</translatorcomment>
+        <translation>清空便签本</translation>
     </message>
 </context>
 <context>
