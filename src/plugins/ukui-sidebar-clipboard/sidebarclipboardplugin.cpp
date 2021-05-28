@@ -110,7 +110,7 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
     connect(m_pThread, &QThread::started,this, &SidebarClipboardPlugin::loadClipboardDb);
     m_pThread->start();
 
-    resetWidgetLabelText();
+//    resetWidgetLabelText();
 
     /* 加载样式表 */
     QFile file(SIDEBAR_CLIPBOARD_QSS_PATH);
@@ -406,6 +406,7 @@ QString SidebarClipboardPlugin::SetFormatBody(QString text, ClipboardWidgetEntry
             }
         }
     }
+
     return formatBody;
 }
 
@@ -890,7 +891,8 @@ void SidebarClipboardPlugin::editButtonSlots(ClipboardWidgetEntry *w)
     int nRet = EditWidget.exec();
     if (nRet == QDialog::Accepted) {
         QString formatBody = SetFormatBody(EditWidget.m_pEditingArea->toPlainText(), w);  // 设置...字样
-        qDebug () << "formatBody....." << formatBody;
+//        QString formatBody = EditWidget.m_pEditingArea->toPlainText();
+         qDebug () << "formatBody....." << formatBody;
         if (EditWidget.m_pEditingArea->toPlainText() != text) {
             //当编辑后数据改变时，就需要将m_pLabelText中的value改变
             w->m_pCopyDataLabal->setText(formatBody);
