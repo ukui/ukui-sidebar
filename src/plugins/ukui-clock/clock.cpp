@@ -39,8 +39,9 @@ Clock::Clock(QWidget *parent) :
     ui->setupUi(this);
     //创建或打开数据库
     createConnection();
-
+     //in order to use the same world in English
     this->setWindowTitle(tr(CLOCK_TITLE_NAME));
+    ui->label->setText(tr(CLOCK_TITLE_NAME));
 //    this->setAttribute(Qt::WA_TranslucentBackground);
 //    QPainterPath blurPath;
 //    setProperty("useSystemStyleBlur", true);
@@ -535,6 +536,7 @@ void Clock::clockInit()
 
     connect(m_menuAction, SIGNAL(triggered()), this, SLOT(setUpPage()));
     connect(m_closeAction, SIGNAL(triggered()), this, SLOT(windowClosingClicked()));
+
 }
 
 /*

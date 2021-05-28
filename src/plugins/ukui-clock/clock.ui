@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Clock</string>
+   <string>Alarm</string>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -734,7 +734,7 @@ border-radius:4px;
     </rect>
    </property>
    <property name="text">
-    <string>Clock</string>
+    <string>Alarm</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">
