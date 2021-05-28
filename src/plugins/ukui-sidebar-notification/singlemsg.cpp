@@ -209,8 +209,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pIconWidget->setAttribute(Qt::WA_TranslucentBackground);
 
 
-
-     m_pStorageDeleteButtonWidget->setAttribute(Qt::WA_TranslucentBackground);
+    m_pStorageDeleteButtonWidget->setAttribute(Qt::WA_TranslucentBackground);
 
     //内容部件,将主题正文以及剩余条数显示装入内容部件
     m_pContextWidget = new QWidget;
