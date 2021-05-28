@@ -25,10 +25,10 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>95</x>
-      <y>62</y>
-      <width>190</width>
-      <height>22</height>
+      <x>65</x>
+      <y>64</y>
+      <width>281</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -41,13 +41,13 @@ opacity:0.97;
 </string>
     </property>
     <property name="text">
-     <string>确定要清空便签本吗?</string>
+     <string>Are you sure empty notebook?</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="checkBox">
     <property name="geometry">
      <rect>
-      <x>95</x>
+      <x>65</x>
       <y>110</y>
       <width>151</width>
       <height>28</height>
@@ -61,7 +61,7 @@ line-height:40px;
 opacity:0.91;</string>
     </property>
     <property name="text">
-     <string>不再询问</string>
+     <string>No Tips</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton">
@@ -78,7 +78,7 @@ opacity:0.91;</string>
 line-height:24px;</string>
     </property>
     <property name="text">
-     <string>取消</string>
+     <string>cancel</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_2">
@@ -95,7 +95,7 @@ line-height:24px;</string>
 line-height:24px;</string>
     </property>
     <property name="text">
-     <string>确定</string>
+     <string>yes</string>
     </property>
    </widget>
   </widget>
