@@ -69,6 +69,7 @@ unix {
     INSTALLS += translation
 }
 
+QMAKE_CFLAGS += -D_FORTIFY_SOURCE=2 -O2
 
 CONFIG += link_pkgconfig
 
