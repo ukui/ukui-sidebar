@@ -148,6 +148,7 @@ private:
     QThread* m_dbThread;                                            //数据库线程
     QMenu* m_menu;                                                  //功能菜单
     QAction* m_menuActionEmpty;                                     //菜单动作-清空便签
+    QAction* m_menuExit;                                            //菜单动作-退出便签本
     //QAction* m_menuActionSet;                                       //菜单动作-设置界面
     adaptScreenInfo *m_pSreenInfo;                                  //屏幕信息
     QPoint dragPosition;                                            //拖动坐标

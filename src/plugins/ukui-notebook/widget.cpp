@@ -325,6 +325,8 @@ void Widget::kyNoteConn()
     // 清空便签
     connect(m_menuActionEmpty, &QAction::triggered, this, &Widget::trashSlot);
     connect(m_emptyNotes, &emptyNotes::requestEmptyNotes, this, &Widget::clearNoteSlot);
+    // 菜单按钮退出便签本
+    connect(m_menuExit, &QAction::triggered, this, &Widget::exitSlot);
     // 设置界面
     // connect(m_menuActionSet,&QAction::triggered,this,&Widget::SetNoteSlot);
     // 列表平铺切换
@@ -542,16 +544,19 @@ void Widget::btnInit()
     QAction *m_helpAction = new QAction(m_menu);
     QAction *m_aboutAction = new QAction(m_menu);
     // m_menuActionSet = new QAction(m_menu);
+    m_menuExit = new QAction(m_menu);
 
     m_helpAction->setText(tr("Help"));
     m_aboutAction->setText(tr("About"));
     m_menuActionEmpty->setText(tr("Empty Note"));
     // m_menuActionSet->setText(tr("Set Note"));
+    m_menuExit->setText(tr("Exit"));
 
     m_menu->addAction(m_menuActionEmpty);
     m_menu->addAction(m_helpAction);
     m_menu->addAction(m_aboutAction);
     // m_menu->addAction(m_menuActionSet);
+    m_menu->addAction(m_menuExit);
     ui->menuBtn->setMenu(m_menu);
 
     connect(m_helpAction, &QAction::triggered, this, [=](){
