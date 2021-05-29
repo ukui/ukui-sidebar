@@ -444,7 +444,6 @@ void Clock::clockInit()
     model_setup->setTable("setup");
     model_setup->setEditStrategy(QSqlTableModel::OnManualSubmit);
     model_setup->select();
-
     /*初始化一个包含两个Action(Delete和ClearAll)的菜单*/
     popMenu_In_ListWidget_ = new QMenu(this);
     action_Delete_In_ListWidget_ = new QAction(tr("Delete"), this);
@@ -488,9 +487,9 @@ void Clock::clockInit()
     timer_set_page = new QTimer();
     connect(timer_set_page, SIGNAL(timeout()), this, SLOT(verticalscrollRingTime()));
     timer_set_page->setInterval(100);
-    if(model_setup->index(0, 2).data().toInt() == 2){
-        system_time_flag = 0;
-    }
+    //初始化SystemTimeFlag，不然初始值可能不为0或者1
+    iniSystemTimeFlag();
+    //绘制闹钟列表
     updateAlarmClock();
 
     if(!model->rowCount())
@@ -987,16 +986,8 @@ void Clock:: StopwatchPageSwitch ()
  */
 void Clock::textTimerupdate()
 {
-    //Qt提供了一个QProcess类用于启动外部程序并与之通信
-    QProcess process;
-    process.start("gsettings get org.ukui.control-center.panel.plugins hoursystem");
-    //阻塞，直到外部程序结束
-    process.waitForFinished();
-    QByteArray output = process.readAllStandardOutput();
-    QString str_output = output;
     //闹钟表条数
     int rowNum = model->rowCount();
-
     model_setup->select();
     QTime time = QTime::currentTime();
     int time_H = time.hour();
@@ -1012,7 +1003,7 @@ void Clock::textTimerupdate()
         set12ClockItem(time_H,time_M,time_S,rowNum);
     } else {
         //系统24时
-        if (str_output.compare("'24'\n") == 0) {
+        if (checkSystem24()) {
             set24ClockItem(time_H,time_M,time_S,rowNum);
         } else {
             //系统12时制
@@ -1053,7 +1044,6 @@ void Clock::set12ClockItem(int time_H,int time_M,int time_S,int rowNum)
     //12点显示下午12点
     if(time_H == 12)
         ui->label_6->setText(changeNumToStr(time_H)+TIME_SEPARATOR+changeNumToStr(time_M)+TIME_SEPARATOR+changeNumToStr(time_S));
-
     //原来是24时，则重新构建
     if (system_time_flag == 1) {
         system_time_flag = 0;
@@ -1072,6 +1062,41 @@ void Clock::clearClockItem(int rowNum)
         delete w1[i];
     }
     updateAlarmClock();
+}
+/**
+ * @brief 初始化系统时间标识
+ */
+void Clock::iniSystemTimeFlag()
+{
+    //设置为12时
+    if(model_setup->index(0, 2).data().toInt() == 2){
+        system_time_flag = 0;
+    }else if(model_setup->index(0, 2).data().toInt() == 1){
+        //设置为24时
+        system_time_flag = 1;
+    }else{
+        //跟随系统
+        if(checkSystem24()){
+            system_time_flag = 1;
+        }else{
+            system_time_flag = 0;
+        }
+
+    }
+}
+/**
+ * @brief 判断系统是否是24时制
+ */
+bool Clock::checkSystem24()
+{
+    //Qt提供了一个QProcess类用于启动外部程序并与之通信
+    QProcess process;
+    process.start("gsettings get org.ukui.control-center.panel.plugins hoursystem");
+    //阻塞，直到外部程序结束
+    process.waitForFinished();
+    QByteArray output = process.readAllStandardOutput();
+    QString str_output = output;
+    return str_output.compare("'24'\n") == 0;
 }
 /*
  * 动态监控闹钟与本地时间
@@ -1220,7 +1245,6 @@ void Clock::updateAlarmClock()
 
         hour_now = model->index(alarmNum, 0).data().toInt();
         min_now = model->index(alarmNum, 1).data().toInt();
-
         if (system_time_flag) {
             //24时制
             changeTimeNum(hour_now,min_now);//转换int为QString
@@ -2038,7 +2062,6 @@ void Clock::statCountdown(){
     ui->label_9->setFont(f);
     //时间归零
     if (countdown_hour==0 && countdown_minute==0 && (countdown_second)==0) {
-        qDebug()<<"dbq-"<<"countdown_isStarted"<<countdown_isStarted<<"countdown_isStarted_2"<<countdown_isStarted_2;
         startbtnCountdown();
         countdown_timer->stop();
         //倒计时通知弹窗
@@ -2296,7 +2319,6 @@ void Clock::createUserGuideDebusClient()
     // 用户手册
     QString serviceName = "com.kylinUserGuide.hotel"
                           + QString("%1%2").arg("_").arg(QString::number(getuid()));
-    qDebug()<<"dbq-"<<"dbus serviceName"<<serviceName;
     //创建dbus-client
     userGuideInterface = new QDBusInterface(serviceName,
                                             "/",

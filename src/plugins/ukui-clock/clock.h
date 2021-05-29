@@ -442,6 +442,8 @@ private:
     void set24ClockItem(int time_H,int time_M,int time_S,int rowNum);
     void set12ClockItem(int time_H,int time_M,int time_S,int rowNum);
     void clearClockItem(int rowNum);
+    void iniSystemTimeFlag();
+    bool checkSystem24();
 };
 
 #endif // CLOCK_H
