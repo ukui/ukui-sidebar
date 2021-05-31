@@ -91,7 +91,7 @@ Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
     timer_xumhuan->setInterval(1000);
 
     natice_init();
-    setAttribute(Qt::WA_DeleteOnClose);
+    //setAttribute(Qt::WA_DeleteOnClose);
     //ui->widget->installEventFilter(this);
 
     QPalette palette = ui->pushButton_3->palette();

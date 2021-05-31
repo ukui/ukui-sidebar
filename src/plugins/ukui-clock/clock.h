@@ -137,7 +137,7 @@ public:
         SP_CENTER,
         SP_RIGHT
     };
-    void moveUnderMultiScreen(Clock::ScreenPosition,Natice_alarm * dialog);                                    //多显示器下，位置移动
+    void moveUnderMultiScreen(Clock::ScreenPosition,Natice_alarm * dialog,int hiddenFlag);                                    //多显示器下，位置移动
     QString formatX_h(int x_h);
     Ui::Clock *ui;
     QString m_timeZone;
@@ -433,7 +433,8 @@ private:
     QMenu *popMenu_In_ListWidget_;                                  /*闹钟右键删除菜单*/
     QAction *action_Delete_In_ListWidget_;
     QAction *action_Clear_In_ListWidget_;                           /*闹钟右键删除动作*/
-    Natice_alarm *countdownNoticeDialog;
+    Natice_alarm *countdownNoticeDialog = nullptr;
+    Natice_alarm *alarmNoticeDialog = nullptr;
     QDBusInterface *userGuideInterface;                                   // 用户手册
     bool refreshCountdownLabel11Flag = false;               //是否刷新，倒计时上的小闹钟时间的数值。因为秒数的变化，如果一直动态计算，会出现1分钟的误差
     int x_h=0, x_m=0 ;
