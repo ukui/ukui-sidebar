@@ -85,6 +85,11 @@ void About::settingsStyle()
                 whiteStyle();
             }
         }
+        if(key==STYLE_ICON_NAME || key==STYLE_ICON){
+            //主题框架不能更新 titleIcon
+            ui->titleIcon->setPixmap(QIcon::fromTheme("kylin-alarm-clock").pixmap(24,24));
+            ui->appiconLabel->setPixmap(QIcon::fromTheme("kylin-alarm-clock").pixmap(96,96));
+        }
     });
 }
 

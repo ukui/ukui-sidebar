@@ -1,7 +1,7 @@
 #ifndef CONSTANTCLASS_H
 #define CONSTANTCLASS_H
 
-
+#include <QDebug>
 //声明一些必须的宏
 #define ORG_UKUI_STYLE            "org.ukui.style"
 #define STYLE_NAME                "styleName"
