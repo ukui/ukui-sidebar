@@ -14,6 +14,8 @@
 
 #define SYSTEM_FONT_EKY            "system-font-size"
 #define SYSTEM_NAME_KEY            "system-font"
+#define STYLE_ICON                "icon-theme-name"
+#define STYLE_ICON_NAME           "iconThemeName"
 
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 
@@ -117,6 +119,11 @@ void About::listenToGsettings()
                                             "support@kylinos.cn</a>");
                 }
             }
+            if(key==STYLE_ICON_NAME || key==STYLE_ICON){
+                        //主题框架不能更新 titleIcon
+                        ui->iconLabel->setPixmap(QIcon::fromTheme("kylin-notebook").pixmap(24,24));
+                        ui->appiconLabel->setPixmap(QIcon::fromTheme("kylin-notebook").pixmap(96,96));
+                    }
         });
 
         if (styleUKUI->get(SYSTEM_FONT_EKY).toInt()) {

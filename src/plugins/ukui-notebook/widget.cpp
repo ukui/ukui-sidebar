@@ -30,6 +30,8 @@
  */
 #define FORMAT_SCHEMA   "org.ukui.control-center.panel.plugins"
 #define TIME_FORMAT_KEY "hoursystem"
+#define STYLE_ICON                "icon-theme-name"
+#define STYLE_ICON_NAME           "iconThemeName"
 
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 
@@ -413,6 +415,10 @@ void Widget::listenToGsettings()
                     wid.at(i)->setAttribute(Qt::WA_Hover, false);
                 }
             });
+            if(key==STYLE_ICON_NAME || key==STYLE_ICON){
+            //主题框架不能更新 titleIcon
+            ui->iconLabel->setPixmap(QIcon::fromTheme("kylin-notebook").pixmap(24,24));
+            }
         });
     }
 
