@@ -76,8 +76,11 @@ void Edit_page::enterEvent(QEvent *event)
 void Edit_page::leaveEvent(QEvent *event)
 {
     Q_UNUSED(event);
-    m_noteHead->show();
-    m_noteHeadMenu->hide();
+    if(!m_noteHeadMenu->ui->pushButtonMenu->isActiveWindow() && !m_noteHeadMenu->ui->pushButtonPalette->isActiveWindow())
+    {
+        m_noteHead->show();
+        m_noteHeadMenu->hide();
+    }
 }
 
 void Edit_page::initSetup()
@@ -282,8 +285,6 @@ void Edit_page::fontChanged(const QFont &f)
 
     if(f.pointSize() < 10 )
     {
-        qDebug() << "ZDEBUG " << "f.pointSize() === " << f.pointSize();
-        qDebug() << "ZDEBUG " << "QString::number(f.pointSize() === " << QString::number(f.pointSize());
         ui->fontSizeBtn->setText(QString::number(10));
     }
     else
@@ -377,9 +378,15 @@ void Edit_page::listenToGsettings()
                         || currentTheme == "ukui-light" || currentTheme == "ukui") {
                         ui->fontColorBtn->setStyleSheet("background-color: black;"
                                                         "border-radius:3px;");
+                        ui->frame->setStyleSheet("background-color:rgb(217, 217, 217)");
+                        ui->frame_2->setStyleSheet("background-color:rgb(217, 217, 217)");
+
                     } else if (currentTheme == "ukui-dark" || currentTheme == "ukui-black") {
                         ui->fontColorBtn->setStyleSheet("background-color: white;"
                                                         "border-radius:3px;");
+                        ui->frame->setStyleSheet("background-color:rgb(77, 77, 77)");
+                        ui->frame_2->setStyleSheet("background-color:rgb(77, 77, 77)");
+
                     }
                 }
             }
