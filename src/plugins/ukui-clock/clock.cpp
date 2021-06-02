@@ -366,6 +366,11 @@ void Clock::CountdownInit()
     ui->page_5->RoundBar3->setValue(3600);
     //父的顶部
     ui->count_stat->raise();
+    //初始化倒计时弹窗
+    countdownNoticeDialog = new Natice_alarm(360,-1);
+    countdownNoticeDialog->timer->stop();
+    countdownNoticeDialog->timer_xumhuan->stop();
+    countdownNoticeDialog->music->stop();
 }
 
 /*
@@ -2035,6 +2040,23 @@ void Clock::countMusicListclickslot()
 //倒计时执行
 // Countdown execution
 void Clock::statCountdown(){
+
+
+
+
+
+    //减1算法
+    if(countdown_second>0){
+        countdown_second--;
+    }else if(countdown_second==0&&countdown_minute>=1){
+        countdown_minute--;
+        countdown_second=59;
+    }else if(countdown_second==0&&countdown_minute==0&&countdown_hour>=1){
+        countdown_hour--;
+        countdown_minute=59;
+        countdown_second=59;
+    }
+
     QString h; QString m; QString s;
     if (countdown_hour < 10){
         QString hours_str = QString::number(countdown_hour);
@@ -2052,7 +2074,7 @@ void Clock::statCountdown(){
     if (countdown_second < 10) {
         QString second_str = QString::number(countdown_second);
         s = "0"+second_str;
-    } else {
+    }else {
         s = QString::number(countdown_second);
     }
     ui->label_9->setText(h+TIME_SEPARATOR+m+TIME_SEPARATOR+s);
@@ -2060,22 +2082,18 @@ void Clock::statCountdown(){
     QFont f(selfFont);
     f.setPixelSize(40);
     ui->label_9->setFont(f);
+
+
+
+
     //时间归零
+    qDebug()<<"dbq-"<<"countdown_second"<<countdown_second;
     if (countdown_hour==0 && countdown_minute==0 && (countdown_second)==0) {
+        qDebug()<<"dbq-结束";
         startbtnCountdown();
         countdown_timer->stop();
         //倒计时通知弹窗
         countdownNoticeDialogShow();
-    }
-    //减1算法
-    countdown_second--;
-    if (countdown_second==-1) {
-        countdown_minute--;
-        countdown_second=59;
-    }
-    if (countdown_minute==-1) {
-        countdown_hour--;
-        countdown_minute=59;
     }
 }
 
@@ -2092,10 +2110,10 @@ void Clock::countdownNoticeDialogShow()
     int screen_height = mm.height();
     model_setup->select();
 
-    countdownNoticeDialog = new Natice_alarm(360,-1);
-    countdownNoticeDialog->timer->stop();
-    countdownNoticeDialog->timer_xumhuan->stop();
-    countdownNoticeDialog->music->stop();
+//    countdownNoticeDialog = new Natice_alarm(360,-1);
+//    countdownNoticeDialog->timer->stop();
+//    countdownNoticeDialog->timer_xumhuan->stop();
+//    countdownNoticeDialog->music->stop();
     countdownNoticeDialog->timer_value = 359;
     //多少秒后自动关闭
     countdownNoticeDialog->ui->label_4->setText(tr("360 Seconds to close"));
@@ -2122,6 +2140,7 @@ void Clock::countdownNoticeDialogShow()
  */
 void Clock::startbtnCountdown(){
     if (!countdown_isStarted) {
+
         //点击了开始
         if (timer_ring99->m_currentValue==0 && timer_ring60->m_currentValue==0 && timer_ring60_2->m_currentValue==0) {
             return;
@@ -2134,16 +2153,17 @@ void Clock::startbtnCountdown(){
         countdown_isStarted=1;
         //结束
         ui->count_stat->setText(tr("End"));
-        //倒计时页面
-        ui->stackedWidget_4->setCurrentIndex(1);
-        //显示当前倒计时时间
         //点击开始，刷新数值
         refreshCountdownLabel11Flag = true;
+        //设置倒计时初始时间label9 中间数字
         setcoutdownNumber(timer_ring99->m_currentValue, timer_ring60->m_currentValue, timer_ring60_2->m_currentValue);//获取转轮当前值
-        statCountdown();//提前进行一次数字减小，对其时间显示与光圈显示；
+        //倒计时页面
+        ui->stackedWidget_4->setCurrentIndex(1);
+        qDebug()<<"dbq-"<<"更新了页面";
         countdown_timer->start();
         //光圈的进度值修改定时启动
         ui->page_5->timer->start();
+
     } else {
         //点击了结束，或者时间耗尽
         ui->page_5->RoundBar3->ring_max = 3600;
@@ -2181,6 +2201,7 @@ void Clock::startbtnCountdown(){
  */
 void Clock::setcoutdownNumber(int h1, int m1, int s1){
     countdown_hour=h1; countdown_minute=m1 ; countdown_second=s1;
+
     QString h; QString m; QString s;
 
     if (countdown_hour < 10){
@@ -2205,6 +2226,10 @@ void Clock::setcoutdownNumber(int h1, int m1, int s1){
     }
 
     ui->label_9->setText(h+TIME_SEPARATOR+m+TIME_SEPARATOR+s);
+    QString selfFont = loadFontFamilyFromTTF();
+    QFont f(selfFont);
+    f.setPixelSize(40);
+    ui->label_9->setFont(f);
     ui->label_8->setText(h+TIME_SEPARATOR+m+TIME_SEPARATOR+s);
     //获取倒计时结束时间
     getCountdownOverTime();
@@ -2283,20 +2308,22 @@ void Clock::getCountdownOverTime()
             x_m+=1;
         }
         refreshCountdownLabel11Flag = false;
+        if (x_m >= 60) {
+            x_m = x_m - 60;
+            x_h ++;
+        }
+       if (x_h >= 48) {
+            x_h = x_h - 48;
+            ui->label_11->setText(tr("after tomorrow")+formatX_h(x_h)+TIME_SEPARATOR+changeNumToStr(x_m));
+        } else if (x_h >= 24) {
+            x_h = x_h - 24;
+            ui->label_11->setText(tr("Tomorrow")+formatX_h(x_h)+TIME_SEPARATOR+changeNumToStr(x_m));
+       } else{
+           ui->label_11->setText(formatX_h(x_h)+TIME_SEPARATOR+changeNumToStr(x_m));
+       }
+       qDebug()<<"dbq-"<<"更新了时间";
     }
-    if (x_m >= 60) {
-        x_m = x_m - 60;
-        x_h ++;
-    }
-   if (x_h >= 48) {
-        x_h = x_h - 48;
-        ui->label_11->setText(tr("after tomorrow")+formatX_h(x_h)+TIME_SEPARATOR+changeNumToStr(x_m));
-    } else if (x_h >= 24) {
-        x_h = x_h - 24;
-        ui->label_11->setText(tr("Tomorrow")+formatX_h(x_h)+TIME_SEPARATOR+changeNumToStr(x_m));
-   } else{
-       ui->label_11->setText(formatX_h(x_h)+TIME_SEPARATOR+changeNumToStr(x_m));
-   }
+
 }
 //上下午格式
 QString Clock::get12hourStr(int x_h)
