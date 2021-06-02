@@ -38,9 +38,12 @@ SOURCES += \
     eyeprotectionmode.cpp \
     iconlabel.cpp \
     labelfotmattext.cpp \
+    listviewcustom.cpp \
+    listviewdelegate.cpp \
     notebookbuttonwidget.cpp \
     picturetowhite.cpp \
     powersavingmode.cpp \
+    recordsequencefile.cpp \
     scrollingareawidget.cpp \
     shortcutbutton.cpp \
     swichButtonOpenStatus.cpp \
@@ -55,6 +58,8 @@ SOURCES += \
     settingwidget.cpp \
     shortcutpanelplugin.cpp \
     switchbutton.cpp \
+    tableviewcustom.cpp \
+    tableviewdelegate.cpp \
     weatherwidget.cpp \
     wifiwidget.cpp \
     swichButtonFlod.cpp \
@@ -71,9 +76,12 @@ HEADERS += \
     eyeprotectionmode.h \
     iconlabel.h \
     labelfotmattext.h \
+    listviewcustom.h \
+    listviewdelegate.h \
     notebookbuttonwidget.h \
     picturetowhite.h \
     powersavingmode.h \
+    recordsequencefile.h \
     scrollingareawidget.h \
     shortcutbutton.h \
     swichButtonOpenStatus.h \
@@ -89,6 +97,8 @@ HEADERS += \
     settingwidget.h \
     shortcutpanelplugin.h \
     switchbutton.h \
+    tableviewcustom.h \
+    tableviewdelegate.h \
     weatherwidget.h \
     wifiwidget.h \
     swichButtonFlod.h \

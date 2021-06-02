@@ -15,7 +15,7 @@
 * along with this program; if not, see <http://www.gnu.org/licenses/&gt;.
 *
 */
-#include "swichButtonOpenStatus.h".h"
+#include "swichButtonOpenStatus.h"
 #include <QWidget>
 
 #include <QStyleOption>

@@ -29,6 +29,7 @@
 #include <QProcess>
 #include <QTranslator>
 #include <QApplication>
+#include <QMap>
 #include "mainwidget.h"
 #include "pushbutton.h"
 #include "data.h"
@@ -52,6 +53,11 @@
 #include "editconfirmationarea.h"
 #include "feedbackButtonWidget.h"
 #include "dropdownbox.h"
+#include "tableviewcustom.h"
+#include "recordsequencefile.h"
+#include "tableviewdelegate.h"
+#include "listviewcustom.h"
+#include "listviewdelegate.h"
 
 #define SPREAD_BUTTON_NORMAL       ":/image/open-normal.svg"
 #define SPREAD_BUTTON_HOVER        ":/image/open-hover.svg"
@@ -110,6 +116,8 @@ public:
     void setGridLayoutWidgetHide();
     void setGridLayoutWidgetShow();
 
+    void initTableViewWidget();
+
 public slots:
     void spreadClikedSlots();
     void foldClikedSlots();
@@ -122,6 +130,7 @@ public slots:
 
 private:
     QVBoxLayout  *m_pMainVLayout    = nullptr;
+    QVBoxLayout  *m_pShortVLayout   = nullptr;
     QHBoxLayout  *m_pButtonHLaout   = nullptr;
     QGridLayout  *m_pShortGLayout   = nullptr;
     MainWidget   *m_pMainWidget     = nullptr;
@@ -181,6 +190,16 @@ private:
     powerSavingMode         *m_pPowerSavingMode;
     eyeProtectionMode       *m_pEyeProtectionMode;
     feedbackButtonWidget    *m_pFeedBackButtonWidget;
+
+    TableViewCustom             *tableView;
+    QStandardItemModel          *model;
+
+    ListViewCustom          *listView;
+    QStringListModel        *listModel;
+    ListViewDelegate        *listDelegate;
+
+
+    QMap<QString,QString>   shortcutMap;
 };
 
 #endif // SHORTCUTPANELPLUGIN_H
