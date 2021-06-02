@@ -161,7 +161,7 @@ void Natice_alarm::natice_init()
     {
         showFullScreen();
     }
-    music = new QMediaPlayer(this);//初始化音乐
+    music = new QMediaPlayer(this,QMediaPlayer::LowLatency);//初始化音乐
                                    // Initialize music
     playlist = new QMediaPlaylist(this);//初始化播放列表
                                         // Initialize playlist

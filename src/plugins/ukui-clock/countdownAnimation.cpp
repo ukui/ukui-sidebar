@@ -54,7 +54,7 @@ void Countdown_Animation::connectToSlider(QRoundProgressBar *bar)
     bar->setValue(3600);
 
     connect(timer, SIGNAL(timeout()), bar, SLOT(setValue()));
-    timer->start();
+//    timer->start();
 }
 
 /**
