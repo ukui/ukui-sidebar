@@ -204,6 +204,8 @@ Clock::~Clock()
     delete ui;
     delete utils;
     delete primaryManager;
+    delete alarmNoticeDialog;
+    delete countdownNoticeDialog;
 }
 //重写关闭事件
 void Clock::closeEvent(QCloseEvent *event)
@@ -1189,9 +1191,9 @@ void Clock::noticeDialogShow(int close_time, int alarm_num)
     int screen_width = mm.width();
     int screen_height = mm.height();
     //闹钟弹窗
-    Natice_alarm  *dialog1 = new Natice_alarm(close_time,alarm_num);
-    dialog1->ui->label_2->hide();
-    dialog1->ui->label_3->setText(model->index(alarm_num, 14).data().toString());
+    alarmNoticeDialog = new Natice_alarm(close_time,alarm_num);
+    alarmNoticeDialog->ui->label_2->hide();
+    alarmNoticeDialog->ui->label_3->setText(model->index(alarm_num, 14).data().toString());
 //    if (system_time_flag) {
 //        dialog1->ui->label_3->setText(changeNumToStr(hour_now)+" : "+changeNumToStr(min_now));
 //    } else {
@@ -1209,13 +1211,20 @@ void Clock::noticeDialogShow(int close_time, int alarm_num)
 //            }
 //        }
 //    }
-    dialog1->ui->label_4->setText(QString::number(close_time)+tr(" Seconds to close"));
+    alarmNoticeDialog->ui->label_4->setText(QString::number(close_time)+tr(" Seconds to close"));
     if (model_setup->index(0, 3).data().toInt()) {
-        dialog1->showFullScreen();
+        alarmNoticeDialog->showFullScreen();
     } else {
-        moveUnderMultiScreen(SP_RIGHT,dialog1);
+        if(countdownNoticeDialog != nullptr) {
+            if (countdownNoticeDialog->isVisible() == 0)
+                moveUnderMultiScreen(SP_RIGHT,alarmNoticeDialog,1);
+            else
+                moveUnderMultiScreen(SP_RIGHT,alarmNoticeDialog,0);
+        }
+        else
+            moveUnderMultiScreen(SP_RIGHT,alarmNoticeDialog,1);
     }
-    dialog1->show();
+    alarmNoticeDialog->show();
 }
 
 
@@ -2125,7 +2134,13 @@ void Clock::countdownNoticeDialogShow()
     if (model_setup->index(0, 3).data().toInt()) {
         countdownNoticeDialog->showFullScreen();
     } else {
-        moveUnderMultiScreen(SP_RIGHT,countdownNoticeDialog);
+        if (alarmNoticeDialog != nullptr) {
+            if (alarmNoticeDialog->isVisible() == 0)
+                moveUnderMultiScreen(SP_RIGHT,countdownNoticeDialog,1);
+            else
+                moveUnderMultiScreen(SP_RIGHT,countdownNoticeDialog,0);
+        } else
+          moveUnderMultiScreen(SP_RIGHT,countdownNoticeDialog,1);
     }
     countdownNoticeDialog->music->setVolume(model_setup->index(0, 6).data().toInt());
     countdownNoticeDialog->timer->start();
@@ -3313,13 +3328,14 @@ void Clock::showPaint8()
  *
  * @return 返回说明
  */
-void Clock::moveUnderMultiScreen(Clock::ScreenPosition spostion,Natice_alarm * tempDialog)
+void Clock::moveUnderMultiScreen(Clock::ScreenPosition spostion,Natice_alarm * tempDialog,int hiddenFlag)
 {
     QScreen *screen=QGuiApplication::primaryScreen ();
     int screen_width = screen->geometry().width();
     int screen_height = screen->geometry().height();
     int x = primaryManager->getNScreen_x();
     int y = primaryManager->getNScreen_y();
+
     switch (spostion) {
     case SP_LEFT:
     {
@@ -3332,6 +3348,10 @@ void Clock::moveUnderMultiScreen(Clock::ScreenPosition spostion,Natice_alarm * t
         int moveWidth = x+round(screen_width-tempDialog->width()-round(1.0/20*screen_width));
         int moveHeight = y+round(screen_height-tempDialog->height()-round(1.0/14*screen_height));
         tempDialog->move(moveWidth,moveHeight);
+        if (hiddenFlag == 1)
+        tempDialog->move(moveWidth,moveHeight);
+        else
+        tempDialog->move(moveWidth,moveHeight-tempDialog->height());
     }break;
     case SP_CENTER:
     {
