@@ -472,11 +472,27 @@ void SingleMsg::setBodyLabelWordWrap(bool bFlag)
 
     if(true == bFlag)
     {
-        //如果展开,就超过四行末尾显示省略号
+        // //如果展开,就超过四行末尾显示省略号
 
-        {
-            formatBody = fontMetrics.elidedText(strLineHeight24Body, Qt::ElideRight, m_pBodyLabel->width() * 4 + 152);
+        // {
+        //     formatBody = fontMetrics.elidedText(strLineHeight24Body, Qt::ElideRight, m_pBodyLabel->width() * 4 + 152);
+        // }
+                //处理要显示的字符串，在换行处加入空格,防止因为QLabel换行机制导致显示不完整
+        QString strDisplay;
+        uint j=1;
+        int labelWidth = m_pBodyLabel->width();
+        for(int i=0;i<m_strBody.length();i++){
+            strDisplay += QString(m_strBody.at(i));
+            uint fontSize = fontMetrics.width(strDisplay);
+            if(fontSize > (j*(labelWidth-8))){
+                strDisplay+=" ";
+                j++;
+            }
         }
+        QString strTmp;
+        strTmp.append("<p style='line-height:24px'>").append(strDisplay).append("</p>");
+        //如果展开,超过四行末尾显示省略号
+        formatBody = fontMetrics.elidedText(strTmp, Qt::ElideRight, m_pBodyLabel->width() * 4 + 152);
     }
     else
     {
