@@ -179,6 +179,26 @@ void Edit_page::btnSetup()
     ui->orderedBtn->setCheckable(true);
     ui->fontSizeBtn->setCheckable(false);
 
+//变更btn的属性，hover态，蓝色变为灰色
+#if 1
+    ui->boldBtn->setProperty("isWindowButton", 0x1);
+    ui->boldBtn->setProperty("useIconHighlightEffect", 0x2);
+
+    ui->italicBtn->setProperty("isWindowButton", 0x1);
+    ui->italicBtn->setProperty("useIconHighlightEffect", 0x2);
+
+    ui->underlineBtn->setProperty("isWindowButton", 0x1);
+    ui->underlineBtn->setProperty("useIconHighlightEffect", 0x2);
+
+    ui->strikeOutBtn->setProperty("isWindowButton", 0x1);
+    ui->strikeOutBtn->setProperty("useIconHighlightEffect", 0x2);
+
+    ui->unorderedBtn->setProperty("isWindowButton", 0x1);
+    ui->unorderedBtn->setProperty("useIconHighlightEffect", 0x2);
+
+    ui->orderedBtn->setProperty("isWindowButton", 0x1);
+    ui->orderedBtn->setProperty("useIconHighlightEffect", 0x2);
+#else
     ui->boldBtn->setProperty("useIconHighlightEffect", true);
     ui->boldBtn->setProperty("iconHighlightEffectMode", 1);
     ui->italicBtn->setProperty("useIconHighlightEffect", true);
@@ -191,6 +211,7 @@ void Edit_page::btnSetup()
     ui->unorderedBtn->setProperty("iconHighlightEffectMode", 1);
     ui->orderedBtn->setProperty("useIconHighlightEffect", true);
     ui->orderedBtn->setProperty("iconHighlightEffectMode", 1);
+#endif
 }
 
 void Edit_page::slotsSetup()
