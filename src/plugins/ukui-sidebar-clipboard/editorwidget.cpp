@@ -133,8 +133,6 @@ void EditorWidget::paintEvent(QPaintEvent *)
     QStyleOption opt;
     opt.init(this);
     QPainter p(this);
-
-//    p.setBrush(QBrush(QColor("#131314")));
     p.setBrush(opt.palette.color(QPalette::Base));
     p.setOpacity(0.7);
     p.setPen(Qt::NoPen);
@@ -142,6 +140,14 @@ void EditorWidget::paintEvent(QPaintEvent *)
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     p.drawRoundedRect(opt.rect,6,6);
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+}
+
+void EditorWidget::enterEvent(QEvent *event)
+{
+    Q_UNUSED(event);
+    if (!isActiveWindow()) {
+        activateWindow();
+    }
 }
 
 void EditorWidget::closeEvent(QCloseEvent *event)

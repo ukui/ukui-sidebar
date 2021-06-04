@@ -64,6 +64,7 @@ public:
 
 protected:
     void paintEvent(QPaintEvent *);
+    void enterEvent(QEvent *event);
     void closeEvent(QCloseEvent *event);
 };
 

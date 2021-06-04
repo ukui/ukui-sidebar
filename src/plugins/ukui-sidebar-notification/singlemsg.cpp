@@ -411,7 +411,6 @@ void SingleMsg::updatePushTime()
     if (currentDateTime.toTime_t() < (m_uNotifyTime + 60)) {
         return;
     }
-
     QString strPushDate;
     if (m_dateTime.date() == currentDateTime.date()) {
         if(true == m_bTimeFormat) {
