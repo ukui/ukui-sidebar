@@ -1515,6 +1515,7 @@ void Clock::setAlarmSave()
         QMessageBox::warning(this, "警告", "闹钟数量已达上限！", QMessageBox::Yes);
     }
     ui->stackedWidget_3->raise();
+
     ui->stackedWidget->setCurrentIndex(1);
     ui->stackedWidget->raise();//将页面放置最前方
                                // Put the page at the front
@@ -1527,7 +1528,6 @@ void Clock::setAlarmSave()
         dialog_repeat->close();
     if (dialog_music)
         dialog_music->close();
-    //闹钟页面子项
     updateAlarmItemFront(CURRENT_FONT_SIZE);
 }
 
@@ -1718,6 +1718,7 @@ void Clock::alarmReEditClicked()
              << QFileInfo( model->index(rowNum, 2).data().toString() ).fileName();
 
     updateAlarmClock();
+    updateAlarmItemFront(CURRENT_FONT_SIZE);
 
     ui->stackedWidget_3->raise();
     ui->stackedWidget->setCurrentIndex(1);
@@ -2096,7 +2097,6 @@ void Clock::statCountdown(){
 
 
     //时间归零
-    qDebug()<<"dbq-"<<"countdown_second"<<countdown_second;
     if (countdown_hour==0 && countdown_minute==0 && (countdown_second)==0) {
         qDebug()<<"dbq-结束";
         startbtnCountdown();
@@ -2174,7 +2174,6 @@ void Clock::startbtnCountdown(){
         setcoutdownNumber(timer_ring99->m_currentValue, timer_ring60->m_currentValue, timer_ring60_2->m_currentValue);//获取转轮当前值
         //倒计时页面
         ui->stackedWidget_4->setCurrentIndex(1);
-        qDebug()<<"dbq-"<<"更新了页面";
         countdown_timer->start();
         //光圈的进度值修改定时启动
         ui->page_5->timer->start();
@@ -2336,7 +2335,6 @@ void Clock::getCountdownOverTime()
        } else{
            ui->label_11->setText(formatX_h(x_h)+TIME_SEPARATOR+changeNumToStr(x_m));
        }
-       qDebug()<<"dbq-"<<"更新了时间";
     }
 
 }
