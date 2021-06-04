@@ -188,7 +188,7 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
 
     ui->closeBtn->setIcon(QIcon::fromTheme("window-close-symbolic"));
     ui->closeBtn->setProperty("isWindowButton", 0x2);
-    ui->closeBtn->setProperty("useIconHighlightEffect", 0x8);
+    ui->closeBtn->setProperty("useIconHighlightEffect", 0x2);
     ui->closeBtn->setFlat(true);
     connect(ui->closeBtn, &QPushButton::clicked, this, [=](){
         this->hide();
@@ -198,6 +198,8 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
 
     muteBtn = new CustomButton(this,54,24,1);
     muteBtn->move(236,66);
+    //关闭按钮去掉聚焦状态
+    ui->closeBtn->setFocusPolicy(Qt::NoFocus);
 }
 
 setuppage::~setuppage()
@@ -626,6 +628,7 @@ void setuppage::Default_ringtone_listClickslot()
 
 void setuppage::paintEvent(QPaintEvent *event)
 {
+
     Q_UNUSED(event);
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);
@@ -672,6 +675,7 @@ void setuppage::paintEvent(QPaintEvent *event)
     p.save();
     p.fillPath(rectPath,mainColor);
     p.restore();
+
 
 }
 
