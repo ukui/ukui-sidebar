@@ -55,5 +55,6 @@
         <file>image/1x/note_color_new.svg</file>
         <file>image/1x/number-new.svg</file>
         <file>image/1x/Symbol-new.svg</file>
+        <file>image/1x/system-search-symbolic.svg</file>
     </qresource>
 </RCC>
