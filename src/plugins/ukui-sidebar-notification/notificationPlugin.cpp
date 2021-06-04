@@ -111,6 +111,7 @@ NotificationPlugin::NotificationPlugin()
     connect(m_pClearAllToolButton, SIGNAL(clicked()), this, SLOT(onClearAllMessage()));
     m_pClearAllToolButton->setText(QObject::tr("Clean up"));
     m_pClearAllToolButton->setStyle(new CustomStyle_pushbutton_2("ukui-default"));
+    m_pClearAllToolButton->setVisible(false);
     QSpacerItem* pFixSpacer = new QSpacerItem(5, 10, QSizePolicy::Fixed, QSizePolicy::Fixed);
     QPushButton* pSettingToolButton = new QPushButton();
     pSettingToolButton->setObjectName("setting");
@@ -271,6 +272,7 @@ uint NotificationPlugin::onAddSingleNotify(QString strAppName, QString strIconPa
     if (0 == m_listAppMsg.count() && 2 == m_pScrollAreaNotifyVBoxLayout->count()) {
         m_pScrollAreaNotifyVBoxLayout->removeWidget(m_pMessageCenterLabel);
         m_pMessageCenterLabel->setVisible(false);
+        m_pClearAllToolButton->setVisible(true);
     }
 
     int nIndex = -1;
@@ -364,6 +366,7 @@ void NotificationPlugin::onClearAppMsg(AppMsg* pAppMsg)
     if (0 == m_listAppMsg.count() && 1 == m_pScrollAreaNotifyVBoxLayout->count()) {
         m_pMessageCenterLabel->setVisible(true);
         m_pScrollAreaNotifyVBoxLayout->insertWidget(0, m_pMessageCenterLabel, 4, Qt::AlignHCenter);
+        m_pClearAllToolButton->setVisible(false);
     }
 
     return;
@@ -383,6 +386,7 @@ void NotificationPlugin::onClearAllMessage()
         if (1 == m_pScrollAreaNotifyVBoxLayout->count()) {
             m_pMessageCenterLabel->setVisible(true);
             m_pScrollAreaNotifyVBoxLayout->insertWidget(0, m_pMessageCenterLabel, 4, Qt::AlignHCenter);
+            m_pClearAllToolButton->setVisible(false);
         }
     } else {
         while (m_listTakeInAppMsg.count() > 0) {
@@ -395,6 +399,7 @@ void NotificationPlugin::onClearAllMessage()
         if (1 == m_pScrollAreaTakeInVBoxLayout->count()) {
             m_pTakeinMessageCenterLabel->setVisible(true);
             m_pScrollAreaTakeInVBoxLayout->insertWidget(0, m_pTakeinMessageCenterLabel, 4, Qt::AlignHCenter);
+            m_pClearAllToolButton->setVisible(false);
         }
         onCountTakeInBitAndUpate();
     }
@@ -456,6 +461,7 @@ void NotificationPlugin::onTakeInSingleNotify(QString strAppName, QString strIco
     if (0 == m_listTakeInAppMsg.count() && 2 == m_pScrollAreaTakeInVBoxLayout->count()) {
         m_pScrollAreaTakeInVBoxLayout->removeWidget(m_pTakeinMessageCenterLabel);
         m_pTakeinMessageCenterLabel->setVisible(false);
+        m_pClearAllToolButton->setVisible(true);
     }
 
     int nIndex = -1;
@@ -515,6 +521,7 @@ void NotificationPlugin::onClearTakeInAppMsg(AppMsg* pAppMsg)
     if (0 == m_listTakeInAppMsg.count() && 1 == m_pScrollAreaTakeInVBoxLayout->count()) {
         m_pTakeinMessageCenterLabel->setVisible(true);
         m_pScrollAreaTakeInVBoxLayout->insertWidget(0, m_pTakeinMessageCenterLabel, 4, Qt::AlignHCenter);
+        m_pClearAllToolButton->setVisible(false);
     }
     return;
 }
@@ -546,6 +553,11 @@ void NotificationPlugin::onSwitchMsgBoxFinish()
     if (false == m_bShowTakeIn) {
         m_bShowTakeIn = true;
         m_pNotificationLabel->setText(QObject::tr("Unimportant notice"));
+        if(m_pTakeinMessageCenterLabel->isVisible()) {
+            m_pClearAllToolButton->setVisible(false);
+        } else {
+            m_pClearAllToolButton->setVisible(true);
+        }
 
         m_pSvgRender->load(QString(":/images/exitbox-24.svg"));
         m_pPixmap->fill(Qt::transparent);
@@ -570,7 +582,11 @@ void NotificationPlugin::onSwitchMsgBoxFinish()
     } else {
         m_bShowTakeIn = false;
         m_pNotificationLabel->setText(QObject::tr("Important notice"));
-
+        if(m_pMessageCenterLabel->isVisible()) {
+            m_pClearAllToolButton->setVisible(false);
+        } else {
+            m_pClearAllToolButton->setVisible(true);
+        }
         m_pSvgRender->load(QString(":/images/box-24.svg"));
         m_pPixmap->fill(Qt::transparent);
         QPainter painter(m_pPixmap);

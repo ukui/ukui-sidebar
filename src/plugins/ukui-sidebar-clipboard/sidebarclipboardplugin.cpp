@@ -44,7 +44,15 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
         qDebug() << "cannot load translator ukui-feedback_" << QLocale::system().name() << ".qm!";
 
     installEventFilter(this);
-    m_bPromptBoxBool = true;
+
+    const QByteArray id("org.ukui.sidebar");
+    if (QGSettings::isSchemaInstalled(id)) {
+        QGSettings *m_pGsetting = new QGSettings(id);
+        m_bPromptBoxBool = m_pGsetting->get("promptboxbool").toBool();
+    } else {
+        m_bPromptBoxBool = true;
+    }
+
 
     m_pClipboardDb = new clipboardDb();
 
@@ -66,7 +74,14 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
 
     /* 在点击确认键后判断是否有勾选不再提示这一功能 */
     connect(InternalSignal, &ClipBoardInternalSignal::CheckBoxSelectedSignal, this, [=]() {
-        m_bPromptBoxBool = false;
+        const QByteArray id("org.ukui.sidebar");
+        if (QGSettings::isSchemaInstalled(id)) {
+            QGSettings *m_pGsetting = new QGSettings(id);
+            m_bPromptBoxBool = false;
+            m_pGsetting->set("promptboxbool",false);
+        } else {
+            m_bPromptBoxBool = false;
+        }
     });
 
     /* 当剪贴板条目发生变化的时候执行该槽函数 */
@@ -95,7 +110,7 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
     connect(m_pThread, &QThread::started,this, &SidebarClipboardPlugin::loadClipboardDb);
     m_pThread->start();
 
-    resetWidgetLabelText();
+//    resetWidgetLabelText();
 
     /* 加载样式表 */
     QFile file(SIDEBAR_CLIPBOARD_QSS_PATH);
@@ -391,6 +406,7 @@ QString SidebarClipboardPlugin::SetFormatBody(QString text, ClipboardWidgetEntry
             }
         }
     }
+
     return formatBody;
 }
 
@@ -875,7 +891,8 @@ void SidebarClipboardPlugin::editButtonSlots(ClipboardWidgetEntry *w)
     int nRet = EditWidget.exec();
     if (nRet == QDialog::Accepted) {
         QString formatBody = SetFormatBody(EditWidget.m_pEditingArea->toPlainText(), w);  // 设置...字样
-        qDebug () << "formatBody....." << formatBody;
+//        QString formatBody = EditWidget.m_pEditingArea->toPlainText();
+         qDebug () << "formatBody....." << formatBody;
         if (EditWidget.m_pEditingArea->toPlainText() != text) {
             //当编辑后数据改变时，就需要将m_pLabelText中的value改变
             w->m_pCopyDataLabal->setText(formatBody);

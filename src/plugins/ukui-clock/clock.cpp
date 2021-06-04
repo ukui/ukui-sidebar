@@ -39,8 +39,9 @@ Clock::Clock(QWidget *parent) :
     ui->setupUi(this);
     //创建或打开数据库
     createConnection();
-
-    this->setWindowTitle(tr("Alarm"));
+     //in order to use the same world in English
+    this->setWindowTitle(tr(CLOCK_TITLE_NAME));
+    ui->label->setText(tr(CLOCK_TITLE_NAME));
 //    this->setAttribute(Qt::WA_TranslucentBackground);
 //    QPainterPath blurPath;
 //    setProperty("useSystemStyleBlur", true);
@@ -82,7 +83,7 @@ Clock::Clock(QWidget *parent) :
     pushclock->move(109,15);
     pushclock->setIcon(QIcon(":/image/alarm.png"));
     pushclock->setIconSize(QSize(20, 20));
-    pushclock->setToolTip(tr("Alarm"));
+    pushclock->setToolTip(tr(CLOCK_TITLE_NAME));
 
     pushcount = new QPushButton(ui->page_7);
     pushcount->setFixedSize(40,40);
@@ -203,6 +204,8 @@ Clock::~Clock()
     delete ui;
     delete utils;
     delete primaryManager;
+    delete alarmNoticeDialog;
+    delete countdownNoticeDialog;
 }
 //重写关闭事件
 void Clock::closeEvent(QCloseEvent *event)
@@ -365,6 +368,11 @@ void Clock::CountdownInit()
     ui->page_5->RoundBar3->setValue(3600);
     //父的顶部
     ui->count_stat->raise();
+    //初始化倒计时弹窗
+    countdownNoticeDialog = new Natice_alarm(360,-1);
+    countdownNoticeDialog->timer->stop();
+    countdownNoticeDialog->timer_xumhuan->stop();
+    countdownNoticeDialog->music->stop();
 }
 
 /*
@@ -443,7 +451,6 @@ void Clock::clockInit()
     model_setup->setTable("setup");
     model_setup->setEditStrategy(QSqlTableModel::OnManualSubmit);
     model_setup->select();
-
     /*初始化一个包含两个Action(Delete和ClearAll)的菜单*/
     popMenu_In_ListWidget_ = new QMenu(this);
     action_Delete_In_ListWidget_ = new QAction(tr("Delete"), this);
@@ -487,9 +494,9 @@ void Clock::clockInit()
     timer_set_page = new QTimer();
     connect(timer_set_page, SIGNAL(timeout()), this, SLOT(verticalscrollRingTime()));
     timer_set_page->setInterval(100);
-    if(model_setup->index(0, 2).data().toInt() == 2){
-        system_time_flag = 0;
-    }
+    //初始化SystemTimeFlag，不然初始值可能不为0或者1
+    iniSystemTimeFlag();
+    //绘制闹钟列表
     updateAlarmClock();
 
     if(!model->rowCount())
@@ -535,6 +542,7 @@ void Clock::clockInit()
 
     connect(m_menuAction, SIGNAL(triggered()), this, SLOT(setUpPage()));
     connect(m_closeAction, SIGNAL(triggered()), this, SLOT(windowClosingClicked()));
+
 }
 
 /*
@@ -985,16 +993,8 @@ void Clock:: StopwatchPageSwitch ()
  */
 void Clock::textTimerupdate()
 {
-    //Qt提供了一个QProcess类用于启动外部程序并与之通信
-    QProcess process;
-    process.start("gsettings get org.ukui.control-center.panel.plugins hoursystem");
-    //阻塞，直到外部程序结束
-    process.waitForFinished();
-    QByteArray output = process.readAllStandardOutput();
-    QString str_output = output;
     //闹钟表条数
     int rowNum = model->rowCount();
-
     model_setup->select();
     QTime time = QTime::currentTime();
     int time_H = time.hour();
@@ -1010,7 +1010,7 @@ void Clock::textTimerupdate()
         set12ClockItem(time_H,time_M,time_S,rowNum);
     } else {
         //系统24时
-        if (str_output.compare("'24'\n") == 0) {
+        if (checkSystem24()) {
             set24ClockItem(time_H,time_M,time_S,rowNum);
         } else {
             //系统12时制
@@ -1051,7 +1051,6 @@ void Clock::set12ClockItem(int time_H,int time_M,int time_S,int rowNum)
     //12点显示下午12点
     if(time_H == 12)
         ui->label_6->setText(changeNumToStr(time_H)+TIME_SEPARATOR+changeNumToStr(time_M)+TIME_SEPARATOR+changeNumToStr(time_S));
-
     //原来是24时，则重新构建
     if (system_time_flag == 1) {
         system_time_flag = 0;
@@ -1070,6 +1069,41 @@ void Clock::clearClockItem(int rowNum)
         delete w1[i];
     }
     updateAlarmClock();
+}
+/**
+ * @brief 初始化系统时间标识
+ */
+void Clock::iniSystemTimeFlag()
+{
+    //设置为12时
+    if(model_setup->index(0, 2).data().toInt() == 2){
+        system_time_flag = 0;
+    }else if(model_setup->index(0, 2).data().toInt() == 1){
+        //设置为24时
+        system_time_flag = 1;
+    }else{
+        //跟随系统
+        if(checkSystem24()){
+            system_time_flag = 1;
+        }else{
+            system_time_flag = 0;
+        }
+
+    }
+}
+/**
+ * @brief 判断系统是否是24时制
+ */
+bool Clock::checkSystem24()
+{
+    //Qt提供了一个QProcess类用于启动外部程序并与之通信
+    QProcess process;
+    process.start("gsettings get org.ukui.control-center.panel.plugins hoursystem");
+    //阻塞，直到外部程序结束
+    process.waitForFinished();
+    QByteArray output = process.readAllStandardOutput();
+    QString str_output = output;
+    return str_output.compare("'24'\n") == 0;
 }
 /*
  * 动态监控闹钟与本地时间
@@ -1157,9 +1191,9 @@ void Clock::noticeDialogShow(int close_time, int alarm_num)
     int screen_width = mm.width();
     int screen_height = mm.height();
     //闹钟弹窗
-    Natice_alarm  *dialog1 = new Natice_alarm(close_time,alarm_num);
-    dialog1->ui->label_2->hide();
-    dialog1->ui->label_3->setText(model->index(alarm_num, 14).data().toString());
+    alarmNoticeDialog = new Natice_alarm(close_time,alarm_num);
+    alarmNoticeDialog->ui->label_2->hide();
+    alarmNoticeDialog->ui->label_3->setText(model->index(alarm_num, 14).data().toString());
 //    if (system_time_flag) {
 //        dialog1->ui->label_3->setText(changeNumToStr(hour_now)+" : "+changeNumToStr(min_now));
 //    } else {
@@ -1177,13 +1211,20 @@ void Clock::noticeDialogShow(int close_time, int alarm_num)
 //            }
 //        }
 //    }
-    dialog1->ui->label_4->setText(QString::number(close_time)+tr(" Seconds to close"));
+    alarmNoticeDialog->ui->label_4->setText(QString::number(close_time)+tr(" Seconds to close"));
     if (model_setup->index(0, 3).data().toInt()) {
-        dialog1->showFullScreen();
+        alarmNoticeDialog->showFullScreen();
     } else {
-        moveUnderMultiScreen(SP_RIGHT,dialog1);
+        if(countdownNoticeDialog != nullptr) {
+            if (countdownNoticeDialog->isVisible() == 0)
+                moveUnderMultiScreen(SP_RIGHT,alarmNoticeDialog,1);
+            else
+                moveUnderMultiScreen(SP_RIGHT,alarmNoticeDialog,0);
+        }
+        else
+            moveUnderMultiScreen(SP_RIGHT,alarmNoticeDialog,1);
     }
-    dialog1->show();
+    alarmNoticeDialog->show();
 }
 
 
@@ -1218,7 +1259,6 @@ void Clock::updateAlarmClock()
 
         hour_now = model->index(alarmNum, 0).data().toInt();
         min_now = model->index(alarmNum, 1).data().toInt();
-
         if (system_time_flag) {
             //24时制
             changeTimeNum(hour_now,min_now);//转换int为QString
@@ -1423,7 +1463,7 @@ void Clock::setAlarmClock()
     }
 
     time_sel->textLabel->setText(music_str_model+tr("(default)"));
-    clock_name = tr("Alarm");
+    clock_name = tr(CLOCK_TITLE_NAME);
     ui->lineEdit->setText(clock_name);
 }
 
@@ -1475,6 +1515,7 @@ void Clock::setAlarmSave()
         QMessageBox::warning(this, "警告", "闹钟数量已达上限！", QMessageBox::Yes);
     }
     ui->stackedWidget_3->raise();
+
     ui->stackedWidget->setCurrentIndex(1);
     ui->stackedWidget->raise();//将页面放置最前方
                                // Put the page at the front
@@ -1487,7 +1528,6 @@ void Clock::setAlarmSave()
         dialog_repeat->close();
     if (dialog_music)
         dialog_music->close();
-    //闹钟页面子项
     updateAlarmItemFront(CURRENT_FONT_SIZE);
 }
 
@@ -1678,6 +1718,7 @@ void Clock::alarmReEditClicked()
              << QFileInfo( model->index(rowNum, 2).data().toString() ).fileName();
 
     updateAlarmClock();
+    updateAlarmItemFront(CURRENT_FONT_SIZE);
 
     ui->stackedWidget_3->raise();
     ui->stackedWidget->setCurrentIndex(1);
@@ -2009,6 +2050,23 @@ void Clock::countMusicListclickslot()
 //倒计时执行
 // Countdown execution
 void Clock::statCountdown(){
+
+
+
+
+
+    //减1算法
+    if(countdown_second>0){
+        countdown_second--;
+    }else if(countdown_second==0&&countdown_minute>=1){
+        countdown_minute--;
+        countdown_second=59;
+    }else if(countdown_second==0&&countdown_minute==0&&countdown_hour>=1){
+        countdown_hour--;
+        countdown_minute=59;
+        countdown_second=59;
+    }
+
     QString h; QString m; QString s;
     if (countdown_hour < 10){
         QString hours_str = QString::number(countdown_hour);
@@ -2026,7 +2084,7 @@ void Clock::statCountdown(){
     if (countdown_second < 10) {
         QString second_str = QString::number(countdown_second);
         s = "0"+second_str;
-    } else {
+    }else {
         s = QString::number(countdown_second);
     }
     ui->label_9->setText(h+TIME_SEPARATOR+m+TIME_SEPARATOR+s);
@@ -2034,23 +2092,17 @@ void Clock::statCountdown(){
     QFont f(selfFont);
     f.setPixelSize(40);
     ui->label_9->setFont(f);
+
+
+
+
     //时间归零
     if (countdown_hour==0 && countdown_minute==0 && (countdown_second)==0) {
-        qDebug()<<"dbq-"<<"countdown_isStarted"<<countdown_isStarted<<"countdown_isStarted_2"<<countdown_isStarted_2;
+        qDebug()<<"dbq-结束";
         startbtnCountdown();
         countdown_timer->stop();
         //倒计时通知弹窗
         countdownNoticeDialogShow();
-    }
-    //减1算法
-    countdown_second--;
-    if (countdown_second==-1) {
-        countdown_minute--;
-        countdown_second=59;
-    }
-    if (countdown_minute==-1) {
-        countdown_hour--;
-        countdown_minute=59;
     }
 }
 
@@ -2067,10 +2119,10 @@ void Clock::countdownNoticeDialogShow()
     int screen_height = mm.height();
     model_setup->select();
 
-    countdownNoticeDialog = new Natice_alarm(360,-1);
-    countdownNoticeDialog->timer->stop();
-    countdownNoticeDialog->timer_xumhuan->stop();
-    countdownNoticeDialog->music->stop();
+//    countdownNoticeDialog = new Natice_alarm(360,-1);
+//    countdownNoticeDialog->timer->stop();
+//    countdownNoticeDialog->timer_xumhuan->stop();
+//    countdownNoticeDialog->music->stop();
     countdownNoticeDialog->timer_value = 359;
     //多少秒后自动关闭
     countdownNoticeDialog->ui->label_4->setText(tr("360 Seconds to close"));
@@ -2082,7 +2134,13 @@ void Clock::countdownNoticeDialogShow()
     if (model_setup->index(0, 3).data().toInt()) {
         countdownNoticeDialog->showFullScreen();
     } else {
-        moveUnderMultiScreen(SP_RIGHT,countdownNoticeDialog);
+        if (alarmNoticeDialog != nullptr) {
+            if (alarmNoticeDialog->isVisible() == 0)
+                moveUnderMultiScreen(SP_RIGHT,countdownNoticeDialog,1);
+            else
+                moveUnderMultiScreen(SP_RIGHT,countdownNoticeDialog,0);
+        } else
+          moveUnderMultiScreen(SP_RIGHT,countdownNoticeDialog,1);
     }
     countdownNoticeDialog->music->setVolume(model_setup->index(0, 6).data().toInt());
     countdownNoticeDialog->timer->start();
@@ -2097,6 +2155,7 @@ void Clock::countdownNoticeDialogShow()
  */
 void Clock::startbtnCountdown(){
     if (!countdown_isStarted) {
+
         //点击了开始
         if (timer_ring99->m_currentValue==0 && timer_ring60->m_currentValue==0 && timer_ring60_2->m_currentValue==0) {
             return;
@@ -2109,16 +2168,16 @@ void Clock::startbtnCountdown(){
         countdown_isStarted=1;
         //结束
         ui->count_stat->setText(tr("End"));
-        //倒计时页面
-        ui->stackedWidget_4->setCurrentIndex(1);
-        //显示当前倒计时时间
         //点击开始，刷新数值
         refreshCountdownLabel11Flag = true;
+        //设置倒计时初始时间label9 中间数字
         setcoutdownNumber(timer_ring99->m_currentValue, timer_ring60->m_currentValue, timer_ring60_2->m_currentValue);//获取转轮当前值
-        statCountdown();//提前进行一次数字减小，对其时间显示与光圈显示；
+        //倒计时页面
+        ui->stackedWidget_4->setCurrentIndex(1);
         countdown_timer->start();
         //光圈的进度值修改定时启动
         ui->page_5->timer->start();
+
     } else {
         //点击了结束，或者时间耗尽
         ui->page_5->RoundBar3->ring_max = 3600;
@@ -2156,6 +2215,7 @@ void Clock::startbtnCountdown(){
  */
 void Clock::setcoutdownNumber(int h1, int m1, int s1){
     countdown_hour=h1; countdown_minute=m1 ; countdown_second=s1;
+
     QString h; QString m; QString s;
 
     if (countdown_hour < 10){
@@ -2180,6 +2240,10 @@ void Clock::setcoutdownNumber(int h1, int m1, int s1){
     }
 
     ui->label_9->setText(h+TIME_SEPARATOR+m+TIME_SEPARATOR+s);
+    QString selfFont = loadFontFamilyFromTTF();
+    QFont f(selfFont);
+    f.setPixelSize(40);
+    ui->label_9->setFont(f);
     ui->label_8->setText(h+TIME_SEPARATOR+m+TIME_SEPARATOR+s);
     //获取倒计时结束时间
     getCountdownOverTime();
@@ -2258,20 +2322,21 @@ void Clock::getCountdownOverTime()
             x_m+=1;
         }
         refreshCountdownLabel11Flag = false;
+        if (x_m >= 60) {
+            x_m = x_m - 60;
+            x_h ++;
+        }
+       if (x_h >= 48) {
+            x_h = x_h - 48;
+            ui->label_11->setText(tr("after tomorrow")+formatX_h(x_h)+TIME_SEPARATOR+changeNumToStr(x_m));
+        } else if (x_h >= 24) {
+            x_h = x_h - 24;
+            ui->label_11->setText(tr("Tomorrow")+formatX_h(x_h)+TIME_SEPARATOR+changeNumToStr(x_m));
+       } else{
+           ui->label_11->setText(formatX_h(x_h)+TIME_SEPARATOR+changeNumToStr(x_m));
+       }
     }
-    if (x_m >= 60) {
-        x_m = x_m - 60;
-        x_h ++;
-    }
-   if (x_h >= 48) {
-        x_h = x_h - 48;
-        ui->label_11->setText(tr("after tomorrow")+formatX_h(x_h)+TIME_SEPARATOR+changeNumToStr(x_m));
-    } else if (x_h >= 24) {
-        x_h = x_h - 24;
-        ui->label_11->setText(tr("Tomorrow")+formatX_h(x_h)+TIME_SEPARATOR+changeNumToStr(x_m));
-   } else{
-       ui->label_11->setText(formatX_h(x_h)+TIME_SEPARATOR+changeNumToStr(x_m));
-   }
+
 }
 //上下午格式
 QString Clock::get12hourStr(int x_h)
@@ -2294,7 +2359,6 @@ void Clock::createUserGuideDebusClient()
     // 用户手册
     QString serviceName = "com.kylinUserGuide.hotel"
                           + QString("%1%2").arg("_").arg(QString::number(getuid()));
-    qDebug()<<"dbq-"<<"dbus serviceName"<<serviceName;
     //创建dbus-client
     userGuideInterface = new QDBusInterface(serviceName,
                                             "/",
@@ -3262,13 +3326,14 @@ void Clock::showPaint8()
  *
  * @return 返回说明
  */
-void Clock::moveUnderMultiScreen(Clock::ScreenPosition spostion,Natice_alarm * tempDialog)
+void Clock::moveUnderMultiScreen(Clock::ScreenPosition spostion,Natice_alarm * tempDialog,int hiddenFlag)
 {
     QScreen *screen=QGuiApplication::primaryScreen ();
     int screen_width = screen->geometry().width();
     int screen_height = screen->geometry().height();
     int x = primaryManager->getNScreen_x();
     int y = primaryManager->getNScreen_y();
+
     switch (spostion) {
     case SP_LEFT:
     {
@@ -3281,6 +3346,10 @@ void Clock::moveUnderMultiScreen(Clock::ScreenPosition spostion,Natice_alarm * t
         int moveWidth = x+round(screen_width-tempDialog->width()-round(1.0/20*screen_width));
         int moveHeight = y+round(screen_height-tempDialog->height()-round(1.0/14*screen_height));
         tempDialog->move(moveWidth,moveHeight);
+        if (hiddenFlag == 1)
+        tempDialog->move(moveWidth,moveHeight);
+        else
+        tempDialog->move(moveWidth,moveHeight-tempDialog->height());
     }break;
     case SP_CENTER:
     {

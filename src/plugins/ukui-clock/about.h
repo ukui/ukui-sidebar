@@ -8,6 +8,8 @@
 #include <QUrl>
 #include <QGSettings>
 #include "constant_class.h"
+#include <QLabel>
+#include <math.h>
 
 
 
@@ -30,6 +32,8 @@ private:
     void  settingsStyle();                                                               //监听主题
     void  blackStyle();                                                                  //黑色主题
     void  whiteStyle();                                                                  //白色主题
+    void updateLabelFront(QLabel *label, int size);
+    int CURRENT_FONT_SIZE;
     Ui::About *ui;
 };
 

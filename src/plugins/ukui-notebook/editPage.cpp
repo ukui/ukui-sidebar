@@ -76,8 +76,11 @@ void Edit_page::enterEvent(QEvent *event)
 void Edit_page::leaveEvent(QEvent *event)
 {
     Q_UNUSED(event);
-    m_noteHead->show();
-    m_noteHeadMenu->hide();
+    if(!m_noteHeadMenu->ui->pushButtonMenu->isActiveWindow() && !m_noteHeadMenu->ui->pushButtonPalette->isActiveWindow())
+    {
+        m_noteHead->show();
+        m_noteHeadMenu->hide();
+    }
 }
 
 void Edit_page::initSetup()
@@ -176,6 +179,26 @@ void Edit_page::btnSetup()
     ui->orderedBtn->setCheckable(true);
     ui->fontSizeBtn->setCheckable(false);
 
+//变更btn的属性，hover态，蓝色变为灰色
+#if 1
+    ui->boldBtn->setProperty("isWindowButton", 0x1);
+    ui->boldBtn->setProperty("useIconHighlightEffect", 0x2);
+
+    ui->italicBtn->setProperty("isWindowButton", 0x1);
+    ui->italicBtn->setProperty("useIconHighlightEffect", 0x2);
+
+    ui->underlineBtn->setProperty("isWindowButton", 0x1);
+    ui->underlineBtn->setProperty("useIconHighlightEffect", 0x2);
+
+    ui->strikeOutBtn->setProperty("isWindowButton", 0x1);
+    ui->strikeOutBtn->setProperty("useIconHighlightEffect", 0x2);
+
+    ui->unorderedBtn->setProperty("isWindowButton", 0x1);
+    ui->unorderedBtn->setProperty("useIconHighlightEffect", 0x2);
+
+    ui->orderedBtn->setProperty("isWindowButton", 0x1);
+    ui->orderedBtn->setProperty("useIconHighlightEffect", 0x2);
+#else
     ui->boldBtn->setProperty("useIconHighlightEffect", true);
     ui->boldBtn->setProperty("iconHighlightEffectMode", 1);
     ui->italicBtn->setProperty("useIconHighlightEffect", true);
@@ -188,6 +211,7 @@ void Edit_page::btnSetup()
     ui->unorderedBtn->setProperty("iconHighlightEffectMode", 1);
     ui->orderedBtn->setProperty("useIconHighlightEffect", true);
     ui->orderedBtn->setProperty("iconHighlightEffectMode", 1);
+#endif
 }
 
 void Edit_page::slotsSetup()
@@ -282,8 +306,6 @@ void Edit_page::fontChanged(const QFont &f)
 
     if(f.pointSize() < 10 )
     {
-        qDebug() << "ZDEBUG " << "f.pointSize() === " << f.pointSize();
-        qDebug() << "ZDEBUG " << "QString::number(f.pointSize() === " << QString::number(f.pointSize());
         ui->fontSizeBtn->setText(QString::number(10));
     }
     else
@@ -358,7 +380,7 @@ void Edit_page::listenToGsettings()
     if (QGSettings::isSchemaInstalled(id)) {
         QGSettings *styleSettings = new QGSettings(id, QByteArray(), this);
         auto style = styleSettings->get("styleName").toString();
-        if (ui->textEdit->document()->isEmpty()) {
+        //if (ui->textEdit->document()->isEmpty()) {
             if (style == "ukui-default" || style == "ukui-white"
                 || style == "ukui-light" || style == "ukui") {
                 ui->fontColorBtn->setStyleSheet("background-color: black;"
@@ -367,19 +389,25 @@ void Edit_page::listenToGsettings()
                 ui->fontColorBtn->setStyleSheet("background-color: white;"
                                                 "border-radius:3px;");
             }
-        }
+        //}
 
         connect(styleSettings, &QGSettings::changed, this, [=](const QString &key){
-            if (ui->textEdit->document()->isEmpty() && !defaultFontColorChanged) {
+            if (/*ui->textEdit->document()->isEmpty() && */!defaultFontColorChanged) {
                 if (key == "styleName") {
                     QString currentTheme = styleSettings->get(MODE_QT_KEY).toString();
                     if (currentTheme == "ukui-default" || currentTheme == "ukui-white"
                         || currentTheme == "ukui-light" || currentTheme == "ukui") {
                         ui->fontColorBtn->setStyleSheet("background-color: black;"
                                                         "border-radius:3px;");
+                        ui->frame->setStyleSheet("background-color:rgb(217, 217, 217)");
+                        ui->frame_2->setStyleSheet("background-color:rgb(217, 217, 217)");
+
                     } else if (currentTheme == "ukui-dark" || currentTheme == "ukui-black") {
                         ui->fontColorBtn->setStyleSheet("background-color: white;"
                                                         "border-radius:3px;");
+                        ui->frame->setStyleSheet("background-color:rgb(77, 77, 77)");
+                        ui->frame_2->setStyleSheet("background-color:rgb(77, 77, 77)");
+
                     }
                 }
             }

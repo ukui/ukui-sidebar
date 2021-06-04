@@ -84,7 +84,7 @@
      <item>
       <widget class="QLabel" name="titlename">
        <property name="text">
-        <string>clock</string>
+        <string>Alarm</string>
        </property>
       </widget>
      </item>
@@ -159,7 +159,7 @@
      <item>
       <widget class="QLabel" name="appnameLabel">
        <property name="text">
-        <string>Kylin Clock</string>
+        <string>Kylin Alarm</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>

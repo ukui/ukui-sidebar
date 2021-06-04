@@ -1,0 +1,10 @@
+<schemalist gettext-domain="ukui-sidebar">
+     <schema id="org.ukui.sidebar"  path="/org/ukui/sidebar/">
+        <key name="promptboxbool" type="b">
+            <default>false</default>
+            <summary>remind</summary>
+            <description>remind</description>
+        </key>
+    </schema>
+</schemalist>
+

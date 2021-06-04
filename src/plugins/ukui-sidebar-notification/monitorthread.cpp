@@ -66,8 +66,10 @@ void MonitorThread::extractData(QString strOutput)
     //检查电源信息是否被禁用
     if ("电源管理" == strAppName) {
         if (!powerstatus) {
+            qDebug()<<"电源通知已禁用";
             return;
         }
+        qDebug()<<"电源通知未禁用";
     }
     if ("notify-send" == strAppName) {
         strAppName = "未知来源";
@@ -167,6 +169,7 @@ void MonitorThread::fromSettingsGetInfoToList()
 
     if (m_pSettings->keys().contains(SWITCH_KEY)) {
         powerstatus = m_pSettings->get(SWITCH_KEY).toBool();
+        qDebug()<<"初始电源通知状态:"<<powerstatus;
         if (false == powerstatus) {
             m_mapAppSwitch.insert(strAppName, powerstatus);
         }
@@ -216,11 +219,12 @@ void MonitorThread::appNotifySettingChangedSlot()
     if (m_pSettings->keys().contains(SWITCH_KEY)) {
         status = m_pSettings->get(SWITCH_KEY).toBool();
         powerstatus= m_pSettings->get(SWITCH_KEY).toBool();
+        qDebug()<<"电源统计状态更改为："<<powerstatus;
         QMap<QString, bool>::const_iterator iter1 = m_mapAppSwitch.find(strAppName);
         if (iter1 == m_mapAppSwitch.end()) {    //没找到，没在黑名单
             if(false == status) {
                 m_mapAppSwitch.insert(strAppName, status);
-                emit Sig_CloseAppMsg(strAppName);           //对于没在黑名单的，新增黑名单关闭消息要求实时更新至通知列表
+                emit Sig_CloseAppMsg(strAppName);              //对于没在黑名单的，新增黑名单关闭消息要求实时更新至通知列表
             }
         } else {
             if (true == status) {

@@ -31,7 +31,6 @@ static bool createConnection()
     //SQLite是一款轻量级的开源的嵌入式数据库
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(url_filepath);
-    qDebug()<<"dbq-"<<"数据库地址"<<url_filepath;
     if(!db.open()) return false;
     //建表语句
     QSqlQuery query;
@@ -43,7 +42,6 @@ static bool createConnection()
                       QSqlQuery query_stop;
             query_stop.exec(QString(
                                     "create table Stopwatch (num int, stopwatch_h int, stopwatch_m int, stopwatch_s int, stopwatch_jg_h int, stopwatch_jg_m int, stopwatch_jg_s int)"));
-            qDebug()<<"dbq-"<<"执行建表语句";
             return true;
 }
 

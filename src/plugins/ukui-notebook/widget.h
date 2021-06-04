@@ -111,8 +111,9 @@ public:
     void createNewNote();                                           //新建便签
 
 public slots:
-    void sltMessageReceived(/*const QString &msg*/);
-    void textForNewEditpageSigReceived();
+    void sltMessageReceived(/*const QString &msg*/);                //接收socket信息
+    void textForNewEditpageSigReceived();                           //将选中内容复制到新便签页功能的内容传递函数
+    void iniNoteModeRead();                                         //读取配置文件iniNoteMode字段的内容
 
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
@@ -147,6 +148,7 @@ private:
     QThread* m_dbThread;                                            //数据库线程
     QMenu* m_menu;                                                  //功能菜单
     QAction* m_menuActionEmpty;                                     //菜单动作-清空便签
+    QAction* m_menuExit;                                            //菜单动作-退出便签本
     //QAction* m_menuActionSet;                                       //菜单动作-设置界面
     adaptScreenInfo *m_pSreenInfo;                                  //屏幕信息
     QPoint dragPosition;                                            //拖动坐标

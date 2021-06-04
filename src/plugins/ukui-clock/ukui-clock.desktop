@@ -2,10 +2,10 @@
 Name=Alarm
 Name[zh_CN]=闹钟
 Name[tr_TR]=Çalar Saat
-GenericName=Kylin Clock
+GenericName=Kylin Alarm
 GenericName[zh_CN]=闹钟
 GenericName[tr_TR]=Ukui Çalar Saat
-Comment=Ukui Clock
+Comment=Ukui Alarm
 Comment[zh_CN]=闹钟
 Comment[tr_TR]=Ukui Çalar Saat
 Keywords=guide;

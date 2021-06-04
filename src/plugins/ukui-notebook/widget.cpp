@@ -30,6 +30,8 @@
  */
 #define FORMAT_SCHEMA   "org.ukui.control-center.panel.plugins"
 #define TIME_FORMAT_KEY "hoursystem"
+#define STYLE_ICON                "icon-theme-name"
+#define STYLE_ICON_NAME           "iconThemeName"
 
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
 
@@ -133,6 +135,7 @@ void Widget::initData()
     } else {
         emit requestNotesList();
     }
+    iniNoteModeRead();
 }
 
 /*!
@@ -325,6 +328,8 @@ void Widget::kyNoteConn()
     // 清空便签
     connect(m_menuActionEmpty, &QAction::triggered, this, &Widget::trashSlot);
     connect(m_emptyNotes, &emptyNotes::requestEmptyNotes, this, &Widget::clearNoteSlot);
+    // 菜单按钮退出便签本
+    connect(m_menuExit, &QAction::triggered, this, &Widget::exitSlot);
     // 设置界面
     // connect(m_menuActionSet,&QAction::triggered,this,&Widget::SetNoteSlot);
     // 列表平铺切换
@@ -411,6 +416,10 @@ void Widget::listenToGsettings()
                     wid.at(i)->setAttribute(Qt::WA_Hover, false);
                 }
             });
+            if(key==STYLE_ICON_NAME || key==STYLE_ICON){
+            //主题框架不能更新 titleIcon
+            ui->iconLabel->setPixmap(QIcon::fromTheme("kylin-notebook").pixmap(24,24));
+            }
         });
     }
 
@@ -542,16 +551,19 @@ void Widget::btnInit()
     QAction *m_helpAction = new QAction(m_menu);
     QAction *m_aboutAction = new QAction(m_menu);
     // m_menuActionSet = new QAction(m_menu);
+    m_menuExit = new QAction(m_menu);
 
     m_helpAction->setText(tr("Help"));
     m_aboutAction->setText(tr("About"));
     m_menuActionEmpty->setText(tr("Empty Note"));
     // m_menuActionSet->setText(tr("Set Note"));
+    m_menuExit->setText(tr("Exit"));
 
     m_menu->addAction(m_menuActionEmpty);
     m_menu->addAction(m_helpAction);
     m_menu->addAction(m_aboutAction);
     // m_menu->addAction(m_menuActionSet);
+    m_menu->addAction(m_menuExit);
     ui->menuBtn->setMenu(m_menu);
 
     connect(m_helpAction, &QAction::triggered, this, [=](){
@@ -1508,10 +1520,12 @@ void Widget::changePageSlot()
         initIconMode();
         m_viewChangeButton->setIcon(QIcon::fromTheme("view-list-symbolic"));
         setListFlag(0);
+        m_settingsDatabase->setValue(QStringLiteral("iniNoteMode"), "icon");
     } else if (getListFlag() == 0) {
         initListMode();
         m_viewChangeButton->setIcon(QIcon::fromTheme("view-grid-symbolic"));
         setListFlag(1);
+        m_settingsDatabase->setValue(QStringLiteral("iniNoteMode"), "list");
     }
     if (m_noteModel->rowCount() > 0) {
         QModelIndex index = m_noteView->currentIndex();
@@ -1600,7 +1614,8 @@ void Widget::onF1ButtonClicked()
  * \brief Widget::sltMessageReceived
  *
  */
-void Widget::sltMessageReceived(/*const QString &msg*/) {
+void Widget::sltMessageReceived(/*const QString &msg*/)
+{
     int noteId = m_currentSelectedNoteProxy.data(NoteModel::NoteID).toInt();
     qDebug() << __FUNCTION__ << __LINE__ << "noteId  == " << noteId;
 
@@ -1632,4 +1647,16 @@ void Widget::sltMessageReceived(/*const QString &msg*/) {
             }
         }
 #endif
+}
+
+/*!
+ * \brief Widget::readIniNoteMode
+ *
+ */
+void Widget::iniNoteModeRead()
+{
+    qDebug() << "当前函数 :" << __FUNCTION__ << "当前行号 :" << __LINE__;
+    //读取配置文件，确定要不要变更视图
+    if (m_settingsDatabase->value(QStringLiteral("iniNoteMode"), "NULL") == "icon")
+        changePageSlot();
 }
