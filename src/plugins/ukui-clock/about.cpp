@@ -38,8 +38,9 @@ About::About(QWidget *parent) :
     });
     //in order to use the same world in English
     ui->titlename->setText(tr(CLOCK_TITLE_NAME));
+    //麒麟闹钟
     ui->appnameLabel->setText(tr(KYLIN_CLOCK_APP_NAME));
-    ui->appnameLabel->setStyleSheet("QLabel{font-size: 18px; color: palette(windowText);}"
+    ui->appnameLabel->setStyleSheet("QLabel{ font-size: 18px; color: palette(windowText);}"
                                     "QLabel{font-family: NotoSansCJKsc-Medium, NotoSansCJKsc;}");
     ui->versionLabel->setText(tr("Version: ")+"2021.2.0");
     settingsStyle();
@@ -57,7 +58,7 @@ About::~About()
 {
     delete ui;
 }
-
+#define SYSTEM_FONT_EKY            "system-font-size"
 /*
 *监听主题
 */
@@ -75,6 +76,11 @@ void About::settingsStyle()
         }else{
             whiteStyle();
         }
+        if (style_settings->get(SYSTEM_FONT_EKY).toInt()) {
+            const int size = style_settings->get(SYSTEM_FONT_EKY).toInt();
+            this->CURRENT_FONT_SIZE=size;
+            updateLabelFront(ui->appnameLabel,round(size*1.63));
+        }
     }
 
     connect(style_settings, &QGSettings::changed, this, [=] (const QString &key){
@@ -89,6 +95,11 @@ void About::settingsStyle()
             //主题框架不能更新 titleIcon
             ui->titleIcon->setPixmap(QIcon::fromTheme("kylin-alarm-clock").pixmap(24,24));
             ui->appiconLabel->setPixmap(QIcon::fromTheme("kylin-alarm-clock").pixmap(96,96));
+        }
+        if (key == "systemFontSize") {
+            const int size = style_settings->get(SYSTEM_FONT_EKY).toInt();
+            this->CURRENT_FONT_SIZE=size;
+            updateLabelFront(ui->appnameLabel,round(size*1.63));
         }
     });
 }
@@ -118,4 +129,14 @@ void About::whiteStyle()
                                 "<a href=\"mailto://support@kylinos.cn\""
                                 "style=\"color:black\">"
                                 "support@kylinos.cn</a>");
+}
+/**
+ * @brief 更新麒麟闹钟字体
+ */
+void About::updateLabelFront(QLabel *label, int size)
+{
+    QString styleSheet = "QLabel{ font-size: ";
+    styleSheet.append(QString::number(size)).append("px;");
+    styleSheet.append("color: palette(windowText);}""QLabel{font-family: NotoSansCJKsc-Medium, NotoSansCJKsc;}");
+    label->setStyleSheet(styleSheet);
 }
