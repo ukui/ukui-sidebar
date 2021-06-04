@@ -34,6 +34,7 @@
 #define STYLE_ICON_NAME           "iconThemeName"
 
 extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
+static QPixmap drawSymbolicColoredPixmap (const QPixmap&, QAction *);
 
 /*!
  * \brief Widget::Widget
@@ -405,8 +406,10 @@ void Widget::listenToGsettings()
                 if (currentTheme == "ukui-default" || currentTheme == "ukui-white"
                     || currentTheme == "ukui-light" || currentTheme == "ukui") {
                     m_isThemeChanged = 0;
+                        searchAction->setIcon(QPixmap(":/image/1x/system-search-symbolic.svg"));
                 } else if (style == "ukui-dark" || currentTheme == "ukui-black") {
                     m_isThemeChanged = 1;
+                    searchAction->setIcon(drawSymbolicColoredPixmap(QPixmap(":/image/1x/system-search-symbolic.svg"), searchAction));
                 }
             }
             QTimer::singleShot(500, this, [=](){
@@ -1101,7 +1104,15 @@ void Widget::searchInit()
     m_searchLine->setContextMenuPolicy(Qt::NoContextMenu);  // 禁用右键菜单
     m_searchLine->setPlaceholderText(tr("Search"));         // 设置详细输入框的提示信息
     searchAction = new QAction(m_searchLine);
-    searchAction->setIcon(QIcon::fromTheme("system-search-symbolic"));
+    //searchAction->setIcon(QIcon::fromTheme("system-search-symbolic"));
+    if(m_isThemeChanged)
+    {
+       searchAction->setIcon(drawSymbolicColoredPixmap(QPixmap(":/image/1x/system-search-symbolic.svg"), searchAction));
+    }
+    else
+    {
+       searchAction->setIcon(QPixmap(":/image/1x/system-search-symbolic.svg"));
+    }
     m_searchLine->setProperty("useIconHighlightEffect", true);
     m_searchLine->setProperty("iconHighlightEffectMode", 1);
     m_searchLine->addAction(searchAction, QLineEdit::LeadingPosition);  // 图片在左侧
@@ -1658,4 +1669,32 @@ void Widget::iniNoteModeRead()
     //读取配置文件，确定要不要变更视图
     if (m_settingsDatabase->value(QStringLiteral("iniNoteMode"), "NULL") == "icon")
         changePageSlot();
+}
+
+QPixmap drawSymbolicColoredPixmap(const QPixmap& source, QAction *btn)
+{
+    QColor t = QColor(0, 0, 0);
+    QColor baseColor = QColor(255, 255, 255);
+//    QColor baseColor = btn->palette().color(QPalette::Text).light(150);
+    QImage img = source.toImage();
+
+    qDebug() << "drawSymbolicColoredPixmap" << baseColor.red() << baseColor.green() <<baseColor.blue();
+    for (int x = 0; x < img.width(); ++x) {
+        for (int y = 0; y < img.height(); ++y) {
+            auto color = img.pixelColor(x, y);
+#if 0
+
+            color.setRed(255 - baseColor.red());
+            color.setGreen(255 - baseColor.green());
+            color.setBlue(255 - baseColor.blue());
+#else
+            color.setRed(255 - t.red());
+            color.setGreen(255 - t.green());
+            color.setBlue(255 - t.blue());
+#endif
+            img.setPixelColor(x, y, color);
+        }
+    }
+
+    return QPixmap::fromImage(img);
 }
