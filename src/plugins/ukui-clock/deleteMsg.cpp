@@ -55,9 +55,14 @@ delete_msg::delete_msg(QWidget *parent) :
 
     ui->closebtn->setIcon(QIcon::fromTheme("window-close-symbolic"));
     ui->closebtn->setProperty("isWindowButton", 0x2);
-    ui->closebtn->setProperty("useIconHighlightEffect", 0x8);
+    ui->closebtn->setProperty("useIconHighlightEffect", 0x2);
     //保存按钮边框是否凸起
     ui->closebtn->setFlat(true);
+    //配置重要按钮
+    ui->surebtn->setProperty("isImportant", true);
+    //关闭按钮去掉聚焦状态
+    ui->closebtn->setFocusPolicy(Qt::NoFocus);
+
 }
 
 delete_msg::~delete_msg()

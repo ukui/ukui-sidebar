@@ -135,7 +135,7 @@ Clock::Clock(QWidget *parent) :
     QColor ColorPlaceholderText2(61,107,229,255);
     QBrush brush2;
     brush2.setColor(ColorPlaceholderText2);
-    palette2.setColor(QPalette::Button,QColor(61,107,229,255));
+    palette2.setColor(QPalette::Highlight,QColor(61,107,229,255));
     palette2.setBrush(QPalette::ButtonText, QBrush(Qt::white));
     ui->count_stat->setPalette(palette2);
     ui->addAlarmBtn->setPalette(palette2);
@@ -147,7 +147,7 @@ Clock::Clock(QWidget *parent) :
     QColor ColorPlaceholderText(248,163,76,255);
     QBrush brush3;
     brush3.setColor(ColorPlaceholderText);
-    palette.setColor(QPalette::Button,QColor(248,163,76,255));
+    palette.setColor(QPalette::Highlight,QColor(248,163,76,255));
     palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
     ui->count_push->setPalette(palette);
 
@@ -185,6 +185,22 @@ Clock::Clock(QWidget *parent) :
     f.setPixelSize(38);
     ui->label_4->setFont(f);
     listenToGsettings();
+    //配置重要按钮
+    //添加
+    ui->addAlarmBtn->setProperty("isImportant", true);
+    //新建闹钟保存
+    ui->set_alarm_savebtn->setProperty("isImportant", true);
+    //闹钟编辑保存
+    ui->pushButton_9->setProperty("isImportant", true);
+    //倒计时 滚轮页设置页，开始
+    count_stat->setProperty("isImportant", true);
+    //倒计时，运行页，开始结束
+    ui->count_stat->setProperty("isImportant", true);
+    //秒表 开始结束
+    ui->pushButton_Start->setProperty("isImportant", true);
+//    倒计时 暂停继续
+    ui->count_push->setProperty("isImportant", true);
+
 }
 
 Clock::~Clock()
@@ -302,12 +318,12 @@ void Clock::buttonImageInit()
     ui->pushButton_5->setFocusPolicy(Qt::NoFocus);
     ui->pushButton_12->setFocusPolicy(Qt::NoFocus);
 
-    ui->pushButton_4->setProperty("isWindowButton", 0x1);
+//    ui->pushButton_4->setProperty("isWindowButton", 0x1);
     ui->pushButton_5->setProperty("isWindowButton", 0x2);
-    ui->pushButton_12->setProperty("isWindowButton", 0x1);
+//    ui->pushButton_12->setProperty("isWindowButton", 0x1);
 
     ui->pushButton_4->setProperty("useIconHighlightEffect", 0x2);
-    ui->pushButton_5->setProperty("useIconHighlightEffect", 0x8);
+    ui->pushButton_5->setProperty("useIconHighlightEffect", 0x2);
     ui->pushButton_12->setProperty("useIconHighlightEffect", 0x2);
 
     ui->pushButton_4->setToolTip(tr("Minimize"));
@@ -700,7 +716,7 @@ void Clock::onPushbuttonStartClicked()
         QColor ColorPlaceholderText(248,163,76,255);
         QBrush brush2;
         brush2.setColor(ColorPlaceholderText);
-        palette.setColor(QPalette::Button,QColor(248,163,76,255));
+        palette.setColor(QPalette::Highlight,QColor(248,163,76,255));
         palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
         ui->pushButton_Start->setPalette(palette);
 
@@ -730,7 +746,7 @@ void Clock::onPushbuttonStartClicked()
         QColor ColorPlaceholderText(248,163,76,255);
         QBrush brush2;
         brush2.setColor(ColorPlaceholderText);
-        palette.setColor(QPalette::Button,QColor(69, 173, 110,255));
+        palette.setColor(QPalette::Highlight,QColor(69, 173, 110,255));
         palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
         ui->pushButton_Start->setPalette(palette);
     }
@@ -860,7 +876,7 @@ void Clock::onPushbuttonTimeselectClicked()
         QColor ColorPlaceholderText(61,107,229,255);
         QBrush brush2;
         brush2.setColor(ColorPlaceholderText);
-        palette.setColor(QPalette::Button,QColor(61,107,229,255));
+        palette.setColor(QPalette::Highlight,QColor(61,107,229,255));
         palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
         ui->pushButton_Start->setPalette(palette);
 
@@ -2202,7 +2218,7 @@ void Clock::startbtnCountdown(){
         QColor ColorPlaceholderText(248,163,76,255);
         QBrush brush2;
         brush2.setColor(ColorPlaceholderText);
-        palette.setColor(QPalette::Button,QColor(248,163,76,255));
+        palette.setColor(QPalette::Highlight,QColor(248,163,76,255));
         palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
         ui->count_push->setPalette(palette);
     }
@@ -2429,6 +2445,7 @@ QString Clock::changeNumToStr(int alarmHour)
  */
 void Clock::onCountPushClicked()
 {
+
     if (countdown_isStarted_2){
         //点击了继续
         ui->count_push->setText(tr("suspend"));
@@ -2437,7 +2454,7 @@ void Clock::onCountPushClicked()
         QColor ColorPlaceholderText(248,163,76,255);
         QBrush brush2;
         brush2.setColor(ColorPlaceholderText);
-        palette.setColor(QPalette::Button,QColor(248,163,76,255));
+        palette.setColor(QPalette::Highlight,QColor(248,163,76,255));
         palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
         ui->count_push->setPalette(palette);
 
@@ -2454,7 +2471,7 @@ void Clock::onCountPushClicked()
         QColor ColorPlaceholderText(61,107,229,255);
         QBrush brush2;
         brush2.setColor(ColorPlaceholderText);
-        palette.setColor(QPalette::Button,QColor(69, 173, 110,255));
+        palette.setColor(QPalette::Highlight,QColor(69, 173, 110,255));
         palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
         ui->count_push->setPalette(palette);
 
