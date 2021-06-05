@@ -91,15 +91,17 @@ int main(int argc, char *argv[])
 
         Widget *w = new Widget;
         w->setObjectName("SidebarWidget");
-        w->setAttribute(Qt::WA_TranslucentBackground);
-        mostGrandWidget::getInstancemostGrandWidget()->m_pmostGrandWidgetVLaout->addWidget(w);
-        mostGrandWidget::getInstancemostGrandWidget()->LaoutSidebarWidget();
-        mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(-500, 0);
-        mostGrandWidget::getInstancemostGrandWidget()->setProperty("useSystemStyleBlur", true);
-        mostGrandWidget::getInstancemostGrandWidget()->setVisible(true);
-    //    KWindowEffects::enableBlurBehind(mostGrandWidget::getInstancemostGrandWidget()->winId(), true);
-        w->m_bfinish = true;
-        w->showAnimation();
+
+        QObject::connect(w,&Widget::testssss, [=] (){
+            w->setAttribute(Qt::WA_TranslucentBackground);
+            mostGrandWidget::getInstancemostGrandWidget()->m_pmostGrandWidgetVLaout->addWidget(w);
+            mostGrandWidget::getInstancemostGrandWidget()->LaoutSidebarWidget();
+            mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(-500, 0);
+            mostGrandWidget::getInstancemostGrandWidget()->setProperty("useSystemStyleBlur", true);
+            mostGrandWidget::getInstancemostGrandWidget()->setVisible(true);
+            w->m_bfinish = true;
+            w->showAnimation();
+        });
         QObject::connect(&a, SIGNAL(messageReceived(const QString&)),w, SLOT(bootOptionsFilter(const QString&)));
         return a.exec();
     }

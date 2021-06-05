@@ -26,11 +26,47 @@
 #include <QGuiApplication>
 #include "xeventmonitor.h"
 #include "customstyle.h"
+#include <QDebug>
 
 double tranSparency = 0.7;
 
 Widget::Widget(QWidget *parent) : QWidget (parent)
 {
+    //先仅注册托盘图标
+    initTrayIcon();
+    //开启定时器延时，并与初始化后台功能关联
+    timerHandle();
+
+}
+
+Widget::~Widget()
+{
+    XEventMonitor::instance()->quit();
+}
+
+
+void Widget::initTrayIcon()
+{
+    /* 系统托盘栏显示 */
+    createSystray();
+    setIcon(QIcon::fromTheme("kylin-tool-box", QIcon(TRAY_ICON)));
+}
+
+void Widget::timerHandle()
+{
+    startFunctionTimer = new QTimer();
+    connect(startFunctionTimer,&QTimer::timeout,this,&Widget::startBackgroundFunction);
+    qDebug()<<"定时器开始及时5s";
+    startFunctionTimer->start(5000);
+
+    startShowSidebar = new QTimer();
+};
+
+
+void Widget::startBackgroundFunction()
+{
+
+    qDebug()<<"后台功能加载中******************************";
     /* 国际化 */
     initTranslation();
 
@@ -68,10 +104,9 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
 
     this->setLayout(m_pMainQVBoxLayout);
 
-    /* 系统托盘栏显示 */
+    //托盘相关
     createAction();
-    createSystray();
-    setIcon(QIcon::fromTheme("kylin-tool-box", QIcon(TRAY_ICON)));
+
 
     /* 安装事件过滤器 */
     installEventFilter(this);
@@ -95,11 +130,43 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     connect(XEventMonitor::instance(), SIGNAL(keyPress(QString)),
            this,SLOT(XkbEventsPress(QString)));
     qInfo() << "---------------------------主界面加载完毕---------------------------";
+    startFunctionTimer->stop();
+    backgroundFunctionStatus = false;
+
+    if(oneshut){
+        emit testssss();
+        oneshut = false;
+    }
+
 }
 
-Widget::~Widget()
+void Widget::clickTrayFunction(QSystemTrayIcon::ActivationReason reason)
 {
-    XEventMonitor::instance()->quit();
+    qDebug()<<"点击托盘图标";
+    //判断是否为未加载后台逻辑部分
+    if(backgroundFunctionStatus)  {
+        qDebug()<<"未加载后台逻辑，加载逻辑";
+        startBackgroundFunction();
+        if(oneshut){
+            emit testssss();
+            oneshut = false;
+        }
+        if(startShowSidebarstatus) {
+            connect(startShowSidebar,&QTimer::timeout,[=] (){
+                iconActivated(reason);
+            });
+            startShowSidebar->setSingleShot(true);
+            startShowSidebar->start(400);
+            startShowSidebarstatus = false;
+        }
+    } else {
+        qDebug()<<"已加载，正常执行";
+        if(oneshut){
+            emit testssss();
+            oneshut = false;
+        }
+        iconActivated(reason);
+    }
 }
 
 void Widget::XkbEventsPress(const QString &keycode)
@@ -238,6 +305,9 @@ void Widget::createAction()
 
     OpenSetUp = new QAction(QIcon::fromTheme("application-menu", QIcon(SETTING_ICON)), QObject::tr("Set up notification center"), this);
     connect(OpenSetUp, &QAction::triggered, this, &Widget::OpenControlCenterSettings);
+
+    trayIconMenu->addAction(Open);
+    trayIconMenu->addAction(OpenSetUp);
 }
 
 //添加动作和创建 systray实例
@@ -249,15 +319,14 @@ void Widget::createSystray()
         qWarning() << "分配空间trayIconMenu失败";
         return ;
     }
-    trayIconMenu->addAction(Open);
-    trayIconMenu->addAction(OpenSetUp);
 
     trayIcon = new QSystemTrayIcon(this);
     if (nullptr == trayIcon) {
         qWarning()<< "分配空间trayIcon失败";
         return ;
     }
-    connect(trayIcon, &QSystemTrayIcon::activated, this, &Widget::iconActivated);
+    connect(trayIcon, &QSystemTrayIcon::activated, this, &Widget::clickTrayFunction);
+
     trayIcon->setVisible(true);
     trayIcon->setContextMenu(trayIconMenu);
 }

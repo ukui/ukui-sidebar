@@ -32,6 +32,8 @@
 #include "clipboardpluginiface.h"
 #include "sidebarSmallPluginInterface.h"
 #include "mostgrandwidget.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 #define  TRAY_ICON           ":/data/images/kylin-tool-box.svg"
 #define  TRAY_NULL_ICON      ":/data/images/kylin-tool-box-null.svg"
@@ -74,6 +76,10 @@ public:
         PanelRight
     };
     //主界面
+    void initTrayIcon();                                                        //初始化托盘
+    void startBackgroundFunction();                                             //初始化功能
+    void timerHandle();                                                         //定时器处理函数
+    void clickTrayFunction(QSystemTrayIcon::ActivationReason reason);           //托盘点击处理函数
     void initTranslation();                                                     // 初始化翻译
     void initAimation();                                                        // 初始化动画
     void initOsSiteXY();                                                        // 初始化使用qt接口初始化接口
@@ -101,6 +107,9 @@ public:
     void InitializeHomeScreenGeometry();                                        // 初始化主屏的X坐标
     void setAllWidgetFont();                                                    // 监听gsetting，修改所有窗口的字体
     bool m_bfinish;
+    bool backgroundFunctionStatus = true;                                       //ture :未加载 false 已加载
+    bool oneshut = true;
+    bool startShowSidebarstatus =true;
 
 
 protected:
@@ -120,6 +129,8 @@ private:
     int                         m_nScreen_x;                                    // 主屏的起始坐标X
     int                         m_nScreen_y;                                    // 主屏的起始坐标Y
     int                         m_pPeonySite;                                   // 任务栏位置
+    QTimer *startFunctionTimer;
+    QTimer *startShowSidebar;
 
     QObject*                    m_pNotificationPluginObject;                    // 通知中心插件对象
 
@@ -159,6 +170,9 @@ private slots :
     void XkbEventsPress(const QString &keycode);                                // 键盘按键按下事件
     void XkbEventsRelease(const QString &keycode);                              // 键盘按键弹出事件
     void priScreenChanged(int x, int y, int width, int height);                 // hw990屏幕分辨率变化后
+
+Q_SIGNALS:
+    void testssss();
 };
 
 #endif // WIDGET_H
