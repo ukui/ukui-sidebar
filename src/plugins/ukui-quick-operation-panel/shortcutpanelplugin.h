@@ -118,6 +118,9 @@ public:
 
     void initTableViewWidget();
 
+Q_SIGNALS:
+    void shortcutAction(QString name);
+
 public slots:
     void spreadClikedSlots();
     void foldClikedSlots();
@@ -128,6 +131,9 @@ public slots:
     void setCanceGsettingButtonValue(QString key);
     void hideDropDownWidgetBox();
 
+    void processShortcutSignal(QString name);
+
+    void onHoverIndexChanged(const QModelIndex &index);
 private:
     QVBoxLayout  *m_pMainVLayout    = nullptr;
     QVBoxLayout  *m_pShortVLayout   = nullptr;

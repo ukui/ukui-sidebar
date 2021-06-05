@@ -7,6 +7,10 @@
 #include <QHeaderView>
 #include <QDebug>
 #include <QVariant>
+#include <shortcutinterface.h>
+#include <QMetaType>
+#include <QObject>
+#include "listviewdelegate.h"
 
 ListViewCustom::ListViewCustom(QWidget *parent): QListView(parent)
 {
@@ -24,41 +28,54 @@ ListViewCustom::ListViewCustom(QWidget *parent): QListView(parent)
     m_cellHeight = 85;
     m_cellWidet = 92;
     m_validPress = false;
+    m_validRelease = true;
     m_rowFrom = 0;
     m_rowTo = 0;
+    m_cellFrom = 0;
 
     //设置ListView属性      实现流式布局和多列效果
     this->setViewMode(QListView::IconMode);//多列效果
     this->setFlow(QListView::LeftToRight);
     this->setResizeMode(QListView::Adjust);//自动换行
     //this->setLayoutMode(QListView::Batched);
+    this->setEditTriggers(QListView::NoEditTriggers);
     this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     const QSize size(m_cellWidet,m_cellHeight);    //设置网格大小
     this->setGridSize(size);
+    this->setFrameShape(QListView::NoFrame);
+
+
+    this->setMouseTracking(true);
+
 }
 void ListViewCustom::SetModel(QStringListModel *model)
 {
     m_model = model;
     QListView::setModel(model);
 }
+
 void ListViewCustom::mousePressEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::LeftButton)
     {
         QModelIndex index = QListView::indexAt(e->pos());
-        qDebug()<<"index.row():"<<index.row();;
+        qDebug()<<"index.isValid():"<<index.isValid();
+        qDebug()<<"index.row():"<<index.row();
         if (index.isValid())
         {
             m_validPress = true;
             m_dragPoint = e->pos(); //记录按下时位置
             QVariant var= m_model->data(index,Qt::EditRole);  //获取拖拽单元格中的内容
-            m_dragText = var.toString();
-            qDebug()<<"m_dragText:"<<m_dragText;
+            m_cellName = var.toString();
+            qDebug()<<"m_cellName:"<<m_cellName;
             //m_dragPointAtItem = m_dragPoint - QPoint((index.row()%4)*m_cellWidet,(index.row()/4)*m_cellHeight); //获取拖拽点在该单元格的相对位置
             m_rowFrom = index.row()/4;      //记录移动的起始行列号
             m_columnFrom = index.row()%4;
             m_cellFrom = index.row();
+        }
+        else{
+            m_cellName.clear();
         }
     }
     else if (e->button() == Qt::RightButton) //右键弹出设置菜单
@@ -68,12 +85,39 @@ void ListViewCustom::mousePressEvent(QMouseEvent *e)
     QListView::mousePressEvent(e);
 }
 
+void ListViewCustom::mouseReleaseEvent(QMouseEvent *e)
+{
+    if (e->button() == Qt::LeftButton && m_validRelease){
+        qDebug()<<"鼠标左键释放...";
+        if(!m_cellName.isEmpty()){
+            //shortcutFunction(m_cellName); //动态创建该快捷键对象，并执行快捷操作
+            emit clickBtn(m_cellName);
+        }
+
+    }
+    else if(e->button() == Qt::RightButton && m_validRelease){
+        qDebug()<<"鼠标右键释放...";
+    }
+    m_validRelease = true;
+}
+
+void ListViewCustom::leaveEvent(QEvent *e)
+{
+    emit mouseLeave(true);
+}
+
 void ListViewCustom::mouseMoveEvent(QMouseEvent *e)
 {
+    QModelIndex index = QListView::indexAt(e->pos());
+    emit hoverIndexChanged(index);
+    qDebug()<<"鼠标移动："<<index.row();
+
+
     if(!m_editMode)
         return;
-    if (!m_validPress)
+    if (!m_validPress){
         return;
+    }
     if (!(e->buttons() & Qt::LeftButton))
         return;
     if ((e->pos() - m_dragPoint).manhattanLength()  < QApplication::startDragDistance())  //拖动量过小不进行拖动操作
@@ -113,6 +157,7 @@ void ListViewCustom::doDrag()
 
 void ListViewCustom::dragEnterEvent(QDragEnterEvent *e)
 {
+    m_validRelease = false;
     if (e->mimeData()->hasText())
     {
         e->acceptProposedAction();
@@ -198,7 +243,6 @@ void ListViewCustom::moveRow(int rowFrom, int columnFrom, int rowTo, int columnT
         return;
     }
     //移动行思路：将Vector中的数据重新排列，然后清空模型，再讲Vector中的数据添加进去
-    //->
     //[1]重新排序
     static RecordSequenceFile *record = RecordSequenceFile::getInstance();
     QVector<QMap<QString,QString>> vectorData = record->getShortcutShowVector();
@@ -232,5 +276,23 @@ void ListViewCustom::moveRow(int rowFrom, int columnFrom, int rowTo, int columnT
     }
     m_model->setStringList(dataList);
 
+    m_validRelease = true;
+    qDebug()<<"------->m_validRelease:"<<m_validRelease;
     emit sigRowChange(m_rowFrom*4+m_columnFrom,m_rowTo*4+m_columnTo);
+}
+
+
+void ListViewCustom::shortcutFunction(QString name)
+{
+    //反射实现：根据类名字符串将其实例化，方便动态创建
+    //工厂模式:使用工厂具体快捷键类的抽象化
+    static RecordSequenceFile *record = RecordSequenceFile::getInstance();
+    QMap<QString,QString>::iterator iter =  record->m_shortcutClassName.find(name);
+    QString className = iter.value();
+    className += "*";
+    int id = QMetaType::type(className.toLatin1()); //根据类名获取id号
+    const QMetaObject *metaObj = QMetaType::metaObjectForType(id); //获取该类的元对象
+    QObject *obj = metaObj->newInstance(Q_ARG(QObject*, nullptr));
+    ShortcutInterface *instence = qobject_cast<ShortcutInterface*>(obj);
+    instence->action();
 }

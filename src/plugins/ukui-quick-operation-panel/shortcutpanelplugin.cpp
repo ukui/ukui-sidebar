@@ -64,18 +64,23 @@ void shortcutPanelPlugin::initTableViewWidget()
     listModel = new QStringListModel(dataList);
     listView->SetModel(listModel);
     listView->setItemDelegate(listDelegate);
+    connect(listView,SIGNAL(hoverIndexChanged(const QModelIndex&)),listDelegate,SLOT(onHoverIndexChanged(const QModelIndex&)));
+    connect(listView,SIGNAL(hoverIndexChanged(const QModelIndex&)),this,SLOT(onHoverIndexChanged(const QModelIndex&)));
+
+
 
     m_pShortVLayout->addWidget(listView);
 
-    //------------------tableView实现
- /*   tableView = new TableViewCustom();
 
-     //获取数据
+    //------------------tableView实现
+    /*   tableView = new TableViewCustom();
+    //获取数据
     RecordSequenceFile *record = new RecordSequenceFile;
     QMap<QString,QString> map = record->shortcutShowMap;
     QMap<QString,QString>::iterator iter;
     uint i=0;
     //添加数据
+
     model = new QStandardItemModel();
     QStandardItem *parentItem =  model->invisibleRootItem();
     for(iter=map.begin(); iter!=map.end();iter++){
@@ -92,6 +97,10 @@ void shortcutPanelPlugin::initTableViewWidget()
     m_pShortVLayout->addWidget(tableView);*/
 
 
+}
+void shortcutPanelPlugin::onHoverIndexChanged(const QModelIndex &index)
+{
+    qDebug()<<"---shortcutPanelPlugin::"<<index.row();
 }
 
 /* 初始化插件成员变量 */
@@ -348,8 +357,7 @@ void shortcutPanelPlugin::initsetShortWidget()
                 //const QByteArray id = str.toLatin1();
                 //if((QGSettings::isSchemaInstalled(id)) &&
                        //m_pGsettingShutcutValue->get(m_pButtonGsettingValue.at(4 * j + k)).toBool())
-                        {
-
+               {
                     m_pShortGLayout->addWidget(ShortButtonWidgetList.at(4 * j + k), tmpx, tmpy, 1, 1);
                     tmpy++;
                     if (tmpy == 4) {

@@ -24,8 +24,10 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QProcess>
+#include <QMetaType>
 #include "shortcutbutton.h"
 #include "labelfotmattext.h"
+#include "shortcutinterface.h"
 
 #define KYLIN_SCREENSHOT_NORMAL_NAME    "ukui-icon-screenshot"
 #define KYLIN_SCREENSHOT_SET_NAME       "ukui-icon-screenshot-s"
@@ -59,5 +61,20 @@ private:
 private slots:
     void         sreenShotButtonClickedSlots();
 };
+
+
+
+//--->zyj
+class screenshot : public ShortcutInterface
+{
+    Q_OBJECT
+public:
+    static int typeId;
+    Q_INVOKABLE explicit screenshot(QObject *parent = nullptr);
+    bool action() const;
+private:
+};
+
+//---<
 
 #endif // SCREENSHOTWIDGET_H

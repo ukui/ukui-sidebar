@@ -2,34 +2,7 @@
 #include <QDir>
 #include <QDebug>
 
-#define TABLE_MODE_NAME     "Tablet Mode"
-#define TABLE_MODE_ICON     ":/images/icon-PC-mode.svg"
-#define NO_DISTURBING_NAME  "No disturbing"
-#define NO_DISTURBING_ICON  ":/images/icon-DND.svg"
-#define ENERGY_SAVING_NAME  "Energy-saving"
-#define ENERGY_SAVING_ICON  ":/images/icon-powersavingmode.svg"
-#define EYE_CARE_NAME       "Eye care"
-#define EYE_CARE_ICON       ":/images/icon-eyeprotectionmode.svg"
-#define BLUETOOTH_NAME      "Bluetooth"
-#define BLUETOOTH_ICON      ":/image/bluetooth-normal.svg"
-#define HOTSPOT_NAME        "Hotspot"
-#define HOTSPOT_icon        ":/images/icon-hotspot.svg"
-#define VPN_NAME            "VPN"
-#define VPN_ICON            ":/images/icon-VPN.svg"
-#define SETTING_NAME        "Setting"
-#define SETTING_ICON        ":/images/icon-setting.svg"
-#define CALCULATOR_NAME     "Calculator"
-#define CALCULATOR_ICON     ":/images/icon-calculator.svg"
-#define SCREENSHOTS_NAME    "Screenshots"
-#define SCREENSHOTS_ICON    ":/images/icon-screenshot.svg"
-#define ALARM_NAME          "Alarm"
-#define ALARM_ICON          ":/images/icon-alarm.svg"
-#define NOTEBOOK_NAME       "NoteBook"
-#define NOTEBOOK_ICON       ":/images/icon-notes.svg"
-#define FEEDBACK_NAME       "Feedback"
-#define FEEDBACK_ICON       ":/images/icon-alarm.svg"
-#define WIFI_NAM            "Wifi"
-#define WIFI_ICON           ":/image/wifi-normal.svg"
+
 
 
 RecordSequenceFile *RecordSequenceFile::m_instance = 0;
@@ -39,6 +12,7 @@ RecordSequenceFile::RecordSequenceFile()
 {
     m_recordShowPath = QDir::homePath() + "/.config/sidebarRecordShow";
     m_recordHidePath = QDir::homePath() + "/.config/sidebarRecordHide";
+    initshortcutClassName();
     initShortcutMap();
 
     connect(this, SIGNAL(orderChange(QVector<QMap<QString,QString>>)),this,SLOT(saveOrder(QVector<QMap<QString,QString>>)));
@@ -99,6 +73,23 @@ bool RecordSequenceFile::initShortcutMap()
         }
     }
 }
+
+bool RecordSequenceFile::initshortcutClassName()
+{
+//    shortcutShowMap.insert(TABLE_MODE_NAME,TABLE_MODE_ICON);
+//    shortcutShowMap.insert(NO_DISTURBING_NAME,NO_DISTURBING_ICON);
+//    shortcutShowMap.insert(ENERGY_SAVING_NAME,ENERGY_SAVING_ICON);
+//    shortcutShowMap.insert(EYE_CARE_NAME,EYE_CARE_ICON);
+//    shortcutShowMap.insert(BLUETOOTH_NAME,BLUETOOTH_ICON);
+//    shortcutShowMap.insert(HOTSPOT_NAME,HOTSPOT_icon);
+//    shortcutShowMap.insert(VPN_NAME,VPN_ICON);
+//    shortcutShowMap.insert(SETTING_NAME,SETTING_ICON);
+//    shortcutShowMap.insert(CALCULATOR_NAME,CALCULATOR_ICON);
+    m_shortcutClassName.insert(SCREENSHOTS_NAME,SCREENSHOTS_CLASS_NAME);
+    m_shortcutClassName.insert(ALARM_NAME,ALARM_CLASS_NAME);
+//    shortcutShowMap.insert(NOTEBOOK_NAME,NOTEBOOK_ICON);
+}
+
 
 bool RecordSequenceFile::isExist()
 {

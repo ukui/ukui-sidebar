@@ -46,6 +46,7 @@ SOURCES += \
     recordsequencefile.cpp \
     scrollingareawidget.cpp \
     shortcutbutton.cpp \
+    shortcutinterface.cpp \
     swichButtonOpenStatus.cpp \
     bluetoothwidget.cpp \
     calculatorwidget.cpp \
@@ -84,6 +85,7 @@ HEADERS += \
     recordsequencefile.h \
     scrollingareawidget.h \
     shortcutbutton.h \
+    shortcutinterface.h \
     swichButtonOpenStatus.h \
     bluetoothwidget.h \
     calculatorwidget.h \

@@ -28,6 +28,7 @@
 #include <QStyleOption>
 #include "shortcutbutton.h"
 #include "labelfotmattext.h"
+#include "shortcutinterface.h"
 
 #define KYLIN_BLUETOOTH_NORMAL_NAME     "kylin-icon-bluetooth"
 #define KYLIN_BLUETOOTH_OPEN_NAME       "kylin-icon-bluetooth-open"
@@ -74,6 +75,17 @@ private:
 private slots:
     void BluetoothStatusChangedSlots(bool status);
     void bluetoothButtonClickSlots();
+};
+
+
+class bluetoot : public ShortcutInterface
+{
+    Q_OBJECT
+public:
+    static int typeId;
+    Q_INVOKABLE explicit bluetoot(QObject *parent = nullptr);
+    bool action() const;
+private:
 };
 
 #endif // BLUETOOTHWIDGET_H

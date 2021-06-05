@@ -85,6 +85,7 @@ void customstyle_switchNormalStatus::drawComplexControl(QStyle::ComplexControl c
                 //return QProxyStyle::drawComplexControl(control, &sll, painter, widget);
             }
         }
+        painter->restore();
         //return QProxyStyle::drawComplexControl(control, option, painter, widget);
     }
         break;

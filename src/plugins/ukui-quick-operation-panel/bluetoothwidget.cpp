@@ -161,3 +161,19 @@ void bluetoothWidget::bluetoothButtonClickSlots()
     }
     return;
 }
+
+
+//--->zyj
+int bluetoot::typeId = qRegisterMetaType<bluetoot*>();
+bluetoot::bluetoot(QObject *parent) : ShortcutInterface(parent)
+{
+
+}
+
+bool bluetoot::action() const
+{
+    qDebug()<<"蓝牙快捷按钮";
+    return true;
+}
+
+//--<
