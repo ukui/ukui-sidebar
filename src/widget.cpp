@@ -56,9 +56,7 @@ void Widget::timerHandle()
 {
     startFunctionTimer = new QTimer();
     connect(startFunctionTimer,&QTimer::timeout,this,&Widget::startBackgroundFunction);
-    qDebug()<<"定时器开始及时5s";
     startFunctionTimer->start(5000);
-
     startShowSidebar = new QTimer();
 };
 
@@ -66,7 +64,6 @@ void Widget::timerHandle()
 void Widget::startBackgroundFunction()
 {
 
-    qDebug()<<"后台功能加载中******************************";
     /* 国际化 */
     initTranslation();
 
@@ -142,10 +139,8 @@ void Widget::startBackgroundFunction()
 
 void Widget::clickTrayFunction(QSystemTrayIcon::ActivationReason reason)
 {
-    qDebug()<<"点击托盘图标";
     //判断是否为未加载后台逻辑部分
     if(backgroundFunctionStatus)  {
-        qDebug()<<"未加载后台逻辑，加载逻辑";
         startBackgroundFunction();
         if(oneshut){
             emit testssss();
@@ -156,11 +151,10 @@ void Widget::clickTrayFunction(QSystemTrayIcon::ActivationReason reason)
                 iconActivated(reason);
             });
             startShowSidebar->setSingleShot(true);
-            startShowSidebar->start(400);
+            startShowSidebar->start(700);
             startShowSidebarstatus = false;
         }
     } else {
-        qDebug()<<"已加载，正常执行";
         if(oneshut){
             emit testssss();
             oneshut = false;
