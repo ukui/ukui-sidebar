@@ -45,14 +45,15 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
 
     installEventFilter(this);
 
-    const QByteArray id("org.ukui.sidebar");
-    if (QGSettings::isSchemaInstalled(id)) {
-        QGSettings *m_pGsetting = new QGSettings(id);
-        m_bPromptBoxBool = m_pGsetting->get("promptboxbool").toBool();
-    } else {
-        m_bPromptBoxBool = true;
-    }
+//    const QByteArray id("org.ukui.sidebar");
+//    if (QGSettings::isSchemaInstalled(id)) {
+//        QGSettings *m_pGsetting = new QGSettings(id);
+//        m_bPromptBoxBool = m_pGsetting->get("promptboxbool").toBool();
+//    } else {
+//        m_bPromptBoxBool = true;
+//    }
 
+    m_bPromptBoxBool = true;
 
     m_pClipboardDb = new clipboardDb();
 
@@ -74,14 +75,15 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
 
     /* 在点击确认键后判断是否有勾选不再提示这一功能 */
     connect(InternalSignal, &ClipBoardInternalSignal::CheckBoxSelectedSignal, this, [=]() {
-        const QByteArray id("org.ukui.sidebar");
-        if (QGSettings::isSchemaInstalled(id)) {
-            QGSettings *m_pGsetting = new QGSettings(id);
-            m_bPromptBoxBool = false;
-            m_pGsetting->set("promptboxbool",false);
-        } else {
-            m_bPromptBoxBool = false;
-        }
+        m_bPromptBoxBool = false;
+//        const QByteArray id("org.ukui.sidebar");
+//        if (QGSettings::isSchemaInstalled(id)) {
+//            QGSettings *m_pGsetting = new QGSettings(id);
+//            m_bPromptBoxBool = false;
+//            m_pGsetting->set("promptboxbool",false);
+//        } else {
+//            m_bPromptBoxBool = false;
+//        }
     });
 
     /* 当剪贴板条目发生变化的时候执行该槽函数 */
