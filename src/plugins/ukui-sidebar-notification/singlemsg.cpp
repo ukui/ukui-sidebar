@@ -224,7 +224,16 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pSummaryLabel = new QLabel();
     m_pSummaryLabel->setFixedWidth(314);
     m_pSummaryLabel->setAttribute(Qt::WA_TranslucentBackground);
-    m_pSummaryLabel->setFont(ft);
+
+    //延时1秒设置字体
+    QTimer::singleShot(1, m_pSummaryLabel, [=]() {
+            QFont summaryFont = m_pSummaryLabel->font();
+            summaryFont.setPointSizeF(12);
+            summaryFont.setFamily("Noto Sans CJK SC");
+            summaryFont.setBold(true);
+            m_pSummaryLabel->setFont(summaryFont);
+        });
+
     QString formatSummary;
     formatSummary.append("<p style='line-height:26px'>").append(m_strSummary).append("</p>");
     QFontMetrics fontMetrics(m_pSummaryLabel->font());
@@ -333,8 +342,8 @@ void SingleMsg::slotChangeFonts(const QString &key)
     if(key != "systemFontSize")
         return;
     QFont ft;
-    int fontSize;
-    ft.setPointSize(14);
+    int fontSize = 12;
+    ft.setPointSize(20);
     if(QGSettings::isSchemaInstalled(STYLE_FONT_SCHEMA)){
         fontSize = stylesettings->get("system-font-size").toInt();
         ft.setPointSize(fontSize);
@@ -349,7 +358,15 @@ void SingleMsg::slotChangeFonts(const QString &key)
     {
         strformatSummary = fontMetrics.elidedText(formatSummary, Qt::ElideRight, m_pSummaryLabel->width() + 210);
     }
-    m_pSummaryLabel->setFont(ft);
+
+    QTimer::singleShot(1, m_pSummaryLabel, [=]() {
+            QFont summaryFont = m_pSummaryLabel->font();
+            summaryFont.setPointSizeF(fontSize+3);
+            summaryFont.setFamily("Noto Sans CJK SC");
+            summaryFont.setBold(true);
+            m_pSummaryLabel->setFont(summaryFont);
+        });
+
     m_pSummaryLabel->setText(strformatSummary);
 
     //正文显示
