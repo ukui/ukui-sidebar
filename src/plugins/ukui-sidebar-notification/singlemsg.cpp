@@ -132,7 +132,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
     //放置时间和收纳删除按钮的窗口
     m_pTimeLabelWidget = new QWidget;
-    m_pTimeLabelWidget->setFixedSize(146, 25);
+    m_pTimeLabelWidget->setFixedSize(146, 20);
     QHBoxLayout* pTimeLableHLayout = new QHBoxLayout();
 
 
@@ -203,7 +203,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pIconHLayout->addWidget(pAppNameLabel, 0, Qt::AlignLeft|Qt::AlignVCenter);
     m_pIconHLayout->addItem(pHExpandSpacer);
     m_pIconHLayout->addWidget(m_pTimeLabelWidget, 0, Qt::AlignRight );
-    m_pIconHLayout->addWidget(m_pStorageDeleteButtonWidget);
+    m_pIconHLayout->addWidget(m_pStorageDeleteButtonWidget, 0, Qt::AlignRight );
     m_pIconWidget->setLayout(m_pIconHLayout);
     pMainVLaout->addWidget(m_pIconWidget, 0);
     m_pIconWidget->setAttribute(Qt::WA_TranslucentBackground);
