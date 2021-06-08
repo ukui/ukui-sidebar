@@ -30,7 +30,7 @@ About::About(QWidget *parent) :
     //右上角关闭X
     ui->closeBtn->setIcon(QIcon::fromTheme("window-close-symbolic"));
     ui->closeBtn->setProperty("isWindowButton", 0x2);
-    ui->closeBtn->setProperty("useIconHighlightEffect", 0x2);
+    ui->closeBtn->setProperty("useIconHighlightEffect", 0x8);
     //按钮边框是否凸起 默认false
     ui->closeBtn->setFlat(true);
     connect(ui->closeBtn, &QPushButton::clicked, this, [=](){
@@ -52,8 +52,11 @@ About::About(QWidget *parent) :
      });
     //该窗口小部件不具有上下文菜单，上下文菜单的处理将延迟到该窗口小部件的父级。
     ui->introduceLabel->setContextMenuPolicy(Qt::NoContextMenu);
+    //    主题框架1.0.6-5kylin2
+    /*
     //关闭按钮去掉聚焦状态
     ui->closeBtn->setFocusPolicy(Qt::NoFocus);
+    */
 }
 
 About::~About()
