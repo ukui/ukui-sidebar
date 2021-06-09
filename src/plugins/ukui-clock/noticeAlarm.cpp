@@ -111,7 +111,7 @@ Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
 
     ui->pushButton->setIcon(QIcon::fromTheme("window-close-symbolic"));
     ui->pushButton->setProperty("isWindowButton", 0x2);
-    ui->pushButton->setProperty("useIconHighlightEffect", 0x2);
+    ui->pushButton->setProperty("useIconHighlightEffect", 0x8);
     ui->pushButton->setFlat(true);
     //启用主题框架不需要代码
 //    this->setWindowIcon(QIcon::fromTheme("kylin-alarm-clock",QIcon(":/image/kylin-alarm-clock.svg")));
@@ -127,8 +127,11 @@ Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
     ui->label_4->setStyleSheet(styleSheet);
     ui->pushButton_2->setFont(font);
     ui->pushButton_3->setFont(font);
+    //    主题框架1.0.6-5kylin2
+    /*
     //配置重要按钮 关闭
     ui->pushButton_3->setProperty("isImportant", true);
+    */
 }
 
 Natice_alarm::~Natice_alarm()
@@ -169,6 +172,8 @@ void Natice_alarm::natice_init()
                                         // Initialize playlist
     if(num_flag >= 0)
     {
+        //更新闹钟名称
+        ui->label_3->setText(model->index(num_flag, 14).data().toString());
         //闹钟的铃声配置
         if(model->index(num_flag, 2).data().toString().compare(tr("glass"))==0){
             playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/glass.ogg"));
