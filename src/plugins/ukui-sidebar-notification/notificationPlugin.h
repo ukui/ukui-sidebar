@@ -25,6 +25,7 @@
 #include <QGSettings>
 
 #define UKUI_TRANSPARENCY_SETTING "org.ukui.control-center.personalise"
+#define STYLE_FONT_SCHEMA "org.ukui.style"
 
 class AppMsg;
 class ScrollAreaWidget;
@@ -101,9 +102,12 @@ class external_widget:public QWidget
 {
 public:
     external_widget();
+
     QGSettings   *m_pTransparency;
     double        m_dTranSparency = 0.7;
-    void  initGsettingTransparency();
+    QGSettings     *m_pStyleGsetting;               //监听主题的gsetting
+    void          initGsettingTransparency();
+    void          initGsettingValue();              //初始化监听主题
     void paintEvent(QPaintEvent *e);                //重绘事件
 };
 
@@ -115,7 +119,9 @@ public:
 
     QGSettings   *m_pTransparency;
     double        m_dTranSparency = 0.7;
+    QGSettings     *m_pStyleGsetting;                //监听主题的gsetting
     void          initGsettingTransparency();
+    void          initGsettingValue();                //初始化监听主题
 protected:
     void paintEvent(QPaintEvent *e);
 

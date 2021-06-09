@@ -49,6 +49,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_bTakeInFlag = bTakeInFlag;
 
     initTimeFormatGsetting();
+    initGsettingValue();
 
     connect(this, SIGNAL(Sig_setAppFoldFlag(bool)), pParent, SLOT(setAppFoldFlag(bool)));
     connect(this, SIGNAL(Sig_onDeleSingleMsg(SingleMsg*)), pParent, SLOT(onDeleSingleMsg(SingleMsg*)));
@@ -370,39 +371,80 @@ void SingleMsg::slotChangeFonts(const QString &key)
     m_pBodyLabel->setText(formatBody);
 
 }
+
+void SingleMsg::initGsettingValue()
+{
+    const QByteArray id(STYLE_FONT_SCHEMA);
+    if (QGSettings::isSchemaInstalled(id))
+        m_pStyleGsetting = new QGSettings(id);
+}
+
 void SingleMsg::paintEvent(QPaintEvent *e)
 {
 
     QPainter p(this);
-
     QRect rect = this->rect();
     rect.setWidth(rect.width() - 1);
     rect.setHeight(rect.height() - 1);
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-    p.setBrush(QBrush(QColor(255, 255, 255, 20)));
-    p.setPen(Qt::transparent);
-    p.drawRoundedRect(rect,6,6);
+    QString m_style = "ukui-light";
 
-    switch (status) {
-      case NORMAL: {
-            p.setBrush(QBrush(QColor(255, 255, 255, 0)));
-            p.setPen(Qt::NoPen);
-            p.drawRoundedRect(rect,6,6);
-            break;
-          }
-      case HOVER: {
-            p.setBrush(QBrush(QColor(255, 255,255,40)));
-            p.setPen(Qt::NoPen);
-            p.drawRoundedRect(rect,6,6);
-            break;
-          }
-      case PRESS: {
-            p.setBrush(QBrush(QColor(255, 255, 255, 0)));
-            p.setPen(Qt::NoPen);
-            p.drawRoundedRect(rect,6,6);
-            break;
+    const QByteArray id(STYLE_FONT_SCHEMA);
+    if (QGSettings::isSchemaInstalled(id))
+        m_style = m_pStyleGsetting->get("style-name").toString();
+
+    if (m_style=="ukui-light") {
+        p.setBrush(QBrush(QColor(255, 255, 255,255)));
+        p.setPen(Qt::transparent);
+        p.drawRoundedRect(rect,6,6);
+        switch (status) {
+          case NORMAL: {
+                p.setBrush(QBrush(QColor(255, 255, 255,0)));
+                p.setPen(Qt::NoPen);
+                p.drawRoundedRect(rect,6,6);
+                break;
+              }
+          case HOVER: {
+                p.setBrush(QBrush(QColor(255, 255, 255, 255)));
+                p.setPen(Qt::NoPen);
+                p.drawRoundedRect(rect,6,6);
+                this->update();
+                break;
+              }
+          case PRESS: {
+                p.setBrush(QBrush(QColor(255, 255, 255, 255)));
+                p.setPen(Qt::NoPen);
+                p.drawRoundedRect(rect,6,6);
+                this->update();
+                break;
+            }
+        }
+    } else {
+        p.setBrush(QBrush(QColor(255, 255, 255, 20)));
+        p.setPen(Qt::transparent);
+        p.drawRoundedRect(rect,6,6);
+        switch (status) {
+          case NORMAL: {
+                p.setBrush(QBrush(QColor(255, 255, 255, 0)));
+                p.setPen(Qt::NoPen);
+                p.drawRoundedRect(rect,6,6);
+                break;
+              }
+          case HOVER: {
+                p.setBrush(QBrush(QColor(255, 255, 255, 40)));
+                p.setPen(Qt::NoPen);
+                p.drawRoundedRect(rect,6,6);
+                  break;
+              }
+          case PRESS: {
+                p.setBrush(QBrush(QColor(255, 255, 255, 0)));
+                p.setPen(Qt::NoPen);
+                p.drawRoundedRect(rect,6,6);
+                break;
+             }
         }
     }
+
     QWidget::paintEvent(e);
 
 }

@@ -633,6 +633,7 @@ void NotificationPlugin::onSwitchMsgBoxFinish()
 
 external_widget::external_widget()
 {
+    initGsettingValue();
     initGsettingTransparency();
 }
 
@@ -647,12 +648,30 @@ void external_widget::initGsettingTransparency()
     }
 }
 
+void external_widget::initGsettingValue()
+{
+    const QByteArray id(STYLE_FONT_SCHEMA);
+    if (QGSettings::isSchemaInstalled(id))
+        m_pStyleGsetting = new QGSettings(id);
+}
+
 void external_widget::paintEvent(QPaintEvent *e)
 {
     QPainter p(this);
     QRect rect = this->rect();
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-    p.setBrush(QBrush(QColor(20,20,20)));
+    p.setBrush(QBrush(QColor(220,220,220,255)));
+
+    QString m_style = "ukui-light";
+    const QByteArray id(STYLE_FONT_SCHEMA);
+    if (QGSettings::isSchemaInstalled(id))
+         m_style = m_pStyleGsetting->get("style-name").toString();
+
+    if (m_style=="ukui-light")
+        p.setBrush(QBrush(QColor(220,220,220)));
+    else
+        p.setBrush(QBrush(QColor(20,20,20)));
+
     p.setOpacity(m_dTranSparency);
     p.setPen(Qt::NoPen);
     p.drawRoundedRect(rect,0,0);
@@ -661,6 +680,7 @@ void external_widget::paintEvent(QPaintEvent *e)
 
 inside_widget::inside_widget(QWidget *parent) : QWidget(parent)
 {
+      initGsettingValue();
       initGsettingTransparency();
 }
 
@@ -675,12 +695,29 @@ void inside_widget::initGsettingTransparency()
     }
 }
 
+void inside_widget::initGsettingValue()
+{
+    const QByteArray id(STYLE_FONT_SCHEMA);
+    if (QGSettings::isSchemaInstalled(id))
+        m_pStyleGsetting = new QGSettings(id);
+}
+
 void inside_widget::paintEvent(QPaintEvent *e)
 {
     QPainter p(this);
     QRect rect = this->rect();
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-    p.setBrush(QBrush(QColor(20,20,20)));
+
+    QString m_style = "ukui-light";
+    const QByteArray id(STYLE_FONT_SCHEMA);
+    if (QGSettings::isSchemaInstalled(id))
+         m_style = m_pStyleGsetting->get("style-name").toString();
+
+    if (m_style=="ukui-light")
+        p.setBrush(QBrush(QColor(220,220,220)));
+    else
+        p.setBrush(QBrush(QColor(20,20,20)));
+
     p.setOpacity(m_dTranSparency);
     p.setPen(Qt::NoPen);
     p.drawRoundedRect(rect,0,0);

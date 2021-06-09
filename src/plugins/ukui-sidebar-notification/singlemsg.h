@@ -52,6 +52,7 @@ public:
     void startAnimationFold();                          //开启折叠动画
     void startAnimationDeleUpperMove();                 //开启删除上移动画
     void listenTimeZone();                              //监听时区变化dbus
+    void initGsettingValue();                           //初始化监听主题
 
     QDBusInterface *m_datetimeInterface;
 
@@ -90,6 +91,7 @@ private:
     QLabel*         m_pShowLeftItemLabel;           //显示该应用未展开条数
     QTimer*         m_pSetDeleDelayTimer;
     QWidget*        m_pContextWidget;
+    QGSettings     *m_pStyleGsetting;               //监听主题的gsetting
 
 
 
