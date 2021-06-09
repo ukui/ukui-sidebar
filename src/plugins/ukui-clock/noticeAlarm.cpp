@@ -172,6 +172,8 @@ void Natice_alarm::natice_init()
                                         // Initialize playlist
     if(num_flag >= 0)
     {
+        //更新闹钟名称
+        ui->label_3->setText(model->index(num_flag, 14).data().toString());
         //闹钟的铃声配置
         if(model->index(num_flag, 2).data().toString().compare(tr("glass"))==0){
             playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/glass.ogg"));
