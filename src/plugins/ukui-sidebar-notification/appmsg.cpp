@@ -77,15 +77,12 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
 void AppMsg::paintEvent(QPaintEvent *)
 {
     QPainter p(this);
-
-
     QRect rect = this->rect();
     rect.setWidth(rect.width() - 1);
     rect.setHeight(rect.height() - 1);
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
     p.setBrush(QBrush(QColor(255, 255, 255, 10)));
     p.setPen(Qt::transparent);
-
     p.drawRoundedRect(rect,6,6);
     return;
 }

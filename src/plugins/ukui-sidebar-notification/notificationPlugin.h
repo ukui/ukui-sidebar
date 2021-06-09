@@ -23,14 +23,16 @@
 #include "notification_interface.h"
 #include <QtWidgets>
 #include <QGSettings>
-#include "External_Widget.h"
-#include "Inside_Widget.h"
 
+#define UKUI_TRANSPARENCY_SETTING "org.ukui.control-center.personalise"
 
 class AppMsg;
 class ScrollAreaWidget;
 class QSvgRenderer;
 class TakeInBoxToolButton;
+class external_widget;
+class inside_widget;
+class TakeInCoutLabel;
 
 class NotificationPlugin : public QObject, public NotificationInterface
 {
@@ -50,8 +52,11 @@ public:
     AppMsg* getAppMsgAndIndexByName(QString strAppName, int& nIndex);
     AppMsg* getTakeinAppMsgAndIndexByName(QString strAppName, int& nIndex);
     void modifyNotifyWidgetTransparency(double transparency);
+    void initTrans();
+    void initUI();
+
 private:
-    external_widget*              m_pMainWidget;
+    external_widget*        m_pMainWidget;
     QList<AppMsg*>          m_listAppMsg;                       //对于SingleMsg类对象用list表记录
     QList<AppMsg*>          m_listTakeInAppMsg;
     inside_widget*          m_pMsgListWidget;                   //消息列表部件，用于装消息的
@@ -63,16 +68,16 @@ private:
     QVBoxLayout*            m_pScrollAreaTakeInVBoxLayout;
     QLabel*                 m_pMessageCenterLabel;
     QLabel*                 m_pTakeinMessageCenterLabel;
-    bool                    m_bShowTakeIn;
     QLabel*                 m_pNotificationLabel;               //重要的通知和不重要的通知标签
     QSvgRenderer*           m_pSvgRender;
     TakeInBoxToolButton*    m_pTakeInBoxToolButton;
     QPushButton*  m_pClearAllToolButton;
     QPixmap*                m_pPixmap;
     TakeInCoutLabel*        m_pTakeInCoutLabel;                 //收纳盒计数统计Label
-    bool                    m_bInitialFlag;                     //初始化标志
+    bool                    m_bShowTakeIn = false;
+    bool                    m_bInitialFlag = false;
 
-    double                  transparency = 0.7;
+    double                  transparency = 0.7; //初始化透明度
 
 signals:
     void Sig_onNewNotification();
@@ -90,6 +95,40 @@ private slots:
     void onUpdateAppMaxNum(QString strAppName, int maxNum);     //配置实时更新通知消息最大数
     void onSwitchMsgBoxFinish();
 
+};
+
+class external_widget:public QWidget
+{
+public:
+    external_widget();
+    QGSettings   *m_pTransparency;
+    double        m_dTranSparency = 0.7;
+    void  initGsettingTransparency();
+    void paintEvent(QPaintEvent *e);                //重绘事件
+};
+
+class inside_widget : public QWidget
+{
+    Q_OBJECT
+public:
+    explicit inside_widget(QWidget *parent = nullptr);
+
+    QGSettings   *m_pTransparency;
+    double        m_dTranSparency = 0.7;
+    void          initGsettingTransparency();
+protected:
+    void paintEvent(QPaintEvent *e);
+
+};
+
+class TakeInCoutLabel : public QLabel
+{
+    Q_OBJECT
+public:
+    explicit TakeInCoutLabel(QWidget *parent = nullptr);
+
+protected:
+    void paintEvent(QPaintEvent *e);
 };
 
 #endif // NOTIFICATION_PLUGIN_H

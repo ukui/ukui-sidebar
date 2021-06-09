@@ -29,20 +29,48 @@
 
 NotificationPlugin::NotificationPlugin()
 {
-    m_bInitialFlag = false;
-    m_bShowTakeIn = false;
-    m_pMainWidget = new external_widget;
+    //初始化翻译文件
+    initTrans();
 
-    m_pMainWidget->setObjectName("NotificationCenter");
+    //初始化界面
+    initUI();
 
+    //新建一个监控dbus消息的线程
+    MonitorThread* pMonitorThread = new MonitorThread(this);
+    QGSettings* pEnablenotice = new QGSettings("org.ukui.control-center.notice", "", this);
+    if(pEnablenotice->get("enable-notice").toBool()) {
+        pMonitorThread->start();
+        pMonitorThread->switchEnable(pEnablenotice->get("enable-notice").toBool());
+    }
+
+    connect(pEnablenotice, &QGSettings::changed, [=](){
+        pMonitorThread->switchEnable(pEnablenotice->get("enable-notice").toBool());
+    });
+
+    return;
+}
+
+
+QWidget* NotificationPlugin::centerWidget()
+{
+    return  m_pMainWidget;
+}
+
+void NotificationPlugin::initTrans()
+{
     QTranslator *translator = new QTranslator;
     if (translator->load(QLocale(), QLatin1String("ukui-sidebar-notification"), QLatin1String("_"), QLatin1String("/usr/share/ukui-sidebar/ukui-sidebar-notification")))
         QApplication::installTranslator(translator);
     else
         qDebug() << "cannot load translator ukui-sidebar-notification_" << QLocale::system().name() << ".qm!";
+}
 
+void NotificationPlugin::initUI()
+{
+    m_pMainWidget = new external_widget;
+    m_pMainWidget->setObjectName("NotificationCenter");
 
-    //插件的总VBoxLayout布局器
+    //消息通知模块总VBoxLayout布局器
     QVBoxLayout* pNotificationVBoxLayout = new QVBoxLayout;
     pNotificationVBoxLayout->setContentsMargins(10,21,0,0);
     pNotificationVBoxLayout->setSpacing(0);
@@ -50,19 +78,23 @@ NotificationPlugin::NotificationPlugin()
     //装第一行通知中心的Widget
     QWidget* pWidget1= new QWidget;
     pWidget1->setObjectName("NotificationName");
-    pWidget1->setAttribute(Qt::WA_TranslucentBackground);//更改widget为透明布局
-    //第一行通知中心标题栏，左侧标题“通知中心”，右侧收纳按钮
+    pWidget1->setAttribute(Qt::WA_TranslucentBackground);
+
+    //第一行通知中心标题栏，左侧-标题通知中心，右侧-收纳按钮
     QHBoxLayout* pQHBoxLayout1 = new QHBoxLayout;
     pQHBoxLayout1->setContentsMargins(11,0,28,0);
     pQHBoxLayout1->setSpacing(0);
+
+    //标题-通知中心
     QLabel* pLabel = new QLabel(QObject::tr("Notification center"));
     pLabel->setObjectName("notificationcentername");
-    pLabel->setAttribute(Qt::WA_TranslucentBackground);//"通知中心label为透明"
+    pLabel->setAttribute(Qt::WA_TranslucentBackground);
+
     //收纳按钮
     m_pTakeInBoxToolButton = new TakeInBoxToolButton();
     m_pTakeInBoxToolButton->setStyle(new CustomStyle_pushbutton_2("ukui-default"));
     connect(m_pTakeInBoxToolButton, SIGNAL(Sig_clicked()), this, SLOT(onShowTakeInMessage()));
-       //QToolButton添加svg图片
+
     m_pSvgRender = new QSvgRenderer(pWidget1);
     m_pSvgRender->load(QString(":/images/box-24.svg"));
     m_pTakeInBoxToolButton->setFixedSize(30,30);
@@ -72,6 +104,7 @@ NotificationPlugin::NotificationPlugin()
     QPainter painter(m_pPixmap);
     m_pSvgRender->render(&painter);
     m_pTakeInBoxToolButton->setIcon(QIcon(*m_pPixmap));
+
     pQHBoxLayout1->addWidget(pLabel, 0, Qt::AlignLeft);
     pQHBoxLayout1->addWidget(m_pTakeInBoxToolButton, 0, Qt::AlignRight);
     pWidget1->setLayout(pQHBoxLayout1);
@@ -87,6 +120,7 @@ NotificationPlugin::NotificationPlugin()
     m_pTakeInCoutLabel->setPalette(pe1);
     m_pTakeInCoutLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     m_pTakeInCoutLabel->setVisible(false);
+
     //添加24px的间距
     QSpacerItem* pVFixedSpacer = new QSpacerItem(10, 24, QSizePolicy::Fixed, QSizePolicy::Fixed);
     pNotificationVBoxLayout->addSpacerItem(pVFixedSpacer);
@@ -99,38 +133,42 @@ NotificationPlugin::NotificationPlugin()
     QHBoxLayout* pQHBoxLayout2 = new QHBoxLayout;
     pQHBoxLayout2->setContentsMargins(12,0,10,8);
 
+    //标签-重要的信息
     m_pNotificationLabel = new QLabel(QObject::tr("Important notice"));
-//    QPalette pe2;
-//    pe2.setColor(QPalette::WindowText,Qt::black);
-//    m_pTakeInCoutLabel->setPalette(pe2);
     m_pNotificationLabel->setObjectName("importantnotification");
     m_pNotificationLabel->setAttribute(Qt::WA_TranslucentBackground);
-    QSpacerItem* pHSpacer = new QSpacerItem(300, 10, QSizePolicy::Expanding, QSizePolicy::Fixed);
+
+    //清空按钮
     m_pClearAllToolButton = new QPushButton();
     m_pClearAllToolButton->setObjectName("clearall");
     connect(m_pClearAllToolButton, SIGNAL(clicked()), this, SLOT(onClearAllMessage()));
     m_pClearAllToolButton->setText(QObject::tr("Clean up"));
     m_pClearAllToolButton->setStyle(new CustomStyle_pushbutton_2("ukui-default"));
     m_pClearAllToolButton->setVisible(false);
-    QSpacerItem* pFixSpacer = new QSpacerItem(5, 10, QSizePolicy::Fixed, QSizePolicy::Fixed);
+
+    //设置按钮
     QPushButton* pSettingToolButton = new QPushButton();
     pSettingToolButton->setObjectName("setting");
     connect(pSettingToolButton, SIGNAL(clicked()), this, SLOT(onCallControlPanel()));
     pSettingToolButton->setText(QObject::tr("Set up"));
     pSettingToolButton->setStyle(new CustomStyle_pushbutton_2("ukui-default"));
+
+    //布局
+    QSpacerItem* pFixSpacer = new QSpacerItem(5, 10, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QSpacerItem* pHSpacer = new QSpacerItem(300, 10, QSizePolicy::Expanding, QSizePolicy::Fixed);
     pQHBoxLayout2->addWidget(m_pNotificationLabel, 0, Qt::AlignLeft);
     pQHBoxLayout2->addSpacerItem(pHSpacer);
     pQHBoxLayout2->addWidget(m_pClearAllToolButton, 0, Qt::AlignRight);
     pQHBoxLayout2->addSpacerItem(pFixSpacer);
     pQHBoxLayout2->addWidget(pSettingToolButton, 0, Qt::AlignRight);
     pWidget2->setLayout(pQHBoxLayout2);
-
     pNotificationVBoxLayout->addWidget(pWidget2, 0);
 
-    //消息列表部件，用于装消息列表的
+    //消息列表widget
     m_pMsgListWidget = new inside_widget;
     pNotificationVBoxLayout->addWidget(m_pMsgListWidget, 1);
     m_pMsgListWidget->setParent(m_pMainWidget);
+
     //消息列表部件，用于装两个消息列表的,浮动在m_pMsgListWidget里面
     m_pMsgDoubleListWidget = new inside_widget(m_pMsgListWidget);
     QHBoxLayout* pMsgDoubleListHBoxLayout = new QHBoxLayout;
@@ -138,6 +176,7 @@ NotificationPlugin::NotificationPlugin()
     pMsgDoubleListHBoxLayout->setSpacing(0);
     m_pMsgDoubleListWidget->setLayout(pMsgDoubleListHBoxLayout);
     m_pMsgDoubleListWidget->setAttribute(Qt::WA_TranslucentBackground);
+
     //双列表部件切换动画
     m_pSwitchAnimation = new QPropertyAnimation(m_pMsgDoubleListWidget, "geometry", this);
     m_pSwitchAnimation->setDuration(300);
@@ -192,28 +231,8 @@ NotificationPlugin::NotificationPlugin()
 
     //通知中心最底部固定9px的空白
     QSpacerItem* pVBottomSpacer = new QSpacerItem(9, 9, QSizePolicy::Fixed, QSizePolicy::Fixed);
-    pNotificationVBoxLayout->addSpacerItem(pVBottomSpacer);   
+    pNotificationVBoxLayout->addSpacerItem(pVBottomSpacer);
     m_pMainWidget->setLayout(pNotificationVBoxLayout);
-    //新建一个监控dbus消息的线程
-    MonitorThread* pMonitorThread = new MonitorThread(this);
-    QGSettings* pEnablenotice = new QGSettings("org.ukui.control-center.notice", "", this);
-    if(pEnablenotice->get("enable-notice").toBool())
-    {
-        pMonitorThread->start();
-        pMonitorThread->switchEnable(pEnablenotice->get("enable-notice").toBool());
-    }
-
-    connect(pEnablenotice, &QGSettings::changed, [=](){
-        pMonitorThread->switchEnable(pEnablenotice->get("enable-notice").toBool());
-    });
-
-    return;
-}
-
-
-QWidget* NotificationPlugin::centerWidget()
-{
-    return  m_pMainWidget;
 }
 
 void NotificationPlugin::showNotification()
@@ -610,5 +629,79 @@ void NotificationPlugin::onSwitchMsgBoxFinish()
             pAppMsg->setAppFold();
         }
     }
+}
+
+external_widget::external_widget()
+{
+    initGsettingTransparency();
+}
+
+void external_widget::initGsettingTransparency()
+{
+    if(QGSettings::isSchemaInstalled(UKUI_TRANSPARENCY_SETTING)) {
+        m_pTransparency = new QGSettings(UKUI_TRANSPARENCY_SETTING);
+        m_dTranSparency = m_pTransparency->get("transparency").toDouble();
+        connect(m_pTransparency, &QGSettings::changed, this, [=](QString value) {
+            m_dTranSparency = m_pTransparency->get("transparency").toDouble();;
+        });
+    }
+}
+
+void external_widget::paintEvent(QPaintEvent *e)
+{
+    QPainter p(this);
+    QRect rect = this->rect();
+    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+    p.setBrush(QBrush(QColor(20,20,20)));
+    p.setOpacity(m_dTranSparency);
+    p.setPen(Qt::NoPen);
+    p.drawRoundedRect(rect,0,0);
+
+}
+
+inside_widget::inside_widget(QWidget *parent) : QWidget(parent)
+{
+      initGsettingTransparency();
+}
+
+void inside_widget::initGsettingTransparency()
+{
+    if (QGSettings::isSchemaInstalled(UKUI_TRANSPARENCY_SETTING)) {
+        m_pTransparency = new QGSettings(UKUI_TRANSPARENCY_SETTING);
+        m_dTranSparency = m_pTransparency->get("transparency").toDouble();
+        connect(m_pTransparency, &QGSettings::changed, this, [=](QString value) {
+            m_dTranSparency = m_pTransparency->get("transparency").toDouble();;
+        });
+    }
+}
+
+void inside_widget::paintEvent(QPaintEvent *e)
+{
+    QPainter p(this);
+    QRect rect = this->rect();
+    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+    p.setBrush(QBrush(QColor(20,20,20)));
+    p.setOpacity(m_dTranSparency);
+    p.setPen(Qt::NoPen);
+    p.drawRoundedRect(rect,0,0);
+    QWidget::paintEvent(e);
+}
+
+TakeInCoutLabel::TakeInCoutLabel(QWidget *parent) : QLabel(parent)
+{
+
+}
+
+
+void TakeInCoutLabel::paintEvent(QPaintEvent *e)
+{
+    QPainter p(this);
+    QRect rect = this->rect();
+    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+    p.setBrush(QBrush(QColor(255,255,255)));
+    p.setOpacity(0.7);
+    p.setPen(Qt::NoPen);
+    p.drawRoundedRect(rect,20,20);
+    QLabel::paintEvent(e);
 }
 

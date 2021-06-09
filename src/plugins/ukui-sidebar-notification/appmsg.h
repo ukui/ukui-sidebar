@@ -16,8 +16,6 @@
 *
 */
 
-
-
 #ifndef APPMSG_H
 #define APPMSG_H
 
@@ -31,10 +29,8 @@
 #include <QToolButton>
 #include <QDateTime>
 
-
 class NotificationPlugin;
 class SingleMsg;
-
 
 class AppMsg : public QWidget
 {

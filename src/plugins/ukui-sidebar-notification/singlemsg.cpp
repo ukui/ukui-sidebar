@@ -70,10 +70,8 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pSingleWidget->setObjectName("SingleNotification");
     m_pSingleWidget->setAttribute(Qt::WA_TranslucentBackground);
 
-
     m_pAnimationBaseMapWidget = new QWidget(this);
     m_pAnimationBaseMapWidget->setAttribute(Qt::WA_TranslucentBackground);
-
 
     //单条消息总体垂直布局器
     QVBoxLayout* pMainVLaout = new QVBoxLayout;
@@ -118,12 +116,9 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     //设置应用名标签，采用省略模式
     QLabel* pAppNameLabel = new QLabel();
     pAppNameLabel->setObjectName("AppName");
-//    pAppNameLabel->setFixedWidth(84);
     pAppNameLabel->setAttribute(Qt::WA_TranslucentBackground);
     pAppNameLabel->setFont(ft);
     QFontMetrics fontMetrics1(pAppNameLabel->font());
-
-
     QString formatAppName = fontMetrics1.elidedText(strAppName, Qt::ElideRight, pAppNameLabel->width());
     pAppNameLabel->setText(formatAppName);
 
@@ -146,22 +141,18 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pTimeLabel->setText(tr("now"));
     m_pTimeLabel->setAttribute(Qt::WA_TranslucentBackground);
 
-
     //收纳删除按钮图标的大小
     QSize normalIconSize(16, 16);
     QSize pressedIconSize(14, 14);
 
     //单独收纳按钮
-    if(false == m_bTakeInFlag)
-    {
+    if(false == m_bTakeInFlag){
         QString strIcon = ":/images/box-16-translucent.svg";
         QString strHoverIcon = ":/images/box-16.svg";
         QString strPressIcon = ":/images/box-14-translucent.svg";
         m_pSingleTakeinButton = new ButtonWidget(strIcon, strHoverIcon, strPressIcon, normalIconSize, pressedIconSize);
         connect(m_pSingleTakeinButton, SIGNAL(Sig_clicked()), this, SLOT(onTakeIn()));
-    }
-    else
-    {
+    } else {
         QString strIcon = ":/images/exitbox-16-translucent.svg";
         QString strHoverIcon = ":/images/exitbox-16.svg";
         QString strPressIcon = ":/images/exitbox-14-translucent.svg";
@@ -187,7 +178,6 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pTimeLabelWidget->setLayout(pTimeLableHLayout);
     m_pTimeLabelWidget->setAttribute(Qt::WA_TranslucentBackground);
 
-
     //收纳和删除按钮布局
     pStorageDeleteButtonHLaout->addItem(new QSpacerItem(1, 10, QSizePolicy::Expanding, QSizePolicy::Fixed));
     pStorageDeleteButtonHLaout->addWidget(m_pSingleTakeinButton, 0, Qt::AlignRight);
@@ -208,12 +198,10 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     pMainVLaout->addWidget(m_pIconWidget, 0);
     m_pIconWidget->setAttribute(Qt::WA_TranslucentBackground);
 
-
     m_pStorageDeleteButtonWidget->setAttribute(Qt::WA_TranslucentBackground);
 
     //内容部件,将主题正文以及剩余条数显示装入内容部件
     m_pContextWidget = new QWidget;
-
 
     //内容部件的垂直布局器
     QVBoxLayout* pVContextLayout = new QVBoxLayout();
@@ -630,21 +618,6 @@ void SingleMsg::mousePressEvent(QMouseEvent *event)
     return;
 }
 
-//void SingleMsg::resizeEvent(QResizeEvent *event)
-//{
-//    QDateTime currentDateTime(QDateTime::currentDateTime());
-//    QString strCurrentTime = currentDateTime.toString("hh:mm:ss.zzz");
-
-//    if(true == m_bMain)
-//    {
-//        qDebug()<<strCurrentTime <<"SingleMsg::resizeEvent"<<this <<this->height() <<m_pSingleWidget->height() <<m_pIconWidget->height() <<m_pContextWidget->height() <<m_pShowLeftWidget->height();
-//    }
-//    else
-//    {
-//        qDebug()<<strCurrentTime <<"SingleMsg::resizeEvent11"<<this <<this->height() <<m_pSingleWidget->height() <<m_pIconWidget->height() <<m_pContextWidget->height() <<m_pShowLeftWidget->height();
-//    }
-//}
-
 void SingleMsg::mainMsgSetFold()
 {
     //当消息为主窗口时,由主消息设置折叠
@@ -671,12 +644,9 @@ void SingleMsg::startAnimationUnfold()
     int width = this->width();
     int height = this->height();
 
-    if(true == m_strBody.isEmpty())
-    {
+    if(true == m_strBody.isEmpty()) {
         height = 87;
-    }
-    else
-    {
+    } else {
         height = 111;
     }
 
@@ -820,9 +790,7 @@ void SingleMsg::updateUnfoldMove(const QVariant &value)
 
     QDateTime currentDateTime(QDateTime::currentDateTime());
     QString strCurrentTime = currentDateTime.toString("hh:mm:ss.zzz");
-//    QString LogInfo;
-//    LogInfo.sprintf("%p", QThread::currentThread());
-    qDebug()<<strCurrentTime <<"SingleMsg::updateUnfoldMove"<<this<<" x1=" <<x1<<" y1="<<y1<<" x2=" <<x2<<" y2="<<y2;
+//    qDebug()<<strCurrentTime <<"SingleMsg::updateUnfoldMove"<<this<<" x1=" <<x1<<" y1="<<y1<<" x2=" <<x2<<" y2="<<y2;
 
 
     //首先将填充控件的高度不断增加直至6
