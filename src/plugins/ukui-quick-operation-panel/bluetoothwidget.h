@@ -55,6 +55,7 @@ public:
     bool initBluetoothDbus();
     void initBluetoothStatus();
     void setBluetoothStatus();
+    void bluetoothButtonClickSlots();
     QPushButton     *m_pDeleteButton;
 
 private:
@@ -74,7 +75,7 @@ private:
     bool             m_bbluetoothStatus;
 private slots:
     void BluetoothStatusChangedSlots(bool status);
-    void bluetoothButtonClickSlots();
+//    void bluetoothButtonClickSlots();
 };
 
 

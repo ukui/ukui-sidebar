@@ -5,6 +5,12 @@
 #include <QModelIndex>
 #include <QStandardItemModel>
 #include <QObject>
+#include <QGSettings>
+
+#define NIGHT_MODE_KEY        "nightmodestatus"
+#define NIGHT_MODE_LIGHT      "light"
+#define NIGHE_MODE_NIGHT      "night"
+#define NIGHT_MODE_CONTROL    "org.ukui.control-center.panel.plugins"
 
 class ListViewDelegate : public QItemDelegate
 {
@@ -32,12 +38,16 @@ public:
 //    void updateEditorGeometry(QWidget *editor,const QStyleOptionViewItem &option,
 //                              const QModelIndex &index) const override;
 
+Q_SIGNALS:
+    void test();
+
 public slots:
     void onHoverIndexChanged(const QModelIndex& index);
 
 private:
     int m_hoverRow;
-    bool hoverStatus;
+    QGSettings    *m_pTabletModeGsetting = nullptr;
+    bool m_bModelStatus;
 
 };
 

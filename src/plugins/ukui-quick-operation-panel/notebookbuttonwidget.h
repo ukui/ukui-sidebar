@@ -40,6 +40,7 @@ class notebookButtonWidget : public QWidget
     Q_OBJECT
 public:
     explicit notebookButtonWidget(QWidget *parent = nullptr);
+    void NoteButtonClickSlots();
     QPushButton     *m_pDeleteButton;
 
 private:
@@ -59,7 +60,7 @@ private:
     QStyle          *m_pStyleNormal;
 
 private slots:
-    void NoteButtonClickSlots();
+//    void NoteButtonClickSlots();
 
 Q_SIGNALS:
 

@@ -42,6 +42,7 @@ public:
     ~settingWidget();
     void initMemberVariables();
     void initLayout();
+    void settingButtonClick();
     QPushButton  *m_pDeleteButton;
 
 private:
@@ -57,7 +58,7 @@ private:
     QVBoxLayout  *m_pVboxLayout;
 
 private slots:
-    void settingButtonClick();
+//    void settingButtonClick();
 };
 
 #endif // SETTINGWIDGET_H

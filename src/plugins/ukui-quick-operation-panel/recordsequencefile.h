@@ -80,6 +80,9 @@ public:
     QVector<QMap<QString,QString>> m_shortcutHideVector;    //未添加到显示区的快捷键 <[名字]，[图标1，图标2]>
     QMap<QString,QString> m_shortcutClassName;  //快捷键类的类名，方便使用类名字符串获取 <[名字]，[类名字符串]>
 
+    int m_hoverIndex;
+    bool m_hoverStatus;
+
 };
 
 #endif // RECORDSEQUENCEFILE_H

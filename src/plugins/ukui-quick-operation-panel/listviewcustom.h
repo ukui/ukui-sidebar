@@ -5,6 +5,8 @@
 #include <QMouseEvent>
 #include <QStringListModel>
 #include <QObject>
+#include "mainwidget.h"
+#include "popmenu.h"
 
 class ListViewCustom : public QListView
 {
@@ -13,12 +15,13 @@ public:
     ListViewCustom(QWidget *parent = Q_NULLPTR);
     //此函数包装了自带的setModel，只是记录了model指针方便内部调用
     void SetModel(QStringListModel *model);
+    void rightButtonMenu();
 Q_SIGNALS:
     //拖拽结束后会发出此信号，可绑定槽函数实现你的其他功能，比如把新的顺序存到文件
     void sigRowChange(int from, int to);
-    void clickBtn(QString name);
-    void hoverIndexChanged(const QModelIndex &index);
-    void mouseLeave(bool mouseStatus);
+    void clickBtn(QString &name);
+    //void hoverIndexChanged(const QModelIndex &index);
+    //void mouseLeave(bool mouseStatus);
 
 
 
@@ -66,6 +69,11 @@ private:
     QString m_dragText;          //拖拽过程中跟随鼠标显示的内容
     QPoint m_dragPoint;          //拖拽起点
     QPoint m_dragPointAtItem;    //记录按下时鼠标相对该行的位置，在拖动过程中保持该相对位置
+
+    int lastIndexRow;
+
+    MainWidget *popWidget;
+    PopMenu *popMenu;
 };
 
 #endif // LISTVIEWCUSTOM_H

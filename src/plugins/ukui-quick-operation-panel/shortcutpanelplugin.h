@@ -79,14 +79,14 @@
 #define UKUI_NOTIFICATION_STATUS_VALUE  "notificationvalue"
 #define UKUI_THEME_GSETTING_PATH   "org.ukui.style"
 
-#define PAD_NAME                   "平板模式"
-#define WIFI_NAME                  "Wifi"
-#define NODISTURB_NAME             "免打扰"
-#define SETTING_NAME               "所有设置"
-#define BLUETOOTH_NAME             "蓝牙"
-#define HOTSPOT_NAME               "热点"
-#define CALCULATOR_NAME            "计算机"
-#define SCREENSHOT_NAME            "截图"
+//#define PAD_NAME                   "平板模式"
+//#define WIFI_NAME                  "Wifi"
+//#define NODISTURB_NAME             "免打扰"
+//#define SETTING_NAME               "所有设置"
+//#define BLUETOOTH_NAME             "蓝牙"
+//#define HOTSPOT_NAME               "热点"
+//#define CALCULATOR_NAME            "计算机"
+//#define SCREENSHOT_NAME            "截图"
 
 class shortcutPanelPlugin : public QObject, public shortCutPanelInterface
 {
@@ -118,8 +118,7 @@ public:
 
     void initTableViewWidget();
 
-Q_SIGNALS:
-    void shortcutAction(QString name);
+
 
 public slots:
     void spreadClikedSlots();
@@ -131,7 +130,8 @@ public slots:
     void setCanceGsettingButtonValue(QString key);
     void hideDropDownWidgetBox();
 
-    void processShortcutSignal(QString name);
+    //void processShortcutSignal(QString name);
+    void shortcutActionSlots(QString &name);
 
     void onHoverIndexChanged(const QModelIndex &index);
 private:

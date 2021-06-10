@@ -14,6 +14,8 @@ RecordSequenceFile::RecordSequenceFile()
     m_recordHidePath = QDir::homePath() + "/.config/sidebarRecordHide";
     initshortcutClassName();
     initShortcutMap();
+    m_hoverIndex = -1;
+    m_hoverStatus = false;
 
     connect(this, SIGNAL(orderChange(QVector<QMap<QString,QString>>)),this,SLOT(saveOrder(QVector<QMap<QString,QString>>)));
 }

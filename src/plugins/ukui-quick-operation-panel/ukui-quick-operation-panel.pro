@@ -42,6 +42,7 @@ SOURCES += \
     listviewdelegate.cpp \
     notebookbuttonwidget.cpp \
     picturetowhite.cpp \
+    popmenu.cpp \
     powersavingmode.cpp \
     recordsequencefile.cpp \
     scrollingareawidget.cpp \
@@ -81,6 +82,7 @@ HEADERS += \
     listviewdelegate.h \
     notebookbuttonwidget.h \
     picturetowhite.h \
+    popmenu.h \
     powersavingmode.h \
     recordsequencefile.h \
     scrollingareawidget.h \

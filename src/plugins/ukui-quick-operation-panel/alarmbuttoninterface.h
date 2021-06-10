@@ -44,6 +44,7 @@ class alarmButtonInterface : public QWidget
     Q_OBJECT
 public:
     explicit alarmButtonInterface(QWidget *parent = nullptr);
+    void AlarmButtonClickSlots();
     QPushButton     *m_pDeleteButton;
 private:
     void initMemberVariables();
@@ -62,7 +63,7 @@ private:
     QStyle          *m_pStyleNormal;
 
 private slots:
-    void AlarmButtonClickSlots();
+//    void AlarmButtonClickSlots();
 
 Q_SIGNALS:
 

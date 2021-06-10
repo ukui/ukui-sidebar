@@ -150,6 +150,7 @@ void bluetoothWidget::BluetoothStatusChangedSlots(bool status)
 /* 点击按钮槽函数 */
 void bluetoothWidget::bluetoothButtonClickSlots()
 {
+    qDebug()<<"蓝牙......";
     if (m_bbluetoothStatus) {
         m_pbluetoothButton->setStyle(m_pStyleNormal);
         m_bbluetoothStatus = false;

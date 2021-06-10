@@ -217,6 +217,7 @@ void WifiWidget::setwifiSwitch(bool signal)
 /* wifi按钮槽函数 */
 void WifiWidget::WifiButtonClickSlot()
 {
+    qDebug()<<"WIF设置......";
     qDebug() << "是否进入这里";
     if (!m_bWifiInitStatus) {
         qDebug() << "没有wifi模块";

@@ -44,6 +44,7 @@ public:
     ~screenshotWidget();
     void initMemberVariables();
     void initLayout();
+    void         sreenShotButtonClickedSlots();
     QPushButton  *m_pDeleteButton;
 
 private:
@@ -59,7 +60,7 @@ private:
     QVBoxLayout  *m_pVboxButtonLayout;
     QVBoxLayout  *m_pVboxLayout;
 private slots:
-    void         sreenShotButtonClickedSlots();
+//    void         sreenShotButtonClickedSlots();
 };
 
 

@@ -16,6 +16,7 @@
 *
 */
 #include "notebookbuttonwidget.h"
+#include <QDebug>
 
 notebookButtonWidget::notebookButtonWidget(QWidget *parent) : QWidget(parent)
 {
@@ -83,6 +84,7 @@ void notebookButtonWidget::initLayout()
 
 void notebookButtonWidget::NoteButtonClickSlots()
 {
+    qDebug()<<"便签本......";
     QProcess p(0);
     p.startDetached("ukui-notebook");
     p.waitForStarted();

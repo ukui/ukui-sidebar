@@ -16,6 +16,7 @@
 *
 */
 #include "settingwidget.h"
+#include <QDebug>
 
 settingWidget::settingWidget(QWidget *parent) : QWidget(parent)
 {
@@ -82,6 +83,7 @@ void settingWidget::initLayout()
 
 void settingWidget::settingButtonClick()
 {
+    qDebug()<<"系统设置......";
     QProcess p(0);
     p.startDetached("ukui-control-center");
     p.waitForStarted();

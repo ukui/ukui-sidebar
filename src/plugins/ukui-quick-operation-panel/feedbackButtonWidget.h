@@ -40,6 +40,7 @@ class feedbackButtonWidget : public QWidget
     Q_OBJECT
 public:
     explicit feedbackButtonWidget(QWidget *parent = nullptr);
+    void FeedbackButtonClickSlots();
     QPushButton     *m_pDeleteButton;
 private:
     void initMemberVariables();
@@ -57,7 +58,7 @@ private:
     QStyle          *m_pStyleNormal;
 
 private slots:
-    void FeedbackButtonClickSlots();
+//    void FeedbackButtonClickSlots();
 
 Q_SIGNALS:
 

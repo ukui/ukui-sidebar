@@ -137,6 +137,7 @@ void nodisturbWidget::setEyeButtonStatus()
 
 void nodisturbWidget::setNodisturbButtonSlots()
 {
+    qDebug()<<"免打扰......";
     if (!m_bModelStatus) {
         m_pnodisturbButton->setStyle(m_pStyleOpen);
         m_pnodisturbButton->setIcon(QIcon::fromTheme(KYLIN_NODISTURB_OPEN_NAME, QIcon(KYLIN_NODISTURB_OPEN_PATH)));
@@ -146,7 +147,7 @@ void nodisturbWidget::setNodisturbButtonSlots()
         m_pnodisturbButton->setIcon(QIcon::fromTheme(KYLIN_NODISTURB_NORMAL_NAME, QIcon(KYLIN_NODISTURB_NORMAL_PATH)));
         m_bModelStatus = false;
     }
-    if (m_pTabletModeGsetting->keys().contains(KYLIN_DISTURB_GSETTING_VALUE_STATUS) && \
+    if (m_pTabletModeGsetting != nullptr && m_pTabletModeGsetting->keys().contains(KYLIN_DISTURB_GSETTING_VALUE_STATUS) && \
             m_pTabletModeGsetting->keys().contains(KYLIN_DISTURB_GSETTING_VALUE_SOUNDOFF) && \
             m_pTabletModeGsetting->keys().contains(KULIN_DISTURB_GSETTING_VALUE_NOTIFYCLOSE)) {
         m_pTabletModeGsetting->set(KYLIN_DISTURB_GSETTING_VALUE_STATUS, m_bModelStatus);
