@@ -63,6 +63,8 @@ public:
     QPushButton   *m_pDeleteButton;
     void   paintEvent(QPaintEvent *e);
 
+    void setNodisturbButtonSlots();
+
 private:
     QWidget       *m_pWidgetButton;
     ShortcutButton   *m_pnodisturbButton;
@@ -78,8 +80,8 @@ private:
     QVBoxLayout   *m_pVboxLayout;
     bool           m_bModelStatus;
 
-private slots:
-    void setNodisturbButtonSlots();
+//private slots:
+//    void setNodisturbButtonSlots();
 };
 
 #endif // NODISTURBWIDGET_H

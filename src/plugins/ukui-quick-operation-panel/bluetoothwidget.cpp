@@ -150,6 +150,7 @@ void bluetoothWidget::BluetoothStatusChangedSlots(bool status)
 /* 点击按钮槽函数 */
 void bluetoothWidget::bluetoothButtonClickSlots()
 {
+    qDebug()<<"蓝牙......";
     if (m_bbluetoothStatus) {
         m_pbluetoothButton->setStyle(m_pStyleNormal);
         m_bbluetoothStatus = false;
@@ -161,3 +162,19 @@ void bluetoothWidget::bluetoothButtonClickSlots()
     }
     return;
 }
+
+
+//--->zyj
+int bluetoot::typeId = qRegisterMetaType<bluetoot*>();
+bluetoot::bluetoot(QObject *parent) : ShortcutInterface(parent)
+{
+
+}
+
+bool bluetoot::action() const
+{
+    qDebug()<<"蓝牙快捷按钮";
+    return true;
+}
+
+//--<

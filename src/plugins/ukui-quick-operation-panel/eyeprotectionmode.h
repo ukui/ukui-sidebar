@@ -74,6 +74,7 @@ public:
     QColor getSystemPaleteColor();
     void   setLabelTextColor();
     void   setPreStyleName();
+    void   EyeButtonClickSlots();
     QPushButton   *m_pDeleteButton;
 
 protected:
@@ -102,8 +103,8 @@ private:
 
     bool          m_bModelStatus;
 
-private slots:
-    void          EyeButtonClickSlots();
+//private slots:
+//    void          EyeButtonClickSlots();
 
 Q_SIGNALS:
 

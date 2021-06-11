@@ -4,6 +4,9 @@
 #include <QLabel>
 #include <QMouseEvent>
 #include <QStringListModel>
+#include <QObject>
+#include "mainwidget.h"
+#include "popmenu.h"
 
 class ListViewCustom : public QListView
 {
@@ -12,19 +15,31 @@ public:
     ListViewCustom(QWidget *parent = Q_NULLPTR);
     //此函数包装了自带的setModel，只是记录了model指针方便内部调用
     void SetModel(QStringListModel *model);
+    void rightButtonMenu();
 Q_SIGNALS:
     //拖拽结束后会发出此信号，可绑定槽函数实现你的其他功能，比如把新的顺序存到文件
     void sigRowChange(int from, int to);
+    void clickBtn(QString &name);
+    //void hoverIndexChanged(const QModelIndex &index);
+    //void mouseLeave(bool mouseStatus);
+
+
 
 protected:
     //根据鼠标事件开启拖拽
     void mousePressEvent(QMouseEvent *e);
     void mouseMoveEvent(QMouseEvent *e);
+    void mouseReleaseEvent(QMouseEvent *e);  //鼠标释放后才会执行快捷按键的功能
+    void leaveEvent(QEvent *e);
+
 
     //拖拽响应事件
     void dragEnterEvent(QDragEnterEvent *e);
     void dragMoveEvent(QDragMoveEvent *e);
     void dropEvent(QDropEvent *e);
+
+    //调用快捷键功能
+    void shortcutFunction(QString className);
 private:
     void doDrag();                      //执行拖拽
     void resetOrder();                  //重置第一列序号
@@ -39,6 +54,7 @@ private:
     uint m_cellWidet;
 
     bool m_validPress;           //在鼠标移动时，判断之前按下时是否是在有效行上
+    bool m_validRelease;        //鼠标点击释放前未移动，视为有效释放
 
     uint m_rowFrom;				//拖动起始位置行列号
     uint m_columnFrom;
@@ -47,10 +63,17 @@ private:
     uint m_rowTo;                 //拖拽目标位置的行列号
     uint m_columnTo;
 
+    QString m_cellName;
+
     QPixmap m_thumbnailImg;      //拖拽缩略图
     QString m_dragText;          //拖拽过程中跟随鼠标显示的内容
     QPoint m_dragPoint;          //拖拽起点
     QPoint m_dragPointAtItem;    //记录按下时鼠标相对该行的位置，在拖动过程中保持该相对位置
+
+    int lastIndexRow;
+
+    MainWidget *popWidget;
+    PopMenu *popMenu;
 };
 
 #endif // LISTVIEWCUSTOM_H

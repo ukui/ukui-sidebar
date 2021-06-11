@@ -257,6 +257,7 @@ void eyeProtectionMode::setPreStyleName()
 
 void eyeProtectionMode::EyeButtonClickSlots()
 {
+    qDebug()<<"护眼模式......";
     if (QGSettings::isSchemaInstalled(NIGHT_MODE_CONTROL)) {
         if (!m_bModelStatus) {
             setPreStyleName();

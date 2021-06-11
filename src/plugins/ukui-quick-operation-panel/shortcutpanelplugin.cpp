@@ -38,7 +38,7 @@ shortcutPanelPlugin::shortcutPanelPlugin(QObject *parent)
 
     setScrollWidget();             // 获取当前系统是否有背光文件
     initMemberVariables();         // 初始化插件成员变量
-    //initShortButtonWidget();       // 初始化8个快捷按钮界面
+    initShortButtonWidget();       // 初始化8个快捷按钮界面
     initTableViewWidget();         //初始化tableview 12个快捷按钮界面
     //initShortcutButtonGsetting();  // 初始化记住上次编辑按钮的gsetting值       //注：涉及到多用户问题，不能用gSettings去做记录
     initsetShortWidget();          // 布局快捷按钮界面
@@ -67,31 +67,12 @@ void shortcutPanelPlugin::initTableViewWidget()
 
     m_pShortVLayout->addWidget(listView);
 
-    //------------------tableView实现
- /*   tableView = new TableViewCustom();
+    connect(listView,SIGNAL(clickBtn(QString&)),this,SLOT(shortcutActionSlots(QString&)));
 
-     //获取数据
-    RecordSequenceFile *record = new RecordSequenceFile;
-    QMap<QString,QString> map = record->shortcutShowMap;
-    QMap<QString,QString>::iterator iter;
-    uint i=0;
-    //添加数据
-    model = new QStandardItemModel();
-    QStandardItem *parentItem =  model->invisibleRootItem();
-    for(iter=map.begin(); iter!=map.end();iter++){
-        //qDebug()<<"iter.key():"<<iter.key();
-        QStandardItem *item = new QStandardItem;
-        item->setText(iter.key());
-        model->setItem(i/4,i%4,item);
-        i++;
-    }
-    TableViewDelegate*  delegate = new TableViewDelegate(this);
-    tableView->setItemDelegate(delegate);
-    tableView->SetModel(model);
-
-    m_pShortVLayout->addWidget(tableView);*/
-
-
+}
+void shortcutPanelPlugin::onHoverIndexChanged(const QModelIndex &index)
+{
+    qDebug()<<"---shortcutPanelPlugin::"<<index.row();
 }
 
 /* 初始化插件成员变量 */
@@ -106,6 +87,7 @@ void shortcutPanelPlugin::initMemberVariables()
     m_pButtonHLaout->setSpacing(0);
 
     m_pShortVLayout = new QVBoxLayout;
+    m_pShortVLayout->setContentsMargins(18, 12, 18, 12);
 
 //    m_pShortGLayout  = new QGridLayout;
 //    m_pShortGLayout->setContentsMargins(30, 16, 16, 16);
@@ -117,8 +99,10 @@ void shortcutPanelPlugin::initMemberVariables()
 
     if (m_bBacklitFile) {
         m_pMainWidget->setFixedSize(392, 492);
+        //m_pMainWidget->setFixedSize(384, 486);
     } else {
         m_pMainWidget->setFixedSize(392, 438);
+        //m_pMainWidget->setFixedSize(384, 438);
     }
 
     m_pButtonWidget = new QWidget;
@@ -143,6 +127,7 @@ void shortcutPanelPlugin::initMemberVariables()
     /* 快捷操作面板界面 */
     m_pShortWidget   = new QWidget;
     //m_pShortWidget->setFixedWidth(600);
+    //m_pShortWidget->setFixedSize(384,297);
     m_pShortWidget->setContentsMargins(0, 0, 0, 0);
 
     /* 当系统有背光文件时，new调整音量与屏幕亮度界面 */
@@ -176,21 +161,21 @@ void shortcutPanelPlugin::initMemberVariables()
 void shortcutPanelPlugin::initShortButtonWidget()
 {
     /* 清空链表中的数据，初始化 */
-    ShortButtonWidgetList.clear();
-    m_pButtonGsettingValue.clear();
+//    ShortButtonWidgetList.clear();
+//    m_pButtonGsettingValue.clear();
 
     /* 平板模式 */
     m_ppadWidget       = new padWidget();
-    ShortButtonWidgetList.append(m_ppadWidget);
-    m_pButtonGsettingValue.append("padwidgetvalue");
+    //ShortButtonWidgetList.append(m_ppadWidget);
+    //m_pButtonGsettingValue.append("padwidgetvalue");
     connect(m_ppadWidget->m_pDeleteButton, &QPushButton::clicked, this, [=](){
         setCanceGsettingButtonValue("padwidgetvalue");
     });
 
     /* 免打扰 */
     m_pnodisturbWidget = new nodisturbWidget();
-    ShortButtonWidgetList.append(m_pnodisturbWidget);
-    m_pButtonGsettingValue.append("nodisturbwidgetvalue");
+    //ShortButtonWidgetList.append(m_pnodisturbWidget);
+    //m_pButtonGsettingValue.append("nodisturbwidgetvalue");
     connect(m_pnodisturbWidget->m_pDeleteButton, &QPushButton::clicked, this, [=](){
         setCanceGsettingButtonValue("nodisturbwidgetvalue");
     });
@@ -198,8 +183,8 @@ void shortcutPanelPlugin::initShortButtonWidget()
     /* 节能模式 */
     m_pPowerSavingMode = new powerSavingMode();
     if (m_bBacklitFile) {
-        ShortButtonWidgetList.append(m_pPowerSavingMode);
-        m_pButtonGsettingValue.append("powersavingmodevalue");
+        //ShortButtonWidgetList.append(m_pPowerSavingMode);
+        //m_pButtonGsettingValue.append("powersavingmodevalue");
     }
     connect(m_pPowerSavingMode->m_pDeleteButton, &QPushButton::clicked, this, [=](){
         setCanceGsettingButtonValue("powersavingmodevalue");
@@ -207,80 +192,80 @@ void shortcutPanelPlugin::initShortButtonWidget()
 
     /* 护眼模式 */
     m_pEyeProtectionMode = new eyeProtectionMode();
-    ShortButtonWidgetList.append(m_pEyeProtectionMode);
-    m_pButtonGsettingValue.append("eyeprotectionmodevalue");
+    //ShortButtonWidgetList.append(m_pEyeProtectionMode);
+    //m_pButtonGsettingValue.append("eyeprotectionmodevalue");
     connect(m_pEyeProtectionMode->m_pDeleteButton, &QPushButton::clicked, this, [=](){
         setCanceGsettingButtonValue("eyeprotectionmodevalue");
     });
 
     /* 蓝牙 */
     m_pbluetoothWidget = new bluetoothWidget();
-    ShortButtonWidgetList.append(m_pbluetoothWidget);
-    m_pButtonGsettingValue.append("bluetoothwidgetvalue");
+    //ShortButtonWidgetList.append(m_pbluetoothWidget);
+    //m_pButtonGsettingValue.append("bluetoothwidgetvalue");
     connect(m_pbluetoothWidget->m_pDeleteButton, &QPushButton::clicked, this, [=](){
         setCanceGsettingButtonValue("bluetoothwidgetvalue");
     });
 
     /* 热点 */
     m_photspotWidget = new hotspotWidget();
-    ShortButtonWidgetList.append(m_photspotWidget);
-    m_pButtonGsettingValue.append("hotspotwidgetvalue");
+    //ShortButtonWidgetList.append(m_photspotWidget);
+    //m_pButtonGsettingValue.append("hotspotwidgetvalue");
     connect(m_photspotWidget->m_pDeleteButton, &QPushButton::clicked, this, [=](){
         setCanceGsettingButtonValue("hotspotwidgetvalue");
     });
 
     /* VPN */
     m_pDiturbModeWidget = new diturbModeWidget();
-    ShortButtonWidgetList.append(m_pDiturbModeWidget);
-    m_pButtonGsettingValue.append("diturbmodewidgetvalue");
+    //ShortButtonWidgetList.append(m_pDiturbModeWidget);
+    //m_pButtonGsettingValue.append("diturbmodewidgetvalue");
     connect(m_pDiturbModeWidget->m_pDeleteButton, &QPushButton::clicked, this, [=](){
         setCanceGsettingButtonValue("diturbmodewidgetvalue");
     });
 
     /* 设置 */
     m_psettingWidget = new settingWidget();
-    ShortButtonWidgetList.append(m_psettingWidget);
-    m_pButtonGsettingValue.append("settingwidgetvalue");
+    //ShortButtonWidgetList.append(m_psettingWidget);
+    //m_pButtonGsettingValue.append("settingwidgetvalue");
     connect(m_psettingWidget->m_pDeleteButton, &QPushButton::clicked, this, [=](){
         setCanceGsettingButtonValue("settingwidgetvalue");
     });
 
     /* 计算器 */
     m_pcalculatorWidget = new calculatorWidget();
-    ShortButtonWidgetList.append(m_pcalculatorWidget);
-    m_pButtonGsettingValue.append("calculatorwidgetvalue");
+    //ShortButtonWidgetList.append(m_pcalculatorWidget);
+    //m_pButtonGsettingValue.append("calculatorwidgetvalue");
     connect(m_pcalculatorWidget->m_pDeleteButton, &QPushButton::clicked, this, [=](){
         setCanceGsettingButtonValue("calculatorwidgetvalue");
     });
 
     /* 截图 */
     m_pscreenshotWidget = new screenshotWidget();
-    ShortButtonWidgetList.append(m_pscreenshotWidget);
-    m_pButtonGsettingValue.append("screenshotwidgetvalue");
+    //ShortButtonWidgetList.append(m_pscreenshotWidget);
+    //m_pButtonGsettingValue.append("screenshotwidgetvalue");
     connect(m_pscreenshotWidget->m_pDeleteButton, &QPushButton::clicked, this, [=](){
         setCanceGsettingButtonValue("screenshotwidgetvalue");
     });
 
     /* 闹钟 */
     m_pAlarmButtonInterface = new alarmButtonInterface();
-    ShortButtonWidgetList.append(m_pAlarmButtonInterface);
-    m_pButtonGsettingValue.append("alarmbuttoninterfacevalue");
+    //ShortButtonWidgetList.append(m_pAlarmButtonInterface);
+    //m_pButtonGsettingValue.append("alarmbuttoninterfacevalue");
     connect(m_pAlarmButtonInterface->m_pDeleteButton, &QPushButton::clicked, this, [=](){
         setCanceGsettingButtonValue("alarmbuttoninterfacevalue");
     });
 
     /* 便签本 */
     m_pNoteBookButtonWidget = new notebookButtonWidget();
-    ShortButtonWidgetList.append(m_pNoteBookButtonWidget);
-    m_pButtonGsettingValue.append("notebookbuttonwidgetvalue");
+    //ShortButtonWidgetList.append(m_pNoteBookButtonWidget);
+    //m_pButtonGsettingValue.append("notebookbuttonwidgetvalue");
     connect(m_pNoteBookButtonWidget->m_pDeleteButton, &QPushButton::clicked, this, [=](){
         setCanceGsettingButtonValue("notebookbuttonwidgetvalue");
     });
 
     /* 用户反馈 */
     m_pFeedBackButtonWidget = new feedbackButtonWidget();
-    ShortButtonWidgetList.append(m_pFeedBackButtonWidget);
-    m_pButtonGsettingValue.append("feedbackbuttonwidgetvalue");
+    //ShortButtonWidgetList.append(m_pFeedBackButtonWidget);
+    //m_pButtonGsettingValue.append("feedbackbuttonwidgetvalue");
     connect(m_pNoteBookButtonWidget->m_pDeleteButton, &QPushButton::clicked, this, [=](){
         setCanceGsettingButtonValue("feedbackbuttonwidgetvalue");
     });
@@ -290,7 +275,7 @@ void shortcutPanelPlugin::initShortButtonWidget()
 
     /* Wifi */
     m_pWifiWidget = new WifiWidget();
-    ShortButtonWidgetList.append(m_pWifiWidget);
+    //ShortButtonWidgetList.append(m_pWifiWidget);
     return;
 }
 
@@ -348,8 +333,7 @@ void shortcutPanelPlugin::initsetShortWidget()
                 //const QByteArray id = str.toLatin1();
                 //if((QGSettings::isSchemaInstalled(id)) &&
                        //m_pGsettingShutcutValue->get(m_pButtonGsettingValue.at(4 * j + k)).toBool())
-                        {
-
+               {
                     m_pShortGLayout->addWidget(ShortButtonWidgetList.at(4 * j + k), tmpx, tmpy, 1, 1);
                     tmpy++;
                     if (tmpy == 4) {
@@ -532,7 +516,7 @@ void shortcutPanelPlugin::spreadClikedSlots()
 {
     m_pSpreadButton->setVisible(false);
     m_pfoldButton->setVisible(true);
-    setGridLayoutWidgetShow();
+    //setGridLayoutWidgetShow();
     m_pWeatherWidget->setVisible(true);
     m_pShortWidget->setFixedHeight(297);
     if (m_bBacklitFile) {
@@ -554,9 +538,9 @@ void shortcutPanelPlugin::foldClikedSlots()
 {
     m_pSpreadButton->setVisible(true);
     m_pfoldButton->setVisible(false);
-    setGridLayoutWidgetHide();
-    m_pShortWidget->setFixedHeight(107);
-    m_pMainWidget->setFixedHeight(199);
+    //setGridLayoutWidgetHide();
+    m_pShortWidget->setFixedHeight(102);
+    m_pMainWidget->setFixedHeight(184);
     if (m_bBacklitFile) {
         m_pScrollingAreaWidget->setVisible(false);
     }
@@ -739,4 +723,57 @@ void shortcutPanelPlugin::hideDropDownWidgetBox()
         m_pDropDownBoxWidget->hide();
     }
     return;
+}
+
+void shortcutPanelPlugin::shortcutActionSlots(QString &name)
+{
+    //根据图标名字，调用相应的快捷键动作函数
+    if(name == NO_DISTURBING_NAME){
+        m_pnodisturbWidget->setNodisturbButtonSlots();
+    }
+    else if(name == ENERGY_SAVING_NAME){
+
+    }
+    else if(name == EYE_CARE_NAME){
+        m_pEyeProtectionMode->EyeButtonClickSlots();
+    }
+    else if(name == BLUETOOTH_NAME){
+        m_pbluetoothWidget->bluetoothButtonClickSlots();
+    }
+    else if(name == HOTSPOT_NAME){
+
+    }
+    else if(name == VPN_NAME){
+
+    }
+    else if(name == SETTING_NAME){
+        m_psettingWidget->settingButtonClick();
+    }
+    else if(name == CALCULATOR_NAME){
+        m_pcalculatorWidget->calculatorButtonClickSlots();
+    }
+    else if(name == SCREENSHOTS_NAME){
+        m_pscreenshotWidget->sreenShotButtonClickedSlots();
+    }
+    else if(name == ALARM_NAME){
+        m_pAlarmButtonInterface->AlarmButtonClickSlots();
+    }
+    else if(name == NOTEBOOK_NAME){
+        m_pNoteBookButtonWidget->NoteButtonClickSlots();
+    }
+    else if(name == FEEDBACK_NAME){
+        m_pFeedBackButtonWidget->FeedbackButtonClickSlots();
+    }
+    else if(name == WIFI_NAM){
+        m_pWifiWidget->WifiButtonClickSlot();
+    }
+    else if(name == TABLE_MODE_NAME){
+
+    }
+
+//    三个没有添加的。后期加上
+//    padWidget               *m_ppadWidget;
+//    powerSavingMode         *m_pPowerSavingMode;
+//    AutomaticRotationWidget *m_pAutomaticRotationWidget;
+//    diturbModeWidget        *m_pDiturbModeWidget;
 }

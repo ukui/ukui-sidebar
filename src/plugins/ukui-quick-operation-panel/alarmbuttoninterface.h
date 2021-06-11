@@ -28,6 +28,7 @@
 #include "shortcutbutton.h"
 #include "customstyle_switchNormalStatus.h"
 #include "labelfotmattext.h"
+#include "shortcutinterface.h"
 
 #define KYLIN_ALARM_NORMAL_NAME         "ukui-icon-alarm"
 #define KYLIN_ALARM_NORMAL_NAME_SET     "ukui-icon-alarm-s"
@@ -43,6 +44,7 @@ class alarmButtonInterface : public QWidget
     Q_OBJECT
 public:
     explicit alarmButtonInterface(QWidget *parent = nullptr);
+    void AlarmButtonClickSlots();
     QPushButton     *m_pDeleteButton;
 private:
     void initMemberVariables();
@@ -61,10 +63,20 @@ private:
     QStyle          *m_pStyleNormal;
 
 private slots:
-    void AlarmButtonClickSlots();
+//    void AlarmButtonClickSlots();
 
 Q_SIGNALS:
 
+};
+
+class alarm : public ShortcutInterface
+{
+    Q_OBJECT
+public:
+    static int typeId;
+    Q_INVOKABLE explicit alarm(QObject *parent = nullptr);
+    bool action() const;
+private:
 };
 
 #endif // ALARMBUTTONINTERFACE_H

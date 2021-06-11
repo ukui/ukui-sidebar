@@ -42,10 +42,12 @@ SOURCES += \
     listviewdelegate.cpp \
     notebookbuttonwidget.cpp \
     picturetowhite.cpp \
+    popmenu.cpp \
     powersavingmode.cpp \
     recordsequencefile.cpp \
     scrollingareawidget.cpp \
     shortcutbutton.cpp \
+    shortcutinterface.cpp \
     swichButtonOpenStatus.cpp \
     bluetoothwidget.cpp \
     calculatorwidget.cpp \
@@ -80,10 +82,12 @@ HEADERS += \
     listviewdelegate.h \
     notebookbuttonwidget.h \
     picturetowhite.h \
+    popmenu.h \
     powersavingmode.h \
     recordsequencefile.h \
     scrollingareawidget.h \
     shortcutbutton.h \
+    shortcutinterface.h \
     swichButtonOpenStatus.h \
     bluetoothwidget.h \
     calculatorwidget.h \

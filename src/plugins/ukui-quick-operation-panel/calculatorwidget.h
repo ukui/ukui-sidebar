@@ -44,6 +44,7 @@ public:
     ~calculatorWidget();
     void initMemberVariables();
     void initLayout();
+    void calculatorButtonClickSlots();
     QPushButton   *m_pDeleteButton;
 
 private:
@@ -58,7 +59,7 @@ private:
     QVBoxLayout   *m_pVboxLayout;
 
 private slots:
-    void calculatorButtonClickSlots();
+//    void calculatorButtonClickSlots();
 };
 
 #endif // CALCULATORWIDGET_H

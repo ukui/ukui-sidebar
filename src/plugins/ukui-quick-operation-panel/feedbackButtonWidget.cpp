@@ -16,6 +16,7 @@
 *
 */
 #include "feedbackButtonWidget.h"
+#include <QDebug>
 
 feedbackButtonWidget::feedbackButtonWidget(QWidget *parent) : QWidget(parent)
 {
@@ -79,6 +80,7 @@ void feedbackButtonWidget::initLayout()
 
 void feedbackButtonWidget::FeedbackButtonClickSlots()
 {
+    qDebug()<<"用户反馈......";
     QProcess p(0);
     p.startDetached("ukui-feedback");
     p.waitForStarted();

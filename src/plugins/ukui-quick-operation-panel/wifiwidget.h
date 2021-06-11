@@ -62,6 +62,7 @@ public:
     bool getSwitchStatus(QString key);
 
     void setwifiSwitch(bool signal);
+    void WifiButtonClickSlot();
 
 private:
     QWidget      *m_pWidgetButton;
@@ -84,7 +85,7 @@ private:
     bool          m_bWifiIsEnable;
     bool          m_bWifiInitStatus;
 private slots:
-    void          WifiButtonClickSlot();
+//    void          WifiButtonClickSlot();
 };
 
 #endif // WIFIWIDGET_H

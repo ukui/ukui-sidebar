@@ -16,6 +16,7 @@
 *
 */
 #include "calculatorwidget.h"
+#include <QDebug>
 
 calculatorWidget::calculatorWidget(QWidget *parent) : QWidget(parent)
 {
@@ -87,6 +88,7 @@ void calculatorWidget::initLayout()
 
 void calculatorWidget::calculatorButtonClickSlots()
 {
+    qDebug()<<"计算器......";
     QProcess p(0);
     p.startDetached("mate-calculator");
     p.waitForStarted();

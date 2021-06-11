@@ -16,6 +16,8 @@
 *
 */
 #include "screenshotwidget.h"
+#include <QDebug>
+#include <QMetaType>
 
 screenshotWidget::screenshotWidget(QWidget *parent) : QWidget(parent)
 {
@@ -86,8 +88,28 @@ void screenshotWidget::initLayout()
 
 void screenshotWidget::sreenShotButtonClickedSlots()
 {
+    qDebug()<<"截图......";
     QProcess p(0);
     p.startDetached("kylin-screenshot gui");
     p.waitForStarted();
     return;
 }
+
+//--->zyj
+int screenshot::typeId = qRegisterMetaType<screenshot*>();
+screenshot::screenshot(QObject *parent): ShortcutInterface(parent)
+{
+}
+
+bool screenshot::action() const
+{
+    qDebug()<<"截图快捷按钮";
+    QProcess p(0);
+    p.startDetached("kylin-screenshot gui");
+    p.waitForStarted();
+    return true;
+}
+
+
+
+//---<

@@ -84,3 +84,21 @@ void alarmButtonInterface::AlarmButtonClickSlots()
     p.waitForStarted();
     return;
 }
+
+//--->zyj
+int alarm::typeId = qRegisterMetaType<alarm*>();
+alarm::alarm(QObject *parent) : ShortcutInterface(parent)
+{
+
+}
+
+bool alarm::action() const
+{
+    qDebug()<<"闹钟快捷按钮";
+    QProcess p(0);
+    p.startDetached("ukui-clock");
+    p.waitForStarted();
+    return true;
+}
+
+//---<

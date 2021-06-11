@@ -7,6 +7,12 @@
 #include <QHeaderView>
 #include <QDebug>
 #include <QVariant>
+#include <shortcutinterface.h>
+#include <QMetaType>
+#include <QObject>
+#include <QMenu>
+#include <QProcess>
+#include "listviewdelegate.h"
 
 ListViewCustom::ListViewCustom(QWidget *parent): QListView(parent)
 {
@@ -21,59 +27,120 @@ ListViewCustom::ListViewCustom(QWidget *parent): QListView(parent)
     //m_editMode = false;
     m_editMode = true;//测试用
     m_model = NULL;
-    m_cellHeight = 85;
-    m_cellWidet = 92;
+    m_cellHeight = 90;
+    m_cellWidet = 87;
     m_validPress = false;
+    m_validRelease = true;
     m_rowFrom = 0;
     m_rowTo = 0;
+    m_cellFrom = 0;
+    lastIndexRow = -1;
 
     //设置ListView属性      实现流式布局和多列效果
     this->setViewMode(QListView::IconMode);//多列效果
     this->setFlow(QListView::LeftToRight);
     this->setResizeMode(QListView::Adjust);//自动换行
     //this->setLayoutMode(QListView::Batched);
+    this->setEditTriggers(QListView::NoEditTriggers);
     this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     const QSize size(m_cellWidet,m_cellHeight);    //设置网格大小
     this->setGridSize(size);
+    //this->setFrameShape(QListView::NoFrame);
+
+
+    this->setMouseTracking(true);
+
 }
 void ListViewCustom::SetModel(QStringListModel *model)
 {
     m_model = model;
     QListView::setModel(model);
 }
+
 void ListViewCustom::mousePressEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::LeftButton)
     {
         QModelIndex index = QListView::indexAt(e->pos());
-        qDebug()<<"index.row():"<<index.row();;
+        //qDebug()<<"index.isValid():"<<index.isValid();
+        qDebug()<<"index.row():"<<index.row();
         if (index.isValid())
         {
             m_validPress = true;
             m_dragPoint = e->pos(); //记录按下时位置
             QVariant var= m_model->data(index,Qt::EditRole);  //获取拖拽单元格中的内容
-            m_dragText = var.toString();
-            qDebug()<<"m_dragText:"<<m_dragText;
+            m_cellName = var.toString();
+            qDebug()<<"m_cellName:"<<m_cellName;
             //m_dragPointAtItem = m_dragPoint - QPoint((index.row()%4)*m_cellWidet,(index.row()/4)*m_cellHeight); //获取拖拽点在该单元格的相对位置
             m_rowFrom = index.row()/4;      //记录移动的起始行列号
             m_columnFrom = index.row()%4;
             m_cellFrom = index.row();
         }
+        else{
+            m_cellName.clear();
+        }
     }
     else if (e->button() == Qt::RightButton) //右键弹出设置菜单
     {
+        rightButtonMenu();
         //待实现
+//        QMenu menu;
+//        //添加菜单项，指定图标、名称、响应函数
+//        menu.addAction(QIcon(""), QStringLiteral("添加"),this,SLOT(OnBscGroupRightAction()));
+//        //在鼠标位置显示
+//        menu.exec(QCursor::pos());
+
     }
     QListView::mousePressEvent(e);
 }
 
+void ListViewCustom::mouseReleaseEvent(QMouseEvent *e)
+{
+    if (e->button() == Qt::LeftButton && m_validRelease){
+        //qDebug()<<"鼠标左键释放...";
+        if(!m_cellName.isEmpty()){
+            //shortcutFunction(m_cellName); //动态创建该快捷键对象，并执行快捷操作
+            emit clickBtn(m_cellName);
+        }
+
+    }
+    else if(e->button() == Qt::RightButton && m_validRelease){
+        //qDebug()<<"鼠标右键释放...";
+    }
+    m_validRelease = true;
+    QListView::mouseReleaseEvent(e);
+}
+
+void ListViewCustom::leaveEvent(QEvent *e)
+{
+    RecordSequenceFile *record = RecordSequenceFile::getInstance();
+    record->m_hoverIndex = -1;
+    record->m_hoverStatus = false;
+    this->reset(); //鼠标离开时需要主动刷新view视图，否则会有遗留的悬停效果
+    QListView::leaveEvent(e);
+}
+
 void ListViewCustom::mouseMoveEvent(QMouseEvent *e)
 {
+    //获取悬停位置
+    QModelIndex index = QListView::indexAt(e->pos());
+    if(index.row() != -1 && index.row() != lastIndexRow){
+        RecordSequenceFile *record = RecordSequenceFile::getInstance();
+        record->m_hoverIndex = index.row();
+        record->m_hoverStatus = true;
+        lastIndexRow = index.row();
+        this->reset(); //强制刷新view视图
+        //qDebug()<<"鼠标移动："<<index.row();
+
+    }
+
+    //移动拖拽操作
     if(!m_editMode)
         return;
-    if (!m_validPress)
+    if (!m_validPress){
         return;
+    }
     if (!(e->buttons() & Qt::LeftButton))
         return;
     if ((e->pos() - m_dragPoint).manhattanLength()  < QApplication::startDragDistance())  //拖动量过小不进行拖动操作
@@ -83,6 +150,7 @@ void ListViewCustom::mouseMoveEvent(QMouseEvent *e)
     doDrag();           //开始拖拽，完成拖拽后才会继续往下走
     m_label->hide();
     m_validPress = false;
+    QListView::mouseMoveEvent(e);
 }
 
 void ListViewCustom::doDrag()
@@ -113,6 +181,7 @@ void ListViewCustom::doDrag()
 
 void ListViewCustom::dragEnterEvent(QDragEnterEvent *e)
 {
+    m_validRelease = false;
     if (e->mimeData()->hasText())
     {
         e->acceptProposedAction();
@@ -198,7 +267,6 @@ void ListViewCustom::moveRow(int rowFrom, int columnFrom, int rowTo, int columnT
         return;
     }
     //移动行思路：将Vector中的数据重新排列，然后清空模型，再讲Vector中的数据添加进去
-    //->
     //[1]重新排序
     static RecordSequenceFile *record = RecordSequenceFile::getInstance();
     QVector<QMap<QString,QString>> vectorData = record->getShortcutShowVector();
@@ -232,5 +300,51 @@ void ListViewCustom::moveRow(int rowFrom, int columnFrom, int rowTo, int columnT
     }
     m_model->setStringList(dataList);
 
+    m_validRelease = true;
+    qDebug()<<"------->m_validRelease:"<<m_validRelease;
     emit sigRowChange(m_rowFrom*4+m_columnFrom,m_rowTo*4+m_columnTo);
+}
+
+
+void ListViewCustom::shortcutFunction(QString name)
+{
+    //反射实现：根据类名字符串将其实例化，方便动态创建
+    //工厂模式:使用工厂具体快捷键类的抽象化
+    static RecordSequenceFile *record = RecordSequenceFile::getInstance();
+    QMap<QString,QString>::iterator iter =  record->m_shortcutClassName.find(name);
+    QString className = iter.value();
+    className += "*";
+    int id = QMetaType::type(className.toLatin1()); //根据类名获取id号
+    const QMetaObject *metaObj = QMetaType::metaObjectForType(id); //获取该类的元对象
+    QObject *obj = metaObj->newInstance(Q_ARG(QObject*, nullptr));
+    ShortcutInterface *instence = qobject_cast<ShortcutInterface*>(obj);
+    instence->action();
+}
+void ListViewCustom::rightButtonMenu()
+{
+//    QMenu popMenu;
+//    popMenu.setFixedSize(120,70);
+//    //popMenu.setWindowFlags(Qt::FramelessWindowHint);
+//    popMenu.setAttribute(Qt::WA_TranslucentBackground);
+//    //添加菜单项，指定图标、名称、响应函数
+//    popMenu.addAction(QIcon(":/images/icon-setting.svg"), QStringLiteral("Setting"),this,[=](){
+//        QProcess p(0);
+//        p.startDetached("ukui-control-center");
+//        p.waitForStarted();
+//    });
+//    popMenu.addSeparator();
+//    popMenu.addAction(QIcon(":/images/icon-sedit.svg"), QStringLiteral("Edit"),this,[=](){
+
+//    });
+//    //在鼠标位置显示
+//    popMenu.exec(QCursor::pos());
+
+
+     popMenu = new PopMenu(this);
+//    popMenu.addAction(QIcon(":/images/icon-setting.svg"), QStringLiteral("Setting"),this,[=](){
+//        QProcess p(0);
+//        p.startDetached("ukui-control-center");
+//        p.waitForStarted();
+//    });
+
 }
