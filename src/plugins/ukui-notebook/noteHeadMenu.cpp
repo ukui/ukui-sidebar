@@ -124,7 +124,9 @@ void noteHeadMenu::btnInit()
     //设置是否自动凸起
     ui->pushButtonMenu->setIconSize(QSize(16, 16));
 
-    ui->pushButtonMenu->setProperty("isWindowButton", 0x1);
+    //zybAdd 解决story6496:深色模式下pushButtonMenu
+    //ui->pushButtonMenu->setProperty("isWindowButton", 0x1);
+
     ui->pushButtonMenu->setProperty("useIconHighlightEffect", 0x2);
     ui->pushButtonNew->setToolTip(tr("Create New Note"));
     ui->pushButtonExit->setToolTip(tr("Close"));
@@ -139,6 +141,7 @@ void noteHeadMenu::btnInit()
 
 QPixmap drawSymbolicColoredPixmap(const QPixmap& source, QPushButton *btn)
 {
+    QColor whiteColor = QColor(0, 0, 0);   //zybAdd 解决story6496:深色模式下，便签页头部按钮颜色显示异常，返回浅色模式后，新建的便签页也会显示异常的问题
     QColor baseColor = btn->palette().color(QPalette::Text).light(150);
     QImage img = source.toImage();
 
@@ -146,9 +149,16 @@ QPixmap drawSymbolicColoredPixmap(const QPixmap& source, QPushButton *btn)
     for (int x = 0; x < img.width(); ++x) {
         for (int y = 0; y < img.height(); ++y) {
             auto color = img.pixelColor(x, y);
+#if 0
             color.setRed(255 - baseColor.red());
             color.setGreen(255 - baseColor.green());
             color.setBlue(255 - baseColor.blue());
+#else
+            //zybAdd 解决story6496:深色模式下，便签页头部按钮颜色显示异常，返回浅色模式后，新建的便签页也会显示异常的问题
+            color.setRed(255 - whiteColor.red());
+            color.setGreen(255 - whiteColor.green());
+            color.setBlue(255 - whiteColor.blue());
+#endif
             img.setPixelColor(x, y, color);
         }
     }
