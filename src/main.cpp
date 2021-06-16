@@ -89,9 +89,10 @@ int main(int argc, char *argv[])
         PluginManager::init();                                          /* 初始化插件管理器 */
         mostGrandWidget::mostGrandWidgetInit();                         /* 初始化最里层Widget空白界面 */
 
+        bool startOrNot = false;
+
         Widget *w = new Widget;
         w->setObjectName("SidebarWidget");
-
         w->setAttribute(Qt::WA_TranslucentBackground);
         mostGrandWidget::getInstancemostGrandWidget()->m_pmostGrandWidgetVLaout->addWidget(w);
         mostGrandWidget::getInstancemostGrandWidget()->LaoutSidebarWidget();
@@ -99,10 +100,22 @@ int main(int argc, char *argv[])
         mostGrandWidget::getInstancemostGrandWidget()->setProperty("useSystemStyleBlur", true);
         mostGrandWidget::getInstancemostGrandWidget()->setVisible(true);
 
-        QObject::connect(w,&Widget::testssss, [=] (){
-            w->m_bfinish = true;
-            w->showAnimation();
+        QTimer *startTimer = new QTimer;
+        startTimer->setSingleShot(true);
+
+        QObject::connect(w,&Widget::startRun,[=](QSystemTrayIcon::ActivationReason reason){
+            qDebug()<<"主动启动";
+            startTimer->stop();
+            w->startBackgroundFunction();
+            w->iconActivated(reason);
         });
+
+        QObject::connect(startTimer,&QTimer::timeout,[=](){
+            qDebug()<<"自发启动";
+            w->startBackgroundFunction();
+            w->oneShotBool=true;
+        });
+        startTimer->start(5000);
 
         QObject::connect(&a, SIGNAL(messageReceived(const QString&)),w, SLOT(bootOptionsFilter(const QString&)));
         return a.exec();

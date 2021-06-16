@@ -166,6 +166,7 @@ void NotificationPlugin::initUI()
 
     //消息列表widget
     m_pMsgListWidget = new inside_widget;
+    m_pMsgListWidget->setFixedSize(390,546);
     pNotificationVBoxLayout->addWidget(m_pMsgListWidget, 1);
     m_pMsgListWidget->setParent(m_pMainWidget);
 
@@ -233,6 +234,7 @@ void NotificationPlugin::initUI()
     QSpacerItem* pVBottomSpacer = new QSpacerItem(9, 9, QSizePolicy::Fixed, QSizePolicy::Fixed);
     pNotificationVBoxLayout->addSpacerItem(pVBottomSpacer);
     m_pMainWidget->setLayout(pNotificationVBoxLayout);
+
 }
 
 void NotificationPlugin::showNotification()
@@ -240,7 +242,6 @@ void NotificationPlugin::showNotification()
     if (false == m_bInitialFlag) {
         m_bInitialFlag = true;
         qDebug()<<"NotificationPlugin::showNotification 通知列表的高度"<<m_pMsgListWidget->height() <<m_pMsgListWidget->width();
-        //m_pMsgDoubleListWidget->setFixedHeight(m_pMsgListWidget->height());
         m_pMsgDoubleListWidget->setGeometry(0, 0, m_pMsgListWidget->width()*2, m_pMsgListWidget->height());
     }
     //上面不需要判断，因为在隐藏时，已经切换至通知中心，m_bShowTakeIn为false

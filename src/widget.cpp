@@ -26,7 +26,6 @@
 #include <QGuiApplication>
 #include "xeventmonitor.h"
 #include "customstyle.h"
-#include <QDebug>
 
 double tranSparency = 0.7;
 
@@ -34,9 +33,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
 {
     //先仅注册托盘图标
     initTrayIcon();
-    //开启定时器延时，并与初始化后台功能关联
-    timerHandle();
-
+//    startBackgroundFunction();
 }
 
 Widget::~Widget()
@@ -44,26 +41,14 @@ Widget::~Widget()
     XEventMonitor::instance()->quit();
 }
 
-
 void Widget::initTrayIcon()
 {
-    /* 系统托盘栏显示 */
     createSystray();
     setIcon(QIcon::fromTheme("kylin-tool-box", QIcon(TRAY_ICON)));
 }
 
-void Widget::timerHandle()
-{
-    startFunctionTimer = new QTimer();
-    connect(startFunctionTimer,&QTimer::timeout,this,&Widget::startBackgroundFunction);
-    startFunctionTimer->start(5000);
-    startShowSidebar = new QTimer();
-};
-
-
 void Widget::startBackgroundFunction()
 {
-
     /* 国际化 */
     initTranslation();
 
@@ -101,9 +86,8 @@ void Widget::startBackgroundFunction()
 
     this->setLayout(m_pMainQVBoxLayout);
 
-    //托盘相关
+    /* 系统托盘栏显示 */
     createAction();
-
 
     /* 安装事件过滤器 */
     installEventFilter(this);
@@ -127,40 +111,6 @@ void Widget::startBackgroundFunction()
     connect(XEventMonitor::instance(), SIGNAL(keyPress(QString)),
            this,SLOT(XkbEventsPress(QString)));
     qInfo() << "---------------------------主界面加载完毕---------------------------";
-    startFunctionTimer->stop();
-    backgroundFunctionStatus = false;
-
-    if(oneshut){
-        emit testssss();
-        oneshut = false;
-    }
-
-}
-
-void Widget::clickTrayFunction(QSystemTrayIcon::ActivationReason reason)
-{
-    //判断是否为未加载后台逻辑部分
-    if(backgroundFunctionStatus)  {
-        startBackgroundFunction();
-        if(oneshut){
-            emit testssss();
-            oneshut = false;
-        }
-        if(startShowSidebarstatus) {
-            connect(startShowSidebar,&QTimer::timeout,[=] (){
-                iconActivated(reason);
-            });
-            startShowSidebar->setSingleShot(true);
-            startShowSidebar->start(700);
-            startShowSidebarstatus = false;
-        }
-    } else {
-        if(oneshut){
-            emit testssss();
-            oneshut = false;
-        }
-        iconActivated(reason);
-    }
 }
 
 void Widget::XkbEventsPress(const QString &keycode)
@@ -302,6 +252,8 @@ void Widget::createAction()
 
     trayIconMenu->addAction(Open);
     trayIconMenu->addAction(OpenSetUp);
+
+    connect(trayIcon, &QSystemTrayIcon::activated, this, &Widget::iconActivated);
 }
 
 //添加动作和创建 systray实例
@@ -323,6 +275,15 @@ void Widget::createSystray()
 
     trayIcon->setVisible(true);
     trayIcon->setContextMenu(trayIconMenu);
+}
+
+void Widget::clickTrayFunction(QSystemTrayIcon::ActivationReason reason)
+{
+    if (!oneShotBool){
+        disconnect(trayIcon, &QSystemTrayIcon::activated, this, &Widget::clickTrayFunction);
+        emit startRun(reason);
+        oneShotBool = true;
+    }
 }
 
 //设置托盘栏的图标
@@ -533,17 +494,17 @@ void Widget::initAimation()
 {
     m_pAnimationShowSidebarWidget = new QPropertyAnimation(this, "geometry");
     m_pAnimationHideSidebarWidget = new QPropertyAnimation(this, "geometry");
-
+    m_pAnimationShowSidebarWidget->start();
+    mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
     connect(m_pAnimationHideSidebarWidget, &QPropertyAnimation::finished, this, &Widget::hideAnimationFinish);
     connect(m_pAnimationShowSidebarWidget, &QPropertyAnimation::valueChanged, this, &Widget::showAnimationAction);
-    connect(m_pAnimationShowSidebarWidget, &QPropertyAnimation::finished, this, &Widget::showAnimationFinish);
 }
 
 //动画展开
 void Widget::showAnimation()
 {
     NotificationInterface* pNotificationPluginObject = qobject_cast<NotificationInterface*>(m_pNotificationPluginObject);
-    if (nullptr != pNotificationPluginObject && false == m_bfinish)
+    if (nullptr != pNotificationPluginObject)
         pNotificationPluginObject->showNotification();       //当动画展开时给插件一个通知
 
     int  AnimaStartSideBarSite[4];                           //侧边栏动画开始位置
@@ -628,16 +589,6 @@ void Widget::showAnimationAction(const QVariant &value)
     } else {
         mostGrandWidget::getInstancemostGrandWidget()->setProperty("blurRegion", QRegion(QRect(x, 0, 400, m_nScreenHeight)));
     }
-}
-
-void Widget::showAnimationFinish()
-{
-    if (m_bfinish) {
-        mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
-        hideAnimation();
-        m_bfinish = false;
-    }
-    return;
 }
 
 /* 获取Getting透明度值 */

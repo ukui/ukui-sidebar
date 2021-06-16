@@ -32,8 +32,6 @@
 #include "clipboardpluginiface.h"
 #include "sidebarSmallPluginInterface.h"
 #include "mostgrandwidget.h"
-#include <stdlib.h>
-#include <stdio.h>
 
 #define  TRAY_ICON           ":/data/images/kylin-tool-box.svg"
 #define  TRAY_NULL_ICON      ":/data/images/kylin-tool-box-null.svg"
@@ -76,10 +74,9 @@ public:
         PanelRight
     };
     //主界面
-    void initTrayIcon();                                                        //初始化托盘
-    void startBackgroundFunction();                                             //初始化功能
-    void timerHandle();                                                         //定时器处理函数
-    void clickTrayFunction(QSystemTrayIcon::ActivationReason reason);           //托盘点击处理函数
+    void initTrayIcon();                                                        // 初始化托盘显示
+    void startBackgroundFunction();                                             // 初始化功能
+    void clickTrayFunction(QSystemTrayIcon::ActivationReason reason);           // 托盘点击处理事件
     void initTranslation();                                                     // 初始化翻译
     void initAimation();                                                        // 初始化动画
     void initOsSiteXY();                                                        // 初始化使用qt接口初始化接口
@@ -106,10 +103,7 @@ public:
     void MostGrandWidgetCoordinates();                                          // 根据任务栏位置调整侧边栏位置
     void InitializeHomeScreenGeometry();                                        // 初始化主屏的X坐标
     void setAllWidgetFont();                                                    // 监听gsetting，修改所有窗口的字体
-    bool m_bfinish;
-    bool backgroundFunctionStatus = true;                                       //ture :未加载 false 已加载
-    bool oneshut = true;
-    bool startShowSidebarstatus =true;
+    bool oneShotBool = false ;
 
 
 protected:
@@ -119,7 +113,7 @@ private:
     //主界面
     QVBoxLayout*                m_pMainQVBoxLayout;                             // 主界面垂直布局器
     QDBusInterface*             m_pServiceInterface;                            // 获取任务栏的高度
-    QDBusInterface*             m_pDbusXrandInter=nullptr;                              // 华为990dbus接口
+    QDBusInterface*             m_pDbusXrandInter=nullptr;                      // 华为990dbus接口
     bool                        m_bHWdbusExit;                                  // 华为dbus接口是否存在
     bool                        m_bShowFlag = false;                            // 控制托盘栏点击事件的标志位
     bool                        m_bClipboardFlag = true;                        // 剪贴板编辑框打开和关闭时控制侧边栏是否关闭
@@ -129,8 +123,6 @@ private:
     int                         m_nScreen_x;                                    // 主屏的起始坐标X
     int                         m_nScreen_y;                                    // 主屏的起始坐标Y
     int                         m_pPeonySite;                                   // 任务栏位置
-    QTimer *startFunctionTimer;
-    QTimer *startShowSidebar;
 
     QObject*                    m_pNotificationPluginObject;                    // 通知中心插件对象
 
@@ -157,7 +149,6 @@ private slots :
     void onNewNotification();                                                   // 当没展开时，来了新通知才提示
     void hideAnimationFinish();                                                 // 隐藏动画完成
     void showAnimationAction(const QVariant &value);                            // 展开动画开始
-    void showAnimationFinish();
     void primaryScreenChangedSLot();                                            // 主屏发生变化
     void ClipboardShowSlots();                                                  // 接受剪贴板信号，将boll值m_bClipboardFlag置为false;
     void ClipboardHideSlots();                                                  // 接受剪贴板信号，将boll值m_bClipboardFlag置为true;
@@ -171,8 +162,8 @@ private slots :
     void XkbEventsRelease(const QString &keycode);                              // 键盘按键弹出事件
     void priScreenChanged(int x, int y, int width, int height);                 // hw990屏幕分辨率变化后
 
-Q_SIGNALS:
-    void testssss();
+signals:
+    void startRun(QSystemTrayIcon::ActivationReason reason);
 };
 
 #endif // WIDGET_H
