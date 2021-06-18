@@ -95,15 +95,9 @@ void NotificationPlugin::initUI()
     m_pTakeInBoxToolButton->setStyle(new CustomStyle_pushbutton_2("ukui-default"));
     connect(m_pTakeInBoxToolButton, SIGNAL(Sig_clicked()), this, SLOT(onShowTakeInMessage()));
 
-    m_pSvgRender = new QSvgRenderer(pWidget1);
-    m_pSvgRender->load(QString(":/images/box-24.svg"));
     m_pTakeInBoxToolButton->setFixedSize(30,30);
-    m_pTakeInBoxToolButton->setIconSize(QSize(30,30));
-    m_pPixmap = new QPixmap(24, 24);
-    m_pPixmap->fill(Qt::transparent);
-    QPainter painter(m_pPixmap);
-    m_pSvgRender->render(&painter);
-    m_pTakeInBoxToolButton->setIcon(QIcon(*m_pPixmap));
+    m_pTakeInBoxToolButton->setIconSize(QSize(24,24));
+    m_pTakeInBoxToolButton->setIcon(QIcon(":/images/box-24.svg"));
 
     pQHBoxLayout1->addWidget(pLabel, 0, Qt::AlignLeft);
     pQHBoxLayout1->addWidget(m_pTakeInBoxToolButton, 0, Qt::AlignRight);
@@ -578,14 +572,8 @@ void NotificationPlugin::onSwitchMsgBoxFinish()
         } else {
             m_pClearAllToolButton->setVisible(true);
         }
-
-        m_pSvgRender->load(QString(":/images/exitbox-24.svg"));
-        m_pPixmap->fill(Qt::transparent);
-        QPainter painter(m_pPixmap);
-        m_pSvgRender->render(&painter);
-        m_pTakeInBoxToolButton->setIcon(QIcon(*m_pPixmap));
+        m_pTakeInBoxToolButton->setIcon(QIcon(":/images/exitbox-24.svg"));
         m_pTakeInBoxToolButton->setEnterFlags(m_bShowTakeIn);
-
         m_pTakeInCoutLabel->setVisible(false);
 
         //当切换至收纳盒时，先将各个收纳应用更新下时间
@@ -607,11 +595,8 @@ void NotificationPlugin::onSwitchMsgBoxFinish()
         } else {
             m_pClearAllToolButton->setVisible(true);
         }
-        m_pSvgRender->load(QString(":/images/box-24.svg"));
-        m_pPixmap->fill(Qt::transparent);
-        QPainter painter(m_pPixmap);
-        m_pSvgRender->render(&painter);
-        m_pTakeInBoxToolButton->setIcon(QIcon(*m_pPixmap));
+
+        m_pTakeInBoxToolButton->setIcon(QIcon(":/images/box-24.svg"));
         m_pTakeInBoxToolButton->setEnterFlags(m_bShowTakeIn);
 
         if (m_listTakeInAppMsg.count() > 0) {
