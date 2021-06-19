@@ -29,7 +29,7 @@
     <string notr="true"/>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>3</number>
    </property>
    <widget class="QWidget" name="page">
     <widget class="QStackedWidget" name="stackedWidget_4">
@@ -658,11 +658,17 @@ border-radius:4px;
      <widget class="QLabel" name="label_17">
       <property name="geometry">
        <rect>
-        <x>80</x>
-        <y>76</y>
-        <width>31</width>
+        <x>60</x>
+        <y>80</y>
+        <width>41</width>
         <height>22</height>
        </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
       <property name="text">
        <string/>
