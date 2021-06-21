@@ -42,7 +42,6 @@ MonitorThread::MonitorThread(NotificationPlugin *parent)
 {
     m_parent = parent;
 
-    getSettingsValue();
     this->moveToThread(this);
 }
 
@@ -271,6 +270,7 @@ void MonitorThread::switchEnable(bool bEnabled)
 
 void MonitorThread::run()
 {
+    getSettingsValue();
     system("killall dbus-monitor");
     m_pProcess = new QProcess(this);
     m_pProcess->start("dbus-monitor interface=org.freedesktop.Notifications");
