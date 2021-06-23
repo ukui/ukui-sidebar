@@ -131,6 +131,7 @@ void SidebarClipboardPlugin::createWidget()
     m_pSidebarClipboardWidget->setContentsMargins(0,0,0,0);
 
     m_pShortcutOperationListWidget = new ClipBoardLisetWidget;
+    m_pShortcutOperationListWidget->verticalScrollBar()->setProperty("drawScrollBarGroove", false);
     m_pShortcutOperationListWidget->setContentsMargins(0,0,0,0);
 
     m_pSearchWidgetListWidget      = new QListWidget;
