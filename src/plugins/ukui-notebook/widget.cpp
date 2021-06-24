@@ -963,6 +963,7 @@ void Widget::loadNotes(QList<NoteData *> noteList, int noteCounter)
 
     createNewNoteIfEmpty();
     selectFirstNote();
+    transFisrtLine();
 }
 
 /*!
@@ -1698,4 +1699,20 @@ QPixmap drawSymbolicColoredPixmap(const QPixmap& source, QAction *btn)
     }
 
     return QPixmap::fromImage(img);
+}
+
+/*!
+ * \brief Widget::transFisrtLine
+ *
+ */
+void Widget::transFisrtLine()
+{
+    for (int i = 0; i < m_proxyModel->rowCount(); i++) {
+
+        QModelIndex index = m_proxyModel->index(i, 0);
+        NoteData *note = m_noteModel->getNote(index);
+
+        if (note != Q_NULLPTR && note->content() == NULL)
+            note->setFullTitle(tr("Welcome to use Notes."));
+    }
 }
