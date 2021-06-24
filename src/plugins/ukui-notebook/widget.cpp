@@ -264,7 +264,7 @@ void Widget::kyNoteInit()
     m_viewChangeButton = ui->viewChangeButton;
 
     initListMode();
-    setFixedSize(712, 590);
+    setFixedSize(714, 590);
     setMouseTracking(true);               // 设置鼠标追踪
     // 窗口属性
     // setWindowFlags(Qt::FramelessWindowHint);    //开启窗口无边框
@@ -687,8 +687,9 @@ void Widget::initListMode()
     m_noteView->setViewMode(QListView::ListMode);
     // 禁用双击编辑
     m_noteView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    // 隐藏滑动条
-    m_noteView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    // 竖向滑动条
+    m_noteView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    // 隐藏横向滑动条
     m_noteView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_noteView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     // 视图将一次滚动一个像素的内容
