@@ -364,6 +364,8 @@ void Edit_page::list(bool checked, QTextListFormat::Style style)
             listFmt = cursor.currentList()->format();
         }
         listFmt.setStyle(style);
+        QTextDocument *document = ui->textEdit->document();
+        document->setIndentWidth(15);
         cursor.createList(listFmt);
     }
     cursor.endEditBlock();
