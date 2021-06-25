@@ -95,6 +95,7 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
     m_pClipboardLaout->addWidget(m_pSearchWidgetListWidget);
     m_pClipboardLaout->addWidget(m_pShortcutOperationListWidget);
     m_pClipboardLaout->addWidget(m_pSideBarClipboardLable);
+    m_pClipboardLaout->addItem(new QSpacerItem(1, 100, QSizePolicy::Expanding, QSizePolicy::Fixed));
 
     m_pSidebarClipboardWidget->setLayout(m_pClipboardLaout);
     m_pShortcutOperationListWidget->setVisible(false);
@@ -133,6 +134,7 @@ void SidebarClipboardPlugin::createWidget()
     m_pShortcutOperationListWidget = new ClipBoardLisetWidget;
     m_pShortcutOperationListWidget->verticalScrollBar()->setProperty("drawScrollBarGroove", false);
     m_pShortcutOperationListWidget->setContentsMargins(0,0,0,0);
+    m_pShortcutOperationListWidget->setFixedSize(400,210);
 
     m_pSearchWidgetListWidget      = new QListWidget;
     m_pSearchWidgetListWidget->setFixedSize(400, 50);
