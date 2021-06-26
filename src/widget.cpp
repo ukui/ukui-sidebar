@@ -247,7 +247,7 @@ void Widget::createAction()
     Open = new QAction(QObject::tr("Open"), this);
     connect(Open, &QAction::triggered, this, &Widget::OpenSidebarSlots);
 
-    OpenSetUp = new QAction(QIcon::fromTheme("application-menu", QIcon(SETTING_ICON)), QObject::tr("Set up notification center"), this);
+    OpenSetUp = new QAction(QIcon::fromTheme("document-page-setup-symbolic", QIcon(SETTING_ICON)), QObject::tr("Set up notification center"), this);
     connect(OpenSetUp, &QAction::triggered, this, &Widget::OpenControlCenterSettings);
 
     trayIconMenu->addAction(Open);

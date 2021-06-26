@@ -35,7 +35,7 @@
 
 #define  TRAY_ICON           ":/data/images/kylin-tool-box.svg"
 #define  TRAY_NULL_ICON      ":/data/images/kylin-tool-box-null.svg"
-#define  SETTING_ICON        ":/data/images/application-menu.svg"
+#define  SETTING_ICON        ":/res/x/setup.png"
 
 #define PANEL_DBUS_SERVICE "com.ukui.panel.desktop"
 #define PANEL_DBUS_PATH "/"
