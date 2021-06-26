@@ -93,6 +93,7 @@ void NotificationPlugin::initUI()
     //收纳按钮
     m_pTakeInBoxToolButton = new TakeInBoxToolButton();
     m_pTakeInBoxToolButton->setStyle(new CustomStyle_pushbutton_2("ukui-default"));
+    m_pTakeInBoxToolButton->setFocusPolicy(Qt::NoFocus);
     connect(m_pTakeInBoxToolButton, SIGNAL(Sig_clicked()), this, SLOT(onShowTakeInMessage()));
 
     m_pTakeInBoxToolButton->setFixedSize(30,30);
