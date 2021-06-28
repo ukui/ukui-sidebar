@@ -64,23 +64,23 @@ Notice_Dialog::Notice_Dialog(QWidget *parent, int close_time, int num) :
     playlist = new QMediaPlaylist(this);//初始化播放列表
     if(num >= 0) {
         if(model->index(num, 2).data().toString().compare(tr("glass"))==0){
-            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/glass.ogg"));
+            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/glass.wav"));
         }else if (model->index(num, 2).data().toString().compare(tr("bark"))==0) {
-            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/bark.ogg"));
+            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/bark.wav"));
         }else if (model->index(num, 2).data().toString().compare(tr("sonar"))==0) {
-            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/sonar.ogg"));
+            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/sonar.wav"));
         }else if (model->index(num, 2).data().toString().compare(tr("drip"))==0) {
-            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/drip.ogg"));
+            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/drip.wav"));
         }
     } else {
         if (model_setup->index(0, 19).data().toString().compare(tr("glass"))==0) {
-            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/glass.ogg"));
+            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/glass.wav"));
         } else if (model_setup->index(0, 19).data().toString().compare(tr("bark"))==0) {
-            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/bark.ogg"));
+            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/bark.wav"));
         } else if (model_setup->index(0, 19).data().toString().compare(tr("sonar"))==0) {
-            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/sonar.ogg"));
+            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/sonar.wav"));
         } else {
-            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/drip.ogg"));
+            playlist->addMedia(QUrl::fromLocalFile("/usr/share/sounds/gnome/default/alerts/drip.wav"));
         }
     }
 
@@ -88,7 +88,6 @@ Notice_Dialog::Notice_Dialog(QWidget *parent, int close_time, int num) :
     music->setPlaylist(playlist);  //设置播放列表
     music->setVolume(  model_setup->index(0, 6).data().toInt() );
     music->play();
-
 }
 
 Notice_Dialog::~Notice_Dialog()

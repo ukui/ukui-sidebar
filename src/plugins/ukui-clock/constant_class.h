@@ -17,5 +17,7 @@
 #define CLOCK_TITLE_NAME "Alarm"
 #define KYLIN_CLOCK_APP_NAME "Kylin Alarm"
 
+const static  QString chooseColor = "61,107,229,255";
+const static  QString hoverColor = "55,144,250,255";
 
 #endif // CONSTANTCLASS_H

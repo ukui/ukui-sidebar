@@ -53,10 +53,10 @@ About::About(QWidget *parent) :
     //该窗口小部件不具有上下文菜单，上下文菜单的处理将延迟到该窗口小部件的父级。
     ui->introduceLabel->setContextMenuPolicy(Qt::NoContextMenu);
     //    主题框架1.0.6-5kylin2
-    /*
+
     //关闭按钮去掉聚焦状态
     ui->closeBtn->setFocusPolicy(Qt::NoFocus);
-    */
+
 }
 
 About::~About()

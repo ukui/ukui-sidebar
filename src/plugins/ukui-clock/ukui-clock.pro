@@ -52,10 +52,13 @@ SOURCES += \
     verticalScroll24.cpp \
     verticalScroll60.cpp \
     verticalScroll99.cpp \
+    tinycountdown.cpp \
     xatom-helper.cpp
 
 TRANSLATIONS += ../../../translations/ukui-clock/ukui-clock_tr.ts \
                 ../../../translations/ukui-clock/ukui-clock_zh_CN.ts
+
+
 
 HEADERS  += clock.h \
     CustomButton.h \
@@ -85,6 +88,7 @@ HEADERS  += clock.h \
     verticalScroll24.h \
     verticalScroll60.h \
     verticalScroll99.h \
+    tinycountdown.h \
     xatom-helper.h
 
 
@@ -93,6 +97,7 @@ FORMS    += clock.ui \
     closeOrHide.ui \
     deleteMsg.ui \
     noticeAlarm.ui \
+    tinycountdown.ui \
     setupPage.ui
 
 
@@ -106,10 +111,10 @@ unix {
     INSTALLS += target
 
     music.path = /usr/share/ukui-clock/
-    music.files += music/bark.ogg
-    music.files += music/drip.ogg
-    music.files += music/glass.ogg
-    music.files += music/sonar.ogg
+    music.files += music/bark.wav
+    music.files += music/drip.wav
+    music.files += music/glass.wav
+    music.files += music/sonar.wav
     INSTALLS += music
 
     translation.path = /usr/share/ukui-sidebar/ukui-clock
@@ -124,7 +129,7 @@ INSTALLS += desktopfile
 DISTFILES += \
     image/DFPKingGothicGB-Semibold-2.ttf \
     image/noClockBlack.svg \
-    music/bark.ogg \
-    music/drip.ogg \
-    music/glass.ogg \
-    music/sonar.ogg
+    music/bark.wav \
+    music/drip.wav \
+    music/glass.wav \
+    music/sonar.wav

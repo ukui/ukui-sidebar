@@ -94,6 +94,7 @@
 #include "constant_class.h"
 #include "utils.h"
 #include "primarymanager.h"
+#include "tinycountdown.h"
 
 class QDialog;
 class QSpinBox;
@@ -134,10 +135,13 @@ public:
     int CURRENT_FONT_SIZE;
     enum ScreenPosition {
         SP_LEFT = 1,
-        SP_CENTER,
-        SP_RIGHT
+        SP_CENTER = 2,
+        SP_RIGHT=3,
+        UP_LEFT=4,
+        UP_CENTER=5,
+        UP_RIGHT=6
     };
-    void moveUnderMultiScreen(Clock::ScreenPosition,Natice_alarm * dialog,int hiddenFlag);                                    //多显示器下，位置移动
+    void moveUnderMultiScreen(Clock::ScreenPosition,QWidget * dialog,int hiddenFlag);                                    //多显示器下，位置移动
     QString formatX_h(int x_h);
     Ui::Clock *ui;
     QString m_timeZone;
@@ -296,6 +300,8 @@ private slots:
 
     QString get12hourStr(int x_h);
     void createUserGuideDebusClient();
+    void onTinyClicked();
+    void activeWindow();
 private:
     QPoint m_startPoint;
     QTimer *timer = nullptr;
@@ -415,7 +421,7 @@ private:
     QPushButton *pushcount;
     QPushButton *pushclock;
     QPushButton *pushstop;
-    QPushButton *count_stat;
+    QPushButton *start_count_single;
     QWidget *shadow;
     QWidget *shadow1;
 
@@ -438,6 +444,9 @@ private:
     QDBusInterface *userGuideInterface;                                   // 用户手册
     bool refreshCountdownLabel11Flag = false;               //是否刷新，倒计时上的小闹钟时间的数值。因为秒数的变化，如果一直动态计算，会出现1分钟的误差
     int x_h=0, x_m=0 ;
+    bool m_selectTinyCountdown = false;
+    tinyCountdown * tinycountdownDia = nullptr;
+
     void listenToGsettings();                                           //监听
     void updateFront(const int size);
     void set24ClockItem(int time_H,int time_M,int time_S,int rowNum);
@@ -445,6 +454,10 @@ private:
     void clearClockItem(int rowNum);
     void iniSystemTimeFlag();
     bool checkSystem24();
+    void minBtnStyle();
+    void closeBtnStyle();
+    void menuBtnStyle();
+    bool checkTinyCountdownDia();
 };
 
 #endif // CLOCK_H

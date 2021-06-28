@@ -59,12 +59,12 @@ delete_msg::delete_msg(QWidget *parent) :
     //保存按钮边框是否凸起
     ui->closebtn->setFlat(true);
     //    主题框架1.0.6-5kylin2
-    /*
+
     //配置重要按钮
     ui->surebtn->setProperty("isImportant", true);
     //关闭按钮去掉聚焦状态
     ui->closebtn->setFocusPolicy(Qt::NoFocus);
-    */
+
 
 }
 

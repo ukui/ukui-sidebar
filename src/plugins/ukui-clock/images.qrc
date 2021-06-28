@@ -1,8 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>clock.ico</file>
-        <file alias="ukui-clock_tr.qm">../../../translations/ukui-clock/ukui-clock_tr.qm</file>
-        <file alias="ukui-clock_zh_CN.qm">../../../translations/ukui-clock/ukui-clock_zh_CN.qm</file>
         <file>image/noClockWhite.png</file>
         <file>image/noClockBlack.png</file>
         <file>image/HuaKangJinGangHei-Regular-2.ttf</file>
@@ -21,5 +19,9 @@
         <file>image/icon-4-16x16.png</file>
         <file>image/kylin-alarm-clock.svg</file>
         <file>image/warning-24x24.png</file>
+        <file alias="ukui-clock_zh_CN.qm">translations/ukui-clock_zh_CN.qm</file>
+        <file alias="ukui-clock_tr.qm">translations/ukui-clock_tr.qm</file>
+        <file>image/switchIconB.png</file>
+        <file>image/switchIconW.png</file>
     </qresource>
 </RCC>

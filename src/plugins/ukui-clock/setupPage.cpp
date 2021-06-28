@@ -199,10 +199,10 @@ setuppage::setuppage( double position_x, double position_y, QWidget *parent  ) :
     muteBtn = new CustomButton(this,54,24,1);
     muteBtn->move(236,66);
     //    主题框架1.0.6-5kylin2
-    /*
+
     //关闭按钮去掉聚焦状态
     ui->closeBtn->setFocusPolicy(Qt::NoFocus);
-    */
+
 }
 
 setuppage::~setuppage()
