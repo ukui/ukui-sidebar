@@ -136,7 +136,7 @@ Clock::Clock(QWidget *parent) :
     QBrush brush2;
     brush2.setColor(ColorPlaceholderText2);
     //主题框架1.0.6-5kylin2
-//    palette2.setColor(QPalette::Highlight,QColor(61,107,229,255));
+    palette2.setColor(QPalette::Highlight,QColor(61,107,229,255));
     palette2.setColor(QPalette::Button,QColor(61,107,229,255));
     palette2.setBrush(QPalette::ButtonText, QBrush(Qt::white));
     ui->count_stat->setPalette(palette2);
@@ -150,25 +150,20 @@ Clock::Clock(QWidget *parent) :
     QBrush brush3;
     brush3.setColor(ColorPlaceholderText);
     //主题框架1.0.6-5kylin2
-//    palette.setColor(QPalette::Highlight,QColor(248,163,76,255));
+    palette.setColor(QPalette::Highlight,QColor(248,163,76,255));
     palette.setColor(QPalette::Button,QColor(248,163,76,255));
     palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
     ui->count_push->setPalette(palette);
 
-    QPalette palette1 = ui->pushButton->palette();
-    QColor ColorPlaceholderText3(255,255,255,0);
-    QBrush brush;
-    brush.setColor(ColorPlaceholderText3);
-    palette1.setBrush(QPalette::Button, brush);
-    ui->pushButton->setPalette(palette1);
 
-    ui->pushButton_12->setPalette(palette1);
 
-    ui->pushButton->setProperty("useIconHighlightEffect", true);
-    ui->pushButton->setProperty("iconHighlightEffectMode", 1);
+
+
+//    ui->countdownAlarmIcon->setProperty("useIconHighlightEffect", true);
+//    ui->countdownAlarmIcon->setProperty("iconHighlightEffectMode", 1);
     ui->horizontalLayout->setContentsMargins(0,0,0,0);
 
-    count_stat->setEnabled(false);
+    start_count_single->setEnabled(false);
     ui->stackedWidget_4->setCurrentIndex(0);
     drawNoAlarmPrompt();//绘制无闹钟提示图标
     onMin_5btnClicked();//倒计时初始时间默认五分钟
@@ -191,7 +186,7 @@ Clock::Clock(QWidget *parent) :
     listenToGsettings();
     //主题框架1.0.6-5kylin2
     //配置重要按钮
-    /*
+
     //添加
     ui->addAlarmBtn->setProperty("isImportant", true);
     //新建闹钟保存
@@ -199,14 +194,23 @@ Clock::Clock(QWidget *parent) :
     //闹钟编辑保存
     ui->pushButton_9->setProperty("isImportant", true);
     //倒计时 滚轮页设置页，开始
-    count_stat->setProperty("isImportant", true);
+    start_count_single->setProperty("isImportant", true);
     //倒计时，运行页，开始结束
     ui->count_stat->setProperty("isImportant", true);
     //秒表 开始结束
     ui->pushButton_Start->setProperty("isImportant", true);
 //    倒计时 暂停继续
     ui->count_push->setProperty("isImportant", true);
-    */
+    //闹钟编辑 取消
+    ui->set_alarm_cancelbtn->setProperty("useButtonPalette", true);
+    //秒表 复位
+    ui->pushButton_timeselect->setProperty("useButtonPalette", true);
+    //秒表 计次
+    ui->pushButton_ring->setProperty("useButtonPalette", true);
+    //倒计时上的小闹钟
+//    ui->countdownAlarmIcon->setProperty("useButtonPalette", true);
+
+
 
 }
 
@@ -229,6 +233,7 @@ Clock::~Clock()
     delete primaryManager;
     delete alarmNoticeDialog;
     delete countdownNoticeDialog;
+    delete tinycountdownDia;
 }
 //重写关闭事件
 void Clock::closeEvent(QCloseEvent *event)
@@ -306,38 +311,17 @@ void Clock::buttonImageInit()
     //左上角闹钟图标
     ui->label_2->setPixmap(QIcon::fromTheme("kylin-alarm-clock").pixmap(24,24));
     //倒计时上的小闹钟图标
-    ui->pushButton->setIcon(pixmap4);
-    ui->pushButton->setFlat(true);
-    ui->pushButton->setVisible(true);
-    ui->pushButton->setFocusPolicy(Qt::NoFocus);
-    //窗口最小化
-    ui->pushButton_4->setIcon(QIcon::fromTheme("window-minimize-symbolic"));
-    //窗口关闭
-    ui->pushButton_5->setIcon(QIcon::fromTheme("window-close-symbolic"));
-    //菜单项
-    ui->pushButton_12->setIcon(QIcon::fromTheme("open-menu-symbolic"));
+    ui->countdownAlarmIcon->setPixmap(pixmap4);
+    ui->countdownAlarmIcon->setVisible(true);
+    ui->countdownAlarmIcon->setFocusPolicy(Qt::NoFocus);
+
+    minBtnStyle();
+    menuBtnStyle();
+    closeBtnStyle();
 
 
-    ui->pushButton_4->setFlat(true);
-    ui->pushButton_5->setFlat(true);
-    ui->pushButton_4->setVisible(true);
-    ui->pushButton_5->setVisible(true);
-    ui->pushButton_12->setVisible(true);
-    ui->pushButton_4->setFocusPolicy(Qt::NoFocus);
-    ui->pushButton_5->setFocusPolicy(Qt::NoFocus);
-    ui->pushButton_12->setFocusPolicy(Qt::NoFocus);
-//主题框架1.0.6-5kylin2
-    ui->pushButton_4->setProperty("isWindowButton", 0x1);
-    ui->pushButton_5->setProperty("isWindowButton", 0x2);
-    ui->pushButton_12->setProperty("isWindowButton", 0x1);
 
-    ui->pushButton_4->setProperty("useIconHighlightEffect", 0x2);
-    ui->pushButton_5->setProperty("useIconHighlightEffect", 0x8);
-    ui->pushButton_12->setProperty("useIconHighlightEffect", 0x2);
 
-    ui->pushButton_4->setToolTip(tr("Minimize"));
-    ui->pushButton_5->setToolTip(tr("Quit"));
-    ui->pushButton_12->setToolTip(tr("Menu"));
     //提醒铃声
     count_sel = new Btn_new(0, tr("  Remind"), ui->page_4);
     count_sel->move(25,310);
@@ -398,6 +382,13 @@ void Clock::CountdownInit()
     countdownNoticeDialog->timer->stop();
     countdownNoticeDialog->timer_xumhuan->stop();
     countdownNoticeDialog->music->stop();
+
+    //小型窗体
+    if(tinycountdownDia==nullptr){
+        tinycountdownDia = new tinyCountdown();
+    }
+    //绑定主窗体操作
+    connect(tinycountdownDia,SIGNAL(mainWindowClick()),this,SLOT(activeWindow()));
 }
 
 /*
@@ -496,14 +487,18 @@ void Clock::clockInit()
     connect(time_sel, SIGNAL(clicked()), this, SLOT(selectAlarmMusic()) );
     connect(count_sel, SIGNAL(clicked()), this, SLOT(countdownMusicSellect()));
     connect(count_sel_1, SIGNAL(clicked()), this, SLOT(countdownMusicSellect()));
-    connect(ui->pushButton_5, SIGNAL(clicked()), this, SLOT(windowClosingClicked()));
-    connect(ui->pushButton_4, SIGNAL(clicked()), this, SLOT(windowMinimizingClicked()));
+
+
     connect(ui->min_5btn, SIGNAL(clicked()), this, SLOT(onMin_5btnClicked()));
     connect(ui->min_10btn, SIGNAL(clicked()), this, SLOT(onMin_10btnClicked()));
     connect(ui->min_20btn, SIGNAL(clicked()), this, SLOT(onMin_20btnClicked()));
     connect(ui->min_30btn, SIGNAL(clicked()), this, SLOT(onMin_30btnClicked()));
     connect(ui->min_60btn, SIGNAL(clicked()), this, SLOT(onMin_60btnClicked()));
+    //暂停继续按钮
     connect(ui->count_push, SIGNAL(clicked()), this, SLOT(onCountPushClicked()));
+
+
+    connect(ui->tiny_count, SIGNAL(clicked()), this, SLOT(onTinyClicked()));
     connect(ui->pushButton_9, SIGNAL(clicked()), this, SLOT(alarmReEditClicked()));
     /*绑定右键显示菜单：在单击右键之后会执行槽函数， 槽函数中负责弹出右键菜单*/
     connect(ui->listWidget, SIGNAL(customContextMenuRequested(const QPoint &)),
@@ -527,46 +522,8 @@ void Clock::clockInit()
     if(!model->rowCount())
         ui->label_7->setText("");
 
-    /*设置关于页*/
-    ui->pushButton_12->setPopupMode(QToolButton::InstantPopup);
-    m_menu = new QMenu(ui->pushButton_12);
-    m_menu->setProperty("fillIconSymbolicColor", true);
-    //菜单项的操作
-    //设置
-    m_menuAction = new QAction(m_menu);
 
-    //帮助
-    QAction *m_helpAction = new QAction(m_menu);
-    //关于
-    QAction *m_aboutAction = new QAction(m_menu);
-    //关闭
-    QAction *m_closeAction = new QAction(m_menu);
 
-    m_menuAction->setText(tr("Set Up"));
-    m_helpAction->setText(tr("Help"));
-    m_aboutAction->setText(tr("About"));
-    m_closeAction->setText(tr("Close"));
-
-    m_menu->addAction(m_menuAction);
-    m_menu->addAction(m_helpAction);
-    m_menu->addAction(m_aboutAction);
-    m_menu->addAction(m_closeAction);
-
-    ui->pushButton_12->setMenu(m_menu);
-
-    connect(m_helpAction, &QAction::triggered, this, [=](){
-        qDebug() << "help clicked";
-//        userGuideInterface->call(QString("showGuide"), "tools/ukui-clock");
-        userGuideInterface->call(QString("showGuide"), "ukui/ukui-clock");
-    });
-
-    connect(m_aboutAction, &QAction::triggered, this, [=](){
-        About *dialog = new About();
-        dialog->exec();
-    });
-
-    connect(m_menuAction, SIGNAL(triggered()), this, SLOT(setUpPage()));
-    connect(m_closeAction, SIGNAL(triggered()), this, SLOT(windowClosingClicked()));
 
 }
 
@@ -726,7 +683,7 @@ void Clock::onPushbuttonStartClicked()
         QBrush brush2;
         brush2.setColor(ColorPlaceholderText);
         //主题框架1.0.6-5kylin2
-//        palette.setColor(QPalette::Highlight,QColor(248,163,76,255));
+        palette.setColor(QPalette::Highlight,QColor(248,163,76,255));
         palette.setColor(QPalette::Button,QColor(248,163,76,255));
         palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
         ui->pushButton_Start->setPalette(palette);
@@ -751,14 +708,14 @@ void Clock::onPushbuttonStartClicked()
         }
         isStarted=0;
         ui->pushButton_timeselect->show();
-        ui->pushButton_Start->setText(tr("Continue"));
+        ui->pushButton_Start->setText(tr("continue"));
 
         QPalette palette = ui->pushButton_Start->palette();
         QColor ColorPlaceholderText(248,163,76,255);
         QBrush brush2;
         brush2.setColor(ColorPlaceholderText);
         //主题框架1.0.6-5kylin2
-//        palette.setColor(QPalette::Highlight,QColor(69, 173, 110,255));
+        palette.setColor(QPalette::Highlight,QColor(69, 173, 110,255));
         palette.setColor(QPalette::Button,QColor(69, 173, 110,255));
         palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
         ui->pushButton_Start->setPalette(palette);
@@ -890,7 +847,7 @@ void Clock::onPushbuttonTimeselectClicked()
         QBrush brush2;
         brush2.setColor(ColorPlaceholderText);
         //主题框架1.0.6-5kylin2
-//        palette.setColor(QPalette::Highlight,QColor(61,107,229,255));
+        palette.setColor(QPalette::Highlight,QColor(61,107,229,255));
         palette.setColor(QPalette::Button,QColor(61,107,229,255));
         palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
         ui->pushButton_Start->setPalette(palette);
@@ -1135,6 +1092,99 @@ bool Clock::checkSystem24()
     QByteArray output = process.readAllStandardOutput();
     QString str_output = output;
     return str_output.compare("'24'\n") == 0;
+}
+/**
+ * @brief 最小化按钮样式
+ */
+void Clock::minBtnStyle()
+{
+    //窗口最小化
+    ui->pushButton_4->setIcon(QIcon::fromTheme("window-minimize-symbolic"));
+    ui->pushButton_4->setFlat(true);
+    ui->pushButton_4->setVisible(true);
+    ui->pushButton_4->setFocusPolicy(Qt::NoFocus);
+//    ui->pushButton_4->setProperty("isWindowButton", 0x1);
+    ui->pushButton_4->setProperty("useIconHighlightEffect", 0x2);
+    ui->pushButton_4->setToolTip(tr("Minimize"));
+    connect(ui->pushButton_4, SIGNAL(clicked()), this, SLOT(windowMinimizingClicked()));
+}
+/**
+ * @brief 关闭按钮样式
+ */
+void Clock::closeBtnStyle()
+{
+
+    //窗口关闭
+    ui->pushButton_5->setIcon(QIcon::fromTheme("window-close-symbolic"));
+    ui->pushButton_5->setFlat(true);
+    ui->pushButton_5->setVisible(true);
+    ui->pushButton_5->setFocusPolicy(Qt::NoFocus);
+    //主题框架1.0.6-5kylin2
+    ui->pushButton_5->setProperty("isWindowButton", 0x2);
+    ui->pushButton_5->setProperty("useIconHighlightEffect", 0x8);
+    ui->pushButton_5->setToolTip(tr("Quit"));
+    connect(ui->pushButton_5, SIGNAL(clicked()), this, SLOT(windowClosingClicked()));
+}
+/**
+ * @brief 菜单按钮样式
+ */
+void Clock::menuBtnStyle()
+{
+    /*
+    QPalette palette1 = ui->pushButton_12->palette();
+    QColor ColorPlaceholderText3(255,255,255,0);
+    QBrush brush;
+    brush.setColor(ColorPlaceholderText3);
+    palette1.setBrush(QPalette::Button, brush);
+    ui->pushButton_12->setPalette(palette1);
+    */
+    //菜单项
+    ui->pushButton_12->setIcon(QIcon::fromTheme("open-menu-symbolic"));
+    ui->pushButton_12->setVisible(true);
+    ui->pushButton_12->setFocusPolicy(Qt::NoFocus);
+//    ui->pushButton_12->setProperty("isWindowButton", 0x1);
+    ui->pushButton_12->setToolTip(tr("Menu"));
+    ui->pushButton_12->setProperty("useIconHighlightEffect", 0x2);
+    /*设置关于页*/
+    ui->pushButton_12->setPopupMode(QToolButton::InstantPopup);
+    m_menu = new QMenu(ui->pushButton_12);
+    m_menu->setProperty("fillIconSymbolicColor", true);
+    //菜单项的操作
+    //设置
+    m_menuAction = new QAction(m_menu);
+    //帮助
+    QAction *m_helpAction = new QAction(m_menu);
+    //关于
+    QAction *m_aboutAction = new QAction(m_menu);
+    //关闭
+    QAction *m_closeAction = new QAction(m_menu);
+    m_menuAction->setText(tr("Set Up"));
+    m_helpAction->setText(tr("Help"));
+    m_aboutAction->setText(tr("About"));
+    m_closeAction->setText(tr("Close"));
+    m_menu->addAction(m_menuAction);
+    m_menu->addAction(m_helpAction);
+    m_menu->addAction(m_aboutAction);
+    m_menu->addAction(m_closeAction);
+    ui->pushButton_12->setMenu(m_menu);
+    connect(m_helpAction, &QAction::triggered, this, [=](){
+        qDebug() << "help clicked";
+//        userGuideInterface->call(QString("showGuide"), "tools/ukui-clock");
+        userGuideInterface->call(QString("showGuide"), "ukui/ukui-clock");
+    });
+    connect(m_aboutAction, &QAction::triggered, this, [=](){
+        About *dialog = new About();
+        dialog->exec();
+    });
+    connect(m_menuAction, SIGNAL(triggered()), this, SLOT(setUpPage()));
+    connect(m_closeAction, SIGNAL(triggered()), this, SLOT(windowClosingClicked()));
+}
+/*
+ * @brief 检查小窗体是否初始化
+ */
+bool Clock::checkTinyCountdownDia()
+{
+    return tinycountdownDia!=nullptr?true:false;
 }
 /*
  * 动态监控闹钟与本地时间
@@ -2124,12 +2174,18 @@ void Clock::statCountdown(){
     f.setPixelSize(40);
     ui->label_9->setFont(f);
 
+    //小型倒计时 显示倒计时时间
+    if(this->m_selectTinyCountdown){
+        if(checkTinyCountdownDia()){
+            tinycountdownDia->updateTimeInfo(h+TIME_SEPARATOR+m+TIME_SEPARATOR+s);
+        }
+    }
+
 
 
 
     //时间归零
     if (countdown_hour==0 && countdown_minute==0 && (countdown_second)==0) {
-        qDebug()<<"dbq-结束";
         startbtnCountdown();
         countdown_timer->stop();
         //倒计时通知弹窗
@@ -2143,6 +2199,11 @@ void Clock::statCountdown(){
  */
 void Clock::countdownNoticeDialogShow()
 {
+    //关闭tiny倒计时
+    if(checkTinyCountdownDia()){
+        tinycountdownDia->set_dialog_close();
+    }
+
     model_setup->select();
     QScreen *screen=QGuiApplication::primaryScreen ();
     QRect mm=screen->availableGeometry() ;
@@ -2162,6 +2223,7 @@ void Clock::countdownNoticeDialogShow()
     countdownNoticeDialog->ui->label->setText(tr("Count down"));
     //时间到
     countdownNoticeDialog->ui->label_3->setText(tr("Time out"));
+
     if (model_setup->index(0, 3).data().toInt()) {
         countdownNoticeDialog->showFullScreen();
     } else {
@@ -2234,10 +2296,14 @@ void Clock::startbtnCountdown(){
         QBrush brush2;
         brush2.setColor(ColorPlaceholderText);
         //主题框架1.0.6-5kylin2
-//        palette.setColor(QPalette::Highlight,QColor(248,163,76,255));
+        palette.setColor(QPalette::Highlight,QColor(248,163,76,255));
         palette.setColor(QPalette::Button,QColor(248,163,76,255));
         palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
         ui->count_push->setPalette(palette);
+        //小窗体清零，隐藏
+        if(checkTinyCountdownDia()){
+            tinycountdownDia->clearData();
+        }
     }
     return;
 }
@@ -2359,17 +2425,16 @@ void Clock::getCountdownOverTime()
             x_m = x_m - 60;
             x_h ++;
         }
-       if (x_h >= 48) {
-            x_h = x_h - 48;
-            ui->label_11->setText(tr("after tomorrow")+formatX_h(x_h)+TIME_SEPARATOR+changeNumToStr(x_m));
-        } else if (x_h >= 24) {
-            x_h = x_h - 24;
-            ui->label_11->setText(tr("Tomorrow")+formatX_h(x_h)+TIME_SEPARATOR+changeNumToStr(x_m));
-       } else{
-           ui->label_11->setText(formatX_h(x_h)+TIME_SEPARATOR+changeNumToStr(x_m));
-       }
     }
-
+    if (x_h >= 48) {
+         x_h = x_h - 48;
+         ui->label_11->setText(tr("after tomorrow")+formatX_h(x_h)+TIME_SEPARATOR+changeNumToStr(x_m));
+     } else if (x_h >= 24) {
+         x_h = x_h - 24;
+         ui->label_11->setText(tr("Tomorrow")+formatX_h(x_h)+TIME_SEPARATOR+changeNumToStr(x_m));
+    } else{
+        ui->label_11->setText(formatX_h(x_h)+TIME_SEPARATOR+changeNumToStr(x_m));
+    }
 }
 //上下午格式
 QString Clock::get12hourStr(int x_h)
@@ -2403,6 +2468,23 @@ void Clock::createUserGuideDebusClient()
         qDebug() << qPrintable(QDBusConnection::sessionBus().lastError().message());
         return;
     }
+}
+
+void Clock::onTinyClicked()
+{
+    this->m_selectTinyCountdown=true;
+    //主窗体最小化
+    setWindowState(Qt::WindowMinimized);
+    moveUnderMultiScreen(UP_RIGHT,tinycountdownDia,0);
+//    showFullScreen();
+//    winId();
+    tinycountdownDia->showTop();
+
+}
+
+void Clock::activeWindow()
+{
+    setWindowState(Qt::WindowActive);
 }
 //刷新时间格式
 QString Clock::formatX_h(int x_h)
@@ -2472,7 +2554,7 @@ void Clock::onCountPushClicked()
         QBrush brush2;
         brush2.setColor(ColorPlaceholderText);
         //主题框架1.0.6-5kylin2
-//        palette.setColor(QPalette::Highlight,QColor(248,163,76,255));
+        palette.setColor(QPalette::Highlight,QColor(248,163,76,255));
         palette.setColor(QPalette::Button,QColor(248,163,76,255));
         palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
         ui->count_push->setPalette(palette);
@@ -2484,14 +2566,14 @@ void Clock::onCountPushClicked()
         getCountdownOverTime();
     } else {
         //点击了暂停
-        ui->count_push->setText(tr("Continue"));
+        ui->count_push->setText(tr("continue"));
 
         QPalette palette = ui->count_push->palette();
         QColor ColorPlaceholderText(61,107,229,255);
         QBrush brush2;
         brush2.setColor(ColorPlaceholderText);
         //主题框架1.0.6-5kylin2
-//        palette.setColor(QPalette::Highlight,QColor(69, 173, 110,255));
+        palette.setColor(QPalette::Highlight,QColor(69, 173, 110,255));
         palette.setColor(QPalette::Button,QColor(69, 173, 110,255));
         palette.setBrush(QPalette::ButtonText, QBrush(Qt::white));
         ui->count_push->setPalette(palette);
@@ -2555,20 +2637,20 @@ void Clock::countdownSetStartTime()
     m_in_s->move(257-27,157-20);
     timer_ring60_2->move(272-27, 80-20);
     sec_ring->move(273-27,75-10);
+    //配置倒计时页的开始按钮
+    start_count_single = new QPushButton(ui->page_4);
+    start_count_single->resize(72,34);
+    start_count_single->move(159,401);
+    start_count_single->setText(tr("start"));
+    connect(start_count_single, SIGNAL(clicked()), this, SLOT(startbtnCountdown()) );
 
-    count_stat = new QPushButton(ui->page_4);
-    count_stat->resize(72,34);
-    count_stat->move(159,401);
-    count_stat->setText(tr("start"));
-    connect(count_stat, SIGNAL(clicked()), this, SLOT(startbtnCountdown()) );
-
-    QPalette palette2 = count_stat->palette();
+    QPalette palette2 = start_count_single->palette();
     QColor ColorPlaceholderText2(233,233,233,255);
     QBrush brush2;
     brush2.setColor(ColorPlaceholderText2);
     palette2.setColor(QPalette::Button,QColor(233,233,233,255));
     //palette2.setBrush(QPalette::ButtonText, QBrush(Qt::white));
-    count_stat->setPalette(palette2);
+    start_count_single->setPalette(palette2);
 
     QTimer *timer_count_start;
     timer_count_start = new QTimer();
@@ -2584,36 +2666,36 @@ void Clock::countdownSetStartTime()
 void Clock::countStatBtnGray()
 {
     if(timer_ring99->m_currentValue==0 && timer_ring60->m_currentValue==0 && timer_ring60_2->m_currentValue==0) {
-        count_stat->setEnabled(false);
+        start_count_single->setEnabled(false);
         QStyleOption opt;
         opt.init(this);
         if(QColor(255,255,255) == opt.palette.color(QPalette::Base) || QColor(248,248,248) == opt.palette.color(QPalette::Base))
         {
-            QPalette palette2 = count_stat->palette();
+            QPalette palette2 = start_count_single->palette();
             QColor ColorPlaceholderText2(233,233,233,255);
             QBrush brush2;
             brush2.setColor(ColorPlaceholderText2);
             palette2.setColor(QPalette::Button,QColor(233,233,233,255));
             palette2.setBrush(QPalette::ButtonText, QBrush(QColor(158,158,158,255)));
-            count_stat->setPalette(palette2);
+            start_count_single->setPalette(palette2);
         }else{
-            QPalette palette2 = count_stat->palette();
+            QPalette palette2 = start_count_single->palette();
             QColor ColorPlaceholderText2(45,45,48,255);
             QBrush brush2;
             brush2.setColor(ColorPlaceholderText2);
             palette2.setColor(QPalette::Button,QColor(45,45,48,255));
             palette2.setBrush(QPalette::ButtonText, QBrush(QColor(58,58,58,255)));
-            count_stat->setPalette(palette2);
+            start_count_single->setPalette(palette2);
         }
     }else{
-        count_stat->setEnabled(true);
-        QPalette palette2 = count_stat->palette();
+        start_count_single->setEnabled(true);
+        QPalette palette2 = start_count_single->palette();
         QColor ColorPlaceholderText2(61,107,229,255);
         QBrush brush2;
         brush2.setColor(ColorPlaceholderText2);
         palette2.setColor(QPalette::Button,QColor(61,107,229,255));
         palette2.setBrush(QPalette::ButtonText, QBrush(Qt::white));
-        count_stat->setPalette(palette2);
+        start_count_single->setPalette(palette2);
     }
 }
 
@@ -3364,7 +3446,7 @@ void Clock::showPaint8()
  *
  * @return 返回说明
  */
-void Clock::moveUnderMultiScreen(Clock::ScreenPosition spostion,Natice_alarm * tempDialog,int hiddenFlag)
+void Clock::moveUnderMultiScreen(Clock::ScreenPosition spostion,QWidget * tempDialog,int hiddenFlag)
 {
     QScreen *screen=QGuiApplication::primaryScreen ();
     int screen_width = screen->geometry().width();
@@ -3390,6 +3472,24 @@ void Clock::moveUnderMultiScreen(Clock::ScreenPosition spostion,Natice_alarm * t
         tempDialog->move(moveWidth,moveHeight-tempDialog->height());
     }break;
     case SP_CENTER:
+    {
+        int moveWidth = x+round((screen_width-tempDialog->width())*1.0/2);
+        int moveHeight = y+round((screen_height-tempDialog->height())*1.0/2);
+        tempDialog->move(moveWidth,moveHeight);
+    }break;
+    case UP_LEFT:
+    {
+        int moveWidth = x+round(tempDialog->width()+round(1.0/20*screen_width));
+        int moveHeight = y+round(tempDialog->height()+round(1.0/14*screen_height));
+        tempDialog->move(moveWidth,moveHeight);
+    }break;
+    case UP_RIGHT:
+    {
+        int moveWidth = x+round(screen_width-tempDialog->width()-round(1.0/20*screen_width));
+        int moveHeight = y+round(1.0/20*screen_height);
+        tempDialog->move(moveWidth,moveHeight);
+    }break;
+    case UP_CENTER:
     {
         int moveWidth = x+round((screen_width-tempDialog->width())*1.0/2);
         int moveHeight = y+round((screen_height-tempDialog->height())*1.0/2);

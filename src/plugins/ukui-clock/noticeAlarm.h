@@ -28,6 +28,7 @@
 #include <QMediaPlaylist>
 #include <QStyleOption>
 #include <QSqlTableModel>
+#include <QSoundEffect>
 
 namespace Ui {
 class Natice_alarm;
@@ -53,7 +54,8 @@ public:
 
      QTimer *timer = nullptr;
      QTimer *timer_xumhuan = nullptr;
-     QMediaPlayer  *music;
+//     QMediaPlayer  *music;
+     QSoundEffect *music;
      int timer_value;
 
      void refreshMusic();
@@ -77,7 +79,7 @@ private:
     void natice_init();
 
     int num_flag;
-    QMediaPlaylist *playlist;
+//    QMediaPlaylist *playlist;
     int ring_num;
     int timer_value2;
     int full_flag=1;

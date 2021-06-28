@@ -24,6 +24,8 @@ close_or_hide::close_or_hide(QWidget *parent) :
     XAtomHelper::getInstance()->setWindowMotifHint(this->winId(), hints);
 
     ui->label->setText(tr("Please select the state after closing:"));
+    ui->label->setWordWrap(true);
+    ui->label->setAlignment(Qt::AlignTop);
     //调色板
     QPalette palette = ui->surebtn->palette();
     palette.setColor(QPalette::Button,QColor(61,107,229,255));
@@ -43,12 +45,12 @@ close_or_hide::close_or_hide(QWidget *parent) :
     ui->closebtn->setProperty("useIconHighlightEffect", 0x8);
     ui->closebtn->setFlat(true);
 //    主题框架1.0.6-5kylin2
-    /*
+
     //配置重要按钮
     ui->surebtn->setProperty("isImportant", true);
     //关闭按钮去掉聚焦状态
     ui->closebtn->setFocusPolicy(Qt::NoFocus);
-    */
+
 }
 
 close_or_hide::~close_or_hide()

@@ -29,7 +29,7 @@
     <string notr="true"/>
    </property>
    <property name="currentIndex">
-    <number>3</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="page">
     <widget class="QStackedWidget" name="stackedWidget_4">
@@ -167,9 +167,15 @@
         <rect>
          <x>210</x>
          <y>401</y>
-         <width>72</width>
+         <width>80</width>
          <height>34</height>
         </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>80</width>
+         <height>30</height>
+        </size>
        </property>
        <property name="styleSheet">
         <string notr="true"/>
@@ -202,17 +208,17 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QLabel" name="countdownAlarmIcon">
           <property name="minimumSize">
            <size>
-            <width>0</width>
-            <height>0</height>
+            <width>13</width>
+            <height>16</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>26</width>
-            <height>1111</height>
+            <height>26</height>
            </size>
           </property>
           <property name="text">
@@ -222,9 +228,14 @@
         </item>
         <item>
          <widget class="QLabel" name="label_11">
+          <property name="font">
+           <font>
+            <pointsize>-1</pointsize>
+           </font>
+          </property>
           <property name="styleSheet">
            <string notr="true">color: rgb(176, 176, 176);
-font-size:16px;
+font-size:18px;
 
 
 </string>
@@ -261,9 +272,15 @@ font-size:16px;
         <rect>
          <x>108</x>
          <y>401</y>
-         <width>72</width>
+         <width>80</width>
          <height>34</height>
         </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>80</width>
+         <height>30</height>
+        </size>
        </property>
        <property name="styleSheet">
         <string notr="true"/>
@@ -271,6 +288,60 @@ font-size:16px;
        <property name="text">
         <string>start</string>
        </property>
+      </widget>
+      <widget class="QWidget" name="horizontalLayoutWidget_2">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>190</y>
+         <width>391</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="tiny_count">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="text">
+           <string>tiny window</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </widget>
      </widget>
     </widget>

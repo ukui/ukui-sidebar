@@ -40,6 +40,7 @@ Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
     timer_value(close_time),
     ui(new Ui::Natice_alarm)
 {
+    QTime start = QTime::currentTime();
     //setWindowFlags(Qt::FramelessWindowHint);
     //setAttribute(Qt::WA_TranslucentBackground);
     ui->setupUi(this);
@@ -128,10 +129,13 @@ Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
     ui->pushButton_2->setFont(font);
     ui->pushButton_3->setFont(font);
     //    主题框架1.0.6-5kylin2
-    /*
+
     //配置重要按钮 关闭
     ui->pushButton_3->setProperty("isImportant", true);
-    */
+
+    QTime end = QTime::currentTime();
+    qDebug()<<"dbq-启动"<<num<<"窗体耗时"<<start.msecsTo(end);
+
 }
 
 Natice_alarm::~Natice_alarm()
@@ -166,41 +170,37 @@ void Natice_alarm::natice_init()
     {
         showFullScreen();
     }
-    music = new QMediaPlayer(this,QMediaPlayer::LowLatency);//初始化音乐
-                                   // Initialize music
-    playlist = new QMediaPlaylist(this);//初始化播放列表
-                                        // Initialize playlist
+    music = new QSoundEffect;//初始化音乐
     if(num_flag >= 0)
     {
         //更新闹钟名称
         ui->label_3->setText(model->index(num_flag, 14).data().toString());
         //闹钟的铃声配置
         if(model->index(num_flag, 2).data().toString().compare(tr("glass"))==0){
-            playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/glass.ogg"));
+            music->setSource(QUrl::fromLocalFile("/usr/share/ukui-clock/glass.wav"));
         } else if (model->index(num_flag, 2).data().toString().compare(tr("bark"))==0) {
-            playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/bark.ogg"));
+            music->setSource(QUrl::fromLocalFile("/usr/share/ukui-clock/bark.wav"));
         } else if (model->index(num_flag, 2).data().toString().compare(tr("sonar"))==0) {
-            playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/sonar.ogg"));
+            music->setSource(QUrl::fromLocalFile("/usr/share/ukui-clock/sonar.wav"));
         } else if (model->index(num_flag, 2).data().toString().compare(tr("drip"))==0) {
-            playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/drip.ogg"));
+            music->setSource(QUrl::fromLocalFile("/usr/share/ukui-clock/drip.wav"));
         }
     } else {
         //倒计时的铃声配置
         if (model_setup->index(0, 19).data().toString().compare(tr("glass"))==0) {
-            playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/glass.ogg"));
+            music->setSource(QUrl::fromLocalFile("/usr/share/ukui-clock/glass.wav"));
         } else if(model_setup->index(0, 19).data().toString().compare(tr("bark"))==0) {
-            playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/bark.ogg"));
+            music->setSource(QUrl::fromLocalFile("/usr/share/ukui-clock/bark.wav"));
         } else if(model_setup->index(0, 19).data().toString().compare(tr("sonar"))==0) {
-            playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/sonar.ogg"));
+            music->setSource(QUrl::fromLocalFile("/usr/share/ukui-clock/sonar.wav"));
         } else {
-            playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/drip.ogg"));
+            music->setSource(QUrl::fromLocalFile("/usr/share/ukui-clock/drip.wav"));
         }
     }
 
-    playlist->setPlaybackMode(QMediaPlaylist::Loop);//设置播放模式(顺序播放，单曲循环，随机播放等)
+    music->setLoopCount(QSoundEffect::Infinite);//设置播放模式(顺序播放，单曲循环，随机播放等)
                                                     // Set playback mode (sequential playback, single loop, random playback, etc.)
-    music->setPlaylist(playlist);  //设置播放列表
-                                   // Set up playlist
+
     music->setVolume(  model_setup->index(0, 6).data().toInt() );
     music->play();
 }
@@ -212,34 +212,32 @@ void Natice_alarm::refreshMusic()
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
     model->select();
     model_setup->select();
-    playlist->clear();
     if(num_flag >= 0)
 
         {
             if(model->index(num_flag, 2).data().toString().compare(tr("glass"))==0){
-                playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/glass.ogg"));
+                music->setSource(QUrl::fromLocalFile("/usr/share/ukui-clock/glass.wav"));
             } else if (model->index(num_flag, 2).data().toString().compare(tr("bark"))==0) {
-                playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/bark.ogg"));
+                music->setSource(QUrl::fromLocalFile("/usr/share/ukui-clock/bark.wav"));
             } else if (model->index(num_flag, 2).data().toString().compare(tr("sonar"))==0) {
-                playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/sonar.ogg"));
+                music->setSource(QUrl::fromLocalFile("/usr/share/ukui-clock/sonar.wav"));
             } else if (model->index(num_flag, 2).data().toString().compare(tr("drip"))==0) {
-                playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/drip.ogg"));
+                music->setSource(QUrl::fromLocalFile("/usr/share/ukui-clock/drip.wav"));
             }
         } else {
             if (model_setup->index(0, 19).data().toString().compare(tr("glass"))==0) {
-                playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/glass.ogg"));
+                music->setSource(QUrl::fromLocalFile("/usr/share/ukui-clock/glass.wav"));
             } else if(model_setup->index(0, 19).data().toString().compare(tr("bark"))==0) {
-                playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/bark.ogg"));
+                music->setSource(QUrl::fromLocalFile("/usr/share/ukui-clock/bark.wav"));
             } else if(model_setup->index(0, 19).data().toString().compare(tr("sonar"))==0) {
-                playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/sonar.ogg"));
+                music->setSource(QUrl::fromLocalFile("/usr/share/ukui-clock/sonar.wav"));
             } else {
-                playlist->addMedia(QUrl::fromLocalFile("/usr/share/ukui-clock/drip.ogg"));
+                music->setSource(QUrl::fromLocalFile("/usr/share/ukui-clock/drip.wav"));
             }
         }
 
-        playlist->setPlaybackMode(QMediaPlaylist::Loop);//设置播放模式(顺序播放，单曲循环，随机播放等)
+        music->setLoopCount(QSoundEffect::Infinite);//设置播放模式(顺序播放，单曲循环，随机播放等)
                                                         // Set playback mode (sequential playback, single loop, random playback, etc.)
-        music->setPlaylist(playlist);  //设置播放列表
                                        // Set up playlist
         music->setVolume(  model_setup->index(0, 6).data().toInt() );
         music->play();

@@ -184,12 +184,13 @@ void set_alarm_repeat_Dialog::paintEvent(QPaintEvent *event)
 
 }
 
+
 //黑色主题
 void  set_alarm_repeat_Dialog::blackStyle()
 {
     listWidget->setStyleSheet("QListWidget{background-color: rgba(0, 0, 0, 0);}\
-                                  QListWidget::item::selected{background-color:rgba(0, 0, 0,0.2);border-radius:4px;border:1px solid rgba(131, 131, 131,0);}\
-                                  QListWidget::item:hover{background-color:rgba(0, 0, 0,0.2);border-radius:4px;}\
+                                  QListWidget::item::selected{background-color:rgba("+hoverColor+");border-radius:4px;border:1px solid rgba(131, 131, 131,0);}\
+                                  QListWidget::item:hover{background-color:rgba("+hoverColor+");border-radius:4px;}\
                                   ");
 
 }
@@ -197,8 +198,8 @@ void  set_alarm_repeat_Dialog::blackStyle()
 void  set_alarm_repeat_Dialog::whiteStyle()
 {
     listWidget->setStyleSheet("QListWidget{background-color: rgba(0, 0, 0, 0);}\
-                                  QListWidget::item::selected{background-color:rgba(255, 255, 255,0.7);border-radius:4px;border:1px solid rgba(131, 131, 131,0);}\
-                                  QListWidget::item:hover{background-color:rgba(255, 255, 255,1);border-radius:4px;}\
+                                  QListWidget::item::selected{background-color:rgba("+hoverColor+");border-radius:4px;border:1px solid rgba(131, 131, 131,0);}\
+                                  QListWidget::item:hover{background-color:rgba("+hoverColor+");border-radius:4px;}\
                                   ");
 
 }
@@ -207,19 +208,21 @@ set_alarm_repeat_widget::set_alarm_repeat_widget(QWidget *parent):
     QWidget(parent)
 {
     this->setFixedSize(340, 38);
-
+    //选项
     alarmLabel0 = new QLabel(this);
     alarmLabel0->move(16, 0);
     alarmLabel0->setFixedSize(160, 38);
     alarmLabel0->setStyleSheet("background-color: rgb();");
     alarmLabel0->setText("选项");
 
+    //对号
     alarmLabel1 = new ClickableLabel(this);
     alarmLabel1->move(296, 0);
     alarmLabel1->setFixedSize(34, 38);
     alarmLabel1->setText("");
     alarmLabel1->setProperty("useIconHighlightEffect", true);
     alarmLabel1->setProperty("iconHighlightEffectMode", 1);
+
 }
 
 set_alarm_repeat_widget::~set_alarm_repeat_widget()
