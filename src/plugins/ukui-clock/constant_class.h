@@ -15,7 +15,7 @@
 #define TIME_SEPARATOR             ":"
 #define APPLICATION_NAME "ukui-clock"
 #define CLOCK_TITLE_NAME "Alarm"
-#define KYLIN_CLOCK_APP_NAME "Kylin Alarm"
+#define KYLIN_CLOCK_APP_NAME "Alarm"
 
 const static  QString chooseColor = "61,107,229,255";
 const static  QString hoverColor = "55,144,250,255";

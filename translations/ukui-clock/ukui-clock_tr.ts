@@ -10,13 +10,13 @@
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/about.ui" line="87"/>
+        <location filename="../../src/plugins/ukui-clock/about.ui" line="162"/>
         <source>Alarm</source>
         <translation>Saat</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/about.ui" line="162"/>
         <source>Kylin Alarm</source>
-        <translation>kylin saat</translation>
+        <translation type="vanished">kylin saat</translation>
     </message>
     <message>
         <source>Clock</source>
