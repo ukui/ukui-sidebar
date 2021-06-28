@@ -159,7 +159,7 @@
      <item>
       <widget class="QLabel" name="appnameLabel">
        <property name="text">
-        <string>Kylin Alarm</string>
+        <string>Alarm</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>

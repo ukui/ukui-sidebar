@@ -10,13 +10,13 @@
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/about.ui" line="87"/>
+        <location filename="../../src/plugins/ukui-clock/about.ui" line="162"/>
         <source>Alarm</source>
         <translation>闹钟</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-clock/about.ui" line="162"/>
         <source>Kylin Alarm</source>
-        <translation>麒麟 闹钟</translation>
+        <translation type="vanished">麒麟 闹钟</translation>
     </message>
     <message>
         <source>Clock</source>
