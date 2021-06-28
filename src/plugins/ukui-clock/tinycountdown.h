@@ -10,6 +10,7 @@
 #include <QTimer>
 #include <QStyleOption>
 #include <QGSettings>
+#include <QPainterPath>
 #include "xatom-helper.h"
 namespace Ui {
 class tinyCountdown;
