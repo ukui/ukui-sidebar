@@ -81,22 +81,23 @@ Clock::Clock(QWidget *parent) :
     pushclock = new QPushButton(ui->page_7);
     pushclock->setFixedSize(40,40);
     pushclock->move(109,15);
-    pushclock->setIcon(QIcon(":/image/alarm.png"));
-    pushclock->setIconSize(QSize(20, 20));
+    navigationBtnStyle(pushclock,":/image/alarm.png");
     pushclock->setToolTip(tr(CLOCK_TITLE_NAME));
+
+
+
+
 
     pushcount = new QPushButton(ui->page_7);
     pushcount->setFixedSize(40,40);
     pushcount->move(175,15);
-    pushcount->setIcon(QIcon(":/image/count.png"));
-    pushcount->setIconSize(QSize(20, 20));
+    navigationBtnStyle(pushcount,":/image/count.png");
     pushcount->setToolTip(tr("Count"));
 
     pushstop = new QPushButton(ui->page_7);
     pushstop->setFixedSize(40,40);
     pushstop->move(241,15);
-    pushstop->setIcon(QIcon(":/image/stopwatch.png"));
-    pushstop->setIconSize(QSize(20, 20));
+    navigationBtnStyle(pushstop,":/image/stopwatch.png");
     pushstop->setToolTip(tr("Watch"));
 
     pushcount->setProperty("useIconHighlightEffect", true);
@@ -1185,6 +1186,15 @@ void Clock::menuBtnStyle()
 bool Clock::checkTinyCountdownDia()
 {
     return tinycountdownDia!=nullptr?true:false;
+}
+
+void Clock::navigationBtnStyle(QPushButton * btn,QString imgUrl)
+{
+    btn->setIcon(QIcon(imgUrl));
+    btn->setIconSize(QSize(18, 18));
+    QPainter p(btn);
+    //表示引擎应尽可能对图元的边缘进行抗锯齿。
+    p.setRenderHint(QPainter::Antialiasing);
 }
 /*
  * 动态监控闹钟与本地时间
