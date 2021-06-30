@@ -458,6 +458,7 @@ private:
     void closeBtnStyle();
     void menuBtnStyle();
     bool checkTinyCountdownDia();
+    void navigationBtnStyle(QPushButton * btn,QString imgUrl);
 };
 
 #endif // CLOCK_H
