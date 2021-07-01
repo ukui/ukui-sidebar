@@ -48,6 +48,7 @@ close_or_hide::close_or_hide(QWidget *parent) :
 
     //配置重要按钮
     ui->surebtn->setProperty("isImportant", true);
+    ui->cancelbtn->setProperty("useButtonPalette", true);
     //关闭按钮去掉聚焦状态
     ui->closebtn->setFocusPolicy(Qt::NoFocus);
 

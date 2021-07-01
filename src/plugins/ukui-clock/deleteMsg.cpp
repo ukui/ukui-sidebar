@@ -64,6 +64,7 @@ delete_msg::delete_msg(QWidget *parent) :
     ui->surebtn->setProperty("isImportant", true);
     //关闭按钮去掉聚焦状态
     ui->closebtn->setFocusPolicy(Qt::NoFocus);
+    ui->cancelbtn->setProperty("useButtonPalette", true);
 
 
 }

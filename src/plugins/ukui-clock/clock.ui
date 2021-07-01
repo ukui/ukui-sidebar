@@ -29,7 +29,7 @@
     <string notr="true"/>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="page">
     <widget class="QStackedWidget" name="stackedWidget_4">
