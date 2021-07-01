@@ -132,6 +132,8 @@ Natice_alarm::Natice_alarm(int close_time, int num, QWidget *parent ) :
 
     //配置重要按钮 关闭
     ui->pushButton_3->setProperty("isImportant", true);
+    ui->pushButton_2->setProperty("useButtonPalette", true);
+    ui->pushButton->setFocusPolicy(Qt::NoFocus);
 
     QTime end = QTime::currentTime();
     qDebug()<<"dbq-启动"<<num<<"窗体耗时"<<start.msecsTo(end);

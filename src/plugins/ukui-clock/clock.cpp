@@ -202,6 +202,8 @@ Clock::Clock(QWidget *parent) :
     ui->pushButton_Start->setProperty("isImportant", true);
 //    倒计时 暂停继续
     ui->count_push->setProperty("isImportant", true);
+    //倒计时 开始结束
+    ui->count_stat->setProperty("useButtonPalette", true);
     //闹钟编辑 取消
     ui->set_alarm_cancelbtn->setProperty("useButtonPalette", true);
     //秒表 复位
@@ -210,6 +212,7 @@ Clock::Clock(QWidget *parent) :
     ui->pushButton_ring->setProperty("useButtonPalette", true);
     //倒计时上的小闹钟
 //    ui->countdownAlarmIcon->setProperty("useButtonPalette", true);
+
 
 
 
@@ -2232,7 +2235,7 @@ void Clock::countdownNoticeDialogShow()
     //左上图标
     countdownNoticeDialog->ui->label->setText(tr("Count down"));
     //时间到
-    countdownNoticeDialog->ui->label_3->setText(tr("Time out"));
+    countdownNoticeDialog->ui->label_3->setText(tr("Time out")+"！");
 
     if (model_setup->index(0, 3).data().toInt()) {
         countdownNoticeDialog->showFullScreen();
