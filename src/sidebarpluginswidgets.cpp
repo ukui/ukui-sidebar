@@ -16,6 +16,8 @@
 *
 */
 #include "sidebarpluginswidgets.h"
+#include <qt5xdg/XdgDesktopFile>
+#include <qt5xdg/XdgIcon>
 
 extern double tranSparency;
 
@@ -387,9 +389,21 @@ void sidebarPluginsWidgets::parsingDesktopFile()
     QSpacerItem *item1 = new QSpacerItem(10, 20);
     for (int i = 0; i < tmp; i++) {
         QString desktopfp = "/usr/share/applications/" + m_desktopfpList.at(i);
-        QString icon = getAppIcon(desktopfp);
-        QString name = getAppName(desktopfp);
-        QString Exec = getAppExec(desktopfp);
+//        QString icon = getAppIcon(desktopfp);
+//        QString name = getAppName(desktopfp);
+//        QString Exec = getAppExec(desktopfp);
+
+        //使用xdg解析desktop文件
+        if(!QFile::exists(desktopfp)){
+            return;
+        }
+        XdgDesktopFile xdg;
+        xdg.load(desktopfp);
+        QString name = xdg.localizedValue("Name").toString();
+        QString icon = xdg.localizedValue("Icon").toString();
+        QString Exec = xdg.localizedValue("Exec").toString();
+
+
         m_ToolButton *p_button = StructToolButtol(icon, name);
         connect(p_button, &QToolButton::clicked, this, [=]() {
             QProcess p(0);
