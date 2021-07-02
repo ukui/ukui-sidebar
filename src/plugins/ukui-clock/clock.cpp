@@ -3466,18 +3466,20 @@ void Clock::moveUnderMultiScreen(Clock::ScreenPosition spostion,QWidget * tempDi
     int screen_height = screen->geometry().height();
     int x = primaryManager->getNScreen_x();
     int y = primaryManager->getNScreen_y();
+    int heightRadio = 20;
+    int widthRadio = 14;
 
     switch (spostion) {
     case SP_LEFT:
     {
-        int moveWidth = x+round(tempDialog->width()+round(1.0/20*screen_width));
-        int moveHeight = y+round(screen_height-tempDialog->height()-round(1.0/14*screen_height));
+        int moveWidth = x+round(tempDialog->width()+round(1.0/heightRadio*screen_width));
+        int moveHeight = y+round(screen_height-tempDialog->height()-round(1.0/widthRadio*screen_height));
         tempDialog->move(moveWidth,moveHeight);
     }break;
     case SP_RIGHT:
     {
-        int moveWidth = x+round(screen_width-tempDialog->width()-round(1.0/20*screen_width));
-        int moveHeight = y+round(screen_height-tempDialog->height()-round(1.0/14*screen_height));
+        int moveWidth = x+round(screen_width-tempDialog->width());
+        int moveHeight = y+round(screen_height-tempDialog->height()-50);
         tempDialog->move(moveWidth,moveHeight);
         if (hiddenFlag == 1)
         tempDialog->move(moveWidth,moveHeight);
@@ -3492,13 +3494,13 @@ void Clock::moveUnderMultiScreen(Clock::ScreenPosition spostion,QWidget * tempDi
     }break;
     case UP_LEFT:
     {
-        int moveWidth = x+round(tempDialog->width()+round(1.0/20*screen_width));
-        int moveHeight = y+round(tempDialog->height()+round(1.0/14*screen_height));
+        int moveWidth = x+round(tempDialog->width()+round(1.0/heightRadio*screen_width));
+        int moveHeight = y+round(tempDialog->height()+round(1.0/widthRadio*screen_height));
         tempDialog->move(moveWidth,moveHeight);
     }break;
     case UP_RIGHT:
     {
-        int moveWidth = x+round(screen_width-tempDialog->width()-round(1.0/20*screen_width));
+        int moveWidth = x+round(screen_width-tempDialog->width()-round(1.0/heightRadio*screen_width));
         int moveHeight = y+round(1.0/20*screen_height);
         tempDialog->move(moveWidth,moveHeight);
     }break;
