@@ -939,7 +939,6 @@ void Widget::createNewNote()
     m_notebook->ui->textEdit->moveCursor(QTextCursor::End, QTextCursor::MoveAnchor);
     if(m_isTextCpNew)
     {
-        //qDebug() << "ZDEBUG " << " m_isTextCpNew = true";
         QClipboard *clipboard = QApplication::clipboard();   //获取系统剪贴板指针
         QString originalText  = clipboard->text();       //获取剪贴板上文本信息
         m_notebook->ui->textEdit->setText(originalText);
