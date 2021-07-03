@@ -272,13 +272,78 @@ void Edit_page::slotsSetup()
             &Edit_page::currentCharFormatChangedSlot);
 
     connect(ui->fontSizeBtn, &QPushButton::clicked, this, [=](){
+
         QPointF position = this->pos();
         set_size_page->move(position.x()+227, position.y()+273);
+
+        QDesktopWidget* desktopWidget = QApplication::desktop();
+        QRect clientRect = desktopWidget->availableGeometry();                   //获取整个屏幕（不包含任务栏）的rect数据
+
+        int listHeight = 194;               //listwidget 原始高度
+        int heightListCrossPeny = listHeight + set_size_page->pos().y() - clientRect.height();   //listwidget 超出任务栏显示的高度， 不超出时， 该数字为负数
+
+        if(heightListCrossPeny > 0)         //listwidget 超出任务栏显示
+        {
+            int fontButtonHeight = 27;      //每个fontbutton高度,当前为27
+            int keepNum = listHeight - heightListCrossPeny;                      //listwidget 未超出任务栏显示的高度
+            int realNum = keepNum - (keepNum % fontButtonHeight);                //最后，实际显示的高度，应该是每个fontbutton高度（27）的整数倍，小于27时，为0
+
+            //listWidget 向下显示，高度不够，此时，显示到set_size_page的上面
+            if(realNum == 0){
+               set_size_page->move(position.x()+227, position.y()+53);
+               set_size_page->resize(30,194);
+               set_size_page->ui->listWidget->resize(30,194);
+               //set_size_page->ui->listWidget->sortItems(Qt::DescendingOrder);                 //倒序，但是数据会混乱，暂缓
+            }
+            else{
+               set_size_page->resize(30, realNum);
+               set_size_page->ui->listWidget->resize(30, realNum);
+            }
+        }
+        else
+        {
+            set_size_page->move(position.x()+227, position.y()+273);
+            set_size_page->resize(30,194);
+            set_size_page->ui->listWidget->resize(30,194);
+        }
+
         set_size_page->show();
     });
     connect(ui->fontColorBtn, &QPushButton::clicked, this, [=](){
+
         QPointF position = this->pos();
         set_color_fort_page->move(position.x()+260, position.y()+273);
+
+        QDesktopWidget* desktopWidget = QApplication::desktop();
+        QRect clientRect = desktopWidget->availableGeometry();                   //获取整个屏幕（不包含任务栏）的rect数据
+
+        int listHeight = 194;               //listwidget 原始高度
+        int heightListCrossPeny = listHeight + set_color_fort_page->pos().y() - clientRect.height();   //listwidget 超出任务栏显示的高度， 不超出时， 该数字为负数
+
+        if(heightListCrossPeny > 0)         //listwidget 超出任务栏显示
+        {
+            int fontButtonHeight = 27;      //每个fontbutton高度,当前为27
+            int keepNum = listHeight - heightListCrossPeny;                      //listwidget 未超出任务栏显示的高度
+            int realNum = keepNum - (keepNum % fontButtonHeight);                //最后，实际显示的高度，应该是每个fontbutton高度（27）的整数倍，小于27时，为0
+
+            //listWidget 向下显示，高度不够，此时，显示到set_color_fort_page的上面
+            if(realNum == 0){
+               set_color_fort_page->move(position.x()+260, position.y()+53);
+               set_color_fort_page->resize(30,194);
+               set_color_fort_page->ui->listWidget->resize(30,194);
+            }
+            else{
+               set_color_fort_page->resize(30, realNum);
+               set_color_fort_page->ui->listWidget->resize(30, realNum);
+            }
+        }
+        else
+        {
+            set_color_fort_page->move(position.x()+260, position.y()+273);
+            set_color_fort_page->resize(30,194);
+            set_color_fort_page->ui->listWidget->resize(30,194);
+        }
+
         set_color_fort_page->show();
     });
 
@@ -533,7 +598,6 @@ void Edit_page::textRightMenu(QPoint)
 //拷贝选中内容到新便签页
 void Edit_page::textForNewEditpageSlot()
 {
-    //qDebug() << "ZDEBUG " << "selectedText  === "<< ui->textEdit->textCursor().selectedText();
     if(!ui->textEdit->textCursor().selectedText().isEmpty())
     {
         ui->textEdit->copy();
