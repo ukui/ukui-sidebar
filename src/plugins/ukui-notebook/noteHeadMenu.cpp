@@ -93,12 +93,14 @@ void noteHeadMenu::btnInit()
     QAction *m_menuAction = new QAction(m_menu);
 
     m_menuActionDel = new QAction(m_menu);
+    m_topAction = new QAction(m_menu);
     QAction *m_jpgAction = new QAction(m_childMenu);
     QAction *m_pdfAction = new QAction(m_childMenu);
     QAction *m_mailAction = new QAction(m_childMenu);
 
     m_menu->setProperty("fillIconSymbolicColor", true);
     m_menuAction->setText(tr("Open note list"));
+    m_topAction->setText(tr("Always in the front"));
     m_menuActionDel->setText(tr("Delete this note"));
     m_childMenu->setTitle(tr("Share"));
 
@@ -111,12 +113,16 @@ void noteHeadMenu::btnInit()
     m_childMenu->addAction(m_mailAction);
 
     //m_menu->addMenu(m_childMenu);
+    m_menu->addAction(m_topAction);
     m_menu->addAction(m_menuActionDel);
     m_menu->addAction(m_menuAction);
     ui->pushButtonMenu->setMenu(m_menu);
 
     connect(m_menuAction, &QAction::triggered, this, [=](){
         requestShowNote();
+    });
+    connect(m_topAction, &QAction::triggered, this, [=](){
+        requestTopMost();
     });
     //隐藏menu下箭头
     //ui->pushButtonMenu->setStyleSheet("QPushButton::menu-indicator{image:none}");
