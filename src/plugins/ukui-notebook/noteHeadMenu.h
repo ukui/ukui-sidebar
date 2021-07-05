@@ -41,6 +41,10 @@ public:
 public:
     QColor color_widget;
     QAction *m_menuActionDel;
+    QAction *m_topAction;
+
+signals:
+    void requestTopMost();
 
 protected:
     void paintEvent(QPaintEvent *event);
