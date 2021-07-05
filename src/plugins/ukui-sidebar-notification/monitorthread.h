@@ -44,9 +44,11 @@ private:
     NotificationPlugin*     m_parent;           //传一个插件对象指针，用来回传槽函数
     QProcess*               m_pProcess;
     QGSettings*             m_pSettings;
+    QGSettings* m_pControlCenterGseting;
     QMap<QString, int>      m_nAppMaxNum;
     QMap<QString, bool>     m_mapAppSwitch;
     bool                    m_bEnabled;         //控制面板通知中心总开关
+    bool getControlCentorAppNotify(QString appName);
 
 signals:
     void Sig_Notify(QString, QString, QString, QString, QDateTime, int, bool);
