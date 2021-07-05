@@ -65,11 +65,16 @@ public:
     int m_noteId;
 
     bool m_isFullscreen;
+    //bool m_ignoreShowHideEvents;
+    bool m_isTopHit;
 
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
     void enterEvent(QEvent *event) Q_DECL_OVERRIDE;
     void leaveEvent(QEvent *event) Q_DECL_OVERRIDE;
     //bool eventFilter(QObject *obj, QEvent *event);
+
+    Qt::WindowFlags m_flags;
+    void setStayOnTopSlot(bool b);
 
 private:
     void initSetup();                                                // 初始配置

@@ -22,6 +22,7 @@
 #include <QTextList>
 //#include <QClipboard>
 #include <QDebug>
+#include <QtX11Extras/QX11Info>
 
 #include "widget.h"
 #include "ui_widget.h"
@@ -43,7 +44,8 @@ Edit_page::Edit_page(Widget *page, int noteId, QWidget *parent) :
     color_page(new SelectColor(pNotebook, this)),
     set_size_page(new SetFontSize(pNotebook)),
     set_color_fort_page(new SetFontColor(pNotebook)),
-    m_isFullscreen(false)
+    m_isFullscreen(false),
+    m_isTopHit(false)
 {
     ui->setupUi(this);
     initSetup();
@@ -277,16 +279,16 @@ void Edit_page::slotsSetup()
         set_size_page->move(position.x()+227, position.y()+273);
 
         QDesktopWidget* desktopWidget = QApplication::desktop();
-        QRect clientRect = desktopWidget->availableGeometry();                   //获取整个屏幕（不包含任务栏）的rect数据
+        QRect clientRect = desktopWidget->availableGeometry();                                   //获取整个屏幕（不包含任务栏）的rect数据
 
-        int listHeight = 194;               //listwidget 原始高度
+        int listHeight = 194;                                                                    //listwidget 原始高度
         int heightListCrossPeny = listHeight + set_size_page->pos().y() - clientRect.height();   //listwidget 超出任务栏显示的高度， 不超出时， 该数字为负数
 
-        if(heightListCrossPeny > 0)         //listwidget 超出任务栏显示
+        if(heightListCrossPeny > 0)                                                              //listwidget 超出任务栏显示
         {
-            int fontButtonHeight = 27;      //每个fontbutton高度,当前为27
-            int keepNum = listHeight - heightListCrossPeny;                      //listwidget 未超出任务栏显示的高度
-            int realNum = keepNum - (keepNum % fontButtonHeight);                //最后，实际显示的高度，应该是每个fontbutton高度（27）的整数倍，小于27时，为0
+            int fontButtonHeight = 27;                                                           //每个fontbutton高度,当前为27
+            int keepNum = listHeight - heightListCrossPeny;                                      //listwidget 未超出任务栏显示的高度
+            int realNum = keepNum - (keepNum % fontButtonHeight);                                //最后，实际显示的高度，应该是每个fontbutton高度（27）的整数倍，小于27时，为0
 
             //listWidget 向下显示，高度不够，此时，显示到set_size_page的上面
             if(realNum == 0){
@@ -317,12 +319,12 @@ void Edit_page::slotsSetup()
         QDesktopWidget* desktopWidget = QApplication::desktop();
         QRect clientRect = desktopWidget->availableGeometry();                   //获取整个屏幕（不包含任务栏）的rect数据
 
-        int listHeight = 194;               //listwidget 原始高度
+        int listHeight = 194;                                                    //listwidget 原始高度
         int heightListCrossPeny = listHeight + set_color_fort_page->pos().y() - clientRect.height();   //listwidget 超出任务栏显示的高度， 不超出时， 该数字为负数
 
-        if(heightListCrossPeny > 0)         //listwidget 超出任务栏显示
+        if(heightListCrossPeny > 0)                                              //listwidget 超出任务栏显示
         {
-            int fontButtonHeight = 27;      //每个fontbutton高度,当前为27
+            int fontButtonHeight = 27;                                           //每个fontbutton高度,当前为27
             int keepNum = listHeight - heightListCrossPeny;                      //listwidget 未超出任务栏显示的高度
             int realNum = keepNum - (keepNum % fontButtonHeight);                //最后，实际显示的高度，应该是每个fontbutton高度（27）的整数倍，小于27时，为0
 
@@ -331,6 +333,7 @@ void Edit_page::slotsSetup()
                set_color_fort_page->move(position.x()+260, position.y()+53);
                set_color_fort_page->resize(30,194);
                set_color_fort_page->ui->listWidget->resize(30,194);
+               //set_color_fort_page->ui->listWidget->sortItems(Qt::DescendingOrder);  //倒序，但是数据会混乱，暂缓
             }
             else{
                set_color_fort_page->resize(30, realNum);
@@ -347,9 +350,18 @@ void Edit_page::slotsSetup()
         set_color_fort_page->show();
     });
 
-    // connect(m_noteHeadMenu, &noteHeadMenu::requestFullscreen, this, [=](){
-    // showFullScreenSlot();
-    // });
+     connect(m_noteHeadMenu, &noteHeadMenu::requestTopMost, this, [=](){
+         if(m_isTopHit) {
+             m_isTopHit = false;
+             setStayOnTopSlot(m_isTopHit);
+             m_noteHeadMenu->m_topAction->setIcon(QPixmap(""));
+         }
+         else {
+             m_isTopHit = true;
+             setStayOnTopSlot(m_isTopHit);
+             m_noteHeadMenu->m_topAction->setIcon(QPixmap(":/image/1x/select.png"));
+         }
+     });
 }
 
 void Edit_page::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
@@ -909,3 +921,40 @@ void Edit_page::showFullScreenSlot()
         m_isFullscreen = false;
     }
 }
+
+void Edit_page::setStayOnTopSlot(bool b)
+{
+    //m_ignoreShowHideEvents = true;
+
+    bool visible = isVisible();
+    QPoint old_pos = pos();
+
+    Display *display = QX11Info::display();
+    XEvent event;
+    event.xclient.type = ClientMessage;
+    event.xclient.serial = 0;
+    event.xclient.send_event = True;
+    event.xclient.display = display;
+    event.xclient.window = winId();
+    event.xclient.message_type = XInternAtom(display, "_NET_WM_STATE", False);
+    event.xclient.format = 32;
+
+    event.xclient.data.l[0] = b;
+    event.xclient.data.l[1] = XInternAtom(display, "_NET_WM_STATE_ABOVE", False);
+    event.xclient.data.l[2] = 0;
+    event.xclient.data.l[3] = 0;
+    event.xclient.data.l[4] = 0;
+
+    XSendEvent(display, DefaultRootWindow(display), False,
+               SubstructureRedirectMask|SubstructureNotifyMask, &event);
+
+    move(old_pos);
+
+    if (visible) {
+        show();
+    }
+
+    //m_ignoreShowHideEvents = false;
+}
+
+
