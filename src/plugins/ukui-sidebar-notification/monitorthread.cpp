@@ -36,11 +36,12 @@ extern "C" {
 
 #define SWITCH_KEY "messages"
 #define MAXIMINE_KEY "maximize"
-#define NAME_KEY "name"
+#define NAME_KEY "nameCn"
 
 MonitorThread::MonitorThread(NotificationPlugin *parent)
 {
     m_parent = parent;
+//    getSettingsValue();
 
     this->moveToThread(this);
 }
@@ -62,14 +63,21 @@ void MonitorThread::extractData(QString strOutput)
     }
     QString strAppName = strOutputTmp.mid(0, nIndex);
     strOutputTmp = strOutputTmp.mid(nIndex + 1);
-    //检查电源信息是否被禁用
-    if ("电源管理" == strAppName) {
-        if (!powerstatus) {
-            qDebug()<<"电源通知已禁用";
-            return;
-        }
-        qDebug()<<"电源通知未禁用";
+//    //检查电源信息是否被禁用
+//    qDebug()<<"*************"<<strAppName;
+//    if ("电源管理器" == strAppName) {
+//        if (!powerstatus) {
+//            qDebug()<<"电源通知已禁用";
+//            return;
+//        }
+//        qDebug()<<"电源通知未禁用";
+//    }
+
+    if(!getControlCentorAppNotify(strAppName)) {
+        qDebug()<<strAppName<<"通知已禁用";
+        return;
     }
+
     if ("notify-send" == strAppName) {
         strAppName = "未知来源";
     }
@@ -154,6 +162,8 @@ void MonitorThread::getSettingsValue()
 
 void MonitorThread::fromSettingsGetInfoToList()
 {
+    qDebug()<<"okokokoko";
+    qDebug()<<m_pSettings->keys();
     //存储settings,应用名和最大显示数目,以及true
     if (false == m_pSettings->keys().contains(NAME_KEY)) {
         return;
@@ -166,6 +176,8 @@ void MonitorThread::fromSettingsGetInfoToList()
         m_nAppMaxNum.insert(strAppName, maxNum);
     }
 
+    qDebug()<<m_pSettings->keys().contains(SWITCH_KEY);
+//    qDebug()<<
     if (m_pSettings->keys().contains(SWITCH_KEY)) {
         powerstatus = m_pSettings->get(SWITCH_KEY).toBool();
         qDebug()<<"初始电源通知状态:"<<powerstatus;
@@ -195,6 +207,23 @@ QList<char*> MonitorThread::listExistsPath()
     }
     g_strfreev(childs);
     return vals;
+}
+
+bool MonitorThread::getControlCentorAppNotify(QString appName)
+{
+    // 初始化控制面板对于通知开关读取
+    const QByteArray id_3(NOTICE_ORIGIN_SCHEMA);
+    if (QGSettings::isSchemaInstalled(id_3)) {
+        QString dynamicPath = QString("%1%2/")
+                                .arg(NOTICE_ORIGIN_PATH)
+                                .arg(QString(appName));
+        const QByteArray id_4(dynamicPath.toUtf8().data());
+        m_pControlCenterGseting = new QGSettings(id_3, id_4, this);
+        bool status = m_pControlCenterGseting->get(SWITCH_KEY).toBool();
+        return status;
+    } else {
+        return false;
+    }
 }
 
 void MonitorThread::appNotifySettingChangedSlot()
