@@ -1,7 +1,15 @@
-ukui-sidebar (3.1.0-1-0030) v101; urgency=medium
+ukui-sidebar (3.1.0-1-0036) v101; urgency=medium
 
-  *BUG 号:#59196
-  *需求号:6502
+  *BUG 号:
+  *需求号:
+  *其他改动说明:
+
+ -- liyanda <liyanda@kylinos.cn>  Tue, 06 Jul 2021 09:06:18 +0800
+
+ukui-sidebar (3.1.0-1-0033.3) v101; urgency=medium
+
+  *BUG 号:62658
+  *需求号:41546
   *其他改动说明：无
 
  -- liyanda <liyanda@kylinos.cn>  Fri, 04 Jun 2021 21:06:11 +0800

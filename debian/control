@@ -22,7 +22,8 @@ Build-Depends: debhelper-compat (= 12),
 	       libxrandr-dev,
 	       libxinerama-dev,
 	       libxcursor-dev,
-			libukui-log4qt-dev
+		libukui-log4qt-dev,
+		libqt5xdg-dev,
 Standards-Version: 4.5.0
 Rules-Requires-Root: no
 Homepage: https://github.com/ukui/ukui-sidebar.git
