@@ -303,7 +303,7 @@ uint NotificationPlugin::onAddSingleNotify(QString strAppName, QString strIconPa
     }
 
     if (true == bNewNotificationFlag) {
-        pAppMsg->setMaxNumMsg(maxNum);
+//        pAppMsg->setMaxNumMsg(maxNum);
     }
 
     //在strAppName对应的AppMsg中添加单条信息
@@ -444,14 +444,14 @@ void NotificationPlugin::onUpdateAppMaxNum(QString strAppName, int maxNum)
     int nIndex = -1;
     AppMsg* pAppMsg = getAppMsgAndIndexByName(strAppName, nIndex);
     if (NULL != pAppMsg) {
-        pAppMsg->setMaxNumMsg(maxNum);
+//        pAppMsg->setMaxNumMsg(maxNum);
         pAppMsg->deleteExceedingMsg();
     }
 
     //通过查找m_listTakeInAppMsg列表看该app是否已存在
     AppMsg* pTakeinAppMsg = getTakeinAppMsgAndIndexByName(strAppName, nIndex);
     if (NULL != pTakeinAppMsg) {
-        pTakeinAppMsg->setMaxNumMsg(maxNum);
+//        pTakeinAppMsg->setMaxNumMsg(maxNum);
         pTakeinAppMsg->deleteExceedingMsg();
     }
 }
@@ -492,7 +492,7 @@ void NotificationPlugin::onTakeInSingleNotify(QString strAppName, QString strIco
     }
 
     if (true == bNewTakeinFlag) {
-        pAppMsg->setMaxNumMsg(maxNum);
+//        pAppMsg->setMaxNumMsg(maxNum);
     }
     pAppMsg->addSingleMsg(strIcon, strSummary, dateTime, strBody);
 

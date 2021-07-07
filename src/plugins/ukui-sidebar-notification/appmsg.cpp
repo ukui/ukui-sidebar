@@ -27,7 +27,7 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
     m_bTakeInFlag = bTakeInFlag;
     m_strAppName = strAppName;
     this->setFixedWidth(380);
-    m_nMaxCount = 20;
+    m_nMaxCount = 3;
 
     //App信息中的总的垂直布局器
     m_pMainVLaout = new QVBoxLayout();
