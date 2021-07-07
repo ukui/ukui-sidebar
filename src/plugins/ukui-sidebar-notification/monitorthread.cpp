@@ -162,8 +162,6 @@ void MonitorThread::getSettingsValue()
 
 void MonitorThread::fromSettingsGetInfoToList()
 {
-    qDebug()<<"okokokoko";
-    qDebug()<<m_pSettings->keys();
     //存储settings,应用名和最大显示数目,以及true
     if (false == m_pSettings->keys().contains(NAME_KEY)) {
         return;
@@ -176,8 +174,6 @@ void MonitorThread::fromSettingsGetInfoToList()
         m_nAppMaxNum.insert(strAppName, maxNum);
     }
 
-    qDebug()<<m_pSettings->keys().contains(SWITCH_KEY);
-//    qDebug()<<
     if (m_pSettings->keys().contains(SWITCH_KEY)) {
         powerstatus = m_pSettings->get(SWITCH_KEY).toBool();
         qDebug()<<"初始电源通知状态:"<<powerstatus;
