@@ -31,6 +31,7 @@ double tranSparency = 0.7;
 
 Widget::Widget(QWidget *parent) : QWidget (parent)
 {
+    initTranslation();//国际化
     //先仅注册托盘图标
     initTrayIcon();
 //    startBackgroundFunction();
