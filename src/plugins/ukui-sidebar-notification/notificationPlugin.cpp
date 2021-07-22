@@ -307,7 +307,13 @@ uint NotificationPlugin::onAddSingleNotify(QString strAppName, QString strIconPa
     }
 
     //在strAppName对应的AppMsg中添加单条信息
-    pAppMsg->addSingleMsg(strIconPath, strSummary, dateTime, strBody);
+    if(pAppMsg->getSingleMsgCount() < maxNum){
+        pAppMsg->addSingleMsg(strIconPath, strSummary, dateTime, strBody);
+    }
+    else{
+        pAppMsg->deleteExceedingMsg();
+        pAppMsg->addSingleMsg(strIconPath, strSummary, dateTime, strBody);
+    }
 
     int uIndex = m_listAppMsg.count();
     for (int i = m_listAppMsg.count() - 1; i >= 0; i--) {
@@ -444,14 +450,14 @@ void NotificationPlugin::onUpdateAppMaxNum(QString strAppName, int maxNum)
     int nIndex = -1;
     AppMsg* pAppMsg = getAppMsgAndIndexByName(strAppName, nIndex);
     if (NULL != pAppMsg) {
-//        pAppMsg->setMaxNumMsg(maxNum);
+        pAppMsg->setMaxNumMsg(maxNum);
         pAppMsg->deleteExceedingMsg();
     }
 
     //通过查找m_listTakeInAppMsg列表看该app是否已存在
     AppMsg* pTakeinAppMsg = getTakeinAppMsgAndIndexByName(strAppName, nIndex);
     if (NULL != pTakeinAppMsg) {
-//        pTakeinAppMsg->setMaxNumMsg(maxNum);
+        pTakeinAppMsg->setMaxNumMsg(maxNum);
         pTakeinAppMsg->deleteExceedingMsg();
     }
 }
