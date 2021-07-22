@@ -394,35 +394,34 @@ void sidebarPluginsWidgets::parsingDesktopFile()
 //        QString Exec = getAppExec(desktopfp);
 
         //使用xdg解析desktop文件
-        if(!QFile::exists(desktopfp)){
-            return;
-        }
-        XdgDesktopFile xdg;
-        xdg.load(desktopfp);
-        QString name = xdg.localizedValue("Name").toString();
-        QString icon = xdg.localizedValue("Icon").toString();
-        QString Exec = xdg.localizedValue("Exec").toString();
+        if(QFile::exists(desktopfp)){
+            XdgDesktopFile xdg;
+            xdg.load(desktopfp);
+            QString name = xdg.localizedValue("Name").toString();
+            QString icon = xdg.localizedValue("Icon").toString();
+            QString Exec = xdg.localizedValue("Exec").toString();
 
+            m_ToolButton *p_button = StructToolButtol(icon, name);
+            connect(p_button, &QToolButton::clicked, this, [=]() {
+                QProcess p(0);
+                p.startDetached(Exec);
+                p.waitForStarted();
+                return;
+            });
+            if (p_button == nullptr) {
+                continue;
+                i--;
+            }
+            m_pGroupBoxUnSmallPluginsGLayout->addItem(item1, m_add_x, m_add_y - 1);
+            m_pGroupBoxUnSmallPluginsGLayout->addWidget(p_button, m_add_x, m_add_y);
+            m_add_y += 2;
+            if (m_add_y > 8) {
+                m_add_x++;
+                m_add_y = 1;
+            }
+            qDebug() << "add_y" << m_add_y << "add_x" << m_add_x;
+        }
 
-        m_ToolButton *p_button = StructToolButtol(icon, name);
-        connect(p_button, &QToolButton::clicked, this, [=]() {
-            QProcess p(0);
-            p.startDetached(Exec);
-            p.waitForStarted();
-            return;
-        });
-        if (p_button == nullptr) {
-            continue;
-            i--;
-        }
-        m_pGroupBoxUnSmallPluginsGLayout->addItem(item1, m_add_x, m_add_y - 1);
-        m_pGroupBoxUnSmallPluginsGLayout->addWidget(p_button, m_add_x, m_add_y);
-        m_add_y += 2;
-        if (m_add_y > 8) {
-            m_add_x++;
-            m_add_y = 1;
-        }
-        qDebug() << "add_y" << m_add_y << "add_x" << m_add_x;
     }
     return;
 }
