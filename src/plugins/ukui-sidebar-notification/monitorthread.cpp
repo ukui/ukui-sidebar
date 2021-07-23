@@ -62,16 +62,10 @@ void MonitorThread::extractData(QString strOutput)
         return;
     }
     QString strAppName = strOutputTmp.mid(0, nIndex);
+    if(strAppName =="") {
+        return;
+    }
     strOutputTmp = strOutputTmp.mid(nIndex + 1);
-//    //检查电源信息是否被禁用
-//    qDebug()<<"*************"<<strAppName;
-//    if ("电源管理器" == strAppName) {
-//        if (!powerstatus) {
-//            qDebug()<<"电源通知已禁用";
-//            return;
-//        }
-//        qDebug()<<"电源通知未禁用";
-//    }
 
     if(!getControlCentorAppNotify(strAppName)) {
         qDebug()<<strAppName<<"通知已禁用";

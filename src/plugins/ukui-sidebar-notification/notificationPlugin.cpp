@@ -450,7 +450,7 @@ void NotificationPlugin::onUpdateAppMaxNum(QString strAppName, int maxNum)
     int nIndex = -1;
     AppMsg* pAppMsg = getAppMsgAndIndexByName(strAppName, nIndex);
     if (NULL != pAppMsg) {
-        pAppMsg->setMaxNumMsg(maxNum);
+//        pAppMsg->setMaxNumMsg(maxNum);
         pAppMsg->deleteExceedingMsg();
     }
 
@@ -498,7 +498,7 @@ void NotificationPlugin::onTakeInSingleNotify(QString strAppName, QString strIco
     }
 
     if (true == bNewTakeinFlag) {
-//        pAppMsg->setMaxNumMsg(maxNum);
+        pAppMsg->setMaxNumMsg(maxNum);
     }
     pAppMsg->addSingleMsg(strIcon, strSummary, dateTime, strBody);
 
