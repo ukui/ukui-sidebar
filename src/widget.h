@@ -32,6 +32,7 @@
 #include "clipboardpluginiface.h"
 #include "sidebarSmallPluginInterface.h"
 #include "mostgrandwidget.h"
+#include "sidebarDbusService.h"
 
 #define  TRAY_ICON           ":/data/images/kylin-tool-box.svg"
 #define  TRAY_NULL_ICON      ":/data/images/kylin-tool-box-null.svg"
@@ -75,6 +76,7 @@ public:
     };
     //主界面
     void initTrayIcon();                                                        // 初始化托盘显示
+    void registerDbusService();                                                 // 注册Dbus服务
     void startBackgroundFunction();                                             // 初始化功能
     void clickTrayFunction(QSystemTrayIcon::ActivationReason reason);           // 托盘点击处理事件
     void initTranslation();                                                     // 初始化翻译
@@ -104,7 +106,7 @@ public:
     void InitializeHomeScreenGeometry();                                        // 初始化主屏的X坐标
     void setAllWidgetFont();                                                    // 监听gsetting，修改所有窗口的字体
     bool oneShotBool = false ;
-
+    bool sidebarState = false;                                                     // 展开状态：true-展开
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event);                              // 设置过滤事件
@@ -144,10 +146,13 @@ private:
 
     QGSettings                  *m_pTransparency;                               // 插件的界面的透明度
 
+    SidebarDbusService*         dbusService;
+
 private slots :
     void onResolutionChanged(const QRect argc);                                 // 当改变屏幕分辨率时重新获取屏幕分辨率
     void onNewNotification();                                                   // 当没展开时，来了新通知才提示
     void hideAnimationFinish();                                                 // 隐藏动画完成
+    void showAnimationFinish();                                                 // 展开动画完成
     void showAnimationAction(const QVariant &value);                            // 展开动画开始
     void primaryScreenChangedSLot();                                            // 主屏发生变化
     void ClipboardShowSlots();                                                  // 接受剪贴板信号，将boll值m_bClipboardFlag置为false;
@@ -164,6 +169,7 @@ private slots :
 
 signals:
     void startRun(QSystemTrayIcon::ActivationReason reason);
+    void animationAction(const uint time, const int distance);
 };
 
 #endif // WIDGET_H

@@ -25,6 +25,7 @@ SOURCES += \
         main.cpp \
         mostgrandwidget.cpp \
         pluginstoolbutton.cpp \
+        sidebarDbusService.cpp \
         sidebarpluginswidgets.cpp \
         smallpluginsbutton.cpp \
         smallpluginsmanage.cpp \
@@ -44,6 +45,7 @@ INCLUDEPATH += ./plugin-interface
 HEADERS += \
         mostgrandwidget.h \
         pluginstoolbutton.h \
+        sidebarDbusService.h \
         sidebarpluginswidgets.h \
         smallpluginsbutton.h \
         smallpluginsmanage.h \

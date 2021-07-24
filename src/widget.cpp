@@ -35,6 +35,9 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     //先仅注册托盘图标
     initTrayIcon();
 //    startBackgroundFunction();
+
+    //注册Dbus服务
+    registerDbusService();
 }
 
 Widget::~Widget()
@@ -46,6 +49,17 @@ void Widget::initTrayIcon()
 {
     createSystray();
     setIcon(QIcon::fromTheme("kylin-tool-box", QIcon(TRAY_ICON)));
+}
+
+void Widget::registerDbusService()
+{
+    dbusService = new SidebarDbusService(this);
+    QDBusConnection::sessionBus().unregisterService("org.ukui.Sidebar");
+    QDBusConnection::sessionBus().registerService("org.ukui.Sidebar");
+    //注册对象路径，导出所有此对象的插槽
+    //registerObject参数：路径，interface,对象，options
+    QDBusConnection::sessionBus().registerObject("/org/ukui/Sidebar",dbusService,
+                                                 QDBusConnection::ExportAllSlots|QDBusConnection::ExportAllSignals);
 }
 
 void Widget::startBackgroundFunction()
@@ -499,6 +513,7 @@ void Widget::initAimation()
     mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
     connect(m_pAnimationHideSidebarWidget, &QPropertyAnimation::finished, this, &Widget::hideAnimationFinish);
     connect(m_pAnimationShowSidebarWidget, &QPropertyAnimation::valueChanged, this, &Widget::showAnimationAction);
+    connect(m_pAnimationShowSidebarWidget, &QPropertyAnimation::finished, this, &Widget::showAnimationFinish);
 }
 
 //动画展开
@@ -574,10 +589,22 @@ void Widget::showAnimation()
         default:
             break;
     }
+    //--> 给通知中心发信号，开始左移动画
+    QDBusMessage message =QDBusMessage::createSignal("/org/ukui/Sidebar", "org.ukui.Sidebar",
+                                                     "animationAction");
+    uint time = 400;
+    int distance = 400;
+    message<<time<<distance;
+    QDBusConnection::sessionBus().send(message); //发射信号
+
+    //--<
     m_pAnimationShowSidebarWidget->setDuration(400);
     m_pAnimationShowSidebarWidget->setStartValue(QRect(AnimaStartSideBarSite[0], AnimaStartSideBarSite[1], AnimaStartSideBarSite[2], AnimaStartSideBarSite[3]));
     m_pAnimationShowSidebarWidget->setEndValue(QRect(AnimaStopSidebarSite[0], AnimaStopSidebarSite[1], AnimaStopSidebarSite[2], AnimaStopSidebarSite[3]));
     m_pAnimationShowSidebarWidget->start();
+    sidebarState = true;
+    dbusService->sidebarState = true;
+    dbusService->m_sidebarWidth = 400;
 }
 
 void Widget::showAnimationAction(const QVariant &value)
@@ -672,16 +699,38 @@ void Widget::hideAnimation()
         default:
             break;
     }
+    //--> 给通知中心发信号，开始左移动画
+    QDBusMessage message = QDBusMessage::createSignal("/org/ukui/Sidebar", "org.ukui.Sidebar",
+                                                     "animationAction");
+    uint time = 200;
+    int distance = -400;
+    message<<time<<distance;
+    QDBusConnection::sessionBus().send(message); //发射信号
+    //--<
     m_pAnimationHideSidebarWidget->setDuration(200);
     m_pAnimationHideSidebarWidget->setStartValue(QRect(AnimaStartSideBarSite[0], AnimaStartSideBarSite[1], AnimaStartSideBarSite[2], AnimaStartSideBarSite[3]));
     m_pAnimationHideSidebarWidget->setEndValue(QRect(AnimaStopSidebarSite[0], AnimaStopSidebarSite[1], AnimaStopSidebarSite[2], AnimaStopSidebarSite[3]));
     m_pAnimationHideSidebarWidget->start();
+    sidebarState = false;
+    dbusService->sidebarState = false;
+    dbusService->m_sidebarWidth = 0;
     return;
 }
 
 void Widget::hideAnimationFinish()
 {
+    dbusService->m_sidebarWidth = 0;
+    sidebarState = false;
+    dbusService->sidebarState = false;
     mostGrandWidget::getInstancemostGrandWidget()->hide();
+    return;
+}
+
+void Widget::showAnimationFinish()
+{
+    dbusService->m_sidebarWidth = 400;
+    sidebarState = true;
+    dbusService->sidebarState = true;
     return;
 }
 
@@ -733,7 +782,8 @@ void Widget::ClickPanelHideSidebarSlots()
 {
     if (m_bClipboardFlag) {
         mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
-        hideAnimation();
+        if(sidebarState)   //展开状态下执行隐藏动画
+            hideAnimation();
     }
     return;
 }
