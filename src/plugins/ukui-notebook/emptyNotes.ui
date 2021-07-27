@@ -32,13 +32,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font-size:20px;
-
-font-weight:400;
-color:rgba(40,40,40,1);
-line-height:34px;
-opacity:0.97;
-</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>Are you sure empty notebook?</string>
@@ -54,11 +48,7 @@ opacity:0.97;
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font-size:14px;
-font-weight:400;
-color:rgba(102,102,102,1);
-line-height:40px;
-opacity:0.91;</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>No Tips</string>
@@ -74,8 +64,7 @@ opacity:0.91;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">color:rgba(102,102,102,1);
-line-height:24px;</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>cancel</string>
@@ -91,8 +80,7 @@ line-height:24px;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">color:rgba(102,102,102,1);
-line-height:24px;</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>yes</string>
