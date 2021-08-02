@@ -92,15 +92,41 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
     m_pAnimationBaseMapWidget->setAttribute(Qt::WA_TranslucentBackground);
 
+    QPixmap pixmap;
     pIconToolButton->setFixedSize(24, 24);
     if (strIconPath.contains("file://")) {
         int length = strIconPath.length();
         strIconPath = strIconPath.mid(7, length);
     }
-    QPixmap pixmap = QIcon::fromTheme(strIconPath, QIcon::fromTheme("application-x-desktop")).pixmap(QSize(24, 24));
-    PictureToWhite pictToWhite;
-    pIconToolButton->setPixmap(pictToWhite.drawSymbolicColoredPixmap(pixmap));
-    pIconToolButton->setAttribute(Qt::WA_TranslucentBackground);
+
+    const qreal pixelRatio = qApp->primaryScreen()->devicePixelRatio();
+
+    pixmap = QIcon::fromTheme(strIconPath).pixmap(QSize(24, 24));
+
+
+    if (pixmap.isNull()) {
+        QString iconUrl;
+        const QUrl url(strIconPath);
+        iconUrl = url.isLocalFile() ? url.toLocalFile() : url.url();
+
+        if (strIconPath.contains("file://")) {
+            int length = strIconPath.length();
+            strIconPath = strIconPath.mid(7, length);
+        }
+        const QIcon &icon = QIcon::fromTheme(strIconPath, QIcon::fromTheme("application-x-desktop"));
+        pixmap = icon.pixmap(width() * pixelRatio, height() * pixelRatio);
+    }
+
+
+    if (!pixmap.isNull()) {
+        pixmap = pixmap.scaled(pIconToolButton->width() * pixelRatio, pIconToolButton->height() * pixelRatio,
+                               Qt::KeepAspectRatioByExpanding,
+                               Qt::SmoothTransformation);
+
+        pixmap.setDevicePixelRatio(pixelRatio);
+
+    }
+    pIconToolButton->setPixmap(pixmap);
 
     //获取系统字体大小
     QFont ft;

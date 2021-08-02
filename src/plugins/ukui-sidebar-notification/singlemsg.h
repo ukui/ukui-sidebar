@@ -27,6 +27,8 @@
 #include <QDBusConnection>
 #include <QDBusError>
 #include <QDBusReply>
+#include <QApplication>
+#include <QScreen>
 #include "picturetowhite.h"
 #define CONTROL_CENTER_TIME_FORMAT_GSETTING "org.ukui.control-center.panel.plugins"
 #define CONTROL_TINE_FORMAT_GSETTING_VALUE "hoursystem"
