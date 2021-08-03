@@ -52,7 +52,10 @@ public:
 
 
 private:
+    QVBoxLayout*        m_pMainBaseVLaout;              //APP信息中的整体布局
+    QWidget*            m_pMainWid;                     //App信息中的总窗口
     QVBoxLayout*        m_pMainVLaout;                  //App信息中的总的垂直布局器
+    QWidget*            m_pFoldBtnWid;                  //折叠按钮和删除按钮窗口
     QVBoxLayout*        m_pIndexFromOneVLaout;
     QWidget*            m_pAppBaseMapWidget;            //多条消息时，底图部件包括底部6个px的空白
     QWidget*            m_pBaseMapWidget;               //多条消息时，底图部件不包括底部6个px的空白
@@ -63,6 +66,9 @@ private:
     bool                m_bTakeInFlag;                  //转变为收纳消息吗，默认为false
     bool                m_bFold;                        //折叠标志
     int                 m_nMaxCount;                    //应用消息最大收录数
+    QPushButton*        m_foldBtn;                      //折叠按钮
+    QPushButton*        m_delBtn;                       //清除按钮
+
 
 
 signals:
@@ -81,10 +87,13 @@ public slots:
     void                onTakeInSingleMsg(SingleMsg* pSingleMsg);   //收纳单条消息
     void                onRecoverSingleMsg(SingleMsg* pSingleMsg);  //恢复单条消息
     void                setAppFoldFlag(bool bFlag);                 //设置应用折叠标志
+    void                onFoldAppWidget();                          //折叠整个应用消息
     void                onMainMsgEnter();                           //应用主消息进入
     void                onMainMsgLeave();                           //应用主消息离开
     void                onShowBaseMap();                            //显示应用底图
     void                onHideBaseMap();                            //隐藏底图部件
+
+
 
 };
 

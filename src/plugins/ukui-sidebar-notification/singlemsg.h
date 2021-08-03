@@ -67,6 +67,8 @@ public:
     enum TaskWidgetStatus{NORMAL, HOVER, PRESS};
     TaskWidgetStatus status;
 
+    bool m_bAppFold;                        //消息所属应用是否折叠
+
 protected:
     virtual void enterEvent(QEvent *event) override;
     virtual void leaveEvent(QEvent *event) override;
@@ -104,7 +106,7 @@ private:
     uint            m_uNotifyTime;                  //保存推送时间的绝对时间
     uint            m_uTimeDifference;              //保存当前时间与推送时间的时间差
     bool            m_bTakeInFlag;                  //收纳标志
-    bool            m_bFold;                        //是否折叠
+    bool            m_bFold;                        //本条消息是否折叠
     bool            m_bMain;                        //是否为主窗口
     int             m_nShowLeftCount;               //为主窗口时,剩余显示条数
     bool            m_bTimeFormat;                  //time制式，0代表12小时制，1代表24小时制

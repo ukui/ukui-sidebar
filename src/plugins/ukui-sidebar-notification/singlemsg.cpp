@@ -40,6 +40,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     listenTimeZone();
     m_bMain = true;                 //默认是主窗口
     m_bFold = true;                 //默认折叠状态
+    m_bAppFold = true;              //默认整组消息折叠状态
     m_strIconPath = strIconPath;
     m_strSummary = strSummary;
     m_strBody = strBody;
@@ -647,40 +648,26 @@ void SingleMsg::leaveEvent(QEvent *event)
     return;
 }
 
-//鼠标点击事件
+//鼠标点击事件:1、折叠状态下展开消息 2、展开状态下执行跳转动作
 void SingleMsg::mousePressEvent(QMouseEvent *event)
 {
     status =PRESS;
     if (event->buttons() == Qt::LeftButton)
     {
-        if(true == m_bFold)
-        {
-            m_bFold = false;                                //置为false,表示展开
-            setBodyLabelWordWrap(true);
+
+        if(true == m_bMain){ //点击主窗口:1、折叠状态下则展开消息  2、展开状态下执行跳转
+            if(true == m_bAppFold){
+                m_bAppFold = false;                                //置为false,表示展开
+                m_pShowLeftItemLabel->setVisible(false);        //展开时，剩余条目设置为不可见
+                emit Sig_setAppFoldFlag(m_bAppFold);               //展开设置，即开始展开动画
+            }else{
+                //执行跳转动作，后期加入。。。。。。
+            }
         }
-        else
-        {
-            m_bFold = true;                                 //置为true,表示折叠
-            setBodyLabelWordWrap(false);
+        else{
+            //执行跳转动作，后期加入。。。。。。
         }
 
-        //当消息为主窗口时,发送折叠信息给App
-        if(true == m_bMain)
-        {
-            //当剩余条数大于0, 且是折叠状态则显示剩余标签
-            if((true == m_bFold) && (m_nShowLeftCount > 0))
-            {
-                emit Sig_onMainEnter();
-            }
-            else
-            {
-                emit Sig_onMainLeave();                     //点击后也让app的分层底图恢复原色
-                m_pAppVLaout->setContentsMargins(0,0,0,6);  //假如展开，剩余条目显示不可见，则SingleMsg的内容空白恢复正常，即底部多出6个px的空隙
-                m_pShowLeftItemLabel->setVisible(false);
-            }
-
-            emit Sig_setAppFoldFlag(m_bFold);
-        }
         this->update();
     }
     return;

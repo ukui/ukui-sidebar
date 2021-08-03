@@ -21,6 +21,7 @@
 #include "notificationPlugin.h"
 #include "singlemsg.h"
 #include "monitorthread.h"
+#include "customstylePushbutton2.h"
 AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
 {
     m_bFold = true;
@@ -28,6 +29,44 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
     m_strAppName = strAppName;
     this->setFixedWidth(380);
     m_nMaxCount = 3;
+
+
+
+    //-->
+    //折叠按钮和删除按钮部分
+    QHBoxLayout *m_pFoldBtnHLaout = new QHBoxLayout();
+    m_pFoldBtnHLaout->setContentsMargins(0,0,0,0);
+    m_foldBtn = new QPushButton();
+    m_foldBtn->setObjectName("fold");
+    m_foldBtn->setStyle(new CustomStyle_pushbutton_2("ukui-default"));
+    m_foldBtn->setLayoutDirection(Qt::LeftToRight);
+    m_foldBtn->setIcon(QIcon::fromTheme("kylin-fold-hover").pixmap(17,17));
+    m_foldBtn->setText(QObject::tr(" fold"));
+    m_foldBtn->setFixedSize(88,36);
+    connect(m_foldBtn,&QPushButton::clicked,this,&AppMsg::onFoldAppWidget);
+    m_delBtn = new QPushButton();
+    m_delBtn->setStyle(new CustomStyle_pushbutton_2("ukui-default"));
+    m_delBtn->setIcon(QIcon(":/images/hover.svg"));
+    m_delBtn->setIcon(QIcon::fromTheme("edit-clear-symbolic").pixmap(12,12));
+    m_delBtn->setFixedSize(36,36);
+    m_pFoldBtnHLaout->addWidget(m_foldBtn);
+    m_pFoldBtnHLaout->addItem(new QSpacerItem(256, 10, QSizePolicy::Expanding));
+    m_pFoldBtnHLaout->addWidget(m_delBtn);
+
+    QVBoxLayout *m_pFoldBtnVLaout = new QVBoxLayout();
+    m_pFoldBtnVLaout->setContentsMargins(0,0,0,0);
+    m_pFoldBtnVLaout->addLayout(m_pFoldBtnHLaout);
+    m_pFoldBtnVLaout->addItem(new QSpacerItem(10, 6, QSizePolicy::Fixed));
+
+    m_pFoldBtnWid = new QWidget(this);
+    m_pFoldBtnWid->setContentsMargins(0,0,0,0);
+    m_pFoldBtnWid->setLayout(m_pFoldBtnVLaout);
+    m_pFoldBtnWid->setFixedSize(380,42);
+    if(m_bFold)
+        m_pFoldBtnWid->setVisible(false);
+    else
+        m_pFoldBtnWid->setVisible(true);
+    //--<
 
     //App信息中的总的垂直布局器
     m_pMainVLaout = new QVBoxLayout();
@@ -56,7 +95,15 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
     m_pMainVLaout->addWidget(m_pAppBaseMapWidget, 0 , Qt::AlignHCenter);
     m_pAppBaseMapWidget->setVisible(false);
 
-    this->setLayout(m_pMainVLaout);
+    m_pMainWid = new QWidget(this);
+    m_pMainWid->setContentsMargins(0,0,0,0);
+    m_pMainWid->setLayout(m_pMainVLaout);
+
+    m_pMainBaseVLaout = new QVBoxLayout();
+    m_pMainBaseVLaout->setContentsMargins(0,0,0,0);
+    //m_pMainBaseVLaout->addWidget(m_pFoldBtnWid);
+    m_pMainBaseVLaout->addWidget(m_pMainWid);
+    this->setLayout(m_pMainBaseVLaout);
 
     //发个信号通知插件删除该通知应用消息
     connect(this, SIGNAL(Sig_onDeleteAppMsg(AppMsg*)), parent, SLOT(onClearAppMsg(AppMsg*)));
@@ -78,12 +125,23 @@ void AppMsg::paintEvent(QPaintEvent *)
 {
     QPainter p(this);
     QRect rect = this->rect();
-    rect.setWidth(rect.width() - 1);
-    rect.setHeight(rect.height() - 1);
-    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-    p.setBrush(QBrush(QColor(255, 255, 255, 10)));
-    p.setPen(Qt::transparent);
-    p.drawRoundedRect(rect,6,6);
+    if(m_bFold){
+        rect.setWidth(rect.width() - 1);
+        rect.setHeight(rect.height() - 1);
+        p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+        p.setBrush(QBrush(QColor(255, 255, 255, 10)));
+        p.setPen(Qt::transparent);
+        p.drawRoundedRect(rect,6,6);
+    }else{
+        rect.setY(rect.y() + 50);
+        rect.setWidth(rect.width() - 1);
+        rect.setHeight(rect.height() - 1);
+        p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+        p.setBrush(QBrush(QColor(255, 255, 255, 10)));
+        p.setPen(Qt::transparent);
+        p.drawRoundedRect(rect,6,6);
+    }
+
     return;
 }
 //统计应用剩余显示条数
@@ -467,23 +525,131 @@ void AppMsg::setAppFoldFlag(bool bFlag)
     //false表示应用展开
     if(false == m_bFold)
     {
-        //展开时,索引从第1条开始,消息全部可见
-        for(int i = 1; i < m_listSingleMsg.count(); i++)
-        {
-            SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
-            pTmpSingleMsg->startAnimationUnfold();
-        }
+        //-->
+        //折叠按钮显示动画：App消息窗口下移，折叠按钮窗口下移
+        m_pFoldBtnWid->setVisible(true);
+        int widthFoldWid = m_pFoldBtnWid->width();
+        int heightFoldWid = m_pFoldBtnWid->height();
+        QPropertyAnimation* pAnimation2 = new QPropertyAnimation(this, "geometryFold");
+        connect(pAnimation2, &QPropertyAnimation::valueChanged, this, [=](const QVariant &value){
+            QRect Rect = value.value<QRect>();
+            int x1, y1, x2, y2;
+            Rect.getRect(&x1, &y1, &x2, &y2);
+            m_pFoldBtnWid->setGeometry(x1, y1, x2, y2);
+        });
+        connect(pAnimation2, &QPropertyAnimation::finished, this,[=](){
+            m_pMainBaseVLaout->insertWidget(0,m_pFoldBtnWid);
+        });
+        pAnimation2->setDuration(100);
+        pAnimation2->setStartValue(QRect(0, 0-heightFoldWid, widthFoldWid, heightFoldWid));
+        pAnimation2->setEndValue(QRect(0, 0, widthFoldWid, heightFoldWid));
+        pAnimation2->start(QAbstractAnimation::DeleteWhenStopped);
+
+        int widthAppWid = m_pMainWid->width();
+        int heightAppWid = m_pMainWid->height();
+        QPropertyAnimation* pAnimation1 = new QPropertyAnimation(this, "geometryMain");
+        connect(pAnimation1, &QPropertyAnimation::valueChanged, this, [=](const QVariant &value){
+            QRect Rect = value.value<QRect>();
+            int x1, y1, x2, y2;
+            Rect.getRect(&x1, &y1, &x2, &y2);
+            m_pMainWid->setGeometry(x1, y1, x2, y2);
+        });
+        connect(pAnimation1, &QPropertyAnimation::finished, this,[=](){
+            //多条消息展开动画：展开时,索引从第1条开始,消息全部可见
+            SingleMsg* pFristSingleMsg = m_listSingleMsg.at(0);  //展开第一条消息的正文内容
+            pFristSingleMsg->setBodyLabelWordWrap(true);
+            pFristSingleMsg->m_bAppFold = false;
+            for(int i = 1; i < m_listSingleMsg.count(); i++)
+            {
+                SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
+                pTmpSingleMsg->setBodyLabelWordWrap(true);
+                pTmpSingleMsg->m_bAppFold = false;
+                pTmpSingleMsg->startAnimationUnfold();
+            }
+        });
+        pAnimation1->setDuration(100);
+        pAnimation1->setStartValue(QRect(0, 0, widthAppWid, heightAppWid));
+        pAnimation1->setEndValue(QRect(0, m_pFoldBtnWid->height(), widthAppWid, heightAppWid));
+        pAnimation1->start(QAbstractAnimation::DeleteWhenStopped);
+        //--<
+
+//        //展开时,索引从第1条开始,消息全部可见
+//        qDebug()<<"----------------"<<m_listSingleMsg.count();
+//        for(int i = 1; i < m_listSingleMsg.count(); i++)
+//        {
+//            SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
+//            pTmpSingleMsg->startAnimationUnfold();
+//        }
+
     }
     else
     {
+
+//        //折叠时,索引从第1条开始,消息全部不可见
+//        for(int i = 1; i < m_listSingleMsg.count(); i++)
+//        {
+//            SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
+//            pTmpSingleMsg->startAnimationFold();
+//        }
+//        m_pMainBaseVLaout->removeWidget(m_pFoldBtnWid);
+//        m_pFoldBtnWid->setVisible(false);
+    }
+
+}
+
+//折叠整个应用的消息
+void AppMsg::onFoldAppWidget()
+{
+    //折叠按钮显示动画：App消息窗口下移，折叠按钮窗口下移
+    m_bFold = true;
+
+    int widthFoldWid = m_pFoldBtnWid->width();
+    int heightFoldWid = m_pFoldBtnWid->height();
+    QPropertyAnimation* pAnimation2 = new QPropertyAnimation(this, "btnWidFold");
+    connect(pAnimation2, &QPropertyAnimation::valueChanged, this, [=](const QVariant &value){
+        QRect Rect = value.value<QRect>();
+        int x1, y1, x2, y2;
+        Rect.getRect(&x1, &y1, &x2, &y2);
+        m_pFoldBtnWid->setGeometry(x1, y1, x2, y2);
+    });
+    connect(pAnimation2, &QPropertyAnimation::finished, this,[=](){
+        m_pFoldBtnWid->setVisible(false);
+        m_pMainBaseVLaout->removeWidget(m_pFoldBtnWid);
+    });
+    pAnimation2->setDuration(100);
+    pAnimation2->setStartValue(QRect(0, 0, widthFoldWid, heightFoldWid));
+    pAnimation2->setEndValue(QRect(0, 0-heightFoldWid, widthFoldWid, heightFoldWid));
+    pAnimation2->start(QAbstractAnimation::DeleteWhenStopped);
+
+    int widthAppWid = m_pMainWid->width();
+    int heightAppWid = m_pMainWid->height();
+    QPropertyAnimation* pAnimation1 = new QPropertyAnimation(this, "appMainFold");
+    connect(pAnimation1, &QPropertyAnimation::valueChanged, this, [=](const QVariant &value){
+        QRect Rect = value.value<QRect>();
+        int x1, y1, x2, y2;
+        Rect.getRect(&x1, &y1, &x2, &y2);
+        m_pMainWid->setGeometry(x1, y1, x2, y2);
+    });
+    connect(pAnimation1, &QPropertyAnimation::finished, this,[=](){
         //折叠时,索引从第1条开始,消息全部不可见
+        SingleMsg* pFristSingleMsg = m_listSingleMsg.at(0);  //折叠第一条消息的正文内容
+        pFristSingleMsg->setBodyLabelWordWrap(false);
+        pFristSingleMsg->m_bAppFold = true;
         for(int i = 1; i < m_listSingleMsg.count(); i++)
         {
             SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
+            pTmpSingleMsg->setBodyLabelWordWrap(false);
+            pTmpSingleMsg->m_bAppFold = true;
             pTmpSingleMsg->startAnimationFold();
         }
-    }
-
+        m_pMainBaseVLaout->removeWidget(m_pFoldBtnWid);
+        m_pFoldBtnWid->setVisible(false);
+    });
+    pAnimation1->setDuration(100);
+    pAnimation1->setStartValue(QRect(0, m_pFoldBtnWid->height(), widthAppWid, heightAppWid));
+    pAnimation1->setEndValue(QRect(0, 0, widthAppWid, heightAppWid));
+    pAnimation1->start(QAbstractAnimation::DeleteWhenStopped);
+    //--<
 }
 
 //当app展开时，将app设置折叠
@@ -526,3 +692,4 @@ void AppMsg::onHideBaseMap()
 {
     m_pAppBaseMapWidget->setVisible(false);
 }
+
