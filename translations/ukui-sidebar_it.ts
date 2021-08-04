@@ -6,27 +6,27 @@
     <message>
         <location filename="../src/main.cpp" line="81"/>
         <source>Display debug information</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra informazioni di debug</translation>
     </message>
     <message>
         <location filename="../src/widget.cpp" line="177"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Apri</translation>
     </message>
     <message>
         <location filename="../src/widget.cpp" line="180"/>
         <source>Set up notification center</source>
-        <translation type="unfinished"></translation>
+        <translation>Configura centro notifiche</translation>
     </message>
     <message>
         <location filename="../src/sidebarpluginswidgets.cpp" line="112"/>
         <source>折叠</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposta</translation>
     </message>
     <message>
         <location filename="../src/sidebarpluginswidgets.cpp" line="114"/>
         <source>展开</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra</translation>
     </message>
 </context>
 <context>
@@ -38,7 +38,7 @@
     <message>
         <location filename="../src/widget.cpp" line="210"/>
         <source>Sidebar</source>
-        <translation type="unfinished"></translation>
+        <translation>Barra laterale</translation>
     </message>
 </context>
 <context>
@@ -46,12 +46,12 @@
     <message>
         <location filename="../src/sidebarpluginswidgets.cpp" line="97"/>
         <source>Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Appunti</translation>
     </message>
     <message>
         <location filename="../src/sidebarpluginswidgets.cpp" line="104"/>
         <source>Plugins</source>
-        <translation type="unfinished"></translation>
+        <translation>Plugins</translation>
     </message>
     <message>
         <source>Notebook</source>
