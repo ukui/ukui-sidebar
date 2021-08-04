@@ -49,6 +49,7 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
     m_delBtn->setIcon(QIcon(":/images/hover.svg"));
     m_delBtn->setIcon(QIcon::fromTheme("edit-clear-symbolic").pixmap(12,12));
     m_delBtn->setFixedSize(36,36);
+    connect(m_delBtn,&QPushButton::clicked,this,&AppMsg::onDelAppMsg);
     m_pFoldBtnHLaout->addWidget(m_foldBtn);
     m_pFoldBtnHLaout->addItem(new QSpacerItem(256, 10, QSizePolicy::Expanding));
     m_pFoldBtnHLaout->addWidget(m_delBtn);
@@ -600,7 +601,7 @@ void AppMsg::setAppFoldFlag(bool bFlag)
 //折叠整个应用的消息
 void AppMsg::onFoldAppWidget()
 {
-    //折叠按钮显示动画：App消息窗口下移，折叠按钮窗口下移
+    //折叠按钮显示动画：App消息窗口上移，折叠按钮窗口上移
     m_bFold = true;
 
     int widthFoldWid = m_pFoldBtnWid->width();
@@ -615,6 +616,7 @@ void AppMsg::onFoldAppWidget()
     connect(pAnimation2, &QPropertyAnimation::finished, this,[=](){
         m_pFoldBtnWid->setVisible(false);
         m_pMainBaseVLaout->removeWidget(m_pFoldBtnWid);
+        emit Sig_foldAnimationFinish();
     });
     pAnimation2->setDuration(100);
     pAnimation2->setStartValue(QRect(0, 0, widthFoldWid, heightFoldWid));
@@ -650,6 +652,21 @@ void AppMsg::onFoldAppWidget()
     pAnimation1->setEndValue(QRect(0, 0, widthAppWid, heightAppWid));
     pAnimation1->start(QAbstractAnimation::DeleteWhenStopped);
     //--<
+}
+
+void AppMsg::onDelAppMsg()
+{
+    //删除整个应用消息动画：先折叠，再左移动画，最后上移动画
+    SingleMsg* pFristSingleMsg = m_listSingleMsg.at(0);
+    connect(this,&AppMsg::Sig_foldAnimationFinish,this,[=](){
+        QTimer *timer = new QTimer();
+//        timer->setSingleShot(true);                //设置一个单次定时器,只为延迟200毫秒,等待折叠动画完成
+        connect(timer, &QTimer::timeout, this, [=](){
+            pFristSingleMsg->onDele();   //开启左移动画，上移动画
+        });
+        timer->start(200);
+    });
+    onFoldAppWidget();
 }
 
 //当app展开时，将app设置折叠

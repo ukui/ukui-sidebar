@@ -77,7 +77,7 @@ signals:
     void                Sig_countTakeInBitAndUpate();               //发个统计收纳数信号
     void                Sig_SendTakeInSingleMsg(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime, int maxNum, bool bNewTakeinFlag);
     void                Sig_SendAddSingleMsg(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime, int maxNum, bool bNewNotificationFlag);
-
+    void                Sig_foldAnimationFinish();                  //折叠按钮窗口的消失动画完成信号
 
 public slots:
     void                onDeleteAppMsg();                           //删除一个应用消息
@@ -88,6 +88,7 @@ public slots:
     void                onRecoverSingleMsg(SingleMsg* pSingleMsg);  //恢复单条消息
     void                setAppFoldFlag(bool bFlag);                 //设置应用折叠标志
     void                onFoldAppWidget();                          //折叠整个应用消息
+    void                onDelAppMsg();                              //删除整个应用的消息
     void                onMainMsgEnter();                           //应用主消息进入
     void                onMainMsgLeave();                           //应用主消息离开
     void                onShowBaseMap();                            //显示应用底图
