@@ -660,7 +660,7 @@ void AppMsg::onDelAppMsg()
     SingleMsg* pFristSingleMsg = m_listSingleMsg.at(0);
     connect(this,&AppMsg::Sig_foldAnimationFinish,this,[=](){
         QTimer *timer = new QTimer();
-//        timer->setSingleShot(true);                //设置一个单次定时器,只为延迟200毫秒,等待折叠动画完成
+        timer->setSingleShot(true);                //设置一个单次定时器,只为延迟200毫秒,等待折叠动画完成
         connect(timer, &QTimer::timeout, this, [=](){
             pFristSingleMsg->onDele();   //开启左移动画，上移动画
         });
