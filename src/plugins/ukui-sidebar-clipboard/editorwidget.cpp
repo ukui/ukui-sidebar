@@ -78,7 +78,7 @@ void EditorWidget::editBox()
     QFont font = m_pEditingArea->font();
     font.setFamily("Noto Sans CJK SC");
     font.setPixelSize(14);
-    m_pEditingArea->setFont(font);
+//    m_pEditingArea->setFont(font);
 
     m_ptileLable = new QLabel(QObject::tr("Edit"));
     m_ptileLable->setFixedHeight(20);

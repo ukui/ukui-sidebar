@@ -133,6 +133,7 @@ void SidebarClipboardPlugin::createWidget()
 
     m_pShortcutOperationListWidget = new ClipBoardLisetWidget;
     m_pShortcutOperationListWidget->verticalScrollBar()->setProperty("drawScrollBarGroove", false);
+    m_pShortcutOperationListWidget->horizontalScrollBar()->setProperty("drawScrollBarGroove", false);
     m_pShortcutOperationListWidget->setContentsMargins(0,0,0,0);
     m_pShortcutOperationListWidget->setFixedSize(400,210);
 
