@@ -29,13 +29,14 @@
 #include <QTimer>
 #include <QThread>
 #include <QGSettings>
+#include <QProcess>
 
 #define STYLE_FONT_SCHEMA "org.ukui.style"
 #define SYSTEM_FONT_EKY "system-font-size"
 #define SYSTEM_NAME_KEY "system-font"
 
 
-SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, QString strSummary, QDateTime dateTime, QString strBody, bool bTakeInFlag)
+SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, QString strSummary, QDateTime dateTime, QString strBody, QString strUrl, QString strAction, bool bTakeInFlag)
 {
     listenTimeZone();
     m_bMain = true;                 //默认是主窗口
@@ -44,6 +45,8 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_strIconPath = strIconPath;
     m_strSummary = strSummary;
     m_strBody = strBody;
+    m_strUrl = strUrl;
+    m_strAction = strAction;
 
     m_dateTime = dateTime;
     m_uNotifyTime = dateTime.toTime_t();
@@ -406,6 +409,34 @@ void SingleMsg::initGsettingValue()
         m_pStyleGsetting = new QGSettings(id);
 }
 
+void SingleMsg::jumpAction()
+{
+    qInfo()<<"----------->jumpAction";
+    if(!m_strUrl.isEmpty()){
+        QString cmd = QString("xdg-open ") + m_strUrl; //在linux下，可以通过system来xdg-open命令调用默认程序打开文件；
+        qInfo()<<"----------->"<<cmd;
+        system(cmd.toStdString().c_str());
+        //return;
+    }
+    else if(!m_strAction.isEmpty()){
+        qInfo()<<"----------->"<<m_strAction;
+        QProcess *process = new QProcess();
+        process->start(m_strAction);
+        //return;
+    }
+    qInfo()<<">>>>>>>>>>>>"<<m_bMain<<m_bAppFold<<m_nShowLeftCount;
+//    if((true == m_bMain) && (true == m_bAppFold) && (m_nShowLeftCount > 0))
+//    {
+//        m_pAppVLaout->setContentsMargins(0,0,0,6);
+//        emit Sig_notifyAppHideBaseMap();                    //通知隐藏应用的底图部件，但保留显示底部6px的空白
+//    }
+    m_pSetDeleDelayTimer->setSingleShot(true);                //设置一个单次定时器,只为延迟2毫秒执行删除
+    connect(m_pSetDeleDelayTimer, SIGNAL(timeout()), this, SLOT(startAnimationDeleLeftMove()));
+    m_pSetDeleDelayTimer->start(2);
+
+    return;
+}
+
 void SingleMsg::paintEvent(QPaintEvent *e)
 {
 
@@ -592,7 +623,7 @@ void SingleMsg::setLeftItem(int nShowLeftCount)
     m_pShowLeftItemLabel->setAttribute(Qt::WA_TranslucentBackground);
 
     //当剩余条数大于0, 且是折叠状态则显示剩余标签
-    if((true == m_bFold) && (m_nShowLeftCount > 0))
+    if((true == m_bAppFold) && (m_nShowLeftCount > 0))
     {
         m_pAppVLaout->setContentsMargins(0,0,0,0); //假如折叠，剩余条目显示将可见，则SingleMsg的内容均无空隙
         m_pShowLeftItemLabel->setVisible(true);
@@ -622,12 +653,17 @@ void SingleMsg::enterEvent(QEvent *event)
     m_pTimeLabelWidget->hide();
     m_pIconHLayout->setContentsMargins(10, 11, 0, 0);
 
-    if((true == m_bMain) && (true == m_bFold) && (m_nShowLeftCount > 0))
+    if((true == m_bMain) && (true == m_bAppFold) && (m_nShowLeftCount > 0))
     {
         emit Sig_onMainEnter();
     }
     this->update();
-    QTimer::singleShot(50,[this]{this->update();});
+    QTimer::singleShot(50,[this]{
+        if(this){
+            qDebug()<<">>>>>>>>>>>>>.this->update()";
+            this->update();
+        }
+    });
 
     return;
 }
@@ -640,7 +676,7 @@ void SingleMsg::leaveEvent(QEvent *event)
     m_pTimeLabelWidget->show();
     m_pStorageDeleteButtonWidget->hide();
     m_pIconHLayout->setContentsMargins(10, 11, 0, 0);
-    if((true == m_bMain) && (true == m_bFold) && (m_nShowLeftCount > 0))
+    if((true == m_bMain) && (true == m_bAppFold) && (m_nShowLeftCount > 0))
     {
         emit Sig_onMainLeave();
     }
@@ -661,11 +697,13 @@ void SingleMsg::mousePressEvent(QMouseEvent *event)
                 m_pShowLeftItemLabel->setVisible(false);        //展开时，剩余条目设置为不可见
                 emit Sig_setAppFoldFlag(m_bAppFold);               //展开设置，即开始展开动画
             }else{
-                //执行跳转动作，后期加入。。。。。。
+                //执行跳转动作
+                jumpAction();
             }
         }
         else{
-            //执行跳转动作，后期加入。。。。。。
+            //执行跳转动作
+            jumpAction();
         }
 
         this->update();
@@ -679,7 +717,7 @@ void SingleMsg::mainMsgSetFold()
     if(true == m_bMain)
     {
         //置为true,表示折叠
-        m_bFold = true;
+        m_bAppFold = true;
         setBodyLabelWordWrap(false);
 
         //当剩余条数大于0, 且是折叠状态则显示剩余标签
@@ -792,7 +830,7 @@ void SingleMsg::startAnimationDeleUpperMove()
 //通知中心或者收纳盒中的删除
 void SingleMsg::onDele()
 {
-    if((true == m_bMain) && (true == m_bFold) && (m_nShowLeftCount > 0))
+    if((true == m_bMain) && (true == m_bAppFold) && (m_nShowLeftCount > 0))
     {
         m_pAppVLaout->setContentsMargins(0,0,0,6);
         emit Sig_notifyAppHideBaseMap();                    //通知隐藏应用的底图部件，但保留显示底部6px的空白
@@ -809,7 +847,8 @@ void SingleMsg::onDele()
 //通知中心消息收纳至收纳盒
 void SingleMsg::onTakeIn()
 {
-    if((true == m_bMain) && (true == m_bFold) && (m_nShowLeftCount > 0))
+    qDebug()<<"==========onTakeIn"<<m_bMain<<m_bAppFold<<m_nShowLeftCount;
+    if((true == m_bMain) && (true == m_bAppFold) && (m_nShowLeftCount > 0))
     {
         emit Sig_onTakeinWholeApp();
     }
@@ -824,7 +863,7 @@ void SingleMsg::onTakeIn()
 //收纳盒消息恢复至通知中心
 void SingleMsg::onRecover()
 {
-    if((true == m_bMain) && (true == m_bFold) && (m_nShowLeftCount > 0))
+    if((true == m_bMain) && (true == m_bAppFold) && (m_nShowLeftCount > 0))
     {
         emit Sig_onRecoverWholeApp();
     }
@@ -949,7 +988,7 @@ void SingleMsg::updateDeleUpperMove(const QVariant &value)
 //处理删除上移完成时的函数
 void SingleMsg::onDeleUpperMoveFinish()
 {
-    if((true == m_bMain) && (true == m_bFold) && (m_nShowLeftCount > 0))
+    if((true == m_bMain) && (true == m_bAppFold) && (m_nShowLeftCount > 0))
     {
         emit Sig_onDeleteAppMsg();
     }

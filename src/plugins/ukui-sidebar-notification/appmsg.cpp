@@ -34,11 +34,26 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
 
     //-->
     //折叠按钮和删除按钮部分
+    m_pFoldBtnWid = new QWidget(this);
     QHBoxLayout *m_pFoldBtnHLaout = new QHBoxLayout();
     m_pFoldBtnHLaout->setContentsMargins(0,0,0,0);
-    m_foldBtn = new QPushButton();
-    m_foldBtn->setObjectName("fold");
-    m_foldBtn->setStyle(new CustomStyle_pushbutton_2("ukui-default"));
+    m_foldBtn = new QPushButton(m_pFoldBtnWid);
+    //m_foldBtn->setProperty("isWindowButton", 0x1);
+
+    //m_foldBtn->setProperty("useIconHighlightEffect", 0x1);
+    //m_foldBtn->setProperty("useIconHighlightEffect", 0x2);
+    //m_foldBtn->setProperty("useButtonPalette", true);
+
+    //m_foldBtn->setStyle(new CustomStyle_pushbutton_2("ukui-default"));
+
+    QPainter p(m_foldBtn);
+    QRect rect = m_foldBtn->rect();
+    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
+    p.setBrush(QBrush(QColor(0, 0, 255, 255)));
+    p.setPen(Qt::transparent);
+    p.drawRoundedRect(rect,6,6);
+
+    m_foldBtn->setObjectName("fold"); 
     m_foldBtn->setLayoutDirection(Qt::LeftToRight);
     m_foldBtn->setIcon(QIcon::fromTheme("kylin-fold-hover").pixmap(17,17));
     m_foldBtn->setText(QObject::tr(" fold"));
@@ -59,7 +74,7 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
     m_pFoldBtnVLaout->addLayout(m_pFoldBtnHLaout);
     m_pFoldBtnVLaout->addItem(new QSpacerItem(10, 6, QSizePolicy::Fixed));
 
-    m_pFoldBtnWid = new QWidget(this);
+
     m_pFoldBtnWid->setContentsMargins(0,0,0,0);
     m_pFoldBtnWid->setLayout(m_pFoldBtnVLaout);
     m_pFoldBtnWid->setFixedSize(380,42);
@@ -112,13 +127,14 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
     connect(this, SIGNAL(Sig_onDeleteTakeInAppMsg(AppMsg*)), parent, SLOT(onClearTakeInAppMsg(AppMsg*)));
 
     //发个信号通知插件收纳单条应用消息
-    connect(this, SIGNAL(Sig_SendTakeInSingleMsg(QString, QString, QString, QString, QDateTime,int, bool)), parent, SLOT(onTakeInSingleNotify(QString, QString, QString, QString, QDateTime,int, bool)));
+    connect(this, SIGNAL(Sig_SendTakeInSingleMsg(QString, QString, QString, QString, QString, QString, QDateTime,int, bool)),
+            parent, SLOT(onTakeInSingleNotify(QString, QString, QString, QString, QString, QString, QDateTime,int, bool)));
     //发个信号通知插件恢复单条应用消息
-    connect(this, SIGNAL(Sig_SendAddSingleMsg(QString, QString, QString, QString, QDateTime, int, bool)), parent, SLOT(onAddSingleNotify(QString, QString, QString, QString, QDateTime, int, bool)));
+    connect(this, SIGNAL(Sig_SendAddSingleMsg(QString, QString, QString, QString, QString, QString, QDateTime, int, bool)),
+            parent, SLOT(onAddSingleNotify(QString, QString, QString, QString, QString, QString, QDateTime, int, bool)));
 
     //发个统计收纳数更新信号
     connect(this, SIGNAL(Sig_countTakeInBitAndUpate()), parent, SLOT(onCountTakeInBitAndUpate()));
-    this->setStyleSheet("background:transparent");
     return;
 }
 
@@ -186,9 +202,9 @@ void AppMsg::deleteExceedingMsg()
 
 
 //新增单条消息至通知列表，崭新消息需要new，然后添加至列表最上面
-void AppMsg::addSingleMsg(QString strIconPath, QString strSummary, QDateTime dateTime, QString strBody)
+void AppMsg::addSingleMsg(QString strIconPath, QString strSummary, QDateTime dateTime, QString strBody, QString strUrl, QString strAction)
 {
-    SingleMsg* pSingleMsg = new SingleMsg(this, strIconPath, m_strAppName, strSummary, dateTime, strBody, m_bTakeInFlag);
+    SingleMsg* pSingleMsg = new SingleMsg(this, strIconPath, m_strAppName, strSummary, dateTime, strBody, strUrl, strAction, m_bTakeInFlag);
 
     int uIndex = m_listSingleMsg.count();
     for(int i = m_listSingleMsg.count() - 1; i >= 0; i--)
@@ -309,7 +325,9 @@ void AppMsg::onTakeinWholeApp()
             m_pMainVLaout->insertWidget(0, pTopSingleMsg);
         }
 
-        emit Sig_SendTakeInSingleMsg(m_strAppName, pSingleMsg->getIcon(), pSingleMsg->getSummary(), pSingleMsg->getBody(), pSingleMsg->getPushDateTime(), 20, false);
+        emit Sig_SendTakeInSingleMsg(m_strAppName, pSingleMsg->getIcon(), pSingleMsg->getSummary(),
+                                     pSingleMsg->getBody(), pSingleMsg->getUrl(), pSingleMsg->getAction(),
+                                     pSingleMsg->getPushDateTime(), 20, false);
     }
 
     emit Sig_onDeleteAppMsg(this);
@@ -331,7 +349,9 @@ void AppMsg::onRecoverWholeApp()
             m_pMainVLaout->insertWidget(0, pTopSingleMsg);
         }
 
-        emit Sig_SendAddSingleMsg(m_strAppName, pSingleMsg->getIcon(), pSingleMsg->getSummary(), pSingleMsg->getBody(), pSingleMsg->getPushDateTime(), 20, false);
+        emit Sig_SendAddSingleMsg(m_strAppName, pSingleMsg->getIcon(), pSingleMsg->getSummary(),
+                                  pSingleMsg->getBody(), pSingleMsg->getUrl(), pSingleMsg->getAction(),
+                                  pSingleMsg->getPushDateTime(), 20, false);
     }
 
     emit Sig_onDeleteTakeInAppMsg(this);
@@ -422,7 +442,7 @@ void AppMsg::onTakeInSingleMsg(SingleMsg* pSingleMsg)
         qDebug()<<"AppMsg::onTakeInSingleMsg 在通知链表中未找到pSingleMsg指针";
         return;
     }
-
+    qInfo()<<"------------>nIndex:"<<nIndex;
     m_listSingleMsg.removeAt(nIndex);
     if(0 == nIndex)
     {
@@ -439,7 +459,9 @@ void AppMsg::onTakeInSingleMsg(SingleMsg* pSingleMsg)
         m_pIndexFromOneVLaout->removeWidget(pSingleMsg);
     }
 
-    emit Sig_SendTakeInSingleMsg(m_strAppName, pSingleMsg->getIcon(), pSingleMsg->getSummary(), pSingleMsg->getBody(), pSingleMsg->getPushDateTime(), 20, false);
+    emit Sig_SendTakeInSingleMsg(m_strAppName, pSingleMsg->getIcon(), pSingleMsg->getSummary(),
+                                 pSingleMsg->getBody(),  pSingleMsg->getUrl(), pSingleMsg->getAction(),
+                                 pSingleMsg->getPushDateTime(), 20, false);
     pSingleMsg->deleteLater();
 
     //当本次收纳为应用首条时,且该应用不止一条,考虑将新的首条设置为顶部消息状态
@@ -484,7 +506,9 @@ void AppMsg::onRecoverSingleMsg(SingleMsg* pSingleMsg)
     }
 
 
-    emit Sig_SendAddSingleMsg(m_strAppName, pSingleMsg->getIcon(), pSingleMsg->getSummary(), pSingleMsg->getBody(), pSingleMsg->getPushDateTime(), 20, false);
+    emit Sig_SendAddSingleMsg(m_strAppName, pSingleMsg->getIcon(), pSingleMsg->getSummary(),
+                              pSingleMsg->getBody(),  pSingleMsg->getUrl(), pSingleMsg->getAction(),
+                              pSingleMsg->getPushDateTime(), 20, false);
     pSingleMsg->deleteLater();
 
     //当本次收纳为应用首条时,且该应用不止一条,考虑将新的首条设置为顶部消息状态

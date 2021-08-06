@@ -40,7 +40,7 @@ class SingleMsg : public QWidget
 {
     Q_OBJECT
 public:
-    SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, QString strSummary, QDateTime dateTime, QString strBody, bool bTakeInFlag = false);
+    SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, QString strSummary, QDateTime dateTime, QString strBody, QString strUrl, QString strAction, bool bTakeInFlag = false);
     void initTimeFormatGsetting();
     void updatePushTime();
     void setBodyLabelWordWrap(bool bFlag);
@@ -55,6 +55,7 @@ public:
     void startAnimationDeleUpperMove();                 //开启删除上移动画
     void listenTimeZone();                              //监听时区变化dbus
     void initGsettingValue();                           //初始化监听主题
+    void jumpAction();                                  //执行跳转动作
 
     QDBusInterface *m_datetimeInterface;
 
@@ -63,6 +64,9 @@ public:
     QString     getIcon() {return m_strIconPath;}
     QString     getSummary() {return m_strSummary;}
     QString     getBody() {return m_strBody;}
+    QString     getUrl() {return m_strUrl;}
+    QString     getAction() {return m_strAction;}
+
 
     enum TaskWidgetStatus{NORMAL, HOVER, PRESS};
     TaskWidgetStatus status;
@@ -102,6 +106,8 @@ private:
     QString         m_strIconPath;                  //图标路径
     QString         m_strSummary;                   //保存主题
     QString         m_strBody;                      //保存正文
+    QString         m_strUrl;                       //跳转链接
+    QString         m_strAction;                    //跳转动作
     QDateTime       m_dateTime;                     //保存推送时间
     uint            m_uNotifyTime;                  //保存推送时间的绝对时间
     uint            m_uTimeDifference;              //保存当前时间与推送时间的时间差
