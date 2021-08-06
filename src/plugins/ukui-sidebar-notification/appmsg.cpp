@@ -38,12 +38,16 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
     QHBoxLayout *m_pFoldBtnHLaout = new QHBoxLayout();
     m_pFoldBtnHLaout->setContentsMargins(0,0,0,0);
     m_foldBtn = new QPushButton(m_pFoldBtnWid);
-    //m_foldBtn->setProperty("isWindowButton", 0x1);
 
+    m_foldBtn->setStyleSheet("QPushButton{background:rgba(255,255,255,31); border:0px; border-radius:6px;}"
+                             "QPushButton:hover{background:rgba(255,255,255,71); border:0px; border-radius:6px;}"
+                             "QPushButton:pressed{background:rgba(255,255,255,41); border:0px; border-radius:6px;}");
+
+
+    //m_foldBtn->setProperty("isWindowButton", 0x1);
     //m_foldBtn->setProperty("useIconHighlightEffect", 0x1);
     //m_foldBtn->setProperty("useIconHighlightEffect", 0x2);
     //m_foldBtn->setProperty("useButtonPalette", true);
-
     //m_foldBtn->setStyle(new CustomStyle_pushbutton_2("ukui-default"));
 
     QPainter p(m_foldBtn);
@@ -59,15 +63,19 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
     m_foldBtn->setText(QObject::tr(" fold"));
     m_foldBtn->setFixedSize(88,36);
     connect(m_foldBtn,&QPushButton::clicked,this,&AppMsg::onFoldAppWidget);
+
     m_delBtn = new QPushButton();
-    m_delBtn->setStyle(new CustomStyle_pushbutton_2("ukui-default"));
+    m_delBtn->setStyleSheet("QPushButton{background:rgba(255,255,255,31); border:0px; border-radius:12px;}"
+                             "QPushButton:hover{background:rgba(255,255,255,71); border:0px; border-radius:12px;}"
+                             "QPushButton:pressed{background:rgba(255,255,255,41); border:0px; border-radius:12px;}");
     m_delBtn->setIcon(QIcon(":/images/hover.svg"));
     m_delBtn->setIcon(QIcon::fromTheme("edit-clear-symbolic").pixmap(12,12));
-    m_delBtn->setFixedSize(36,36);
+    m_delBtn->setFixedSize(24,24);
     connect(m_delBtn,&QPushButton::clicked,this,&AppMsg::onDelAppMsg);
     m_pFoldBtnHLaout->addWidget(m_foldBtn);
     m_pFoldBtnHLaout->addItem(new QSpacerItem(256, 10, QSizePolicy::Expanding));
     m_pFoldBtnHLaout->addWidget(m_delBtn);
+    m_pFoldBtnHLaout->addItem(new QSpacerItem(6, 10, QSizePolicy::Fixed));
 
     QVBoxLayout *m_pFoldBtnVLaout = new QVBoxLayout();
     m_pFoldBtnVLaout->setContentsMargins(0,0,0,0);
