@@ -957,3 +957,39 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
     }
     return false;
 }
+
+void Widget::paintEvent(QPaintEvent *event)
+{
+    QPainter p(this);
+    p.setRenderHint(QPainter::Antialiasing);
+    QPainterPath rectPath;
+    rectPath.addRoundedRect(this->rect().adjusted(0, 0, -0, -0), 0, 02);
+
+    QPixmap pixmap(this->rect().size());
+    pixmap.fill(Qt::transparent);
+    QPainter pixmapPainter(&pixmap);
+    pixmapPainter.setRenderHint(QPainter::Antialiasing);
+    pixmapPainter.setPen(Qt::transparent);
+    pixmapPainter.setBrush(Qt::black);
+    pixmapPainter.drawPath(rectPath);
+    pixmapPainter.end();
+
+    QImage img = pixmap.toImage();
+    qt_blurImage(img, 8, false, false);
+
+    pixmap = QPixmap::fromImage(img);
+    QPainter pixmapPainter2(&pixmap);
+    pixmapPainter2.setRenderHint(QPainter::Antialiasing);
+    pixmapPainter2.setCompositionMode(QPainter::CompositionMode_Clear);
+    pixmapPainter2.setPen(Qt::transparent);
+    pixmapPainter2.setBrush(Qt::transparent);
+    pixmapPainter2.drawPath(rectPath);
+
+    p.drawPixmap(this->rect(), pixmap, pixmap.rect());
+    p.save();
+    QColor color = qApp->palette().color(QPalette::Base);
+    color.setAlphaF(tranSparency);
+    p.fillPath(rectPath, color);
+    p.restore();
+    QWidget::paintEvent(event);
+}

@@ -67,7 +67,7 @@ void NotificationPlugin::initTrans()
 
 void NotificationPlugin::initUI()
 {
-    m_pMainWidget = new external_widget;
+    m_pMainWidget = new QWidget;
     m_pMainWidget->setObjectName("NotificationCenter");
 
     //消息通知模块总VBoxLayout布局器
@@ -160,13 +160,13 @@ void NotificationPlugin::initUI()
     pNotificationVBoxLayout->addWidget(pWidget2, 0);
 
     //消息列表widget
-    m_pMsgListWidget = new inside_widget;
+    m_pMsgListWidget = new QWidget;
     m_pMsgListWidget->setFixedSize(390,546);
     pNotificationVBoxLayout->addWidget(m_pMsgListWidget, 1);
     m_pMsgListWidget->setParent(m_pMainWidget);
 
     //消息列表部件，用于装两个消息列表的,浮动在m_pMsgListWidget里面
-    m_pMsgDoubleListWidget = new inside_widget(m_pMsgListWidget);
+    m_pMsgDoubleListWidget = new QWidget(m_pMsgListWidget);
     QHBoxLayout* pMsgDoubleListHBoxLayout = new QHBoxLayout;
     pMsgDoubleListHBoxLayout->setContentsMargins(0, 0, 0, 0);
     pMsgDoubleListHBoxLayout->setSpacing(0);
@@ -181,6 +181,8 @@ void NotificationPlugin::initUI()
     //通知列表
     m_pQScrollAreaNotify = new ScrollAreaWidget();
     m_pQScrollAreaNotify->setAttribute(Qt::WA_TranslucentBackground);
+    m_pQScrollAreaNotify->setStyleSheet("QScrollArea {background-color:transparent;}");
+    m_pQScrollAreaNotify->viewport()->setStyleSheet("background-color:transparent;");
     m_pQScrollAreaNotify->setFrameShape(QFrame::NoFrame);
     m_pQScrollAreaNotify->setFixedWidth(390);
     m_pScrollAreaNotifyVBoxLayout = new QVBoxLayout();
@@ -188,7 +190,7 @@ void NotificationPlugin::initUI()
     m_pScrollAreaNotifyVBoxLayout->setSpacing(6);
 
     //通知列表的最内层部件
-    inside_widget* pInQWidget = new inside_widget();
+    QWidget* pInQWidget = new QWidget();
     pInQWidget->setObjectName("QScrollAreaInQWidget");
     pInQWidget->setLayout(m_pScrollAreaNotifyVBoxLayout);
     pInQWidget->setAttribute(Qt::WA_TranslucentBackground);
@@ -204,6 +206,8 @@ void NotificationPlugin::initUI()
     //收纳列表
     m_pQScrollAreaTakeIn = new ScrollAreaWidget();
     m_pQScrollAreaTakeIn->setAttribute(Qt::WA_TranslucentBackground);
+    m_pQScrollAreaTakeIn->setStyleSheet("QScrollArea {background-color:transparent;}");
+    m_pQScrollAreaTakeIn->viewport()->setStyleSheet("background-color:transparent;");
     m_pQScrollAreaTakeIn->setFrameShape(QFrame::NoFrame);
     m_pQScrollAreaTakeIn->setFixedWidth(390);
 
@@ -212,7 +216,7 @@ void NotificationPlugin::initUI()
     m_pScrollAreaTakeInVBoxLayout->setSpacing(0);
 
     //收纳列表的最内层部件
-    inside_widget* pTakeInQWidget = new inside_widget();
+    QWidget* pTakeInQWidget = new QWidget();
     pTakeInQWidget->setObjectName("QScrollAreaInQWidget");
     pTakeInQWidget->setLayout(m_pScrollAreaTakeInVBoxLayout);
     pTakeInQWidget->setAttribute(Qt::WA_TranslucentBackground);
@@ -622,99 +626,6 @@ void NotificationPlugin::onSwitchMsgBoxFinish()
             pAppMsg->setAppFold();
         }
     }
-}
-
-external_widget::external_widget()
-{
-    initGsettingValue();
-    initGsettingTransparency();
-}
-
-void external_widget::initGsettingTransparency()
-{
-    if(QGSettings::isSchemaInstalled(UKUI_TRANSPARENCY_SETTING)) {
-        m_pTransparency = new QGSettings(UKUI_TRANSPARENCY_SETTING);
-        m_dTranSparency = m_pTransparency->get("transparency").toDouble();
-        connect(m_pTransparency, &QGSettings::changed, this, [=](QString value) {
-            m_dTranSparency = m_pTransparency->get("transparency").toDouble();;
-        });
-    }
-}
-
-void external_widget::initGsettingValue()
-{
-    const QByteArray id(STYLE_FONT_SCHEMA);
-    if (QGSettings::isSchemaInstalled(id))
-        m_pStyleGsetting = new QGSettings(id);
-}
-
-void external_widget::paintEvent(QPaintEvent *e)
-{
-    QPainter p(this);
-    QRect rect = this->rect();
-    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-    p.setBrush(QBrush(QColor(220,220,220,255)));
-
-    QString m_style = "ukui-light";
-    const QByteArray id(STYLE_FONT_SCHEMA);
-    if (QGSettings::isSchemaInstalled(id))
-         m_style = m_pStyleGsetting->get("style-name").toString();
-
-    if (m_style=="ukui-light")
-        p.setBrush(QBrush(QColor(220,220,220)));
-    else
-        p.setBrush(QBrush(QColor(20,20,20)));
-
-    p.setOpacity(m_dTranSparency);
-    p.setPen(Qt::NoPen);
-    p.drawRoundedRect(rect,0,0);
-
-}
-
-inside_widget::inside_widget(QWidget *parent) : QWidget(parent)
-{
-      initGsettingValue();
-      initGsettingTransparency();
-}
-
-void inside_widget::initGsettingTransparency()
-{
-    if (QGSettings::isSchemaInstalled(UKUI_TRANSPARENCY_SETTING)) {
-        m_pTransparency = new QGSettings(UKUI_TRANSPARENCY_SETTING);
-        m_dTranSparency = m_pTransparency->get("transparency").toDouble();
-        connect(m_pTransparency, &QGSettings::changed, this, [=](QString value) {
-            m_dTranSparency = m_pTransparency->get("transparency").toDouble();;
-        });
-    }
-}
-
-void inside_widget::initGsettingValue()
-{
-    const QByteArray id(STYLE_FONT_SCHEMA);
-    if (QGSettings::isSchemaInstalled(id))
-        m_pStyleGsetting = new QGSettings(id);
-}
-
-void inside_widget::paintEvent(QPaintEvent *e)
-{
-    QPainter p(this);
-    QRect rect = this->rect();
-    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-
-    QString m_style = "ukui-light";
-    const QByteArray id(STYLE_FONT_SCHEMA);
-    if (QGSettings::isSchemaInstalled(id))
-         m_style = m_pStyleGsetting->get("style-name").toString();
-
-    if (m_style=="ukui-light")
-        p.setBrush(QBrush(QColor(220,220,220)));
-    else
-        p.setBrush(QBrush(QColor(20,20,20)));
-
-    p.setOpacity(m_dTranSparency);
-    p.setPen(Qt::NoPen);
-    p.drawRoundedRect(rect,0,0);
-    QWidget::paintEvent(e);
 }
 
 TakeInCoutLabel::TakeInCoutLabel(QWidget *parent) : QLabel(parent)
