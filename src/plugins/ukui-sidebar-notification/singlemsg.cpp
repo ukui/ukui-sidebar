@@ -309,6 +309,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pAppVLaout->addWidget(m_pSingleWidget);
     this->setLayout(m_pAppVLaout);
     m_pSetDeleDelayTimer = new QTimer(this);
+    m_pSetJumpDelayTimer = new QTimer(this);
     return;
 }
 
@@ -411,29 +412,28 @@ void SingleMsg::initGsettingValue()
 
 void SingleMsg::jumpAction()
 {
-    qInfo()<<"----------->jumpAction";
-    if(!m_strUrl.isEmpty()){
-        QString cmd = QString("xdg-open ") + m_strUrl; //在linux下，可以通过system来xdg-open命令调用默认程序打开文件；
-        qInfo()<<"----------->"<<cmd;
-        system(cmd.toStdString().c_str());
-        //return;
-    }
-    else if(!m_strAction.isEmpty()){
-        qInfo()<<"----------->"<<m_strAction;
-        QProcess *process = new QProcess();
-        process->start(m_strAction);
-        //return;
-    }
-    qInfo()<<">>>>>>>>>>>>"<<m_bMain<<m_bAppFold<<m_nShowLeftCount;
-//    if((true == m_bMain) && (true == m_bAppFold) && (m_nShowLeftCount > 0))
-//    {
-//        m_pAppVLaout->setContentsMargins(0,0,0,6);
-//        emit Sig_notifyAppHideBaseMap();                    //通知隐藏应用的底图部件，但保留显示底部6px的空白
-//    }
-    m_pSetDeleDelayTimer->setSingleShot(true);                //设置一个单次定时器,只为延迟2毫秒执行删除
-    connect(m_pSetDeleDelayTimer, SIGNAL(timeout()), this, SLOT(startAnimationDeleLeftMove()));
-    m_pSetDeleDelayTimer->start(2);
+    //关闭该条通知
+    onDele();
 
+    //跳转动作
+    connect(this,&SingleMsg::Sig_jumpAction,this,[=](){
+        m_pSetJumpDelayTimer->setSingleShot(true);      //延迟30毫秒，等待删除完成后跳转
+        connect(m_pSetJumpDelayTimer, &QTimer::timeout, this, [=](){
+            if(!m_strUrl.isEmpty()){
+                QString cmd = QString("xdg-open ") + m_strUrl;
+                qInfo()<<"Jump Url:"<<cmd;
+                system(cmd.toStdString().c_str());
+                this->deleteLater();
+            }
+            else if(!m_strAction.isEmpty()){
+                qInfo()<<"Jump Action:"<<m_strAction;
+                QProcess *process = new QProcess();
+                process->start(m_strAction);
+                this->deleteLater();
+            }
+        });
+        m_pSetJumpDelayTimer->start(30);
+    });
     return;
 }
 
@@ -660,7 +660,6 @@ void SingleMsg::enterEvent(QEvent *event)
     this->update();
     QTimer::singleShot(50,[this]{
         if(this){
-            qDebug()<<">>>>>>>>>>>>>.this->update()";
             this->update();
         }
     });
@@ -789,7 +788,6 @@ void SingleMsg::startAnimationDeleLeftMove()
     int nHeight = this->height();
     QDateTime currentDateTime(QDateTime::currentDateTime());
     QString strCurrentTime = currentDateTime.toString("hh:mm:ss.zzz");
-    qDebug()<<strCurrentTime <<"SingleMsg::setAnimationDeleStatus"<<this <<nWidth <<nHeight;
 
     nHeight = nHeight - 6;                  //减去底部6px的空白区域，得出动画框体偏移高度
 
@@ -847,7 +845,6 @@ void SingleMsg::onDele()
 //通知中心消息收纳至收纳盒
 void SingleMsg::onTakeIn()
 {
-    qDebug()<<"==========onTakeIn"<<m_bMain<<m_bAppFold<<m_nShowLeftCount;
     if((true == m_bMain) && (true == m_bAppFold) && (m_nShowLeftCount > 0))
     {
         emit Sig_onTakeinWholeApp();
@@ -995,6 +992,7 @@ void SingleMsg::onDeleUpperMoveFinish()
     else
     {
         emit Sig_onDeleSingleMsg(this);
+        emit Sig_jumpAction();
     }
 
 }

@@ -143,6 +143,7 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
 
     //发个统计收纳数更新信号
     connect(this, SIGNAL(Sig_countTakeInBitAndUpate()), parent, SLOT(onCountTakeInBitAndUpate()));
+
     return;
 }
 
@@ -235,7 +236,7 @@ void AppMsg::addSingleMsg(QString strIconPath, QString strSummary, QDateTime dat
         //只有已经折叠的才需要将现有的正文设置为缩略显示
         if(true == m_bFold)
         {
-            pFirstMsg->setBodyLabelWordWrap(false);
+            pFirstMsg-> setBodyLabelWordWrap(false);
             pFirstMsg->setVisible(false);
             //将SingleMsg底部设置0px空隙,当其展开时，让他完全从0展开
             pFirstMsg->setSingleMsgContentsMargins(0, 0, 0, 0);
@@ -391,7 +392,7 @@ void AppMsg::onDeleSingleMsg(SingleMsg* pSingleMsg)
     {
         m_pIndexFromOneVLaout->removeWidget(pSingleMsg);
     }
-    pSingleMsg->deleteLater();
+    //pSingleMsg->deleteLater();
 
     //当本次删除为应用首条时,且该应用不止一条,则需将新的首条设置为顶部消息状态
     if(0 == nIndex)
@@ -420,7 +421,6 @@ void AppMsg::onDeleSingleMsg(SingleMsg* pSingleMsg)
     {
         emit Sig_countTakeInBitAndUpate();
     }
-
     return;
 }
 
@@ -450,7 +450,6 @@ void AppMsg::onTakeInSingleMsg(SingleMsg* pSingleMsg)
         qDebug()<<"AppMsg::onTakeInSingleMsg 在通知链表中未找到pSingleMsg指针";
         return;
     }
-    qInfo()<<"------------>nIndex:"<<nIndex;
     m_listSingleMsg.removeAt(nIndex);
     if(0 == nIndex)
     {
@@ -605,14 +604,6 @@ void AppMsg::setAppFoldFlag(bool bFlag)
         pAnimation1->setEndValue(QRect(0, m_pFoldBtnWid->height(), widthAppWid, heightAppWid));
         pAnimation1->start(QAbstractAnimation::DeleteWhenStopped);
         //--<
-
-//        //展开时,索引从第1条开始,消息全部可见
-//        qDebug()<<"----------------"<<m_listSingleMsg.count();
-//        for(int i = 1; i < m_listSingleMsg.count(); i++)
-//        {
-//            SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
-//            pTmpSingleMsg->startAnimationUnfold();
-//        }
 
     }
     else

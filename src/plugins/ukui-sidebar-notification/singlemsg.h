@@ -98,6 +98,7 @@ private:
     QWidget*        m_pShowLeftWidget;              //显示该应用未展开部件
     QLabel*         m_pShowLeftItemLabel;           //显示该应用未展开条数
     QTimer*         m_pSetDeleDelayTimer;
+    QTimer*         m_pSetJumpDelayTimer;
     QWidget*        m_pContextWidget;
     QGSettings     *m_pStyleGsetting;               //监听主题的gsetting
 
@@ -130,6 +131,7 @@ signals:
     void            Sig_onMainLeave();              //应用主消息鼠标离开信号，发送至App,让分层底图背景变回来
     void            Sig_notifyAppShowBaseMap();     //当动画折叠后，通知主app考虑显示底图
     void            Sig_notifyAppHideBaseMap();     //通知隐藏应用的底图部件
+    void            Sig_jumpAction();  //执行跳转动作信号
 
 public slots:
     void            onDele();                       //通知中心或者收纳盒中的删除
