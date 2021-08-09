@@ -67,7 +67,6 @@ private:
     bool                m_bFold;                        //折叠标志
     int                 m_nMaxCount;                    //应用消息最大收录数
     QPushButton*        m_foldBtn;                      //折叠按钮
-//    QToolButton*        m_foldBtn;                      //折叠按钮
     QPushButton*        m_delBtn;                       //清除按钮
 
 

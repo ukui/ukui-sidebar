@@ -617,15 +617,14 @@ void AppMsg::setAppFoldFlag(bool bFlag)
     }
     else
     {
-
-//        //折叠时,索引从第1条开始,消息全部不可见
-//        for(int i = 1; i < m_listSingleMsg.count(); i++)
-//        {
-//            SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
-//            pTmpSingleMsg->startAnimationFold();
-//        }
-//        m_pMainBaseVLaout->removeWidget(m_pFoldBtnWid);
-//        m_pFoldBtnWid->setVisible(false);
+        //折叠时,索引从第1条开始,消息全部不可见
+        for(int i = 1; i < m_listSingleMsg.count(); i++)
+        {
+            SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
+            pTmpSingleMsg->startAnimationFold();
+        }
+        m_pMainBaseVLaout->removeWidget(m_pFoldBtnWid);
+        m_pFoldBtnWid->setVisible(false);
     }
 
 }
