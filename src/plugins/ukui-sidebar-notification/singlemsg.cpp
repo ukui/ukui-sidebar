@@ -42,6 +42,8 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_bMain = true;                 //默认是主窗口
     m_bFold = true;                 //默认折叠状态
     m_bAppFold = true;              //默认整组消息折叠状态
+    jumpFlag = false;               //默认未点击跳转
+    m_pParent = pParent;
     m_strIconPath = strIconPath;
     m_strSummary = strSummary;
     m_strBody = strBody;
@@ -414,26 +416,26 @@ void SingleMsg::jumpAction()
 {
     //关闭该条通知
     onDele();
-
     //跳转动作
+    m_pSetJumpDelayTimer->setSingleShot(true);      //延迟30毫秒，等待删除完成后跳转
+    connect(m_pSetJumpDelayTimer, &QTimer::timeout, this, [=](){
+        if(!m_strUrl.isEmpty()){
+            QString cmd = QString("xdg-open ") + m_strUrl;
+            qInfo()<<"Jump Url:"<<cmd;
+            system(cmd.toStdString().c_str());
+            emit Sig_onDeleSingleMsg(this);
+        }
+        else if(!m_strAction.isEmpty()){
+            qInfo()<<"Jump Action:"<<m_strAction;
+            QProcess *process = new QProcess();
+            process->start(m_strAction);
+            emit Sig_onDeleSingleMsg(this);
+        }
+    });
     connect(this,&SingleMsg::Sig_jumpAction,this,[=](){
-        m_pSetJumpDelayTimer->setSingleShot(true);      //延迟30毫秒，等待删除完成后跳转
-        connect(m_pSetJumpDelayTimer, &QTimer::timeout, this, [=](){
-            if(!m_strUrl.isEmpty()){
-                QString cmd = QString("xdg-open ") + m_strUrl;
-                qInfo()<<"Jump Url:"<<cmd;
-                system(cmd.toStdString().c_str());
-                this->deleteLater();
-            }
-            else if(!m_strAction.isEmpty()){
-                qInfo()<<"Jump Action:"<<m_strAction;
-                QProcess *process = new QProcess();
-                process->start(m_strAction);
-                this->deleteLater();
-            }
-        });
         m_pSetJumpDelayTimer->start(30);
     });
+
     return;
 }
 
@@ -689,22 +691,34 @@ void SingleMsg::mousePressEvent(QMouseEvent *event)
     status =PRESS;
     if (event->buttons() == Qt::LeftButton)
     {
-
-        if(true == m_bMain){ //点击主窗口:1、折叠状态下则展开消息  2、展开状态下执行跳转
-            if(true == m_bAppFold){
-                m_bAppFold = false;                                //置为false,表示展开
-                m_pShowLeftItemLabel->setVisible(false);        //展开时，剩余条目设置为不可见
-                emit Sig_setAppFoldFlag(m_bAppFold);               //展开设置，即开始展开动画
-            }else{
-                //执行跳转动作
-                jumpAction();
+        if(m_pParent->getFoldFlag()){   //折叠状态
+            if(true == m_bMain){
+                if(m_pParent->getSingleMsgCount()<=1){
+                    if(m_bFold){
+                        //折叠状态下展开单条消息
+                        setBodyLabelWordWrap(true);
+                        setFoldFlag(false);
+                    }else{
+                        //已经展开的消息执行跳转
+                        jumpFlag = true;
+                        jumpAction();
+                    }
+                }
+                else{
+                    //展开整个app消息
+                    if(true == m_bAppFold){
+                        m_bAppFold = false;                                //置为false,表示展开
+                        m_pShowLeftItemLabel->setVisible(false);        //展开时，剩余条目设置为不可见
+                        emit Sig_setAppFoldFlag(m_bAppFold);               //展开设置，即开始展开动画
+                    }
+                }
             }
         }
         else{
             //执行跳转动作
+            jumpFlag = true;
             jumpAction();
         }
-
         this->update();
     }
     return;
@@ -717,6 +731,7 @@ void SingleMsg::mainMsgSetFold()
     {
         //置为true,表示折叠
         m_bAppFold = true;
+        setFoldFlag(true);
         setBodyLabelWordWrap(false);
 
         //当剩余条数大于0, 且是折叠状态则显示剩余标签
@@ -985,14 +1000,19 @@ void SingleMsg::updateDeleUpperMove(const QVariant &value)
 //处理删除上移完成时的函数
 void SingleMsg::onDeleUpperMoveFinish()
 {
-    if((true == m_bMain) && (true == m_bAppFold) && (m_nShowLeftCount > 0))
+    if((true == m_bMain) && (true == m_bAppFold) && (m_nShowLeftCount > 0))  //点击的是折叠状态下的主消息的删除按钮
     {
         emit Sig_onDeleteAppMsg();
     }
-    else
-    {
-        emit Sig_onDeleSingleMsg(this);
+    else if((true == m_bMain) && (m_nShowLeftCount == 0) && jumpFlag){     //仅有一条消息时点击消息体
         emit Sig_jumpAction();
+    }
+    else{
+        if(jumpFlag){
+            emit Sig_jumpAction();
+        }else{
+            emit Sig_onDeleSingleMsg(this);
+        }
     }
 
 }

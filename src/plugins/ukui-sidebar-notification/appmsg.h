@@ -47,6 +47,7 @@ public:
     void    setTopWithSecondItem();                     //当应用最顶条被删除后,将第二条置顶
     void    setAppFold();                               //当app展开时，将app设置折叠
     void    setMaxNumMsg(int nMaxNum) {m_nMaxCount = nMaxNum;}
+    bool    getFoldFlag() {return m_bFold;}
 
     void paintEvent(QPaintEvent *);                //重绘事件
 

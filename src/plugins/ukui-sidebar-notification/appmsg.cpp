@@ -30,8 +30,6 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
     this->setFixedWidth(380);
     m_nMaxCount = 3;
 
-
-
     //-->
     //折叠按钮和删除按钮部分
     m_pFoldBtnWid = new QWidget(this);
@@ -42,14 +40,6 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
     m_foldBtn->setStyleSheet("QPushButton{background:rgba(255,255,255,31); border:0px; border-radius:6px;}"
                              "QPushButton:hover{background:rgba(255,255,255,71); border:0px; border-radius:6px;}"
                              "QPushButton:pressed{background:rgba(255,255,255,41); border:0px; border-radius:6px;}");
-
-
-    //m_foldBtn->setProperty("isWindowButton", 0x1);
-    //m_foldBtn->setProperty("useIconHighlightEffect", 0x1);
-    //m_foldBtn->setProperty("useIconHighlightEffect", 0x2);
-    //m_foldBtn->setProperty("useButtonPalette", true);
-    //m_foldBtn->setStyle(new CustomStyle_pushbutton_2("ukui-default"));
-
     QPainter p(m_foldBtn);
     QRect rect = m_foldBtn->rect();
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
@@ -86,7 +76,7 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
     m_pFoldBtnWid->setContentsMargins(0,0,0,0);
     m_pFoldBtnWid->setLayout(m_pFoldBtnVLaout);
     m_pFoldBtnWid->setFixedSize(380,42);
-    if(m_bFold)
+    if(m_bFold || (m_listSingleMsg.count()<=1))
         m_pFoldBtnWid->setVisible(false);
     else
         m_pFoldBtnWid->setVisible(true);
@@ -392,7 +382,7 @@ void AppMsg::onDeleSingleMsg(SingleMsg* pSingleMsg)
     {
         m_pIndexFromOneVLaout->removeWidget(pSingleMsg);
     }
-    //pSingleMsg->deleteLater();
+    pSingleMsg->deleteLater();
 
     //当本次删除为应用首条时,且该应用不止一条,则需将新的首条设置为顶部消息状态
     if(0 == nIndex)
@@ -559,7 +549,8 @@ void AppMsg::setAppFoldFlag(bool bFlag)
     {
         //-->
         //折叠按钮显示动画：App消息窗口下移，折叠按钮窗口下移
-        m_pFoldBtnWid->setVisible(true);
+        if(m_listSingleMsg.count()>1)
+            m_pFoldBtnWid->setVisible(true);
         int widthFoldWid = m_pFoldBtnWid->width();
         int heightFoldWid = m_pFoldBtnWid->height();
         QPropertyAnimation* pAnimation2 = new QPropertyAnimation(this, "geometryFold");
@@ -659,11 +650,13 @@ void AppMsg::onFoldAppWidget()
         SingleMsg* pFristSingleMsg = m_listSingleMsg.at(0);  //折叠第一条消息的正文内容
         pFristSingleMsg->setBodyLabelWordWrap(false);
         pFristSingleMsg->m_bAppFold = true;
+        pFristSingleMsg->setFoldFlag(true);
         for(int i = 1; i < m_listSingleMsg.count(); i++)
         {
             SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
             pTmpSingleMsg->setBodyLabelWordWrap(false);
             pTmpSingleMsg->m_bAppFold = true;
+            pTmpSingleMsg->setFoldFlag(true);
             pTmpSingleMsg->startAnimationFold();
         }
         m_pMainBaseVLaout->removeWidget(m_pFoldBtnWid);
@@ -699,7 +692,9 @@ void AppMsg::setAppFold()
         //假如应用展开，则将应用主消息设置折叠
         SingleMsg* pFirstSingleMsg = m_listSingleMsg.at(0);
         pFirstSingleMsg->mainMsgSetFold();
+
     }
+    m_pFoldBtnWid->setVisible(false);  //单条消息不显示折叠按钮
 }
 
 //应用主消息进入

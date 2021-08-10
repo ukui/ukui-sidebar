@@ -118,6 +118,8 @@ private:
     int             m_nShowLeftCount;               //为主窗口时,剩余显示条数
     bool            m_bTimeFormat;                  //time制式，0代表12小时制，1代表24小时制
     QGSettings      *stylesettings;
+    AppMsg          *m_pParent;                     //父类指针
+    bool            jumpFlag;                       //跳转标志
 
 signals:
     void            Sig_onDeleSingleMsg(SingleMsg* p);
