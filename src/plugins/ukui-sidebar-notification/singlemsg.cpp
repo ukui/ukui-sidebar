@@ -698,6 +698,8 @@ void SingleMsg::mousePressEvent(QMouseEvent *event)
                         //折叠状态下展开单条消息
                         setBodyLabelWordWrap(true);
                         setFoldFlag(false);
+                        m_pParent->setFoldFlag(false);
+
                     }else{
                         //已经展开的消息执行跳转
                         jumpFlag = true;
@@ -944,7 +946,7 @@ void SingleMsg::onUnfoldFinish()
 {
     m_pAppVLaout->removeWidget(m_pAnimationBaseMapWidget);
     m_pAnimationBaseMapWidget->setVisible(false);
-    m_pAppVLaout->addWidget(m_pSingleWidget);   
+    m_pAppVLaout->addWidget(m_pSingleWidget);
 }
 
 //处理折叠完成时的函数

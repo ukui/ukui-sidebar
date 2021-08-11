@@ -141,7 +141,7 @@ void AppMsg::paintEvent(QPaintEvent *)
 {
     QPainter p(this);
     QRect rect = this->rect();
-    if(m_bFold){
+    if(!m_pFoldBtnWid->isVisible()){
         rect.setWidth(rect.width() - 1);
         rect.setHeight(rect.height() - 1);
         p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
@@ -586,6 +586,7 @@ void AppMsg::setAppFoldFlag(bool bFlag)
             {
                 SingleMsg* pTmpSingleMsg = m_listSingleMsg.at(i);
                 pTmpSingleMsg->setBodyLabelWordWrap(true);
+                pTmpSingleMsg->setFoldFlag(false);
                 pTmpSingleMsg->m_bAppFold = false;
                 pTmpSingleMsg->startAnimationUnfold();
             }

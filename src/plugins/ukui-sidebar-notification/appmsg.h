@@ -48,6 +48,7 @@ public:
     void    setAppFold();                               //当app展开时，将app设置折叠
     void    setMaxNumMsg(int nMaxNum) {m_nMaxCount = nMaxNum;}
     bool    getFoldFlag() {return m_bFold;}
+    void    setFoldFlag(bool bFlag) {m_bFold = bFlag;}
 
     void paintEvent(QPaintEvent *);                //重绘事件
 
