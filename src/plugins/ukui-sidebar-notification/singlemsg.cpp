@@ -154,7 +154,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
     //放置时间和收纳删除按钮的窗口
     m_pTimeLabelWidget = new QWidget;
-    m_pTimeLabelWidget->setFixedSize(146, 20);
+    m_pTimeLabelWidget->setFixedSize(146, 22);
     QHBoxLayout* pTimeLableHLayout = new QHBoxLayout();
 
 

@@ -36,10 +36,12 @@
 #include <QStyleOption>
 #include <QPainter>
 #include <QDialog>
+#include <QGSettings>
 #include "customstyle.h"
 #include "customstylePushbutton2.h"
 #include "clipboardsignal.h"
 #define  SIDEBAR_EDITAREA_QSS_PATH  ":/qss/sideBarEditArea.css"
+
 extern ClipboardSignal *globalClipboardSignal;
 class EditorWidget :public QDialog
 {
@@ -57,6 +59,8 @@ public:
     QHBoxLayout  *m_ptileLayout;
     QVBoxLayout  *m_pEditLaout;
     QHBoxLayout  *m_pOperationLayout;
+    QGSettings                  *m_pTransparency;                               // 插件的界面的透明度
+    double m_tranSparency = 1.0;
 
     void titleBox();
     void editBox();

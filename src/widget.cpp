@@ -112,6 +112,12 @@ void Widget::startBackgroundFunction()
 
     if (QGSettings::isSchemaInstalled(UKUI_TRANSPARENCY_SETTING)) {
         m_pTransparency = new QGSettings(UKUI_TRANSPARENCY_SETTING);
+        connect(m_pTransparency, &QGSettings::changed, this, [=](QString value) {
+            if (value == "transparency") {
+                tranSparency = m_pTransparency->get("transparency").toDouble();
+                this->update();
+            }
+        });
     }
 
     //快捷参数

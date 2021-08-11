@@ -22,14 +22,24 @@
 #include <QTextFrameFormat>
 #include <QTimer>
 
-
 EditorWidget::EditorWidget()
 {
+    if (QGSettings::isSchemaInstalled("org.ukui.control-center.personalise")) {
+        m_pTransparency = new QGSettings("org.ukui.control-center.personalise");
+        connect(m_pTransparency, &QGSettings::changed, this, [=](QString value) {
+            if (value == "transparency") {
+                m_tranSparency = m_pTransparency->get("transparency").toDouble();
+                this->update();
+            }
+        });
+    }
+
     installEventFilter(this);
     this->setFixedSize(400, 338);
     this->setContentsMargins(0, 0, 0, 0);
     this->setWindowTitle(QObject::tr("edit box"));
     this->setWindowIcon(QIcon::fromTheme("kylin-clipboard"));
+    this->setWindowModality(Qt::NonModal);
     this->setProperty("useSystemStyleBlur", true);
     m_pMainQVBoxLayout = new QVBoxLayout();
     m_pMainQVBoxLayout->setContentsMargins(0, 0, 0, 0);
@@ -134,7 +144,7 @@ void EditorWidget::paintEvent(QPaintEvent *)
     opt.init(this);
     QPainter p(this);
     p.setBrush(opt.palette.color(QPalette::Base));
-    p.setOpacity(0.7);
+    p.setOpacity(m_tranSparency);
     p.setPen(Qt::NoPen);
 
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
