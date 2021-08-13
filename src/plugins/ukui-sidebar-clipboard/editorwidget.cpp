@@ -34,6 +34,19 @@ EditorWidget::EditorWidget()
         });
     }
 
+    if (QGSettings::isSchemaInstalled("org.ukui.style")) {
+        m_pFont = new QGSettings("org.ukui.style");
+        m_Fontsize = m_pFont->get("system-font-size").toInt();
+        connect(m_pFont, &QGSettings::changed, this, [=](QString value) {
+            m_Fontsize = m_pFont->get("system-font-size").toInt();
+            QFont font = m_ptileLable->font();
+            font.setPixelSize(9 + m_Fontsize);
+            font.setFamily("Noto Sans CJK SC");
+            m_ptileLable->setFont(font);
+            this->update();
+        });
+    }
+
     installEventFilter(this);
     this->setFixedSize(400, 338);
     this->setContentsMargins(0, 0, 0, 0);
@@ -85,16 +98,12 @@ void EditorWidget::editBox()
     QPalette paletteTextEdit = m_pEditingArea->palette();
     paletteTextEdit.setBrush(QPalette::Base, color);
     m_pEditingArea->setPalette(paletteTextEdit);
-    QFont font = m_pEditingArea->font();
-    font.setFamily("Noto Sans CJK SC");
-    font.setPixelSize(14);
-//    m_pEditingArea->setFont(font);
 
     m_ptileLable = new QLabel(QObject::tr("Edit"));
-    m_ptileLable->setFixedHeight(20);
+    m_ptileLable->setFixedHeight(25);
     QTimer::singleShot(1, m_ptileLable, [=](){
         QFont font = m_ptileLable->font();
-        font.setPixelSize(20);
+        font.setPixelSize(9 + m_Fontsize);
         font.setFamily("Noto Sans CJK SC");
         m_ptileLable->setFont(font);
     });
