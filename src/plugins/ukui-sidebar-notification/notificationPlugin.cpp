@@ -25,6 +25,7 @@
 #include <QDebug>
 #include <QPainter>
 #include "customstylePushbutton2.h"
+#include "notificationDbus.h"
 
 
 NotificationPlugin::NotificationPlugin()
@@ -35,17 +36,21 @@ NotificationPlugin::NotificationPlugin()
     //初始化界面
     initUI();
 
-    //新建一个监控dbus消息的线程
-    MonitorThread* pMonitorThread = new MonitorThread(this);
-    QGSettings* pEnablenotice = new QGSettings("org.ukui.control-center.notice", "", this);
-    if(pEnablenotice->get("enable-notice").toBool()) {
-        pMonitorThread->start();
-        pMonitorThread->switchEnable(pEnablenotice->get("enable-notice").toBool());
-    }
+//    //新建一个监控dbus消息的线程
+//    MonitorThread* pMonitorThread = new MonitorThread(this);
+//    QGSettings* pEnablenotice = new QGSettings("org.ukui.control-center.notice", "", this);
+//    if(pEnablenotice->get("enable-notice").toBool()) {
+//        pMonitorThread->start();
+//        pMonitorThread->switchEnable(pEnablenotice->get("enable-notice").toBool());
+//    }
 
-    connect(pEnablenotice, &QGSettings::changed, [=](){
-        pMonitorThread->switchEnable(pEnablenotice->get("enable-notice").toBool());
-    });
+//    connect(pEnablenotice, &QGSettings::changed, [=](){
+//        pMonitorThread->switchEnable(pEnablenotice->get("enable-notice").toBool());
+//    });
+
+    //注册dbus接口，接收通知中心发送的通知信息
+    NotificationDbus *notifyDbus = new NotificationDbus(this);
+
 
     return;
 }
@@ -279,9 +284,11 @@ AppMsg* NotificationPlugin::getAppMsgAndIndexByName(QString strAppName, int& nIn
     return pAppMsg;
 }
 
-uint NotificationPlugin::onAddSingleNotify(QString strAppName, QString strIconPath, QString strSummary, \
-                                           QString strBody, QDateTime dateTime, int maxNum, bool bNewNotificationFlag)
+uint NotificationPlugin::onAddSingleNotify(QString strAppName, QString strIconPath, QString strSummary,
+                                           QString strBody, QString urlStr,  QString actions,
+                                           QDateTime dateTime, int maxNum, bool bNewNotificationFlag)
 {
+    qInfo()<<"------------->NotificationPlugin:"<<strAppName<<strIconPath<<strSummary<<strBody<<urlStr<<actions<<dateTime<<maxNum;
     if(true == bNewNotificationFlag)
     {
         emit Sig_onNewNotification();
@@ -312,11 +319,11 @@ uint NotificationPlugin::onAddSingleNotify(QString strAppName, QString strIconPa
 
     //在strAppName对应的AppMsg中添加单条信息
     if(pAppMsg->getSingleMsgCount() < maxNum){
-        pAppMsg->addSingleMsg(strIconPath, strSummary, dateTime, strBody);
+        pAppMsg->addSingleMsg(strIconPath, strSummary, dateTime, strBody, urlStr, actions);
     }
     else{
         pAppMsg->deleteExceedingMsg();
-        pAppMsg->addSingleMsg(strIconPath, strSummary, dateTime, strBody);
+        pAppMsg->addSingleMsg(strIconPath, strSummary, dateTime, strBody, urlStr, actions);
     }
 
     int uIndex = m_listAppMsg.count();
@@ -480,7 +487,7 @@ AppMsg* NotificationPlugin::getTakeinAppMsgAndIndexByName(QString strAppName, in
     return pAppMsg;
 }
 
-void NotificationPlugin::onTakeInSingleNotify(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime, int maxNum, bool bNewTakeinFlag)
+void NotificationPlugin::onTakeInSingleNotify(QString strAppName, QString strIcon, QString strSummary, QString strBody, QString urlStr,  QString actions, QDateTime dateTime, int maxNum, bool bNewTakeinFlag)
 {
     //当列表信息为空表明第一次来通知，列表个数为2，一个表面是“没有新通知标签”，一个是底部弹簧
     if (0 == m_listTakeInAppMsg.count() && 2 == m_pScrollAreaTakeInVBoxLayout->count()) {
@@ -504,7 +511,7 @@ void NotificationPlugin::onTakeInSingleNotify(QString strAppName, QString strIco
     if (true == bNewTakeinFlag) {
         pAppMsg->setMaxNumMsg(maxNum);
     }
-    pAppMsg->addSingleMsg(strIcon, strSummary, dateTime, strBody);
+    pAppMsg->addSingleMsg(strIcon, strSummary, dateTime, strBody, urlStr, actions);
 
 
     int uIndex = m_listTakeInAppMsg.count();
