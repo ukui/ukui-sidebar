@@ -1,3 +1,11 @@
+ukui-sidebar (3.1.0-1-0038) v101; urgency=medium
+
+  *BUG 号:
+  *需求号:45483 邮件客户端与侧边栏-通知栏联动
+  *其他改动说明:
+
+ -- yinjie-zhang <zhangyinjie1001@163.com>  Sat, 14 Aug 2021 14:25:41 +0800
+
 ukui-sidebar (3.1.0-1-0036) v101; urgency=medium
 
   *BUG 号:
