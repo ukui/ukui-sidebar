@@ -12,7 +12,7 @@ QT += KWindowSystem dbus x11extras
 # 适配窗口管理器圆角阴影
 LIBS +=-lpthread
 LIBS +=-lX11
-LIBS += -lukui-log4qt
+#LIBS += -lukui-log4qt
 # 配置gsettings
 CONFIG += link_pkgconfig
 PKGCONFIG += gsettings-qt

@@ -13,8 +13,8 @@ Build-Depends: debhelper-compat (= 12),
 	       libdconf-dev,
                libx11-dev,
 	       libxtst-dev,
-	       libburner-media3-1,   
-	       gstreamer1.0-plugins-good,  
+	       libburner-media3-1,
+	       gstreamer1.0-plugins-good,
 	       gstreamer1.0-pulseaudio,
 	       libkf5windowsystem-dev,
 	       libqt5x11extras5-dev,
@@ -22,7 +22,6 @@ Build-Depends: debhelper-compat (= 12),
 	       libxrandr-dev,
 	       libxinerama-dev,
 	       libxcursor-dev,
-			libukui-log4qt-dev
 Standards-Version: 4.5.0
 Rules-Requires-Root: no
 Homepage: https://github.com/ukui/ukui-sidebar.git

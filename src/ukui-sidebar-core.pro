@@ -74,7 +74,8 @@ QMAKE_CFLAGS += -D_FORTIFY_SOURCE=2 -O2
 CONFIG += link_pkgconfig
 
 PKGCONFIG +=gio-2.0 glib-2.0 gio-unix-2.0 xtst
-LIBS += -lX11 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lukui-log4qt
+#LIBS += -lX11 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lukui-log4qt
+LIBS += -lX11 -lgio-2.0 -lgobject-2.0 -lglib-2.0
 
 desktopfile.files = data/ukui-sidebar.desktop
 desktopfile.path = /etc/xdg/autostart/
