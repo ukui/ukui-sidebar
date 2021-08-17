@@ -166,7 +166,7 @@ void NotificationPlugin::initUI()
 
     //消息列表widget
     m_pMsgListWidget = new QWidget;
-    m_pMsgListWidget->setFixedSize(390,546);
+    m_pMsgListWidget->setFixedHeight(390);
     pNotificationVBoxLayout->addWidget(m_pMsgListWidget, 1);
     m_pMsgListWidget->setParent(m_pMainWidget);
 

@@ -136,12 +136,12 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
     //获取系统字体大小
     QFont ft;
-    ft.setPointSize(14);
+    int fontSize;
     if(QGSettings::isSchemaInstalled(STYLE_FONT_SCHEMA))
     {
         const QByteArray styleID(STYLE_FONT_SCHEMA);
         stylesettings = new QGSettings(styleID);
-        int fontSize = stylesettings->get("system-font-size").toInt();
+        fontSize = stylesettings->get("system-font-size").toInt();
         ft.setPointSize(fontSize);
     }
     connect(stylesettings, SIGNAL(changed(const QString &)), this, SLOT(slotChangeFonts(const QString &)));
@@ -249,7 +249,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     //延时1秒设置字体
     QTimer::singleShot(1, m_pSummaryLabel, [=]() {
             QFont summaryFont = m_pSummaryLabel->font();
-            summaryFont.setPointSizeF(12);
+            summaryFont.setPointSizeF(fontSize + 2);
             summaryFont.setFamily("Noto Sans CJK SC");
             summaryFont.setBold(true);
             m_pSummaryLabel->setFont(summaryFont);
@@ -594,7 +594,7 @@ void SingleMsg::setBodyLabelWordWrap(bool bFlag)
             strDisplay += QString(m_strBody.at(i));
             uint fontSize = fontMetrics.width(strDisplay);
             if(fontSize > (j*(labelWidth-8))){
-                strDisplay+=" ";
+//                strDisplay+=" ";
                 j++;
             }
         }
