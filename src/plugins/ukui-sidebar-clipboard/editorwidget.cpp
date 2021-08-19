@@ -26,6 +26,7 @@ EditorWidget::EditorWidget()
 {
     if (QGSettings::isSchemaInstalled("org.ukui.control-center.personalise")) {
         m_pTransparency = new QGSettings("org.ukui.control-center.personalise");
+        m_tranSparency = m_pTransparency->get("transparency").toDouble();
         connect(m_pTransparency, &QGSettings::changed, this, [=](QString value) {
             if (value == "transparency") {
                 m_tranSparency = m_pTransparency->get("transparency").toDouble();
