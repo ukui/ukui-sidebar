@@ -133,9 +133,9 @@ void SidebarClipboardPlugin::createWidget()
 
     m_pShortcutOperationListWidget = new ClipBoardLisetWidget;
     m_pShortcutOperationListWidget->verticalScrollBar()->setProperty("drawScrollBarGroove", false);
-    m_pShortcutOperationListWidget->horizontalScrollBar()->setProperty("drawScrollBarGroove", false);
+    m_pShortcutOperationListWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);       //隐藏横向滚动条
     m_pShortcutOperationListWidget->setContentsMargins(0,0,0,0);
-    m_pShortcutOperationListWidget->setFixedSize(400,230);
+    m_pShortcutOperationListWidget->setFixedSize(400,240);
 
     m_pSearchWidgetListWidget      = new QListWidget;
     m_pSearchWidgetListWidget->setFixedSize(400, 50);
