@@ -898,6 +898,9 @@ void SidebarClipboardPlugin::editButtonSlots(ClipboardWidgetEntry *w)
     if (nRet == QDialog::Accepted) {
         QString formatBody = SetFormatBody(EditWidget.m_pEditingArea->toPlainText(), w);  // 设置...字样
 //        QString formatBody = EditWidget.m_pEditingArea->toPlainText();
+        if(formatBody == "") {
+            return ;
+        }
          qDebug () << "formatBody....." << formatBody;
         if (EditWidget.m_pEditingArea->toPlainText() != text) {
             //当编辑后数据改变时，就需要将m_pLabelText中的value改变
