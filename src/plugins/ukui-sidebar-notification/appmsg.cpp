@@ -615,7 +615,7 @@ void AppMsg::setAppFoldFlag(bool bFlag)
 //折叠整个应用的消息
 void AppMsg::onFoldAppWidget()
 {
-    //折叠按钮显示动画：App消息窗口上移，折叠按钮窗口上移
+    //折叠按钮显示动画：折叠按钮窗口上移,App消息窗口上移
     m_bFold = true;
 
     int widthFoldWid = m_pFoldBtnWid->width();

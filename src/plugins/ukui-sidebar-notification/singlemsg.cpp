@@ -431,6 +431,9 @@ void SingleMsg::jumpAction()
             process->start(m_strAction);
             emit Sig_onDeleSingleMsg(this);
         }
+        else{
+            emit Sig_onDeleSingleMsg(this);
+        }
     });
     connect(this,&SingleMsg::Sig_jumpAction,this,[=](){
         m_pSetJumpDelayTimer->start(30);
