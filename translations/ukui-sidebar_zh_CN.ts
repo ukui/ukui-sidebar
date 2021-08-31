@@ -4,27 +4,37 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/main.cpp" line="81"/>
+        <location filename="../src/main.cpp" line="69"/>
+        <source>ukui-sidebar is already running!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/main.cpp" line="73"/>
         <source>Display debug information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="177"/>
+        <location filename="../src/main.cpp" line="74"/>
+        <source>show sidebar widget</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widget.cpp" line="268"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="180"/>
+        <location filename="../src/widget.cpp" line="271"/>
         <source>Set up notification center</source>
         <translation>设置通知中心</translation>
     </message>
     <message>
-        <location filename="../src/sidebarpluginswidgets.cpp" line="112"/>
+        <location filename="../src/sidebarpluginswidgets.cpp" line="122"/>
         <source>折叠</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sidebarpluginswidgets.cpp" line="114"/>
+        <location filename="../src/sidebarpluginswidgets.cpp" line="124"/>
         <source>展开</source>
         <translation type="unfinished"></translation>
     </message>
@@ -36,7 +46,7 @@
         <translation type="vanished">剪贴板</translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="210"/>
+        <location filename="../src/widget.cpp" line="315"/>
         <source>Sidebar</source>
         <translation>侧边栏</translation>
     </message>
@@ -44,12 +54,12 @@
 <context>
     <name>sidebarPluginsWidgets</name>
     <message>
-        <location filename="../src/sidebarpluginswidgets.cpp" line="97"/>
+        <location filename="../src/sidebarpluginswidgets.cpp" line="107"/>
         <source>Clipboard</source>
         <translation>剪贴板</translation>
     </message>
     <message>
-        <location filename="../src/sidebarpluginswidgets.cpp" line="104"/>
+        <location filename="../src/sidebarpluginswidgets.cpp" line="114"/>
         <source>Plugins</source>
         <translation>小插件</translation>
     </message>
