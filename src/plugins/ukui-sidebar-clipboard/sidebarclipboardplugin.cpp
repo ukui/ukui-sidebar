@@ -321,7 +321,6 @@ void SidebarClipboardPlugin::createWidgetEntry()
 
     /* 将text和图片写入到Widget */
     AddWidgetEntry(s_pDataHashValue, w, text);
-
     /* 将按钮与槽对应上 */
     connectWidgetEntryButton(w);
 
@@ -373,6 +372,10 @@ void SidebarClipboardPlugin::AddWidgetEntry(OriginalDataHashValue *s_pDataHashVa
 /* 设置...字样 */
 QString SidebarClipboardPlugin::SetFormatBody(QString text, ClipboardWidgetEntry *w)
 {
+    if (w->m_pCopyDataLabal == nullptr) {
+        qDebug()<<"未实例化";
+    }
+
     QFontMetrics fontMetrics(w->m_pCopyDataLabal->font());
     int LableWidth = w->m_pCopyDataLabal->width();
     int fontSize = fontMetrics.width(text);
@@ -896,12 +899,13 @@ void SidebarClipboardPlugin::editButtonSlots(ClipboardWidgetEntry *w)
 
     int nRet = EditWidget.exec();
     if (nRet == QDialog::Accepted) {
-        QString formatBody = SetFormatBody(EditWidget.m_pEditingArea->toPlainText(), w);  // 设置...字样
-//        QString formatBody = EditWidget.m_pEditingArea->toPlainText();
+        //此句有问题
+//        QString formatBody = SetFormatBody(EditWidget.m_pEditingArea->toPlainText(), w);  // 设置...字样
+        QString formatBody = EditWidget.m_pEditingArea->toPlainText();
         if(formatBody == "") {
+            qDebug()<<"空字符串,返回";
             return ;
         }
-         qDebug () << "formatBody....." << formatBody;
         if (EditWidget.m_pEditingArea->toPlainText() != text) {
             //当编辑后数据改变时，就需要将m_pLabelText中的value改变
             w->m_pCopyDataLabal->setText(formatBody);
