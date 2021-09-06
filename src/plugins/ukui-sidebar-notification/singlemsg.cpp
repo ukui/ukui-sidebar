@@ -770,7 +770,7 @@ void SingleMsg::startAnimationUnfold()
 
     //设置show动画
     QPropertyAnimation* pAnimation = new QPropertyAnimation(m_pSingleWidget, "geometry");
-    pAnimation->setDuration(300);
+    pAnimation->setDuration(50);
     connect(pAnimation, &QPropertyAnimation::valueChanged, this, &SingleMsg::updateUnfoldMove);
     connect(pAnimation, SIGNAL(finished()), this, SLOT(onUnfoldFinish()));
 
@@ -792,7 +792,7 @@ void SingleMsg::startAnimationFold()
 
     //设置show动画
     QPropertyAnimation* pAnimation = new QPropertyAnimation(m_pSingleWidget, "geometry");
-    pAnimation->setDuration(300);
+    pAnimation->setDuration(50);
     connect(pAnimation, &QPropertyAnimation::valueChanged, this, &SingleMsg::updateFoldMove);
     connect(pAnimation, SIGNAL(finished()), this, SLOT(onFoldFinish()));
 

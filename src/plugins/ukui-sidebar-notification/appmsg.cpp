@@ -76,6 +76,7 @@ AppMsg::AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag)
     m_pFoldBtnWid->setContentsMargins(0,0,0,0);
     m_pFoldBtnWid->setLayout(m_pFoldBtnVLaout);
     m_pFoldBtnWid->setFixedSize(380,42);
+    //当消息小于等于1时，隐藏
     if(m_bFold || (m_listSingleMsg.count()<=1))
         m_pFoldBtnWid->setVisible(false);
     else
@@ -563,8 +564,8 @@ void AppMsg::setAppFoldFlag(bool bFlag)
         connect(pAnimation2, &QPropertyAnimation::finished, this,[=](){
             m_pMainBaseVLaout->insertWidget(0,m_pFoldBtnWid);
         });
-        pAnimation2->setDuration(100);
-        pAnimation2->setStartValue(QRect(0, 0-heightFoldWid, widthFoldWid, heightFoldWid));
+        pAnimation2->setDuration(30);
+        pAnimation2->setStartValue(QRect(0, heightFoldWid, widthFoldWid, heightFoldWid));
         pAnimation2->setEndValue(QRect(0, 0, widthFoldWid, heightFoldWid));
         pAnimation2->start(QAbstractAnimation::DeleteWhenStopped);
 
@@ -591,7 +592,7 @@ void AppMsg::setAppFoldFlag(bool bFlag)
                 pTmpSingleMsg->startAnimationUnfold();
             }
         });
-        pAnimation1->setDuration(100);
+        pAnimation1->setDuration(30);
         pAnimation1->setStartValue(QRect(0, 0, widthAppWid, heightAppWid));
         pAnimation1->setEndValue(QRect(0, m_pFoldBtnWid->height(), widthAppWid, heightAppWid));
         pAnimation1->start(QAbstractAnimation::DeleteWhenStopped);
@@ -632,7 +633,7 @@ void AppMsg::onFoldAppWidget()
         m_pMainBaseVLaout->removeWidget(m_pFoldBtnWid);
         emit Sig_foldAnimationFinish();
     });
-    pAnimation2->setDuration(100);
+    pAnimation2->setDuration(30);
     pAnimation2->setStartValue(QRect(0, 0, widthFoldWid, heightFoldWid));
     pAnimation2->setEndValue(QRect(0, 0-heightFoldWid, widthFoldWid, heightFoldWid));
     pAnimation2->start(QAbstractAnimation::DeleteWhenStopped);
@@ -663,7 +664,7 @@ void AppMsg::onFoldAppWidget()
         m_pMainBaseVLaout->removeWidget(m_pFoldBtnWid);
         m_pFoldBtnWid->setVisible(false);
     });
-    pAnimation1->setDuration(100);
+    pAnimation1->setDuration(30);
     pAnimation1->setStartValue(QRect(0, m_pFoldBtnWid->height(), widthAppWid, heightAppWid));
     pAnimation1->setEndValue(QRect(0, 0, widthAppWid, heightAppWid));
     pAnimation1->start(QAbstractAnimation::DeleteWhenStopped);
