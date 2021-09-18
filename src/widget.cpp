@@ -932,14 +932,24 @@ void Widget::updateSmallPluginsClipboardWidget()
 }
 
 /* 过滤终端命令 */
-void Widget::bootOptionsFilter(QString opt){
-    if (opt == "-s" || opt == "-show" && m_bShowFlag == false) {
-        mostGrandWidget::getInstancemostGrandWidget()->hide();
-        MostGrandWidgetCoordinates();
-        mostGrandWidget::getInstancemostGrandWidget()->show();
-        showAnimation();
-        m_bShowFlag = true;
-        setIcon(QIcon::fromTheme("kylin-tool-box", QIcon(TRAY_ICON)));
+void Widget::bootOptionsFilter(QString opt)
+{
+    if (sidebarState) {
+        if (opt == "-s" || opt == "-show" && m_bShowFlag == false) {
+            qDebug()<<"隐藏";
+            mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
+            hideAnimation();
+        }
+    } else {
+        if (opt == "-s" || opt == "-show" && m_bShowFlag == false) {
+            qDebug()<<"展示";
+            mostGrandWidget::getInstancemostGrandWidget()->hide();
+            MostGrandWidgetCoordinates();
+            mostGrandWidget::getInstancemostGrandWidget()->show();
+            showAnimation();
+            m_bShowFlag = true;
+            setIcon(QIcon::fromTheme("kylin-tool-box", QIcon(TRAY_ICON)));
+        }
     }
 }
 
