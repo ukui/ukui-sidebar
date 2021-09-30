@@ -36,8 +36,7 @@ SOURCES += \
         customstyleCleanPushbutton.cpp \
         qtsingleapplication.cpp \
         qtlocalpeer.cpp \
-        qtlockedfile.cpp \
-        xeventmonitor.cpp
+        qtlockedfile.cpp
 
 
 INCLUDEPATH += ./plugin-interface
@@ -56,8 +55,7 @@ HEADERS += \
         customstyleCleanPushbutton.h \
         qtsingleapplication.h \
         qtlocalpeer.h \
-        qtlockedfile.h \
-        xeventmonitor.h
+        qtlockedfile.h
 
 
 INCLUDEPATH +=./plugin-interface ./plugin-sub-manager

@@ -24,7 +24,6 @@
 #include <stdio.h>
 #include <QtDBus>
 #include <QGuiApplication>
-#include "xeventmonitor.h"
 #include "customstyle.h"
 
 double tranSparency = 0.7;
@@ -42,7 +41,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
 
 Widget::~Widget()
 {
-    XEventMonitor::instance()->quit();
+
 }
 
 void Widget::initTrayIcon()
@@ -125,12 +124,7 @@ void Widget::startBackgroundFunction()
         bootOptionsFilter(QApplication::arguments().at(1));
     }
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
-    /* 监听键盘事件 */
-    XEventMonitor::instance()->start();
-    connect(XEventMonitor::instance(), SIGNAL(keyRelease(QString)),
-           this,SLOT(XkbEventsRelease(QString)));
-    connect(XEventMonitor::instance(), SIGNAL(keyPress(QString)),
-           this,SLOT(XkbEventsPress(QString)));
+
     qInfo() << "---------------------------主界面加载完毕---------------------------";
 }
 
@@ -935,7 +929,7 @@ void Widget::updateSmallPluginsClipboardWidget()
 void Widget::bootOptionsFilter(QString opt)
 {
     if (sidebarState) {
-        if (opt == "-s" || opt == "-show" && m_bShowFlag == false) {
+        if (opt == "-s" || opt == "-show" && m_bShowFlag == true) {
             qDebug()<<"隐藏";
             mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
             hideAnimation();
