@@ -106,7 +106,7 @@ void sidebarPluginsWidgets::initUpGroupBoxButton()
     m_pClipboardButton = new SmallPluginsButton();
     m_pClipboardButton->setText(tr("Clipboard"));
     m_pClipboardButton->setObjectName("ClipboardButton");
-    m_pClipboardButton->setFixedSize(110,34);
+    m_pClipboardButton->setFixedSize(125,34);
     connect(m_pClipboardButton, &SmallPluginsButton::clicked, this, &sidebarPluginsWidgets::m_ClipboardButtonSlots);
 
     //小插件按钮
