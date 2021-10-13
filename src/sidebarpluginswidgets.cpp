@@ -106,7 +106,8 @@ void sidebarPluginsWidgets::initUpGroupBoxButton()
     m_pClipboardButton = new SmallPluginsButton();
     m_pClipboardButton->setText(tr("Clipboard"));
     m_pClipboardButton->setObjectName("ClipboardButton");
-    m_pClipboardButton->setFixedSize(125,34);
+    m_pClipboardButton->setMinimumWidth(110);
+    m_pClipboardButton->setFixedHeight(34);
     connect(m_pClipboardButton, &SmallPluginsButton::clicked, this, &sidebarPluginsWidgets::m_ClipboardButtonSlots);
 
     //小插件按钮
@@ -295,22 +296,22 @@ void sidebarPluginsWidgets::m_AnimationSmallWidgetEndSlots()
 /* 设置侧边栏的按钮背景色为蓝色 */
 void sidebarPluginsWidgets::setClipboardButtonBackgroundIsBlue()
 {
-    m_pClipboardButton->setStyleSheet("QPushButton#ClipboardButton{background:rgba(61,107,229,1);}");
+    m_pClipboardButton->setStyleSheet("QPushButton#ClipboardButton{background:rgba(61,107,229,1);padding-left:0px;padding-right:0px;}");
 }
 
 void sidebarPluginsWidgets::setSmallPluginsButtonBackgroudIsBlue()
 {
-    m_pSidebarPluginButton->setStyleSheet("QPushButton#SidebarPluginButton{background:rgba(61,107,229,1);}");
+    m_pSidebarPluginButton->setStyleSheet("QPushButton#SidebarPluginButton{background:rgba(61,107,229,1);padding-left:0px;padding-right:0px;}");
 }
 
 void sidebarPluginsWidgets::setClipboardButtonBackgroundIsBlank()
 {
-    m_pClipboardButton->setStyleSheet("QPushButton#ClipboardButton{background:rgba(61,107,229,0);}");
+    m_pClipboardButton->setStyleSheet("QPushButton#ClipboardButton{background:rgba(61,107,229,0);padding-left:0px;padding-right:0px;}");
 }
 
 void sidebarPluginsWidgets::setSmallPluginsButtonBackgroudIsBlank()
 {
-    m_pSidebarPluginButton->setStyleSheet("QPushButton#SidebarPluginButton{background:rgba(61,107,229,0);}");
+    m_pSidebarPluginButton->setStyleSheet("QPushButton#SidebarPluginButton{background:rgba(61,107,229,0);padding-left:0px;padding-right:0px;}");
 }
 
 /* 设置剪贴板的高度 */
