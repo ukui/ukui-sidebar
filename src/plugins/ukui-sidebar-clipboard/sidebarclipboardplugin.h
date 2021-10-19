@@ -40,6 +40,7 @@
 #include <QFileInfo>
 #include <QThread>
 #include <QProcess>
+#include <QScrollBar>
 #include <unistd.h>
 #include "clipboardpluginiface.h"
 #include "clipboardwidgetentry.h"

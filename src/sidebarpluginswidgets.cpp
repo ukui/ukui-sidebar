@@ -16,6 +16,8 @@
 *
 */
 #include "sidebarpluginswidgets.h"
+#include <qt5xdg/XdgDesktopFile>
+#include <qt5xdg/XdgIcon>
 
 extern double tranSparency;
 
@@ -104,14 +106,15 @@ void sidebarPluginsWidgets::initUpGroupBoxButton()
     m_pClipboardButton = new SmallPluginsButton();
     m_pClipboardButton->setText(tr("Clipboard"));
     m_pClipboardButton->setObjectName("ClipboardButton");
-    m_pClipboardButton->setFixedSize(100,34);
+    m_pClipboardButton->setMinimumWidth(110);
+    m_pClipboardButton->setFixedHeight(34);
     connect(m_pClipboardButton, &SmallPluginsButton::clicked, this, &sidebarPluginsWidgets::m_ClipboardButtonSlots);
 
     //小插件按钮
     m_pSidebarPluginButton = new SmallPluginsButton();
     m_pSidebarPluginButton->setText(tr("Plugins"));
     m_pSidebarPluginButton->setObjectName("SidebarPluginButton");
-    m_pSidebarPluginButton->setFixedSize(90,34);
+    m_pSidebarPluginButton->setFixedSize(110,34);
     connect(m_pSidebarPluginButton, &SmallPluginsButton::clicked, this, &sidebarPluginsWidgets::m_SidebarPluginButtonSlots);
 
     setClipboardButtonBackgroundIsBlue();
@@ -128,7 +131,7 @@ void sidebarPluginsWidgets::initUpGroupBoxButton()
 
     //蓝色背景块按钮
     m_pBlueBackgroundButton = new QPushButton();
-    m_pBlueBackgroundButton->setFixedSize(90, 34);
+    m_pBlueBackgroundButton->setFixedSize(110, 34);
     m_pBlueBackgroundButton->setObjectName("BlueBackgroundButton");
     m_pBlueBackgroundButton->setChecked(false);
 
@@ -140,7 +143,7 @@ void sidebarPluginsWidgets::initUpGroupBoxButton()
     m_pGrouBoxUpButtonHLayout->addWidget(m_pSidebarPluginButton);
     m_pGrouBoxUpButtonHLayout->addItem(new QSpacerItem(0, 20));
     m_pGrouBoxUpButtonHLayout->addWidget(m_pBlueBackgroundButton);
-    m_pGrouBoxUpButtonHLayout->addItem(new QSpacerItem(192, 20));
+    m_pGrouBoxUpButtonHLayout->addItem(new QSpacerItem(200, 20, QSizePolicy::Expanding));
     m_pButtonWidget->setLayout(m_pGrouBoxUpButtonHLayout);
     m_pGrouBoxUpButtonHLayout->setSpacing(0);
     return;
@@ -293,22 +296,22 @@ void sidebarPluginsWidgets::m_AnimationSmallWidgetEndSlots()
 /* 设置侧边栏的按钮背景色为蓝色 */
 void sidebarPluginsWidgets::setClipboardButtonBackgroundIsBlue()
 {
-    m_pClipboardButton->setStyleSheet("QPushButton#ClipboardButton{background:rgba(61,107,229,1);}");
+    m_pClipboardButton->setStyleSheet("QPushButton#ClipboardButton{background:rgba(61,107,229,1);padding-left:0px;padding-right:0px;}");
 }
 
 void sidebarPluginsWidgets::setSmallPluginsButtonBackgroudIsBlue()
 {
-    m_pSidebarPluginButton->setStyleSheet("QPushButton#SidebarPluginButton{background:rgba(61,107,229,1);}");
+    m_pSidebarPluginButton->setStyleSheet("QPushButton#SidebarPluginButton{background:rgba(61,107,229,1);padding-left:0px;padding-right:0px;}");
 }
 
 void sidebarPluginsWidgets::setClipboardButtonBackgroundIsBlank()
 {
-    m_pClipboardButton->setStyleSheet("QPushButton#ClipboardButton{background:rgba(61,107,229,0);}");
+    m_pClipboardButton->setStyleSheet("QPushButton#ClipboardButton{background:rgba(61,107,229,0);padding-left:0px;padding-right:0px;}");
 }
 
 void sidebarPluginsWidgets::setSmallPluginsButtonBackgroudIsBlank()
 {
-    m_pSidebarPluginButton->setStyleSheet("QPushButton#SidebarPluginButton{background:rgba(61,107,229,0);}");
+    m_pSidebarPluginButton->setStyleSheet("QPushButton#SidebarPluginButton{background:rgba(61,107,229,0);padding-left:0px;padding-right:0px;}");
 }
 
 /* 设置剪贴板的高度 */
@@ -387,28 +390,39 @@ void sidebarPluginsWidgets::parsingDesktopFile()
     QSpacerItem *item1 = new QSpacerItem(10, 20);
     for (int i = 0; i < tmp; i++) {
         QString desktopfp = "/usr/share/applications/" + m_desktopfpList.at(i);
-        QString icon = getAppIcon(desktopfp);
-        QString name = getAppName(desktopfp);
-        QString Exec = getAppExec(desktopfp);
-        m_ToolButton *p_button = StructToolButtol(icon, name);
-        connect(p_button, &QToolButton::clicked, this, [=]() {
-            QProcess p(0);
-            p.startDetached(Exec);
-            p.waitForStarted();
-            return;
-        });
-        if (p_button == nullptr) {
-            continue;
-            i--;
+//        QString icon = getAppIcon(desktopfp);
+//        QString name = getAppName(desktopfp);
+//        QString Exec = getAppExec(desktopfp);
+
+        //使用xdg解析desktop文件
+        if(QFile::exists(desktopfp)){
+            XdgDesktopFile xdg;
+            xdg.load(desktopfp);
+            QString name = xdg.localizedValue("Name").toString();
+            QString icon = xdg.localizedValue("Icon").toString();
+            QString Exec = xdg.localizedValue("Exec").toString();
+
+            m_ToolButton *p_button = StructToolButtol(icon, name);
+            connect(p_button, &QToolButton::clicked, this, [=]() {
+                QProcess p(0);
+                p.startDetached(Exec);
+                p.waitForStarted();
+                return;
+            });
+            if (p_button == nullptr) {
+                continue;
+                i--;
+            }
+            m_pGroupBoxUnSmallPluginsGLayout->addItem(item1, m_add_x, m_add_y - 1);
+            m_pGroupBoxUnSmallPluginsGLayout->addWidget(p_button, m_add_x, m_add_y);
+            m_add_y += 2;
+            if (m_add_y > 8) {
+                m_add_x++;
+                m_add_y = 1;
+            }
+            qDebug() << "add_y" << m_add_y << "add_x" << m_add_x;
         }
-        m_pGroupBoxUnSmallPluginsGLayout->addItem(item1, m_add_x, m_add_y - 1);
-        m_pGroupBoxUnSmallPluginsGLayout->addWidget(p_button, m_add_x, m_add_y);
-        m_add_y += 2;
-        if (m_add_y > 8) {
-            m_add_x++;
-            m_add_y = 1;
-        }
-        qDebug() << "add_y" << m_add_y << "add_x" << m_add_x;
+
     }
     return;
 }

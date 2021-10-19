@@ -24,6 +24,8 @@
 TakeInBoxToolButton::TakeInBoxToolButton()
 {
     m_bEnterTakeInBox = false;
+    setAutoRaise(true);
+    setProperty("isWindowButton",0x1);
 }
 
 void TakeInBoxToolButton::enterEvent(QEvent *event)

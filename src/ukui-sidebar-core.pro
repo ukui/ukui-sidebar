@@ -25,6 +25,7 @@ SOURCES += \
         main.cpp \
         mostgrandwidget.cpp \
         pluginstoolbutton.cpp \
+        sidebarDbusService.cpp \
         sidebarpluginswidgets.cpp \
         smallpluginsbutton.cpp \
         smallpluginsmanage.cpp \
@@ -35,8 +36,7 @@ SOURCES += \
         customstyleCleanPushbutton.cpp \
         qtsingleapplication.cpp \
         qtlocalpeer.cpp \
-        qtlockedfile.cpp \
-        xeventmonitor.cpp
+        qtlockedfile.cpp
 
 
 INCLUDEPATH += ./plugin-interface
@@ -44,6 +44,7 @@ INCLUDEPATH += ./plugin-interface
 HEADERS += \
         mostgrandwidget.h \
         pluginstoolbutton.h \
+        sidebarDbusService.h \
         sidebarpluginswidgets.h \
         smallpluginsbutton.h \
         smallpluginsmanage.h \
@@ -54,8 +55,7 @@ HEADERS += \
         customstyleCleanPushbutton.h \
         qtsingleapplication.h \
         qtlocalpeer.h \
-        qtlockedfile.h \
-        xeventmonitor.h
+        qtlockedfile.h
 
 
 INCLUDEPATH +=./plugin-interface ./plugin-sub-manager
@@ -74,8 +74,7 @@ QMAKE_CFLAGS += -D_FORTIFY_SOURCE=2 -O2
 CONFIG += link_pkgconfig
 
 PKGCONFIG +=gio-2.0 glib-2.0 gio-unix-2.0 xtst
-#LIBS += -lX11 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lukui-log4qt
-LIBS += -lX11 -lgio-2.0 -lgobject-2.0 -lglib-2.0
+LIBS += -lX11 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lukui-log4qt -lQt5Xdg
 
 desktopfile.files = data/ukui-sidebar.desktop
 desktopfile.path = /etc/xdg/autostart/

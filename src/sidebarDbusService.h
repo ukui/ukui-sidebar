@@ -16,33 +16,29 @@
 *
 */
 
-#ifndef TAKEINBOXTOOLBUTTON_H
-#define TAKEINBOXTOOLBUTTON_H
+#ifndef SIDEBARDBUSSERVICE_H
+#define SIDEBARDBUSSERVICE_H
 
-#include <QToolButton>
+#include <QObject>
+#include <QRect>
 #include <QWidget>
-#include <QPainter>
-#include <QPushButton>
 
-class TakeInBoxToolButton : public QToolButton
+class SidebarDbusService: public QObject
 {
     Q_OBJECT
+    //申明该类有D-BUS服务接口
+    Q_CLASSINFO("D-Bus Interface", "org.ukui.Sidebar")
 public:
-    explicit        TakeInBoxToolButton();
-    void            setEnterFlags(bool bFlags) {m_bEnterTakeInBox = bFlags;}
-
-protected:
-    virtual void    enterEvent(QEvent *event) override;
-    virtual void    leaveEvent(QEvent *event) override;
-    virtual void    mousePressEvent(QMouseEvent *event) override;
-    virtual void    mouseReleaseEvent(QMouseEvent *event) override;
+    SidebarDbusService(QWidget *parent = nullptr);
+    int m_sidebarWidth;                                    // 侧边栏宽度
+    bool sidebarState;                                      //展开中/展开完成-true；
 
 private:
-    bool            m_bEnterTakeInBox;
-
+    QWidget *m_parent;
+public slots:
+    int getWidth(); //获取侧边栏当前位置
 signals:
-    void            Sig_clicked();
-
+    void animationAction(const uint time, const int distance);
 };
 
-#endif // TAKEINBOXTOOLBUTTON_H
+#endif // SIDEBARDBUSSERVICE_H
