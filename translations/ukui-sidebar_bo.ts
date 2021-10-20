@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<TS version="2.1" language="bo_CN">
 <context>
     <name>QObject</name>
     <message>
@@ -19,16 +19,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="268"/>
-        <source>Open</source>
-        <translation>打开</translation>
-    </message>
-    <message>
-        <location filename="../src/widget.cpp" line="271"/>
-        <source>Set up notification center</source>
-        <translation>设置通知中心</translation>
-    </message>
-    <message>
         <location filename="../src/sidebarpluginswidgets.cpp" line="122"/>
         <source>折叠</source>
         <translation type="unfinished"></translation>
@@ -38,17 +28,23 @@
         <source>展开</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/widget.cpp" line="268"/>
+        <source>Open</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widget.cpp" line="271"/>
+        <source>Set up notification center</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Widget</name>
     <message>
-        <source>ClipBoard</source>
-        <translation type="vanished">剪贴板</translation>
-    </message>
-    <message>
         <location filename="../src/widget.cpp" line="315"/>
         <source>Sidebar</source>
-        <translation>侧边栏</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -56,24 +52,12 @@
     <message>
         <location filename="../src/sidebarpluginswidgets.cpp" line="107"/>
         <source>Clipboard</source>
-        <translation>剪贴板</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/sidebarpluginswidgets.cpp" line="114"/>
         <source>Plugins</source>
-        <translation>小插件</translation>
-    </message>
-    <message>
-        <source>Notebook</source>
-        <translation type="vanished">笔记本</translation>
-    </message>
-    <message>
-        <source>Alarm clock</source>
-        <translation type="vanished">闹钟</translation>
-    </message>
-    <message>
-        <source>Feedback</source>
-        <translation type="vanished">用户反馈</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

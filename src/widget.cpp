@@ -24,27 +24,41 @@
 #include <stdio.h>
 #include <QtDBus>
 #include <QGuiApplication>
-#include "xeventmonitor.h"
 #include "customstyle.h"
 
 double tranSparency = 0.7;
 
 Widget::Widget(QWidget *parent) : QWidget (parent)
 {
+    initTranslation();//国际化
     //先仅注册托盘图标
     initTrayIcon();
 //    startBackgroundFunction();
+
+    //注册Dbus服务
+    registerDbusService();
 }
 
 Widget::~Widget()
 {
-    XEventMonitor::instance()->quit();
+
 }
 
 void Widget::initTrayIcon()
 {
     createSystray();
     setIcon(QIcon::fromTheme("kylin-tool-box", QIcon(TRAY_ICON)));
+}
+
+void Widget::registerDbusService()
+{
+    dbusService = new SidebarDbusService(this);
+    QDBusConnection::sessionBus().unregisterService("org.ukui.Sidebar");
+    QDBusConnection::sessionBus().registerService("org.ukui.Sidebar");
+    //注册对象路径，导出所有此对象的插槽
+    //registerObject参数：路径，interface,对象，options
+    QDBusConnection::sessionBus().registerObject("/org/ukui/Sidebar",dbusService,
+                                                 QDBusConnection::ExportAllSlots|QDBusConnection::ExportAllSignals);
 }
 
 void Widget::startBackgroundFunction()
@@ -97,6 +111,12 @@ void Widget::startBackgroundFunction()
 
     if (QGSettings::isSchemaInstalled(UKUI_TRANSPARENCY_SETTING)) {
         m_pTransparency = new QGSettings(UKUI_TRANSPARENCY_SETTING);
+        connect(m_pTransparency, &QGSettings::changed, this, [=](QString value) {
+            if (value == "transparency") {
+                tranSparency = m_pTransparency->get("transparency").toDouble();
+                this->update();
+            }
+        });
     }
 
     //快捷参数
@@ -104,12 +124,7 @@ void Widget::startBackgroundFunction()
         bootOptionsFilter(QApplication::arguments().at(1));
     }
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
-    /* 监听键盘事件 */
-    XEventMonitor::instance()->start();
-    connect(XEventMonitor::instance(), SIGNAL(keyRelease(QString)),
-           this,SLOT(XkbEventsRelease(QString)));
-    connect(XEventMonitor::instance(), SIGNAL(keyPress(QString)),
-           this,SLOT(XkbEventsPress(QString)));
+
     qInfo() << "---------------------------主界面加载完毕---------------------------";
 }
 
@@ -247,7 +262,7 @@ void Widget::createAction()
     Open = new QAction(QObject::tr("Open"), this);
     connect(Open, &QAction::triggered, this, &Widget::OpenSidebarSlots);
 
-    OpenSetUp = new QAction(QIcon::fromTheme("application-menu", QIcon(SETTING_ICON)), QObject::tr("Set up notification center"), this);
+    OpenSetUp = new QAction(QIcon::fromTheme("document-page-setup-symbolic", QIcon(SETTING_ICON)), QObject::tr("Set up notification center"), this);
     connect(OpenSetUp, &QAction::triggered, this, &Widget::OpenControlCenterSettings);
 
     trayIconMenu->addAction(Open);
@@ -498,6 +513,7 @@ void Widget::initAimation()
     mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
     connect(m_pAnimationHideSidebarWidget, &QPropertyAnimation::finished, this, &Widget::hideAnimationFinish);
     connect(m_pAnimationShowSidebarWidget, &QPropertyAnimation::valueChanged, this, &Widget::showAnimationAction);
+    connect(m_pAnimationShowSidebarWidget, &QPropertyAnimation::finished, this, &Widget::showAnimationFinish);
 }
 
 //动画展开
@@ -573,10 +589,22 @@ void Widget::showAnimation()
         default:
             break;
     }
+    //--> 给通知中心发信号，开始左移动画
+    QDBusMessage message =QDBusMessage::createSignal("/org/ukui/Sidebar", "org.ukui.Sidebar",
+                                                     "animationAction");
+    uint time = 400;
+    int distance = 400;
+    message<<time<<distance;
+    QDBusConnection::sessionBus().send(message); //发射信号
+
+    //--<
     m_pAnimationShowSidebarWidget->setDuration(400);
     m_pAnimationShowSidebarWidget->setStartValue(QRect(AnimaStartSideBarSite[0], AnimaStartSideBarSite[1], AnimaStartSideBarSite[2], AnimaStartSideBarSite[3]));
     m_pAnimationShowSidebarWidget->setEndValue(QRect(AnimaStopSidebarSite[0], AnimaStopSidebarSite[1], AnimaStopSidebarSite[2], AnimaStopSidebarSite[3]));
     m_pAnimationShowSidebarWidget->start();
+    sidebarState = true;
+    dbusService->sidebarState = true;
+    dbusService->m_sidebarWidth = 400;
 }
 
 void Widget::showAnimationAction(const QVariant &value)
@@ -671,16 +699,38 @@ void Widget::hideAnimation()
         default:
             break;
     }
+    //--> 给通知中心发信号，开始左移动画
+    QDBusMessage message = QDBusMessage::createSignal("/org/ukui/Sidebar", "org.ukui.Sidebar",
+                                                     "animationAction");
+    uint time = 200;
+    int distance = -400;
+    message<<time<<distance;
+    QDBusConnection::sessionBus().send(message); //发射信号
+    //--<
     m_pAnimationHideSidebarWidget->setDuration(200);
     m_pAnimationHideSidebarWidget->setStartValue(QRect(AnimaStartSideBarSite[0], AnimaStartSideBarSite[1], AnimaStartSideBarSite[2], AnimaStartSideBarSite[3]));
     m_pAnimationHideSidebarWidget->setEndValue(QRect(AnimaStopSidebarSite[0], AnimaStopSidebarSite[1], AnimaStopSidebarSite[2], AnimaStopSidebarSite[3]));
     m_pAnimationHideSidebarWidget->start();
+    sidebarState = false;
+    dbusService->sidebarState = false;
+    dbusService->m_sidebarWidth = 0;
     return;
 }
 
 void Widget::hideAnimationFinish()
 {
+    dbusService->m_sidebarWidth = 0;
+    sidebarState = false;
+    dbusService->sidebarState = false;
     mostGrandWidget::getInstancemostGrandWidget()->hide();
+    return;
+}
+
+void Widget::showAnimationFinish()
+{
+    dbusService->m_sidebarWidth = 400;
+    sidebarState = true;
+    dbusService->sidebarState = true;
     return;
 }
 
@@ -732,7 +782,8 @@ void Widget::ClickPanelHideSidebarSlots()
 {
     if (m_bClipboardFlag) {
         mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
-        hideAnimation();
+        if(sidebarState)   //展开状态下执行隐藏动画
+            hideAnimation();
     }
     return;
 }
@@ -875,14 +926,24 @@ void Widget::updateSmallPluginsClipboardWidget()
 }
 
 /* 过滤终端命令 */
-void Widget::bootOptionsFilter(QString opt){
-    if (opt == "-s" || opt == "-show" && m_bShowFlag == false) {
-        mostGrandWidget::getInstancemostGrandWidget()->hide();
-        MostGrandWidgetCoordinates();
-        mostGrandWidget::getInstancemostGrandWidget()->show();
-        showAnimation();
-        m_bShowFlag = true;
-        setIcon(QIcon::fromTheme("kylin-tool-box", QIcon(TRAY_ICON)));
+void Widget::bootOptionsFilter(QString opt)
+{
+    if (sidebarState) {
+        if (opt == "-s" || opt == "-show" && m_bShowFlag == true) {
+            qDebug()<<"隐藏";
+            mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
+            hideAnimation();
+        }
+    } else {
+        if (opt == "-s" || opt == "-show" && m_bShowFlag == false) {
+            qDebug()<<"展示";
+            mostGrandWidget::getInstancemostGrandWidget()->hide();
+            MostGrandWidgetCoordinates();
+            mostGrandWidget::getInstancemostGrandWidget()->show();
+            showAnimation();
+            m_bShowFlag = true;
+            setIcon(QIcon::fromTheme("kylin-tool-box", QIcon(TRAY_ICON)));
+        }
     }
 }
 
@@ -905,4 +966,40 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
         activateWindow();
     }
     return false;
+}
+
+void Widget::paintEvent(QPaintEvent *event)
+{
+    QPainter p(this);
+    p.setRenderHint(QPainter::Antialiasing);
+    QPainterPath rectPath;
+    rectPath.addRoundedRect(this->rect().adjusted(0, 0, -0, -0), 0, 02);
+
+    QPixmap pixmap(this->rect().size());
+    pixmap.fill(Qt::transparent);
+    QPainter pixmapPainter(&pixmap);
+    pixmapPainter.setRenderHint(QPainter::Antialiasing);
+    pixmapPainter.setPen(Qt::transparent);
+    pixmapPainter.setBrush(Qt::black);
+    pixmapPainter.drawPath(rectPath);
+    pixmapPainter.end();
+
+    QImage img = pixmap.toImage();
+    qt_blurImage(img, 8, false, false);
+
+    pixmap = QPixmap::fromImage(img);
+    QPainter pixmapPainter2(&pixmap);
+    pixmapPainter2.setRenderHint(QPainter::Antialiasing);
+    pixmapPainter2.setCompositionMode(QPainter::CompositionMode_Clear);
+    pixmapPainter2.setPen(Qt::transparent);
+    pixmapPainter2.setBrush(Qt::transparent);
+    pixmapPainter2.drawPath(rectPath);
+
+    p.drawPixmap(this->rect(), pixmap, pixmap.rect());
+    p.save();
+    QColor color = qApp->palette().color(QPalette::Base);
+    color.setAlphaF(tranSparency);
+    p.fillPath(rectPath, color);
+    p.restore();
+    QWidget::paintEvent(event);
 }
