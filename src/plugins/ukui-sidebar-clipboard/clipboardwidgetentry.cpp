@@ -70,7 +70,7 @@ ClipboardWidgetEntry::ClipboardWidgetEntry(QString dataFormat, QWidget *parent)
 
 
     m_pHLayout->addWidget(m_pRemoveButton);
-    m_pHLayout->addItem(new QSpacerItem(15,20));
+    m_pHLayout->addItem(new QSpacerItem(10,20));
     m_pHLayout->setSpacing(5);
     m_pPopButton->setVisible(false);
     m_pEditButon->setVisible(false);

@@ -1,0 +1,19 @@
+[Desktop Entry]
+Name=Notes
+Name[zh_CN]=便签贴
+Name[tr_TR]=Not
+GenericName=Notes
+GenericName[zh_CN]=便签贴
+GenericName[tr_TR]=Not
+Comment=Notes
+Comment[zh_CN]=便签贴
+Comment[tr_TR]=Not
+Keywords=guide;
+Exec=/usr/bin/ukui-notebook
+Icon=kylin-notebook
+Terminal=false
+Type=Application
+NoDisplay=false
+Categories=System;Utility;
+StartupNotify=false
+

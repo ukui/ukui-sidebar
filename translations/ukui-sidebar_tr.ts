@@ -4,37 +4,27 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/main.cpp" line="69"/>
-        <source>ukui-sidebar is already running!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/main.cpp" line="73"/>
+        <location filename="../src/main.cpp" line="81"/>
         <source>Display debug information</source>
         <translation>Hata Bildirimlerini Göster</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="74"/>
-        <source>show sidebar widget</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/widget.cpp" line="268"/>
+        <location filename="../src/widget.cpp" line="177"/>
         <source>Open</source>
         <translation>Aç</translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="271"/>
+        <location filename="../src/widget.cpp" line="180"/>
         <source>Set up notification center</source>
         <translation>Bildirim Merkezini Ayarla</translation>
     </message>
     <message>
-        <location filename="../src/sidebarpluginswidgets.cpp" line="122"/>
+        <location filename="../src/sidebarpluginswidgets.cpp" line="112"/>
         <source>折叠</source>
         <translation>Ayarla</translation>
     </message>
     <message>
-        <location filename="../src/sidebarpluginswidgets.cpp" line="124"/>
+        <location filename="../src/sidebarpluginswidgets.cpp" line="114"/>
         <source>展开</source>
         <translation>Sil</translation>
     </message>
@@ -43,10 +33,10 @@
     <name>Widget</name>
     <message>
         <source>ClipBoard</source>
-        <translation type="vanished">Pano</translation>
+        <translation>Pano</translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="315"/>
+        <location filename="../src/widget.cpp" line="210"/>
         <source>Sidebar</source>
         <translation>Yan Panel</translation>
     </message>
@@ -54,26 +44,26 @@
 <context>
     <name>sidebarPluginsWidgets</name>
     <message>
-        <location filename="../src/sidebarpluginswidgets.cpp" line="107"/>
+        <location filename="../src/sidebarpluginswidgets.cpp" line="97"/>
         <source>Clipboard</source>
         <translation>Pano</translation>
     </message>
     <message>
-        <location filename="../src/sidebarpluginswidgets.cpp" line="114"/>
+        <location filename="../src/sidebarpluginswidgets.cpp" line="104"/>
         <source>Plugins</source>
         <translation>Eklentiler</translation>
     </message>
     <message>
         <source>Notebook</source>
-        <translation type="vanished">Not Defteri</translation>
+        <translation>Not Defteri</translation>
     </message>
     <message>
         <source>Alarm clock</source>
-        <translation type="vanished">Çalar Saat</translation>
+        <translation>Çalar Saat</translation>
     </message>
     <message>
         <source>Feedback</source>
-        <translation type="vanished">Geri Bildirim</translation>
+        <translation>Geri Bildirim</translation>
     </message>
 </context>
 </TS>

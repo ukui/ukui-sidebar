@@ -133,9 +133,8 @@ void SidebarClipboardPlugin::createWidget()
 
     m_pShortcutOperationListWidget = new ClipBoardLisetWidget;
     m_pShortcutOperationListWidget->verticalScrollBar()->setProperty("drawScrollBarGroove", false);
-    m_pShortcutOperationListWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);       //隐藏横向滚动条
     m_pShortcutOperationListWidget->setContentsMargins(0,0,0,0);
-    m_pShortcutOperationListWidget->setFixedSize(400,240);
+    m_pShortcutOperationListWidget->setFixedSize(400,210);
 
     m_pSearchWidgetListWidget      = new QListWidget;
     m_pSearchWidgetListWidget->setFixedSize(400, 50);
@@ -321,6 +320,7 @@ void SidebarClipboardPlugin::createWidgetEntry()
 
     /* 将text和图片写入到Widget */
     AddWidgetEntry(s_pDataHashValue, w, text);
+
     /* 将按钮与槽对应上 */
     connectWidgetEntryButton(w);
 
@@ -372,10 +372,6 @@ void SidebarClipboardPlugin::AddWidgetEntry(OriginalDataHashValue *s_pDataHashVa
 /* 设置...字样 */
 QString SidebarClipboardPlugin::SetFormatBody(QString text, ClipboardWidgetEntry *w)
 {
-    if (w->m_pCopyDataLabal == nullptr) {
-        qDebug()<<"未实例化";
-    }
-
     QFontMetrics fontMetrics(w->m_pCopyDataLabal->font());
     int LableWidth = w->m_pCopyDataLabal->width();
     int fontSize = fontMetrics.width(text);
@@ -899,13 +895,9 @@ void SidebarClipboardPlugin::editButtonSlots(ClipboardWidgetEntry *w)
 
     int nRet = EditWidget.exec();
     if (nRet == QDialog::Accepted) {
-        //此句有问题
-//        QString formatBody = SetFormatBody(EditWidget.m_pEditingArea->toPlainText(), w);  // 设置...字样
-        QString formatBody = EditWidget.m_pEditingArea->toPlainText();
-        if(formatBody == "") {
-            qDebug()<<"空字符串,返回";
-            return ;
-        }
+        QString formatBody = SetFormatBody(EditWidget.m_pEditingArea->toPlainText(), w);  // 设置...字样
+//        QString formatBody = EditWidget.m_pEditingArea->toPlainText();
+         qDebug () << "formatBody....." << formatBody;
         if (EditWidget.m_pEditingArea->toPlainText() != text) {
             //当编辑后数据改变时，就需要将m_pLabelText中的value改变
             w->m_pCopyDataLabal->setText(formatBody);

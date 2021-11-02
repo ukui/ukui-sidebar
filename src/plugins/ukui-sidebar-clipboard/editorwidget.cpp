@@ -22,38 +22,14 @@
 #include <QTextFrameFormat>
 #include <QTimer>
 
+
 EditorWidget::EditorWidget()
 {
-    if (QGSettings::isSchemaInstalled("org.ukui.control-center.personalise")) {
-        m_pTransparency = new QGSettings("org.ukui.control-center.personalise");
-        m_tranSparency = m_pTransparency->get("transparency").toDouble();
-        connect(m_pTransparency, &QGSettings::changed, this, [=](QString value) {
-            if (value == "transparency") {
-                m_tranSparency = m_pTransparency->get("transparency").toDouble();
-                this->update();
-            }
-        });
-    }
-
-    if (QGSettings::isSchemaInstalled("org.ukui.style")) {
-        m_pFont = new QGSettings("org.ukui.style");
-        m_Fontsize = m_pFont->get("system-font-size").toInt();
-        connect(m_pFont, &QGSettings::changed, this, [=](QString value) {
-            m_Fontsize = m_pFont->get("system-font-size").toInt();
-            QFont font = m_ptileLable->font();
-            font.setPixelSize(9 + m_Fontsize);
-            font.setFamily("Noto Sans CJK SC");
-            m_ptileLable->setFont(font);
-            this->update();
-        });
-    }
-
     installEventFilter(this);
     this->setFixedSize(400, 338);
     this->setContentsMargins(0, 0, 0, 0);
     this->setWindowTitle(QObject::tr("edit box"));
     this->setWindowIcon(QIcon::fromTheme("kylin-clipboard"));
-    this->setWindowModality(Qt::NonModal);
     this->setProperty("useSystemStyleBlur", true);
     m_pMainQVBoxLayout = new QVBoxLayout();
     m_pMainQVBoxLayout->setContentsMargins(0, 0, 0, 0);
@@ -99,12 +75,16 @@ void EditorWidget::editBox()
     QPalette paletteTextEdit = m_pEditingArea->palette();
     paletteTextEdit.setBrush(QPalette::Base, color);
     m_pEditingArea->setPalette(paletteTextEdit);
+    QFont font = m_pEditingArea->font();
+    font.setFamily("Noto Sans CJK SC");
+    font.setPixelSize(14);
+    m_pEditingArea->setFont(font);
 
     m_ptileLable = new QLabel(QObject::tr("Edit"));
-    m_ptileLable->setFixedHeight(25);
+    m_ptileLable->setFixedHeight(20);
     QTimer::singleShot(1, m_ptileLable, [=](){
         QFont font = m_ptileLable->font();
-        font.setPixelSize(9 + m_Fontsize);
+        font.setPixelSize(20);
         font.setFamily("Noto Sans CJK SC");
         m_ptileLable->setFont(font);
     });
@@ -154,7 +134,7 @@ void EditorWidget::paintEvent(QPaintEvent *)
     opt.init(this);
     QPainter p(this);
     p.setBrush(opt.palette.color(QPalette::Base));
-    p.setOpacity(m_tranSparency);
+    p.setOpacity(0.7);
     p.setPen(Qt::NoPen);
 
     p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;

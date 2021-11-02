@@ -29,26 +29,20 @@
 #include <QTimer>
 #include <QThread>
 #include <QGSettings>
-#include <QProcess>
 
 #define STYLE_FONT_SCHEMA "org.ukui.style"
 #define SYSTEM_FONT_EKY "system-font-size"
 #define SYSTEM_NAME_KEY "system-font"
 
 
-SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, QString strSummary, QDateTime dateTime, QString strBody, QString strUrl, QString strAction, bool bTakeInFlag)
+SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, QString strSummary, QDateTime dateTime, QString strBody, bool bTakeInFlag)
 {
     listenTimeZone();
     m_bMain = true;                 //默认是主窗口
     m_bFold = true;                 //默认折叠状态
-    m_bAppFold = true;              //默认整组消息折叠状态
-    jumpFlag = false;               //默认未点击跳转
-    m_pParent = pParent;
     m_strIconPath = strIconPath;
     m_strSummary = strSummary;
     m_strBody = strBody;
-    m_strUrl = strUrl;
-    m_strAction = strAction;
 
     m_dateTime = dateTime;
     m_uNotifyTime = dateTime.toTime_t();
@@ -136,12 +130,12 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
     //获取系统字体大小
     QFont ft;
-    int fontSize;
+    ft.setPointSize(14);
     if(QGSettings::isSchemaInstalled(STYLE_FONT_SCHEMA))
     {
         const QByteArray styleID(STYLE_FONT_SCHEMA);
         stylesettings = new QGSettings(styleID);
-        fontSize = stylesettings->get("system-font-size").toInt();
+        int fontSize = stylesettings->get("system-font-size").toInt();
         ft.setPointSize(fontSize);
     }
     connect(stylesettings, SIGNAL(changed(const QString &)), this, SLOT(slotChangeFonts(const QString &)));
@@ -160,7 +154,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
 
     //放置时间和收纳删除按钮的窗口
     m_pTimeLabelWidget = new QWidget;
-    m_pTimeLabelWidget->setFixedSize(146, 22);
+    m_pTimeLabelWidget->setFixedSize(146, 20);
     QHBoxLayout* pTimeLableHLayout = new QHBoxLayout();
 
 
@@ -249,7 +243,7 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     //延时1秒设置字体
     QTimer::singleShot(1, m_pSummaryLabel, [=]() {
             QFont summaryFont = m_pSummaryLabel->font();
-            summaryFont.setPointSizeF(fontSize + 2);
+            summaryFont.setPointSizeF(12);
             summaryFont.setFamily("Noto Sans CJK SC");
             summaryFont.setBold(true);
             m_pSummaryLabel->setFont(summaryFont);
@@ -311,7 +305,6 @@ SingleMsg::SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, Q
     m_pAppVLaout->addWidget(m_pSingleWidget);
     this->setLayout(m_pAppVLaout);
     m_pSetDeleDelayTimer = new QTimer(this);
-    m_pSetJumpDelayTimer = new QTimer(this);
     return;
 }
 
@@ -410,36 +403,6 @@ void SingleMsg::initGsettingValue()
     const QByteArray id(STYLE_FONT_SCHEMA);
     if (QGSettings::isSchemaInstalled(id))
         m_pStyleGsetting = new QGSettings(id);
-}
-
-void SingleMsg::jumpAction()
-{
-    //关闭该条通知
-    onDele();
-    //跳转动作
-    m_pSetJumpDelayTimer->setSingleShot(true);      //延迟30毫秒，等待删除完成后跳转
-    connect(m_pSetJumpDelayTimer, &QTimer::timeout, this, [=](){
-        if(!m_strUrl.isEmpty()){
-            QString cmd = QString("xdg-open ") + m_strUrl;
-            qInfo()<<"Jump Url:"<<cmd;
-            system(cmd.toStdString().c_str());
-            emit Sig_onDeleSingleMsg(this);
-        }
-        else if(!m_strAction.isEmpty()){
-            qInfo()<<"Jump Action:"<<m_strAction;
-            QProcess *process = new QProcess();
-            process->start(m_strAction);
-            emit Sig_onDeleSingleMsg(this);
-        }
-        else{
-            emit Sig_onDeleSingleMsg(this);
-        }
-    });
-    connect(this,&SingleMsg::Sig_jumpAction,this,[=](){
-        m_pSetJumpDelayTimer->start(30);
-    });
-
-    return;
 }
 
 void SingleMsg::paintEvent(QPaintEvent *e)
@@ -597,7 +560,7 @@ void SingleMsg::setBodyLabelWordWrap(bool bFlag)
             strDisplay += QString(m_strBody.at(i));
             uint fontSize = fontMetrics.width(strDisplay);
             if(fontSize > (j*(labelWidth-8))){
-//                strDisplay+=" ";
+                strDisplay+=" ";
                 j++;
             }
         }
@@ -628,7 +591,7 @@ void SingleMsg::setLeftItem(int nShowLeftCount)
     m_pShowLeftItemLabel->setAttribute(Qt::WA_TranslucentBackground);
 
     //当剩余条数大于0, 且是折叠状态则显示剩余标签
-    if((true == m_bAppFold) && (m_nShowLeftCount > 0))
+    if((true == m_bFold) && (m_nShowLeftCount > 0))
     {
         m_pAppVLaout->setContentsMargins(0,0,0,0); //假如折叠，剩余条目显示将可见，则SingleMsg的内容均无空隙
         m_pShowLeftItemLabel->setVisible(true);
@@ -658,16 +621,12 @@ void SingleMsg::enterEvent(QEvent *event)
     m_pTimeLabelWidget->hide();
     m_pIconHLayout->setContentsMargins(10, 11, 0, 0);
 
-    if((true == m_bMain) && (true == m_bAppFold) && (m_nShowLeftCount > 0))
+    if((true == m_bMain) && (true == m_bFold) && (m_nShowLeftCount > 0))
     {
         emit Sig_onMainEnter();
     }
     this->update();
-    QTimer::singleShot(50,[this]{
-        if(this){
-            this->update();
-        }
-    });
+    QTimer::singleShot(50,[this]{this->update();});
 
     return;
 }
@@ -680,7 +639,7 @@ void SingleMsg::leaveEvent(QEvent *event)
     m_pTimeLabelWidget->show();
     m_pStorageDeleteButtonWidget->hide();
     m_pIconHLayout->setContentsMargins(10, 11, 0, 0);
-    if((true == m_bMain) && (true == m_bAppFold) && (m_nShowLeftCount > 0))
+    if((true == m_bMain) && (true == m_bFold) && (m_nShowLeftCount > 0))
     {
         emit Sig_onMainLeave();
     }
@@ -688,41 +647,39 @@ void SingleMsg::leaveEvent(QEvent *event)
     return;
 }
 
-//鼠标点击事件:1、折叠状态下展开消息 2、展开状态下执行跳转动作
+//鼠标点击事件
 void SingleMsg::mousePressEvent(QMouseEvent *event)
 {
     status =PRESS;
     if (event->buttons() == Qt::LeftButton)
     {
-        if(m_pParent->getFoldFlag()){   //折叠状态
-            if(true == m_bMain){
-                if(m_pParent->getSingleMsgCount()<=1){
-                    if(m_bFold){
-                        //折叠状态下展开单条消息
-                        setBodyLabelWordWrap(true);
-                        setFoldFlag(false);
-                        m_pParent->setFoldFlag(false);
-
-                    }else{
-                        //已经展开的消息执行跳转
-                        jumpFlag = true;
-                        jumpAction();
-                    }
-                }
-                else{
-                    //展开整个app消息
-                    if(true == m_bAppFold){
-                        m_bAppFold = false;                                //置为false,表示展开
-                        m_pShowLeftItemLabel->setVisible(false);        //展开时，剩余条目设置为不可见
-                        emit Sig_setAppFoldFlag(m_bAppFold);               //展开设置，即开始展开动画
-                    }
-                }
-            }
+        if(true == m_bFold)
+        {
+            m_bFold = false;                                //置为false,表示展开
+            setBodyLabelWordWrap(true);
         }
-        else{
-            //执行跳转动作
-            jumpFlag = true;
-            jumpAction();
+        else
+        {
+            m_bFold = true;                                 //置为true,表示折叠
+            setBodyLabelWordWrap(false);
+        }
+
+        //当消息为主窗口时,发送折叠信息给App
+        if(true == m_bMain)
+        {
+            //当剩余条数大于0, 且是折叠状态则显示剩余标签
+            if((true == m_bFold) && (m_nShowLeftCount > 0))
+            {
+                emit Sig_onMainEnter();
+            }
+            else
+            {
+                emit Sig_onMainLeave();                     //点击后也让app的分层底图恢复原色
+                m_pAppVLaout->setContentsMargins(0,0,0,6);  //假如展开，剩余条目显示不可见，则SingleMsg的内容空白恢复正常，即底部多出6个px的空隙
+                m_pShowLeftItemLabel->setVisible(false);
+            }
+
+            emit Sig_setAppFoldFlag(m_bFold);
         }
         this->update();
     }
@@ -735,8 +692,7 @@ void SingleMsg::mainMsgSetFold()
     if(true == m_bMain)
     {
         //置为true,表示折叠
-        m_bAppFold = true;
-        setFoldFlag(true);
+        m_bFold = true;
         setBodyLabelWordWrap(false);
 
         //当剩余条数大于0, 且是折叠状态则显示剩余标签
@@ -770,7 +726,7 @@ void SingleMsg::startAnimationUnfold()
 
     //设置show动画
     QPropertyAnimation* pAnimation = new QPropertyAnimation(m_pSingleWidget, "geometry");
-    pAnimation->setDuration(50);
+    pAnimation->setDuration(300);
     connect(pAnimation, &QPropertyAnimation::valueChanged, this, &SingleMsg::updateUnfoldMove);
     connect(pAnimation, SIGNAL(finished()), this, SLOT(onUnfoldFinish()));
 
@@ -792,7 +748,7 @@ void SingleMsg::startAnimationFold()
 
     //设置show动画
     QPropertyAnimation* pAnimation = new QPropertyAnimation(m_pSingleWidget, "geometry");
-    pAnimation->setDuration(50);
+    pAnimation->setDuration(300);
     connect(pAnimation, &QPropertyAnimation::valueChanged, this, &SingleMsg::updateFoldMove);
     connect(pAnimation, SIGNAL(finished()), this, SLOT(onFoldFinish()));
 
@@ -808,6 +764,7 @@ void SingleMsg::startAnimationDeleLeftMove()
     int nHeight = this->height();
     QDateTime currentDateTime(QDateTime::currentDateTime());
     QString strCurrentTime = currentDateTime.toString("hh:mm:ss.zzz");
+    qDebug()<<strCurrentTime <<"SingleMsg::setAnimationDeleStatus"<<this <<nWidth <<nHeight;
 
     nHeight = nHeight - 6;                  //减去底部6px的空白区域，得出动画框体偏移高度
 
@@ -848,7 +805,7 @@ void SingleMsg::startAnimationDeleUpperMove()
 //通知中心或者收纳盒中的删除
 void SingleMsg::onDele()
 {
-    if((true == m_bMain) && (true == m_bAppFold) && (m_nShowLeftCount > 0))
+    if((true == m_bMain) && (true == m_bFold) && (m_nShowLeftCount > 0))
     {
         m_pAppVLaout->setContentsMargins(0,0,0,6);
         emit Sig_notifyAppHideBaseMap();                    //通知隐藏应用的底图部件，但保留显示底部6px的空白
@@ -865,7 +822,7 @@ void SingleMsg::onDele()
 //通知中心消息收纳至收纳盒
 void SingleMsg::onTakeIn()
 {
-    if((true == m_bMain) && (true == m_bAppFold) && (m_nShowLeftCount > 0))
+    if((true == m_bMain) && (true == m_bFold) && (m_nShowLeftCount > 0))
     {
         emit Sig_onTakeinWholeApp();
     }
@@ -880,7 +837,7 @@ void SingleMsg::onTakeIn()
 //收纳盒消息恢复至通知中心
 void SingleMsg::onRecover()
 {
-    if((true == m_bMain) && (true == m_bAppFold) && (m_nShowLeftCount > 0))
+    if((true == m_bMain) && (true == m_bFold) && (m_nShowLeftCount > 0))
     {
         emit Sig_onRecoverWholeApp();
     }
@@ -949,7 +906,7 @@ void SingleMsg::onUnfoldFinish()
 {
     m_pAppVLaout->removeWidget(m_pAnimationBaseMapWidget);
     m_pAnimationBaseMapWidget->setVisible(false);
-    m_pAppVLaout->addWidget(m_pSingleWidget);
+    m_pAppVLaout->addWidget(m_pSingleWidget);   
 }
 
 //处理折叠完成时的函数
@@ -1005,19 +962,13 @@ void SingleMsg::updateDeleUpperMove(const QVariant &value)
 //处理删除上移完成时的函数
 void SingleMsg::onDeleUpperMoveFinish()
 {
-    if((true == m_bMain) && (true == m_bAppFold) && (m_nShowLeftCount > 0))  //点击的是折叠状态下的主消息的删除按钮
+    if((true == m_bMain) && (true == m_bFold) && (m_nShowLeftCount > 0))
     {
         emit Sig_onDeleteAppMsg();
     }
-    else if((true == m_bMain) && (m_nShowLeftCount == 0) && jumpFlag){     //仅有一条消息时点击消息体
-        emit Sig_jumpAction();
-    }
-    else{
-        if(jumpFlag){
-            emit Sig_jumpAction();
-        }else{
-            emit Sig_onDeleSingleMsg(this);
-        }
+    else
+    {
+        emit Sig_onDeleSingleMsg(this);
     }
 
 }

@@ -31,6 +31,8 @@ class AppMsg;
 class ScrollAreaWidget;
 class QSvgRenderer;
 class TakeInBoxToolButton;
+class external_widget;
+class inside_widget;
 class TakeInCoutLabel;
 
 class NotificationPlugin : public QObject, public NotificationInterface
@@ -55,11 +57,11 @@ public:
     void initUI();
 
 private:
-    QWidget*                m_pMainWidget;
+    external_widget*        m_pMainWidget;
     QList<AppMsg*>          m_listAppMsg;                       //对于SingleMsg类对象用list表记录
     QList<AppMsg*>          m_listTakeInAppMsg;
-    QWidget*                m_pMsgListWidget;                   //消息列表部件，用于装消息的
-    QWidget *               m_pMsgDoubleListWidget;             //消息列表部件，用于装两个消息列表的
+    inside_widget*          m_pMsgListWidget;                   //消息列表部件，用于装消息的
+    inside_widget*          m_pMsgDoubleListWidget;             //消息列表部件，用于装两个消息列表的
     QPropertyAnimation*     m_pSwitchAnimation;
     ScrollAreaWidget*       m_pQScrollAreaNotify;               //通知列表ScrollAreaWidget
     QVBoxLayout*            m_pScrollAreaNotifyVBoxLayout;
@@ -82,8 +84,8 @@ signals:
     void Sig_onNewNotification();
 
 private slots:
-    uint onAddSingleNotify(QString strAppName, QString strIconPath, QString strSummary, QString strBody, QString urlStr,  QString actions, QDateTime dateTime, int maxNum, bool bNewNotificationFlag);    //处理新增单条通知
-    void onTakeInSingleNotify(QString strAppName, QString strIcon, QString strSummary, QString strBody, QString urlStr,  QString actions, QDateTime dateTime, int maxNum, bool bNewTakeinFlag);           //处理收纳单条通知
+    uint onAddSingleNotify(QString strAppName, QString strIconPath, QString strSummary, QString strBody, QDateTime dateTime, int maxNum, bool bNewNotificationFlag);    //处理新增单条通知
+    void onTakeInSingleNotify(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime, int maxNum, bool bNewTakeinFlag);           //处理收纳单条通知
     void onClearAllMessage();                                   //清除所有消息
     void onClearAppMsg(AppMsg* pAppMsg);                        //处理删除通知应用消息槽函数
     void onClearTakeInAppMsg(AppMsg* pAppMsg);                  //处理删除收纳应用的槽函数
@@ -93,6 +95,35 @@ private slots:
     void onCloseAppMsg(QString strAppName);                     //配置实时关闭通知消息
     void onUpdateAppMaxNum(QString strAppName, int maxNum);     //配置实时更新通知消息最大数
     void onSwitchMsgBoxFinish();
+
+};
+
+class external_widget:public QWidget
+{
+public:
+    external_widget();
+
+    QGSettings   *m_pTransparency;
+    double        m_dTranSparency = 0.7;
+    QGSettings     *m_pStyleGsetting;               //监听主题的gsetting
+    void          initGsettingTransparency();
+    void          initGsettingValue();              //初始化监听主题
+    void paintEvent(QPaintEvent *e);                //重绘事件
+};
+
+class inside_widget : public QWidget
+{
+    Q_OBJECT
+public:
+    explicit inside_widget(QWidget *parent = nullptr);
+
+    QGSettings   *m_pTransparency;
+    double        m_dTranSparency = 0.7;
+    QGSettings     *m_pStyleGsetting;                //监听主题的gsetting
+    void          initGsettingTransparency();
+    void          initGsettingValue();                //初始化监听主题
+protected:
+    void paintEvent(QPaintEvent *e);
 
 };
 

@@ -24,6 +24,7 @@
 #include <stdio.h>
 #include <QtDBus>
 #include <QGuiApplication>
+#include "xeventmonitor.h"
 #include "customstyle.h"
 
 double tranSparency = 0.7;
@@ -41,7 +42,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
 
 Widget::~Widget()
 {
-
+    XEventMonitor::instance()->quit();
 }
 
 void Widget::initTrayIcon()
@@ -111,12 +112,6 @@ void Widget::startBackgroundFunction()
 
     if (QGSettings::isSchemaInstalled(UKUI_TRANSPARENCY_SETTING)) {
         m_pTransparency = new QGSettings(UKUI_TRANSPARENCY_SETTING);
-        connect(m_pTransparency, &QGSettings::changed, this, [=](QString value) {
-            if (value == "transparency") {
-                tranSparency = m_pTransparency->get("transparency").toDouble();
-                this->update();
-            }
-        });
     }
 
     //快捷参数
@@ -124,7 +119,12 @@ void Widget::startBackgroundFunction()
         bootOptionsFilter(QApplication::arguments().at(1));
     }
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
-
+    /* 监听键盘事件 */
+    XEventMonitor::instance()->start();
+    connect(XEventMonitor::instance(), SIGNAL(keyRelease(QString)),
+           this,SLOT(XkbEventsRelease(QString)));
+    connect(XEventMonitor::instance(), SIGNAL(keyPress(QString)),
+           this,SLOT(XkbEventsPress(QString)));
     qInfo() << "---------------------------主界面加载完毕---------------------------";
 }
 
@@ -926,24 +926,14 @@ void Widget::updateSmallPluginsClipboardWidget()
 }
 
 /* 过滤终端命令 */
-void Widget::bootOptionsFilter(QString opt)
-{
-    if (sidebarState) {
-        if (opt == "-s" || opt == "-show" && m_bShowFlag == true) {
-            qDebug()<<"隐藏";
-            mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
-            hideAnimation();
-        }
-    } else {
-        if (opt == "-s" || opt == "-show" && m_bShowFlag == false) {
-            qDebug()<<"展示";
-            mostGrandWidget::getInstancemostGrandWidget()->hide();
-            MostGrandWidgetCoordinates();
-            mostGrandWidget::getInstancemostGrandWidget()->show();
-            showAnimation();
-            m_bShowFlag = true;
-            setIcon(QIcon::fromTheme("kylin-tool-box", QIcon(TRAY_ICON)));
-        }
+void Widget::bootOptionsFilter(QString opt){
+    if (opt == "-s" || opt == "-show" && m_bShowFlag == false) {
+        mostGrandWidget::getInstancemostGrandWidget()->hide();
+        MostGrandWidgetCoordinates();
+        mostGrandWidget::getInstancemostGrandWidget()->show();
+        showAnimation();
+        m_bShowFlag = true;
+        setIcon(QIcon::fromTheme("kylin-tool-box", QIcon(TRAY_ICON)));
     }
 }
 
@@ -966,40 +956,4 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
         activateWindow();
     }
     return false;
-}
-
-void Widget::paintEvent(QPaintEvent *event)
-{
-    QPainter p(this);
-    p.setRenderHint(QPainter::Antialiasing);
-    QPainterPath rectPath;
-    rectPath.addRoundedRect(this->rect().adjusted(0, 0, -0, -0), 0, 02);
-
-    QPixmap pixmap(this->rect().size());
-    pixmap.fill(Qt::transparent);
-    QPainter pixmapPainter(&pixmap);
-    pixmapPainter.setRenderHint(QPainter::Antialiasing);
-    pixmapPainter.setPen(Qt::transparent);
-    pixmapPainter.setBrush(Qt::black);
-    pixmapPainter.drawPath(rectPath);
-    pixmapPainter.end();
-
-    QImage img = pixmap.toImage();
-    qt_blurImage(img, 8, false, false);
-
-    pixmap = QPixmap::fromImage(img);
-    QPainter pixmapPainter2(&pixmap);
-    pixmapPainter2.setRenderHint(QPainter::Antialiasing);
-    pixmapPainter2.setCompositionMode(QPainter::CompositionMode_Clear);
-    pixmapPainter2.setPen(Qt::transparent);
-    pixmapPainter2.setBrush(Qt::transparent);
-    pixmapPainter2.drawPath(rectPath);
-
-    p.drawPixmap(this->rect(), pixmap, pixmap.rect());
-    p.save();
-    QColor color = qApp->palette().color(QPalette::Base);
-    color.setAlphaF(tranSparency);
-    p.fillPath(rectPath, color);
-    p.restore();
-    QWidget::paintEvent(event);
 }

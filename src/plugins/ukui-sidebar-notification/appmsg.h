@@ -39,7 +39,7 @@ public:
     AppMsg(NotificationPlugin *parent, QString strAppName, bool bTakeInFlag = false);
     uint    getAppPushTime() {return m_uNotifyTime;}
     QString getAppName() {return m_strAppName;}
-    void    addSingleMsg(QString strIconPath, QString strSummary, QDateTime dateTime, QString strBody, QString strUrl, QString strAction);
+    void    addSingleMsg(QString strIconPath, QString strSummary, QDateTime dateTime, QString strBody);
     void    deleteExceedingMsg();                       //删除超出最大数的消息
     void    updateAppPushTime();                        //更新应用最新的推送时间
     int     getSingleMsgCount();                        //获取应用消息数
@@ -47,17 +47,12 @@ public:
     void    setTopWithSecondItem();                     //当应用最顶条被删除后,将第二条置顶
     void    setAppFold();                               //当app展开时，将app设置折叠
     void    setMaxNumMsg(int nMaxNum) {m_nMaxCount = nMaxNum;}
-    bool    getFoldFlag() {return m_bFold;}
-    void    setFoldFlag(bool bFlag) {m_bFold = bFlag;}
 
     void paintEvent(QPaintEvent *);                //重绘事件
 
 
 private:
-    QVBoxLayout*        m_pMainBaseVLaout;              //APP信息中的整体布局
-    QWidget*            m_pMainWid;                     //App信息中的总窗口
     QVBoxLayout*        m_pMainVLaout;                  //App信息中的总的垂直布局器
-    QWidget*            m_pFoldBtnWid;                  //折叠按钮和删除按钮窗口
     QVBoxLayout*        m_pIndexFromOneVLaout;
     QWidget*            m_pAppBaseMapWidget;            //多条消息时，底图部件包括底部6个px的空白
     QWidget*            m_pBaseMapWidget;               //多条消息时，底图部件不包括底部6个px的空白
@@ -68,18 +63,15 @@ private:
     bool                m_bTakeInFlag;                  //转变为收纳消息吗，默认为false
     bool                m_bFold;                        //折叠标志
     int                 m_nMaxCount;                    //应用消息最大收录数
-    QPushButton*        m_foldBtn;                      //折叠按钮
-    QPushButton*        m_delBtn;                       //清除按钮
-
 
 
 signals:
     void                Sig_onDeleteAppMsg(AppMsg* p);              //该对象属于通知应用,发出删除应用的信号
     void                Sig_onDeleteTakeInAppMsg(AppMsg* p);        //当该对象属于收纳应用时,发出删除收纳应用的信号
     void                Sig_countTakeInBitAndUpate();               //发个统计收纳数信号
-    void                Sig_SendTakeInSingleMsg(QString strAppName, QString strIcon, QString strSummary, QString strBody, QString urlStr, QString actions, QDateTime dateTime, int maxNum, bool bNewTakeinFlag);
-    void                Sig_SendAddSingleMsg(QString strAppName, QString strIcon, QString strSummary, QString strBody, QString urlStr,  QString actions, QDateTime dateTime, int maxNum, bool bNewNotificationFlag);
-    void                Sig_foldAnimationFinish();                  //折叠按钮窗口的消失动画完成信号
+    void                Sig_SendTakeInSingleMsg(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime, int maxNum, bool bNewTakeinFlag);
+    void                Sig_SendAddSingleMsg(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime, int maxNum, bool bNewNotificationFlag);
+
 
 public slots:
     void                onDeleteAppMsg();                           //删除一个应用消息
@@ -89,14 +81,10 @@ public slots:
     void                onTakeInSingleMsg(SingleMsg* pSingleMsg);   //收纳单条消息
     void                onRecoverSingleMsg(SingleMsg* pSingleMsg);  //恢复单条消息
     void                setAppFoldFlag(bool bFlag);                 //设置应用折叠标志
-    void                onFoldAppWidget();                          //折叠整个应用消息
-    void                onDelAppMsg();                              //删除整个应用的消息
     void                onMainMsgEnter();                           //应用主消息进入
     void                onMainMsgLeave();                           //应用主消息离开
     void                onShowBaseMap();                            //显示应用底图
     void                onHideBaseMap();                            //隐藏底图部件
-
-
 
 };
 
