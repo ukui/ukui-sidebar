@@ -1,0 +1,25 @@
+{
+        "txt": "text-x-generic",
+        "svg": "image-svg+xml",
+        "png": "image-x-generic",
+        "jpg": "image-x-generic",
+        "jpeg": "image-x-generic",
+        "bmp": "image-x-generic",
+        "gif": "image-x-generic",
+        "psd": "image-x-generic",
+        "xml": "text-xml",
+        "docx": "document",
+        "pptx": "application-mspowerpoint",
+        "xlsx": "application-msexcel",
+        "pdf": "application-pdf",
+        "zip": "application-zip",
+        "tar": "application-x-compressed-tar",
+        "7z": "application-x-compressed-tar",
+        "bz": "application-x-compressed-tar",
+        "car": "application-x-compressed-tar",
+        "cpgz": "application-x-compressed-tar",
+        "hbc": "application-x-compressed-tar",
+        "gz": "application-x-compressed-tar",
+        "xz": "application-x-compressed-tar"
+
+}

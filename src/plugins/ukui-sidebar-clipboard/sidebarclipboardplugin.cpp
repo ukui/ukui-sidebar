@@ -27,6 +27,7 @@
 #include <QTimer>
 #include <QStyleFactory>
 #include <QTextFrame>
+
 ClipboardSignal *globalClipboardSignal;
 SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
 {
@@ -44,17 +45,9 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
         qDebug() << "cannot load translator ukui-feedback_" << QLocale::system().name() << ".qm!";
 
     installEventFilter(this);
-
-//    const QByteArray id("org.ukui.sidebar");
-//    if (QGSettings::isSchemaInstalled(id)) {
-//        QGSettings *m_pGsetting = new QGSettings(id);
-//        m_bPromptBoxBool = m_pGsetting->get("promptboxbool").toBool();
-//    } else {
-//        m_bPromptBoxBool = true;
-//    }
+    initFileIconJson();
 
     m_bPromptBoxBool = true;
-
     m_pClipboardDb = new clipboardDb();
 
     /* 创建剪贴板主Widget和搜索栏与条目的ListWidget界面 */
@@ -66,9 +59,6 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
     /* 创建查找条目 */
     createFindClipboardWidgetItem();
 
-    /* 往文件类型链表中加入文件后缀类型 */
-    AddfileSuffix();
-
     /* 插件内部通信的信号类 */
     ClipBoardInternalSignal::initInternalSignal();
     ClipBoardInternalSignal *InternalSignal = ClipBoardInternalSignal::getGlobalInternalSignal();
@@ -76,14 +66,6 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
     /* 在点击确认键后判断是否有勾选不再提示这一功能 */
     connect(InternalSignal, &ClipBoardInternalSignal::CheckBoxSelectedSignal, this, [=]() {
         m_bPromptBoxBool = false;
-//        const QByteArray id("org.ukui.sidebar");
-//        if (QGSettings::isSchemaInstalled(id)) {
-//            QGSettings *m_pGsetting = new QGSettings(id);
-//            m_bPromptBoxBool = false;
-//            m_pGsetting->set("promptboxbool",false);
-//        } else {
-//            m_bPromptBoxBool = false;
-//        }
     });
 
     /* 当剪贴板条目发生变化的时候执行该槽函数 */
@@ -95,7 +77,7 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
     m_pClipboardLaout->addWidget(m_pSearchWidgetListWidget);
     m_pClipboardLaout->addWidget(m_pShortcutOperationListWidget);
     m_pClipboardLaout->addWidget(m_pSideBarClipboardLable);
-    m_pClipboardLaout->addItem(new QSpacerItem(1, 100, QSizePolicy::Expanding, QSizePolicy::Fixed));
+//    m_pClipboardLaout->addItem(new QSpacerItem(1, 100, QSizePolicy::Expanding, QSizePolicy::Fixed));
 
     m_pSidebarClipboardWidget->setLayout(m_pClipboardLaout);
     m_pShortcutOperationListWidget->setVisible(false);
@@ -124,6 +106,24 @@ SidebarClipboardPlugin::SidebarClipboardPlugin(QObject *parent)
     }
 }
 
+void SidebarClipboardPlugin::initFileIconJson()
+{
+    /*解析json文件*/
+    QFile file(":/fileIcon.json");
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    QString value = file.readAll();
+    file.close();
+
+    m_pDocument = QJsonDocument::fromJson(value.toUtf8(), &m_pErr_rpt);  //字符串格式化为JSON
+    if(m_pErr_rpt.error != QJsonParseError::NoError)
+    {
+        qWarning() << "JSON格式错误";
+        return;
+    }
+    m_pJsonObject = m_pDocument.object();
+
+}
+
 /* 创建剪贴板主Widget和搜索栏与条目的ListWidget界面 */
 void SidebarClipboardPlugin::createWidget()
 {
@@ -133,8 +133,9 @@ void SidebarClipboardPlugin::createWidget()
 
     m_pShortcutOperationListWidget = new ClipBoardLisetWidget;
     m_pShortcutOperationListWidget->verticalScrollBar()->setProperty("drawScrollBarGroove", false);
+    m_pShortcutOperationListWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);       //隐藏横向滚动条
     m_pShortcutOperationListWidget->setContentsMargins(0,0,0,0);
-    m_pShortcutOperationListWidget->setFixedSize(400,210);
+    m_pShortcutOperationListWidget->setFixedWidth(400);
 
     m_pSearchWidgetListWidget      = new QListWidget;
     m_pSearchWidgetListWidget->setFixedSize(400, 50);
@@ -320,7 +321,6 @@ void SidebarClipboardPlugin::createWidgetEntry()
 
     /* 将text和图片写入到Widget */
     AddWidgetEntry(s_pDataHashValue, w, text);
-
     /* 将按钮与槽对应上 */
     connectWidgetEntryButton(w);
 
@@ -372,6 +372,10 @@ void SidebarClipboardPlugin::AddWidgetEntry(OriginalDataHashValue *s_pDataHashVa
 /* 设置...字样 */
 QString SidebarClipboardPlugin::SetFormatBody(QString text, ClipboardWidgetEntry *w)
 {
+    if (w->m_pCopyDataLabal == nullptr) {
+        qDebug()<<"未实例化";
+    }
+
     QFontMetrics fontMetrics(w->m_pCopyDataLabal->font());
     int LableWidth = w->m_pCopyDataLabal->width();
     int fontSize = fontMetrics.width(text);
@@ -512,10 +516,11 @@ QIcon SidebarClipboardPlugin::fileSuffixGetsIcon(QString Url)
     QString  filePath;
     if (Url == nullptr) {
         qWarning() << "传入后缀名有错误， 为空";
+        return QIcon::fromTheme("unknown");
     }
-    int tmp = m_fileSuffix.size();
     QStringList UrlList = Url.split(".");
-    if (UrlList.size() < 2) {
+    //判别是是否为无后缀的文件
+    if (UrlList.size() <= 1) {
 //        QString  filePath = Url.mid(7);
         filePath=texturl.toLocalFile();
         QFileInfo fileinfo(filePath);
@@ -524,52 +529,21 @@ QIcon SidebarClipboardPlugin::fileSuffixGetsIcon(QString Url)
         } else if (fileinfo.isDir()) {
             return QIcon::fromTheme("folder");//返回文件夹的图标
         }
-        return QIcon::fromTheme("unknown");;
+        return QIcon::fromTheme("unknown");
+    } else if (UrlList.size() == 2) {
+        return fileSuffixeMatchIcon(UrlList[1]);
+    } else if (UrlList.size() > 2) {
+        return fileSuffixeMatchIcon(UrlList[2]);
     }
-    int cnt;
-    for(int i = 0; i < tmp; i++) {
-        if (m_fileSuffix[i] == UrlList[1]) {
-            cnt = i;
-            break;
-        }
-    }
-    return fileSuffixeMatchIcon(cnt);
 }
 
 /* 根据文件后缀找对应的图标 */
-QIcon SidebarClipboardPlugin::fileSuffixeMatchIcon(int cnt)
+QIcon SidebarClipboardPlugin::fileSuffixeMatchIcon(QString cnt)
 {
-    switch (cnt) {
-    case Txt:
-        return QIcon::fromTheme("text-x-generic");
-    case Svg:
-        return QIcon::fromTheme("image-svg+xml");
-    case Png:
-        return QIcon::fromTheme("image-x-generic");
-    case Bmp:
-        return QIcon::fromTheme("image-x-generic");
-    case Xml:
-        return QIcon::fromTheme("text-xml");
-    case Docx:
-        return QIcon::fromTheme("document");
-    case Pptx:
-        return QIcon::fromTheme("application-mspowerpoint");
-    case Xlsx:
-        return QIcon::fromTheme("application-msexcel");
-    case Zip:
-        return QIcon::fromTheme("application-zip");
-    case Pdf:
-        return QIcon::fromTheme("application-pdf");
-    default:
-        return QIcon::fromTheme("unknown");
+    if (!(m_pErr_rpt.error != QJsonParseError::NoError) && !m_pJsonObject[cnt].toString().isEmpty()) {
+        return QIcon::fromTheme(m_pJsonObject[cnt].toString());
     }
-}
-
-/* 往链表中加入文件后缀 */
-void SidebarClipboardPlugin::AddfileSuffix()
-{
-    m_fileSuffix << "txt" << "svg" << "png" << "bmp" << "xml" << "docx" << "pptx" << "xlsx" << "zip" << "pdf" << "pro";
-    return;
+    return QIcon::fromTheme("unknown");
 }
 
 void SidebarClipboardPlugin::connectWidgetEntryButton(ClipboardWidgetEntry *w)
@@ -895,9 +869,13 @@ void SidebarClipboardPlugin::editButtonSlots(ClipboardWidgetEntry *w)
 
     int nRet = EditWidget.exec();
     if (nRet == QDialog::Accepted) {
-        QString formatBody = SetFormatBody(EditWidget.m_pEditingArea->toPlainText(), w);  // 设置...字样
-//        QString formatBody = EditWidget.m_pEditingArea->toPlainText();
-         qDebug () << "formatBody....." << formatBody;
+        //此句有问题
+//        QString formatBody = SetFormatBody(EditWidget.m_pEditingArea->toPlainText(), w);  // 设置...字样
+        QString formatBody = EditWidget.m_pEditingArea->toPlainText();
+        if(formatBody == "") {
+            qDebug()<<"空字符串,返回";
+            return ;
+        }
         if (EditWidget.m_pEditingArea->toPlainText() != text) {
             //当编辑后数据改变时，就需要将m_pLabelText中的value改变
             w->m_pCopyDataLabal->setText(formatBody);
@@ -1337,14 +1315,14 @@ void SidebarClipboardPlugin::previewShowImageSlots(QWidget *w)
         delete m_pPreviewImage;
         m_pPreviewImage = nullptr;
     }
-    int PreviewWidgetHeight = setClipBoardWidgetScaleFactor();
+//    int PreviewWidgetHeight = setClipBoardWidgetScaleFactor();
     ClipboardWidgetEntry *widget = dynamic_cast<ClipboardWidgetEntry*>(w);
     QListWidgetItem *Item = iterationClipboardDataHash(widget);
     OriginalDataHashValue* pOriginalData = GetOriginalDataValue(Item);
     m_pPreviewImage = new previewImageWidget(pOriginalData->p_pixmap);
 
-    m_pPreviewImage->move(m_nclipboardsite_x - 260, PreviewWidgetHeight);
-    qDebug() << m_nclipboardsite_x - 260 << PreviewWidgetHeight;
+    m_pPreviewImage->move(m_nclipboardsite_x - 260, CLIPBOARD_HEIGHT);
+    qDebug() << m_nclipboardsite_x - 260 << CLIPBOARD_HEIGHT;
     m_pPreviewImage->show();
 }
 

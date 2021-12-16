@@ -14,5 +14,6 @@
         <file>image/kylin-alarm-clock.svg</file>
         <file>image/lock.png</file>
         <file>image/cancel-lock.png</file>
+        <file>fileIcon.json</file>
     </qresource>
 </RCC>

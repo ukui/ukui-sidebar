@@ -24,7 +24,6 @@
 #include <stdio.h>
 #include <QtDBus>
 #include <QGuiApplication>
-#include "xeventmonitor.h"
 #include "customstyle.h"
 
 double tranSparency = 0.7;
@@ -42,7 +41,7 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
 
 Widget::~Widget()
 {
-    XEventMonitor::instance()->quit();
+
 }
 
 void Widget::initTrayIcon()
@@ -112,6 +111,12 @@ void Widget::startBackgroundFunction()
 
     if (QGSettings::isSchemaInstalled(UKUI_TRANSPARENCY_SETTING)) {
         m_pTransparency = new QGSettings(UKUI_TRANSPARENCY_SETTING);
+        connect(m_pTransparency, &QGSettings::changed, this, [=](QString value) {
+            if (value == "transparency") {
+                tranSparency = m_pTransparency->get("transparency").toDouble();
+                this->update();
+            }
+        });
     }
 
     //快捷参数
@@ -119,12 +124,7 @@ void Widget::startBackgroundFunction()
         bootOptionsFilter(QApplication::arguments().at(1));
     }
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
-    /* 监听键盘事件 */
-    XEventMonitor::instance()->start();
-    connect(XEventMonitor::instance(), SIGNAL(keyRelease(QString)),
-           this,SLOT(XkbEventsRelease(QString)));
-    connect(XEventMonitor::instance(), SIGNAL(keyPress(QString)),
-           this,SLOT(XkbEventsPress(QString)));
+
     qInfo() << "---------------------------主界面加载完毕---------------------------";
 }
 
@@ -248,9 +248,9 @@ int Widget::ListenClipboardSignal()
 
     sidebarPluginsWidgets::getInstancePluinsWidgets()->m_pClipboardWidget = m_pSidebarClipboard->getClipbaordGroupBox();   /* 获取剪贴板的Widget指针; */
     sidebarPluginsWidgets::getInstancePluinsWidgets()->initCliboardAnimation();                     /* 初始化剪贴板动画 */
-    int clipboardhight = setClipBoardWidgetScaleFactor();
-    qDebug() << "剪贴板高度" << clipboardhight;
-    sidebarPluginsWidgets::getInstancePluinsWidgets()->setClipboardWidgetSize(clipboardhight);      /* 设定剪贴板高度 */
+//    int clipboardhight = setClipBoardWidgetScaleFactor();
+//    qDebug() << "剪贴板高度" << clipboardhight;
+    sidebarPluginsWidgets::getInstancePluinsWidgets()->setClipboardWidgetSize(CLIPBOARD_HEIGHT);    /* 设定剪贴板高度 */
     sidebarPluginsWidgets::getInstancePluinsWidgets()->AddPluginWidgetInterface();                  /* 将下半部分所有控件加入到sidebarPluginsWidgets中 */
     m_pMainQVBoxLayout->addWidget(sidebarPluginsWidgets::getInstancePluinsWidgets(), 0);
     return 0;
@@ -478,8 +478,8 @@ void Widget::GetsAvailableAreaScreen()
         m_nScreenWidth = screenRect.width();
         m_nScreenHeight = screenRect.height();
     }
-    qDebug() << "主屏Width  --> " << m_nScreenWidth;
-    qDebug() << "主屏Height --> " << m_nScreenHeight;
+    qDebug() << "更新主屏Width  --> " << m_nScreenWidth;
+    qDebug() << "更新主屏Height --> " << m_nScreenHeight;
 }
 
 /* 设定剪贴板高度 */
@@ -519,19 +519,24 @@ void Widget::initAimation()
 //动画展开
 void Widget::showAnimation()
 {
+    InitializeHomeScreenGeometry();
+    MostGrandWidgetCoordinates();
+
+    qDebug()<<"展开动画开始--------------------------------";
     NotificationInterface* pNotificationPluginObject = qobject_cast<NotificationInterface*>(m_pNotificationPluginObject);
     if (nullptr != pNotificationPluginObject)
         pNotificationPluginObject->showNotification();       //当动画展开时给插件一个通知
 
     int  AnimaStartSideBarSite[4];                           //侧边栏动画开始位置
     int  AnimaStopSidebarSite[4];                            //侧边栏动画结束位置
-    int clipboardhight = setClipBoardWidgetScaleFactor();
-    sidebarPluginsWidgets::getInstancePluinsWidgets()->setClipboardWidgetSize(clipboardhight);      //设定剪贴板高度
+//    int clipboardhight = setClipBoardWidgetScaleFactor();
+    sidebarPluginsWidgets::getInstancePluinsWidgets()->setClipboardWidgetSize(CLIPBOARD_HEIGHT);      //设定剪贴板高度
     m_pPeonySite = getPanelSite();
     switch (m_pPeonySite)
     {
         case Widget::PanelDown :
             {
+                qDebug()<<"任务栏在底部";
                 //起始位置的坐标
                 AnimaStartSideBarSite[0] = 400;
                 AnimaStartSideBarSite[1] = 0;
@@ -546,6 +551,7 @@ void Widget::showAnimation()
             break;
         case Widget::PanelUp:
             {
+                qDebug()<<"任务栏在顶部";
                 //起始位置的坐标
                 AnimaStartSideBarSite[0] = 400;
                 AnimaStartSideBarSite[1] = 0;
@@ -560,6 +566,7 @@ void Widget::showAnimation()
             break;
         case Widget::PanelLeft:
             {
+                qDebug()<<"任务栏在左侧";
                 //起始位置的坐标
                 AnimaStartSideBarSite[0] = -400;
                 AnimaStartSideBarSite[1] = 0;
@@ -574,6 +581,7 @@ void Widget::showAnimation()
             break;
         case Widget::PanelRight:
             {
+                qDebug()<<"任务栏在右侧";
                 //起始位置的坐标
                 AnimaStartSideBarSite[0] = 400;
                 AnimaStartSideBarSite[1] = 0;
@@ -597,14 +605,18 @@ void Widget::showAnimation()
     message<<time<<distance;
     QDBusConnection::sessionBus().send(message); //发射信号
 
-    //--<
+    qDebug() << "主屏Width  --> " << m_nScreenWidth;
+    qDebug() << "主屏Height --> " << m_nScreenHeight;
+    qDebug()<<"setStartValue QRect:"<<AnimaStartSideBarSite[0]<<AnimaStartSideBarSite[1]<<AnimaStartSideBarSite[2]<<AnimaStartSideBarSite[3];
+    qDebug()<<"setEndValue   QRect:"<<AnimaStopSidebarSite[0]<<AnimaStopSidebarSite[1]<<AnimaStopSidebarSite[2]<<AnimaStopSidebarSite[3];
     m_pAnimationShowSidebarWidget->setDuration(400);
-    m_pAnimationShowSidebarWidget->setStartValue(QRect(AnimaStartSideBarSite[0], AnimaStartSideBarSite[1], AnimaStartSideBarSite[2], AnimaStartSideBarSite[3]));
+    m_pAnimationShowSidebarWidget->setStartValue(QRect(AnimaStartSideBarSite[0], AnimaStartSideBarSite[1], AnimaStartSideBarSite[2], AnimaStartSideBarSite[3])); //前两个参数是坐标，后两个参数是长宽
     m_pAnimationShowSidebarWidget->setEndValue(QRect(AnimaStopSidebarSite[0], AnimaStopSidebarSite[1], AnimaStopSidebarSite[2], AnimaStopSidebarSite[3]));
     m_pAnimationShowSidebarWidget->start();
     sidebarState = true;
     dbusService->sidebarState = true;
     dbusService->m_sidebarWidth = 400;
+    qDebug()<<"展开动画结束--------------------------------";
 }
 
 void Widget::showAnimationAction(const QVariant &value)
@@ -632,6 +644,7 @@ void sidebarPluginsWidgets::getTransparencyValue(const QString key)
 //隐藏动画
 void Widget::hideAnimation()
 {
+    qDebug()<<"隐藏动画开始--------------------------------";
     m_bShowFlag = false;
     NotificationInterface* pNotificationPluginObject = qobject_cast<NotificationInterface*>(m_pNotificationPluginObject);
     if (nullptr != pNotificationPluginObject)
@@ -642,6 +655,7 @@ void Widget::hideAnimation()
     switch (getPanelSite()) {
         case Widget::PanelDown :
             {
+                qDebug()<<"任务栏在底部";
                 //起始位置的坐标
                 AnimaStartSideBarSite[0] = 0;
                 AnimaStartSideBarSite[1] = 0;
@@ -656,6 +670,7 @@ void Widget::hideAnimation()
             break;
         case Widget::PanelUp:
             {
+                qDebug()<<"任务栏在顶部";
                 //起始位置的坐标
                 AnimaStartSideBarSite[0] = 0;
                 AnimaStartSideBarSite[1] = 0;
@@ -670,6 +685,7 @@ void Widget::hideAnimation()
             break;
         case Widget::PanelLeft:
             {
+                qDebug()<<"任务栏在左侧";
                 //起始位置的坐标
                 AnimaStartSideBarSite[0] = 0;
                 AnimaStartSideBarSite[1] = 0;
@@ -684,6 +700,7 @@ void Widget::hideAnimation()
             break;
         case Widget::PanelRight:
             {
+                qDebug()<<"任务栏在右侧";
                 //起始位置的坐标
                 AnimaStartSideBarSite[0] = 0;
                 AnimaStartSideBarSite[1] = 0;
@@ -699,14 +716,18 @@ void Widget::hideAnimation()
         default:
             break;
     }
-    //--> 给通知中心发信号，开始左移动画
+    //给通知中心发信号，开始左移动画
     QDBusMessage message = QDBusMessage::createSignal("/org/ukui/Sidebar", "org.ukui.Sidebar",
                                                      "animationAction");
     uint time = 200;
     int distance = -400;
     message<<time<<distance;
     QDBusConnection::sessionBus().send(message); //发射信号
-    //--<
+
+    qDebug() << "主屏Width  --> " << m_nScreenWidth;
+    qDebug() << "主屏Height --> " << m_nScreenHeight;
+    qDebug()<<"setStartValue QRect:"<<AnimaStartSideBarSite[0]<<AnimaStartSideBarSite[1]<<AnimaStartSideBarSite[2]<<AnimaStartSideBarSite[3];
+    qDebug()<<"setEndValue   QRect:"<<AnimaStopSidebarSite[0]<<AnimaStopSidebarSite[1]<<AnimaStopSidebarSite[2]<<AnimaStopSidebarSite[3];
     m_pAnimationHideSidebarWidget->setDuration(200);
     m_pAnimationHideSidebarWidget->setStartValue(QRect(AnimaStartSideBarSite[0], AnimaStartSideBarSite[1], AnimaStartSideBarSite[2], AnimaStartSideBarSite[3]));
     m_pAnimationHideSidebarWidget->setEndValue(QRect(AnimaStopSidebarSite[0], AnimaStopSidebarSite[1], AnimaStopSidebarSite[2], AnimaStopSidebarSite[3]));
@@ -714,6 +735,7 @@ void Widget::hideAnimation()
     sidebarState = false;
     dbusService->sidebarState = false;
     dbusService->m_sidebarWidth = 0;
+    qDebug()<<"隐藏动画结束--------------------------------";
     return;
 }
 
@@ -804,7 +826,7 @@ void Widget::OpenSidebarSlots()
 void Widget::OpenControlCenterSettings()
 {
     QProcess p(0);
-    p.startDetached("ukui-control-center -n");
+    p.startDetached("ukui-control-center -m Notice");
     p.waitForStarted();
     return;
 }
@@ -812,8 +834,8 @@ void Widget::OpenControlCenterSettings()
 /* 修改屏幕分辨率或者主屏需要做的事情 */
 void Widget::ModifyScreenNeeds()
 {
-    int clipboardhight = setClipBoardWidgetScaleFactor();
-    sidebarPluginsWidgets::getInstancePluinsWidgets()->setClipboardWidgetSize(clipboardhight); //设定剪贴板高度
+//    int clipboardhight = setClipBoardWidgetScaleFactor();
+    sidebarPluginsWidgets::getInstancePluinsWidgets()->setClipboardWidgetSize(CLIPBOARD_HEIGHT); //设定剪贴板高度
     return;
 }
 
@@ -926,14 +948,26 @@ void Widget::updateSmallPluginsClipboardWidget()
 }
 
 /* 过滤终端命令 */
-void Widget::bootOptionsFilter(QString opt){
-    if (opt == "-s" || opt == "-show" && m_bShowFlag == false) {
-        mostGrandWidget::getInstancemostGrandWidget()->hide();
-        MostGrandWidgetCoordinates();
-        mostGrandWidget::getInstancemostGrandWidget()->show();
-        showAnimation();
-        m_bShowFlag = true;
-        setIcon(QIcon::fromTheme("kylin-tool-box", QIcon(TRAY_ICON)));
+void Widget::bootOptionsFilter(QString opt)
+{
+    if (oneShotBool){
+        if (opt == "-s" || opt == "-show") {
+            if (m_bShowFlag) {
+                qDebug()<<"隐藏侧边栏";
+                mostGrandWidget::getInstancemostGrandWidget()->topLevelWidget()->setProperty("blurRegion", QRegion(QRect(1, 1, 1, 1)));
+                hideAnimation();
+            } else {
+                qDebug()<<"展示侧边栏";
+                mostGrandWidget::getInstancemostGrandWidget()->hide();
+                MostGrandWidgetCoordinates();
+                mostGrandWidget::getInstancemostGrandWidget()->show();
+                showAnimation();
+                m_bShowFlag = true;
+                setIcon(QIcon::fromTheme("kylin-tool-box", QIcon(TRAY_ICON)));
+            }
+        }
+    } else {
+        qDebug()<<"未启动完全";
     }
 }
 
@@ -956,4 +990,40 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
         activateWindow();
     }
     return false;
+}
+
+void Widget::paintEvent(QPaintEvent *event)
+{
+    QPainter p(this);
+    p.setRenderHint(QPainter::Antialiasing);
+    QPainterPath rectPath;
+    rectPath.addRoundedRect(this->rect().adjusted(0, 0, -0, -0), 0, 02);
+
+    QPixmap pixmap(this->rect().size());
+    pixmap.fill(Qt::transparent);
+    QPainter pixmapPainter(&pixmap);
+    pixmapPainter.setRenderHint(QPainter::Antialiasing);
+    pixmapPainter.setPen(Qt::transparent);
+    pixmapPainter.setBrush(Qt::black);
+    pixmapPainter.drawPath(rectPath);
+    pixmapPainter.end();
+
+    QImage img = pixmap.toImage();
+    qt_blurImage(img, 8, false, false);
+
+    pixmap = QPixmap::fromImage(img);
+    QPainter pixmapPainter2(&pixmap);
+    pixmapPainter2.setRenderHint(QPainter::Antialiasing);
+    pixmapPainter2.setCompositionMode(QPainter::CompositionMode_Clear);
+    pixmapPainter2.setPen(Qt::transparent);
+    pixmapPainter2.setBrush(Qt::transparent);
+    pixmapPainter2.drawPath(rectPath);
+
+    p.drawPixmap(this->rect(), pixmap, pixmap.rect());
+    p.save();
+    QColor color = qApp->palette().color(QPalette::Base);
+    color.setAlphaF(tranSparency);
+    p.fillPath(rectPath, color);
+    p.restore();
+    QWidget::paintEvent(event);
 }

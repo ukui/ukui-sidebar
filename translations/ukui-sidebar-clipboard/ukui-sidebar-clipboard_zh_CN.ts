@@ -4,24 +4,24 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="84"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="86"/>
         <source>Are you sure empty your clipboard history?</source>
         <translation>确认要清空剪贴板历史吗？</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="99"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="113"/>
         <source>Don&apos;t ask</source>
         <translation>不再询问</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="113"/>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/editorwidget.cpp" line="108"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="128"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/editorwidget.cpp" line="127"/>
         <source>Confirm</source>
         <translation>确认</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="115"/>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/editorwidget.cpp" line="112"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="130"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/editorwidget.cpp" line="131"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -46,22 +46,22 @@
         <translation>取消固定</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/editorwidget.cpp" line="31"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/editorwidget.cpp" line="54"/>
         <source>edit box</source>
         <translation>编辑框</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/editorwidget.cpp" line="84"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/editorwidget.cpp" line="103"/>
         <source>Edit</source>
         <translation>编辑</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/sidebarclipboardplugin.h" line="97"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/sidebarclipboardplugin.h" line="99"/>
         <source>ClipBoard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/sidebarclipboardplugin.h" line="99"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/sidebarclipboardplugin.h" line="101"/>
         <source>Show the folder children as icons.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -125,7 +125,7 @@
 <context>
     <name>SidebarClipboardPlugin</name>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/sidebarclipboardplugin.cpp" line="125"/>
+        <location filename="../../src/plugins/ukui-sidebar-clipboard/sidebarclipboardplugin.cpp" line="148"/>
         <source>No clip content</source>
         <translation>无剪贴内容</translation>
     </message>

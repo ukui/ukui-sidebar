@@ -52,6 +52,10 @@
 #define DBUS_PATH       "/org/ukui/SettingsDaemon/wayland"
 #define DBUS_INTERFACE  "org.ukui.SettingsDaemon.wayland"
 
+#define  CLIPBOARD_HEIGHT 385
+
+extern void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed);
+
 class QGroupBox;
 class QGridLayout;
 class QVBoxLayout;
@@ -110,6 +114,7 @@ public:
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event);                              // 设置过滤事件
+    void paintEvent(QPaintEvent *event);                                        // 设置主题窗口背景颜色
 
 private:
     //主界面

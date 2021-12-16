@@ -58,7 +58,7 @@ public:
     QPushButton *m_pEditButon;
     QPushButton *m_pRemoveButton;
     QPushButton *m_pCancelLockButton;
-    QLabel      *m_pCopyDataLabal;
+    QLabel      *m_pCopyDataLabal = nullptr;
     pixmapLabel *m_pCopyFileIcon;
     QHBoxLayout *m_pHLayout;
     QString      m_ptext;

@@ -58,6 +58,7 @@ DISTFILES += clipboardPlugin.json
 
 TRANSLATIONS += ../../../translations/ukui-sidebar-clipboard/ukui-sidebar-clipboard_zh_CN.ts \
                 ../../../translations/ukui-sidebar-clipboard/ukui-sidebar-clipboard_bo.ts \
+                ../../../translations/ukui-sidebar-clipboard/ukui-sidebar-clipboard_bo_CN.ts \
                 ../../../translations/ukui-sidebar-clipboard/ukui-sidebar-clipboard_tr.ts
 
 unix {

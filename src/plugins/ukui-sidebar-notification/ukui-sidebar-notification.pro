@@ -20,6 +20,7 @@ LIBS          +=  -L$$[QT_INSTALL_LIBS] -ldconf
 DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
+    notificationDbus.cpp \
     notificationPlugin.cpp \
     appmsg.cpp \
     scrollareawidget.cpp \
@@ -28,11 +29,12 @@ SOURCES += \
     singlemsg.cpp \
     buttonwidget.cpp \
     customstylePushbutton2.cpp \
-    picturetowhite.cpp
+    picturetowhite.cpp \
 
 INCLUDEPATH    += ../../plugin-interface \
                  /usr/include/dconf
 HEADERS += \
+    notificationDbus.h \
     notificationPlugin.h \
     appmsg.h \
     scrollareawidget.h \
@@ -41,7 +43,7 @@ HEADERS += \
     singlemsg.h \
     buttonwidget.h \
     customstylePushbutton2.h \
-    picturetowhite.h
+    picturetowhite.h \
 
 DISTFILES += notificationPlugin.json
 
@@ -55,6 +57,7 @@ unix {
 }
 
 TRANSLATIONS += ../../../translations/ukui-sidebar-notification/ukui-sidebar-notification_zh_CN.ts \
+                ../../../translations/ukui-sidebar-notification/ukui-sidebar-notification_bo_CN.ts \
                 ../../../translations/ukui-sidebar-notification/ukui-sidebar-notification_tr.ts
 
 RESOURCES += \

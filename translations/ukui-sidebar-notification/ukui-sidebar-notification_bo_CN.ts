@@ -4,80 +4,66 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-notification/notificationPlugin.cpp" line="65"/>
-        <source>Notification center</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/plugins/ukui-sidebar-notification/notificationPlugin.cpp" line="112"/>
-        <location filename="../../src/plugins/ukui-sidebar-notification/notificationPlugin.cpp" line="681"/>
         <source>Important notice</source>
-        <translation type="unfinished"></translation>
+        <translation>གལ་ཆེའི་བརྡ་འཕྲིན།</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-notification/notificationPlugin.cpp" line="120"/>
         <source>Clean up</source>
-        <translation type="unfinished"></translation>
+        <translation>གཙང་བཤེར།</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-notification/notificationPlugin.cpp" line="151"/>
         <source>Set up</source>
-        <translation type="unfinished"></translation>
+        <translation>སྒྲིག་འགོད།</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-notification/notificationPlugin.cpp" line="217"/>
-        <source>No new notifications</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/plugins/ukui-sidebar-notification/notificationPlugin.cpp" line="240"/>
-        <source>No unimportant notice</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/plugins/ukui-sidebar-notification/notificationPlugin.cpp" line="653"/>
         <source>Unimportant notice</source>
+        <translation>གལ་མི་ཆེ་བའི་བརྡ་འཕྲིན།</translation>
+    </message>
+    <message>
+        <source>No unimportant notice</source>
+        <translation>གལ་མི་ཆེ་བའི་བརྡ་འཕྲིན་མེད།</translation>
+    </message>
+    <message>
+        <source>Notification center</source>
+        <translation>བརྡ་འཕྲིན་ལྟེ་གནས།</translation>
+    </message>
+    <message>
+        <source>No new notifications</source>
+        <translation>བརྡ་འཕྲིན་གསར་བ་མེད།</translation>
+    </message>
+    <message>
+        <source> fold</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>SingleMsg</name>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-notification/singlemsg.cpp" line="116"/>
         <source>now</source>
-        <translation type="unfinished"></translation>
+        <translation>ད་ལྟ།</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-notification/singlemsg.cpp" line="284"/>
-        <source>Yesterday </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/plugins/ukui-sidebar-notification/singlemsg.cpp" line="363"/>
         <source>In addition </source>
-        <translation type="unfinished"></translation>
+        <translation>ད་དུང་ཡོད།</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-notification/singlemsg.cpp" line="363"/>
         <source> notification</source>
-        <translation type="unfinished"></translation>
+        <translation>བརྡ་ཐོ་འཆར་བ།:(_N)</translation>
     </message>
     <message>
-        <source>In addition</source>
-        <translation type="obsolete">Tür</translation>
+        <source>Yesterday </source>
+        <translation>ཁ་སང་།</translation>
     </message>
 </context>
 <context>
     <name>TakeInBoxToolButton</name>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-notification/takeinboxtoolbutton.cpp" line="36"/>
-        <source>Enter unimportant news</source>
-        <translation type="unfinished"></translation>
+        <source>Quit unimportant news</source>
+        <translation>གལ་མི་ཆེ་བའི་བརྡ་འཕྲིན་སྒོ་གཏན་པ།</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-notification/takeinboxtoolbutton.cpp" line="41"/>
-        <source>Quit unimportant news</source>
-        <translation type="unfinished"></translation>
+        <source>Enter unimportant news</source>
+        <translation>གལ་མི་ཆེ་བའི་བརྡ་འཕྲིན་ལ་གཟིགས་པ།</translation>
     </message>
 </context>
 </TS>

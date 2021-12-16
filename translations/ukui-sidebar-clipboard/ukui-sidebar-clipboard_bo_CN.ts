@@ -4,59 +4,50 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="68"/>
-        <source>Are you sure empty your clipboard history?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="83"/>
-        <source>Don&apos;t ask</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="97"/>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/editorwidget.cpp" line="105"/>
-        <source>Confirm</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/cleanpromptbox.cpp" line="99"/>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/editorwidget.cpp" line="109"/>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/clipboardwidgetentry.cpp" line="93"/>
         <source>Pop</source>
-        <translation type="unfinished"></translation>
+        <translation>དར་ཁྱབ་</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/clipboardwidgetentry.cpp" line="101"/>
-        <source>EditButton</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/clipboardwidgetentry.cpp" line="108"/>
-        <source>Remove</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/clipboardwidgetentry.cpp" line="115"/>
-        <source>Cancel the fixed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/editorwidget.cpp" line="81"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>རྩོམ་སྒྲིག</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/sidebarclipboardplugin.h" line="97"/>
+        <source>Don&apos;t ask</source>
+        <translation>འདྲི་ཞིབ་མི་བྱེད་པ།</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>མེད་པར་བཟོ་བ</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>བསུབ་པ།</translation>
+    </message>
+    <message>
+        <source>EditButton</source>
+        <translation>རྩོམ་སྒྲིག</translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation>གཏན་འཁེལ།</translation>
+    </message>
+    <message>
+        <source>edit box</source>
+        <translation>རྩོམ་སྒྲིག་སྒྲོམ།</translation>
+    </message>
+    <message>
+        <source>Are you sure empty your clipboard history?</source>
+        <translation>དྲས་སྦྱར་པང་གི་ལོ་རྒྱུས་གཙང་སེལ་བཟོའམ།</translation>
+    </message>
+    <message>
+        <source>Cancel the fixed</source>
+        <translation>གཏན་འཁེལ་མི་བྱེད་པ།</translation>
+    </message>
+    <message>
         <source>ClipBoard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/sidebarclipboardplugin.h" line="99"/>
         <source>Show the folder children as icons.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -64,73 +55,19 @@
 <context>
     <name>SearchWidgetItemContent</name>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/searchwidgetitemcontent.cpp" line="31"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>གཙང་སེལ།</translation>
     </message>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/searchwidgetitemcontent.cpp" line="56"/>
         <source>search...</source>
-        <translation type="unfinished"></translation>
+        <translation>འཚོལ་བཤེར། ...</translation>
     </message>
 </context>
 <context>
     <name>SidebarClipboardPlugin</name>
     <message>
-        <location filename="../../src/plugins/ukui-sidebar-clipboard/sidebarclipboardplugin.cpp" line="120"/>
         <source>No clip content</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>QWidgetTextControl</name>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2264"/>
-        <source>&amp;Undo</source>
-        <translatorcomment>ཕྱིར་འཐེན། </translatorcomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2268"/>
-        <source>&amp;Redo</source>
-        <translatorcomment>སླར་གསོ། </translatorcomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2275"/>
-        <source>Cu&amp;t</source>
-        <translatorcomment>དྲས་སྦྱར་</translatorcomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2284"/>
-        <source>&amp;Copy</source>
-        <translatorcomment>འདྲ་བཟོ་</translatorcomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2293"/>
-        <source>Copy &amp;Link Location</source>
-        <translatorcomment>འདྲ་ཕབ་འབྲེལ་མཐུད།</translatorcomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2301"/>
-        <source>&amp;Paste</source>
-        <translatorcomment>སྦྱར་བ་</translatorcomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2306"/>
-        <source>Delete</source>
-        <translatorcomment>སུབ་པ་</translatorcomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="widgets/qwidgettextcontrol.cpp" line="2315"/>
-        <source>Select All</source>
-        <translatorcomment>ཡོངས་འདེམས་</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>དྲས་སྦྱར་ནང་དོན་མི་འདུག</translation>
     </message>
 </context>
 </TS>

@@ -107,7 +107,12 @@ int main(int argc, char *argv[])
             qDebug()<<"主动启动";
             startTimer->stop();
             w->startBackgroundFunction();
-            w->iconActivated(reason);
+            QTimer *startTimer = new QTimer;
+            startTimer->setSingleShot(true);
+            QObject::connect(startTimer,&QTimer::timeout,[=](){
+                    w->iconActivated(reason); //设定延时，防止消息界面未完全显示就展示
+            });
+            startTimer->start(1);
         });
 
         QObject::connect(startTimer,&QTimer::timeout,[=](){

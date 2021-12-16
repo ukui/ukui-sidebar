@@ -25,6 +25,7 @@
 #include <QDebug>
 #include <QPainter>
 #include "customstylePushbutton2.h"
+#include "notificationDbus.h"
 
 
 NotificationPlugin::NotificationPlugin()
@@ -32,20 +33,32 @@ NotificationPlugin::NotificationPlugin()
     //初始化翻译文件
     initTrans();
 
+    //初始化任务栏gsetting,用以监听任务栏的位置变化
+    initPanelGsettings();
+
     //初始化界面
     initUI();
 
-    //新建一个监控dbus消息的线程
-    MonitorThread* pMonitorThread = new MonitorThread(this);
-    QGSettings* pEnablenotice = new QGSettings("org.ukui.control-center.notice", "", this);
-    if(pEnablenotice->get("enable-notice").toBool()) {
-        pMonitorThread->start();
-        pMonitorThread->switchEnable(pEnablenotice->get("enable-notice").toBool());
-    }
 
-    connect(pEnablenotice, &QGSettings::changed, [=](){
-        pMonitorThread->switchEnable(pEnablenotice->get("enable-notice").toBool());
-    });
+//    //新建一个监控dbus消息的线程
+//    MonitorThread* pMonitorThread = new MonitorThread(this);
+//    QGSettings* pEnablenotice = new QGSettings("org.ukui.control-center.notice", "", this);
+//    if(pEnablenotice->get("enable-notice").toBool()) {
+//        pMonitorThread->start();
+//        pMonitorThread->switchEnable(pEnablenotice->get("enable-notice").toBool());
+//    }
+
+//    connect(pEnablenotice, &QGSettings::changed, [=](){
+//        pMonitorThread->switchEnable(pEnablenotice->get("enable-notice").toBool());
+//    });
+
+    //注册dbus接口，接收通知中心发送的通知信息
+    NotificationDbus *notifyDbus = new NotificationDbus(this);
+
+
+    connect(QApplication::primaryScreen(), &QScreen::geometryChanged, this, &NotificationPlugin::onResolutionChanged);
+    connect(QApplication::primaryScreen(), &QScreen::virtualGeometryChanged, this, &NotificationPlugin::onResolutionChanged);
+
 
     return;
 }
@@ -67,7 +80,7 @@ void NotificationPlugin::initTrans()
 
 void NotificationPlugin::initUI()
 {
-    m_pMainWidget = new external_widget;
+    m_pMainWidget = new QWidget;
     m_pMainWidget->setObjectName("NotificationCenter");
 
     //消息通知模块总VBoxLayout布局器
@@ -160,13 +173,13 @@ void NotificationPlugin::initUI()
     pNotificationVBoxLayout->addWidget(pWidget2, 0);
 
     //消息列表widget
-    m_pMsgListWidget = new inside_widget;
-    m_pMsgListWidget->setFixedSize(390,546);
+    m_pMsgListWidget = new QWidget;
     pNotificationVBoxLayout->addWidget(m_pMsgListWidget, 1);
     m_pMsgListWidget->setParent(m_pMainWidget);
 
+
     //消息列表部件，用于装两个消息列表的,浮动在m_pMsgListWidget里面
-    m_pMsgDoubleListWidget = new inside_widget(m_pMsgListWidget);
+    m_pMsgDoubleListWidget = new QWidget(m_pMsgListWidget);
     QHBoxLayout* pMsgDoubleListHBoxLayout = new QHBoxLayout;
     pMsgDoubleListHBoxLayout->setContentsMargins(0, 0, 0, 0);
     pMsgDoubleListHBoxLayout->setSpacing(0);
@@ -181,6 +194,8 @@ void NotificationPlugin::initUI()
     //通知列表
     m_pQScrollAreaNotify = new ScrollAreaWidget();
     m_pQScrollAreaNotify->setAttribute(Qt::WA_TranslucentBackground);
+    m_pQScrollAreaNotify->setStyleSheet("QScrollArea {background-color:transparent;}");
+    m_pQScrollAreaNotify->viewport()->setStyleSheet("background-color:transparent;");
     m_pQScrollAreaNotify->setFrameShape(QFrame::NoFrame);
     m_pQScrollAreaNotify->setFixedWidth(390);
     m_pScrollAreaNotifyVBoxLayout = new QVBoxLayout();
@@ -188,7 +203,7 @@ void NotificationPlugin::initUI()
     m_pScrollAreaNotifyVBoxLayout->setSpacing(6);
 
     //通知列表的最内层部件
-    inside_widget* pInQWidget = new inside_widget();
+    QWidget* pInQWidget = new QWidget();
     pInQWidget->setObjectName("QScrollAreaInQWidget");
     pInQWidget->setLayout(m_pScrollAreaNotifyVBoxLayout);
     pInQWidget->setAttribute(Qt::WA_TranslucentBackground);
@@ -204,6 +219,8 @@ void NotificationPlugin::initUI()
     //收纳列表
     m_pQScrollAreaTakeIn = new ScrollAreaWidget();
     m_pQScrollAreaTakeIn->setAttribute(Qt::WA_TranslucentBackground);
+    m_pQScrollAreaTakeIn->setStyleSheet("QScrollArea {background-color:transparent;}");
+    m_pQScrollAreaTakeIn->viewport()->setStyleSheet("background-color:transparent;");
     m_pQScrollAreaTakeIn->setFrameShape(QFrame::NoFrame);
     m_pQScrollAreaTakeIn->setFixedWidth(390);
 
@@ -212,7 +229,7 @@ void NotificationPlugin::initUI()
     m_pScrollAreaTakeInVBoxLayout->setSpacing(0);
 
     //收纳列表的最内层部件
-    inside_widget* pTakeInQWidget = new inside_widget();
+    QWidget* pTakeInQWidget = new QWidget();
     pTakeInQWidget->setObjectName("QScrollAreaInQWidget");
     pTakeInQWidget->setLayout(m_pScrollAreaTakeInVBoxLayout);
     pTakeInQWidget->setAttribute(Qt::WA_TranslucentBackground);
@@ -232,11 +249,94 @@ void NotificationPlugin::initUI()
 
 }
 
+void NotificationPlugin::onResolutionChanged()
+{
+    //获取屏幕高度
+    QRect screenRect = QGuiApplication::primaryScreen()->geometry();
+
+    //如果任务栏是在上或下时减去任务栏高度
+    if (getPanelSite() == 0 || getPanelSite() == 1) {
+        m_pMsgListWidget->setFixedHeight(screenRect.height() -  getTaskBarHeight() - TITLE_HEIGHT - CLIPBOARD_HEIGHT);
+    } else {
+        m_pMsgListWidget->setFixedHeight(screenRect.height() - TITLE_HEIGHT - CLIPBOARD_HEIGHT);
+    }
+
+    qDebug()<<"消息通知的监听屏幕分辨率&&任务栏的位置改变，刷新消息通知区域大小";
+    qDebug()<<"消息通知区域大小："<< m_pMsgListWidget->height() << m_pMsgListWidget->width();
+    m_pMsgDoubleListWidget->setGeometry(0, 0, m_pMsgListWidget->width()*2, m_pMsgListWidget->height());
+    m_pMsgDoubleListWidget->update();
+}
+
+void NotificationPlugin::initPanelGsettings()
+{
+    /* 链接任务栏gsetting接口 */
+    if(QGSettings::isSchemaInstalled(UKUI_PANEL_SETTING)){
+        m_pPanelSetting = new QGSettings(UKUI_PANEL_SETTING);
+        if (m_pPanelSetting != nullptr) {
+            connect(m_pPanelSetting, &QGSettings::changed, this, [=](QString value) {
+                if (value == "panelposition") {
+                    onResolutionChanged();
+                }
+            });
+        }
+    }
+}
+
+//获取任务栏状态位置下上左右
+int NotificationPlugin::getPanelSite()
+{
+    int panelPosition = 0;
+    /* 链接任务栏Dbus接口，获取任务栏高度和位置 */
+    QDBusInterface*  serviceInterface = new QDBusInterface(PANEL_DBUS_SERVICE, PANEL_DBUS_PATH, PANEL_DBUS_INTERFACE, QDBusConnection::sessionBus());
+
+    /* 获取任务栏位置信息 */
+    if(QGSettings::isSchemaInstalled(UKUI_PANEL_SETTING)){
+        if (m_pPanelSetting != nullptr) {
+            QStringList keys = m_pPanelSetting->keys();
+            if (keys.contains("panelposition")) {
+                panelPosition = m_pPanelSetting->get("panelposition").toInt();
+            }
+        } else {
+            QDBusMessage msg = serviceInterface->call("GetPanelPosition", QVariant("Site"));
+            panelPosition = msg.arguments().at(0).toInt();
+        }
+    }
+    serviceInterface->deleteLater();
+
+    return panelPosition;
+}
+
+//链接任务栏dbus获取高度的接口
+int NotificationPlugin::getTaskBarHeight()
+{
+    int panelHeight = 0;
+    /* 链接任务栏Dbus接口，获取任务栏高度和位置 */
+    QDBusInterface*  serviceInterface = new QDBusInterface(PANEL_DBUS_SERVICE, PANEL_DBUS_PATH, PANEL_DBUS_INTERFACE, QDBusConnection::sessionBus());
+
+
+    /* 获取任务栏的高度信息 */
+    if(QGSettings::isSchemaInstalled(UKUI_PANEL_SETTING)){
+        if (m_pPanelSetting != nullptr) {
+            QStringList keys = m_pPanelSetting->keys();
+            if (keys.contains("panelsize")) {
+                panelHeight = m_pPanelSetting->get("panelsize").toInt();
+            }
+        } else {
+            QDBusMessage msg = serviceInterface->call("GetPanelSize", QVariant("Hight"));
+            panelHeight = msg.arguments().at(0).toInt();
+            return panelHeight;
+        }
+    }
+    serviceInterface->deleteLater();
+
+    return panelHeight;
+}
+
 void NotificationPlugin::showNotification()
 {
     if (false == m_bInitialFlag) {
         m_bInitialFlag = true;
-        qDebug()<<"NotificationPlugin::showNotification 通知列表的高度"<<m_pMsgListWidget->height() <<m_pMsgListWidget->width();
+        qDebug()<<"消息通知区域大小："<<m_pMsgListWidget->height() <<m_pMsgListWidget->width();
         m_pMsgDoubleListWidget->setGeometry(0, 0, m_pMsgListWidget->width()*2, m_pMsgListWidget->height());
     }
     //上面不需要判断，因为在隐藏时，已经切换至通知中心，m_bShowTakeIn为false
@@ -275,9 +375,11 @@ AppMsg* NotificationPlugin::getAppMsgAndIndexByName(QString strAppName, int& nIn
     return pAppMsg;
 }
 
-uint NotificationPlugin::onAddSingleNotify(QString strAppName, QString strIconPath, QString strSummary, \
-                                           QString strBody, QDateTime dateTime, int maxNum, bool bNewNotificationFlag)
+uint NotificationPlugin::onAddSingleNotify(QString strAppName, QString strIconPath, QString strSummary,
+                                           QString strBody, QString urlStr,  QString actions,
+                                           QDateTime dateTime, int maxNum, bool bNewNotificationFlag)
 {
+    qInfo()<<"------------->NotificationPlugin:"<<strAppName<<strIconPath<<strSummary<<strBody<<urlStr<<actions<<dateTime<<maxNum;
     if(true == bNewNotificationFlag)
     {
         emit Sig_onNewNotification();
@@ -308,11 +410,11 @@ uint NotificationPlugin::onAddSingleNotify(QString strAppName, QString strIconPa
 
     //在strAppName对应的AppMsg中添加单条信息
     if(pAppMsg->getSingleMsgCount() < maxNum){
-        pAppMsg->addSingleMsg(strIconPath, strSummary, dateTime, strBody);
+        pAppMsg->addSingleMsg(strIconPath, strSummary, dateTime, strBody, urlStr, actions);
     }
     else{
         pAppMsg->deleteExceedingMsg();
-        pAppMsg->addSingleMsg(strIconPath, strSummary, dateTime, strBody);
+        pAppMsg->addSingleMsg(strIconPath, strSummary, dateTime, strBody, urlStr, actions);
     }
 
     int uIndex = m_listAppMsg.count();
@@ -476,7 +578,7 @@ AppMsg* NotificationPlugin::getTakeinAppMsgAndIndexByName(QString strAppName, in
     return pAppMsg;
 }
 
-void NotificationPlugin::onTakeInSingleNotify(QString strAppName, QString strIcon, QString strSummary, QString strBody, QDateTime dateTime, int maxNum, bool bNewTakeinFlag)
+void NotificationPlugin::onTakeInSingleNotify(QString strAppName, QString strIcon, QString strSummary, QString strBody, QString urlStr,  QString actions, QDateTime dateTime, int maxNum, bool bNewTakeinFlag)
 {
     //当列表信息为空表明第一次来通知，列表个数为2，一个表面是“没有新通知标签”，一个是底部弹簧
     if (0 == m_listTakeInAppMsg.count() && 2 == m_pScrollAreaTakeInVBoxLayout->count()) {
@@ -500,7 +602,7 @@ void NotificationPlugin::onTakeInSingleNotify(QString strAppName, QString strIco
     if (true == bNewTakeinFlag) {
         pAppMsg->setMaxNumMsg(maxNum);
     }
-    pAppMsg->addSingleMsg(strIcon, strSummary, dateTime, strBody);
+    pAppMsg->addSingleMsg(strIcon, strSummary, dateTime, strBody, urlStr, actions);
 
 
     int uIndex = m_listTakeInAppMsg.count();
@@ -550,7 +652,7 @@ void NotificationPlugin::onClearTakeInAppMsg(AppMsg* pAppMsg)
 void NotificationPlugin::onCallControlPanel()
 {
     QProcess p(0);
-    p.startDetached("ukui-control-center -n");
+    p.startDetached("ukui-control-center -m Notice");
     p.waitForStarted();
     return;
 }
@@ -622,99 +724,6 @@ void NotificationPlugin::onSwitchMsgBoxFinish()
             pAppMsg->setAppFold();
         }
     }
-}
-
-external_widget::external_widget()
-{
-    initGsettingValue();
-    initGsettingTransparency();
-}
-
-void external_widget::initGsettingTransparency()
-{
-    if(QGSettings::isSchemaInstalled(UKUI_TRANSPARENCY_SETTING)) {
-        m_pTransparency = new QGSettings(UKUI_TRANSPARENCY_SETTING);
-        m_dTranSparency = m_pTransparency->get("transparency").toDouble();
-        connect(m_pTransparency, &QGSettings::changed, this, [=](QString value) {
-            m_dTranSparency = m_pTransparency->get("transparency").toDouble();;
-        });
-    }
-}
-
-void external_widget::initGsettingValue()
-{
-    const QByteArray id(STYLE_FONT_SCHEMA);
-    if (QGSettings::isSchemaInstalled(id))
-        m_pStyleGsetting = new QGSettings(id);
-}
-
-void external_widget::paintEvent(QPaintEvent *e)
-{
-    QPainter p(this);
-    QRect rect = this->rect();
-    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-    p.setBrush(QBrush(QColor(220,220,220,255)));
-
-    QString m_style = "ukui-light";
-    const QByteArray id(STYLE_FONT_SCHEMA);
-    if (QGSettings::isSchemaInstalled(id))
-         m_style = m_pStyleGsetting->get("style-name").toString();
-
-    if (m_style=="ukui-light")
-        p.setBrush(QBrush(QColor(220,220,220)));
-    else
-        p.setBrush(QBrush(QColor(20,20,20)));
-
-    p.setOpacity(m_dTranSparency);
-    p.setPen(Qt::NoPen);
-    p.drawRoundedRect(rect,0,0);
-
-}
-
-inside_widget::inside_widget(QWidget *parent) : QWidget(parent)
-{
-      initGsettingValue();
-      initGsettingTransparency();
-}
-
-void inside_widget::initGsettingTransparency()
-{
-    if (QGSettings::isSchemaInstalled(UKUI_TRANSPARENCY_SETTING)) {
-        m_pTransparency = new QGSettings(UKUI_TRANSPARENCY_SETTING);
-        m_dTranSparency = m_pTransparency->get("transparency").toDouble();
-        connect(m_pTransparency, &QGSettings::changed, this, [=](QString value) {
-            m_dTranSparency = m_pTransparency->get("transparency").toDouble();;
-        });
-    }
-}
-
-void inside_widget::initGsettingValue()
-{
-    const QByteArray id(STYLE_FONT_SCHEMA);
-    if (QGSettings::isSchemaInstalled(id))
-        m_pStyleGsetting = new QGSettings(id);
-}
-
-void inside_widget::paintEvent(QPaintEvent *e)
-{
-    QPainter p(this);
-    QRect rect = this->rect();
-    p.setRenderHint(QPainter::Antialiasing);  // 反锯齿;
-
-    QString m_style = "ukui-light";
-    const QByteArray id(STYLE_FONT_SCHEMA);
-    if (QGSettings::isSchemaInstalled(id))
-         m_style = m_pStyleGsetting->get("style-name").toString();
-
-    if (m_style=="ukui-light")
-        p.setBrush(QBrush(QColor(220,220,220)));
-    else
-        p.setBrush(QBrush(QColor(20,20,20)));
-
-    p.setOpacity(m_dTranSparency);
-    p.setPen(Qt::NoPen);
-    p.drawRoundedRect(rect,0,0);
-    QWidget::paintEvent(e);
 }
 
 TakeInCoutLabel::TakeInCoutLabel(QWidget *parent) : QLabel(parent)

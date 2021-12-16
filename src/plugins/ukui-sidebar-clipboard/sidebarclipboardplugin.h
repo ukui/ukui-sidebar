@@ -53,6 +53,11 @@
 #include "clipBoardInternalSignal.h"
 #include "clipboarddb.h"
 #include "previewimagewidget.h"
+
+#include <QJsonParseError>
+#include <QJsonDocument>
+#include <QJsonObject>
+
 //#include "clipbaordstructoriginaldata.h"
 #define  WIDGET_ENTRY_COUNT 10
 #define  SIDEBAR_CLIPBOARD_QSS_PATH  ":/qss/sidebarClipboard.css"
@@ -60,20 +65,8 @@
 #define  URL    "Url"
 #define  IMAGE  "Image"
 #define  DBDATA "Dbdata"
-enum fileType {
-    Txt,
-    Svg,
-    Png,
-    Bmp,
-    Xml,
-    Docx,
-    Pptx,
-    Xlsx,
-    Zip,
-    Pdf,
-    Pro,
-    Esle
-};
+
+#define  CLIPBOARD_HEIGHT 385
 
 typedef struct  clipboardOriginalDataHash {
     ClipboardWidgetEntry* WidgetEntry;
@@ -117,7 +110,6 @@ public:
     QGroupBox   *m_pSidebarClipboardBox;
     QWidget     *m_pSidebarClipboardWidget;
     QLabel      *m_pSideBarClipboardLable;
-    QStringList  m_fileSuffix;
     bool         m_bPromptBoxBool;
     bool         m_bsortEntryBool = true;
 
@@ -155,6 +147,7 @@ public:
 
     //void FixOriginalDataFirstList(OriginalDataHashValue *value, QString text, const QMimeData mimedata);
 
+    void initFileIconJson();
     void removeLastWidgetItem();                                            /* 限制复制条数 */
     bool booleanExistWidgetItem(QString Text);                              /* 判断在ListWidget是否存在，如果不存在则返回fasle，创建，返回true，不创建 */
     void createFindClipboardWidgetItem();                                   /* 创建查找条目 */
@@ -164,14 +157,13 @@ public:
     void createWidget();                                                    /* 创建剪贴板主Widget和搜索栏与条目的ListWidget界面 */
     void sortingEntryShow();                                                /* 將條目有序的展現出來 */
     bool booleanExistWidgetImagin(QPixmap Pixmap);                          /* 判断图片是否在hash表中，如果存在，则删除，然后将图片重新写入到剪贴板中去 */
-    void AddfileSuffix();                                                   /* 往链表中加入文件后缀 */
     void creatLoadClipboardDbData(OriginalDataHashValue *value);            /* 加载从数据库中拿到的数据，加入到剪贴板 */
     bool judgeFileExit(QString fullFilePath);                               /* 判断此路径下该文件是否存在 */
     OriginalDataHashValue *saveOriginalData(OriginalDataHashValue *value);  /* 保存OriginalData数据 */
     void setOriginalDataSequence(OriginalDataHashValue *value);             /* 设置条目的sequence */
     void popCreatorDbHaveDate(OriginalDataHashValue *value);                /* 加入关联数据库的置顶条目 */
     QIcon fileSuffixGetsIcon(QString Url);                                  /* 判断Url中当前后缀名，根据后缀名读取图标 */
-    QIcon fileSuffixeMatchIcon(int cnt);                                    /* 根据文件名后缀匹配对应的图标 */
+    QIcon fileSuffixeMatchIcon(QString cnt);                                    /* 根据文件名后缀匹配对应的图标 */
     void  getPixmapListFileIcon(QString UrlText, pixmapLabel *pixmapListclass);  /* 多文件时，将图标加入到链表中 */
     QString SetFormatBody(QString text, ClipboardWidgetEntry *w);           /* 设置... */
     QString setMiddleFormatBody(QString text, ClipboardWidgetEntry *w);     /* 从文本中间设置... */
@@ -187,6 +179,9 @@ public:
     void AddWidgetEntry(OriginalDataHashValue *s_pDataHashValue, ClipboardWidgetEntry *w, QString text);     /* 将信息写入到WidgetEntry条目中去 */
     void setEntryItemSize(OriginalDataHashValue* value, ClipboardWidgetEntry *w, QListWidgetItem *item);    /* 设置条目大小 */
     void resetWidgetLabelText();
+    QJsonParseError m_pErr_rpt;
+    QJsonDocument  m_pDocument;
+    QJsonObject    m_pJsonObject;
 
 signals:
     void Itemchange();

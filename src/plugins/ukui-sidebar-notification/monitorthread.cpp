@@ -119,7 +119,7 @@ void MonitorThread::extractData(QString strOutput)
     strOutputTmp = strOutputTmp.mid(nIndex + 1);
 
     QMap<QString, int>::const_iterator iter = m_nAppMaxNum.find(strAppName);
-    int nMaxNum = 20;
+    int nMaxNum = 3;
 
     if ((iter != m_nAppMaxNum.end()) && (iter.value() > 0)) { //找到
         nMaxNum = iter.value();

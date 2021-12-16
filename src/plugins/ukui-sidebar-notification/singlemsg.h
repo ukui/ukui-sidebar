@@ -40,13 +40,14 @@ class SingleMsg : public QWidget
 {
     Q_OBJECT
 public:
-    SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, QString strSummary, QDateTime dateTime, QString strBody, bool bTakeInFlag = false);
+    SingleMsg(AppMsg* pParent, QString strIconPath, QString strAppName, QString strSummary, QDateTime dateTime, QString strBody, QString strUrl, QString strAction, bool bTakeInFlag = false);
     void initTimeFormatGsetting();
     void updatePushTime();
     void setBodyLabelWordWrap(bool bFlag);
     void setLeftItem(int nShowLeftCount);
     void setMainFlag(bool bFlag) {m_bMain = bFlag;}
     void setFoldFlag(bool bFlag) {m_bFold = bFlag;}
+    void setAppFold(bool bFlag)  {m_bAppFold = bFlag;}
     void setShowLeftItemFlag(bool bFlag);
     void setSingleMsgContentsMargins(int left, int top, int right, int bottom);
     void mainMsgSetFold();
@@ -55,6 +56,7 @@ public:
     void startAnimationDeleUpperMove();                 //开启删除上移动画
     void listenTimeZone();                              //监听时区变化dbus
     void initGsettingValue();                           //初始化监听主题
+    void jumpAction();                                  //执行跳转动作
 
     QDBusInterface *m_datetimeInterface;
 
@@ -63,6 +65,8 @@ public:
     QString     getIcon() {return m_strIconPath;}
     QString     getSummary() {return m_strSummary;}
     QString     getBody() {return m_strBody;}
+    QString     getUrl() {return m_strUrl;}
+    QString     getAction() {return m_strAction;}
 
     enum TaskWidgetStatus{NORMAL, HOVER, PRESS};
     TaskWidgetStatus status;
@@ -92,6 +96,7 @@ private:
     QWidget*        m_pShowLeftWidget;              //显示该应用未展开部件
     QLabel*         m_pShowLeftItemLabel;           //显示该应用未展开条数
     QTimer*         m_pSetDeleDelayTimer;
+    QTimer*         m_pSetJumpDelayTimer;
     QWidget*        m_pContextWidget;
     QGSettings     *m_pStyleGsetting;               //监听主题的gsetting
 
@@ -100,15 +105,20 @@ private:
     QString         m_strIconPath;                  //图标路径
     QString         m_strSummary;                   //保存主题
     QString         m_strBody;                      //保存正文
+    QString         m_strUrl;                       //跳转链接
+    QString         m_strAction;                    //跳转动作
     QDateTime       m_dateTime;                     //保存推送时间
     uint            m_uNotifyTime;                  //保存推送时间的绝对时间
     uint            m_uTimeDifference;              //保存当前时间与推送时间的时间差
     bool            m_bTakeInFlag;                  //收纳标志
-    bool            m_bFold;                        //是否折叠
+    bool            m_bFold;                        //本条消息是否折叠
     bool            m_bMain;                        //是否为主窗口
     int             m_nShowLeftCount;               //为主窗口时,剩余显示条数
     bool            m_bTimeFormat;                  //time制式，0代表12小时制，1代表24小时制
+    bool            m_bAppFold;                     //消息所属应用是否折叠
     QGSettings      *stylesettings;
+    AppMsg          *m_pParent;                     //父类指针
+    bool            jumpFlag;                       //跳转标志
 
 signals:
     void            Sig_onDeleSingleMsg(SingleMsg* p);
@@ -122,6 +132,7 @@ signals:
     void            Sig_onMainLeave();              //应用主消息鼠标离开信号，发送至App,让分层底图背景变回来
     void            Sig_notifyAppShowBaseMap();     //当动画折叠后，通知主app考虑显示底图
     void            Sig_notifyAppHideBaseMap();     //通知隐藏应用的底图部件
+    void            Sig_jumpAction();  //执行跳转动作信号
 
 public slots:
     void            onDele();                       //通知中心或者收纳盒中的删除

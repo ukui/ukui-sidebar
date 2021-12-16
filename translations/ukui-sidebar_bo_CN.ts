@@ -4,27 +4,30 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/main.cpp" line="81"/>
-        <source>Display debug information</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/widget.cpp" line="177"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁ་འབྱེད།</translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="180"/>
+        <source>Display debug information</source>
+        <translation>བསྒྱུར་བཅོས་ཆ་འཕྲིན་མངོན་དུ་བཅུག་པ།</translation>
+    </message>
+    <message>
         <source>Set up notification center</source>
-        <translation type="unfinished"></translation>
+        <translation>བརྡ་གཏོང་ལྟེ་གནས་ཀྱི་སྒྲིག་འགོད།</translation>
     </message>
     <message>
-        <location filename="../src/sidebarpluginswidgets.cpp" line="112"/>
         <source>折叠</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>ukui-sidebar is already running!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sidebarpluginswidgets.cpp" line="114"/>
+        <source>show sidebar widget</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>展开</source>
         <translation type="unfinished"></translation>
     </message>
@@ -32,22 +35,19 @@
 <context>
     <name>Widget</name>
     <message>
-        <location filename="../src/widget.cpp" line="210"/>
         <source>Sidebar</source>
-        <translation type="unfinished"></translation>
+        <translation>ཟུར་གྱི་མཐའ་བྱང་།</translation>
     </message>
 </context>
 <context>
     <name>sidebarPluginsWidgets</name>
     <message>
-        <location filename="../src/sidebarpluginswidgets.cpp" line="97"/>
         <source>Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>དྲས་སྦྱར་ངོས་པང།</translation>
     </message>
     <message>
-        <location filename="../src/sidebarpluginswidgets.cpp" line="104"/>
         <source>Plugins</source>
-        <translation type="unfinished"></translation>
+        <translation>བསྒར་ལྷུ།</translation>
     </message>
 </context>
 </TS>
