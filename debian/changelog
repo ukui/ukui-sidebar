@@ -1,16 +1,16 @@
-ukui-sidebar (3.1.0-1build1-0041) unstable; urgency=medium
-
-  * fix bug#97249 【20.04 pro】【侧边栏】截图通知收纳到侧边栏后没有内容
-
- -- Allen <zouchang@kylinos.cn>  Thu, 16 Dec 2021 16:42:07 +0800
-
-ukui-sidebar (3.1.0-1-0041) focal; urgency=medium
+ukui-sidebar (3.1.2-1) unstable; urgency=medium
 
   * New upstream release.
 
- -- Allen <zouchang@kylinos.cn>  Thu, 04 Nov 2021 16:58:59 +0800
+ -- handsome_feng <jianfengli@ubuntukylin.com>  Fri, 11 Feb 2022 17:57:27 +0800
 
-ukui-sidebar (3.1.0-1-0040) unstable; urgency=medium
+ukui-sidebar (3.1.1-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- handsome_feng <jianfengli@ubuntukylin.com>  Thu, 10 Feb 2022 17:30:19 +0800
+
+ukui-sidebar (3.1.0-1) unstable; urgency=medium
 
   * New upstream release.
 
