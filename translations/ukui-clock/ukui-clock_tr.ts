@@ -294,7 +294,7 @@
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1135"/>
         <source> Seconds to close</source>
-        <translation> saniye sonra kapanacak</translation>
+        <translation> Saniye sonra kapanacak</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1241"/>
@@ -570,12 +570,12 @@
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1536"/>
         <source>  工作日</source>
-        <translation></translation>
+        <translation>  İş günü</translation>
     </message>
     <message>
         <location filename="../../src/plugins/ukui-clock/clock.cpp" line="1539"/>
         <source>不重复</source>
-        <translation></translation>
+        <translation>Tekrar etmiyor</translation>
     </message>
     <message>
         <source>glass(default)</source>
